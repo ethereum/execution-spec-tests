@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_ext_code_on_chain_delegating_set_code" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -14573,6 +14578,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_ext_code_on_chain_delegating_set_code</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -14583,6 +14601,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7702_set_code_tx.test_set_code_txs.test_ext_code_on_chain_delegating_set_code" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_ext_code_on_chain_delegating_set_code
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22199,25 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7702_set_code_tx.test_set_code_txs.test_ext_code_on_chain_delegating_set_code" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_ext_code_on_chain_delegating_set_code
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,37 +22232,221 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_ext_code_on_chain_delegating_set_code()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_ext_code_on_chain_delegating_set_code()</code></h1>
-<p>Test different ext*code operations on a set-code address that references another delegated</p>
+<h1 id="test_ext_code_on_chain_delegating_set_code"><code>test_ext_code_on_chain_delegating_set_code()</code><a class="headerlink" href="#test_ext_code_on_chain_delegating_set_code" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1207"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_chain_delegating_set_code@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
+<p>Prague only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_chain_delegating_set_code --fork=Prague --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Prague:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_chain_delegating_set_code --until=Prague</span>
+</code></pre></div></p>
+</div>
 
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_ext_code_on_chain_delegating_set_code"></a>
+    <div class="doc doc-contents first">
+
+      <p>Test different ext*code operations on a set-code address that references another delegated
+address.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1207</span>
+<span class="normal">1208</span>
+<span class="normal">1209</span>
+<span class="normal">1210</span>
+<span class="normal">1211</span>
+<span class="normal">1212</span>
+<span class="normal">1213</span>
+<span class="normal">1214</span>
+<span class="normal">1215</span>
+<span class="normal">1216</span>
+<span class="normal">1217</span>
+<span class="normal">1218</span>
+<span class="normal">1219</span>
+<span class="normal">1220</span>
+<span class="normal">1221</span>
+<span class="normal">1222</span>
+<span class="normal">1223</span>
+<span class="normal">1224</span>
+<span class="normal">1225</span>
+<span class="normal">1226</span>
+<span class="normal">1227</span>
+<span class="normal">1228</span>
+<span class="normal">1229</span>
+<span class="normal">1230</span>
+<span class="normal">1231</span>
+<span class="normal">1232</span>
+<span class="normal">1233</span>
+<span class="normal">1234</span>
+<span class="normal">1235</span>
+<span class="normal">1236</span>
+<span class="normal">1237</span>
+<span class="normal">1238</span>
+<span class="normal">1239</span>
+<span class="normal">1240</span>
+<span class="normal">1241</span>
+<span class="normal">1242</span>
+<span class="normal">1243</span>
+<span class="normal">1244</span>
+<span class="normal">1245</span>
+<span class="normal">1246</span>
+<span class="normal">1247</span>
+<span class="normal">1248</span>
+<span class="normal">1249</span>
+<span class="normal">1250</span>
+<span class="normal">1251</span>
+<span class="normal">1252</span>
+<span class="normal">1253</span>
+<span class="normal">1254</span>
+<span class="normal">1255</span>
+<span class="normal">1256</span>
+<span class="normal">1257</span>
+<span class="normal">1258</span>
+<span class="normal">1259</span>
+<span class="normal">1260</span>
+<span class="normal">1261</span>
+<span class="normal">1262</span>
+<span class="normal">1263</span>
+<span class="normal">1264</span>
+<span class="normal">1265</span>
+<span class="normal">1266</span>
+<span class="normal">1267</span>
+<span class="normal">1268</span>
+<span class="normal">1269</span>
+<span class="normal">1270</span>
+<span class="normal">1271</span>
+<span class="normal">1272</span>
+<span class="normal">1273</span>
+<span class="normal">1274</span>
+<span class="normal">1275</span>
+<span class="normal">1276</span>
+<span class="normal">1277</span>
+<span class="normal">1278</span>
+<span class="normal">1279</span>
+<span class="normal">1280</span>
+<span class="normal">1281</span>
+<span class="normal">1282</span>
+<span class="normal">1283</span>
+<span class="normal">1284</span>
+<span class="normal">1285</span>
+<span class="normal">1286</span>
+<span class="normal">1287</span>
+<span class="normal">1288</span>
+<span class="normal">1289</span>
+<span class="normal">1290</span>
+<span class="normal">1291</span>
+<span class="normal">1292</span>
+<span class="normal">1293</span>
+<span class="normal">1294</span>
+<span class="normal">1295</span>
+<span class="normal">1296</span>
+<span class="normal">1297</span>
+<span class="normal">1298</span>
+<span class="normal">1299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_ext_code_on_chain_delegating_set_code</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test different ext*code operations on a set-code address that references another delegated</span>
+<span class="sd">    address.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">auth_signer_1_balance</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">auth_signer_2_balance</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">auth_signer_1</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">auth_signer_1_balance</span><span class="p">)</span>
+    <span class="n">auth_signer_2</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">auth_signer_2_balance</span><span class="p">)</span>
+
+    <span class="n">slot</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">slot_ext_code_size_result_1</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_code_hash_result_1</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_code_copy_result_1</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_balance_result_1</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+
+    <span class="n">slot_ext_code_size_result_2</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_code_hash_result_2</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_code_copy_result_2</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_balance_result_2</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+
+    <span class="n">callee_code</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># Address 1</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_size_result_1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_hash_result_1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_copy_result_1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_balance_result_1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">))</span>
+        <span class="c1"># Address 2</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_size_result_2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_hash_result_2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_copy_result_2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_balance_result_2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+    <span class="p">)</span>
+    <span class="n">callee_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">callee_code</span><span class="p">)</span>
+    <span class="n">callee_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
+
+    <span class="n">set_code_1</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">)</span>
+    <span class="n">set_code_2</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">)</span>
+
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_size_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">set_code_2</span><span class="p">)</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_hash_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="n">set_code_2</span><span class="p">)</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_copy_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">set_code_2</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)[:</span><span class="mi">32</span><span class="p">]</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_balance_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_signer_1_balance</span>
+
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_size_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">set_code_1</span><span class="p">)</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_hash_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="n">set_code_1</span><span class="p">)</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_copy_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">set_code_1</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)[:</span><span class="mi">32</span><span class="p">]</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_balance_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_signer_2_balance</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">callee_address</span><span class="p">,</span>
+        <span class="n">authorization_list</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">AuthorizationTuple</span><span class="p">(</span>
+                <span class="n">address</span><span class="o">=</span><span class="n">auth_signer_2</span><span class="p">,</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer_1</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">AuthorizationTuple</span><span class="p">(</span>
+                <span class="n">address</span><span class="o">=</span><span class="n">auth_signer_1</span><span class="p">,</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer_2</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>  <span class="c1"># TODO: Test with sender as auth_signer</span>
+    <span class="p">)</span>
+
+    <span class="n">state_test</span><span class="p">(</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">auth_signer_1</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">),</span>
+                <span class="n">balance</span><span class="o">=</span><span class="n">auth_signer_1_balance</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">auth_signer_2</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">),</span>
+                <span class="n">balance</span><span class="o">=</span><span class="n">auth_signer_2_balance</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">callee_storage</span><span class="p">),</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 

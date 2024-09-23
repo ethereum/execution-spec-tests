@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_self_destructing_initcode_create_tx" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -18818,6 +18823,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_self_destructing_initcode_create_tx</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -18828,6 +18846,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_self_destructing_initcode_create_tx" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_self_destructing_initcode_create_tx
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22208,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_self_destructing_initcode_create_tx" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_self_destructing_initcode_create_tx
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,26 +22250,131 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_self_destructing_initcode_create_tx()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_self_destructing_initcode_create_tx()</code></h1>
-<p>Use a Create Transaction to execute a self-destructing initcode.</p>
-<h2>Parametrized Test Cases</h2>
+<h1 id="test_self_destructing_initcode_create_tx"><code>test_self_destructing_initcode_create_tx()</code><a class="headerlink" href="#test_self_destructing_initcode_create_tx" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L465"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_self_destructing_initcode_create_tx@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Shanghai with:</p>
+<p>Shanghai only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_self_destructing_initcode_create_tx --fork=Shanghai --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Shanghai:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_self_destructing_initcode_create_tx --until=Shanghai</span>
+</code></pre></div></p>
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_self_destructing_initcode_create_tx"></a>
+    <div class="doc doc-contents first">
+
+      <p>Use a Create Transaction to execute a self-destructing initcode.</p>
+<p>Behavior should be the same before and after EIP-6780.</p>
+
+
+<details class="test-using" open>
+  <summary>Test using</summary>
+  <ul>
+<li>Different initial balances for the self-destructing contract</li>
+<li>Different transaction value amounts</li>
+</ul>
+</details>
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_self_destructing_initcode_create_tx</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">tx_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">selfdestruct_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
+    <span class="n">sendall_recipient_addresses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
+    <span class="n">selfdestruct_contract_initial_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Use a Create Transaction to execute a self-destructing initcode.</span>
+
+<span class="sd">    Behavior should be the same before and after EIP-6780.</span>
+
+<span class="sd">    Test using:</span>
+<span class="sd">        - Different initial balances for the self-destructing contract</span>
+<span class="sd">        - Different transaction value amounts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">tx_value</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">selfdestruct_code</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">selfdestruct_contract_address</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span>
+    <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">,</span> <span class="n">selfdestruct_contract_initial_balance</span><span class="p">)</span>
+
+    <span class="c1"># Our entry point is an initcode that in turn creates a self-destructing contract</span>
+    <span class="n">sendall_amount</span> <span class="o">=</span> <span class="n">selfdestruct_contract_initial_balance</span> <span class="o">+</span> <span class="n">tx_value</span>
+
+    <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">selfdestruct_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="n">sendall_recipient_addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">sendall_amount</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
+    <span class="p">}</span>
+
+    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
+<p>The interactive table below is also available as a <a href="../test_self_destructing_initcode_create_tx.html">standalone page</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Skipped Parameters</p>
+<p>For more concise readability, the table below does not list the following parameter values: 
+<code>fork</code>, <code>blockchain_test</code>, <code>state_test</code>, <code>state_test_only</code>, <code>eof_test</code>, <code>eof_state_test</code>.</p>
+</div>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22238,17 +22426,7 @@
                     </tr>
             </tbody>
 </table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
 
 
 

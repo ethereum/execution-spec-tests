@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_ext_code_on_self_set_code" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -14510,6 +14515,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_ext_code_on_self_set_code</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -14520,6 +14538,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7702_set_code_tx.test_set_code_txs.test_ext_code_on_self_set_code" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_ext_code_on_self_set_code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22208,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7702_set_code_tx.test_set_code_txs.test_ext_code_on_self_set_code" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_ext_code_on_self_set_code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,26 +22250,154 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_ext_code_on_self_set_code()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_ext_code_on_self_set_code()</code></h1>
-<p>Test different ext*code operations on self set-code address.</p>
-<h2>Parametrized Test Cases</h2>
+<h1 id="test_ext_code_on_self_set_code"><code>test_ext_code_on_self_set_code()</code><a class="headerlink" href="#test_ext_code_on_self_set_code" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L990"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_self_set_code@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
+<p>Prague only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_self_set_code --fork=Prague --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Prague:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_self_set_code --until=Prague</span>
+</code></pre></div></p>
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_ext_code_on_self_set_code"></a>
+    <div class="doc doc-contents first">
+
+      <p>Test different ext*code operations on self set-code address.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 990</span>
+<span class="normal"> 991</span>
+<span class="normal"> 992</span>
+<span class="normal"> 993</span>
+<span class="normal"> 994</span>
+<span class="normal"> 995</span>
+<span class="normal"> 996</span>
+<span class="normal"> 997</span>
+<span class="normal"> 998</span>
+<span class="normal"> 999</span>
+<span class="normal">1000</span>
+<span class="normal">1001</span>
+<span class="normal">1002</span>
+<span class="normal">1003</span>
+<span class="normal">1004</span>
+<span class="normal">1005</span>
+<span class="normal">1006</span>
+<span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span>
+<span class="normal">1014</span>
+<span class="normal">1015</span>
+<span class="normal">1016</span>
+<span class="normal">1017</span>
+<span class="normal">1018</span>
+<span class="normal">1019</span>
+<span class="normal">1020</span>
+<span class="normal">1021</span>
+<span class="normal">1022</span>
+<span class="normal">1023</span>
+<span class="normal">1024</span>
+<span class="normal">1025</span>
+<span class="normal">1026</span>
+<span class="normal">1027</span>
+<span class="normal">1028</span>
+<span class="normal">1029</span>
+<span class="normal">1030</span>
+<span class="normal">1031</span>
+<span class="normal">1032</span>
+<span class="normal">1033</span>
+<span class="normal">1034</span>
+<span class="normal">1035</span>
+<span class="normal">1036</span>
+<span class="normal">1037</span>
+<span class="normal">1038</span>
+<span class="normal">1039</span>
+<span class="normal">1040</span>
+<span class="normal">1041</span>
+<span class="normal">1042</span>
+<span class="normal">1043</span>
+<span class="normal">1044</span>
+<span class="normal">1045</span>
+<span class="normal">1046</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;balance&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_ext_code_on_self_set_code</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test different ext*code operations on self set-code address.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">balance</span><span class="p">)</span>
+
+    <span class="n">slot</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">slot_ext_code_size_result</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_code_hash_result</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_code_copy_result</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+    <span class="n">slot_ext_balance_result</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+
+    <span class="n">set_code</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_size_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">auth_signer</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_hash_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">auth_signer</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span><span class="n">auth_signer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">auth_signer</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_code_copy_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_ext_balance_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">auth_signer</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+    <span class="p">)</span>
+    <span class="n">set_code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">set_code</span><span class="p">)</span>
+
+    <span class="n">set_code_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
+    <span class="n">set_code_storage</span><span class="p">[</span><span class="n">slot_ext_code_size_result</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">set_code</span><span class="p">)</span>
+    <span class="n">set_code_storage</span><span class="p">[</span><span class="n">slot_ext_code_hash_result</span><span class="p">]</span> <span class="o">=</span> <span class="n">set_code</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
+    <span class="n">set_code_storage</span><span class="p">[</span><span class="n">slot_ext_code_copy_result</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">set_code</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)[:</span><span class="mi">32</span><span class="p">]</span>
+    <span class="n">set_code_storage</span><span class="p">[</span><span class="n">slot_ext_balance_result</span><span class="p">]</span> <span class="o">=</span> <span class="n">balance</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
+        <span class="n">authorization_list</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">AuthorizationTuple</span><span class="p">(</span>
+                <span class="n">address</span><span class="o">=</span><span class="n">set_code_address</span><span class="p">,</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+    <span class="p">)</span>
+
+    <span class="n">state_test</span><span class="p">(</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">auth_signer</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">set_code_storage</span><span class="p">),</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
+<p>The interactive table below is also available as a <a href="../test_ext_code_on_self_set_code.html">standalone page</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Skipped Parameters</p>
+<p>For more concise readability, the table below does not list the following parameter values: 
+<code>fork</code>, <code>blockchain_test</code>, <code>state_test</code>, <code>state_test_only</code>, <code>eof_test</code>, <code>eof_state_test</code>.</p>
+</div>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22213,17 +22424,7 @@
                     </tr>
             </tbody>
 </table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
 
 
 

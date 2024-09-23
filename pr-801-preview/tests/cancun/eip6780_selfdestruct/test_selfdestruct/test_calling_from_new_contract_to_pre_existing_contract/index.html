@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_calling_from_new_contract_to_pre_existing_contract" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -18902,6 +18907,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_calling_from_new_contract_to_pre_existing_contract</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -18912,6 +18930,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_calling_from_new_contract_to_pre_existing_contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_calling_from_new_contract_to_pre_existing_contract
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22208,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_calling_from_new_contract_to_pre_existing_contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_calling_from_new_contract_to_pre_existing_contract
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,26 +22250,301 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_calling_from_new_contract_to_pre_existing_contract()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_calling_from_new_contract_to_pre_existing_contract()</code></h1>
-<p>Test that if an account created in the current transaction delegate-call a previously created</p>
-<h2>Parametrized Test Cases</h2>
+<h1 id="test_calling_from_new_contract_to_pre_existing_contract"><code>test_calling_from_new_contract_to_pre_existing_contract()</code><a class="headerlink" href="#test_calling_from_new_contract_to_pre_existing_contract" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L898"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_calling_from_new_contract_to_pre_existing_contract@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Shanghai with:</p>
+<p>Shanghai only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_calling_from_new_contract_to_pre_existing_contract --fork=Shanghai --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Shanghai:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_calling_from_new_contract_to_pre_existing_contract --until=Shanghai</span>
+</code></pre></div></p>
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_calling_from_new_contract_to_pre_existing_contract"></a>
+    <div class="doc doc-contents first">
+
+      <p>Test that if an account created in the current transaction delegate-call a previously created
+account that executes self-destruct, the calling account is deleted.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 898</span>
+<span class="normal"> 899</span>
+<span class="normal"> 900</span>
+<span class="normal"> 901</span>
+<span class="normal"> 902</span>
+<span class="normal"> 903</span>
+<span class="normal"> 904</span>
+<span class="normal"> 905</span>
+<span class="normal"> 906</span>
+<span class="normal"> 907</span>
+<span class="normal"> 908</span>
+<span class="normal"> 909</span>
+<span class="normal"> 910</span>
+<span class="normal"> 911</span>
+<span class="normal"> 912</span>
+<span class="normal"> 913</span>
+<span class="normal"> 914</span>
+<span class="normal"> 915</span>
+<span class="normal"> 916</span>
+<span class="normal"> 917</span>
+<span class="normal"> 918</span>
+<span class="normal"> 919</span>
+<span class="normal"> 920</span>
+<span class="normal"> 921</span>
+<span class="normal"> 922</span>
+<span class="normal"> 923</span>
+<span class="normal"> 924</span>
+<span class="normal"> 925</span>
+<span class="normal"> 926</span>
+<span class="normal"> 927</span>
+<span class="normal"> 928</span>
+<span class="normal"> 929</span>
+<span class="normal"> 930</span>
+<span class="normal"> 931</span>
+<span class="normal"> 932</span>
+<span class="normal"> 933</span>
+<span class="normal"> 934</span>
+<span class="normal"> 935</span>
+<span class="normal"> 936</span>
+<span class="normal"> 937</span>
+<span class="normal"> 938</span>
+<span class="normal"> 939</span>
+<span class="normal"> 940</span>
+<span class="normal"> 941</span>
+<span class="normal"> 942</span>
+<span class="normal"> 943</span>
+<span class="normal"> 944</span>
+<span class="normal"> 945</span>
+<span class="normal"> 946</span>
+<span class="normal"> 947</span>
+<span class="normal"> 948</span>
+<span class="normal"> 949</span>
+<span class="normal"> 950</span>
+<span class="normal"> 951</span>
+<span class="normal"> 952</span>
+<span class="normal"> 953</span>
+<span class="normal"> 954</span>
+<span class="normal"> 955</span>
+<span class="normal"> 956</span>
+<span class="normal"> 957</span>
+<span class="normal"> 958</span>
+<span class="normal"> 959</span>
+<span class="normal"> 960</span>
+<span class="normal"> 961</span>
+<span class="normal"> 962</span>
+<span class="normal"> 963</span>
+<span class="normal"> 964</span>
+<span class="normal"> 965</span>
+<span class="normal"> 966</span>
+<span class="normal"> 967</span>
+<span class="normal"> 968</span>
+<span class="normal"> 969</span>
+<span class="normal"> 970</span>
+<span class="normal"> 971</span>
+<span class="normal"> 972</span>
+<span class="normal"> 973</span>
+<span class="normal"> 974</span>
+<span class="normal"> 975</span>
+<span class="normal"> 976</span>
+<span class="normal"> 977</span>
+<span class="normal"> 978</span>
+<span class="normal"> 979</span>
+<span class="normal"> 980</span>
+<span class="normal"> 981</span>
+<span class="normal"> 982</span>
+<span class="normal"> 983</span>
+<span class="normal"> 984</span>
+<span class="normal"> 985</span>
+<span class="normal"> 986</span>
+<span class="normal"> 987</span>
+<span class="normal"> 988</span>
+<span class="normal"> 989</span>
+<span class="normal"> 990</span>
+<span class="normal"> 991</span>
+<span class="normal"> 992</span>
+<span class="normal"> 993</span>
+<span class="normal"> 994</span>
+<span class="normal"> 995</span>
+<span class="normal"> 996</span>
+<span class="normal"> 997</span>
+<span class="normal"> 998</span>
+<span class="normal"> 999</span>
+<span class="normal">1000</span>
+<span class="normal">1001</span>
+<span class="normal">1002</span>
+<span class="normal">1003</span>
+<span class="normal">1004</span>
+<span class="normal">1005</span>
+<span class="normal">1006</span>
+<span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span>
+<span class="normal">1014</span>
+<span class="normal">1015</span>
+<span class="normal">1016</span>
+<span class="normal">1017</span>
+<span class="normal">1018</span>
+<span class="normal">1019</span>
+<span class="normal">1020</span>
+<span class="normal">1021</span>
+<span class="normal">1022</span>
+<span class="normal">1023</span>
+<span class="normal">1024</span>
+<span class="normal">1025</span>
+<span class="normal">1026</span>
+<span class="normal">1027</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_times&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_calling_from_new_contract_to_pre_existing_contract</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">sendall_recipient_addresses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
+    <span class="n">create_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+    <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+    <span class="n">call_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">selfdestruct_contract_initial_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test that if an account created in the current transaction delegate-call a previously created</span>
+<span class="sd">    account that executes self-destruct, the calling account is deleted.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pre_existing_selfdestruct_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">selfdestruct_code_preset</span><span class="p">(</span>
+            <span class="n">sendall_recipient_addresses</span><span class="o">=</span><span class="n">sendall_recipient_addresses</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1"># Our entry point is an initcode that in turn creates a self-destructing contract</span>
+    <span class="n">entry_code_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
+    <span class="n">sendall_amount</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">entry_code_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">selfdestruct_contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">entry_code_address</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">,</span> <span class="n">selfdestruct_contract_initial_balance</span><span class="p">)</span>
+
+    <span class="c1"># self-destructing call</span>
+    <span class="n">selfdestruct_code</span> <span class="o">=</span> <span class="n">call_opcode</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">pre_existing_selfdestruct_address</span><span class="p">)</span>
+    <span class="n">selfdestruct_contract_initcode</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">selfdestruct_code</span><span class="p">)</span>
+    <span class="n">initcode_copy_from_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">)</span>
+
+    <span class="c1"># Bytecode used to create the contract, can be CREATE or CREATE2</span>
+    <span class="n">create_bytecode</span> <span class="o">=</span> <span class="n">create_opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">))</span>
+
+    <span class="c1"># Entry code that will be executed, creates the contract and then calls it in the same tx</span>
+    <span class="n">entry_code</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># Initcode is already deployed at `initcode_copy_from_address`, so just copy it</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span>
+            <span class="n">initcode_copy_from_address</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="c1"># And we store the created address for verification purposes</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+            <span class="n">create_bytecode</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Store the EXTCODE* properties of the created address</span>
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="p">)),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Call the self-destructing contract multiple times as required, increasing the wei sent each</span>
+    <span class="c1"># time</span>
+    <span class="n">entry_code_balance</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">call_times</span><span class="p">):</span>
+        <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
+                <span class="n">Op</span><span class="o">.</span><span class="n">GASLIMIT</span><span class="p">,</span>  <span class="c1"># Gas</span>
+                <span class="n">selfdestruct_contract_address</span><span class="p">,</span>  <span class="c1"># Address</span>
+                <span class="n">i</span><span class="p">,</span>  <span class="c1"># Value</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">entry_code_balance</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="n">sendall_amount</span> <span class="o">+=</span> <span class="n">i</span>
+
+        <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Check the EXTCODE* properties of the self-destructing contract again</span>
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="p">)),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Lastly return zero so the entry point contract is created and we can retain the stored</span>
+    <span class="c1"># values for verification.</span>
+    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selfdestruct_contract_initcode</span><span class="p">),</span> <span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">selfdestruct_contract_initial_balance</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Address where the contract is created already had some balance,</span>
+        <span class="c1"># which must be included in the send-all operation</span>
+        <span class="n">sendall_amount</span> <span class="o">+=</span> <span class="n">selfdestruct_contract_initial_balance</span>
+
+    <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="n">entry_code_storage</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">selfdestruct_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="n">sendall_recipient_addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">sendall_amount</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
+    <span class="p">}</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">entry_code_balance</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">entry_code</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
+<p>The interactive table below is also available as a <a href="../test_calling_from_new_contract_to_pre_existing_contract.html">standalone page</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Skipped Parameters</p>
+<p>For more concise readability, the table below does not list the following parameter values: 
+<code>fork</code>, <code>blockchain_test</code>, <code>state_test</code>, <code>state_test_only</code>, <code>eof_test</code>, <code>eof_state_test</code>.</p>
+</div>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22256,17 +22614,7 @@
                     </tr>
             </tbody>
 </table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
 
 
 

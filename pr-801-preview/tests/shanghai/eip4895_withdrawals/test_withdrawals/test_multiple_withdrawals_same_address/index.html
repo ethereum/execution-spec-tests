@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_multiple_withdrawals_same_address" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -20165,6 +20170,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_multiple_withdrawals_same_address</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -20175,6 +20193,52 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.shanghai.eip4895_withdrawals.test_withdrawals.TestMultipleWithdrawalsSameAddress" class="md-nav__link">
+    <span class="md-ellipsis">
+      TestMultipleWithdrawalsSameAddress
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.shanghai.eip4895_withdrawals.test_withdrawals.TestMultipleWithdrawalsSameAddress.test_multiple_withdrawals_same_address" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_multiple_withdrawals_same_address
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22217,43 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.shanghai.eip4895_withdrawals.test_withdrawals.TestMultipleWithdrawalsSameAddress" class="md-nav__link">
+    <span class="md-ellipsis">
+      TestMultipleWithdrawalsSameAddress
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests.shanghai.eip4895_withdrawals.test_withdrawals.TestMultipleWithdrawalsSameAddress.test_multiple_withdrawals_same_address" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_multiple_withdrawals_same_address
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,26 +22268,274 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_multiple_withdrawals_same_address()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_multiple_withdrawals_same_address()</code></h1>
-<p>Test Withdrawals can be done to the same address multiple times in</p>
-<h2>Parametrized Test Cases</h2>
+<h1 id="test_multiple_withdrawals_same_address"><code>test_multiple_withdrawals_same_address()</code><a class="headerlink" href="#test_multiple_withdrawals_same_address" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L300"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::TestMultipleWithdrawalsSameAddress::test_multiple_withdrawals_same_address@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Shanghai with:</p>
+<p>Shanghai only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::TestMultipleWithdrawalsSameAddress::test_multiple_withdrawals_same_address --fork=Shanghai --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Shanghai:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::TestMultipleWithdrawalsSameAddress::test_multiple_withdrawals_same_address --until=Shanghai</span>
+</code></pre></div></p>
+</div>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="tests.shanghai.eip4895_withdrawals.test_withdrawals.TestMultipleWithdrawalsSameAddress"></a>
+    <div class="doc doc-contents first">
+
+
+      <p>Test that multiple withdrawals can be sent to the same address in:</p>
+<ol>
+<li>
+<p>A single block.</p>
+</li>
+<li>
+<p>Multiple blocks.</p>
+</li>
+</ol>
+
+              <details class="quote">
+                <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;test_case&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;single_block&quot;</span><span class="p">,</span> <span class="s2">&quot;multiple_blocks&quot;</span><span class="p">])</span>
+<span class="k">class</span> <span class="nc">TestMultipleWithdrawalsSameAddress</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test that multiple withdrawals can be sent to the same address in:</span>
+
+<span class="sd">    1. A single block.</span>
+
+<span class="sd">    2. Multiple blocks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span> <span class="nf">addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>  <span class="c1"># noqa: D102</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fork</span><span class="o">.</span><span class="n">precompiles</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">addresses</span> <span class="o">+</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">160</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span> <span class="nf">blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addresses</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">test_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># noqa: D102</span>
+        <span class="k">if</span> <span class="n">test_case</span> <span class="o">==</span> <span class="s2">&quot;single_block&quot;</span><span class="p">:</span>
+            <span class="c1"># Many repeating withdrawals of the same accounts in the same</span>
+            <span class="c1"># block.</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="n">Block</span><span class="p">(</span>
+                    <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">Withdrawal</span><span class="p">(</span>
+                            <span class="n">index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                            <span class="n">validator_index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                            <span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">addresses</span><span class="p">)],</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">addresses</span><span class="p">)</span> <span class="o">*</span> <span class="mi">16</span><span class="p">)</span>
+                    <span class="p">],</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="n">test_case</span> <span class="o">==</span> <span class="s2">&quot;multiple_blocks&quot;</span><span class="p">:</span>
+            <span class="c1"># Similar test but now use multiple blocks each with multiple</span>
+            <span class="c1"># withdrawals to the same withdrawal address.</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="n">Block</span><span class="p">(</span>
+                    <span class="n">withdrawals</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">Withdrawal</span><span class="p">(</span>
+                            <span class="n">index</span><span class="o">=</span><span class="n">i</span> <span class="o">*</span> <span class="mi">16</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span>
+                            <span class="n">validator_index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                            <span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+                    <span class="p">],</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">addresses</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid test case.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_multiple_withdrawals_same_address</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+        <span class="n">test_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+        <span class="n">addresses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
+        <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test Withdrawals can be done to the same address multiple times in</span>
+<span class="sd">        the same block.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Expected post is the same for both test cases.</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+                <span class="n">balance</span><span class="o">=</span><span class="mi">16</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">,</span>
+                <span class="n">storage</span><span class="o">=</span><span class="p">{},</span>
+            <span class="p">)</span>
+
+        <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">test_case</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="tests.shanghai.eip4895_withdrawals.test_withdrawals.TestMultipleWithdrawalsSameAddress.test_multiple_withdrawals_same_address" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_multiple_withdrawals_same_address</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">,</span> <span class="n">test_case</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">addresses</span><span class="p">,</span> <span class="n">blocks</span><span class="p">)</span></code>
+
+<a href="#tests.shanghai.eip4895_withdrawals.test_withdrawals.TestMultipleWithdrawalsSameAddress.test_multiple_withdrawals_same_address" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Test Withdrawals can be done to the same address multiple times in
+the same block.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_multiple_withdrawals_same_address</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">test_case</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">addresses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
+    <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test Withdrawals can be done to the same address multiple times in</span>
+<span class="sd">    the same block.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Expected post is the same for both test cases.</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
+        <span class="n">post</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">balance</span><span class="o">=</span><span class="mi">16</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">,</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{},</span>
+        <span class="p">)</span>
+
+    <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">test_case</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
+<p>The interactive table below is also available as a <a href="../test_multiple_withdrawals_same_address.html">standalone page</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Skipped Parameters</p>
+<p>For more concise readability, the table below does not list the following parameter values: 
+<code>fork</code>, <code>blockchain_test</code>, <code>state_test</code>, <code>state_test_only</code>, <code>eof_test</code>, <code>eof_state_test</code>.</p>
+</div>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22205,17 +22554,7 @@
                     </tr>
             </tbody>
 </table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
 
 
 

@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_basic_tload_gasprice" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -15286,6 +15291,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_basic_tload_gasprice</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -15296,6 +15314,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip1153_tstore.test_basic_tload.test_basic_tload_gasprice" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_basic_tload_gasprice
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22199,25 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip1153_tstore.test_basic_tload.test_basic_tload_gasprice" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_basic_tload_gasprice
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,37 +22232,188 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_basic_tload_gasprice()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_basic_tload_gasprice()</code></h1>
-<p>Ported .json vectors:([📖🐛?](https://github.com/ethereum/execution-spec-tests/issues/new?title=docs(bug):%20Bad%20docstring%20oneliner%20for%20`test_basic_tload_gasprice`&labels=scope:docs,type:bug))</p>
+<h1 id="test_basic_tload_gasprice"><code>test_basic_tload_gasprice()</code><a class="headerlink" href="#test_basic_tload_gasprice" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/cancun/eip1153_tstore/test_basic_tload.py#L164"><code>tests/cancun/eip1153_tstore/test_basic_tload.py::test_basic_tload_gasprice@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
+<p>Cancun only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_basic_tload.py::test_basic_tload_gasprice --fork=Cancun --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Cancun:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_basic_tload.py::test_basic_tload_gasprice --until=Cancun</span>
+</code></pre></div></p>
+</div>
 
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.cancun.eip1153_tstore.test_basic_tload.test_basic_tload_gasprice"></a>
+    <div class="doc doc-contents first">
+
+      <p>Ported .json vectors:</p>
+<p>(16_tloadGasFiller.yml)
+tload costs 100 gas same as a warm sload</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip1153_tstore/test_basic_tload.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_basic_tload_gasprice</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ported .json vectors:</span>
+
+<span class="sd">    (16_tloadGasFiller.yml)</span>
+<span class="sd">    tload costs 100 gas same as a warm sload</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">slot_tload_nonzero_gas_price_result</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">slot_tload_zero_gas_price_result</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">slot_code_worked</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    N         OPNAME       GAS_COST  TOTAL_GAS REMAINING_GAS     STACK</span>
+<span class="sd">    28-1         MSTORE         2     20748   4958252    2:[4ba82f,0,]</span>
+<span class="sd">                 MSTORE [0] = 4958255</span>
+<span class="sd">    29-1          PUSH1         3     20754   4958246</span>
+<span class="sd">    30-1          TLOAD       100     20757   4958243    1:[10,]</span>
+<span class="sd">    31-1            GAS         2     20857   4958143    1:[2,]</span>
+<span class="sd">    32-1          PUSH1         3     20859   4958141    2:[2,4ba7bd,]</span>
+<span class="sd">    33-1         MSTORE         6     20862   4958138    3:[2,4ba7bd,20,]</span>
+<span class="sd">                 MSTORE [32] = 4958141</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">extra_opcode_gas</span> <span class="o">=</span> <span class="mi">11</span>  <span class="c1"># mstore(3), push1(3),gas(2),push1(3)</span>
+
+    <span class="n">address_to</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span><span class="p">()</span>
+        <span class="c1"># 16 test</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">())</span>  <span class="c1"># hot load the memory to make the extra_opcode_gas be 11</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">())</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">())</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_tload_nonzero_gas_price_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">)))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">slot_tload_nonzero_gas_price_result</span><span class="p">,</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="n">slot_tload_nonzero_gas_price_result</span><span class="p">),</span> <span class="n">extra_opcode_gas</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">())</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># tload slot at 5 is 0</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">())</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_tload_zero_gas_price_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">)))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+            <span class="n">slot_tload_zero_gas_price_result</span><span class="p">,</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="n">slot_tload_zero_gas_price_result</span><span class="p">),</span> <span class="n">extra_opcode_gas</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">slot_tload_nonzero_gas_price_result</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
+            <span class="n">slot_tload_zero_gas_price_result</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">address_to</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+                <span class="n">slot_tload_nonzero_gas_price_result</span><span class="p">:</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TLOAD_GAS_COST</span><span class="p">,</span>
+                <span class="n">slot_tload_zero_gas_price_result</span><span class="p">:</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TLOAD_GAS_COST</span><span class="p">,</span>
+                <span class="n">slot_code_worked</span><span class="p">:</span> <span class="mh">0x01</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">7_000_000_000_000_000_000</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
+        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 

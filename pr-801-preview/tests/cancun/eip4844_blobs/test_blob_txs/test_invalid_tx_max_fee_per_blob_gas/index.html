@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_invalid_tx_max_fee_per_blob_gas" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -16680,6 +16685,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_tx_max_fee_per_blob_gas</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -16690,6 +16708,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_blob_gas" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_invalid_tx_max_fee_per_blob_gas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22208,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_blob_gas" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_invalid_tx_max_fee_per_blob_gas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,26 +22250,142 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_invalid_tx_max_fee_per_blob_gas()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_invalid_tx_max_fee_per_blob_gas()</code></h1>
-<p>Reject blocks with invalid blob txs due to:([📖🐛?](https://github.com/ethereum/execution-spec-tests/issues/new?title=docs(bug):%20Bad%20docstring%20oneliner%20for%20`test_invalid_tx_max_fee_per_blob_gas`&labels=scope:docs,type:bug))</p>
-<h2>Parametrized Test Cases</h2>
+<h1 id="test_invalid_tx_max_fee_per_blob_gas"><code>test_invalid_tx_max_fee_per_blob_gas()</code><a class="headerlink" href="#test_invalid_tx_max_fee_per_blob_gas" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/cancun/eip4844_blobs/test_blob_txs.py#L612"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
+<p>Cancun only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas --fork=Cancun --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Cancun:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas --until=Cancun</span>
+</code></pre></div></p>
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_blob_gas"></a>
+    <div class="doc doc-contents first">
+
+      <p>Reject blocks with invalid blob txs due to:</p>
+<ul>
+<li>tx max_fee_per_blob_gas is barely not enough</li>
+<li>tx max_fee_per_blob_gas is zero</li>
+</ul>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="c1"># tx max_blob_gas_cost of the transaction is not enough</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># blob gas price is 1</span>
+            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># blob gas cost increases to 2</span>
+            <span class="mi">1</span><span class="p">,</span>  <span class="c1"># tx max_blob_gas_cost is 1</span>
+            <span class="n">TransactionException</span><span class="o">.</span><span class="n">INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;insufficient_max_fee_per_blob_gas&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># tx max_blob_gas_cost of the transaction is zero, which is invalid</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># blob gas price is 1</span>
+            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># blob gas cost stays put at 1</span>
+            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># tx max_blob_gas_cost is 0</span>
+            <span class="n">TransactionException</span><span class="o">.</span><span class="n">INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_max_fee_per_blob_gas&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;account_balance_modifier&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">1_000_000_000</span><span class="p">],</span>
+<span class="p">)</span>  <span class="c1"># Extra balance to cover block blob gas cost</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_invalid_tx_max_fee_per_blob_gas</span><span class="p">(</span>
+    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
+    <span class="n">non_zero_blob_gas_used_genesis_block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reject blocks with invalid blob txs due to:</span>
+
+<span class="sd">    - tx max_fee_per_blob_gas is barely not enough</span>
+<span class="sd">    - tx max_fee_per_blob_gas is zero</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">non_zero_blob_gas_used_genesis_block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">non_zero_blob_gas_used_genesis_block</span><span class="p">,</span> <span class="n">block</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block</span><span class="p">]</span>
+    <span class="n">blockchain_test</span><span class="p">(</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
+        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
+<p>The interactive table below is also available as a <a href="../test_invalid_tx_max_fee_per_blob_gas.html">standalone page</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Skipped Parameters</p>
+<p>For more concise readability, the table below does not list the following parameter values: 
+<code>fork</code>, <code>blockchain_test</code>, <code>state_test</code>, <code>state_test_only</code>, <code>eof_test</code>, <code>eof_state_test</code>.</p>
+</div>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22217,17 +22416,7 @@
                     </tr>
             </tbody>
 </table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
 
 
 

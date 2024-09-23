@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_tload_reentrancy" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -15477,6 +15482,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_tload_reentrancy</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -15487,6 +15505,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip1153_tstore.test_tload_reentrancy.test_tload_reentrancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_tload_reentrancy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22208,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip1153_tstore.test_tload_reentrancy.test_tload_reentrancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_tload_reentrancy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,26 +22250,292 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_tload_reentrancy()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_tload_reentrancy()</code></h1>
-<p>Ported .json vectors:([📖🐛?](https://github.com/ethereum/execution-spec-tests/issues/new?title=docs(bug):%20Bad%20docstring%20oneliner%20for%20`test_tload_reentrancy`&labels=scope:docs,type:bug))</p>
-<h2>Parametrized Test Cases</h2>
+<h1 id="test_tload_reentrancy"><code>test_tload_reentrancy()</code><a class="headerlink" href="#test_tload_reentrancy" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/cancun/eip1153_tstore/test_tload_reentrancy.py#L36"><code>tests/cancun/eip1153_tstore/test_tload_reentrancy.py::test_tload_reentrancy@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
+<p>Cancun only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tload_reentrancy.py::test_tload_reentrancy --fork=Cancun --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Cancun:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tload_reentrancy.py::test_tload_reentrancy --until=Cancun</span>
+</code></pre></div></p>
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.cancun.eip1153_tstore.test_tload_reentrancy.test_tload_reentrancy"></a>
+    <div class="doc doc-contents first">
+
+      <p>Ported .json vectors:</p>
+<p>(05_tloadReentrancyFiller.yml)
+Reentrant calls access the same transient storage</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tload_reentrancy.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_return&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">,</span> <span class="n">Om</span><span class="o">.</span><span class="n">OOG</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_dest_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">CallDestType</span><span class="o">.</span><span class="n">REENTRANCY</span><span class="p">,</span> <span class="n">CallDestType</span><span class="o">.</span><span class="n">EXTERNAL_CALL</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_tload_reentrancy</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">call_type</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+    <span class="n">call_return</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+    <span class="n">call_dest_type</span><span class="p">:</span> <span class="n">CallDestType</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ported .json vectors:</span>
+
+<span class="sd">    (05_tloadReentrancyFiller.yml)</span>
+<span class="sd">    Reentrant calls access the same transient storage</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tload_value</span> <span class="o">=</span> <span class="mi">44</span>
+    <span class="n">empty_value</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Storage variables</span>
+    <span class="n">slot_tload_in_subcall_result</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">slot_tload_after_subcall_result</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">slot_subcall_worked</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">slot_code_worked</span> <span class="o">=</span> <span class="mi">4</span>
+
+    <span class="c1"># Function names</span>
+    <span class="n">do_load</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">do_reenter</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">call_dest_address</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Address</span>
+    <span class="n">call_dest_address</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">make_call</span><span class="p">(</span><span class="n">call_type</span><span class="p">:</span> <span class="n">Op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">call_type</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span> <span class="ow">or</span> <span class="n">call_type</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">call_type</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">(),</span> <span class="n">call_dest_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">call_type</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">(),</span> <span class="n">call_dest_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+
+    <span class="n">subcall_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="n">call_return</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+
+    <span class="n">address_code</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">subcall_code</span><span class="p">,</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{},</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">call_dest_type</span> <span class="o">==</span> <span class="n">CallDestType</span><span class="o">.</span><span class="n">EXTERNAL_CALL</span><span class="p">:</span>
+        <span class="n">call_dest_address</span> <span class="o">=</span> <span class="n">address_code</span>
+
+    <span class="n">address_to</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">balance</span><span class="o">=</span><span class="mi">1_000_000_000_000_000_000</span><span class="p">,</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">Switch</span><span class="p">(</span>
+            <span class="n">cases</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Case</span><span class="p">(</span>
+                    <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">do_load</span><span class="p">),</span>
+                    <span class="n">action</span><span class="o">=</span><span class="n">subcall_code</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Case</span><span class="p">(</span>
+                    <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">do_reenter</span><span class="p">),</span>
+                    <span class="n">action</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tload_value</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">do_load</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_subcall_worked</span><span class="p">,</span> <span class="n">make_call</span><span class="p">(</span><span class="n">call_type</span><span class="p">))</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_tload_in_subcall_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_tload_after_subcall_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="n">default_action</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">slot_tload_in_subcall_result</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
+            <span class="n">slot_tload_after_subcall_result</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
+            <span class="n">slot_subcall_worked</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
+            <span class="n">slot_code_worked</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">call_dest_type</span> <span class="o">==</span> <span class="n">CallDestType</span><span class="o">.</span><span class="n">REENTRANCY</span><span class="p">:</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">address_to</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+                <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+                    <span class="n">slot_code_worked</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="c1"># if call OOG, we fail to obtain the result</span>
+                    <span class="n">slot_tload_in_subcall_result</span><span class="p">:</span> <span class="mh">0xFF</span> <span class="k">if</span> <span class="n">call_return</span> <span class="o">==</span> <span class="n">Om</span><span class="o">.</span><span class="n">OOG</span> <span class="k">else</span> <span class="n">tload_value</span><span class="p">,</span>
+                    <span class="n">slot_tload_after_subcall_result</span><span class="p">:</span> <span class="n">tload_value</span><span class="p">,</span>
+                    <span class="n">slot_subcall_worked</span><span class="p">:</span> <span class="p">(</span>
+                        <span class="mi">0</span> <span class="k">if</span> <span class="n">call_return</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span> <span class="ow">or</span> <span class="n">call_return</span> <span class="o">==</span> <span class="n">Om</span><span class="o">.</span><span class="n">OOG</span> <span class="k">else</span> <span class="mi">1</span>
+                    <span class="p">),</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">address_to</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+                <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+                    <span class="n">slot_code_worked</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">slot_tload_in_subcall_result</span><span class="p">:</span> <span class="p">(</span>
+                        <span class="mh">0xFF</span>  <span class="c1"># if call OOG, we fail to obtain the result</span>
+                        <span class="k">if</span> <span class="n">call_return</span> <span class="o">==</span> <span class="n">Om</span><span class="o">.</span><span class="n">OOG</span>
+                        <span class="c1"># else delegate and callcode are working in the same context so tload works</span>
+                        <span class="k">else</span> <span class="p">(</span>
+                            <span class="n">tload_value</span>
+                            <span class="k">if</span> <span class="n">call_type</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span> <span class="ow">or</span> <span class="n">call_type</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span>
+                            <span class="k">else</span> <span class="n">empty_value</span>
+                        <span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="c1"># no subcall errors can change the tload result</span>
+                    <span class="n">slot_tload_after_subcall_result</span><span class="p">:</span> <span class="mi">44</span><span class="p">,</span>
+                    <span class="n">slot_subcall_worked</span><span class="p">:</span> <span class="p">(</span>
+                        <span class="mi">0</span> <span class="k">if</span> <span class="n">call_return</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span> <span class="ow">or</span> <span class="n">call_return</span> <span class="o">==</span> <span class="n">Om</span><span class="o">.</span><span class="n">OOG</span> <span class="k">else</span> <span class="mi">1</span>
+                    <span class="p">),</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="p">}</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">7_000_000_000_000_000_000</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
+        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">do_reenter</span><span class="p">),</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
+<p>The interactive table below is also available as a <a href="../test_tload_reentrancy.html">standalone page</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Skipped Parameters</p>
+<p>For more concise readability, the table below does not list the following parameter values: 
+<code>fork</code>, <code>blockchain_test</code>, <code>state_test</code>, <code>state_test_only</code>, <code>eof_test</code>, <code>eof_state_test</code>.</p>
+</div>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22487,17 +22836,7 @@
                     </tr>
             </tbody>
 </table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
 
 
 

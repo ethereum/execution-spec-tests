@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_container_section_order" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -6122,6 +6127,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_container_section_order</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -6132,6 +6150,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_section_order.test_container_section_order" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_container_section_order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22155,6 +22210,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_section_order.test_container_section_order" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_container_section_order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22169,26 +22252,168 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_container_section_order()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_container_section_order()</code></h1>
-<p>Test containers section being out of order in the header and/or body.</p>
-<h2>Parametrized Test Cases</h2>
+<h1 id="test_container_section_order"><code>test_container_section_order()</code><a class="headerlink" href="#test_container_section_order" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py#L233"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py::test_container_section_order@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
+<p>Pragueeip7692 only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py::test_container_section_order --fork=PragueEIP7692 --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Pragueeip7692:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py::test_container_section_order --until=PragueEIP7692</span>
+</code></pre></div></p>
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_section_order.test_container_section_order"></a>
+    <div class="doc doc-contents first">
+
+      <p>Test containers section being out of order in the header and/or body.
+This extends and follows the convention of the test_section_order()
+for the optional container section.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;container_position&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;test_position&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_container_section_order</span><span class="p">(</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
+    <span class="n">container_position</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">test_position</span><span class="p">:</span> <span class="n">CasePosition</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test containers section being out of order in the header and/or body.</span>
+<span class="sd">    This extends and follows the convention of the test_section_order()</span>
+<span class="sd">    for the optional container section.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">container_position</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Skip valid container section position&quot;</span><span class="p">)</span>
+
+    <span class="n">section_code</span> <span class="o">=</span> <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># TODO: Migrated tests had the following infinite loop, so it is kept here</span>
+        <span class="c1">#       to equalize code coverage.</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">section_type</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;00800004&quot;</span><span class="p">))</span>
+    <span class="n">section_data</span> <span class="o">=</span> <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;ef&quot;</span><span class="p">)</span>
+    <span class="n">section_container</span> <span class="o">=</span> <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">))</span>
+
+    <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="n">section_type</span><span class="p">,</span> <span class="n">section_code</span><span class="p">,</span> <span class="n">section_data</span><span class="p">]</span>
+    <span class="n">sections</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">container_position</span><span class="p">,</span> <span class="n">section_container</span><span class="p">)</span>
+    <span class="n">eof_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
+        <span class="n">sections</span><span class="o">=</span><span class="n">sections</span><span class="p">,</span>
+        <span class="n">auto_type_section</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
+        <span class="n">auto_sort_sections</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">AutoSection</span><span class="o">.</span><span class="n">ONLY_BODY</span>
+            <span class="k">if</span> <span class="n">test_position</span> <span class="o">==</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span>
+            <span class="k">else</span> <span class="p">(</span>
+                <span class="n">AutoSection</span><span class="o">.</span><span class="n">ONLY_HEADER</span> <span class="k">if</span> <span class="n">test_position</span> <span class="o">==</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span> <span class="k">else</span> <span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_expected_exception</span><span class="p">():</span>
+        <span class="k">match</span> <span class="n">container_position</span><span class="p">,</span> <span class="n">test_position</span><span class="p">:</span>
+            <span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span> <span class="k">_</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Valid containers section position</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">:</span>  <span class="c1"># Messes up with the type section</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">:</span>  <span class="c1"># Messes up with the code section</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNDEFINED_INSTRUCTION</span>
+            <span class="k">case</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY</span><span class="p">:</span>  <span class="c1"># Data section messes up with the container section</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAGIC</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span> <span class="o">|</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span> <span class="o">|</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span>
+            <span class="k">case</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">HEADER</span> <span class="o">|</span> <span class="n">CasePosition</span><span class="o">.</span><span class="n">BODY_AND_HEADER</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span>
+
+    <span class="n">eof_test</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">eof_code</span><span class="p">,</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">get_expected_exception</span><span class="p">(),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
+<p>The interactive table below is also available as a <a href="../test_container_section_order.html">standalone page</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Skipped Parameters</p>
+<p>For more concise readability, the table below does not list the following parameter values: 
+<code>fork</code>, <code>blockchain_test</code>, <code>state_test</code>, <code>state_test_only</code>, <code>eof_test</code>, <code>eof_state_test</code>.</p>
+</div>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22260,17 +22485,7 @@
                     </tr>
             </tbody>
 </table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
 
 
 

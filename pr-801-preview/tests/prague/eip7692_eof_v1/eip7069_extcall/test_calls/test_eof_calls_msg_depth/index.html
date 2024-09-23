@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_eof_calls_msg_depth" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -11558,6 +11563,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_eof_calls_msg_depth</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -11568,6 +11586,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip7069_extcall.test_calls.test_eof_calls_msg_depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_eof_calls_msg_depth
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22155,6 +22210,34 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip7692_eof_v1.eip7069_extcall.test_calls.test_eof_calls_msg_depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_eof_calls_msg_depth
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22169,26 +22252,232 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_eof_calls_msg_depth()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_eof_calls_msg_depth()</code></h1>
-<p>Test EOF contracts calls handle msg depth limit correctly (1024).</p>
-<h2>Parametrized Test Cases</h2>
+<h1 id="test_eof_calls_msg_depth"><code>test_eof_calls_msg_depth()</code><a class="headerlink" href="#test_eof_calls_msg_depth" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py#L866"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_msg_depth@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
+<p>Pragueeip7692 only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_msg_depth --fork=PragueEIP7692 --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Pragueeip7692:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_msg_depth --until=PragueEIP7692</span>
+</code></pre></div></p>
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.prague.eip7692_eof_v1.eip7069_extcall.test_calls.test_eof_calls_msg_depth"></a>
+    <div class="doc doc-contents first">
+
+      <p>Test EOF contracts calls handle msg depth limit correctly (1024).
+NOTE: due to block gas limit and the 63/64<sup>th</sup> rule this limit is unlikely to be hit
+      on mainnet.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">866</span>
+<span class="normal">867</span>
+<span class="normal">868</span>
+<span class="normal">869</span>
+<span class="normal">870</span>
+<span class="normal">871</span>
+<span class="normal">872</span>
+<span class="normal">873</span>
+<span class="normal">874</span>
+<span class="normal">875</span>
+<span class="normal">876</span>
+<span class="normal">877</span>
+<span class="normal">878</span>
+<span class="normal">879</span>
+<span class="normal">880</span>
+<span class="normal">881</span>
+<span class="normal">882</span>
+<span class="normal">883</span>
+<span class="normal">884</span>
+<span class="normal">885</span>
+<span class="normal">886</span>
+<span class="normal">887</span>
+<span class="normal">888</span>
+<span class="normal">889</span>
+<span class="normal">890</span>
+<span class="normal">891</span>
+<span class="normal">892</span>
+<span class="normal">893</span>
+<span class="normal">894</span>
+<span class="normal">895</span>
+<span class="normal">896</span>
+<span class="normal">897</span>
+<span class="normal">898</span>
+<span class="normal">899</span>
+<span class="normal">900</span>
+<span class="normal">901</span>
+<span class="normal">902</span>
+<span class="normal">903</span>
+<span class="normal">904</span>
+<span class="normal">905</span>
+<span class="normal">906</span>
+<span class="normal">907</span>
+<span class="normal">908</span>
+<span class="normal">909</span>
+<span class="normal">910</span>
+<span class="normal">911</span>
+<span class="normal">912</span>
+<span class="normal">913</span>
+<span class="normal">914</span>
+<span class="normal">915</span>
+<span class="normal">916</span>
+<span class="normal">917</span>
+<span class="normal">918</span>
+<span class="normal">919</span>
+<span class="normal">920</span>
+<span class="normal">921</span>
+<span class="normal">922</span>
+<span class="normal">923</span>
+<span class="normal">924</span>
+<span class="normal">925</span>
+<span class="normal">926</span>
+<span class="normal">927</span>
+<span class="normal">928</span>
+<span class="normal">929</span>
+<span class="normal">930</span>
+<span class="normal">931</span>
+<span class="normal">932</span>
+<span class="normal">933</span>
+<span class="normal">934</span>
+<span class="normal">935</span>
+<span class="normal">936</span>
+<span class="normal">937</span>
+<span class="normal">938</span>
+<span class="normal">939</span>
+<span class="normal">940</span>
+<span class="normal">941</span>
+<span class="normal">942</span>
+<span class="normal">943</span>
+<span class="normal">944</span>
+<span class="normal">945</span>
+<span class="normal">946</span>
+<span class="normal">947</span>
+<span class="normal">948</span>
+<span class="normal">949</span>
+<span class="normal">950</span>
+<span class="normal">951</span>
+<span class="normal">952</span>
+<span class="normal">953</span>
+<span class="normal">954</span>
+<span class="normal">955</span>
+<span class="normal">956</span>
+<span class="normal">957</span>
+<span class="normal">958</span>
+<span class="normal">959</span>
+<span class="normal">960</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_eof_calls_msg_depth</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test EOF contracts calls handle msg depth limit correctly (1024).</span>
+<span class="sd">    NOTE: due to block gas limit and the 63/64th rule this limit is unlikely to be hit</span>
+<span class="sd">          on mainnet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Not a precise gas_limit formula, but enough to exclude risk of gas causing the failure.</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">200000</span> <span class="o">*</span> <span class="p">(</span><span class="mi">64</span> <span class="o">/</span> <span class="mi">63</span><span class="p">)</span> <span class="o">**</span> <span class="mi">1024</span><span class="p">)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">)</span>
+
+    <span class="c1"># Flow of the test:</span>
+    <span class="c1"># `callee_code` is recursively calling itself, passing msg depth as calldata</span>
+    <span class="c1"># (kept with the `MSTORE(0, ADD(...))`). When maximum msg depth is reached</span>
+    <span class="c1"># the call fails and starts returning. The deep-most frame returns:</span>
+    <span class="c1">#   - current reached msg depth (expected to be the maximum 1024), with the</span>
+    <span class="c1">#     `MSTORE(32, ADD(...))`</span>
+    <span class="c1">#   - the respective return code of the EXT*CALL (expected to be 1 - light failure), with the</span>
+    <span class="c1">#     `MSTORE(64, NOOP)`. Note the `NOOP` is just to appease the `Op.MSTORE` call, the return</span>
+    <span class="c1">#     code value is actually coming from the `Op.DUP1`</span>
+    <span class="c1"># When unwinding the msg call stack, the intermediate frames return whatever the deeper callee</span>
+    <span class="c1"># returned with the `RETURNDATACOPY` instruction.</span>
+
+    <span class="c1"># Memory offsets layout:</span>
+    <span class="c1"># - 0  - input - msg depth</span>
+    <span class="c1"># - 32 - output - msg depth</span>
+    <span class="c1"># - 64 - output - call result</span>
+    <span class="n">returndatacopy_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATACOPY</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+    <span class="n">deep_most_result_block</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">rjump_offset</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">returndatacopy_block</span><span class="p">)</span>
+
+    <span class="n">callee_code</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+        <span class="c1"># current stack depth in memory bytes 0-31</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># pass it along deeper as calldata</span>
+        <span class="o">+</span> <span class="n">opcode</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">,</span> <span class="n">args_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+        <span class="c1"># duplicate return code for the `returndatacopy_block` below</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>
+        <span class="c1"># if return code was:</span>
+        <span class="c1">#  - 1, we&#39;re in the deep-most frame, `deep_most_result_block` returns the actual result</span>
+        <span class="c1">#  - 0, we&#39;re in an intermediate frame, `returndatacopy_block` only passes on the result</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="n">rjump_offset</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">returndatacopy_block</span>
+        <span class="o">+</span> <span class="n">deep_most_result_block</span>
+    <span class="p">)</span>
+
+    <span class="n">callee_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">callee_code</span><span class="p">)</span>
+
+    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">callee_address</span><span class="p">,</span> <span class="n">args_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_max_depth</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_call_result</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATALOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">calling_storage</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">slot_max_depth</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
+        <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
+        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">value_eof_call_reverted</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">calling_storage</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="n">state_test</span><span class="p">(</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
+<p>The interactive table below is also available as a <a href="../test_eof_calls_msg_depth.html">standalone page</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Skipped Parameters</p>
+<p>For more concise readability, the table below does not list the following parameter values: 
+<code>fork</code>, <code>blockchain_test</code>, <code>state_test</code>, <code>state_test_only</code>, <code>eof_test</code>, <code>eof_state_test</code>.</p>
+</div>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22223,17 +22512,7 @@
                     </tr>
             </tbody>
 </table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
 
 
 

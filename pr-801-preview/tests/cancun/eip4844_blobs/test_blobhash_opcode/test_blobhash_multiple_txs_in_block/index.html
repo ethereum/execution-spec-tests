@@ -104,6 +104,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#test_blobhash_multiple_txs_in_block" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -17255,6 +17260,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_blobhash_multiple_txs_in_block</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -17265,6 +17283,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.test_blobhash_opcode.test_blobhash_multiple_txs_in_block" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_blobhash_multiple_txs_in_block
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -22153,6 +22199,25 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.cancun.eip4844_blobs.test_blobhash_opcode.test_blobhash_multiple_txs_in_block" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_blobhash_multiple_txs_in_block
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -22167,37 +22232,167 @@
                   
 
 
-<p><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_blobhash_multiple_txs_in_block()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-    html.glightbox-open { overflow: initial; height: 100%; }
-    .gslide-title { margin-top: 0px; user-select: text; }
-    .gslide-desc { color: #666; user-select: text; }
-    .gslide-image img { background: white; }
-    .gscrollbar-fixer { padding-right: 15px; }
-    .gdesc-inner { font-size: 0.75rem; }
-    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
-<h1>Test Function: <code>test_blobhash_multiple_txs_in_block()</code></h1>
-<p>Tests that the `BLOBHASH` opcode returns the appropriate values when there</p>
+<h1 id="test_blobhash_multiple_txs_in_block"><code>test_blobhash_multiple_txs_in_block()</code><a class="headerlink" href="#test_blobhash_multiple_txs_in_block" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a86d43277fa58e0c81d71da5e2b195efb7dcfd57/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L232"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_multiple_txs_in_block@a86d4327</code></a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
+<p>Cancun only:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_multiple_txs_in_block --fork=Cancun --evm-bin=/path/to/evm-tool-dev-version</span>
+</code></pre></div></p>
+<p>For all forks up to and including Cancun:
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_multiple_txs_in_block --until=Cancun</span>
+</code></pre></div></p>
+</div>
 
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="tests.cancun.eip4844_blobs.test_blobhash_opcode.test_blobhash_multiple_txs_in_block"></a>
+    <div class="doc doc-contents first">
+
+      <p>Tests that the <code>BLOBHASH</code> opcode returns the appropriate values when there
+is more than 1 blob tx type within a block (for tx types 2 and 3).</p>
+<p>Scenarios involve tx type 3 followed by tx type 2 running the same code
+within a block, including the opposite.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_blobhash_multiple_txs_in_block</span><span class="p">(</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests that the `BLOBHASH` opcode returns the appropriate values when there</span>
+<span class="sd">    is more than 1 blob tx type within a block (for tx types 2 and 3).</span>
+
+<span class="sd">    Scenarios involve tx type 3 followed by tx type 2 running the same code</span>
+<span class="sd">    within a block, including the opposite.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blobhash_bytecode</span> <span class="o">=</span> <span class="n">BlobhashScenario</span><span class="o">.</span><span class="n">generate_blobhash_bytecode</span><span class="p">(</span><span class="s2">&quot;single_valid&quot;</span><span class="p">)</span>
+    <span class="n">addresses</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">blobhash_bytecode</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Transaction</span><span class="p">(</span>
+            <span class="n">ty</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span>
+            <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">address</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">3_000_000</span><span class="p">,</span>
+            <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="nb">type</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">access_list</span><span class="o">=</span><span class="p">[]</span> <span class="k">if</span> <span class="nb">type</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="nb">type</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">random_blob_hashes</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="nb">type</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+            <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Block</span><span class="p">(</span>
+            <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="n">Block</span><span class="p">(</span>
+            <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="n">Block</span><span class="p">(</span>
+            <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">random_blob_hashes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">())}</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">address</span> <span class="ow">in</span> <span class="p">(</span><span class="n">addresses</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">addresses</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">else</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">())})</span>
+        <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">addresses</span>
+    <span class="p">}</span>
+    <span class="n">blockchain_test</span><span class="p">(</span>
+        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
+        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
