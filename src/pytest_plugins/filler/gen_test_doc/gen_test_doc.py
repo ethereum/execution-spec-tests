@@ -40,6 +40,7 @@ uv run mkdocs serve
 
 import glob
 import logging
+import os
 import sys
 import textwrap
 from collections import defaultdict
@@ -306,11 +307,46 @@ class TestDocsGenerator:
             logger.addHandler(stream_handler)
             logger.setLevel(logging.INFO)
 
+    def get_doc_site_base_url(self) -> str:
+        """
+        Returns the site's base in its URL for inclusion of local files.
+
+            This is required in order to include docs/javascripts/site.js, for
+        example, in the standalone html pages.
+
+        Github pages deploys to a sub-directory "execution-spec-tests" and
+        mike deploys a version of the site underneath a sub-directory named
+        after the version, e.g.:
+
+        - https://ethereum.github.io/execution-spec-tests/main/
+        - https://ethereum.github.io/execution-spec-tests/v1.2.3/
+
+        We need to be able to include the javascript available at:
+
+        - https://ethereum.github.io/execution-spec-tests/main/javascripts/site.js
+        """
+        ci = os.getenv("CI", None)
+        github_ref_name = os.getenv("GITHUB_REF_NAME", None)
+        doc_version = os.getenv("DOC_VERSION", None)
+        if ci and github_ref_name:
+            return f"/execution-spec-tests/{github_ref_name}/"
+        if ci and not github_ref_name:
+            raise Exception("Failed to determine target doc version (no GITHUB_REF_NAME env?).")
+        if ("--strict" in sys.argv or "deploy" in sys.argv) and not doc_version:
+            # assume we're trying to deploy manually via mike (locally)
+            raise Exception(
+                "Failed to determine target doc version during strict build (set DOC_VERSION "
+                "env var)."
+            )
+        # local test build, e.g. via `uv run mkdocs serve`
+        return "/execution-spec-tests/"
+
     def add_global_page_props_to_env(self):
         """
         Populate global page properties used in j2 templates.
         """
         global_page_props = dict(
+            base_url=self.get_doc_site_base_url(),
             deployed_forks=[fork.name().lower() for fork in get_forks() if fork.is_deployed()],
             short_git_ref=get_current_commit_hash_or_tag(shorten_hash=True),
             test_function_parameter_table_skipped_parameters=", ".join(

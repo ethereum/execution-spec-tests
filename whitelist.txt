@@ -229,6 +229,7 @@ isort
 isort's
 ispkg
 itemName
+javascripts
 jimporter
 joinpath
 jq
