@@ -1,352 +1,53 @@
 """
-Automatically generate markdown documentation for all test modules
-via mkdocstrings.
+Script called during mkdocs build|serve to create the "Test Case Reference".
+
+Called via the mkdocs-gen-files plugin; it's specified in mkdocs.yaml and
+can't take command-line arguments. The main logic is implemented in
+src/pytest_plugins/filler/gen_test_doc.py.
 """
-
-import contextlib
-import io
+import importlib
 import logging
-import os
-import re
 import sys
-import textwrap
-from pathlib import Path
-from string import Template
-from typing import Tuple
 
-import mkdocs_gen_files
 import pytest
+from click.testing import CliRunner
 
-from ethereum_test_forks import get_development_forks, get_forks
-from ethereum_test_tools.utility.versioning import (
-    generate_github_url,
-    get_current_commit_hash_or_tag,
-)
+import pytest_plugins.filler.gen_test_doc.gen_test_doc as gen_test_doc
+from cli.pytest_commands.fill import fill
+
+importlib.reload(gen_test_doc)  # get changes in plugin for use with `mkdocs serve`
 
 logger = logging.getLogger("mkdocs")
-
-source_directory = Path("tests")
-target_dir = Path("tests")
-navigation_file = "navigation.md"
-non_test_files_to_include = [  # __init__.py is treated separately
-    "spec.py",
+dev_fork = "PragueEIP7692"
+args = [
+    "--override-ini",
+    "filterwarnings=ignore::pytest.PytestAssertRewriteWarning",  # suppress warnings due to reload
+    "-p",
+    "pytest_plugins.filler.gen_test_doc.gen_test_doc",
+    "--gen-docs",
+    "-m",
+    "(not blockchain_test_engine) and (not eip_version_check)",
+    f"--fork={dev_fork}",
+    "-s",
+    "tests",
+    # "tests/shanghai",
+    # "tests/prague/eip7692_eof_v1",  # noqa: SC100
+    # "tests/prague/eip2537_bls_12_381_precompiles",  # noqa: SC100
 ]
 
-
-def get_script_relative_path():  # noqa: D103
-    script_path = os.path.abspath(__file__)
-    current_directory = os.getcwd()
-    return os.path.relpath(script_path, current_directory)
-
-
-"""
-The following check that allows deactivation of the Test Case Reference
-doc generation is no longer strictly necessary - it was a workaround for
-a problem who's root cause has been solved. The code is left, however,
-as it could still serve a purpose if we have many more test cases
-and test doc gen becomes very time consuming.
-
-If test doc gen is disabled, then it will not appear at all in the
-output doc and all incoming links to it will generate a warning.
-"""
-if os.environ.get("CI") != "true":  # always generate in ci/cd
-    enabled_env_var_name = "SPEC_TESTS_AUTO_GENERATE_FILES"
-    script_name = get_script_relative_path()
-    if os.environ.get(enabled_env_var_name) != "false":
-        logger.info(f"{script_name}: generating 'Test Case Reference' doc")
-        logger.info(
-            f"{script_name}: set env var {enabled_env_var_name} to 'false' and re-run "
-            "`mkdocs serve` or `mkdocs build` to  disable 'Test Case Reference' doc generation"
-        )
-    else:
-        logger.warning(
-            f"{script_name}: skipping automatic generation of 'Test Case Reference' doc"
-        )
-        logger.info(
-            f"{script_name}: set env var {enabled_env_var_name} to 'true' and re-run"
-            "`mkdocs serve` or `mkdocs build` to generate 'Test Case Reference' doc"
-        )
-        sys.exit(0)
-
-DEV_FORKS = [fork.name() for fork in get_development_forks()]
-
-GENERATE_FIXTURES_DEPLOYED = Template(
-    textwrap.dedent(
-        """
-        !!! example "Generate fixtures for these test cases $additional_title with:"
-            ```console
-            fill -v $pytest_test_path
-            ```
-
-        """
-    )
+runner = CliRunner()
+logger.info(f"Generating documentation for {dev_fork} as fill {' '.join(args)}")
+result = runner.invoke(fill, args)
+for line in result.output.split("\n"):
+    if "===" in line:
+        logger.info(line.replace("===", "=="))
+        continue
+    logger.info(line)
+if result.exit_code in [pytest.ExitCode.OK, pytest.ExitCode.NO_TESTS_COLLECTED]:
+    logger.info("Documentation generation successful.")
+    sys.exit(0)
+logger.error(
+    f"Documentation generation failed (exit: {pytest.ExitCode(result.exit_code)}, "
+    f"{pytest.ExitCode(result.exit_code).name})."
 )
-
-GENERATE_FIXTURES_DEVELOPMENT = Template(
-    textwrap.dedent(
-        """
-        !!! example "Generate fixtures for these test cases for $fork with:"
-            $fork only:
-            ```console
-            fill -v $pytest_test_path --fork=$fork --evm-bin=/path/to/evm-tool-dev-version
-            ```
-            For all forks up to and including $fork:
-            ```console
-            fill -v $pytest_test_path --until=$fork --evm-bin=/path/to/evm-tool-dev-version
-            ```
-        """
-    )
-)
-
-# mkdocstrings filter doc:
-# https://mkdocstrings.github.io/python/usage/configuration/members/#filters
-MARKDOWN_TEMPLATE = Template(
-    textwrap.dedent(
-        """
-        # $title
-
-        Documentation for [`$pytest_test_path`]($module_github_url).
-
-        $generate_fixtures_deployed
-        $generate_fixtures_development
-        ::: $package_name
-            options:
-                filters: ["^[tT]est*|^Spec*"]
-        """
-    )
-)
-
-MARKDOWN_TEST_CASES_TEMPLATE = Template(
-    textwrap.dedent(
-        """
-        # $title
-
-        !!! example "Test cases generated from `$pytest_test_path`"
-            Parametrized test cases generated from the test module [`$pytest_test_path`]($module_github_url):
-
-            ```
-            $collect_only_output
-            ```
-
-            This output was extracted from the result of:
-
-            ```console
-            $collect_only_command
-            ```
-        """  # noqa: E501
-    )
-)
-
-#            options:
-#              filters: ["!^_[^_]", "![A-Z]{2,}", "!pytestmark"]
-
-
-def apply_name_filters(input_string: str):
-    """
-    Apply a list of regexes to names used in the nav section to clean
-    up nav title names.
-    """
-    regexes = [
-        # (r"^Test ", ""),
-        (r"vm", "VM"),
-        # TODO: enable standard formatting for all opcodes.
-        (r"Dup", "DUP"),
-        (r"Chainid", "CHAINID"),
-        (r"acl", "ACL"),
-        (r"eips", "EIPs"),
-        (r"eip-?([1-9]{1,5})", r"EIP-\1"),
-    ]
-
-    for pattern, replacement in regexes:
-        input_string = re.sub(pattern, replacement, input_string, flags=re.IGNORECASE)
-
-    return input_string
-
-
-def snake_to_capitalize(s):  # noqa: D103
-    return " ".join(word.capitalize() for word in s.split("_"))
-
-
-def copy_file(source_file, destination_file):
-    """
-    Copy a file by writing it's contents using mkdocs_gen_files.open()
-    """
-    with open(source_file, "r") as source:
-        with mkdocs_gen_files.open(destination_file, "w") as destination:
-            for line in source:
-                destination.write(line)
-
-
-def run_collect_only(test_path: Path = source_directory) -> Tuple[str, str]:
-    """
-    Run pytest with --collect-only to get a list of executed tests.
-
-    Args:
-        test_path: The directory or test module to collect tests for.
-            Defaults to source_directory.
-
-    Returns:
-        str: The command used to collect the tests.
-        str: A list of the collected tests.
-    """
-    for fork in DEV_FORKS:
-        collect_only_args = ["--collect-only", "-q", "--until", fork, str(test_path)]
-        buffer = io.StringIO()
-        with contextlib.redirect_stdout(buffer):
-            pytest.main(collect_only_args)
-        output = buffer.getvalue()
-        # strip out the test module
-        output_lines = [
-            line.split("::")[1]
-            for line in output.split("\n")
-            if line.startswith("tests/") and "::" in line
-        ]
-        # prefix with required indent for admonition in MARKDOWN_TEST_CASES_TEMPLATE
-        collect_only_output = "\n".join("    " + line for line in output_lines)
-        collect_only_output = collect_only_output[4:]  # strip out indent for first line
-        if collect_only_output:
-            break
-    return f'fill {" ".join(collect_only_args)}', collect_only_output
-
-
-COMMIT_HASH_OR_TAG = get_current_commit_hash_or_tag()
-
-
-def non_recursive_os_walk(top_dir):
-    """
-    Return the output of os.walk for the top-level directory.
-    """
-    for root, directories, files in os.walk(top_dir):
-        return [(root, directories, files)]
-
-
-# The nav section for test doc will get built here
-nav = mkdocs_gen_files.Nav()
-
-fork_directories = [source_directory / fork.name().lower() for fork in get_forks()]
-fork_directories.reverse()
-all_directories = [directory for directory in fork_directories if os.path.exists(directory)]
-all_directories.insert(0, source_directory)
-
-# Loop over directories here instead of walking tests/ to ensure we
-# get a reverse chronological listing of forks in the nav bar.
-for directory in all_directories:
-    if directory is source_directory:
-        # Process files within tests/ but don't walk it recursively.
-        walk_directory_output = non_recursive_os_walk(directory)
-    else:
-        # Walk each tests/fork/ directory recursively.
-        # sorted() is a bit of a hack to order nav content for each fork
-        walk_directory_output = sorted(os.walk(directory))
-    for root, _, files in walk_directory_output:
-        if "__pycache__" in root:
-            continue
-
-        markdown_files = [filename for filename in files if filename.endswith(".md")]
-        python_files = [filename for filename in files if filename.endswith(".py")]
-
-        test_dir_relative_path = Path(root).relative_to("tests")
-        output_directory = target_dir / test_dir_relative_path
-
-        # Process Markdown files first, then Python files for nav section ordering
-        for file in markdown_files:
-            source_file = Path(root) / file
-            suffix = ""
-            if file.lower() == "readme.md":
-                # If there's a file called readme python-mkdocstrings will take this as the
-                # page's index.md. This will subsequently get overwritten by the `__init__.py`.
-                # Hack, add an underscore to differentiate the file and include it in the doc.
-                suffix = "_"
-            basename, extension = os.path.splitext(file)
-            file = f"{basename}{suffix}.{extension}"
-            output_file_path = output_directory / file
-            nav_path = "Test Case Reference" / test_dir_relative_path / basename
-            copy_file(source_file, output_file_path)
-            nav_tuple = tuple(snake_to_capitalize(part) for part in nav_path.parts)
-            nav_tuple = tuple(apply_name_filters(part) for part in nav_tuple)
-            nav[nav_tuple] = str(output_file_path)
-
-        for file in sorted(python_files):
-            output_file_path = Path("undefined")
-
-            if file == "__init__.py":
-                output_file_path = output_directory / "index.md"
-                nav_path = "Test Case Reference" / test_dir_relative_path
-                package_name = root.replace(os.sep, ".")
-                pytest_test_path = root
-            elif file.startswith("test_") or file in non_test_files_to_include:
-                file_no_ext = os.path.splitext(file)[0]
-                output_file_path = output_directory / file_no_ext / "index.md"
-                nav_path = "Test Case Reference" / test_dir_relative_path / file_no_ext
-                package_name = os.path.join(root, file_no_ext).replace(os.sep, ".")
-                pytest_test_path = os.path.join(root, file)
-            else:
-                continue
-
-            nav_tuple = tuple(snake_to_capitalize(part) for part in nav_path.parts)
-            nav_tuple = tuple(apply_name_filters(part) for part in nav_tuple)
-            nav[nav_tuple] = str(output_file_path)
-            markdown_title = nav_tuple[-1]
-
-            if file.startswith("test_"):
-                collect_only_command, collect_only_output = run_collect_only(
-                    test_path=pytest_test_path
-                )
-                if not collect_only_output:
-                    logger.warning(f"{script_name} collect_only_output for {file} is empty")
-                test_cases_output_file_path = (
-                    Path(os.path.splitext(output_file_path)[0]) / "test_cases.md"
-                )
-                nav[(*nav_tuple, "Test Cases")] = str(test_cases_output_file_path)
-                with mkdocs_gen_files.open(test_cases_output_file_path, "w") as f:
-                    f.write(
-                        MARKDOWN_TEST_CASES_TEMPLATE.substitute(
-                            title=f"{markdown_title} - Test Cases",
-                            pytest_test_path=pytest_test_path,
-                            module_github_url=generate_github_url(
-                                pytest_test_path, branch_or_commit_or_tag=COMMIT_HASH_OR_TAG
-                            ),
-                            collect_only_command=collect_only_command,
-                            collect_only_output=collect_only_output,
-                        )
-                    )
-
-            if root == "tests":
-                # special case, the root tests/ directory
-                generate_fixtures_deployed = GENERATE_FIXTURES_DEPLOYED.substitute(
-                    pytest_test_path=pytest_test_path,
-                    additional_title=" for all forks deployed to mainnet",
-                )
-                generate_fixtures_development = GENERATE_FIXTURES_DEVELOPMENT.substitute(
-                    pytest_test_path=pytest_test_path, fork=DEV_FORKS[0]
-                )
-            elif file in non_test_files_to_include:
-                generate_fixtures_deployed = ""
-                generate_fixtures_development = ""
-            elif dev_forks := [fork for fork in DEV_FORKS if fork.lower() in root.lower()]:
-                assert len(dev_forks) == 1
-                generate_fixtures_deployed = ""
-                generate_fixtures_development = GENERATE_FIXTURES_DEVELOPMENT.substitute(
-                    pytest_test_path=pytest_test_path, fork=dev_forks[0]
-                )
-            else:
-                generate_fixtures_deployed = GENERATE_FIXTURES_DEPLOYED.substitute(
-                    pytest_test_path=pytest_test_path, additional_title=""
-                )
-                generate_fixtures_development = ""
-
-            with mkdocs_gen_files.open(output_file_path, "w") as f:
-                f.write(
-                    MARKDOWN_TEMPLATE.substitute(
-                        title=markdown_title,
-                        package_name=package_name,
-                        generate_fixtures_deployed=generate_fixtures_deployed,
-                        generate_fixtures_development=generate_fixtures_development,
-                        module_github_url=generate_github_url(
-                            pytest_test_path, branch_or_commit_or_tag=COMMIT_HASH_OR_TAG
-                        ),
-                        pytest_test_path=pytest_test_path,
-                    )
-                )
-with mkdocs_gen_files.open(navigation_file, "a") as nav_file:
-    nav_file.writelines(nav.build_literate_nav())
+sys.exit(result.exit_code)
