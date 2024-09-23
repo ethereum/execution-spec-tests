@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_legacy_calls_eof_sstore" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -5695,19 +5690,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_legacy_calls_eof_sstore</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -5718,34 +5700,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_extcode.test_legacy_calls_eof_sstore" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_legacy_calls_eof_sstore
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22201,25 +22155,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_extcode.test_legacy_calls_eof_sstore" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_legacy_calls_eof_sstore
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22234,156 +22169,37 @@
                   
 
 
-<h1 id="test_legacy_calls_eof_sstore"><code>test_legacy_calls_eof_sstore()</code><a class="headerlink" href="#test_legacy_calls_eof_sstore" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py#L19"><code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
-<p>Pragueeip7692 only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore --fork=PragueEIP7692 --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Pragueeip7692:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore --until=PragueEIP7692</span>
-</code></pre></div></p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_legacy_calls_eof_sstore()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_legacy_calls_eof_sstore()</code></h1>
+<p>Test EXTCODE* opcodes calling EOF and legacy contracts</p>
 
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.prague.eip7692_eof_v1.eip3540_eof_v1.test_extcode.test_legacy_calls_eof_sstore"></a>
-    <div class="doc doc-contents first">
-
-      <p>Test EXTCODE* opcodes calling EOF and legacy contracts</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_legacy_calls_eof_sstore</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EXTCODE* opcodes calling EOF and legacy contracts&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">address_eof_contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-        <span class="n">Container</span><span class="p">(</span>
-            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">legacy_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
-    <span class="n">address_legacy_contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">legacy_code</span><span class="p">)</span>
-
-    <span class="n">storage_test</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
-    <span class="n">test_contract_code</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">storage_test</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">address_legacy_contract</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span><span class="n">address_legacy_contract</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">address_legacy_contract</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-            <span class="n">storage_test</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">legacy_code</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">legacy_code</span><span class="p">)))),</span>
-            <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-        <span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-            <span class="n">storage_test</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">legacy_code</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()),</span>
-            <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">address_legacy_contract</span><span class="p">),</span>
-        <span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">storage_test</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">address_eof_contract</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">(</span><span class="n">address_eof_contract</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">storage_test</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xef</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">31</span><span class="p">)),</span> <span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mh">0x20</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-            <span class="n">storage_test</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">keccak256</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xef\x00</span><span class="s2">&quot;</span><span class="p">)),</span>
-            <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">address_eof_contract</span><span class="p">),</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">address_test_contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">test_contract_code</span><span class="p">)</span>
-
-    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">address_test_contract</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50_000_000</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">address_test_contract</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">storage_test</span><span class="p">),</span>
-    <span class="p">}</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 

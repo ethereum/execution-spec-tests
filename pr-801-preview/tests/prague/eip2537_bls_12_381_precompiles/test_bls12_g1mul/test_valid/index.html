@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_valid" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -2324,19 +2319,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_valid</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -2347,43 +2329,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip2537_bls_12_381_precompiles.test_bls12_g1mul.test_valid" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_valid
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22208,34 +22153,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip2537_bls_12_381_precompiles.test_bls12_g1mul.test_valid" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_valid
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22250,168 +22167,26 @@
                   
 
 
-<h1 id="test_valid"><code>test_valid()</code><a class="headerlink" href="#test_valid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1mul.py#L24"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1mul.py::test_valid@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
-<p>Prague only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1mul.py::test_valid --fork=Prague --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Prague:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1mul.py::test_valid --until=Prague</span>
-</code></pre></div></p>
-</div>
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.prague.eip2537_bls_12_381_precompiles.test_bls12_g1mul.test_valid"></a>
-    <div class="doc doc-contents first">
-
-      <p>Test the BLS12_G1MUL precompile.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1mul.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;input,expected_output&quot;</span><span class="p">,</span>
-    <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;mul_G1_bls.json&quot;</span><span class="p">)</span>
-    <span class="o">+</span> <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g1mul_(0*inf=inf)&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g1mul_(2**256-1*inf=inf)&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">P1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="n">PointG1</span><span class="p">(</span>
-                <span class="mh">0x3DA1F13DDEF2B8B5A46CD543CE56C0A90B8B3B0D6D43DEC95836A5FD2BACD6AA8F692601F870CF22E05DDA5E83F460B</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
-                <span class="mh">0x18D64F3C0E9785365CBDB375795454A8A4FA26F30B9C4F6E33CA078EB5C29B7AEA478B076C619BC1ED22B14C95569B2D</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g1mul_(2**256-1*P1)&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">P1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="o">-</span><span class="n">Spec</span><span class="o">.</span><span class="n">P1</span><span class="p">,</span>  <span class="c1"># negated P1</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g1mul_(q-1*P1)&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">P1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g1mul_(q*P1)&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">P1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">P1</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g1mul_(q+1*P1)&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">P1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g1mul_(2q*P1)&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">P1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g1mul_(Nq*P1)&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">],</span>
-<span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_valid</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-    <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test the BLS12_G1MUL precompile.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_valid.html">standalone page</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Skipped Parameters</p>
-<p>For more concise readability, the table below does not list the following parameter values: 
-<code>blockchain_test</code>, <code>state_test</code>, <code>eof_test</code>, <code>fork</code>.</p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_valid()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_valid()</code></h1>
+<p>Test the BLS12_G1MUL precompile.</p>
+<h2>Parametrized Test Cases</h2>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22652,7 +22427,17 @@
                     </tr>
             </tbody>
 </table>
-<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 

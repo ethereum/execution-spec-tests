@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_eoa_tx_after_set_code" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -14935,19 +14930,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_eoa_tx_after_set_code</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -14958,43 +14940,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7702_set_code_tx.test_set_code_txs.test_eoa_tx_after_set_code" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_eoa_tx_after_set_code
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22208,34 +22153,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7702_set_code_tx.test_set_code_txs.test_eoa_tx_after_set_code" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_eoa_tx_after_set_code
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22250,268 +22167,26 @@
                   
 
 
-<h1 id="test_eoa_tx_after_set_code"><code>test_eoa_tx_after_set_code()</code><a class="headerlink" href="#test_eoa_tx_after_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2446"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
-<p>Prague only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code --fork=Prague --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Prague:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code --until=Prague</span>
-</code></pre></div></p>
-</div>
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_eoa_tx_after_set_code"></a>
-    <div class="doc doc-contents first">
-
-      <p>Test sending a transaction from an EOA after code has been set to the account.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2446</span>
-<span class="normal">2447</span>
-<span class="normal">2448</span>
-<span class="normal">2449</span>
-<span class="normal">2450</span>
-<span class="normal">2451</span>
-<span class="normal">2452</span>
-<span class="normal">2453</span>
-<span class="normal">2454</span>
-<span class="normal">2455</span>
-<span class="normal">2456</span>
-<span class="normal">2457</span>
-<span class="normal">2458</span>
-<span class="normal">2459</span>
-<span class="normal">2460</span>
-<span class="normal">2461</span>
-<span class="normal">2462</span>
-<span class="normal">2463</span>
-<span class="normal">2464</span>
-<span class="normal">2465</span>
-<span class="normal">2466</span>
-<span class="normal">2467</span>
-<span class="normal">2468</span>
-<span class="normal">2469</span>
-<span class="normal">2470</span>
-<span class="normal">2471</span>
-<span class="normal">2472</span>
-<span class="normal">2473</span>
-<span class="normal">2474</span>
-<span class="normal">2475</span>
-<span class="normal">2476</span>
-<span class="normal">2477</span>
-<span class="normal">2478</span>
-<span class="normal">2479</span>
-<span class="normal">2480</span>
-<span class="normal">2481</span>
-<span class="normal">2482</span>
-<span class="normal">2483</span>
-<span class="normal">2484</span>
-<span class="normal">2485</span>
-<span class="normal">2486</span>
-<span class="normal">2487</span>
-<span class="normal">2488</span>
-<span class="normal">2489</span>
-<span class="normal">2490</span>
-<span class="normal">2491</span>
-<span class="normal">2492</span>
-<span class="normal">2493</span>
-<span class="normal">2494</span>
-<span class="normal">2495</span>
-<span class="normal">2496</span>
-<span class="normal">2497</span>
-<span class="normal">2498</span>
-<span class="normal">2499</span>
-<span class="normal">2500</span>
-<span class="normal">2501</span>
-<span class="normal">2502</span>
-<span class="normal">2503</span>
-<span class="normal">2504</span>
-<span class="normal">2505</span>
-<span class="normal">2506</span>
-<span class="normal">2507</span>
-<span class="normal">2508</span>
-<span class="normal">2509</span>
-<span class="normal">2510</span>
-<span class="normal">2511</span>
-<span class="normal">2512</span>
-<span class="normal">2513</span>
-<span class="normal">2514</span>
-<span class="normal">2515</span>
-<span class="normal">2516</span>
-<span class="normal">2517</span>
-<span class="normal">2518</span>
-<span class="normal">2519</span>
-<span class="normal">2520</span>
-<span class="normal">2521</span>
-<span class="normal">2522</span>
-<span class="normal">2523</span>
-<span class="normal">2524</span>
-<span class="normal">2525</span>
-<span class="normal">2526</span>
-<span class="normal">2527</span>
-<span class="normal">2528</span>
-<span class="normal">2529</span>
-<span class="normal">2530</span>
-<span class="normal">2531</span>
-<span class="normal">2532</span>
-<span class="normal">2533</span>
-<span class="normal">2534</span>
-<span class="normal">2535</span>
-<span class="normal">2536</span>
-<span class="normal">2537</span>
-<span class="normal">2538</span>
-<span class="normal">2539</span>
-<span class="normal">2540</span>
-<span class="normal">2541</span>
-<span class="normal">2542</span>
-<span class="normal">2543</span>
-<span class="normal">2544</span>
-<span class="normal">2545</span>
-<span class="normal">2546</span>
-<span class="normal">2547</span>
-<span class="normal">2548</span>
-<span class="normal">2549</span>
-<span class="normal">2550</span>
-<span class="normal">2551</span>
-<span class="normal">2552</span>
-<span class="normal">2553</span>
-<span class="normal">2554</span>
-<span class="normal">2555</span>
-<span class="normal">2556</span>
-<span class="normal">2557</span>
-<span class="normal">2558</span>
-<span class="normal">2559</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_eoa_tx_after_set_code</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">tx_type</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending a transaction from an EOA after code has been set to the account.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
-
-    <span class="n">set_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
-    <span class="n">set_code_to_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">set_code</span><span class="p">)</span>
-
-    <span class="n">txs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-            <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">authorization_list</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">AuthorizationTuple</span><span class="p">(</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">set_code_to_address</span><span class="p">,</span>
-                    <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">],</span>
-        <span class="p">)</span>
-    <span class="p">]</span>
-    <span class="n">auth_signer</span><span class="o">.</span><span class="n">nonce</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># type: ignore</span>
-
-    <span class="k">match</span> <span class="n">tx_type</span><span class="p">:</span>
-        <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">protected</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">access_list</span><span class="o">=</span><span class="p">[</span>
-                        <span class="n">AccessList</span><span class="p">(</span>
-                            <span class="n">address</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                            <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                        <span class="p">)</span>
-                    <span class="p">],</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">1_000</span><span class="p">,</span>
-                    <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">1_000</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">case</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">1_000</span><span class="p">,</span>
-                    <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">1_000</span><span class="p">,</span>
-                    <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="mi">1_000</span><span class="p">,</span>
-                    <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">add_kzg_version</span><span class="p">(</span>
-                        <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
-                        <span class="n">Spec4844</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span><span class="p">,</span>
-                    <span class="p">),</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported tx type: </span><span class="si">{</span><span class="n">tx_type</span><span class="si">}</span><span class="s2">, test needs update&quot;</span><span class="p">)</span>
-
-    <span class="n">blockchain_test</span><span class="p">(</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)],</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">auth_signer</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-                <span class="n">nonce</span><span class="o">=</span><span class="mi">3</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">set_code_to_address</span><span class="p">),</span>
-                <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">3</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="p">},</span>
-            <span class="p">),</span>
-        <span class="p">},</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_eoa_tx_after_set_code.html">standalone page</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Skipped Parameters</p>
-<p>For more concise readability, the table below does not list the following parameter values: 
-<code>blockchain_test</code>, <code>state_test</code>, <code>eof_test</code>, <code>fork</code>.</p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_eoa_tx_after_set_code()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_eoa_tx_after_set_code()</code></h1>
+<p>Test sending a transaction from an EOA after code has been set to the account.</p>
+<h2>Parametrized Test Cases</h2>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22563,7 +22238,17 @@
                     </tr>
             </tbody>
 </table>
-<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 

@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_jumpf_stack_returning_rules" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -10101,19 +10096,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_jumpf_stack_returning_rules</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -10124,43 +10106,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_stack_returning_rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_jumpf_stack_returning_rules
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22210,34 +22155,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_stack_returning_rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_jumpf_stack_returning_rules
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22252,182 +22169,30 @@
                   
 
 
-<h1 id="test_jumpf_stack_returning_rules"><code>test_jumpf_stack_returning_rules()</code><a class="headerlink" href="#test_jumpf_stack_returning_rules" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py#L69"><code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_stack_returning_rules@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
-<p>Pragueeip7692 only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_stack_returning_rules --fork=PragueEIP7692 --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Pragueeip7692:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_stack_returning_rules --until=PragueEIP7692</span>
-</code></pre></div></p>
-</div>
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.prague.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_stack_returning_rules"></a>
-    <div class="doc doc-contents first">
-
-      <p>Tests for JUMPF validation stack rules.  Returning section cases.
-Valid cases are executed.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;source_outputs&quot;</span><span class="p">,</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;so-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;target_outputs&quot;</span><span class="p">,</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;to-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;target_inputs&quot;</span><span class="p">,</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;ti-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;stack_diff&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;less-stack&quot;</span><span class="p">,</span> <span class="s2">&quot;same-stack&quot;</span><span class="p">,</span> <span class="s2">&quot;more-stack&quot;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">test_jumpf_stack_returning_rules</span><span class="p">(</span>
-    <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
-    <span class="n">source_outputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">target_outputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">target_inputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">stack_diff</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests for JUMPF validation stack rules.  Returning section cases.</span>
-<span class="sd">    Valid cases are executed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">target_outputs</span> <span class="o">&gt;</span> <span class="n">source_outputs</span><span class="p">:</span>
-        <span class="c1"># These create invalid containers without JUMPF validation, Don&#39;t test.</span>
-        <span class="k">return</span>
-    <span class="k">if</span> <span class="n">target_inputs</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">stack_diff</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="c1"># Code generation is impossible for this configuration.  Don&#39;t test.</span>
-        <span class="k">return</span>
-
-    <span class="n">target_delta</span> <span class="o">=</span> <span class="n">target_outputs</span> <span class="o">-</span> <span class="n">target_inputs</span>
-    <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;stack-retuning_co-</span><span class="si">%d</span><span class="s2">_to-</span><span class="si">%d</span><span class="s2">_ti-</span><span class="si">%d</span><span class="s2">_diff-</span><span class="si">%d</span><span class="s2">&quot;</span>
-        <span class="o">%</span> <span class="p">(</span><span class="n">source_outputs</span><span class="p">,</span> <span class="n">target_outputs</span><span class="p">,</span> <span class="n">target_inputs</span><span class="p">,</span> <span class="n">stack_diff</span><span class="p">),</span>
-        <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span> <span class="o">+</span> <span class="n">source_outputs</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">target_inputs</span> <span class="o">+</span> <span class="n">stack_diff</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-                <span class="n">code_outputs</span><span class="o">=</span><span class="n">source_outputs</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="n">target_inputs</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="o">-</span><span class="n">target_delta</span> <span class="k">if</span> <span class="n">target_delta</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">target_delta</span><span class="p">)</span>
-                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-                <span class="n">code_inputs</span><span class="o">=</span><span class="n">target_inputs</span><span class="p">,</span>
-                <span class="n">code_outputs</span><span class="o">=</span><span class="n">target_outputs</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">target_inputs</span><span class="p">,</span> <span class="n">target_outputs</span><span class="p">),</span>
-            <span class="p">),</span>
-        <span class="p">],</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">stack_diff</span> <span class="o">&lt;</span> <span class="n">source_outputs</span> <span class="o">-</span> <span class="n">target_outputs</span><span class="p">:</span>
-        <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="o">=</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span>
-    <span class="k">elif</span> <span class="n">stack_diff</span> <span class="o">&gt;</span> <span class="n">source_outputs</span> <span class="o">-</span> <span class="n">target_outputs</span><span class="p">:</span>
-        <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="o">=</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HIGHER_THAN_OUTPUTS</span>
-
-    <span class="n">eof_state_test</span><span class="p">(</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
-        <span class="n">container_post</span><span class="o">=</span><span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">}),</span>
-        <span class="n">tx_data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\1</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_jumpf_stack_returning_rules.html">standalone page</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Skipped Parameters</p>
-<p>For more concise readability, the table below does not list the following parameter values: 
-<code>blockchain_test</code>, <code>state_test</code>, <code>eof_test</code>, <code>fork</code>.</p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_jumpf_stack_returning_rules()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_jumpf_stack_returning_rules()</code></h1>
+<p>Tests for JUMPF validation stack rules.  Returning section cases.</p>
+<h2>Parametrized Test Cases</h2>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
             <th>Test ID</th>
-                        <th>eof_state_test</th>
                         <th>stack_diff</th>
                         <th>target_inputs</th>
                         <th>target_outputs</th>
@@ -22437,7 +22202,6 @@ Valid cases are executed.</p>
     <tbody>
                 <tr>
             <td>less-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -22445,7 +22209,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -22453,7 +22216,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -22461,7 +22223,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -22469,7 +22230,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -22477,7 +22237,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -22485,7 +22244,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -22493,7 +22251,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -22501,7 +22258,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -22509,7 +22265,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -22517,7 +22272,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -22525,7 +22279,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -22533,7 +22286,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -22541,7 +22293,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -22549,7 +22300,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -22557,7 +22307,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -22565,7 +22314,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -22573,7 +22321,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -22581,7 +22328,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -22589,7 +22335,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -22597,7 +22342,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -22605,7 +22349,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -22613,7 +22356,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -22621,7 +22363,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -22629,7 +22370,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -22637,7 +22377,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -22645,7 +22384,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -22653,7 +22391,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -22661,7 +22398,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -22669,7 +22405,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -22677,7 +22412,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -22685,7 +22419,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -22693,7 +22426,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -22701,7 +22433,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -22709,7 +22440,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -22717,7 +22447,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -22725,7 +22454,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -22733,7 +22461,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -22741,7 +22468,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -22749,7 +22475,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -22757,7 +22482,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -22765,7 +22489,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -22773,7 +22496,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -22781,7 +22503,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -22789,7 +22510,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -22797,7 +22517,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -22805,7 +22524,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -22813,7 +22531,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -22821,7 +22538,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -22829,7 +22545,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -22837,7 +22552,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -22845,7 +22559,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -22853,7 +22566,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -22861,7 +22573,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -22869,7 +22580,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -22877,7 +22587,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -22885,7 +22594,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -22893,7 +22601,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -22901,7 +22608,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -22909,7 +22615,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -22917,7 +22622,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -22925,7 +22629,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -22933,7 +22636,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -22941,7 +22643,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -22949,7 +22650,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -22957,7 +22657,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -22965,7 +22664,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -22973,7 +22671,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -22981,7 +22678,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -22989,7 +22685,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -22997,7 +22692,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23005,7 +22699,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23013,7 +22706,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23021,7 +22713,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23029,7 +22720,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23037,7 +22727,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23045,7 +22734,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23053,7 +22741,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23061,7 +22748,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23069,7 +22755,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23077,7 +22762,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.EOF_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23085,7 +22769,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23093,7 +22776,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23101,7 +22783,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23109,7 +22790,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23117,7 +22797,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23125,7 +22804,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23133,7 +22811,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23141,7 +22818,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23149,7 +22825,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23157,7 +22832,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23165,7 +22839,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23173,7 +22846,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23181,7 +22853,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23189,7 +22860,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23197,7 +22867,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23205,7 +22874,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23213,7 +22881,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23221,7 +22888,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23229,7 +22895,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23237,7 +22902,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23245,7 +22909,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23253,7 +22916,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23261,7 +22923,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23269,7 +22930,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23277,7 +22937,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23285,7 +22944,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23293,7 +22951,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23301,7 +22958,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -23309,7 +22965,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -23317,7 +22972,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -23325,7 +22979,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -23333,7 +22986,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -23341,7 +22993,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -23349,7 +23000,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -23357,7 +23007,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -23365,7 +23014,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -23373,7 +23021,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -23381,7 +23028,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -23389,7 +23035,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -23397,7 +23042,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -23405,7 +23049,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -23413,7 +23056,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -23421,7 +23063,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -23429,7 +23070,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -23437,7 +23077,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -23445,7 +23084,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -23453,7 +23091,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -23461,7 +23098,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -23469,7 +23105,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -23477,7 +23112,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -23485,7 +23119,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -23493,7 +23126,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -23501,7 +23133,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -23509,7 +23140,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -23517,7 +23147,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23525,7 +23154,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23533,7 +23161,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23541,7 +23168,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23549,7 +23175,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23557,7 +23182,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23565,7 +23189,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23573,7 +23196,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23581,7 +23203,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23589,7 +23210,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23597,7 +23217,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23605,7 +23224,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23613,7 +23231,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23621,7 +23238,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23629,7 +23245,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23637,7 +23252,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23645,7 +23259,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23653,7 +23266,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23661,7 +23273,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23669,7 +23280,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23677,7 +23287,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23685,7 +23294,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23693,7 +23301,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23701,7 +23308,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23709,7 +23315,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23717,7 +23322,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23725,7 +23329,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.STATE_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23733,7 +23336,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23741,7 +23343,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23749,7 +23350,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>0</td>
@@ -23757,7 +23357,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23765,7 +23364,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23773,7 +23371,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>2</td>
@@ -23781,7 +23378,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23789,7 +23385,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23797,7 +23392,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>0</td>
                         <td>4</td>
@@ -23805,7 +23399,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23813,7 +23406,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23821,7 +23413,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>0</td>
@@ -23829,7 +23420,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23837,7 +23427,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23845,7 +23434,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>2</td>
@@ -23853,7 +23441,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23861,7 +23448,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23869,7 +23455,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>2</td>
                         <td>4</td>
@@ -23877,7 +23462,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23885,7 +23469,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23893,7 +23476,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>0</td>
@@ -23901,7 +23483,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23909,7 +23490,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23917,7 +23497,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>2</td>
@@ -23925,7 +23504,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23933,7 +23511,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23941,7 +23518,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>less-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>-1</td>
                         <td>4</td>
                         <td>4</td>
@@ -23949,7 +23525,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -23957,7 +23532,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -23965,7 +23539,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -23973,7 +23546,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -23981,7 +23553,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -23989,7 +23560,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>2</td>
@@ -23997,7 +23567,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -24005,7 +23574,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -24013,7 +23581,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>0</td>
                         <td>4</td>
@@ -24021,7 +23588,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -24029,7 +23595,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -24037,7 +23602,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>0</td>
@@ -24045,7 +23609,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -24053,7 +23616,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -24061,7 +23623,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>2</td>
@@ -24069,7 +23630,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -24077,7 +23637,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -24085,7 +23644,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>2</td>
                         <td>4</td>
@@ -24093,7 +23651,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -24101,7 +23658,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -24109,7 +23665,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>0</td>
@@ -24117,7 +23672,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -24125,7 +23679,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -24133,7 +23686,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>2</td>
@@ -24141,7 +23693,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -24149,7 +23700,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -24157,7 +23707,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>same-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>0</td>
                         <td>4</td>
                         <td>4</td>
@@ -24165,7 +23714,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -24173,7 +23721,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -24181,7 +23728,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>0</td>
@@ -24189,7 +23735,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -24197,7 +23742,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -24205,7 +23749,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>2</td>
@@ -24213,7 +23756,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -24221,7 +23763,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -24229,7 +23770,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-0-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>0</td>
                         <td>4</td>
@@ -24237,7 +23777,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -24245,7 +23784,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -24253,7 +23791,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>0</td>
@@ -24261,7 +23798,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -24269,7 +23805,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -24277,7 +23812,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>2</td>
@@ -24285,7 +23819,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -24293,7 +23826,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -24301,7 +23833,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-2-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>2</td>
                         <td>4</td>
@@ -24309,7 +23840,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -24317,7 +23847,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -24325,7 +23854,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-0-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>0</td>
@@ -24333,7 +23861,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -24341,7 +23868,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -24349,7 +23875,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-2-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>2</td>
@@ -24357,7 +23882,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-0</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -24365,7 +23889,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-2</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -24373,7 +23896,6 @@ Valid cases are executed.</p>
                     </tr>
                 <tr>
             <td>more-stack-ti-4-to-4-so-4</td>
-                        <td>FixtureFormats.BLOCKCHAIN_TEST</td>
                         <td>1</td>
                         <td>4</td>
                         <td>4</td>
@@ -24381,7 +23903,17 @@ Valid cases are executed.</p>
                     </tr>
             </tbody>
 </table>
-<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 

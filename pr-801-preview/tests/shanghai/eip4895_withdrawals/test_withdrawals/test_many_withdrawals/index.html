@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_many_withdrawals" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -20191,19 +20186,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_many_withdrawals</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -20214,34 +20196,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.shanghai.eip4895_withdrawals.test_withdrawals.test_many_withdrawals" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_many_withdrawals
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22199,25 +22153,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.shanghai.eip4895_withdrawals.test_withdrawals.test_many_withdrawals" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_many_withdrawals
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22232,105 +22167,37 @@
                   
 
 
-<h1 id="test_many_withdrawals"><code>test_many_withdrawals()</code><a class="headerlink" href="#test_many_withdrawals" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L323"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_many_withdrawals@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Shanghai with:</p>
-<p>Shanghai only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_many_withdrawals --fork=Shanghai --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Shanghai:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_many_withdrawals --until=Shanghai</span>
-</code></pre></div></p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_many_withdrawals()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_many_withdrawals()</code></h1>
+<p>Test Withdrawals with a count of N withdrawals in a single block where</p>
 
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.shanghai.eip4895_withdrawals.test_withdrawals.test_many_withdrawals"></a>
-    <div class="doc doc-contents first">
-
-      <p>Test Withdrawals with a count of N withdrawals in a single block where
-N is a high number not expected to be seen in mainnet.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
-<span class="normal">349</span>
-<span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_many_withdrawals</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test Withdrawals with a count of N withdrawals in a single block where</span>
-<span class="sd">    N is a high number not expected to be seen in mainnet.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="mi">400</span>
-    <span class="n">withdrawals</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="n">addr</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">amount</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">1</span>
-        <span class="n">withdrawals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="n">Withdrawal</span><span class="p">(</span>
-                <span class="n">index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
-                <span class="n">validator_index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
-                <span class="n">address</span><span class="o">=</span><span class="n">addr</span><span class="p">,</span>
-                <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">post</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="n">balance</span><span class="o">=</span><span class="n">amount</span> <span class="o">*</span> <span class="n">ONE_GWEI</span><span class="p">,</span>
-            <span class="n">storage</span><span class="o">=</span><span class="p">{},</span>
-        <span class="p">)</span>
-
-    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">Block</span><span class="p">(</span>
-            <span class="n">withdrawals</span><span class="o">=</span><span class="n">withdrawals</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-
-    <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 

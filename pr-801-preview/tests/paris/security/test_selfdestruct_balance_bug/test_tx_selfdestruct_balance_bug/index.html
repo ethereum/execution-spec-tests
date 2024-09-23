@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_tx_selfdestruct_balance_bug" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -20530,19 +20525,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_tx_selfdestruct_balance_bug</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -20553,34 +20535,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.paris.security.test_selfdestruct_balance_bug.test_tx_selfdestruct_balance_bug" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_tx_selfdestruct_balance_bug
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22199,25 +22153,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.paris.security.test_selfdestruct_balance_bug.test_tx_selfdestruct_balance_bug" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_tx_selfdestruct_balance_bug
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22232,292 +22167,37 @@
                   
 
 
-<h1 id="test_tx_selfdestruct_balance_bug"><code>test_tx_selfdestruct_balance_bug()</code><a class="headerlink" href="#test_tx_selfdestruct_balance_bug" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/paris/security/test_selfdestruct_balance_bug.py#L29"><code>tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Constantinople with:</p>
-<p>Constantinople only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug --fork=Constantinople --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Constantinople:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug --until=Constantinople</span>
-</code></pre></div></p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_tx_selfdestruct_balance_bug()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_tx_selfdestruct_balance_bug()</code></h1>
+<p>Test that the vulnerability is not present by checking the balance of the</p>
 
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.paris.security.test_selfdestruct_balance_bug.test_tx_selfdestruct_balance_bug"></a>
-    <div class="doc doc-contents first">
-
-      <p>Test that the vulnerability is not present by checking the balance of the
-<code>0xaa</code> contract after executing specific transactions:</p>
-<ol>
-<li>
-<p>Start with contract <code>0xaa</code> which has initial balance of 3 wei.
-    <code>0xaa</code> contract code simply performs a self-destruct to itself.</p>
-</li>
-<li>
-<p>Send a transaction (tx 1) to invoke caller contract <code>0xcc</code> (which
-    has a balance of 1 wei), which in turn invokes <code>0xaa</code> with a 1 wei call.</p>
-</li>
-<li>
-<p>Store the balance of <code>0xaa</code> after the first transaction
-    is processed. <code>0xaa</code> self-destructed. Expected outcome: 0 wei.</p>
-</li>
-<li>
-<p>Send another transaction (tx 2) to call 0xaa with 5 wei.</p>
-</li>
-<li>
-<p>Store the balance of <code>0xaa</code> after the second transaction
-    is processed. No self-destruct. Expected outcome: 5 wei.</p>
-</li>
-<li>
-<p>Verify that:</p>
-<ul>
-<li>Call within tx 1 is successful, i.e <code>0xaa</code> self-destructed.</li>
-<li>The balances of <code>0xaa</code> after each tx are correct.</li>
-<li>During tx 2, code in <code>0xaa</code> does not execute,
-    hence self-destruct mechanism does not trigger.</li>
-</ul>
-</li>
-</ol>
-<p>TODO: EOF - This test could be parametrized for EOFCREATE</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/paris/security/test_selfdestruct_balance_bug.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
-<span class="normal"> 33</span>
-<span class="normal"> 34</span>
-<span class="normal"> 35</span>
-<span class="normal"> 36</span>
-<span class="normal"> 37</span>
-<span class="normal"> 38</span>
-<span class="normal"> 39</span>
-<span class="normal"> 40</span>
-<span class="normal"> 41</span>
-<span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
-<span class="normal"> 47</span>
-<span class="normal"> 48</span>
-<span class="normal"> 49</span>
-<span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Constantinople&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_tx_selfdestruct_balance_bug</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that the vulnerability is not present by checking the balance of the</span>
-<span class="sd">    `0xaa` contract after executing specific transactions:</span>
-
-<span class="sd">    1. Start with contract `0xaa` which has initial balance of 3 wei.</span>
-<span class="sd">        `0xaa` contract code simply performs a self-destruct to itself.</span>
-
-<span class="sd">    2. Send a transaction (tx 1) to invoke caller contract `0xcc` (which</span>
-<span class="sd">        has a balance of 1 wei), which in turn invokes `0xaa` with a 1 wei call.</span>
-
-<span class="sd">    3. Store the balance of `0xaa` after the first transaction</span>
-<span class="sd">        is processed. `0xaa` self-destructed. Expected outcome: 0 wei.</span>
-
-<span class="sd">    4. Send another transaction (tx 2) to call 0xaa with 5 wei.</span>
-
-<span class="sd">    5. Store the balance of `0xaa` after the second transaction</span>
-<span class="sd">        is processed. No self-destruct. Expected outcome: 5 wei.</span>
-
-<span class="sd">    6. Verify that:</span>
-<span class="sd">        - Call within tx 1 is successful, i.e `0xaa` self-destructed.</span>
-<span class="sd">        - The balances of `0xaa` after each tx are correct.</span>
-<span class="sd">        - During tx 2, code in `0xaa` does not execute,</span>
-<span class="sd">            hence self-destruct mechanism does not trigger.</span>
-
-<span class="sd">    TODO: EOF - This test could be parametrized for EOFCREATE</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">deploy_code</span> <span class="o">=</span> <span class="n">Switch</span><span class="p">(</span>
-        <span class="n">default_action</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="n">cases</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">CalldataCase</span><span class="p">(</span>
-                <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">action</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SELFDESTRUCT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">),</span>
-            <span class="p">),</span>
-            <span class="n">CalldataCase</span><span class="p">(</span>
-                <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">action</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SELFBALANCE</span><span class="p">),</span>
-            <span class="p">),</span>
-        <span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">aa_code</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span>
-        <span class="n">deploy_code</span><span class="o">=</span><span class="n">deploy_code</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">cc_code</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span>
-            <span class="mi">0</span><span class="p">,</span>
-            <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span>
-                <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># Initial balance of 3 wei</span>
-                <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span>
-            <span class="p">),</span>
-        <span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xCA1101</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">cc_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">cc_code</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000</span><span class="p">)</span>
-    <span class="n">aa_location</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">cc_address</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">balance_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mh">0xBA1AA</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">aa_location</span><span class="p">))</span>
-    <span class="n">balance_address_1</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">balance_code</span><span class="p">)</span>
-    <span class="n">balance_address_2</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">balance_code</span><span class="p">)</span>
-
-    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
-
-    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">Block</span><span class="p">(</span>
-            <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                <span class="c1"># Sender invokes caller, caller invokes 0xaa:</span>
-                <span class="c1"># calling with 1 wei call</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">cc_address</span><span class="p">,</span>
-                    <span class="n">data</span><span class="o">=</span><span class="n">aa_code</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span>
-                <span class="p">),</span>
-                <span class="c1"># Dummy tx to store balance of 0xaa after first TX.</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">balance_address_1</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                <span class="p">),</span>
-                <span class="c1"># Sender calls 0xaa with 5 wei.</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">aa_location</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                <span class="p">),</span>
-                <span class="c1"># Dummy tx to store balance of 0xaa after second TX.</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">balance_address_2</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">],</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-
-    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="c1"># Check call from caller has succeeded.</span>
-        <span class="n">cc_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xCA1101</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
-        <span class="c1"># Check balance of 0xaa after tx 1 is 0 wei, i.e self-destructed.</span>
-        <span class="c1"># Vulnerable versions should return 1 wei.</span>
-        <span class="n">balance_address_1</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xBA1AA</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
-        <span class="c1"># Check that 0xaa exists and balance after tx 2 is 5 wei.</span>
-        <span class="c1"># Vulnerable versions should return 6 wei.</span>
-        <span class="n">balance_address_2</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mh">0xBA1AA</span><span class="p">:</span> <span class="mi">5</span><span class="p">}),</span>
-        <span class="n">aa_location</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
-    <span class="p">}</span>
-
-    <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 

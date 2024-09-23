@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_migrated_eofcreate" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -13792,19 +13787,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_migrated_eofcreate</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -13815,43 +13797,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_migrated_eofcreate" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_migrated_eofcreate
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22210,34 +22155,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_migrated_eofcreate" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_migrated_eofcreate
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22252,354 +22169,26 @@
                   
 
 
-<h1 id="test_migrated_eofcreate"><code>test_migrated_eofcreate()</code><a class="headerlink" href="#test_migrated_eofcreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L602"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_migrated_eofcreate@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
-<p>Pragueeip7692 only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_migrated_eofcreate --fork=PragueEIP7692 --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Pragueeip7692:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_migrated_eofcreate --until=PragueEIP7692</span>
-</code></pre></div></p>
-</div>
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.prague.eip7692_eof_v1.eip7620_eof_create.test_subcontainer_validation.test_migrated_eofcreate"></a>
-    <div class="doc doc-contents first">
-
-      <p>Tests migrated from EOFTests/efValidation/EOF1_eofcreate_valid_.json.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span>
-<span class="normal">620</span>
-<span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
-<span class="normal">673</span>
-<span class="normal">674</span>
-<span class="normal">675</span>
-<span class="normal">676</span>
-<span class="normal">677</span>
-<span class="normal">678</span>
-<span class="normal">679</span>
-<span class="normal">680</span>
-<span class="normal">681</span>
-<span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span>
-<span class="normal">706</span>
-<span class="normal">707</span>
-<span class="normal">708</span>
-<span class="normal">709</span>
-<span class="normal">710</span>
-<span class="normal">711</span>
-<span class="normal">712</span>
-<span class="normal">713</span>
-<span class="normal">714</span>
-<span class="normal">715</span>
-<span class="normal">716</span>
-<span class="normal">717</span>
-<span class="normal">718</span>
-<span class="normal">719</span>
-<span class="normal">720</span>
-<span class="normal">721</span>
-<span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
-<span class="normal">730</span>
-<span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
-<span class="normal">736</span>
-<span class="normal">737</span>
-<span class="normal">738</span>
-<span class="normal">739</span>
-<span class="normal">740</span>
-<span class="normal">741</span>
-<span class="normal">742</span>
-<span class="normal">743</span>
-<span class="normal">744</span>
-<span class="normal">745</span>
-<span class="normal">746</span>
-<span class="normal">747</span>
-<span class="normal">748</span>
-<span class="normal">749</span>
-<span class="normal">750</span>
-<span class="normal">751</span>
-<span class="normal">752</span>
-<span class="normal">753</span>
-<span class="normal">754</span>
-<span class="normal">755</span>
-<span class="normal">756</span>
-<span class="normal">757</span>
-<span class="normal">758</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;container&quot;</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">255</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
-                    <span class="p">),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">)),</span>
-                <span class="p">],</span>
-                <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                ef0001010004020001000b0300010014040000000080000436600060ff6000ec005000ef000101000402</span>
-<span class="s2">                000100010400000000800000fe&quot;&quot;&quot;</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;eofcreate_0&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">)),</span>
-                <span class="p">],</span>
-                <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                ef00010100040200010006030001001404000000008000016000e0000000ef0001010004020001000104</span>
-<span class="s2">                00000000800000fe&quot;&quot;&quot;</span><span class="p">,</span>
-                <span class="c1"># Originally this test was &quot;valid&quot; because it was created</span>
-                <span class="c1"># before &quot;orphan subcontainer&quot; rule was introduced.</span>
-                <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ORPHAN_SUBCONTAINER</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;orphan_subcontainer_0&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">)),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">custom_size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-                <span class="p">],</span>
-                <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                ef00010100040200010006030001001404000200008000016000e0000000ef0001010004020001000104</span>
-<span class="s2">                00000000800000fe&quot;&quot;&quot;</span><span class="p">,</span>
-                <span class="c1"># Originally this test was &quot;valid&quot; but against the current spec</span>
-                <span class="c1"># it contains two errors: data section truncated and orphan subcontainer.</span>
-                <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;orphan_subcontainer_0_and_truncated_data&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">)),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;aabb&quot;</span><span class="p">),</span>
-                <span class="p">],</span>
-                <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                ef00010100040200010006030001001404000200008000016000e0000000ef0001010004020001000104</span>
-<span class="s2">                00000000800000feaabb&quot;&quot;&quot;</span><span class="p">,</span>
-                <span class="c1"># Originally this test was &quot;valid&quot; because it was created</span>
-                <span class="c1"># before &quot;orphan subcontainer&quot; rule was introduced.</span>
-                <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ORPHAN_SUBCONTAINER</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;orphan_subcontainer_0_and_data&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="s2">&quot;aabbccddeeff&quot;</span><span class="p">),</span>
-                <span class="p">],</span>
-                <span class="c1"># The original test has been modified to reference the subcontainer by EOFCREATE.</span>
-                <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAGIC</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;subcontainer_0_with_invalid_prefix&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">255</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
-                    <span class="p">)</span>
-                <span class="p">]</span>
-                <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">[</span><span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">))],</span>
-                <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                ef0001010004020001000b03000200140014040000000080000436600060ff6000ec015000ef00010100</span>
-<span class="s2">                0402000100010400000000800000feef000101000402000100010400000000800000fe&quot;&quot;&quot;</span><span class="p">,</span>
-                <span class="c1"># Originally this test was &quot;valid&quot; because it was created</span>
-                <span class="c1"># before &quot;orphan subcontainer&quot; rule was introduced.</span>
-                <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ORPHAN_SUBCONTAINER</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;eofcreate_1_orphan_subcontainer_0&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">)),</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)),</span>
-                <span class="p">],</span>
-                <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                ef000101000402000100060300020014001604000000008000016000e0000000ef000101000402000100</span>
-<span class="s2">                010400000000800000feef0001010004020001000304000000008000025f5ff3&quot;&quot;&quot;</span><span class="p">,</span>
-                <span class="c1"># Originally this test was &quot;valid&quot; because it was created</span>
-                <span class="c1"># before &quot;orphan subcontainer&quot; rule was introduced.</span>
-                <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ORPHAN_SUBCONTAINER</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;two_orphan_subcontainers&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">255</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">255</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
-                        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
-                    <span class="p">)</span>
-                <span class="p">]</span>
-                <span class="o">+</span> <span class="mi">256</span> <span class="o">*</span> <span class="p">[</span><span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">))],</span>
-                <span class="c1"># Originally this test was &quot;valid&quot; because it was created</span>
-                <span class="c1"># before &quot;orphan subcontainer&quot; rule was introduced.</span>
-                <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ORPHAN_SUBCONTAINER</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;eofcreate_255_max_orphan_subcontainers&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span>
-                <span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)]</span>
-                <span class="o">+</span> <span class="mi">256</span> <span class="o">*</span> <span class="p">[</span><span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">))],</span>
-                <span class="c1"># Originally this test was &quot;valid&quot; because it was created</span>
-                <span class="c1"># before &quot;orphan subcontainer&quot; rule was introduced.</span>
-                <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ORPHAN_SUBCONTAINER</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;max_orphan_subcontainers&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">],</span>
-<span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_migrated_eofcreate</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="n">Container</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests migrated from EOFTests/efValidation/EOF1_eofcreate_valid_.json.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">eof_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span> <span class="n">expect_exception</span><span class="o">=</span><span class="n">container</span><span class="o">.</span><span class="n">validity_error</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_migrated_eofcreate.html">standalone page</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Skipped Parameters</p>
-<p>For more concise readability, the table below does not list the following parameter values: 
-<code>blockchain_test</code>, <code>state_test</code>, <code>eof_test</code>, <code>fork</code>.</p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_migrated_eofcreate()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_migrated_eofcreate()</code></h1>
+<p>Tests migrated from EOFTests/efValidation/EOF1_eofcreate_valid_.json.</p>
+<h2>Parametrized Test Cases</h2>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22646,7 +22235,17 @@
                     </tr>
             </tbody>
 </table>
-<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 

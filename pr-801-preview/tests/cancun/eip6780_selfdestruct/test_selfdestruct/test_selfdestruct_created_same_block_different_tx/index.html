@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_selfdestruct_created_same_block_different_tx" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -18886,19 +18881,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_selfdestruct_created_same_block_different_tx</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -18909,43 +18891,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_selfdestruct_created_same_block_different_tx" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_selfdestruct_created_same_block_different_tx
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22208,34 +22153,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_selfdestruct_created_same_block_different_tx" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_selfdestruct_created_same_block_different_tx
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22250,239 +22167,26 @@
                   
 
 
-<h1 id="test_selfdestruct_created_same_block_different_tx"><code>test_selfdestruct_created_same_block_different_tx()</code><a class="headerlink" href="#test_selfdestruct_created_same_block_different_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L797"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_created_same_block_different_tx@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Shanghai with:</p>
-<p>Shanghai only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_created_same_block_different_tx --fork=Shanghai --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Shanghai:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_created_same_block_different_tx --until=Shanghai</span>
-</code></pre></div></p>
-</div>
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.cancun.eip6780_selfdestruct.test_selfdestruct.test_selfdestruct_created_same_block_different_tx"></a>
-    <div class="doc doc-contents first">
-
-      <p>Test that if an account created in the same block that contains a selfdestruct is
-called, its balance is sent to the send-all address, but the account is not deleted.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span>
-<span class="normal">802</span>
-<span class="normal">803</span>
-<span class="normal">804</span>
-<span class="normal">805</span>
-<span class="normal">806</span>
-<span class="normal">807</span>
-<span class="normal">808</span>
-<span class="normal">809</span>
-<span class="normal">810</span>
-<span class="normal">811</span>
-<span class="normal">812</span>
-<span class="normal">813</span>
-<span class="normal">814</span>
-<span class="normal">815</span>
-<span class="normal">816</span>
-<span class="normal">817</span>
-<span class="normal">818</span>
-<span class="normal">819</span>
-<span class="normal">820</span>
-<span class="normal">821</span>
-<span class="normal">822</span>
-<span class="normal">823</span>
-<span class="normal">824</span>
-<span class="normal">825</span>
-<span class="normal">826</span>
-<span class="normal">827</span>
-<span class="normal">828</span>
-<span class="normal">829</span>
-<span class="normal">830</span>
-<span class="normal">831</span>
-<span class="normal">832</span>
-<span class="normal">833</span>
-<span class="normal">834</span>
-<span class="normal">835</span>
-<span class="normal">836</span>
-<span class="normal">837</span>
-<span class="normal">838</span>
-<span class="normal">839</span>
-<span class="normal">840</span>
-<span class="normal">841</span>
-<span class="normal">842</span>
-<span class="normal">843</span>
-<span class="normal">844</span>
-<span class="normal">845</span>
-<span class="normal">846</span>
-<span class="normal">847</span>
-<span class="normal">848</span>
-<span class="normal">849</span>
-<span class="normal">850</span>
-<span class="normal">851</span>
-<span class="normal">852</span>
-<span class="normal">853</span>
-<span class="normal">854</span>
-<span class="normal">855</span>
-<span class="normal">856</span>
-<span class="normal">857</span>
-<span class="normal">858</span>
-<span class="normal">859</span>
-<span class="normal">860</span>
-<span class="normal">861</span>
-<span class="normal">862</span>
-<span class="normal">863</span>
-<span class="normal">864</span>
-<span class="normal">865</span>
-<span class="normal">866</span>
-<span class="normal">867</span>
-<span class="normal">868</span>
-<span class="normal">869</span>
-<span class="normal">870</span>
-<span class="normal">871</span>
-<span class="normal">872</span>
-<span class="normal">873</span>
-<span class="normal">874</span>
-<span class="normal">875</span>
-<span class="normal">876</span>
-<span class="normal">877</span>
-<span class="normal">878</span>
-<span class="normal">879</span>
-<span class="normal">880</span>
-<span class="normal">881</span>
-<span class="normal">882</span>
-<span class="normal">883</span>
-<span class="normal">884</span>
-<span class="normal">885</span>
-<span class="normal">886</span>
-<span class="normal">887</span>
-<span class="normal">888</span>
-<span class="normal">889</span>
-<span class="normal">890</span>
-<span class="normal">891</span>
-<span class="normal">892</span>
-<span class="normal">893</span>
-<span class="normal">894</span>
-<span class="normal">895</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;selfdestruct_contract_initial_balance&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_times&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_selfdestruct_created_same_block_different_tx</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">eip_enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
-    <span class="n">selfdestruct_contract_initial_balance</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">sendall_recipient_addresses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
-    <span class="n">call_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that if an account created in the same block that contains a selfdestruct is</span>
-<span class="sd">    called, its balance is sent to the send-all address, but the account is not deleted.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">selfdestruct_code</span> <span class="o">=</span> <span class="n">selfdestruct_code_preset</span><span class="p">(</span>
-        <span class="n">sendall_recipient_addresses</span><span class="o">=</span><span class="n">sendall_recipient_addresses</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">selfdestruct_contract_initcode</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">selfdestruct_code</span><span class="p">)</span>
-    <span class="n">selfdestruct_contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">entry_code_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">entry_code_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
-    <span class="n">sendall_amount</span> <span class="o">=</span> <span class="n">selfdestruct_contract_initial_balance</span>
-    <span class="n">entry_code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
-
-    <span class="c1"># Entry code in this case will simply call the pre-existing self-destructing contract,</span>
-    <span class="c1"># as many times as required</span>
-
-    <span class="c1"># Call the self-destructing contract multiple times as required, increasing the wei sent each</span>
-    <span class="c1"># time</span>
-    <span class="n">entry_code_balance</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">call_times</span><span class="p">):</span>
-        <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-            <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
-            <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
-                <span class="n">Op</span><span class="o">.</span><span class="n">GASLIMIT</span><span class="p">,</span>  <span class="c1"># Gas</span>
-                <span class="n">selfdestruct_contract_address</span><span class="p">,</span>  <span class="c1"># Address</span>
-                <span class="n">i</span><span class="p">,</span>  <span class="c1"># Value</span>
-                <span class="mi">0</span><span class="p">,</span>
-                <span class="mi">0</span><span class="p">,</span>
-                <span class="mi">0</span><span class="p">,</span>
-                <span class="mi">0</span><span class="p">,</span>
-            <span class="p">),</span>
-        <span class="p">)</span>
-        <span class="n">entry_code_balance</span> <span class="o">+=</span> <span class="n">i</span>
-        <span class="n">sendall_amount</span> <span class="o">+=</span> <span class="n">i</span>
-
-        <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-            <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-            <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
-        <span class="p">)</span>
-
-    <span class="c1"># Check the EXTCODE* properties of the self-destructing contract</span>
-    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="p">)),</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
-    <span class="p">)</span>
-
-    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-        <span class="n">entry_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()),</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODEHASH</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">),</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Lastly return zero so the entry point contract is created and we can retain the stored</span>
-    <span class="c1"># values for verification.</span>
-    <span class="n">entry_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">storage</span><span class="o">=</span><span class="n">entry_code_storage</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">sendall_recipient_addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">sendall_amount</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">}),</span>
-    <span class="p">}</span>
-
-    <span class="k">if</span> <span class="n">eip_enabled</span><span class="p">:</span>
-        <span class="n">post</span><span class="p">[</span><span class="n">selfdestruct_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">call_times</span><span class="p">})</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">post</span><span class="p">[</span><span class="n">selfdestruct_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>  <span class="c1"># type: ignore</span>
-
-    <span class="n">txs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">value</span><span class="o">=</span><span class="n">selfdestruct_contract_initial_balance</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="n">selfdestruct_contract_initcode</span><span class="p">,</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">value</span><span class="o">=</span><span class="n">entry_code_balance</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="n">entry_code</span><span class="p">,</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-
-    <span class="n">blockchain_test</span><span class="p">(</span><span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)])</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_selfdestruct_created_same_block_different_tx.html">standalone page</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Skipped Parameters</p>
-<p>For more concise readability, the table below does not list the following parameter values: 
-<code>blockchain_test</code>, <code>state_test</code>, <code>eof_test</code>, <code>fork</code>.</p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_selfdestruct_created_same_block_different_tx()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_selfdestruct_created_same_block_different_tx()</code></h1>
+<p>Test that if an account created in the same block that contains a selfdestruct is</p>
+<h2>Parametrized Test Cases</h2>
 <table id="test_table" class="display nowrap">
     <thead>
         <tr>
@@ -22514,7 +22218,17 @@ called, its balance is sent to the send-all address, but the account is not dele
                     </tr>
             </tbody>
 </table>
-<script>$(document).ready( function () { $('#test_table').DataTable({pageLength: -1, scrollX: true, autoWidth: false}); }); </script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 

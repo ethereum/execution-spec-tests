@@ -104,11 +104,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -14704,19 +14699,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -14727,34 +14709,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7702_set_code_tx.test_set_code_txs.test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -22199,25 +22153,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip7702_set_code_tx.test_set_code_txs.test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -22232,128 +22167,37 @@
                   
 
 
-<h1 id="test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored"><code>test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored()</code><a class="headerlink" href="#test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f2aaa44158f54d13e955ed1d4749c27a291b994f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1679"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored@f2aaa441</code></a>.</p>
-<div class="admonition example">
-<p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
-<p>Prague only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored --fork=Prague --evm-bin=/path/to/evm-tool-dev-version</span>
-</code></pre></div></p>
-<p>For all forks up to and including Prague:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored --until=Prague</span>
-</code></pre></div></p>
-</div>
+<p><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../../assets/javascripts/glightbox.min.js"></script></head></p>
+<h1>Test Function: <code>test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored()</code></h1>
+<p>Test setting the code of an account with multiple authorization tuples from the same signer</p>
 
-
-<div class="doc doc-object doc-function">
-
-
-
-<a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored"></a>
-    <div class="doc doc-contents first">
-
-      <p>Test setting the code of an account with multiple authorization tuples from the same signer
-and each authorization tuple has an increasing nonce, therefore the last tuple is executed,
-and the transaction is self-sponsored.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1679</span>
-<span class="normal">1680</span>
-<span class="normal">1681</span>
-<span class="normal">1682</span>
-<span class="normal">1683</span>
-<span class="normal">1684</span>
-<span class="normal">1685</span>
-<span class="normal">1686</span>
-<span class="normal">1687</span>
-<span class="normal">1688</span>
-<span class="normal">1689</span>
-<span class="normal">1690</span>
-<span class="normal">1691</span>
-<span class="normal">1692</span>
-<span class="normal">1693</span>
-<span class="normal">1694</span>
-<span class="normal">1695</span>
-<span class="normal">1696</span>
-<span class="normal">1697</span>
-<span class="normal">1698</span>
-<span class="normal">1699</span>
-<span class="normal">1700</span>
-<span class="normal">1701</span>
-<span class="normal">1702</span>
-<span class="normal">1703</span>
-<span class="normal">1704</span>
-<span class="normal">1705</span>
-<span class="normal">1706</span>
-<span class="normal">1707</span>
-<span class="normal">1708</span>
-<span class="normal">1709</span>
-<span class="normal">1710</span>
-<span class="normal">1711</span>
-<span class="normal">1712</span>
-<span class="normal">1713</span>
-<span class="normal">1714</span>
-<span class="normal">1715</span>
-<span class="normal">1716</span>
-<span class="normal">1717</span>
-<span class="normal">1718</span>
-<span class="normal">1719</span>
-<span class="normal">1720</span>
-<span class="normal">1721</span>
-<span class="normal">1722</span>
-<span class="normal">1723</span>
-<span class="normal">1724</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce_self_sponsored</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test setting the code of an account with multiple authorization tuples from the same signer</span>
-<span class="sd">    and each authorization tuple has an increasing nonce, therefore the last tuple is executed,</span>
-<span class="sd">    and the transaction is self-sponsored.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
-
-    <span class="n">tuple_count</span> <span class="o">=</span> <span class="mi">10</span>
-
-    <span class="n">success_slot</span> <span class="o">=</span> <span class="n">tuple_count</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="n">addresses</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tuple_count</span><span class="p">)]</span>
-
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">,</span>  <span class="c1"># TODO: Reduce gas limit of all tests</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">authorization_list</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">AuthorizationTuple</span><span class="p">(</span>
-                <span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">,</span>
-                <span class="n">nonce</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">address</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">addresses</span><span class="p">)</span>
-        <span class="p">],</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
-        <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
-        <span class="n">post</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">auth_signer</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-                <span class="n">nonce</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">addresses</span><span class="p">[</span><span class="n">success_slot</span><span class="p">]),</span>
-                <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                    <span class="n">success_slot</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">),</span>
-        <span class="p">},</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
 
 
 
