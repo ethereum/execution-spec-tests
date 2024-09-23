@@ -120,9 +120,7 @@ By default, JSON test fixtures are generated from this repository's Python test 
     - `tests/shanghai` the directory containing the test cases (tells `fill` to only discover test cases in this directory; default: `tests/`).
 
     Expected console output:
-    <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
-        ![Screenshot of pytest test collection console output](./docs/getting_started/img/pytest_collect_only.png){align=center}
-    </figure>
+    ![Screenshot of pytest test collection console output](./docs/getting_started/img/pytest_collect_only.png){align=center}
 
 2. Fill `state_test` fixtures for these test cases:
 
@@ -136,9 +134,7 @@ By default, JSON test fixtures are generated from this repository's Python test 
     - `-v` enables verbose output.
 
     Expected console output:
-    <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
-        ![Screenshot of fill test collection console output](./docs/getting_started/img/pytest_run_example.png){align=center}
-    </figure>
+    ![Screenshot of fill test collection console output](./docs/getting_started/img/pytest_run_example.png){align=center}
 
 3. Verify the generated fixtures:
 
