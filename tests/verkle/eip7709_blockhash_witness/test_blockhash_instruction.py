@@ -19,42 +19,51 @@ from ethereum_test_tools import (
     Transaction,
     WitnessCheck,
 )
+from ethereum_test_types.verkle.helpers import Hash, chunkify_code
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7709.md"
 REFERENCE_SPEC_VERSION = "TODO"
 
-# TODO(verkle): fix
-blockhash_system_contract_address = Address("0xa4690f0ed0d089faa1e0ad94c8f1b4a2fd4b0734")
+system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 HISTORY_STORAGE_ADDRESS = 8192
-BLOCKHASH_OLD_WINDOW = 256
-block_number = 1000
+BLOCKHASH_SERVE_WINDOW = 256
+block_number = BLOCKHASH_SERVE_WINDOW + 10
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip(reason="Not fully implemented")
 @pytest.mark.parametrize(
-    "block_num_target",
+    "blocknum_target",
     [
-        block_number + 10,
+        block_number + 1,
         block_number,
         block_number - 1,
-        block_number - BLOCKHASH_OLD_WINDOW,
-        block_number - BLOCKHASH_OLD_WINDOW - 1,
+        block_number - 2,
+        block_number - BLOCKHASH_SERVE_WINDOW,
+        block_number - BLOCKHASH_SERVE_WINDOW - 1,
     ],
     ids=[
         "future_block",
         "current_block",
-        "previous_block",
+        "previous_block",  # Note this block is also written by EIP-2935
+        "previous_previous_block",
         "last_supported_block",
         "too_old_block",
     ],
 )
-def test_blockhash(blockchain_test: BlockchainTestFiller, block_num_target: int):
+def test_blockhash_foo(blockchain_test: BlockchainTestFiller, blocknum_target: int):
     """
     Test BLOCKHASH witness.
     """
-    _blockhash(blockchain_test, block_num_target)
+    _blockhash(blockchain_test, blocknum_target)
+
+
+@pytest.mark.valid_from("Verkle")
+def test_blockhash_warm(blockchain_test: BlockchainTestFiller):
+    """
+    Test BLOCKHASH witness with warm cost.
+    """
+    _blockhash(blockchain_test, block_number - 1, warm=True)
 
 
 @pytest.mark.valid_from("Verkle")
@@ -68,22 +77,28 @@ def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller):
 
 def _blockhash(
     blockchain_test: BlockchainTestFiller,
-    block_num_target: int,
+    blocknum_target: int,
     gas_limit: int = 1_000_000,
+    warm: bool = False,
     fail: bool = False,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
         gas_limit=10000000000,
-        number=1,
+        number=0,
         timestamp=1000,
     )
 
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(code=Op.BLOCKHASH(block_num_target)),
+        TestAddress2: Account(code=Op.BLOCKHASH(blocknum_target) * (2 if warm else 1)),
     }
+
+    # Create block_number-1 empty blocks to fill the ring buffer.
+    blocks: list[Block] = []
+    for b in range(block_number - 1):
+        blocks.append(Block())
 
     tx = Transaction(
         ty=0x0,
@@ -96,26 +111,34 @@ def _blockhash(
 
     witness_check = WitnessCheck(fork=Verkle)
     for address in [env.fee_recipient, TestAddress, TestAddress2]:
-        witness_check.add_account_full(
-            address=address,
-            account=(None if address == env.fee_recipient else pre[address]),
-        )
-    # TODO: Add this back once we update the test to include 1000+ dummy blocks
-    # if fail:
-    # storage_slot = block_num_target % HISTORY_STORAGE_ADDRESS
-    # value = None  # TODO: Process the null value
-    # witness_check.add_storage_slot(
-    # address=blockhash_system_contract_address,
-    # storage_slot=storage_slot,
-    # value=value,
-    # )
+        witness_check.add_account_full(address=address, account=pre.get(address))
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
 
-    blocks = [
+    # TODO(verkle): fill right values when WitnessCheck allows to assert 2935 contract witness.
+    hardcoded_blockhash = {
+        block_number - 2: Hash(0xCC0C2DF843A33778952AA863B345DF9AE80D68ABF83C8C4B973B0B4A20D0FAC2),
+        block_number - BLOCKHASH_SERVE_WINDOW: Hash(0xCCCCCCCCC),
+    }
+
+    # This is the condition described in EIP-7709 which doesn't return 0.
+    if not (
+        blocknum_target >= block_number or blocknum_target + BLOCKHASH_SERVE_WINDOW < block_number
+    ):
+        witness_check.add_storage_slot(
+            system_contract_address,
+            blocknum_target % BLOCKHASH_SERVE_WINDOW,
+            hardcoded_blockhash.get(blocknum_target),
+        )
+
+    # The last block contains a single transaction with the BLOCKHASH instruction(s).
+    blocks.append(
         Block(
             txs=[tx],
             witness_check=witness_check,
         )
-    ]
+    )
 
     blockchain_test(
         genesis_environment=env,
