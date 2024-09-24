@@ -9,7 +9,7 @@ from typing import Any, List, Optional
 
 import pytest
 
-from ethereum_test_fixtures import FIXTURE_FORMATS, BlockchainFixture, StateFixture
+from ethereum_test_fixtures import BlockchainFixture, StateFixture
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from evm_transition_tool import TransitionTool
 
@@ -30,7 +30,7 @@ def test_blocktest(  # noqa: D103
     if evm_run_single_test:
         fixture_name = re.escape(test_case.id)
     evm.verify_fixture(
-        FIXTURE_FORMATS[test_case.format],
+        test_case.format,
         fixture_path,
         fixture_name=fixture_name,
         debug_output_path=test_dump_dir,
@@ -51,7 +51,7 @@ def run_statetest(
     # TODO: Can we group the tests appropriately so that this works more efficiently with xdist?
     if fixture_path not in statetest_results:
         json_result = evm.verify_fixture(
-            FIXTURE_FORMATS[test_case.format],
+            test_case.format,
             fixture_path,
             fixture_name=None,
             debug_output_path=test_dump_dir,

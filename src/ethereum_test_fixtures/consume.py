@@ -5,11 +5,12 @@ Defines models for index files and consume test cases.
 import datetime
 import json
 from pathlib import Path
-from typing import List, TextIO
+from typing import Annotated, List, TextIO
 
-from pydantic import BaseModel, RootModel
+from pydantic import BaseModel, PlainSerializer, PlainValidator, RootModel
 
 from ethereum_test_base_types import HexNumber
+from ethereum_test_fixtures import FIXTURE_FORMATS, FixtureFormat
 
 from .blockchain import EngineFixture as BlockchainEngineFixture
 from .blockchain import Fixture as BlockchainFixture
@@ -25,7 +26,11 @@ class TestCaseBase(BaseModel):
     id: str
     fixture_hash: HexNumber | None
     fork: str | None
-    format: str
+    format: Annotated[
+        FixtureFormat,
+        PlainSerializer(lambda f: f.fixture_format_name),
+        PlainValidator(lambda f: FIXTURE_FORMATS[f] if f in FIXTURE_FORMATS else f),
+    ]
     __test__ = False  # stop pytest from collecting this class as a test
 
 
