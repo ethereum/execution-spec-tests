@@ -15,19 +15,23 @@ from click.testing import CliRunner
 import pytest_plugins.filler.gen_test_doc.gen_test_doc as gen_test_doc
 from cli.pytest_commands.fill import fill
 
-importlib.reload(gen_test_doc)  # get changes in plugin for use with `mkdocs serve`
+importlib.reload(gen_test_doc)  # get changes in plugin to trigger an update for `mkdocs serve`
+
+TARGET_FORK = "Prague"
+GENERATE_UNTIL_FORK = "Osaka"
 
 logger = logging.getLogger("mkdocs")
-dev_fork = "Osaka"
+
 args = [
     "--override-ini",
     "filterwarnings=ignore::pytest.PytestAssertRewriteWarning",  # suppress warnings due to reload
     "-p",
     "pytest_plugins.filler.gen_test_doc.gen_test_doc",
     "--gen-docs",
+    f"--gen-docs-target-fork={TARGET_FORK}",
+    f"--until={GENERATE_UNTIL_FORK}",
     "-m",
     "(not blockchain_test_engine) and (not eip_version_check)",
-    f"--fork={dev_fork}",
     "-s",
     "tests",
     # "tests/shanghai",
@@ -36,7 +40,10 @@ args = [
 ]
 
 runner = CliRunner()
-logger.info(f"Generating documentation for {dev_fork} as fill {' '.join(args)}")
+logger.info(
+    f"Generating documentation for test cases until {GENERATE_UNTIL_FORK} as "
+    f"fill {' '.join(args)}"
+)
 result = runner.invoke(fill, args)
 for line in result.output.split("\n"):
     if "===" in line:

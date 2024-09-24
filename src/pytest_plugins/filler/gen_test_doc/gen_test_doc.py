@@ -85,15 +85,25 @@ def pytest_addoption(parser):  # noqa: D103
     gen_docs.addoption(
         "--gen-docs",
         action="store_true",
-        dest="generate_docs",
+        dest="gen_docs",
         default=False,
         help="Generate documentation for all collected tests for use in for mkdocs",
+    )
+    gen_docs.addoption(
+        "--gen-docs-target-fork",
+        action="store",
+        dest="gen_docs_target_fork",
+        default=None,
+        help=(
+            "The default fork to use generated in generated doc pages. Should be the name of the "
+            "next upcoming fork."
+        ),
     )
 
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):  # noqa: D103
-    if config.getoption("--gen-docs"):
+    if config.getoption("gen_docs"):
         config.option.disable_html = True
         config.pluginmanager.register(TestDocsGenerator(config), "test-case-doc-generator")
 
@@ -234,6 +244,7 @@ class TestDocsGenerator:
 
     def __init__(self, config) -> None:
         self.config = config
+        self.target_fork: str = config.getoption("gen_docs_target_fork")
         self._setup_logger()
         self.jinja2_env = Environment(
             loader=FileSystemLoader("docs/templates"),
@@ -344,9 +355,11 @@ class TestDocsGenerator:
         """
         Populate global page properties used in j2 templates.
         """
+        deployed_forks = ([fork.name().lower() for fork in get_forks() if fork.is_deployed()],)
         global_page_props = dict(
+            target_fork=self.target_fork,
             base_url=self.get_doc_site_base_url(),
-            deployed_forks=[fork.name().lower() for fork in get_forks() if fork.is_deployed()],
+            deployed_forks=deployed_forks,
             short_git_ref=get_current_commit_hash_or_tag(shorten_hash=True),
             test_function_parameter_table_skipped_parameters=", ".join(
                 f"`{p}`" for p in self.skip_params
@@ -364,38 +377,33 @@ class TestDocsGenerator:
         for function_id, function_items in test_functions.items():
             assert all(isinstance(item, pytest.Function) for item in function_items)
             items = cast(List[pytest.Function], function_items)  # help mypy infer type
+
             # extract parametrized test cases for each test function
             test_cases = []
             if getattr(items[0], "callspec", None):
                 for item in items:
                     param_set = item.callspec.params
-                    # Filter out unwanted parameters from the param set
                     keys = [key for key in param_set.keys() if key not in self.skip_params]
-                    values = [param_set[key] for key in keys]
-                    values = [
-                        # " ".join(f"<code>{byte:02x}</code>" for byte in value)  # noqa: SC100
-                        " ".join(
-                            f"<code>{chunk}</code>" for chunk in textwrap.wrap(value.hex(), 32)
-                        )
-                        if isinstance(value, bytes)
-                        else str(value)
-                        for value in values
-                    ]
-
-                    # Create the filtered test ID
-                    original_test_id = item.nodeid.split("[")[-1].rstrip("]")
-                    filtered_test_id_parts = []
-                    for part in original_test_id.split("-"):
-                        param_name = part.split("_")[0] if "_" in part else None
-                        if (param_name not in self.skip_params) and (part not in self.skip_params):
-                            filtered_test_id_parts.append(part)
-                    filtered_test_id = "-".join(filtered_test_id_parts).strip("-")
-
-                    if filtered_test_id_parts:
+                    if keys:
+                        values = [param_set[key] for key in keys]
+                        # TODO: This formatting of bytes objects should be moved elsewhere
+                        values = [
+                            " ".join(
+                                f"<code>{chunk}</code>" for chunk in textwrap.wrap(value.hex(), 32)
+                            )
+                            if isinstance(value, bytes)
+                            else str(value)
+                            for value in values
+                        ]
+                        fork = item.callspec.params.get("fork").name()  # type: ignore
+                        test_type = get_test_function_test_type(item)
+                        fixture_type = item.callspec.params.get(test_type).name  # type: ignore
                         test_cases.append(
                             TestCase(
                                 full_id=item.nodeid,
-                                abbreviated_id=filtered_test_id,
+                                abbreviated_id=item.nodeid.split("[")[-1].rstrip("]"),
+                                fork=fork,
+                                fixture_type=fixture_type,
                                 params=dict(zip(keys, values)),
                             )
                         )

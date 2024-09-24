@@ -144,6 +144,8 @@ class TestCase:
 
     full_id: str
     abbreviated_id: str
+    fork: str
+    fixture_type: str
     params: Dict[str, Any]
 
 
