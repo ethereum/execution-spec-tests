@@ -223,7 +223,6 @@ def get_test_function_test_type(item: pytest.Item) -> str:
     for test_type in test_types:
         if test_type in fixture_names:
             return test_type
-    assert 0
     logger.warning(f"Could not determine the test function type for {item.nodeid}")
     return f"unknown ([📖🐛]({create_github_issue_url('docs(bug): unknown test function type')}))"
 
