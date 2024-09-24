@@ -17,7 +17,7 @@ from .base_types import (
     NumberBoundTypeVar,
     ZeroPaddedHexNumber,
 )
-from .composite_types import Account, Alloc, Storage, StorageRootType
+from .composite_types import AccessList, Account, Alloc, Storage, StorageRootType
 from .constants import (
     AddrAA,
     AddrBB,
@@ -34,6 +34,7 @@ from .pydantic import CamelModel
 from .reference_spec import ReferenceSpec
 
 __all__ = (
+    "AccessList",
     "Account",
     "AddrAA",
     "AddrBB",

@@ -4,6 +4,7 @@ tests.
 """
 
 from ethereum_test_base_types import (
+    AccessList,
     Account,
     Address,
     Bytes,
@@ -36,7 +37,6 @@ from ethereum_test_specs import (
 from ethereum_test_specs.blockchain import Block, Header
 from ethereum_test_types import (
     EOA,
-    AccessList,
     Alloc,
     AuthorizationTuple,
     ConsolidationRequest,
@@ -53,9 +53,6 @@ from ethereum_test_types import (
     compute_create2_address,
     compute_create_address,
     compute_eofcreate_address,
-    copy_opcode_cost,
-    cost_memory_bytes,
-    eip_2028_transaction_data_cost,
 )
 from ethereum_test_vm import (
     Bytecode,
@@ -146,10 +143,6 @@ __all__ = (
     "compute_create_address",
     "compute_create2_address",
     "compute_eofcreate_address",
-    "copy_opcode_cost",
-    "cost_memory_bytes",
-    "eip_2028_transaction_data_cost",
-    "eip_2028_transaction_data_cost",
     "extend_with_defaults",
     "vm",
 )
