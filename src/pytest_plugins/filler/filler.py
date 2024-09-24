@@ -206,7 +206,7 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
-    for _, fixture_format in FIXTURE_FORMATS.items():
+    for fixture_format in FIXTURE_FORMATS.values():
         config.addinivalue_line(
             "markers",
             (f"{fixture_format.fixture_format_name.lower()}: {fixture_format.description}"),

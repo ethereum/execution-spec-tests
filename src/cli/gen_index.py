@@ -52,7 +52,7 @@ def infer_fixture_format_from_path(file: Path) -> FixtureFormat | None:
     """
     Attempt to infer the fixture format from the file path.
     """
-    for _, fixture_type in FIXTURE_FORMATS.items():
+    for fixture_type in FIXTURE_FORMATS.values():
         if fixture_type.output_base_dir_name() in file.parts:
             return fixture_type
     if "BlockchainTests" in file.parts:  # ethereum/tests
