@@ -18,7 +18,6 @@ from ethereum_test_types.types import (
 )
 
 from .base import BaseFixture
-from .formats import FixtureFormats
 
 
 class FixtureEnvironment(EnvironmentGeneric[ZeroPaddedHexNumber]):
@@ -108,12 +107,17 @@ class Fixture(BaseFixture):
     Fixture for a single StateTest.
     """
 
+    fixture_test_type: ClassVar[str] = "state_test"
+    description: ClassVar[str] = "Tests that generate a state test fixture."
+
+    is_state_test: ClassVar[bool] = True
+    is_standard_format: ClassVar[bool] = True
+    is_verifiable: ClassVar[bool] = True
+
     env: FixtureEnvironment
     pre: Alloc
     transaction: FixtureTransaction
     post: Mapping[str, List[FixtureForkPost]]
-
-    format: ClassVar[FixtureFormats] = FixtureFormats.STATE_TEST
 
     def get_fork(self) -> str | None:
         """

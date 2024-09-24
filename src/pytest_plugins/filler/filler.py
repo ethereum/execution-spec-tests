@@ -19,7 +19,7 @@ from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
 from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_fixtures import FixtureCollector, FixtureFormats, TestInfo
+from ethereum_test_fixtures import FIXTURE_FORMATS, BaseFixture, FixtureCollector, TestInfo
 from ethereum_test_forks import (
     Fork,
     get_closest_fork_with_solc_support,
@@ -206,10 +206,10 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
-    for fixture_format in FixtureFormats:
+    for _, fixture_format in FIXTURE_FORMATS.items():
         config.addinivalue_line(
             "markers",
-            (f"{fixture_format.name.lower()}: {fixture_format.description()}"),
+            (f"{fixture_format.fixture_test_type.lower()}: {fixture_format.description}"),
         )
     config.addinivalue_line(
         "markers",
@@ -794,7 +794,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         When parametrize, indirect must be used along with the fixture format as value.
         """
         fixture_format = request.param
-        assert isinstance(fixture_format, FixtureFormats)
+        assert issubclass(fixture_format, BaseFixture)
 
         class BaseTestWrapper(cls):  # type: ignore
             def __init__(self, *args, **kwargs):
@@ -826,7 +826,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 request.node.config.fixture_path_relative = str(
                     fixture_path.relative_to(output_dir)
                 )
-                request.node.config.fixture_format = fixture_format.value
+                request.node.config.fixture_format = fixture_format.fixture_test_type
 
         return BaseTestWrapper
 
@@ -851,8 +851,8 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
                 [
                     pytest.param(
                         fixture_format,
-                        id=fixture_format.name.lower(),
-                        marks=[getattr(pytest.mark, fixture_format.name.lower())],
+                        id=fixture_format.fixture_test_type.lower(),
+                        marks=[getattr(pytest.mark, fixture_format.fixture_test_type.lower())],
                     )
                     for fixture_format in test_type.supported_fixture_formats
                 ],
@@ -877,11 +877,10 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
             items.remove(item)
             continue
         fork: Fork = params["fork"]
-        if fork.engine_new_payload_version(0, 0) is None:
-            for spec_name in [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]:
-                if spec_name in params and params[spec_name].is_hive_format():
-                    items.remove(item)
-                    break
+        for spec_name in [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]:
+            if spec_name in params and not params[spec_name].supports_fork(fork):
+                items.remove(item)
+                break
         if "yul" in item.fixturenames:  # type: ignore
             item.add_marker(pytest.mark.yul_test)
 

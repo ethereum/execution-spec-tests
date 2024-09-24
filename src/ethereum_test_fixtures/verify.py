@@ -5,7 +5,7 @@ Ethereum test fixture verifyer abstract class.
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from .formats import FixtureFormats
+from .base import FixtureFormat
 
 
 class FixtureVerifier(ABC):
@@ -16,7 +16,7 @@ class FixtureVerifier(ABC):
     @abstractmethod
     def verify_fixture(
         self,
-        fixture_format: FixtureFormats,
+        fixture_format: FixtureFormat,
         fixture_path: Path,
         fixture_name: str | None = None,
         debug_output_path: Path | None = None,
