@@ -19,7 +19,7 @@ class BaseFixture(CamelModel):
     info: Dict[str, str] = Field(default_factory=dict, alias="_info")
 
     # Fixture format properties
-    fixture_test_type: ClassVar[str] = "unset"
+    fixture_format_name: ClassVar[str] = "unset"
     output_file_extension: ClassVar[str] = ".json"
     description: ClassVar[str] = "Unknown fixture format; it has not been set."
 
@@ -34,7 +34,7 @@ class BaseFixture(CamelModel):
         """
         Returns the name of the subdirectory where this type of fixture should be dumped to.
         """
-        return cls.fixture_test_type.replace("test", "tests")
+        return cls.fixture_format_name.replace("test", "tests")
 
     @cached_property
     def json_dict(self) -> Dict[str, Any]:

@@ -209,7 +209,7 @@ def pytest_configure(config):
     for _, fixture_format in FIXTURE_FORMATS.items():
         config.addinivalue_line(
             "markers",
-            (f"{fixture_format.fixture_test_type.lower()}: {fixture_format.description}"),
+            (f"{fixture_format.fixture_format_name.lower()}: {fixture_format.description}"),
         )
     config.addinivalue_line(
         "markers",
@@ -826,7 +826,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 request.node.config.fixture_path_relative = str(
                     fixture_path.relative_to(output_dir)
                 )
-                request.node.config.fixture_format = fixture_format.fixture_test_type
+                request.node.config.fixture_format = fixture_format.fixture_format_name
 
         return BaseTestWrapper
 
@@ -851,8 +851,8 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
                 [
                     pytest.param(
                         fixture_format,
-                        id=fixture_format.fixture_test_type.lower(),
-                        marks=[getattr(pytest.mark, fixture_format.fixture_test_type.lower())],
+                        id=fixture_format.fixture_format_name.lower(),
+                        marks=[getattr(pytest.mark, fixture_format.fixture_format_name.lower())],
                     )
                     for fixture_format in test_type.supported_fixture_formats
                 ],

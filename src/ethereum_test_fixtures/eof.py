@@ -49,7 +49,7 @@ class Fixture(BaseFixture):
     Fixture for a single EOFTest.
     """
 
-    fixture_test_type: ClassVar[str] = "eof_test"
+    fixture_format_name: ClassVar[str] = "eof_test"
     description: ClassVar[str] = "Tests that generate an EOF test fixture."
 
     vectors: Mapping[Number, Vector]

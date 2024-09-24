@@ -502,7 +502,7 @@ class Fixture(FixtureCommon):
     Cross-client specific blockchain test model use in JSON fixtures.
     """
 
-    fixture_test_type: ClassVar[str] = "blockchain_test"
+    fixture_format_name: ClassVar[str] = "blockchain_test"
     description: ClassVar[str] = "Tests that generate a blockchain test fixture."
 
     genesis_rlp: Bytes = Field(..., alias="genesisRLP")
@@ -515,7 +515,7 @@ class EngineFixture(FixtureCommon):
     Engine specific test fixture information.
     """
 
-    fixture_test_type: ClassVar[str] = "blockchain_test_engine"
+    fixture_format_name: ClassVar[str] = "blockchain_test_engine"
     description: ClassVar[
         str
     ] = "Tests that generate a blockchain test fixture in Engine API format."

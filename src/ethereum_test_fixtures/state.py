@@ -107,7 +107,7 @@ class Fixture(BaseFixture):
     Fixture for a single StateTest.
     """
 
-    fixture_test_type: ClassVar[str] = "state_test"
+    fixture_format_name: ClassVar[str] = "state_test"
     description: ClassVar[str] = "Tests that generate a state test fixture."
 
     is_state_test: ClassVar[bool] = True

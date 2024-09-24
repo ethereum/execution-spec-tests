@@ -176,7 +176,7 @@ def test_fill_state_test(
         f"000/my_chain_id_test/{fork}": generated_fixture.json_dict_with_info(hash_only=True),
     }
 
-    expected_json_file = f"chainid_{fork.name().lower()}_{fixture_format.fixture_test_type}.json"
+    expected_json_file = f"chainid_{fork.name().lower()}_{fixture_format.fixture_format_name}.json"
     with open(
         os.path.join(
             "src",

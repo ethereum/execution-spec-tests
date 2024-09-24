@@ -44,12 +44,12 @@ def test_no_options_no_validity_marker(pytester):
             if not fixture_format.supports_fork(fork):
                 expected_passed -= 1
                 assert (
-                    f":test_all_forks[fork_{fork}-{fixture_format.fixture_test_type.lower()}]"
+                    f":test_all_forks[fork_{fork}-{fixture_format.fixture_format_name.lower()}]"
                     not in stdout
                 )
                 continue
             assert (
-                f":test_all_forks[fork_{fork}-{fixture_format.fixture_test_type.lower()}]"
+                f":test_all_forks[fork_{fork}-{fixture_format.fixture_format_name.lower()}]"
                 in stdout
             )
 
@@ -88,12 +88,12 @@ def test_from_london_option_no_validity_marker(pytester, fork_map, fork):
             if not fixture_format.supports_fork(fork):
                 expected_passed -= 1
                 assert (
-                    f":test_all_forks[fork_{fork}-{fixture_format.fixture_test_type.lower()}]"
+                    f":test_all_forks[fork_{fork}-{fixture_format.fixture_format_name.lower()}]"
                     not in stdout
                 )
                 continue
             assert (
-                f":test_all_forks[fork_{fork}-{fixture_format.fixture_test_type.lower()}]"
+                f":test_all_forks[fork_{fork}-{fixture_format.fixture_format_name.lower()}]"
                 in stdout
             )
     result.assert_outcomes(
@@ -132,12 +132,12 @@ def test_from_london_until_shanghai_option_no_validity_marker(pytester, fork_map
             if not fixture_format.supports_fork(fork):
                 expected_passed -= 1
                 assert (
-                    f":test_all_forks[fork_{fork}-{fixture_format.fixture_test_type.lower()}]"
+                    f":test_all_forks[fork_{fork}-{fixture_format.fixture_format_name.lower()}]"
                     not in stdout
                 )
                 continue
             assert (
-                f":test_all_forks[fork_{fork}-{fixture_format.fixture_test_type.lower()}]"
+                f":test_all_forks[fork_{fork}-{fixture_format.fixture_format_name.lower()}]"
                 in stdout
             )
     result.assert_outcomes(
@@ -171,7 +171,7 @@ def test_from_merge_until_merge_option_no_validity_marker(pytester, fork_map):
     for fork in forks_under_test:
         for fixture_format in StateTest.supported_fixture_formats:
             assert (
-                f":test_all_forks[fork_{fork}-{fixture_format.fixture_test_type.lower()}]"
+                f":test_all_forks[fork_{fork}-{fixture_format.fixture_format_name.lower()}]"
                 in stdout
             )
     result.assert_outcomes(
