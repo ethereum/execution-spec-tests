@@ -92,14 +92,12 @@ class Wei(Number):
             if len(words) > 1:
                 unit = words[1].lower()
                 multiplier = cls._get_multiplier(unit)
-            value: int
-            if "e" in value_str:
-                value = int(float(value_str))
-            elif "**" in value_str:
+            value: float
+            if "**" in value_str:
                 base, exp = value_str.split("**")
-                value = int(base) ** int(exp)
+                value = float(base) ** int(exp)
             else:
-                value = int(value_str)
+                value = float(value_str)
             return super(Number, cls).__new__(cls, value * multiplier)
         return super(Number, cls).__new__(cls, to_number(input))
 
@@ -125,6 +123,8 @@ class Wei(Number):
                 return 10**18
             case _:
                 raise ValueError(f"Invalid unit {unit}")
+
+
 class HexNumber(Number):
     """
     Class that helps represent an hexadecimal numbers in tests.
