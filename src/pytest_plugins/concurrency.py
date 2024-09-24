@@ -1,6 +1,11 @@
 """
-Pytest plugin to create a temporary folder for the session where multi-process tests can store data
-that is shared between processes.
+Pytest plugin to create a temporary folder for the session where 
+multi-process tests can store data that is shared between processes.
+
+The provided `session_temp_folder` fixture is used, for example, by `consume` 
+when running hive simulators to ensure that only one `test_suite` is created
+(used to create tests on the hive simulator) when they are being created using
+multiple workers with pytest-xdist.
 """
 
 import os
@@ -71,7 +76,5 @@ def worker_count() -> int:
     """
     Get the number of workers for the test.
     """
-    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
-    if not worker_count_env:
-        return 1
+    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT", "1")
     return max(int(worker_count_env), 1)

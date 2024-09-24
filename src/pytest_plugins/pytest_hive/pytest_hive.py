@@ -60,7 +60,10 @@ def pytest_addoption(parser: pytest.Parser):  # noqa: D103
         action="store",
         dest="hive_simulator",
         default=os.environ.get("HIVE_SIMULATOR"),
-        help="Hive simulator endpoint",
+        help=(
+            "The Hive simulator endpoint, e.g. http://127.0.0.1:3000. By default, the value is "
+            "taken from the HIVE_SIMULATOR environment variable."
+        )
     )
 
 
