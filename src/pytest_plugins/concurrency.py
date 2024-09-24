@@ -1,8 +1,8 @@
 """
-Pytest plugin to create a temporary folder for the session where 
+Pytest plugin to create a temporary folder for the session where
 multi-process tests can store data that is shared between processes.
 
-The provided `session_temp_folder` fixture is used, for example, by `consume` 
+The provided `session_temp_folder` fixture is used, for example, by `consume`
 when running hive simulators to ensure that only one `test_suite` is created
 (used to create tests on the hive simulator) when they are being created using
 multiple workers with pytest-xdist.

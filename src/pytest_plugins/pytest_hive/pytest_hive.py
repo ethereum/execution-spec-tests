@@ -63,7 +63,7 @@ def pytest_addoption(parser: pytest.Parser):  # noqa: D103
         help=(
             "The Hive simulator endpoint, e.g. http://127.0.0.1:3000. By default, the value is "
             "taken from the HIVE_SIMULATOR environment variable."
-        )
+        ),
     )
 
 
