@@ -22586,7 +22586,7 @@
 
 
 <h1 id="test_tstore_clear_after_deployment_tx"><code>test_tstore_clear_after_deployment_tx()</code><a class="headerlink" href="#test_tstore_clear_after_deployment_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b035ad3a8a4ae57fdb44be8ed14df486c3795133/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py#L29"><code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_deployment_tx@b035ad3a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0767d80e83c67dc9b4c99289daba771f13917e36/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py#L29"><code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_deployment_tx@0767d80e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Cancun with:</p>
 <p>Cancun only:
@@ -22678,7 +22678,7 @@ the storage should stay empty.</p>
     <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span> <span class="o">|</span> <span class="n">Initcode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
         <span class="n">code</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Init</span><span class="p">(</span>
-            <span class="n">deploy_container</span><span class="o">=</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">deploy_code</span><span class="p">),</span> <span class="n">initcode_prefix</span><span class="o">=</span><span class="n">init_code</span>
+            <span class="n">deploy_container</span><span class="o">=</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">deploy_code</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span> <span class="n">initcode_prefix</span><span class="o">=</span><span class="n">init_code</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">code</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">deploy_code</span><span class="p">,</span> <span class="n">initcode_prefix</span><span class="o">=</span><span class="n">init_code</span><span class="p">)</span>
