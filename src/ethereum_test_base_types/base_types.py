@@ -90,23 +90,8 @@ class Wei(Number):
             assert len(words) <= 2
             value_str = words[0]
             if len(words) > 1:
-                unit = words[1]
-                if unit == "wei":
-                    multiplier = 1
-                elif unit == "kwei":
-                    multiplier = 10**3
-                elif unit == "mwei":
-                    multiplier = 10**6
-                elif unit == "gwei":
-                    multiplier = 10**9
-                elif unit == "szabo":
-                    multiplier = 10**12
-                elif unit == "finney":
-                    multiplier = 10**15
-                elif unit == "ether":
-                    multiplier = 10**18
-                else:
-                    raise ValueError(f"Invalid unit {unit}")
+                unit = words[1].lower()
+                multiplier = cls._get_multiplier(unit)
             value: int
             if "e" in value_str:
                 value = int(float(value_str))
@@ -118,7 +103,28 @@ class Wei(Number):
             return super(Number, cls).__new__(cls, value * multiplier)
         return super(Number, cls).__new__(cls, to_number(input))
 
-
+    @staticmethod
+    def _get_multiplier(unit: str) -> int:
+        """
+        Returns the multiplier for the given unit of wei, handling synonyms.
+        """
+        match unit:
+            case "wei":
+                return 1
+            case "kwei" | "babbage" | "femtoether":
+                return 10**3
+            case "mwei" | "lovelace" | "picoether":
+                return 10**6
+            case "gwei" | "shannon" | "nanoether" | "nano":
+                return 10**9
+            case "szabo" | "microether" | "micro":
+                return 10**12
+            case "finney" | "milliether" | "milli":
+                return 10**15
+            case "ether":
+                return 10**18
+            case _:
+                raise ValueError(f"Invalid unit {unit}")
 class HexNumber(Number):
     """
     Class that helps represent an hexadecimal numbers in tests.
