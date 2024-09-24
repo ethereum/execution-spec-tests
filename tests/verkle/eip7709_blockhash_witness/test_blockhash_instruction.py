@@ -26,9 +26,9 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7709.md"
 REFERENCE_SPEC_VERSION = "TODO"
 
 system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
-HISTORY_STORAGE_ADDRESS = 8192
+HISTORY_SERVE_WINDOW = 8192
 BLOCKHASH_SERVE_WINDOW = 256
-block_number = BLOCKHASH_SERVE_WINDOW + 10
+block_number = BLOCKHASH_SERVE_WINDOW + 5
 
 
 @pytest.mark.valid_from("Verkle")
@@ -51,7 +51,7 @@ block_number = BLOCKHASH_SERVE_WINDOW + 10
         "too_old_block",
     ],
 )
-def test_blockhash_foo(blockchain_test: BlockchainTestFiller, blocknum_target: int):
+def test_blockhash(blockchain_test: BlockchainTestFiller, blocknum_target: int):
     """
     Test BLOCKHASH witness.
     """
@@ -63,16 +63,15 @@ def test_blockhash_warm(blockchain_test: BlockchainTestFiller):
     """
     Test BLOCKHASH witness with warm cost.
     """
-    _blockhash(blockchain_test, block_number - 1, warm=True)
+    _blockhash(blockchain_test, block_number - 2, warm=True)
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip(reason="Not fully implemented")
 def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller):
     """
     Test BLOCKHASH with insufficient gas.
     """
-    _blockhash(blockchain_test, block_number - 1, gas_limit=21_042, fail=True)
+    _blockhash(blockchain_test, block_number - 2, gas_limit=21_020, fail=True)
 
 
 def _blockhash(
@@ -118,17 +117,17 @@ def _blockhash(
 
     # TODO(verkle): fill right values when WitnessCheck allows to assert 2935 contract witness.
     hardcoded_blockhash = {
-        block_number - 2: Hash(0xCC0C2DF843A33778952AA863B345DF9AE80D68ABF83C8C4B973B0B4A20D0FAC2),
+        block_number - 2: Hash(0x1B027321A3F7FE2F073F9B9C654CF3E62ABD2A8324A198FD7C46D056BC3CE976),
         block_number - BLOCKHASH_SERVE_WINDOW: Hash(0xCCCCCCCCC),
     }
 
     # This is the condition described in EIP-7709 which doesn't return 0.
-    if not (
+    if not fail and not (
         blocknum_target >= block_number or blocknum_target + BLOCKHASH_SERVE_WINDOW < block_number
     ):
         witness_check.add_storage_slot(
             system_contract_address,
-            blocknum_target % BLOCKHASH_SERVE_WINDOW,
+            blocknum_target % HISTORY_SERVE_WINDOW,
             hardcoded_blockhash.get(blocknum_target),
         )
 
