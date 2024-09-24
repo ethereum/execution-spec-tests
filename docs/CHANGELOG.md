@@ -48,8 +48,9 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Feature releases can now include multiple types of fixture tarball files from different releases that start with the same prefix ([#736](https://github.com/ethereum/execution-spec-tests/pull/736)).
 - ✨ Releases for feature eip7692 now include both Cancun and Prague based tests in the same release, in files `fixtures_eip7692.tar.gz` and `fixtures_eip7692-prague.tar.gz` respectively ([#743](https://github.com/ethereum/execution-spec-tests/pull/743)).
-- 🔀 Simplify Python project configuration and consolidate it into `pyproject.toml` ([#764](https://github.com/ethereum/execution-spec-tests/pull/764)).
 ✨ Re-write the test case reference doc flow as a pytest plugin and add pages for test functions with a table providing an overview of their parametrized test cases ([#801](https://github.com/ethereum/execution-spec-tests/pull/801)).
+- 🔀 Simplify Python project configuration and consolidate it into `pyproject.toml` ([#764](https://github.com/ethereum/execution-spec-tests/pull/764)).
+- 🔀 Move pytest plugin `pytest_plugins.filler.solc` to `pytest_plugins.solc.solc` ([#823](https://github.com/ethereum/execution-spec-tests/pull/823)).
 
 ### 💥 Breaking Change
 
