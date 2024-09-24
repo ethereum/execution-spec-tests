@@ -10,7 +10,7 @@ from pathlib import Path
 from re import compile
 from typing import Optional
 
-from ethereum_test_fixtures import BlockchainFixture
+from ethereum_test_fixtures import BlockchainFixture, StateFixture
 from ethereum_test_forks import Fork
 
 from .transition_tool import FixtureFormat, TransitionTool, dump_files_to_directory
@@ -83,10 +83,10 @@ class GethTransitionTool(TransitionTool):
         if debug_output_path:
             command += ["--debug", "--json", "--verbosity", "100"]
 
-        if fixture_format.is_state_test:
+        if fixture_format == StateFixture:
             assert self.statetest_subcommand, "statetest subcommand not set"
             command.append(self.statetest_subcommand)
-        elif fixture_format.is_blockchain_test:
+        elif fixture_format == BlockchainFixture:
             assert self.blocktest_subcommand, "blocktest subcommand not set"
             command.append(self.blocktest_subcommand)
         else:
@@ -131,7 +131,7 @@ class GethTransitionTool(TransitionTool):
                 f"EVM test failed.\n{' '.join(command)}\n\n Error:\n{result.stderr.decode()}"
             )
 
-        if fixture_format.is_state_test:
+        if fixture_format == StateFixture:
             result_json = json.loads(result.stdout.decode())
             if not isinstance(result_json, list):
                 raise Exception(f"Unexpected result from evm statetest: {result_json}")

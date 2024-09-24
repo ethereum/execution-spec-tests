@@ -23,8 +23,6 @@ class BaseFixture(CamelModel):
     output_file_extension: ClassVar[str] = ".json"
     description: ClassVar[str] = "Unknown fixture format; it has not been set."
 
-    is_state_test: ClassVar[bool] = False
-    is_blockchain_test: ClassVar[bool] = False
     is_verifiable: ClassVar[bool] = False
 
     @classmethod
