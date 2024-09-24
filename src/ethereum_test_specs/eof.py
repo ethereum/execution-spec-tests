@@ -149,6 +149,7 @@ class EOFTest(BaseTest):
     data: Bytes
     expect_exception: EOFExceptionInstanceOrList | None = None
     container_kind: ContainerKind | None = None
+    no_expectations_on_validity: bool = False
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         EOFFixture,
@@ -235,7 +236,17 @@ class EOFTest(BaseTest):
             if vector.container_kind == ContainerKind.INITCODE:
                 args.append("--initcode")
             result = eof_parse.run(*args, input=str(vector.code))
-            self.verify_result(result, expected_result, vector.code)
+            if self.no_expectations_on_validity:
+                parser = EvmoneExceptionMapper()
+                actual_message = result.stdout.strip()
+                if "OK" in actual_message:
+                    expected_result.valid = True
+                else:
+                    expected_result.valid = False
+                    actual_exception = parser.message_to_exception(actual_message)
+                    expected_result.exception = actual_exception
+            else:
+                self.verify_result(result, expected_result, vector.code)
 
         return fixture
 

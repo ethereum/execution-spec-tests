@@ -212,6 +212,7 @@ htmlpath
 https
 hyperledger
 iat
+idx
 ignoreRevsFile
 img
 imm
@@ -605,6 +606,7 @@ gas
 jumpdest
 rjump
 rjumpi
+rjumpkind
 rjumpv
 RJUMPV
 callf
