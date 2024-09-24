@@ -112,6 +112,7 @@ dunder
 dup
 EEST
 eip
+eip123
 eip3540
 eip4844
 eip6110
@@ -145,6 +146,7 @@ executables
 extcodecopy
 extcodehash
 extcodesize
+exitstatus
 F00
 fcu
 filelock
@@ -218,6 +220,7 @@ initcode
 inputdata
 instantiation
 io
+isidentifier
 islice
 isort
 isort's
@@ -231,6 +234,7 @@ json
 JSON
 keccak
 keccak256
+keepends
 key2
 kzg
 kzgs
@@ -271,10 +275,12 @@ NOPs
 nPython
 nSHA
 t8ntool
+NOTSET
 num
 number
 ommer
 ommers
+oneliner
 oob
 opc
 oprypin
@@ -290,6 +296,7 @@ perf
 permalink
 petersburg
 pformat
+pluginmanager
 png
 Pomerantz
 POS
@@ -334,6 +341,7 @@ rlp
 rootdir
 rpc
 ruleset
+runtestloop
 runtime
 sandboxed
 secp256k1
@@ -375,8 +383,10 @@ substring
 sudo
 t8n
 tamasfe
+terminalreporter
 testability
 TestAddress
+testscollected
 TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 textwrap
