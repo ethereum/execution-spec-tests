@@ -23470,6 +23470,7 @@
 <li>✨ Releases for feature eip7692 now include both Cancun and Prague based tests in the same release, in files <code>fixtures_eip7692.tar.gz</code> and <code>fixtures_eip7692-prague.tar.gz</code> respectively (<a href="https://github.com/ethereum/execution-spec-tests/pull/743">#743</a>).
 ✨ Re-write the test case reference doc flow as a pytest plugin and add pages for test functions with a table providing an overview of their parametrized test cases (<a href="https://github.com/ethereum/execution-spec-tests/pull/801">#801</a>).</li>
 <li>🔀 Simplify Python project configuration and consolidate it into <code>pyproject.toml</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/764">#764</a>).</li>
+<li>🔀 Created <code>pytest_plugins.concurrency</code> plugin to sync multiple <code>xdist</code> processes without using a command flag to specify the temporary working folder (<a href="https://github.com/ethereum/execution-spec-tests/pull/824">#824</a>)</li>
 <li>🔀 Move pytest plugin <code>pytest_plugins.filler.solc</code> to <code>pytest_plugins.solc.solc</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/823">#823</a>).</li>
 </ul>
 <h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
