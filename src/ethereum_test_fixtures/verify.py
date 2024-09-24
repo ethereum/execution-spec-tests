@@ -13,6 +13,15 @@ class FixtureVerifier(ABC):
     Abstract class for verifying Ethereum test fixtures.
     """
 
+    def is_verifiable(
+        self,
+        fixture_format: FixtureFormat,
+    ) -> bool:
+        """
+        Returns whether the fixture format is verifiable by this verifier.
+        """
+        return False
+
     @abstractmethod
     def verify_fixture(
         self,

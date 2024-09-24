@@ -23,8 +23,6 @@ class BaseFixture(CamelModel):
     output_file_extension: ClassVar[str] = ".json"
     description: ClassVar[str] = "Unknown fixture format; it has not been set."
 
-    is_verifiable: ClassVar[bool] = False
-
     @classmethod
     def output_base_dir_name(cls) -> str:
         """

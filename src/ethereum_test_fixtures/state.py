@@ -110,8 +110,6 @@ class Fixture(BaseFixture):
     fixture_format_name: ClassVar[str] = "state_test"
     description: ClassVar[str] = "Tests that generate a state test fixture."
 
-    is_verifiable: ClassVar[bool] = True
-
     env: FixtureEnvironment
     pre: Alloc
     transaction: FixtureTransaction

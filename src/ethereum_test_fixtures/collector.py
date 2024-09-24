@@ -172,7 +172,7 @@ class FixtureCollector:
         """
         for fixture_path, name_fixture_dict in self.all_fixtures.items():
             for fixture_name, fixture in name_fixture_dict.items():
-                if fixture.is_verifiable:
+                if evm_fixture_verification.is_verifiable(fixture.__class__):
                     info = self.json_path_to_test_item[fixture_path]
                     verify_fixtures_dump_dir = self._get_verify_fixtures_dump_dir(info)
                     evm_fixture_verification.verify_fixture(

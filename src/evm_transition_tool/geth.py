@@ -68,6 +68,15 @@ class GethTransitionTool(TransitionTool):
             raise Exception(f"Unexpected exception calling evm tool: {e}.")
         return result.stdout
 
+    def is_verifiable(
+        self,
+        fixture_format: FixtureFormat,
+    ) -> bool:
+        """
+        Returns whether the fixture format is verifiable by this Geth's evm tool.
+        """
+        return fixture_format in {StateFixture, BlockchainFixture}
+
     def verify_fixture(
         self,
         fixture_format: FixtureFormat,

@@ -480,8 +480,6 @@ class FixtureCommon(BaseFixture):
     Base blockchain test fixture model.
     """
 
-    is_verifiable: ClassVar[bool] = True
-
     fork: str = Field(..., alias="network")
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
