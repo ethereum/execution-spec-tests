@@ -25,8 +25,6 @@ class BaseFixture(CamelModel):
 
     is_state_test: ClassVar[bool] = False
     is_blockchain_test: ClassVar[bool] = False
-    is_hive_format: ClassVar[bool] = False
-    is_standard_format: ClassVar[bool] = False
     is_verifiable: ClassVar[bool] = False
 
     @classmethod

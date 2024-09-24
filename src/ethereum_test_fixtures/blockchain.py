@@ -481,7 +481,6 @@ class FixtureCommon(BaseFixture):
     """
 
     is_blockchain_test: ClassVar[bool] = True
-    is_standard_format: ClassVar[bool] = True
     is_verifiable: ClassVar[bool] = True
 
     fork: str = Field(..., alias="network")
@@ -519,7 +518,6 @@ class EngineFixture(FixtureCommon):
     description: ClassVar[
         str
     ] = "Tests that generate a blockchain test fixture in Engine API format."
-    is_hive_format: ClassVar[bool] = True
 
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     sync_payload: FixtureEngineNewPayload | None = None
