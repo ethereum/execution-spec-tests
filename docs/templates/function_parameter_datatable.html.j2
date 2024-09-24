@@ -1,0 +1,20 @@
+<table id="test_table" class="display nowrap">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+            {% for header in cases[0].params.keys() %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for case in cases %}
+        <tr>
+            <td>{{ case.id }}</td>
+            {% for value in case.params.values() %}
+            <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

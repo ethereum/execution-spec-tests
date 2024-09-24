@@ -4,7 +4,7 @@ site_url: https://ethereum.github.io/execution-spec-tests/
 repo_url: https://github.com/ethereum/execution-spec-tests
 repo_name: execution-spec-tests
 edit_uri: edit/main/docs/
-copyright: 'Copyright: 2023, Ethereum Community'
+copyright: 'Copyright: 2024, Ethereum Community'
 
 plugins:
   - git-authors:
@@ -44,24 +44,25 @@ theme:
     - navigation.indexes
     - navigation.instant
     - navigation.tabs
-  palette:
-    # Palette toggle for automatic mode
-    - media: "(prefers-color-scheme)"
-      toggle:
-        icon: material/brightness-auto
-        name: Switch to light mode
-    # Palette toggle for light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default 
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    # Palette toggle for dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      toggle:
-        icon: material/brightness-4
-        name: Switch to system preference
+  # disabled due to https://github.com/ethereum/execution-spec-tests/issues/816
+  # palette:
+  #   # Palette toggle for automatic mode
+  #   - media: "(prefers-color-scheme)"
+  #     toggle:
+  #       icon: material/brightness-auto
+  #       name: Switch to light mode
+  #   Palette toggle for light mode
+  #   - media: "(prefers-color-scheme: light)"
+  #    scheme: default
+  #    toggle:
+  #      icon: material/brightness-7
+  #      name: Switch to dark mode
+  #   # Palette toggle for dark mode
+  #   - media: "(prefers-color-scheme: dark)"
+  #     scheme: slate
+  #     toggle:
+  #       icon: material/brightness-4
+  #       name: Switch to system preference
 
 markdown_extensions:
   - abbr
@@ -110,3 +111,10 @@ markdown_extensions:
 extra:
   version:
     provider: mike
+
+extra_javascript:
+  - https://code.jquery.com/jquery-3.5.1.js
+  - https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js
+
+extra_css:
+  - https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css
