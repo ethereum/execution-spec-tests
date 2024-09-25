@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/pr-838-preview/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation/test_retf_in_nonreturning/">
       
       
-        <link rel="prev" href="../test_returning_section_not_returning/">
+        <link rel="prev" href="../test_returning_section_returncontract/">
       
       
         <link rel="next" href="../test_jumpf_in_nonreturning/">
@@ -10309,6 +10309,8 @@
       
         
       
+        
+      
     
     
       
@@ -10383,6 +10385,27 @@
   
   <span class="md-ellipsis">
     <code>test_returning_section_not_returning</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_returning_section_returncontract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_returning_section_returncontract</code>
   </span>
   
 
@@ -22588,7 +22611,7 @@
 
 
 <h1 id="test_retf_in_nonreturning"><code>test_retf_in_nonreturning()</code><a class="headerlink" href="#test_retf_in_nonreturning" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3e715e39f8e749d36fae811e5ab31c65334fe8ab/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L78"><code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_retf_in_nonreturning@3e715e39</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/900d91d261b0d0e50a4e2737bfb95dbdbd3c753b/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L114"><code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_retf_in_nonreturning@900d91d2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
@@ -22611,18 +22634,18 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@first</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@first</span>
 <span class="nd">@code_prefix</span>
 <span class="k">def</span> <span class="nf">test_retf_in_nonreturning</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">code_prefix</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

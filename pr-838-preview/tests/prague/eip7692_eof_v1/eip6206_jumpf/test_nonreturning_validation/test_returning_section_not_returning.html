@@ -8,7 +8,7 @@
 </head>
 
 <h1>Test Function: <code>test_returning_section_not_returning()</code></h1>
-<p>Test EOF validation failing because a returning sections ends with non-returning instruction.</p>
+<p>Test EOF validation failing because a returning section has no RETF or JUMPF-to-returning.</p>
 <h2>Parametrized Test Cases</h2>
 <table id="test_table" class="display nowrap">
     <thead>
@@ -33,6 +33,30 @@
                 <tr>
             <td>invalid1</td>
                         <td>data=b'_\xfe' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=1 max_stack_height=1 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>return0</td>
+                        <td>data=b'`\x00`\x00\xf3' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>return1</td>
+                        <td>data=b'_`\x00`\x00\xf3' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=1 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>revert0</td>
+                        <td>data=b'`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>revert1</td>
+                        <td>data=b'_`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=1 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>rjump0</td>
+                        <td>data=b'\xe0\xff\xfd' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=0 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                    </tr>
+                <tr>
+            <td>rjump1</td>
+                        <td>data=b'_\xe0\xff\xfd' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=1 max_stack_height=1 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                     </tr>
             </tbody>
 </table>

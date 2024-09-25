@@ -2481,6 +2481,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-838-preview/tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation/test_returning_section_returncontract/</loc>
+         <lastmod>2024-09-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/pr-838-preview/tests/prague/eip7692_eof_v1/eip663_dupn_swapn_exchange/</loc>
          <lastmod>2024-09-25</lastmod>
          <changefreq>daily</changefreq>
