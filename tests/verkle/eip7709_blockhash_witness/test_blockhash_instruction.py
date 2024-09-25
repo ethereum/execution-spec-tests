@@ -67,12 +67,12 @@ def test_blockhash_warm(blockchain_test: BlockchainTestFiller):
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip(reason="TODO")
 def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller):
     """
-    Test BLOCKHASH with insufficient gas.
+    Test BLOCKHASH with insufficient gas for witness addition.
     """
-    _blockhash(blockchain_test, block_number - 2, gas_limit=21_020, fail=True)
+    # 21_223 = 21_000 + (one code-chunk) 200 + (PUSH2) 3 + (BLOCKHASH constant cost) 20
+    _blockhash(blockchain_test, block_number - 2, gas_limit=21_223, fail=True)
 
 
 def _blockhash(
@@ -130,7 +130,9 @@ def _blockhash(
         ),
     }
 
-    # This is the condition described in EIP-7709 which doesn't return 0.
+    # If the execution isn't expected to fail due to insufficient gas, and we satisfy the
+    # block number target condition defined in the spec, we should assert the appropriate slot
+    # is in the witness.
     if not fail and not (
         blocknum_target >= block_number or blocknum_target + BLOCKHASH_SERVE_WINDOW < block_number
     ):
