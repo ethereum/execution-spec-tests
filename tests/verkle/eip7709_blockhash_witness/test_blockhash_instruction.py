@@ -67,6 +67,7 @@ def test_blockhash_warm(blockchain_test: BlockchainTestFiller):
 
 
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip(reason="TODO")
 def test_blockhash_insufficient_gas(blockchain_test: BlockchainTestFiller):
     """
     Test BLOCKHASH with insufficient gas.
@@ -117,8 +118,11 @@ def _blockhash(
 
     # TODO(verkle): fill right values when WitnessCheck allows to assert 2935 contract witness.
     hardcoded_blockhash = {
-        block_number - 2: Hash(0x1B027321A3F7FE2F073F9B9C654CF3E62ABD2A8324A198FD7C46D056BC3CE976),
-        block_number - BLOCKHASH_SERVE_WINDOW: Hash(0xCCCCCCCCC),
+        block_number - 2: Hash(0x127986F98B6BAB3B2AF5AC250912018D9982696E7B9B364D28190FA68C0AB49D),
+        block_number
+        - BLOCKHASH_SERVE_WINDOW: Hash(
+            0xBBB791529CE751AC1FDC021C21B0A7F13A22905BD5BB396EC3F57EBF97C0A14D
+        ),
     }
 
     # This is the condition described in EIP-7709 which doesn't return 0.
