@@ -28,7 +28,7 @@
 - [x] Truncated code section number ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers`](./eip3540_eof_v1/test_container_validation/test_invalid_containers.md) `-k code_section_count_incomplete`)
 - [x] Truncated before code section size ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers`](./eip3540_eof_v1/test_container_validation/test_invalid_containers.md) `-k code_section_size_missing`)
 - [x] Truncated code section size ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers`](./eip3540_eof_v1/test_container_validation/test_invalid_containers.md) `-k code_section_size_incomplete`)
-- [x] No code section header ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py::test_section_order`](./eip3540_eof_v1/test_section_order/index.md) `-k test_position_CasePosition.HEADER-section_test_SectionTest.MISSING-section_kind_CODE`) 
+- [x] No code section header ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_section_order.py::test_section_order`](./eip3540_eof_v1/test_section_order/index.md) `-k test_position_CasePosition.HEADER-section_test_SectionTest.MISSING-section_kind_CODE`)
 - [x] Zero code section number ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers`](./eip3540_eof_v1/test_container_validation/test_invalid_containers.md) `-k zero_code_sections_header`)
 - [x] Zero code section size ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers`](./eip3540_eof_v1/test_container_validation/test_invalid_containers.md) `-k empty_code_section`)
 - [x] Zero code section size with non-empty data section ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers`](./eip3540_eof_v1/test_container_validation/test_invalid_containers.md) `-k empty_code_section_with_non_empty_data`)
@@ -143,7 +143,7 @@
 - [x] RJUMPI with 0 offset with condition true/false ([`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_zero`](./eip4200_relative_jumps/test_rjumpi/test_rjumpi_condition_zero.md))
 - [x] RJUMPV with different case values ([`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition`](./eip4200_relative_jumps/test_rjumpv/test_rjumpv_condition.md))
 - [x] RJUMPV with case value out of table bounds ([`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition`](./eip4200_relative_jumps/test_rjumpv/test_rjumpv_condition.md))
-- [x] RJUMPV with max cases number ([`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition`](./eip4200_relative_jumps/test_rjumpv/test_rjumpv_condition.md)`` [`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py`](./eip4200_relative_jumps/test_rjumpv.md)`-k test_rjumpv_full_table`)
+- [x] RJUMPV with max cases number ([`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition`](./eip4200_relative_jumps/test_rjumpv/test_rjumpv_condition.md), [`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py`](./eip4200_relative_jumps/test_rjumpv/index.md)`-k test_rjumpv_full_table`)
 
 ## EIP-4750: EOF - Functions
 
