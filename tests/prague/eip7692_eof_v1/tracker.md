@@ -1,7 +1,7 @@
 # EOF Testing Coverage Tracker
 
 - [ ] Example Test Case 1
-- [x] Example Test Case 2 (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_example_valid_invalid.py::test_example_valid_invalid`)
+- [x] Example Test Case 2 (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py::test_example_valid_invalid`)
 
 ## EIP-3540: EOF - EVM Object Format v1
 
@@ -10,15 +10,15 @@
 - [x] Empty code is not a valid EOF (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k empty_container`)
 - [x] Valid container without data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k single_code_section_no_data_section`)
 - [x] Valid container with data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_valid_containers -k single_code_section_with_data_section`)
-- [x] Valid container with truncated data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k data_section_contents_incomplete`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1test_migrated_valid_invalid.py::test_migrated_valid_invalid -k data_section_contents_incomplete`)
-- [x] Valid container with data section truncated to empty (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_invalid_containers -k no_data_section_contents`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1test_migrated_valid_invalid.py::test_migrated_valid_invalid -k no_data_section_contents`)
-- [x] Valid containers with multiple code sections (`tests/prague/eip7692_eof_v1/tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_valid_containers -k multiple_code_sections`)
+- [x] Valid container with truncated data section (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k data_section_contents_incomplete`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid -k data_section_contents_incomplete`)
+- [x] Valid container with data section truncated to empty (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k no_data_section_contents`, `tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid -k no_data_section_contents`)
+- [x] Valid containers with multiple code sections (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_valid_containers -k multiple_code_sections`)
 - [x] Valid containers with max number of code sections (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_max_code_sections`)
 - [x] Too many code sections (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k too_many_code_sections`)
 - [x] Truncated magic (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k incomplete_magic`)
-- [x] Valid container except magic (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_magic_validation`)
+- [x] Valid container except magic (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_magic_validation`)
 - [x] Truncated before version  (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k no_version`)
-- [x] Valid container except version (`tests/prague/eip7692_eof_v1/eip3540_eof_v1test_container_validation.py::test_version_validation`)
+- [x] Valid container except version (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation`)
 - [x] Truncated before type section header (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k no_type_header`)
 - [x] Truncated before type section size (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k no_type_section_size`)
 - [x] Truncated type section size (`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers -k incomplete_type_section_size`)
