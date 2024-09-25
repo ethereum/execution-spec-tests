@@ -41,7 +41,7 @@ def test_max_size(
     )
     assert len(code) == MAX_INITCODE_SIZE + over_limit
     eof_test(
-        data=bytes(code),
+        data=code,
         expect_exception=None if over_limit == 0 else EOFException.CONTAINER_SIZE_ABOVE_LIMIT,
     )
 
@@ -59,7 +59,7 @@ def test_above_max_size_raw(
     """
     code = Op.INVALID * size
     eof_test(
-        data=bytes(code),
+        data=Container(raw_bytes=bytes(code)),
         expect_exception=EOFException.CONTAINER_SIZE_ABOVE_LIMIT,
     )
 
@@ -109,6 +109,6 @@ def test_section_after_end_of_container(
     Verify EOF container is invalid if any of sections declares above container size
     """
     eof_test(
-        data=bytes(code),
+        data=code,
         expect_exception=EOFException.INVALID_SECTION_BODIES_SIZE,
     )

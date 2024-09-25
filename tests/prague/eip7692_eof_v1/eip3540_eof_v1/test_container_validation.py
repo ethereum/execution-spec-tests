@@ -2,7 +2,6 @@
 EOF validation tests for EIP-3540 container format
 """
 
-
 import pytest
 
 from ethereum_test_tools import EOFException, EOFTestFiller
@@ -147,7 +146,7 @@ def test_valid_containers(
         container.validity_error is None
     ), f"Valid container with validity error: {container.validity_error}"
     eof_test(
-        data=bytes(container),
+        data=container,
     )
 
 
@@ -1069,7 +1068,7 @@ def test_invalid_containers(
     """
     assert container.validity_error is not None, "Invalid container without validity error"
     eof_test(
-        data=bytes(container),
+        data=container,
         expect_exception=container.validity_error,
     )
 
@@ -1090,7 +1089,7 @@ def test_magic_validation(
     code[0] = magic_0
     code[1] = magic_1
     eof_test(
-        data=bytes(code),
+        data=Container(raw_bytes=bytes(code)),
         expect_exception=None if magic_0 == 0xEF and magic_1 == 0 else EOFException.INVALID_MAGIC,
     )
 
@@ -1108,7 +1107,7 @@ def test_version_validation(
     code = bytearray(bytes(VALID_CONTAINER))
     code[2] = version
     eof_test(
-        data=bytes(code),
+        data=Container(raw_bytes=bytes(code)),
         expect_exception=None if version == 1 else EOFException.INVALID_VERSION,
     )
 

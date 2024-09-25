@@ -185,6 +185,6 @@ def test_eof_validity(
     Test EOF container validaiton for features around EIP-4750 / Functions / Code Sections
     """
     eof_test(
-        data=bytes(container),
+        data=container,
         expect_exception=container.validity_error,
     )
