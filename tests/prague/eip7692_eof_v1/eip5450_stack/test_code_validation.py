@@ -63,7 +63,9 @@ class RjumpSpot(Enum):
         return f"{self.name}"
 
 
-def rjump_code_with(rjump_kind: RjumpKind | None, code_so_far_len: int, next_code_len: int):
+def rjump_code_with(
+    rjump_kind: RjumpKind | None, code_so_far_len: int, next_code_len: int
+) -> Bytecode:
     """
     Unless `rjump_kind` is None generates a code snippet with an RJUMP* instruction.
     For some kinds `code_so_far_len` must be code length in bytes preceeding the snippet.
@@ -109,7 +111,7 @@ def rjump_code_with(rjump_kind: RjumpKind | None, code_so_far_len: int, next_cod
     return body
 
 
-def call_code_with(inputs, outputs, call: Bytecode):
+def call_code_with(inputs, outputs, call: Bytecode) -> Bytecode:
     """
     Generates a code snippet with the `call` bytecode provided and its respective input/output
     management.
@@ -133,17 +135,17 @@ def call_code_with(inputs, outputs, call: Bytecode):
 
 
 def section_code_with(
-    inputs,
-    outputs,
+    inputs: int,
+    outputs: int,
     rjump_kind: RjumpKind | None,
     rjump_spot: RjumpSpot,
     call: Bytecode | None,
     termination: Bytecode,
-):
+) -> Bytecode:
     """
     Generates a code section with RJUMP* and CALLF/RETF instructions.
     """
-    code = Bytecode()
+    code = Bytecode(min_stack_height=inputs, max_stack_height=inputs)
 
     if call:
         body = call_code_with(inputs, outputs, call)
@@ -161,11 +163,6 @@ def section_code_with(
 
     code += termination
 
-    code.max_stack_height = max(code.max_stack_height, inputs, outputs)
-    if call:
-        code.max_stack_height = max(
-            code.max_stack_height, call.popped_stack_items, call.pushed_stack_items
-        )
     return code
 
 
@@ -190,46 +187,25 @@ possible_inputs_outputs = range(2)
     "rjump_spot",
     RjumpSpot.__members__.values(),
 )
-@pytest.mark.parametrize(
-    "rjump_stack_leeway",
-    [0, 1],
-)
 def test_eof_validity(
     eof_test: EOFTestFiller,
-    inputs: Tuple,
-    outputs: Tuple,
+    inputs: Tuple[int, ...],
+    outputs: Tuple[int, ...],
     rjump_kind: RjumpKind,
     rjump_section_idx: int,
     rjump_spot: RjumpSpot,
-    rjump_stack_leeway: int,
 ):
     """
     Test EOF container validaiton for EIP-4200 vs EIP-4750 interactions.
 
     Each test's code consists of `num_sections` code sections, which call into one another
     and then return. Code may include RJUMP* snippets of `rjump_kind` in various `rjump_spots`.
-
-    `rjump_stack_leeway` is opportunistically added to max_stack_height and allows more cases
-    to validate.
     """
-    # For some combinations `rjump_stack_leeway == 1` it never validates, so skipping them.
-    assert len(inputs) == 2 and len(outputs) == 2
-    if rjump_stack_leeway == 1 and (inputs != (1, 1) or outputs != (1, 1)):
-        pytest.skip("Never validates")
-    if rjump_stack_leeway == 1 and rjump_kind in [
-        RjumpKind.EMPTY_RJUMP,
-        RjumpKind.RJUMPI_OVER_PUSH,
-        RjumpKind.RJUMPI_OVER_POP,
-        RjumpKind.RJUMPV_OVER_PUSH_AND_TO_START,
-    ]:
-        pytest.skip("Never validates")
-
     # Zeroth section has always 0 inputs and 0 outputs, so is excluded from param
     inputs = (0,) + inputs
     outputs = (0,) + outputs
 
-    assert len(inputs) == len(outputs)
-    assert num_sections == len(inputs)
+    assert len(inputs) == len(outputs) == num_sections
 
     sections = []
     for section_idx in range(num_sections):
@@ -237,11 +213,15 @@ def test_eof_validity(
             call = Op.CALLF[section_idx + 1]
             call.popped_stack_items = inputs[section_idx + 1]
             call.pushed_stack_items = outputs[section_idx + 1]
+            call.min_stack_height = call.popped_stack_items
+            call.max_stack_height = max(call.popped_stack_items, call.pushed_stack_items)
             termination = Op.STOP
         elif section_idx < num_sections - 1:
             call = Op.CALLF[section_idx + 1]
             call.popped_stack_items = inputs[section_idx + 1]
             call.pushed_stack_items = outputs[section_idx + 1]
+            call.min_stack_height = call.popped_stack_items
+            call.max_stack_height = max(call.popped_stack_items, call.pushed_stack_items)
             termination = Op.RETF
         else:
             call = None
@@ -255,16 +235,18 @@ def test_eof_validity(
             call,
             termination,
         )
-        code.max_stack_height += rjump_stack_leeway if rjump_section_idx == section_idx else 0
-
-        sections.append(Section.Code(code))
-
         if section_idx > 0:
-            sections[section_idx].code_inputs = inputs[section_idx]
-            sections[section_idx].code_outputs = outputs[section_idx]
+            sections.append(
+                Section.Code(
+                    code,
+                    code_inputs=inputs[section_idx],
+                    code_outputs=outputs[section_idx],
+                )
+            )
+        else:
+            sections.append(Section.Code(code))
     eof_test(
         data=bytes(Container(sections=sections)),
         # `empty_rjump` acts as a sanity check, it is completely stack-neutral so
         # should always validate.`
-        no_expectations_on_validity=rjump_kind != "empty_rjump",
     )
