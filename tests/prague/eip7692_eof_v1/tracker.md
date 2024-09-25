@@ -136,15 +136,15 @@
 
 ### Execution
 
-- [x] RJUMP forwards (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_positive_negative)
-- [x] RJUMP backwards (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_positive_negative)
-- [x] RJUMP with 0 offset (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_zero)
-- [x] RJUMPI forwards with condition true/false (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_forwards)
-- [x] RJUMPI backwards with condition true/false (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_backwards)
-- [x] RJUMPI with 0 offset with condition true/false (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_zero)
-- [x] RJUMPV with different case values (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition)
-- [x] RJUMPV with case value out of table bounds (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition)
-- [x] RJUMPV with max cases number (tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_full_table*)
+- [x] RJUMP forwards (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_positive_negative`)
+- [x] RJUMP backwards (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_positive_negative`)
+- [x] RJUMP with 0 offset (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_zero`)
+- [x] RJUMPI forwards with condition true/false (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_forwards`)
+- [x] RJUMPI backwards with condition true/false (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_backwards`)
+- [x] RJUMPI with 0 offset with condition true/false (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_zero`)
+- [x] RJUMPV with different case values (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition`)
+- [x] RJUMPV with case value out of table bounds (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition`)
+- [x] RJUMPV with max cases number (`tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_condition` `tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py -k test_rjumpv_full_table`)
 
 ## EIP-4750: EOF - Functions
 
