@@ -116,7 +116,12 @@ def _blockhash(
     for i, chunk in enumerate(code_chunks, start=0):
         witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
 
-    # TODO(verkle): fill right values when WitnessCheck allows to assert 2935 contract witness.
+    # TODO(verkle): when system contract exhaustive checks are supported in the testing library,
+    # add here the 2935 actions on the witness too.
+
+    # TODO(verkle): Today the only way to create these assertions is by hardcoding the values.
+    # If in the future the testing library can calculate these upfront, we should
+    # calculate them instead of hardcoding them.
     hardcoded_blockhash = {
         block_number - 2: Hash(0x127986F98B6BAB3B2AF5AC250912018D9982696E7B9B364D28190FA68C0AB49D),
         block_number
