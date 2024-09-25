@@ -1,0 +1,491 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_set_code_to_precompile()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<h1>Test Function: <code>test_set_code_to_precompile()</code></h1>
+<p>Test setting the code of an account to a pre-compile address.</p>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display nowrap">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>precompile</th>
+                        <th>call_opcode</th>
+                        <th>evm_code_type</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000b-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000b</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000b-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000b</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000b-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000b</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000b-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000b</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000c-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000c</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000c-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000c</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000c-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000c</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000c-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000c</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000d-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000d</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000d-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000d</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000d-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000d</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000d-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000d</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000e-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000e</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000e-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000e</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000e-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000e</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000e-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000e</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000f-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000f</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000f-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000f</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000f-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000f</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000f-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000f</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000010-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000010</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000010-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000010</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000010-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000010</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000010-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000010</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000011-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000011</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000011-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000011</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000011-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000011</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000011-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000011</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000012-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000012</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000012-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000012</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000012-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000012</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000012-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000012</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000013-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000013</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000013-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000013</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000013-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000013</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000013-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000013</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000a-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000a</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000a-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000a</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000a-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000a</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x000000000000000000000000000000000000000a-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>000000000a</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000009-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000009</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000009-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000009</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000009-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000009</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000009-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000009</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000005-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000005</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000005-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000005</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000005-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000005</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000005-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000005</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000006-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000006</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000006-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000006</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000006-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000006</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000006-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000006</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000007-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000007</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000007-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000007</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000007-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000007</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000007-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000007</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000008-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000008</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000008-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000008</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000008-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000008</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000008-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000008</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000001-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000001</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000001-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000001</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000001-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000001</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000001-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000001</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000002-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000002</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000002-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000002</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000002-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000002</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000002-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000002</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000003-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000003</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000003-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000003</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000003-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000003</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000003-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000003</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000004-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000004</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000004-call_opcode_EXTCALL-evm_code_type_EOF_V1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000004</code></td>
+                        <td>EXTCALL</td>
+                        <td>EOF_V1</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000004-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000004</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+                <tr>
+            <td>precompile_0x0000000000000000000000000000000000000004-call_opcode_CALL-evm_code_type_LEGACY</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>0000000004</code></td>
+                        <td>CALL</td>
+                        <td>LEGACY</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>

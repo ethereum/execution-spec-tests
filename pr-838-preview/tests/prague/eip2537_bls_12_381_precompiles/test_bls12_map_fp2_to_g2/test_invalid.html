@@ -1,0 +1,203 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_invalid()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<h1>Test Function: <code>test_invalid()</code></h1>
+<p>Negative tests for the BLS12_MAP_FP_TO_G2 precompile.</p>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display nowrap">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>expected_output</th>
+                        <th>input</th>
+                        <th>precompile_address</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>bls_mapg2_empty_input</td>
+                        <td></td>
+                        <td></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_short_input</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>07355d25caf6e7f2f0cb2812ca0e513b</code> <code>d026ed09dda65b177500fa31714e09ea</code> <code>0ded3a078b526bed3307f804d4b93b04</code> <code>00000000000000000000000000000000</code> <code>02829ce3c021339ccb5caf3e187f6370</code> <code>e1e2a311dec9b75363117063ab201560</code> <code>3ff52c3d3b98f19c2f65575e99e8b7</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_long_input</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0007355d25caf6e7f2f0cb2812ca0e51</code> <code>3bd026ed09dda65b177500fa31714e09</code> <code>ea0ded3a078b526bed3307f804d4b93b</code> <code>04000000000000000000000000000000</code> <code>0002829ce3c021339ccb5caf3e187f63</code> <code>70e1e2a311dec9b75363117063ab2015</code> <code>603ff52c3d3b98f19c2f65575e99e8b7</code> <code>8c</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_top_bytes</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0007355d25caf6e7f2f0cb2812ca0e51</code> <code>3bd026ed09dda65b177500fa31714e09</code> <code>ea0ded3a078b526bed3307f804d4b93b</code> <code>04000000000000000000000000000000</code> <code>0002829ce3c021339ccb5caf3e187f63</code> <code>70e1e2a311dec9b75363117063ab2015</code> <code>603ff52c3d3b98f19c2f65575e99e8b7</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_invalid_fq_element</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>21366f100476ce8d3be6cfc90d59fe13</code> <code>349e388ed12b6dd6dc31ccd267ff000e</code> <code>2c993a063ca66beced06f804d4b8e5af</code> <code>00000000000000000000000000000000</code> <code>02829ce3c021339ccb5caf3e187f6370</code> <code>e1e2a311dec9b75363117063ab201560</code> <code>3ff52c3d3b98f19c2f65575e99e8b78c</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>invalid_encoding</td>
+                        <td></td>
+                        <td><code>80000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>input_too_short</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>000000000000000000000000000000</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>input_too_long</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>zero_length_input</td>
+                        <td></td>
+                        <td></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>fq_eq_q</td>
+                        <td></td>
+                        <td>FP2(x=(4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559787, 0))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>fq_eq_q_2</td>
+                        <td></td>
+                        <td>FP2(x=(0, 4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559787))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>fq_eq_2_512_minus_1</td>
+                        <td></td>
+                        <td>FP2(x=(13407807929942597099574024998205846127479365820592393377723561443721764030073546976801874298166903427690031858186486050853753882811946569946433649006084095, 0))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>fq_eq_2_512_minus_1_2</td>
+                        <td></td>
+                        <td>FP2(x=(0, 13407807929942597099574024998205846127479365820592393377723561443721764030073546976801874298166903427690031858186486050853753882811946569946433649006084095))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>g2_input</td>
+                        <td></td>
+                        <td>PointG2(x=(352701069587466618187139116011060144890029952792775240219908644239793785735715026873347600343865175952761926303160, 3059144344244213709971259814753781636986470325476647558659373206291635324768958432433509563104347017837885763365758), y=(1985150602287291935568054521177171638300868978215655730859378665066344726373823718423869104263333984641494340347905, 927553665492332455747201965776037880757740193453592970025027978793976877002675564980949289727957565575433344219582))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_empty_input</td>
+                        <td></td>
+                        <td></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_short_input</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>07355d25caf6e7f2f0cb2812ca0e513b</code> <code>d026ed09dda65b177500fa31714e09ea</code> <code>0ded3a078b526bed3307f804d4b93b04</code> <code>00000000000000000000000000000000</code> <code>02829ce3c021339ccb5caf3e187f6370</code> <code>e1e2a311dec9b75363117063ab201560</code> <code>3ff52c3d3b98f19c2f65575e99e8b7</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_long_input</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0007355d25caf6e7f2f0cb2812ca0e51</code> <code>3bd026ed09dda65b177500fa31714e09</code> <code>ea0ded3a078b526bed3307f804d4b93b</code> <code>04000000000000000000000000000000</code> <code>0002829ce3c021339ccb5caf3e187f63</code> <code>70e1e2a311dec9b75363117063ab2015</code> <code>603ff52c3d3b98f19c2f65575e99e8b7</code> <code>8c</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_top_bytes</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0007355d25caf6e7f2f0cb2812ca0e51</code> <code>3bd026ed09dda65b177500fa31714e09</code> <code>ea0ded3a078b526bed3307f804d4b93b</code> <code>04000000000000000000000000000000</code> <code>0002829ce3c021339ccb5caf3e187f63</code> <code>70e1e2a311dec9b75363117063ab2015</code> <code>603ff52c3d3b98f19c2f65575e99e8b7</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>bls_mapg2_invalid_fq_element</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>21366f100476ce8d3be6cfc90d59fe13</code> <code>349e388ed12b6dd6dc31ccd267ff000e</code> <code>2c993a063ca66beced06f804d4b8e5af</code> <code>00000000000000000000000000000000</code> <code>02829ce3c021339ccb5caf3e187f6370</code> <code>e1e2a311dec9b75363117063ab201560</code> <code>3ff52c3d3b98f19c2f65575e99e8b78c</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>invalid_encoding</td>
+                        <td></td>
+                        <td><code>80000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>input_too_short</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>000000000000000000000000000000</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>input_too_long</td>
+                        <td></td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>zero_length_input</td>
+                        <td></td>
+                        <td></td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>fq_eq_q</td>
+                        <td></td>
+                        <td>FP2(x=(4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559787, 0))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>fq_eq_q_2</td>
+                        <td></td>
+                        <td>FP2(x=(0, 4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559787))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>fq_eq_2_512_minus_1</td>
+                        <td></td>
+                        <td>FP2(x=(13407807929942597099574024998205846127479365820592393377723561443721764030073546976801874298166903427690031858186486050853753882811946569946433649006084095, 0))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>fq_eq_2_512_minus_1_2</td>
+                        <td></td>
+                        <td>FP2(x=(0, 13407807929942597099574024998205846127479365820592393377723561443721764030073546976801874298166903427690031858186486050853753882811946569946433649006084095))</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>g2_input</td>
+                        <td></td>
+                        <td>PointG2(x=(352701069587466618187139116011060144890029952792775240219908644239793785735715026873347600343865175952761926303160, 3059144344244213709971259814753781636986470325476647558659373206291635324768958432433509563104347017837885763365758), y=(1985150602287291935568054521177171638300868978215655730859378665066344726373823718423869104263333984641494340347905, 927553665492332455747201965776037880757740193453592970025027978793976877002675564980949289727957565575433344219582))</td>
+                        <td>19</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
