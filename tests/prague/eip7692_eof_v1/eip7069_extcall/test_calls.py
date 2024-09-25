@@ -17,6 +17,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm.bytecode import Bytecode
 
 from .. import EOF_FORK_NAME
 from .spec import (
@@ -461,30 +462,35 @@ def test_eof_calls_legacy_mstore(
     ],
 )
 @pytest.mark.parametrize(
-    "destination_opcode",
-    [Op.REVERT, Op.INVALID],
+    ["destination_code", "expected_result"],
+    [
+        pytest.param(Op.REVERT(0, 0), EXTCALL_REVERT, id="legacy_revert"),
+        pytest.param(Op.INVALID, EXTCALL_FAILURE, id="legacy_invalid"),
+        pytest.param(Op.SHA3(0, 2**255), EXTCALL_FAILURE, id="legacy_oog"),
+        pytest.param(Op.RETURNDATACOPY(0, 1, 2), EXTCALL_FAILURE, id="legacy_oob_returndata"),
+        pytest.param(Container.Code(Op.REVERT(0, 0)), EXTCALL_REVERT, id="eof_revert"),
+        pytest.param(Container.Code(Op.INVALID), EXTCALL_FAILURE, id="eof_invalid"),
+        pytest.param(
+            Container.Code(Op.SHA3(0, 2**255) + Op.STOP), EXTCALL_FAILURE, id="eof_oog"
+        ),
+    ],
 )
-@pytest.mark.parametrize("destination_is_eof", [True, False])
-def test_eof_calls_revert_abort(
+def test_callee_fails(
     state_test: StateTestFiller,
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    destination_opcode: Op,
-    destination_is_eof: bool,
+    destination_code: Bytecode | Container,
+    expected_result: int,
 ):
-    """Test EOF contracts calling contracts that revert or abort"""
+    """Test EOF contracts calling contracts that fail for various reasons"""
     env = Environment()
 
-    destination_contract_address = pre.deploy_contract(
-        Container.Code(destination_opcode(offset=0, size=0))
-        if destination_is_eof
-        else destination_opcode(offset=0, size=0)
-    )
+    destination_contract_address = pre.deploy_contract(destination_code)
 
     caller_contract = Container.Code(
-        Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
-        + Op.SSTORE(slot_code_worked, value_code_worked)
+        Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.SSTORE(slot_call_result, opcode(address=destination_contract_address))
         + Op.STOP,
     )
     calling_contract_address = pre.deploy_contract(caller_contract)
@@ -492,16 +498,15 @@ def test_eof_calls_revert_abort(
     tx = Transaction(
         sender=sender,
         to=Address(calling_contract_address),
-        gas_limit=50000000,
+        gas_limit=4000000,
         data="",
     )
 
     calling_storage = {
         slot_code_worked: value_code_worked,
         slot_call_result: EXTCALL_REVERT
-        if destination_opcode == Op.REVERT
-        or (opcode == Op.EXTDELEGATECALL and not destination_is_eof)
-        else EXTCALL_FAILURE,
+        if opcode == Op.EXTDELEGATECALL and not isinstance(destination_code, Container)
+        else expected_result,
     }
 
     post = {
