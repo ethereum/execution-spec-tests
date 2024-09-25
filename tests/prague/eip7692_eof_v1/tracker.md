@@ -1,7 +1,7 @@
 # EOF Testing Coverage Tracker
 
 - [ ] Example Test Case 1
-- [x] Example Test Case 2 ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_example_valid_invalid.py::test_example_valid_invalid`](./eip3540_eof_v1/test_example_valid_invalid/test_example_valid_invalid.md))
+- [x] Example Test Case 2 ([`tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py`](./eip3540_eof_v1/test_eof_example/index.md))
 
 ## EIP-3540: EOF - EVM Object Format v1
 
@@ -265,7 +265,7 @@
 - [ ] RETF reached via different paths (ethereum/tests: src/EOFTestsFiller/efStack/retf_stack_validation_Copier.json)
 - [ ] RETF in variable stack segment is not allowed (ethereum/tests: src/EOFTestsFiller/efStack/retf_variable_stack_Copier.json)
 - [ ] Extra items on stack allowed for terminating instructions other than RETF (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
-- [x] Invalid RETF in a non-returning function ([`tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_first_section_returning_code`](./eip6206_jumpf/test_nonreturning_validation/test_first_section_returning_code.md))
+- [x] Invalid RETF in a non-returning function ([`tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_first_section_returning`](./eip6206_jumpf/test_nonreturning_validation/test_first_section_returning.md))
 
 #### JUMPF
 
