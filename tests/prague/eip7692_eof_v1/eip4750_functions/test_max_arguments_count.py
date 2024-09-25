@@ -1,0 +1,85 @@
+""""
+EOF v1 validation code - Exported from evmone unit tests
+"""
+
+import pytest
+from ethereum_test_tools import EOFTestFiller, EOFException, Opcodes as Op
+from ethereum_test_tools.eof.v1 import Container, Section
+
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4750.md"
+REFERENCE_SPEC_VERSION = "76c94b69eccb06786fe0b95213ff209fa9aef7c1"
+
+@pytest.mark.parametrize(
+    "eof_code,expected_hex_bytecode,exception",
+    [
+        pytest.param(
+              Container(
+                name = 'EOFV1_0002',
+                sections = [
+                    Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=0),
+                    Section.Code(code=Op.RETF, code_inputs=128, max_stack_height=128),
+                    ],
+              )
+              ,
+              "ef000101000802000200040001040000000080000080800080e3000100e4",
+              EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT,
+              id="max_arguments_count_1"
+        ),
+        pytest.param(
+              Container(
+                name = 'EOFV1_0003',
+                sections = [
+                    Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=127),
+                    Section.Code(code=Op.PUSH1[1] * 127 + Op.RETF, code_outputs=127, max_stack_height=127),
+                    ],
+              )
+              ,
+              "ef0001010008020002000400ff040000000080007f007f007fe30001006001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001e4",
+              None,
+              id="max_arguments_count_2"
+        ),
+        pytest.param(
+              Container(
+                name = 'EOFV1_0004',
+                sections = [
+                    Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=129),
+                    Section.Code(code=Op.PUSH1[1] * 129 + Op.RETF, code_outputs=129, max_stack_height=129),
+                    ],
+              )
+              ,
+              "ef000101000802000200040103040000000080008100810081e3000100600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001e4",
+              EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT,
+              id="max_arguments_count_3"
+        ),
+        pytest.param(
+              Container(
+                name = 'EOFV1_0006',
+                sections = [
+                    Section.Code(code=Op.PUSH1[1] * 128 + Op.CALLF[1] + Op.STOP, max_stack_height=128),
+                    Section.Code(code=Op.POP * 128 + Op.RETF, code_inputs=128, code_outputs=0, max_stack_height=128),
+                    ],
+              )
+              ,
+              "ef00010100080200020104008104000000008000808000008060016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001600160016001e30001005050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050505050e4",
+              EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT,
+              id="max_arguments_count_5"
+        ),
+        
+    ]
+)
+
+def test_example_valid_invalid(
+    eof_test: EOFTestFiller,
+    eof_code: Container,
+    expected_hex_bytecode: str,
+    exception: EOFException | None,
+):
+    """
+    Verify eof container construction and exception
+    """
+    assert bytes(eof_code) == bytes.fromhex(expected_hex_bytecode)
+
+    eof_test(
+        data=eof_code,
+        expect_exception=exception,
+    )
