@@ -323,6 +323,70 @@ def test_eof_calls_eof_mstore(
     )
 
 
+identity = Address(0x04)
+# `blake2f`` is chosen for the test because it fails unless args_size == 213, which is what we are
+# interested in.
+blake2f = Address(0x09)
+
+
+@pytest.mark.parametrize(
+    ["opcode", "precompile", "expected_result"],
+    [
+        pytest.param(Op.EXTCALL, identity, EXTCALL_SUCCESS, id="extcall_success"),
+        pytest.param(Op.EXTDELEGATECALL, identity, EXTCALL_REVERT, id="extdelegatecall_blocked1"),
+        pytest.param(Op.EXTSTATICCALL, identity, EXTCALL_SUCCESS, id="extstaticcall_success"),
+        pytest.param(Op.EXTCALL, blake2f, EXTCALL_FAILURE, id="extcall_failure"),
+        pytest.param(Op.EXTDELEGATECALL, blake2f, EXTCALL_REVERT, id="extdelegatecall_blocked2"),
+        pytest.param(Op.EXTSTATICCALL, blake2f, EXTCALL_FAILURE, id="extstaticcall_failure"),
+    ],
+)
+def test_eof_calls_precompile(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+    opcode: Op,
+    precompile: Address,
+    expected_result: int,
+):
+    """Test EOF contracts calling precompiles"""
+    env = Environment()
+
+    caller_contract = Container.Code(
+        Op.MSTORE(0, value_returndata_magic)
+        + Op.SSTORE(slot_call_result, opcode(address=precompile, args_offset=0, args_size=32))
+        + Op.SSTORE(slot_returndatasize, Op.RETURNDATASIZE)
+        + Op.SSTORE(slot_returndata, Op.RETURNDATALOAD(0))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
+    )
+    calling_contract_address = pre.deploy_contract(caller_contract)
+
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=5000000,
+        data="",
+    )
+
+    calling_storage = {
+        slot_code_worked: value_code_worked,
+        slot_call_result: expected_result,
+        slot_returndatasize: 32 if expected_result == EXTCALL_SUCCESS else 0,
+        slot_returndata: value_returndata_magic if expected_result == EXTCALL_SUCCESS else 0,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
 @pytest.mark.parametrize(
     "opcode",
     [
