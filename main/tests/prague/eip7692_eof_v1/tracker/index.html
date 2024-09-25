@@ -10750,6 +10750,8 @@
       
         
       
+        
+      
     
     
       
@@ -10765,11 +10767,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../eip6206_jumpf/test_nonretruning_validation/" class="md-nav__link ">
+            <a href="../eip6206_jumpf/test_nonreturning_validation/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    Test Nonretruning Validation
+    Test Nonreturning Validation
   </span>
   
 
@@ -10785,7 +10787,7 @@
         <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_10_2_8_6_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_2_8_6_6">
             <span class="md-nav__icon md-icon"></span>
-            Test Nonretruning Validation
+            Test Nonreturning Validation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -10798,7 +10800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eip6206_jumpf/test_nonretruning_validation/test_first_section_returning/" class="md-nav__link">
+      <a href="../eip6206_jumpf/test_nonreturning_validation/test_first_section_returning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -10819,7 +10821,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eip6206_jumpf/test_nonretruning_validation/test_returning_section_not_returning/" class="md-nav__link">
+      <a href="../eip6206_jumpf/test_nonreturning_validation/test_returning_section_not_returning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -10840,7 +10842,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../eip6206_jumpf/test_nonretruning_validation/test_retf_in_nonreturning/" class="md-nav__link">
+      <a href="../eip6206_jumpf/test_nonreturning_validation/test_returning_section_returncontract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_returning_section_returncontract</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eip6206_jumpf/test_nonreturning_validation/test_retf_in_nonreturning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -10861,7 +10884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eip6206_jumpf/test_nonretruning_validation/test_jumpf_in_nonreturning/" class="md-nav__link">
+      <a href="../eip6206_jumpf/test_nonreturning_validation/test_jumpf_in_nonreturning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -23359,7 +23382,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Markdown Content</p>
-<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/8fe6a4dcaa13f221943790e3ac74768ab8a80fc2/tests/prague/eip7692_eof_v1/tracker.md"><code>tests/prague/eip7692_eof_v1/tracker.md@8fe6a4dc</code></a>.</p>
+<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/156992b5838938180fc86d84ff3b4f80cafeefaa/tests/prague/eip7692_eof_v1/tracker.md"><code>tests/prague/eip7692_eof_v1/tracker.md@156992b5</code></a>.</p>
 </div>
 <h1 id="eof-testing-coverage-tracker">EOF Testing Coverage Tracker<a class="headerlink" href="#eof-testing-coverage-tracker" title="Permanent link">&para;</a></h1>
 <ul class="task-list">
@@ -23624,7 +23647,7 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RETF reached via different paths (ethereum/tests: src/EOFTestsFiller/efStack/retf_stack_validation_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RETF in variable stack segment is not allowed (ethereum/tests: src/EOFTestsFiller/efStack/retf_variable_stack_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Extra items on stack allowed for terminating instructions other than RETF (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Invalid RETF in a non-returning function (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_first_section_returning_code</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Invalid RETF in a non-returning function (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_first_section_returning_code</code>)</li>
 </ul>
 <h4 id="jumpf">JUMPF<a class="headerlink" href="#jumpf" title="Permanent link">&para;</a></h4>
 <ul class="task-list">
@@ -23636,7 +23659,7 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> JUMPF into function with fewer outputs than current one (ethereum/tests: src/EOFTestsFiller/efStack/jumpf_to_returning_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Extra items on stack are allowed for JUMPF to returning function (ethereum/tests: src/EOFTestsFiller/efStack/jumpf_to_returning_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> JUMPF to returning in a variable stack segment is not allowed (ethereum/tests: src/EOFTestsFiller/efStack/jumpf_to_returning_variable_stack_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Invalid JUMPF in a non-returning function (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_retf_in_nonreturning</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Invalid JUMPF in a non-returning function (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_retf_in_nonreturning</code>)</li>
 </ul>
 <h4 id="stack-overflow">Stack overflow<a class="headerlink" href="#stack-overflow" title="Permanent link">&para;</a></h4>
 <h5 id="callf_1">CALLF<a class="headerlink" href="#callf_1" title="Permanent link">&para;</a></h5>
@@ -23688,19 +23711,19 @@
 <h2 id="eip-6206-eof-jumpf-and-non-returning-functions">EIP-6206: EOF - JUMPF and non-returning functions<a class="headerlink" href="#eip-6206-eof-jumpf-and-non-returning-functions" title="Permanent link">&para;</a></h2>
 <h3 id="validation_5">Validation<a class="headerlink" href="#validation_5" title="Permanent link">&para;</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Zero section returning (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_first_section_returning</code> ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Zero section declared non-returning but ends with RETF (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_retf_in_nonreturning</code> ethereum/tests: src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Zero section returning (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_first_section_returning</code> ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Zero section declared non-returning but ends with RETF (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_retf_in_nonreturning</code> ethereum/tests: src/EOFTestsFiller/EIP4750/validInvalidFiller.yml)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> CALLF into non-returning function (ethereum/tests: src/EOFTestsFiller/efValidation/callf_into_nonreturning_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid JUMPF into sections with equal number of outputs (ethereum/tests: src/EOFTestsFiller/efValidation/jumpf_equal_outputs_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid JUMPF into sections with different but compatible number of outputs (ethereum/tests: src/EOFTestsFiller/efValidation/jumpf_compatible_outputs_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> JUMPF into sections with incompatible outputs (ethereum/tests: src/EOFTestsFiller/efValidation/jumpf_incompatible_outputs_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Non-returning section without JUMPF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Non-returning section with JUMPF (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_jumpf_in_nonreturning</code> ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Non-returning section with JUMPF (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_jumpf_in_nonreturning</code> ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Returning section with RETF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Returning section with JUMPF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Returning section with JUMPF to returning and RETF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Returning section with JUMPF to non-returning and RETF (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Returning section without JUMPF nor RETF (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonretruning_validation.py::test_returning_section_not_returning</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Returning section without JUMPF nor RETF (<code>tests/prague/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_returning_section_not_returning</code>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Invalid non-returning flag (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Circular JUMPF between two sections (ethereum/tests: src/EOFTestsFiller/efValidation/non_returning_status_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> JUMPF into non-existing section</li>
