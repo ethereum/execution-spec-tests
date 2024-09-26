@@ -32,6 +32,7 @@
     * [Documentation](dev/docs.md)
     * [Coding Style](dev/coding_style.md)
     * [Enabling Precommit Checks](dev/precommit.md)
+    * [Running Github Actions Locally](dev/test_actions_locally.md)
   * [Changelog](CHANGELOG.md)
   * [Library Reference](library/index.md)
     * [Ethereum Test Base Types Package](library/ethereum_test_base_types.md)
