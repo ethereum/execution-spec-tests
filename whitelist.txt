@@ -15,6 +15,7 @@ argcount
 argnames
 argvalues
 ase
+asm
 at5
 AuthorizationInvalidityType
 AutoSection

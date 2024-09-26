@@ -1,12 +1,12 @@
 """
-Test suite for `cli.evm_bytes_to_python` module.
+Test suite for `cli.evm_bytes` module.
 """
 
 import pytest
 
 from ethereum_test_tools import Opcodes as Op
 
-from ..evm_bytes_to_python import process_evm_bytes
+from ..evm_bytes import process_evm_bytes
 
 basic_vector = [
     "0x60008080808061AAAA612d5ff1600055",
@@ -27,8 +27,8 @@ complex_vector = [
         (complex_vector[0][2:], complex_vector[1]),  # no "0x" prefix
     ],
 )
-def test_evm_bytes_to_python(evm_bytes, python_opcodes):
-    """Test evm_bytes_to_python using the basic and complex vectors"""
+def test_evm_bytes(evm_bytes, python_opcodes):
+    """Test evm_bytes using the basic and complex vectors"""
     assert process_evm_bytes(evm_bytes) == python_opcodes
 
 
