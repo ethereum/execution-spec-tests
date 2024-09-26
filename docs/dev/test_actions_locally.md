@@ -8,7 +8,7 @@ The Github Actions workflows can be tested locally using [nektos/act](https://gi
 2. Install the Github CLI (`gh`) for authentication: [linux](https://github.com/cli/cli/blob/trunk/docs/install_linux.md), [macos](https://github.com/cli/cli/tree/trunk?tab=readme-ov-file#macos).
 3. Authenticate with the Github CLI:
 
-    ```shell
+    ```bash
     gh auth login
     ```
 
@@ -17,8 +17,8 @@ The Github Actions workflows can be tested locally using [nektos/act](https://gi
 ### Testing a Workflow that uses a Matrix Strategy
 
 ```bash
- act -j build --workflows .github/workflows/tox_verify.yaml -s GITHUB_TOKEN=$(gh auth token) --matrix python:3.10
- ```
+act -j build --workflows .github/workflows/tox_verify.yaml -s GITHUB_TOKEN=$(gh auth token) --matrix python:3.10
+```
 
 ### Testing Release Builds
 
