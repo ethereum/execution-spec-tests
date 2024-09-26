@@ -29,6 +29,7 @@
     * [Exceptions](consuming_tests/exceptions.md)
   * [Getting Help](getting_help/index.md)
   * [Developer Doc](dev/index.md)
+    * [Interactive Library Usage](dev/interactive_usage.md)
     * [Documentation](dev/docs.md)
     * [Coding Style](dev/coding_style.md)
     * [Enabling Precommit Checks](dev/precommit.md)

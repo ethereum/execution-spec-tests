@@ -222,6 +222,7 @@ initcode
 inputdata
 instantiation
 io
+ipython
 isidentifier
 islice
 isort
