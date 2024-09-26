@@ -71,6 +71,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/dev/interactive_usage/</loc>
+         <lastmod>2024-09-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/dev/precommit/</loc>
          <lastmod>2024-09-26</lastmod>
          <changefreq>daily</changefreq>
@@ -187,11 +192,6 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/library/pytest_plugins/forks/</loc>
-         <lastmod>2024-09-26</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/library/pytest_plugins/navigation/</loc>
          <lastmod>2024-09-26</lastmod>
          <changefreq>daily</changefreq>
     </url>

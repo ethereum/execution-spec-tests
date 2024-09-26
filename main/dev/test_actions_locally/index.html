@@ -13,6 +13,10 @@
         <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/dev/test_actions_locally/">
       
       
+        <link rel="prev" href="../precommit/">
+      
+      
+        <link rel="next" href="../../CHANGELOG/">
       
       
       <link rel="icon" href="../../img/ETH-logo-icon.svg">
@@ -20,7 +24,7 @@
     
     
       
-        <title>Testing Github Actions Locally - Ethereum Execution Spec Tests</title>
+        <title>Running Github Actions Locally - Ethereum Execution Spec Tests</title>
       
     
     
@@ -56,7 +60,7 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Testing Github Actions Locally - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="Running Github Actions Locally - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
@@ -72,7 +76,7 @@
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Testing Github Actions Locally - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="Running Github Actions Locally - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
@@ -138,7 +142,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Testing Github Actions Locally
+              Running Github Actions Locally
             
           </span>
         </div>
@@ -333,10 +337,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../" class="md-tabs__link">
           
   
@@ -1240,6 +1246,8 @@
       
   
   
+    
+  
   
   
     
@@ -1255,17 +1263,24 @@
       
         
       
-    
-    
+        
       
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           
@@ -1281,19 +1296,40 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Developer Doc
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interactive_usage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interactive Library Usage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1359,6 +1395,109 @@
 
               
             
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Running Github Actions Locally
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Running Github Actions Locally
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-a-workflow-that-uses-a-matrix-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing a Workflow that uses a Matrix Strategy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-release-builds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Release Builds
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1419,8 +1558,6 @@
       
         
           
-        
-      
         
       
     
@@ -1665,27 +1802,6 @@
   
   <span class="md-ellipsis">
     Pytest Plugins
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../library/pytest_plugins/filler/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Filler Plugin
   </span>
   
 
@@ -22574,22 +22690,22 @@
 </ol>
 <h2 id="testing-workflows">Testing Workflows<a class="headerlink" href="#testing-workflows" title="Permanent link">&para;</a></h2>
 <h3 id="testing-a-workflow-that-uses-a-matrix-strategy">Testing a Workflow that uses a Matrix Strategy<a class="headerlink" href="#testing-a-workflow-that-uses-a-matrix-strategy" title="Permanent link">&para;</a></h3>
-<p><code>bash
- act -j build --workflows .github/workflows/tox_verify.yaml -s GITHUB_TOKEN=$(gh auth token) --matrix python:3.10</code></p>
+<div class="highlight"><pre><span></span><code>act<span class="w"> </span>-j<span class="w"> </span>build<span class="w"> </span>--workflows<span class="w"> </span>.github/workflows/tox_verify.yaml<span class="w"> </span>-s<span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>gh<span class="w"> </span>auth<span class="w"> </span>token<span class="k">)</span><span class="w"> </span>--matrix<span class="w"> </span>python:3.10
+</code></pre></div>
 <h3 id="testing-release-builds">Testing Release Builds<a class="headerlink" href="#testing-release-builds" title="Permanent link">&para;</a></h3>
 <p>Release builds require the <code>ref</code> input to be specified. To test a release build locally:</p>
 <ol>
 <li>
 <p>Create a JSON file specifying the input data required for a release build (the release tag), e.g, <code>event.json</code>:</p>
-<p><code>json
-{
-    "ref": "refs/tags/stable@v4.2.0"
-}</code></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;refs/tags/stable@v4.2.0&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 </li>
 <li>
 <p>Run <code>act</code> and specify the workflow file, the Github token, and the event file:</p>
-<p><code>bash
-act -j build --workflows .github/workflows/fixtures_feature.yaml -s GITHUB_TOKEN=$(gh auth token) -e event.json</code></p>
+<div class="highlight"><pre><span></span><code>act<span class="w"> </span>-j<span class="w"> </span>build<span class="w"> </span>--workflows<span class="w"> </span>.github/workflows/fixtures_feature.yaml<span class="w"> </span>-s<span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>gh<span class="w"> </span>auth<span class="w"> </span>token<span class="k">)</span><span class="w"> </span>-e<span class="w"> </span>event.json
+</code></pre></div>
 </li>
 </ol>
 

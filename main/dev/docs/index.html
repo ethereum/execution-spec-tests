@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/dev/docs/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../interactive_usage/">
       
       
         <link rel="next" href="../coding_style/">
@@ -1263,6 +1263,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1305,6 +1309,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interactive_usage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interactive Library Usage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1382,6 +1407,39 @@
   <a href="#local-deployment-and-test" class="md-nav__link">
     <span class="md-ellipsis">
       Local Deployment and Test
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc" class="md-nav__link">
+    <span class="md-ellipsis">
+      gen_test_doc
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="gen_test_doc">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc--note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Note:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc--usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage:
     </span>
   </a>
   
@@ -1563,6 +1621,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_actions_locally/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Running Github Actions Locally
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1623,8 +1702,6 @@
       
         
           
-        
-      
         
       
     
@@ -1869,27 +1946,6 @@
   
   <span class="md-ellipsis">
     Pytest Plugins
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../library/pytest_plugins/filler/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Filler Plugin
   </span>
   
 
@@ -22738,6 +22794,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc" class="md-nav__link">
+    <span class="md-ellipsis">
+      gen_test_doc
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="gen_test_doc">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc--note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Note:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc--usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#remote-deployment-and-versioning" class="md-nav__link">
     <span class="md-ellipsis">
       Remote Deployment and Versioning
@@ -22892,7 +22981,56 @@
 <p>This runs continually: Deploys the site locally and re-generates the site upon modifications to <code>docs/**/*.md</code> or <code>tests/**/*.py</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="go">uv run mkdocs serve</span>
 </code></pre></div>
-<h2 id="remote-deployment-and-versioning">Remote Deployment and Versioning<a class="headerlink" href="#remote-deployment-and-versioning" title="Permanent link">&para;</a></h2>
+<p>For more help (including ensuring a clean build), see the <code>gen_test_doc</code> pytest plugin's documentation:</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="src.pytest_plugins.filler.gen_test_doc.gen_test_doc"></a>
+    <div class="doc doc-contents first">
+
+      <p>A pytest plugin that generates test case documentation for use in mkdocs.</p>
+<p>It generates the top-level "Test Case Reference" section in EEST's mkdocs
+site.</p>
+<h3 id="src.pytest_plugins.filler.gen_test_doc.gen_test_doc--note">Note:<a class="headerlink" href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc--note" title="Permanent link">&para;</a></h3>
+<ul>
+<li>No output directory is specified for the generated output; file IO occurs
+    via the <code>mkdocs-gen-files</code> plugin. <code>mkdocs serve</code> writes intermediate files
+    to our local <code>docs/</code> directory and then copies it to the site directory.
+    We modify <code>docs/navigation.md</code> and write all other output underneath
+    <code>docs/tests</code>. If mkdocs is interrupted, these intermediate artifacts are
+    left in <code>docs/</code>.</li>
+</ul>
+<h3 id="src.pytest_plugins.filler.gen_test_doc.gen_test_doc--usage">Usage:<a class="headerlink" href="#src.pytest_plugins.filler.gen_test_doc.gen_test_doc--usage" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Ensuring a clean build</p>
+<p>In case mkdocs has polluted the <code>docs/</code> directory with intermediate files, run:</p>
+<div class="highlight"><pre><span></span><code><span class="go">git restore docs/navigation.md  # Careful if you have local modifications!</span>
+<span class="go">rm -rf docs/tests docs/docs site</span>
+</code></pre></div>
+</div>
+<p>To test doc generation, run the plugin without mkdocs:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill -p pytest_plugins.filler.gen_test_doc.gen_test_doc --gen-docs --fork=&lt;fork&gt; tests</span>
+</code></pre></div>
+<p>Or to build and view the site:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run mkdocs serve</span>
+</code></pre></div>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="remote-deployment-and-versioning">Remote Deployment and Versioning<a class="headerlink" href="#remote-deployment-and-versioning" title="Permanent link">&para;</a></h2>
 <p>The execution-specs-test docs are hosted on Github pages at the <a href="https://ethereum.github.io/execution-spec-tests/">repo's Github pages</a>. Versions are updated/deployed automatically as part of Github Actions, but this can also be performed on the command-line.</p>
 <p>Our mkdocs configuration uses <a href="https://github.com/jimporter/mike">mike</a> as a version provider. All deployments should be made via <code>mike</code> (whether as part of CI/CD or executed locally).</p>
 <p>The deployed versions of the docs managed via <code>mike</code> are kept in the <a href="https://github.com/ethereum/execution-spec-tests/tree/gh-pages">gh-pages</a> branch. When you run <code>mike</code> it commits to this branch and optionally pushes the changes directly to remote.</p>

@@ -654,26 +654,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#uvpip-installation-issues" class="md-nav__link">
+  <a href="#problem-failed-building-wheel-for-coincurve" class="md-nav__link">
     <span class="md-ellipsis">
-      uv/pip Installation Issues
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="uv/pip Installation Issues">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#coincurve-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Coincurve Installation
+      Problem: Failed building wheel for coincurve
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#problem-solc-installation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: solc Installation issues
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-issues-not-listed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other Issues Not Listed?
+    </span>
+  </a>
   
 </li>
       
@@ -1330,6 +1333,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1369,6 +1376,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/interactive_usage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interactive Library Usage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1425,6 +1453,27 @@
   
   <span class="md-ellipsis">
     Enabling Precommit Checks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/test_actions_locally/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Running Github Actions Locally
   </span>
   
 
@@ -1494,8 +1543,6 @@
       
         
           
-        
-      
         
       
     
@@ -1740,27 +1787,6 @@
   
   <span class="md-ellipsis">
     Pytest Plugins
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../library/pytest_plugins/filler/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Filler Plugin
   </span>
   
 
@@ -22576,26 +22602,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#uvpip-installation-issues" class="md-nav__link">
+  <a href="#problem-failed-building-wheel-for-coincurve" class="md-nav__link">
     <span class="md-ellipsis">
-      uv/pip Installation Issues
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="uv/pip Installation Issues">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#coincurve-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Coincurve Installation
+      Problem: Failed building wheel for coincurve
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#problem-solc-installation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: solc Installation issues
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-issues-not-listed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other Issues Not Listed?
+    </span>
+  </a>
   
 </li>
       
@@ -22618,10 +22647,11 @@
 
 
 <h1 id="installation-troubleshooting">Installation Troubleshooting<a class="headerlink" href="#installation-troubleshooting" title="Permanent link">&para;</a></h1>
-<p>This page provides guidance on how to troubleshoot common issues that may arise when installing the Execution Spec Tests repository.</p>
-<h2 id="uvpip-installation-issues"><code>uv</code>/<code>pip</code> Installation Issues<a class="headerlink" href="#uvpip-installation-issues" title="Permanent link">&para;</a></h2>
-<h3 id="coincurve-installation">Coincurve Installation<a class="headerlink" href="#coincurve-installation" title="Permanent link">&para;</a></h3>
-<p>If you encounter an error when installing the <code>coincurve</code> package like the following:</p>
+<p>This page provides guidance on how to troubleshoot common issues that may arise when installing <a href="https://github.com/ethereum/execution-spec-tests">ethereum/execution-spec-tests</a>.</p>
+<h2 id="problem-failed-building-wheel-for-coincurve">Problem: <code>Failed building wheel for coincurve</code><a class="headerlink" href="#problem-failed-building-wheel-for-coincurve" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Problem: <code>Failed building wheel for coincurve</code></p>
+<p>Installing EEST and its dependencies via <code>uv sync --all-extras</code> fails with:</p>
 <div class="highlight"><pre><span></span><code>Stored<span class="w"> </span><span class="k">in</span><span class="w"> </span>directory:<span class="w"> </span>/tmp/...
 <span class="w">  </span>Building<span class="w"> </span>wheel<span class="w"> </span><span class="k">for</span><span class="w"> </span>coincurve<span class="w"> </span><span class="o">(</span>pyproject.toml<span class="o">)</span><span class="w"> </span>...<span class="w"> </span>error
 <span class="w">  </span>error:<span class="w"> </span>subprocess-exited-with-error
@@ -22639,10 +22669,50 @@
 <span class="w">  </span>note:<span class="w"> </span>This<span class="w"> </span>error<span class="w"> </span>originates<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>subprocess,<span class="w"> </span>and<span class="w"> </span>is<span class="w"> </span>likely<span class="w"> </span>not<span class="w"> </span>a<span class="w"> </span>problem<span class="w"> </span>with<span class="w"> </span>pip.
 <span class="w">  </span>ERROR:<span class="w"> </span>Failed<span class="w"> </span>building<span class="w"> </span>wheel<span class="w"> </span><span class="k">for</span><span class="w"> </span>coincurve
 </code></pre></div>
-<p>You may need to install the <code>libsecp256k1</code> library. On Ubuntu, you can install this library by running the following command:</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Solution: Install the <code>libsecp256k1</code> library</p>
+<p>On Ubuntu, you can install this library with:</p>
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libsecp256k1-dev
 </code></pre></div>
+</div>
+<h2 id="problem-solc-installation-issues">Problem: <code>solc</code> Installation issues<a class="headerlink" href="#problem-solc-installation-issues" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Problem: <code>Failed to install solc ... CERTIFICATE_VERIFY_FAILED</code></p>
+<p>When running either <code>uv run solc-select use 0.8.24 --always-install</code> or <code>fill</code> you encounter the following error:</p>
+<div class="highlight"><pre><span></span><code>Exit:<span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>install<span class="w"> </span>solc<span class="w"> </span>version<span class="w"> </span><span class="m">0</span>.8.24:<span class="w"> </span>&lt;urlopen<span class="w"> </span>error<span class="w"> </span><span class="o">[</span>SSL:<span class="w"> </span>CERTIFICATE_VERIFY_FAILED<span class="o">]</span><span class="w"> </span>certificate<span class="w"> </span>verify<span class="w"> </span>failed:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>get<span class="w"> </span><span class="nb">local</span><span class="w"> </span>issuer<span class="w"> </span>certificate<span class="w"> </span><span class="o">(</span>_ssl.c:992<span class="o">)</span>&gt;
+</code></pre></div>
+</div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Ubuntu</label><label for="__tabbed_1_2">macOS</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="admonition success">
+<p class="admonition-title">Solution: Update your system’s CA certificates</p>
+<p>On Ubuntu, run the following commands:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>ca-certificates
+</code></pre></div>
+</div>
+</div>
+<div class="tabbed-block">
+<div class="admonition success">
+<p class="admonition-title">Solution: Update your system’s CA certificates</p>
+<p>On macOS, Python provides a built-in script to install the required certificates:</p>
+<div class="highlight"><pre><span></span><code>/Applications/Python<span class="se">\ </span><span class="m">3</span>.11/Install<span class="se">\ </span>Certificates.command
+</code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<h2 id="other-issues-not-listed">Other Issues Not Listed?<a class="headerlink" href="#other-issues-not-listed" title="Permanent link">&para;</a></h2>
+<p>If you're facing an issue that's not listed here, you can easily report it on GitHub for resolution.</p>
+<p><a href="https://github.com/ethereum/execution-spec-tests/issues/new?title=docs(bug):%20unable%20to%20install%20eest%20with%20error%20...&amp;labels=scope:docs,type:bug&amp;body=%3Ccopy-paste%20command%20that%20triggered%20the%20issue%20here%3E%0A%3Ccopy-paste%20output%20or%20attach%20screenshot%20here%3E">Click here to report a documentation issue related to installation</a></p>
+<p>Please include the following details in your report:</p>
+<ol>
+<li>The command that triggered the issue.</li>
+<li>Any relevant error messages or screenshots.</li>
+</ol>
 
 
 
