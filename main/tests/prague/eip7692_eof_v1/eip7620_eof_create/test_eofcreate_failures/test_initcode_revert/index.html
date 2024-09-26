@@ -22611,7 +22611,7 @@
 
 
 <h1 id="test_initcode_revert"><code>test_initcode_revert()</code><a class="headerlink" href="#test_initcode_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f41fb2937ad93647cd99173e5d11c2d054c4ef80/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L47"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_initcode_revert@f41fb293</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/22c734a6d8fadb1657b69267accfb160b859d348/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L45"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_initcode_revert@22c734a6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
@@ -22634,7 +22634,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 47</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
 <span class="normal"> 48</span>
 <span class="normal"> 49</span>
 <span class="normal"> 50</span>
@@ -22690,9 +22692,7 @@
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;revert&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;empty&quot;</span><span class="p">),</span>
@@ -22736,7 +22736,7 @@
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">slot_create_address</span><span class="p">:</span> <span class="n">value_create_failed</span><span class="p">,</span>
+                <span class="n">slot_create_address</span><span class="p">:</span> <span class="n">EOFCREATE_FAILURE</span><span class="p">,</span>
                 <span class="n">slot_returndata_size</span><span class="p">:</span> <span class="n">revert_size</span><span class="p">,</span>
                 <span class="n">slot_returndata</span><span class="p">:</span> <span class="n">revert</span><span class="p">,</span>
                 <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>

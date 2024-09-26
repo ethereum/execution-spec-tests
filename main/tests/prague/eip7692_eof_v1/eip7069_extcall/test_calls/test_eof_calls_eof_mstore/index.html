@@ -22611,7 +22611,7 @@
 
 
 <h1 id="test_eof_calls_eof_mstore"><code>test_eof_calls_eof_mstore()</code><a class="headerlink" href="#test_eof_calls_eof_mstore" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f41fb2937ad93647cd99173e5d11c2d054c4ef80/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py#L254"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_mstore@f41fb293</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/22c734a6d8fadb1657b69267accfb160b859d348/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py#L256"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_mstore@22c734a6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
@@ -22634,9 +22634,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
 <span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
@@ -22698,7 +22696,9 @@
 <span class="normal">315</span>
 <span class="normal">316</span>
 <span class="normal">317</span>
-<span class="normal">318</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span>
@@ -22746,7 +22746,7 @@
 
     <span class="n">calling_storage</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">value_eof_call_worked</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">EXTCALL_SUCCESS</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
         <span class="n">slot_returndatasize</span><span class="p">:</span> <span class="mh">0x20</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
         <span class="n">slot_returndata</span><span class="p">:</span> <span class="n">value_returndata_magic</span>
         <span class="o">+</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mh">0x20</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">)),</span>  <span class="c1"># type: ignore</span>

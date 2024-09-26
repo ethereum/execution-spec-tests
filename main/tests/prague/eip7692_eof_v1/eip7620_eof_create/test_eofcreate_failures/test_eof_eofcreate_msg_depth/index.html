@@ -22611,7 +22611,7 @@
 
 
 <h1 id="test_eof_eofcreate_msg_depth"><code>test_eof_eofcreate_msg_depth()</code><a class="headerlink" href="#test_eof_eofcreate_msg_depth" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f41fb2937ad93647cd99173e5d11c2d054c4ef80/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L658"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eof_eofcreate_msg_depth@f41fb293</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/22c734a6d8fadb1657b69267accfb160b859d348/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L656"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eof_eofcreate_msg_depth@22c734a6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
@@ -22640,7 +22640,9 @@ NOTE: See <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">658</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
 <span class="normal">659</span>
 <span class="normal">660</span>
 <span class="normal">661</span>
@@ -22756,11 +22758,7 @@ NOTE: See <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_
 <span class="normal">771</span>
 <span class="normal">772</span>
 <span class="normal">773</span>
-<span class="normal">774</span>
-<span class="normal">775</span>
-<span class="normal">776</span>
-<span class="normal">777</span>
-<span class="normal">778</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">774</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span>
@@ -22865,9 +22863,7 @@ NOTE: See <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_
     <span class="n">calling_storage</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">slot_max_depth</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
         <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
-        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">value_eof_call_result_reverted</span>
-        <span class="k">if</span> <span class="n">who_fails</span> <span class="o">==</span> <span class="n">magic_value_call</span>
-        <span class="k">else</span> <span class="n">value_create_failed</span><span class="p">,</span>
+        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">EXTCALL_REVERT</span> <span class="k">if</span> <span class="n">who_fails</span> <span class="o">==</span> <span class="n">magic_value_call</span> <span class="k">else</span> <span class="n">EOFCREATE_FAILURE</span><span class="p">,</span>
         <span class="n">slot_call_or_create</span><span class="p">:</span> <span class="n">who_fails</span><span class="p">,</span>
     <span class="p">}</span>
 

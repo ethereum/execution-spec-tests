@@ -22611,7 +22611,7 @@
 
 
 <h1 id="test_static_flag_eofcreate"><code>test_static_flag_eofcreate()</code><a class="headerlink" href="#test_static_flag_eofcreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f41fb2937ad93647cd99173e5d11c2d054c4ef80/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L590"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_static_flag_eofcreate@f41fb293</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/22c734a6d8fadb1657b69267accfb160b859d348/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L588"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_static_flag_eofcreate@22c734a6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
@@ -22634,7 +22634,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">590</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
 <span class="normal">591</span>
 <span class="normal">592</span>
 <span class="normal">593</span>
@@ -22693,9 +22695,7 @@
 <span class="normal">646</span>
 <span class="normal">647</span>
 <span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">649</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span>
@@ -22742,9 +22742,9 @@
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">calling_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">value_eof_call_result_failed</span>
+                <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">EXTCALL_FAILURE</span>
                 <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span>
-                <span class="k">else</span> <span class="n">value_legacy_call_result_failed</span><span class="p">,</span>
+                <span class="k">else</span> <span class="n">LEGACY_CALL_FAILURE</span><span class="p">,</span>
                 <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>

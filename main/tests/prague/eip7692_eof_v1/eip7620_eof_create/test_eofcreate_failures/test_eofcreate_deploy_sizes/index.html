@@ -22611,7 +22611,7 @@
 
 
 <h1 id="test_eofcreate_deploy_sizes"><code>test_eofcreate_deploy_sizes()</code><a class="headerlink" href="#test_eofcreate_deploy_sizes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f41fb2937ad93647cd99173e5d11c2d054c4ef80/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L156"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_deploy_sizes@f41fb293</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/22c734a6d8fadb1657b69267accfb160b859d348/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L154"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_deploy_sizes@22c734a6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
@@ -22634,7 +22634,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
@@ -22723,9 +22725,7 @@
 <span class="normal">242</span>
 <span class="normal">243</span>
 <span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_deploy_size&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x4000</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;large&quot;</span><span class="p">),</span>
@@ -22803,7 +22803,7 @@
                     <span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">initcode_subcontainer</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">target_deploy_size</span> <span class="o">&lt;=</span> <span class="n">MAX_BYTECODE_SIZE</span>
-                <span class="k">else</span> <span class="n">value_create_failed</span><span class="p">,</span>
+                <span class="k">else</span> <span class="n">EOFCREATE_FAILURE</span><span class="p">,</span>
                 <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>

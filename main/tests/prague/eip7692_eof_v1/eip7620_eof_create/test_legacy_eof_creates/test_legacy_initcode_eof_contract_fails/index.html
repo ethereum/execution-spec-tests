@@ -22611,7 +22611,7 @@
 
 
 <h1 id="test_legacy_initcode_eof_contract_fails"><code>test_legacy_initcode_eof_contract_fails()</code><a class="headerlink" href="#test_legacy_initcode_eof_contract_fails" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f41fb2937ad93647cd99173e5d11c2d054c4ef80/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py#L91"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails@f41fb293</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/22c734a6d8fadb1657b69267accfb160b859d348/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py#L91"><code>tests/prague/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails@22c734a6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
@@ -22724,7 +22724,7 @@
     <span class="c1"># and 1 in 1 to show execution continued and did not halt</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_create_address</span><span class="p">:</span> <span class="n">value_create_failed</span><span class="p">,</span> <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">}</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_create_address</span><span class="p">:</span> <span class="n">EOFCREATE_FAILURE</span><span class="p">,</span> <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">}</span>
         <span class="p">)</span>
     <span class="p">}</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

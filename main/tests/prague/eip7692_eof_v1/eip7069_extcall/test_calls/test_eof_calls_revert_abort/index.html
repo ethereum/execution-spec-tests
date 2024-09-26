@@ -22611,7 +22611,7 @@
 
 
 <h1 id="test_eof_calls_revert_abort"><code>test_eof_calls_revert_abort()</code><a class="headerlink" href="#test_eof_calls_revert_abort" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f41fb2937ad93647cd99173e5d11c2d054c4ef80/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py#L453"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_revert_abort@f41fb293</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/22c734a6d8fadb1657b69267accfb160b859d348/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py#L455"><code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_revert_abort@22c734a6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
@@ -22634,9 +22634,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">455</span>
 <span class="normal">456</span>
 <span class="normal">457</span>
 <span class="normal">458</span>
@@ -22696,7 +22694,9 @@
 <span class="normal">512</span>
 <span class="normal">513</span>
 <span class="normal">514</span>
-<span class="normal">515</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span>
@@ -22742,10 +22742,10 @@
 
     <span class="n">calling_storage</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
-        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">value_eof_call_reverted</span>
+        <span class="n">slot_call_result</span><span class="p">:</span> <span class="n">EXTCALL_REVERT</span>
         <span class="k">if</span> <span class="n">destination_opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span>
         <span class="ow">or</span> <span class="p">(</span><span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">destination_is_eof</span><span class="p">)</span>
-        <span class="k">else</span> <span class="n">value_eof_call_failed</span><span class="p">,</span>
+        <span class="k">else</span> <span class="n">EXTCALL_FAILURE</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
