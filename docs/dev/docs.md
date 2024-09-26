@@ -31,6 +31,12 @@ This runs continually: Deploys the site locally and re-generates the site upon m
 uv run mkdocs serve
 ```
 
+For more help (including ensuring a clean build), see the `gen_test_doc` pytest plugin's documentation:
+
+::: src.pytest_plugins.filler.gen_test_doc.gen_test_doc
+    options:
+        members: no
+
 ## Remote Deployment and Versioning
 
 The execution-specs-test docs are hosted on Github pages at the [repo's Github pages](https://ethereum.github.io/execution-spec-tests/). Versions are updated/deployed automatically as part of Github Actions, but this can also be performed on the command-line.
