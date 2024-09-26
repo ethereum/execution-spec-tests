@@ -4,7 +4,7 @@ Test good and bad EOFCREATE cases
 
 import pytest
 
-from ethereum_test_base_types.conversions import to_fixed_size_bytes
+from ethereum_test_base_types.base_types import Address
 from ethereum_test_exceptions import EOFException
 from ethereum_test_specs import EOFTestFiller
 from ethereum_test_tools import (
@@ -638,18 +638,17 @@ def test_eofcreate_context(
 
     destination_contract_address = compute_eofcreate_address(calling_contract_address, 0, initcode)
 
-    tx = Transaction(
-        sender=sender, to=calling_contract_address, gas_limit=1000000, data="", value=value
-    )
+    tx = Transaction(sender=sender, to=calling_contract_address, gas_limit=1000000, value=value)
 
+    expected_bytes: Address | int
     if expected_result == "destination":
-        expected_bytes: bytes = destination_contract_address
+        expected_bytes = destination_contract_address
     elif expected_result == "caller":
         expected_bytes = calling_contract_address
     elif expected_result == "sender":
         expected_bytes = sender
     elif expected_result == "eofcreate_value":
-        expected_bytes = to_fixed_size_bytes(eofcreate_value, 32)
+        expected_bytes = eofcreate_value
     else:
         raise TypeError("Unexpected expected_result", expected_result)
 

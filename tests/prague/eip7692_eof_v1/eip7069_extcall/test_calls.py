@@ -5,7 +5,6 @@ import itertools
 
 import pytest
 
-from ethereum_test_base_types.conversions import to_fixed_size_bytes
 from ethereum_test_tools import (
     EOA,
     Account,
@@ -96,7 +95,6 @@ def test_legacy_calls_eof_sstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     calling_storage = Storage(
@@ -169,7 +167,6 @@ def test_legacy_calls_eof_mstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     calling_storage = {
@@ -225,7 +222,6 @@ def test_eof_calls_eof_sstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     calling_storage = Storage(
@@ -299,7 +295,6 @@ def test_eof_calls_eof_mstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     calling_storage = {
@@ -365,7 +360,6 @@ def test_eof_calls_precompile(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=5000000,
-        data="",
     )
 
     calling_storage = {
@@ -421,7 +415,6 @@ def test_eof_calls_legacy_sstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     calling_storage = {
@@ -489,7 +482,6 @@ def test_eof_calls_legacy_mstore(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     calling_storage = {
@@ -565,7 +557,6 @@ def test_callee_fails(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=4000000,
-        data="",
     )
 
     calling_storage = {
@@ -637,20 +628,20 @@ def test_callee_context(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=100000,
-        data="",
         value=tx_value,
     )
 
+    expected_bytes: Address | int
     if expected_result == "destination":
-        expected_bytes: bytes = destination_contract_address
+        expected_bytes = destination_contract_address
     elif expected_result == "caller":
         expected_bytes = calling_contract_address
     elif expected_result == "sender":
         expected_bytes = sender
     elif expected_result == "tx_value":
-        expected_bytes = to_fixed_size_bytes(tx_value, 32)
+        expected_bytes = tx_value
     elif isinstance(expected_result, int):
-        expected_bytes = to_fixed_size_bytes(expected_result, 32)
+        expected_bytes = expected_result
     else:
         raise TypeError("Unexpected expected_result", expected_result)
 
@@ -704,7 +695,6 @@ def test_eof_calls_eof_then_fails(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     post = {
@@ -795,7 +785,6 @@ def test_eof_calls_clear_return_buffer(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     calling_storage = {
@@ -856,7 +845,6 @@ def test_eof_calls_static_flag_with_value(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=5_000_000,
-        data="",
     )
 
     calling_storage = {
@@ -954,7 +942,6 @@ def test_eof_calls_min_callee_gas(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=no_oog_gas + extra_gas_limit,
-        data="",
     )
 
     calling_storage = {
@@ -1001,7 +988,6 @@ def test_eof_calls_with_value(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=50000000,
-        data="",
     )
 
     calling_storage = {
@@ -1098,7 +1084,6 @@ def test_eof_calls_msg_depth(
         sender=sender,
         to=Address(calling_contract_address),
         gas_limit=gas_limit,
-        data="",
     )
 
     calling_storage = {
