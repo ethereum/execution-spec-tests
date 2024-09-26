@@ -5,6 +5,7 @@ import itertools
 
 import pytest
 
+from ethereum_test_base_types.conversions import to_fixed_size_bytes
 from ethereum_test_tools import (
     EOA,
     Account,
@@ -18,6 +19,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_vm.bytecode import Bytecode
+from ethereum_test_vm.evm_types import EVMCodeType
 
 from .. import EOF_FORK_NAME
 from .spec import (
@@ -507,6 +509,92 @@ def test_callee_fails(
         slot_call_result: EXTCALL_REVERT
         if opcode == Op.EXTDELEGATECALL and not isinstance(destination_code, Container)
         else expected_result,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+        destination_contract_address: Account(storage={}),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    ["opcode", "destination_code", "expected_result"],
+    [
+        pytest.param(Op.EXTCALL, Op.ADDRESS, "destination", id="extcall_address"),
+        pytest.param(Op.EXTDELEGATECALL, Op.ADDRESS, "caller", id="extdelegatecall_address"),
+        pytest.param(Op.EXTSTATICCALL, Op.ADDRESS, "destination", id="extstaticcall_address"),
+        pytest.param(Op.EXTCALL, Op.CALLER, "caller", id="extcall_caller"),
+        pytest.param(Op.EXTDELEGATECALL, Op.CALLER, "sender", id="extdelegatecall_caller"),
+        pytest.param(Op.EXTSTATICCALL, Op.CALLER, "caller", id="extstaticcall_caller"),
+        pytest.param(Op.EXTCALL, Op.CALLVALUE, 0, id="extcall_call_value"),
+        pytest.param(
+            Op.EXTDELEGATECALL, Op.CALLVALUE, "tx_value", id="extdelegatecall_call_value"
+        ),
+        pytest.param(Op.EXTSTATICCALL, Op.CALLVALUE, 0, id="extstaticcall_call_value"),
+        pytest.param(Op.EXTCALL, Op.ORIGIN, "sender", id="extcall_origin"),
+        pytest.param(Op.EXTDELEGATECALL, Op.ORIGIN, "sender", id="extdelegatecall_origin"),
+        pytest.param(Op.EXTSTATICCALL, Op.ORIGIN, "sender", id="extstaticcall_origin"),
+    ],
+)
+@pytest.mark.with_all_evm_code_types
+def test_callee_context(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    sender: EOA,
+    opcode: Op,
+    destination_code: Bytecode,
+    expected_result: str | int,
+    evm_code_type: EVMCodeType,
+):
+    """Test EOF calls' callee context instructions"""
+    env = Environment()
+    tx_value = 0x1123
+
+    destination_contract_address = pre.deploy_contract(
+        Op.MSTORE(0, destination_code) + Op.RETURN(0, 32)
+    )
+
+    caller_contract = Container.Code(
+        Op.SSTORE(slot_code_worked, value_code_worked)
+        + opcode(address=destination_contract_address)
+        + Op.SSTORE(slot_returndata, Op.RETURNDATALOAD(0))
+        + Op.STOP,
+    )
+    calling_contract_address = pre.deploy_contract(caller_contract)
+
+    tx = Transaction(
+        sender=sender,
+        to=Address(calling_contract_address),
+        gas_limit=100000,
+        data="",
+        value=tx_value,
+    )
+
+    if expected_result == "destination":
+        expected_bytes: bytes = destination_contract_address
+    elif expected_result == "caller":
+        expected_bytes = calling_contract_address
+    elif expected_result == "sender":
+        expected_bytes = sender
+    elif expected_result == "tx_value":
+        expected_bytes = to_fixed_size_bytes(tx_value, 32)
+    elif isinstance(expected_result, int):
+        expected_bytes = to_fixed_size_bytes(expected_result, 32)
+    else:
+        raise TypeError("Unexpected expected_result", expected_result)
+
+    calling_storage = {
+        slot_code_worked: value_code_worked,
+        slot_returndata: 0
+        if (opcode == Op.EXTDELEGATECALL and evm_code_type == EVMCodeType.LEGACY)
+        else expected_bytes,
     }
 
     post = {
