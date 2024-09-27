@@ -577,7 +577,7 @@ requires-dist = [
     { name = "coincurve", specifier = ">=20.0.0,<21" },
     { name = "colorlog", specifier = ">=6.7.0,<7" },
     { name = "ethereum", git = "https://github.com/ethereum/execution-specs" },
-    { name = "ethereum-spec-evm-resolver", git = "https://github.com/petertdavies/ethereum-spec-evm-resolver" },
+    { name = "ethereum-spec-evm-resolver", git = "https://github.com/danceratopz/ethereum-spec-evm-resolver?rev=fix%2Fshorten-socket-name" },
     { name = "filelock", specifier = ">=3.15.1,<4" },
     { name = "flake8", marker = "extra == 'lint'", specifier = ">=6.1.0,<7" },
     { name = "flake8-docstrings", marker = "extra == 'lint'", specifier = ">=1.6,<2" },
@@ -622,7 +622,7 @@ requires-dist = [
 [[package]]
 name = "ethereum-spec-evm-resolver"
 version = "0.0.5"
-source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver#f17667743dd543e690f1c334540372413b324877" }
+source = { git = "https://github.com/danceratopz/ethereum-spec-evm-resolver?rev=fix%2Fshorten-socket-name#2a5c4d6cb6ba7a366c76afaa6ad99ae396f979d1" }
 dependencies = [
     { name = "coincurve" },
     { name = "filelock" },
