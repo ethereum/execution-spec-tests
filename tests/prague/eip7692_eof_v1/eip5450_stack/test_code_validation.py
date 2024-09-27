@@ -182,7 +182,7 @@ possible_inputs_outputs = range(2)
     RjumpKind.__members__.values(),
 )
 # Parameter value fixed for first iteration, to cover the most important case.
-@pytest.mark.parametrize("rjump_section_idx", [1])
+@pytest.mark.parametrize("rjump_section_idx", [0, 1])
 @pytest.mark.parametrize(
     "rjump_spot",
     RjumpSpot.__members__.values(),
@@ -247,6 +247,13 @@ def test_eof_validity(
             sections.append(Section.Code(code))
     eof_test(
         data=bytes(Container(sections=sections)),
-        # `empty_rjump` acts as a sanity check, it is completely stack-neutral so
-        # should always validate.`
+        # Some RJUMP* snippets always validate successfully, so they act as sanity check
+        no_expectations_on_validity=rjump_kind
+        not in [
+            RjumpKind.EMPTY_RJUMP,
+            RjumpKind.EMPTY_RJUMPI,
+            RjumpKind.RJUMPI_OVER_NOOP,
+            RjumpKind.RJUMPI_OVER_STOP,
+            RjumpKind.RJUMPI_OVER_PUSH_POP,
+        ],
     )
