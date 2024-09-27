@@ -22632,7 +22632,7 @@
 
 
 <h1 id="test_withdrawing_to_precompiles"><code>test_withdrawing_to_precompiles()</code><a class="headerlink" href="#test_withdrawing_to_precompiles" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d1f8ae15b81702f9693bd9193c67fda747ae0a29/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L699"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_withdrawing_to_precompiles@d1f8ae15</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/496607f1868f5b72f4cd2be897218e80612c9300/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L699"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_withdrawing_to_precompiles@496607f1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Shanghai with:</p>
 <p>Shanghai only:
@@ -22693,9 +22693,7 @@
 <span class="normal">734</span>
 <span class="normal">735</span>
 <span class="normal">736</span>
-<span class="normal">737</span>
-<span class="normal">738</span>
-<span class="normal">739</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;amount&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="normal">737</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;amount&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_precompiles</span>
 <span class="k">def</span> <span class="nf">test_withdrawing_to_precompiles</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -22707,8 +22705,6 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test withdrawing to all precompiles for a given fork.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">precompile</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">t8n</span><span class="o">.</span><span class="n">default_binary</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;ethereum-spec-evm&quot;</span><span class="p">:</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="s2">&quot;ethereum-spec-evm doesn&#39;t support hash type ripemd160&quot;</span><span class="p">)</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
 

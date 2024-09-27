@@ -1610,15 +1610,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#evm-tools_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      🔧 EVM Tools
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#misc_2" class="md-nav__link">
     <span class="md-ellipsis">
       📋 Misc
@@ -1769,7 +1760,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#evm-tools_2" class="md-nav__link">
+  <a href="#evm-tools_1" class="md-nav__link">
     <span class="md-ellipsis">
       🔧 EVM Tools
     </span>
@@ -23150,15 +23141,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#evm-tools_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      🔧 EVM Tools
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#misc_2" class="md-nav__link">
     <span class="md-ellipsis">
       📋 Misc
@@ -23309,7 +23291,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#evm-tools_2" class="md-nav__link">
+  <a href="#evm-tools_1" class="md-nav__link">
     <span class="md-ellipsis">
       🔧 EVM Tools
     </span>
@@ -23511,6 +23493,9 @@
 <li>✨ Add <code>Wei</code> type to <code>ethereum_test_base_types</code> which allows parsing wei amounts from strings like "1 ether", "1000 wei", "10**2 gwei", etc (<a href="https://github.com/ethereum/execution-spec-tests/pull/825">#825</a>)</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✨ Fill test fixtures using EELS by default. EEST now uses the <a href="https://github.com/petertdavies/ethereum-spec-evm-resolver"><code>ethereum-specs-evm-resolver</code></a> with the EELS daemon (<a href="https://github.com/ethereum/execution-spec-tests/pull/792">#792</a>).</li>
+</ul>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <ul>
 <li>✨ Feature releases can now include multiple types of fixture tarball files from different releases that start with the same prefix (<a href="https://github.com/ethereum/execution-spec-tests/pull/736">#736</a>).</li>
@@ -23629,7 +23614,6 @@
 <li>✨ Adds an optional <code>verify_sync</code> field to hive blockchain tests (EngineAPI). When set to true a second client attempts to sync to the first client that executed the tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/431">#431</a>).</li>
 <li>🐞 Fix manually setting the gas limit in the genesis test env for post genesis blocks in blockchain tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/472">#472</a>).</li>
 </ul>
-<h3 id="evm-tools_1">🔧 EVM Tools<a class="headerlink" href="#evm-tools_1" title="Permanent link">&para;</a></h3>
 <h3 id="misc_2">📋 Misc<a class="headerlink" href="#misc_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🐞 Fix deprecation warnings due to outdated config in recommended VS Code project settings (<a href="https://github.com/ethereum/execution-spec-tests/pull/420">#420</a>).</li>
@@ -23778,7 +23762,7 @@
 <li>🔀 Fixtures: Add a non-RLP format field (<code>rlp_decoded</code>) to invalid blocks (<a href="https://github.com/ethereum/execution-spec-tests/pull/322">#322</a>).</li>
 <li>🔀 Spec: Refactor state and blockchain spec (<a href="https://github.com/ethereum/execution-spec-tests/pull/307">#307</a>).</li>
 </ul>
-<h3 id="evm-tools_2">🔧 EVM Tools<a class="headerlink" href="#evm-tools_2" title="Permanent link">&para;</a></h3>
+<h3 id="evm-tools_1">🔧 EVM Tools<a class="headerlink" href="#evm-tools_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>✨ Run geth's <code>evm blocktest</code> command to verify JSON fixtures after test case execution (<code>--verify-fixtures</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/325">#325</a>).</li>
 <li>✨ Enable tracing support for <code>ethereum-spec-evm</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/289">#289</a>).</li>
@@ -23875,6 +23859,7 @@
         <a href="mailto:jochembrouwer96@gmail.com">Jochem Brouwer</a>, 
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
         <a href="mailto:pawel@ethereum.org">Paweł Bylica</a>, 
+        <a href="mailto:ultratwo@gmail.com">Peter Davies</a>, 
         <a href="mailto:spencer@spencertaylorbrown.uk">Spencer Taylor-Brown</a>, 
         <a href="mailto:151536303+threehrsleep@users.noreply.github.com">ThreeHrSleep</a>, 
         <a href="mailto:154241727+cristiantroy@users.noreply.github.com">cristiantroy</a>, 
