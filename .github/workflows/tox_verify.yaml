@@ -8,28 +8,28 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             python: "3.10"
             evm-type: "stable"
-            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
-          - os: ubuntu-latest
+            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
+          - os: ubuntu-24.04
             python: "3.12"
             evm-type: "stable"
-            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"
+            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
           # Disabled due to unavailable evm implementation for devnet-1
-          # - os: ubuntu-latest
+          # - os: ubuntu-24.04
           #   python: '3.11'
           #   evm-type: 'develop'
           #   tox-cmd: 'tox -e tests-develop'
           # Disabled to not be gated by evmone implementation
-          # - os: ubuntu-latest
+          # - os: ubuntu-24.04
           #   python: '3.11'
           #   evm-type: 'eip7692'
           #   tox-cmd: 'tox -e tests-eip7692'
           - os: macos-latest
             python: "3.11"
             evm-type: "stable"
-            tox-cmd: "tox"  # run-parallel --parallel-no-spinner"
+            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,8 +52,6 @@ jobs:
           brew install aspell
           # Add additional packages on 3.11: https://github.com/ethereum/execution-spec-tests/issues/274
           if [ ${{ matrix.python }} == '3.11' ]; then brew install autoconf automake libtool; fi
-      - name: Install Tox and any other packages
-        run: pip install tox-uv
       - name: Run Tox (CPython)
         run: ${{ matrix.tox-cmd }}
       - uses: DavidAnson/markdownlint-cli2-action@v16

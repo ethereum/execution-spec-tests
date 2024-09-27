@@ -267,6 +267,7 @@ msm
 mypy
 ctx
 namespace
+natively
 nav
 ncheck
 nethermind
@@ -354,6 +355,7 @@ secp256k1n
 selfbalance
 ser
 servable
+setenv
 setitem
 sha
 SHA
@@ -386,6 +388,7 @@ subprocess
 subscriptable
 substring
 sudo
+sysconfig
 t8n
 tamasfe
 terminalreporter
@@ -422,6 +425,7 @@ uncomment
 undersize
 unlink
 usr
+unixsocket
 util
 utils
 v0
