@@ -8,6 +8,7 @@ from typing import Tuple
 
 import pytest
 
+from ethereum_test_exceptions.exceptions import EOFException
 from ethereum_test_tools import EOFTestFiller
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -245,15 +246,23 @@ def test_eof_validity(
             )
         else:
             sections.append(Section.Code(code))
+
+    # Some RJUMP* snippets always validate successfully, so they act as sanity check
+    always_valid = rjump_kind in [
+        RjumpKind.EMPTY_RJUMP,
+        RjumpKind.EMPTY_RJUMPI,
+        RjumpKind.RJUMPI_OVER_NOOP,
+        RjumpKind.RJUMPI_OVER_STOP,
+        RjumpKind.RJUMPI_OVER_PUSH_POP,
+    ]
+    possible_exceptions = [
+        EOFException.STACK_HEIGHT_MISMATCH,
+        EOFException.STACK_HIGHER_THAN_OUTPUTS,
+        EOFException.STACK_UNDERFLOW,
+    ]
+
     eof_test(
         data=bytes(Container(sections=sections)),
-        # Some RJUMP* snippets always validate successfully, so they act as sanity check
-        no_expectations_on_validity=rjump_kind
-        not in [
-            RjumpKind.EMPTY_RJUMP,
-            RjumpKind.EMPTY_RJUMPI,
-            RjumpKind.RJUMPI_OVER_NOOP,
-            RjumpKind.RJUMPI_OVER_STOP,
-            RjumpKind.RJUMPI_OVER_PUSH_POP,
-        ],
+        no_expectations_on_validity=not always_valid,
+        expect_exception=possible_exceptions if not always_valid else None,
     )

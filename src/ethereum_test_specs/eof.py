@@ -239,12 +239,23 @@ class EOFTest(BaseTest):
             if self.no_expectations_on_validity:
                 parser = EvmoneExceptionMapper()
                 actual_message = result.stdout.strip()
+                actual_exception = parser.message_to_exception(actual_message)
                 if "OK" in actual_message:
                     expected_result.valid = True
-                else:
+                    expected_result.exception = None
+                elif not self.expect_exception:
+                    raise Exception(
+                        "no_expectations_on_validity requires a catalogue of expected exceptions"
+                    )
+                elif actual_exception in self.expect_exception:
                     expected_result.valid = False
-                    actual_exception = parser.message_to_exception(actual_message)
-                    expected_result.exception = actual_exception
+                    expected_result.exception = self.expect_exception
+                else:
+                    raise EOFExceptionMismatch(
+                        code=vector.code,
+                        expected=f"{to_pipe_str(expected_result.exception)}",
+                        got=f"{actual_exception} ({actual_message})",
+                    )
             else:
                 self.verify_result(result, expected_result, vector.code)
 
