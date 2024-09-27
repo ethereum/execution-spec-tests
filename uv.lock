@@ -622,7 +622,7 @@ requires-dist = [
 [[package]]
 name = "ethereum-spec-evm-resolver"
 version = "0.0.5"
-source = { git = "https://github.com/danceratopz/ethereum-spec-evm-resolver?rev=fix%2Fshorten-socket-name#2a5c4d6cb6ba7a366c76afaa6ad99ae396f979d1" }
+source = { git = "https://github.com/danceratopz/ethereum-spec-evm-resolver?rev=fix%2Fshorten-socket-name#10f3a0c5f09d8ec0677a6c35cdac45a2de331ef4" }
 dependencies = [
     { name = "coincurve" },
     { name = "filelock" },
