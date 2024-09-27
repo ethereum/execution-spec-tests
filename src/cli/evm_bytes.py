@@ -87,6 +87,7 @@ def process_evm_bytes(evm_bytes: bytes, assembly: bool = False) -> str:  # noqa:
             for _ in range(max_index + 1):
                 operands.append(int.from_bytes(evm_bytes[:2], "big"))
                 evm_bytes = evm_bytes[2:]
+            opcodes.append(OpcodeWithOperands(opcode=opcode, operands=operands))
         else:
             opcodes.append(OpcodeWithOperands(opcode=opcode))
 
@@ -106,6 +107,15 @@ def process_evm_bytes(evm_bytes: bytes, assembly: bool = False) -> str:  # noqa:
     return " + ".join(op.format(assembly) for op in opcodes)
 
 
+def process_evm_bytes_string(evm_bytes_hex_string: str, assembly: bool = False) -> str:
+    """Process the given EVM bytes hex string."""
+    if evm_bytes_hex_string.startswith("0x"):
+        evm_bytes_hex_string = evm_bytes_hex_string[2:]
+
+    evm_bytes = bytes.fromhex(evm_bytes_hex_string)
+    return process_evm_bytes(evm_bytes, assembly=assembly)
+
+
 @click.command()
 @click.option("-a", "--assembly", default=False, is_flag=True, help="Output the code as assembly.")
 @click.argument("evm_bytes_hex_string_or_binary_file_path")
@@ -120,14 +130,11 @@ def main(evm_bytes_hex_string_or_binary_file_path: str, assembly: bool):
     """  # noqa: D301
     if Path(evm_bytes_hex_string_or_binary_file_path).is_file():
         with open(evm_bytes_hex_string_or_binary_file_path, "rb") as f:
-            evm_bytes = f.read()
+            processed_output = process_evm_bytes(f.read(), assembly=assembly)
     else:
-        if evm_bytes_hex_string_or_binary_file_path.startswith("0x"):
-            evm_bytes_hex_string_or_binary_file_path = evm_bytes_hex_string_or_binary_file_path[2:]
-
-        evm_bytes = bytes.fromhex(evm_bytes_hex_string_or_binary_file_path)
-
-    processed_output = process_evm_bytes(evm_bytes, assembly=assembly)
+        processed_output = process_evm_bytes_string(
+            evm_bytes_hex_string_or_binary_file_path, assembly=assembly
+        )
     click.echo(processed_output)
 
 
