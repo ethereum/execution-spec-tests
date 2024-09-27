@@ -294,7 +294,6 @@ def test_opcodes_if(conditional_bytecode: bytes, expected: bytes):
     assert bytes(conditional_bytecode) == expected
 
 
-@pytest.mark.run_serial
 @pytest.mark.parametrize(
     "tx_data,switch_bytecode,expected_storage",
     [

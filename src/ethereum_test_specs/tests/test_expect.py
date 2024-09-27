@@ -57,7 +57,6 @@ def t8n() -> ExecutionSpecsTransitionTool:  # noqa: D103
 
 
 # Storage value mismatch tests
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "pre,post,expected_exception",
     [
