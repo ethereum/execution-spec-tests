@@ -117,6 +117,8 @@ eip3540
 eip4844
 eip6110
 eip7002
+eip7069
+eip7692
 eip7251
 eips
 EIPs
@@ -132,6 +134,8 @@ EOF1
 EOFException
 eofparse
 esbenp
+EEST
+EEST's
 eth
 ethash
 ethereum
@@ -220,6 +224,7 @@ initcode
 inputdata
 instantiation
 io
+ipython
 isidentifier
 islice
 isort

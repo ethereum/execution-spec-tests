@@ -16,6 +16,11 @@ jobs:
         with:
           fetch-depth: 0
           ssh-key: ${{secrets.GH_ACTIONS_DEPLOY_KEY}}
+      - name: Build transition tool
+        uses: ./.github/actions/build-evm-base
+        with:
+          id: evm-builder
+          type: stable
       - name: Set up uv
         uses: ./.github/actions/setup-uv
       - name: Set up Python
