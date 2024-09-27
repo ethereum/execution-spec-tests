@@ -62,6 +62,7 @@ def test_check_helper_fixtures():
     )
 
 
+@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "fork,hash",
     [
@@ -104,6 +105,7 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
     assert fixture.genesis.block_hash.startswith(hash)
 
 
+@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "fork,fixture_format",
     [
@@ -498,6 +500,7 @@ class TestFillBlockchainValidTxs:
             fixture_format=fixture_format,
         )
 
+    @pytest.mark.run_in_serial
     @pytest.mark.parametrize("fork", [London, Shanghai], indirect=True)
     def test_fill_blockchain_valid_txs(  # noqa: D102
         self,
@@ -557,6 +560,7 @@ class TestFillBlockchainValidTxs:
         assert isinstance(updated_block_header.transactions_trie, Hash)
 
 
+@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "fork,check_hive,expected_json_file",
     [
