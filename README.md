@@ -104,6 +104,8 @@ uv sync --all-extras
 uv run solc-select use 0.8.24 --always-install
 ```
 
+See [Installation Troubleshooting](./installation_troubleshooting.md) in the online docs if you encounter issues.
+
 ### Exploring and Filling Test Cases
 
 By default, JSON test fixtures are generated from this repository's Python test cases using the [Ethereum Execution Layer Specification](https://github.com/ethereum/execution-specs) (EELS) reference implementation. The resulting JSON fixtures can be executed against execution clients to verify consensus. The process of generating fixtures is often referred to as "filling".
