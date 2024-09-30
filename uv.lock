@@ -498,9 +498,10 @@ wheels = [
 [[package]]
 name = "ethereum"
 version = "0.1.0"
-source = { git = "https://github.com/ethereum/execution-specs#51fac24740e662844446439ceeb96a460aae0ba0" }
+source = { git = "https://github.com/ethereum/execution-specs#9b95554a88d2a8485f8180254d0f6a493a593fda" }
 dependencies = [
     { name = "coincurve" },
+    { name = "ethereum-types" },
     { name = "py-ecc" },
     { name = "pycryptodome" },
     { name = "typing-extensions" },
