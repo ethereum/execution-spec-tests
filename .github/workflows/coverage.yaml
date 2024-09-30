@@ -8,9 +8,6 @@ on:
 jobs:
   evmone-coverage-diff:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        driver: [retesteth, native]
 
     steps:
       - name: Checkout code
@@ -28,6 +25,8 @@ jobs:
         with:
           # TODO: non-test modules such as __init__.py or spec.py could effect coverage - in this case we should
           # fill all applicable tests (i.e., all the test_*.py files in or under the changed module's directory)
+          include_all_old_new_renamed_files: true
+          output_renamed_files_as_deleted_and_added: true
           files_yaml: |
             tests:
               - tests/**/test_*.py
@@ -43,7 +42,8 @@ jobs:
       - name: Report changed python test moudules
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
         run: |
-          echo "Changed python test modules: ${{ steps.changed-tests.outputs.tests_all_changed_files }}"
+          echo "${{ toJson(steps.changed-tests.outputs) }}"
+          echo "Changed python test modules: ${{ steps.changed-tests.outputs.tests_all_modified_files }}"
 
       - name: Debug GitHub context
         run: |
@@ -159,7 +159,7 @@ jobs:
 
       # This command diffs the .py scripts introduced by a PR
       - name: Parse and fill introduced test sources
-        if: steps.changed-tests.outputs.tests_any_changed == 'true'      
+        if: steps.changed-tests.outputs.tests_any_changed == 'true'
         env:
           CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_changed_files }}
         run: |
@@ -171,23 +171,12 @@ jobs:
           mkdir -p fixtures/state_tests
           mkdir -p fixtures/eof_tests
 
-          # Use a while loop with a here-string to avoid subshell issues
-          while IFS= read -r file; do
-            echo "Fill: $file"
-            uv run fill "$file" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-            (uv run fill "$file" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
-          done <<< "$files"
+          uv run fill $files --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+          (uv run fill $files --fork=PragueEIP7692 --evm-bin evmone-t8n || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
 
           if grep -q "FAILURES" filloutput.log; then
               echo "Error: failed to generate .py tests."
               exit 1
-          fi
-          if [ "${{ matrix.driver }}" = "retesteth" ] && grep -q "passed" filloutputEOF.log; then
-              echo "Disabling retesteth coverage check as EOF tests detected!"
-              echo "retesteth_skip=true" >> $GITHUB_ENV
-              exit 0
-          else
-              echo "retesteth_skip=false" >> $GITHUB_ENV
           fi
 
           filesState=$(find fixtures/state_tests -type f -name "*.json")
@@ -207,18 +196,29 @@ jobs:
           find fixtures/eof_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
 
       - name: Parse and fill introduced test sources from before the PR
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && (env.retesteth_skip == 'false' || matrix.driver == 'native') && env.converted_skip == 'true' }}
+        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && env.converted_skip == 'true' }}
+        env:
+          CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_modified_files }}
         run: |
             echo "--------------------"
             echo "converted-ethereum-tests.txt seem untouched, try to fill pre-patched version of .py files:"
 
-            # load introduces .py files
             source $GITHUB_ENV
-            files=$(echo "$NEW_TESTS" | tr ',' '\n')
+            files=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
 
             git checkout main
             PREV_COMMIT=$(git rev-parse HEAD)
             echo "Checkout head $PREV_COMMIT"
+
+            # Take only those files that exist in the filesystem (ignore newly created files)
+            files_fixed=$(echo "$files" | tr ' ' '\n' | while read file; do
+              if [ -f "$file" ]; then
+                echo "$file"
+              fi
+            done | tr '\n' ' ')
+
+            echo "Select files that were changed and exist on the main branch:"
+            echo $files_fixed
 
             rm -r fixtures
             rm filloutput.log
@@ -226,14 +226,15 @@ jobs:
             mkdir -p fixtures/state_tests
             mkdir -p fixtures/eof_tests
 
-            # Use a while loop with a here-string to avoid subshell issues
-            while IFS= read -r file; do
-            echo "Fill: $files"
-            uv run fill "$files" --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-            (uv run fill "$files" --fork=CancunEIP7692 --evm-bin evmone-t8n -k eof_test || true) >> (tee -a filloutput.log filloutputEOF.log) 2>&1
-            done <<< "$files"
+            uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+            (uv run fill $files_fixed --fork=PragueEIP7692 --evm-bin evmone-t8n || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
 
             if grep -q "FAILURES" filloutput.log; then
+              echo "Error: failed to generate .py tests from before the PR."
+              exit 1
+            fi
+
+            if grep -q "ERROR collecting test session" filloutput.log; then
               echo "Error: failed to generate .py tests from before the PR."
               exit 1
             fi
@@ -253,7 +254,7 @@ jobs:
 
 
       - name: Print tests that will be covered
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
+        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         run: |
           echo "Original BASE tests:"
           ls ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
@@ -263,44 +264,44 @@ jobs:
 
       - name: Run coverage of the BASE tests
         uses: addnab/docker-run-action@v3
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
+        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --driver=${{ matrix.driver }} --testpath=/tests/BASE_TESTS --outputname=BASE
+          run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/BASE_TESTS --outputname=BASE
 
       - name: Run coverage of the PATCH tests
         uses: addnab/docker-run-action@v3
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
+        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --driver=${{ matrix.driver }} --testpath=/tests/PATCH_TESTS --outputname=PATCH
+          run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/PATCH_TESTS --outputname=PATCH
 
       - name: Run coverage DIFF of the PATCH tests compared to BASE tests
         uses: addnab/docker-run-action@v3
-        if: ${{  steps.changed-tests.outputs.tests_any_changed == 'true' && (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
+        if: ${{  steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
           run: /entrypoint.sh --mode=diff --basefile=coverage_BASE.lcov --patchfile=coverage_PATCH.lcov
 
       - name: Chmod coverage results
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
+        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         run: |
           user=$(whoami)
           sudo chown -R $user:$user ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Upload coverage results
         uses: actions/upload-artifact@v3
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
+        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
-          name: coverage-diff-${{ matrix.driver }}
+          name: coverage-diff-native
           path: ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Verify coverage results
         uses: addnab/docker-run-action@v3
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && (env.retesteth_skip == 'false' || matrix.driver == 'native') }}
+        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           image: winsvega/evmone-coverage-script:latest
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
