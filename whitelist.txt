@@ -224,6 +224,7 @@ initcode
 inputdata
 instantiation
 io
+isidentifier
 islice
 isort
 isort's
