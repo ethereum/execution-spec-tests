@@ -337,7 +337,7 @@ class TestDocsGenerator:
         """
         ci = os.getenv("CI", None)
         github_ref_name = os.getenv("GITHUB_REF_NAME", None)
-        doc_version = os.getenv("DOC_VERSION", None)
+        doc_version = os.getenv("GEN_TEST_DOC_VERSION", None)
         if ci and github_ref_name:
             return f"/execution-spec-tests/{github_ref_name}/"
         if ci and not github_ref_name:
@@ -345,8 +345,8 @@ class TestDocsGenerator:
         if ("--strict" in sys.argv or "deploy" in sys.argv) and not doc_version:
             # assume we're trying to deploy manually via mike (locally)
             raise Exception(
-                "Failed to determine target doc version during strict build (set DOC_VERSION "
-                "env var)."
+                "Failed to determine target doc version during strict build (set "
+                "GEN_TEST_DOC_VERSION env var)."
             )
         # local test build, e.g. via `uv run mkdocs serve`
         return "/execution-spec-tests/"
