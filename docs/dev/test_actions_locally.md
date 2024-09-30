@@ -53,24 +53,10 @@ Stage  Job ID                Job name              Workflow name                
 
 The `Job ID` is required to run a specific workflow and is provided to the `-j` option of `gh act`.
 
-## Running Workflows Locally
-
-!!! note "Specifying the `ubuntu-24.04` docker image"
-
-    [#792](https://github.com/ethereum/execution-spec-tests/pull/792/) made EELS the default `t8n` tool. Our Github workflows were changed to use the `ubuntu-24.04` docker image which has OpenSSL 3.0.7, required by EELs to have RIPEMD160 support (used by the precompile at `0x03`). As of 2024-09-30 `ubuntu-latest` resolves to `ubuntu-22-04`.
-    
-    To run workflows that use `ubuntu-24.04` with `act` (as of version 0.2.67) the following must be added to the command-line:
-
-    ```bash
-    -P ubuntu-24.04=ghcr.io/catthehacker/ubuntu:full-24.04
-    ```
-
-    See also [Installation Troubleshooting](../getting_started/installation_troubleshooting.md#problem-valueerror-unsupported-hash-type-ripemd160) for more information.
-
 ### Running Workflows Locally that use a Matrix Strategy
 
 ```bash
-gh act -j build --workflows .github/workflows/tox_verify.yaml -s GITHUB_TOKEN=$(gh auth token) --matrix python:3.10 -P ubuntu-24.04=ghcr.io/catthehacker/ubuntu:full-24.04
+gh act -j build --workflows .github/workflows/tox_verify.yaml -s GITHUB_TOKEN=$(gh auth token) --matrix python:3.12
 ```
 
 ### Running Release Workflows
@@ -88,5 +74,5 @@ Release builds require the `ref` input to be specified. To test a release build 
 2. Run `act` and specify the workflow file, the Github token, and the event file:
 
     ```bash
-    gh act -j build --workflows .github/workflows/fixtures_feature.yaml -s GITHUB_TOKEN=$(gh auth token) -e event.json -P ubuntu-24.04=ghcr.io/catthehacker/ubuntu:full-24.04
+    gh act -j build --workflows .github/workflows/fixtures_feature.yaml -s GITHUB_TOKEN=$(gh auth token) -e event.json
     ```
