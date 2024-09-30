@@ -1918,6 +1918,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#evm_transition_tool.GethTransitionTool.is_verifiable" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_verifiable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#evm_transition_tool.GethTransitionTool.verify_fixture" class="md-nav__link">
     <span class="md-ellipsis">
       verify_fixture
@@ -23215,6 +23224,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#evm_transition_tool.GethTransitionTool.is_verifiable" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_verifiable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#evm_transition_tool.GethTransitionTool.verify_fixture" class="md-nav__link">
     <span class="md-ellipsis">
       verify_fixture
@@ -25031,8 +25049,7 @@ versions of EELS hosted in different places.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/evm_transition_tool/geth.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 18</span>
-<span class="normal"> 19</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 19</span>
 <span class="normal"> 20</span>
 <span class="normal"> 21</span>
 <span class="normal"> 22</span>
@@ -25152,7 +25169,17 @@ versions of EELS hosted in different places.</p>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Go-ethereum `evm` Transition tool interface wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25204,9 +25231,18 @@ versions of EELS hosted in different places.</p>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected exception calling evm tool: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span>
 
+    <span class="k">def</span> <span class="nf">is_verifiable</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns whether the fixture format is verifiable by this Geth&#39;s evm tool.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="p">{</span><span class="n">StateFixture</span><span class="p">,</span> <span class="n">BlockchainFixture</span><span class="p">}</span>
+
     <span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span><span class="p">,</span>
+        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
         <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
         <span class="n">fixture_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -25219,16 +25255,16 @@ versions of EELS hosted in different places.</p>
         <span class="k">if</span> <span class="n">debug_output_path</span><span class="p">:</span>
             <span class="n">command</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--debug&quot;</span><span class="p">,</span> <span class="s2">&quot;--json&quot;</span><span class="p">,</span> <span class="s2">&quot;--verbosity&quot;</span><span class="p">,</span> <span class="s2">&quot;100&quot;</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">is_state_test</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">StateFixture</span><span class="p">:</span>
             <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">statetest_subcommand</span><span class="p">,</span> <span class="s2">&quot;statetest subcommand not set&quot;</span>
             <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statetest_subcommand</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">is_blockchain_test</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
             <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocktest_subcommand</span><span class="p">,</span> <span class="s2">&quot;blocktest subcommand not set&quot;</span>
             <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocktest_subcommand</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid test fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">fixture_name</span> <span class="ow">and</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">BLOCKCHAIN_TEST</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fixture_name</span> <span class="ow">and</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
             <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fixture_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="s2">&quot;fixture_name must be a string&quot;</span>
             <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--run&quot;</span><span class="p">)</span>
             <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fixture_name</span><span class="p">)</span>
@@ -25267,7 +25303,7 @@ versions of EELS hosted in different places.</p>
                 <span class="sa">f</span><span class="s2">&quot;EVM test failed.</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="se">\n\n</span><span class="s2"> Error:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">is_state_test</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">StateFixture</span><span class="p">:</span>
             <span class="n">result_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result_json</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected result from evm statetest: </span><span class="si">{</span><span class="n">result_json</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -25303,13 +25339,13 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/evm_transition_tool/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
-<span class="normal">50</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">55</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool.</span>
 
@@ -25342,8 +25378,7 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/evm_transition_tool/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">57</span>
-<span class="normal">58</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
@@ -25353,7 +25388,8 @@ versions of EELS hosted in different places.</p>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
-<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_blocktest_help</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_blocktest_help</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the help string for the blocktest subcommand.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25365,6 +25401,47 @@ versions of EELS hosted in different places.</p>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected exception calling evm tool: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="evm_transition_tool.GethTransitionTool.is_verifiable" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">is_verifiable</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">)</span></code>
+
+<a href="#evm_transition_tool.GethTransitionTool.is_verifiable" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Returns whether the fixture format is verifiable by this Geth's evm tool.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/evm_transition_tool/geth.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_verifiable</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns whether the fixture format is verifiable by this Geth&#39;s evm tool.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="p">{</span><span class="n">StateFixture</span><span class="p">,</span> <span class="n">BlockchainFixture</span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -25391,17 +25468,7 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/evm_transition_tool/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 80</span>
 <span class="normal"> 81</span>
 <span class="normal"> 82</span>
 <span class="normal"> 83</span>
@@ -25460,9 +25527,19 @@ versions of EELS hosted in different places.</p>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span><span class="p">,</span>
+    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">fixture_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -25475,16 +25552,16 @@ versions of EELS hosted in different places.</p>
     <span class="k">if</span> <span class="n">debug_output_path</span><span class="p">:</span>
         <span class="n">command</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--debug&quot;</span><span class="p">,</span> <span class="s2">&quot;--json&quot;</span><span class="p">,</span> <span class="s2">&quot;--verbosity&quot;</span><span class="p">,</span> <span class="s2">&quot;100&quot;</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">is_state_test</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">StateFixture</span><span class="p">:</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">statetest_subcommand</span><span class="p">,</span> <span class="s2">&quot;statetest subcommand not set&quot;</span>
         <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statetest_subcommand</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">is_blockchain_test</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocktest_subcommand</span><span class="p">,</span> <span class="s2">&quot;blocktest subcommand not set&quot;</span>
         <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocktest_subcommand</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid test fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">fixture_name</span> <span class="ow">and</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">BLOCKCHAIN_TEST</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">fixture_name</span> <span class="ow">and</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fixture_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="s2">&quot;fixture_name must be a string&quot;</span>
         <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--run&quot;</span><span class="p">)</span>
         <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fixture_name</span><span class="p">)</span>
@@ -25523,7 +25600,7 @@ versions of EELS hosted in different places.</p>
             <span class="sa">f</span><span class="s2">&quot;EVM test failed.</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="se">\n\n</span><span class="s2"> Error:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">FixtureFormats</span><span class="o">.</span><span class="n">is_state_test</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">StateFixture</span><span class="p">:</span>
         <span class="n">result_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result_json</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected result from evm statetest: </span><span class="si">{</span><span class="n">result_json</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -26941,7 +27018,7 @@ implementations.</p>
 
     <span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span><span class="p">,</span>
+        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
         <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
         <span class="n">fixture_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -28147,7 +28224,7 @@ can be overridden.</p>
 <span class="normal">630</span>
 <span class="normal">631</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormats</span><span class="p">,</span>
+    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">fixture_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
