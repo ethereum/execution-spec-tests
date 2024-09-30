@@ -2858,6 +2858,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ethereum_test_types.keccak256" class="md-nav__link">
+    <span class="md-ellipsis">
+      keccak256
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -24896,6 +24905,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ethereum_test_types.keccak256" class="md-nav__link">
+    <span class="md-ellipsis">
+      keccak256
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -24976,8 +24994,7 @@ optional fields.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
-<span class="normal">144</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
@@ -25000,7 +25017,8 @@ optional fields.</p>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">TestParameterGroup</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for grouping test parameters in a dataclass. Provides a generic</span>
@@ -25054,8 +25072,7 @@ name and the values of the non-default optional fields.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
-<span class="normal">154</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
@@ -25068,7 +25085,8 @@ name and the values of the non-default optional fields.</p>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates a repr string, intended to be used as a test id, based on the class</span>
 <span class="sd">    name and the values of the non-default optional fields.</span>
@@ -25118,8 +25136,7 @@ name and the values of the non-default optional fields.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">121</span>
-<span class="normal">122</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
@@ -25137,7 +25154,8 @@ name and the values of the non-default optional fields.</p>
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
-<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_kzg_version</span><span class="p">(</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_kzg_version</span><span class="p">(</span>
     <span class="n">b_hashes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span> <span class="n">kzg_version</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -25184,12 +25202,12 @@ Used by many of the EVM's formulas</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+<span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ceiling_division</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ceiling_division</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the ceil without using floating point.</span>
 <span class="sd">    Used by many of the EVM&#39;s formulas</span>
@@ -25222,22 +25240,22 @@ opcode.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">57</span>
+<span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_create2_address</span><span class="p">(</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_create2_address</span><span class="p">(</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">salt</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">BytesConvertible</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute address of the resulting contract created using the `CREATE2`</span>
 <span class="sd">    opcode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">hash</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xff</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hash</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span> <span class="o">+</span> <span class="n">keccak256</span><span class="p">(</span><span class="n">Bytes</span><span class="p">(</span><span class="n">initcode</span><span class="p">)))</span>
+    <span class="nb">hash</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xff</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hash</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span> <span class="o">+</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">initcode</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">())</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">Address</span><span class="p">(</span><span class="nb">hash</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:])</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -25266,7 +25284,8 @@ or the <code>CREATE</code> opcode.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
+<span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
@@ -25290,8 +25309,7 @@ or the <code>CREATE</code> opcode.</p>
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_create_address</span><span class="p">(</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_create_address</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span> <span class="o">|</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">nonce</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -25312,7 +25330,7 @@ or the <code>CREATE</code> opcode.</p>
         <span class="k">if</span> <span class="n">nonce</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">nonce</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">nonce_bytes</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span> <span class="k">if</span> <span class="n">nonce</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">nonce</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
-        <span class="nb">hash</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="n">encode</span><span class="p">([</span><span class="n">address</span><span class="p">,</span> <span class="n">nonce_bytes</span><span class="p">]))</span>
+        <span class="nb">hash</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">encode</span><span class="p">([</span><span class="n">address</span><span class="p">,</span> <span class="n">nonce_bytes</span><span class="p">]))</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">Address</span><span class="p">(</span><span class="nb">hash</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:])</span>
     <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">compute_create2_address</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">initcode</span><span class="p">)</span>
@@ -25343,7 +25361,8 @@ or the <code>CREATE</code> opcode.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
+<span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
@@ -25352,7 +25371,8 @@ or the <code>CREATE</code> opcode.</p>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_eofcreate_address</span><span class="p">(</span>
+<span class="normal">104</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_eofcreate_address</span><span class="p">(</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span>
     <span class="n">salt</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span>
     <span class="n">init_container</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
@@ -25360,7 +25380,9 @@ or the <code>CREATE</code> opcode.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute address of the resulting contract created using the `EOFCREATE` opcode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">hash</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xff</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hash</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span> <span class="o">+</span> <span class="n">keccak256</span><span class="p">(</span><span class="n">Bytes</span><span class="p">(</span><span class="n">init_container</span><span class="p">)))</span>
+    <span class="nb">hash</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span>
+        <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xff</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hash</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span> <span class="o">+</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">init_container</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">Address</span><span class="p">(</span><span class="nb">hash</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:])</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -25390,13 +25412,13 @@ empty memory, based on the costs specified in the yellow paper:
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">86</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
+<span class="normal">86</span>
 <span class="normal">87</span>
 <span class="normal">88</span>
 <span class="normal">89</span>
 <span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_opcode_cost</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy_opcode_cost</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the cost of the COPY opcodes, assuming memory expansion from</span>
 <span class="sd">    empty memory, based on the costs specified in the yellow paper:</span>
@@ -25430,7 +25452,8 @@ the yellow paper: <a href="https://ethereum.github.io/yellowpaper/paper.pdf">htt
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">68</span>
+<span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
@@ -25443,8 +25466,7 @@ the yellow paper: <a href="https://ethereum.github.io/yellowpaper/paper.pdf">htt
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cost_memory_bytes</span><span class="p">(</span><span class="n">new_bytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">previous_bytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cost_memory_bytes</span><span class="p">(</span><span class="n">new_bytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">previous_bytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the cost of memory expansion, based on the costs specified in</span>
 <span class="sd">    the yellow paper: https://ethereum.github.io/yellowpaper/paper.pdf</span>
@@ -25486,8 +25508,7 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
-<span class="normal">108</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
@@ -25497,7 +25518,8 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
-<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eip_2028_transaction_data_cost</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">118</span>
+<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eip_2028_transaction_data_cost</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the cost of a given data as part of a transaction, based on the</span>
 <span class="sd">    costs specified in EIP-2028: https://eips.ethereum.org/EIPS/eip-2028</span>
@@ -25541,13 +25563,7 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
 <span class="normal"> 72</span>
@@ -25586,7 +25602,13 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOA</span><span class="p">(</span><span class="n">Address</span><span class="p">):</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOA</span><span class="p">(</span><span class="n">Address</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An Externally Owned Account (EOA) is an account controlled by a private key.</span>
 
@@ -25660,28 +25682,28 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">address</span><span class="p">:</span> <span class="s2">&quot;FixedSizeBytesConvertible | Address | EOA | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -25729,13 +25751,13 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_nonce</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_nonce</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the current nonce of the EOA and increments it by one.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25768,11 +25790,11 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EOA&quot;</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EOA&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a copy of the EOA.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25817,19 +25839,19 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">459</span>
 <span class="normal">460</span>
 <span class="normal">461</span>
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
-<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AccessList</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AccessList</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Access List for transactions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25870,11 +25892,11 @@ costs specified in EIP-2028: <a href="https://eips.ethereum.org/EIPS/eip-2028">h
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the access list as a list of serializable elements.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -27109,13 +27131,7 @@ Raises exception on failure.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
@@ -27298,7 +27314,13 @@ Raises exception on failure.</p>
 <span class="normal">297</span>
 <span class="normal">298</span>
 <span class="normal">299</span>
-<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Alloc</span><span class="p">(</span><span class="n">BaseAlloc</span><span class="p">):</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Alloc</span><span class="p">(</span><span class="n">BaseAlloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allocation of accounts in the state, pre and post test execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -27525,13 +27547,7 @@ Raises exception on failure.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
@@ -27541,7 +27557,13 @@ Raises exception on failure.</p>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">UnexpectedAccount</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Unexpected account found in the allocation.</span>
@@ -27586,9 +27608,9 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;unexpected account in allocation </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -27635,13 +27657,7 @@ Raises exception on failure.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
@@ -27649,7 +27665,13 @@ Raises exception on failure.</p>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">MissingAccount</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expected account not found in the allocation.</span>
@@ -27692,9 +27714,9 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Account missing from allocation </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -27736,13 +27758,7 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
@@ -27750,7 +27766,13 @@ Raises exception on failure.</p>
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">alloc_1</span><span class="p">:</span> <span class="s2">&quot;Alloc&quot;</span><span class="p">,</span> <span class="n">alloc_2</span><span class="p">:</span> <span class="s2">&quot;Alloc&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Alloc&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the merged allocation of two sources.</span>
@@ -27791,11 +27813,11 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns an iterator over the allocation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -27826,13 +27848,13 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the account associated with an address.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -27865,13 +27887,13 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sets the account associated with an address.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -27904,13 +27926,13 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Deletes the account associated with an address.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -27943,13 +27965,13 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if both allocations are equal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -27982,13 +28004,13 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks if an account is in the allocation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28021,11 +28043,11 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">empty_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">empty_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a list of addresses of empty accounts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28056,13 +28078,7 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
@@ -28081,7 +28097,13 @@ Raises exception on failure.</p>
 <span class="normal">240</span>
 <span class="normal">241</span>
 <span class="normal">242</span>
-<span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">state_root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">state_root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the state root of the allocation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28134,13 +28156,7 @@ Raises exception on unexpected values.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
@@ -28152,7 +28168,13 @@ Raises exception on unexpected values.</p>
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
-<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_alloc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">got_alloc</span><span class="p">:</span> <span class="s2">&quot;Alloc&quot;</span><span class="p">):</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_alloc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">got_alloc</span><span class="p">:</span> <span class="s2">&quot;Alloc&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verify that the allocation matches the expected post in the test.</span>
 <span class="sd">    Raises exception on unexpected values.</span>
@@ -28197,13 +28219,7 @@ Raises exception on unexpected values.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
@@ -28211,7 +28227,13 @@ Raises exception on unexpected values.</p>
 <span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deploy_contract</span><span class="p">(</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deploy_contract</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -28252,17 +28274,17 @@ Raises exception on unexpected values.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">287</span>
 <span class="normal">288</span>
 <span class="normal">289</span>
 <span class="normal">290</span>
-<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_eoa</span><span class="p">(</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_eoa</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">21</span><span class="p">,</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -28301,14 +28323,14 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fund an address with a given amount.</span>
 
@@ -28356,16 +28378,7 @@ added to its existing balance.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">532</span>
 <span class="normal">533</span>
 <span class="normal">534</span>
 <span class="normal">535</span>
@@ -28405,7 +28418,16 @@ added to its existing balance.</p>
 <span class="normal">569</span>
 <span class="normal">570</span>
 <span class="normal">571</span>
-<span class="normal">572</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AuthorizationTuple</span><span class="p">(</span><span class="n">AuthorizationTupleGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AuthorizationTuple</span><span class="p">(</span><span class="n">AuthorizationTupleGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Authorization tuple for transactions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28437,7 +28459,7 @@ added to its existing balance.</p>
                     <span class="o">+</span> <span class="nb">bytes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">])</span>
                 <span class="p">)</span>
                 <span class="n">public_key</span> <span class="o">=</span> <span class="n">PublicKey</span><span class="o">.</span><span class="n">from_signature_and_message</span><span class="p">(</span>
-                    <span class="n">signature_bytes</span><span class="p">,</span> <span class="n">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="p">),</span> <span class="n">hasher</span><span class="o">=</span><span class="kc">None</span>
+                    <span class="n">signature_bytes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="o">.</span><span class="n">keccak256</span><span class="p">(),</span> <span class="n">hasher</span><span class="o">=</span><span class="kc">None</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">signer</span> <span class="o">=</span> <span class="n">EOA</span><span class="p">(</span>
                     <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">keccak256</span><span class="p">(</span><span class="n">public_key</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">compressed</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])[</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="p">:])</span>
@@ -28483,16 +28505,7 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">540</span>
 <span class="normal">541</span>
 <span class="normal">542</span>
 <span class="normal">543</span>
@@ -28514,7 +28527,16 @@ added to its existing balance.</p>
 <span class="normal">559</span>
 <span class="normal">560</span>
 <span class="normal">561</span>
-<span class="normal">562</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">model_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__context</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">model_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__context</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Automatically signs the authorization tuple if a secret key or sender are provided.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28538,7 +28560,7 @@ added to its existing balance.</p>
                 <span class="o">+</span> <span class="nb">bytes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">])</span>
             <span class="p">)</span>
             <span class="n">public_key</span> <span class="o">=</span> <span class="n">PublicKey</span><span class="o">.</span><span class="n">from_signature_and_message</span><span class="p">(</span>
-                <span class="n">signature_bytes</span><span class="p">,</span> <span class="n">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="p">),</span> <span class="n">hasher</span><span class="o">=</span><span class="kc">None</span>
+                <span class="n">signature_bytes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="o">.</span><span class="n">keccak256</span><span class="p">(),</span> <span class="n">hasher</span><span class="o">=</span><span class="kc">None</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">signer</span> <span class="o">=</span> <span class="n">EOA</span><span class="p">(</span>
                 <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">keccak256</span><span class="p">(</span><span class="n">public_key</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">compressed</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])[</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="p">:])</span>
@@ -28572,15 +28594,15 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">private_key</span><span class="p">:</span> <span class="n">Hash</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">private_key</span><span class="p">:</span> <span class="n">Hash</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Signs the authorization tuple with a private key.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28698,12 +28720,12 @@ as <code>currentTimestamp</code> when it is serialized to json.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1203</span>
-<span class="normal">1204</span>
-<span class="normal">1205</span>
-<span class="normal">1206</span>
-<span class="normal">1207</span>
-<span class="normal">1208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ConsolidationRequest</span><span class="p">(</span><span class="n">ConsolidationRequestGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1212</span>
+<span class="normal">1213</span>
+<span class="normal">1214</span>
+<span class="normal">1215</span>
+<span class="normal">1216</span>
+<span class="normal">1217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ConsolidationRequest</span><span class="p">(</span><span class="n">ConsolidationRequestGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Consolidation Request type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28751,12 +28773,12 @@ as <code>currentTimestamp</code> when it is serialized to json.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1131</span>
-<span class="normal">1132</span>
-<span class="normal">1133</span>
-<span class="normal">1134</span>
-<span class="normal">1135</span>
-<span class="normal">1136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DepositRequest</span><span class="p">(</span><span class="n">DepositRequestGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1140</span>
+<span class="normal">1141</span>
+<span class="normal">1142</span>
+<span class="normal">1143</span>
+<span class="normal">1144</span>
+<span class="normal">1145</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DepositRequest</span><span class="p">(</span><span class="n">DepositRequestGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Deposit Request type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28805,13 +28827,7 @@ must be executed.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
 <span class="normal">380</span>
 <span class="normal">381</span>
 <span class="normal">382</span>
@@ -28882,7 +28898,13 @@ must be executed.</p>
 <span class="normal">447</span>
 <span class="normal">448</span>
 <span class="normal">449</span>
-<span class="normal">450</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="n">EnvironmentGeneric</span><span class="p">[</span><span class="n">Number</span><span class="p">]):</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="n">EnvironmentGeneric</span><span class="p">[</span><span class="n">Number</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Structure used to keep track of the context in which a block</span>
 <span class="sd">    must be executed.</span>
@@ -29016,13 +29038,7 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">403</span>
-<span class="normal">404</span>
-<span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">409</span>
 <span class="normal">410</span>
 <span class="normal">411</span>
 <span class="normal">412</span>
@@ -29063,7 +29079,13 @@ must be executed.</p>
 <span class="normal">447</span>
 <span class="normal">448</span>
 <span class="normal">449</span>
-<span class="normal">450</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_fork_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Environment&quot;</span><span class="p">:</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_fork_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Environment&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fills the required fields in an environment depending on the fork.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -29150,13 +29172,13 @@ must be executed.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Removable</span><span class="p">:</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Removable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sentinel class to detect if a parameter should be removed.</span>
 <span class="sd">    (`None` normally means &quot;do not modify&quot;)</span>
@@ -29195,16 +29217,7 @@ must be executed.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1211</span>
-<span class="normal">1212</span>
-<span class="normal">1213</span>
-<span class="normal">1214</span>
-<span class="normal">1215</span>
-<span class="normal">1216</span>
-<span class="normal">1217</span>
-<span class="normal">1218</span>
-<span class="normal">1219</span>
-<span class="normal">1220</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1220</span>
 <span class="normal">1221</span>
 <span class="normal">1222</span>
 <span class="normal">1223</span>
@@ -29239,7 +29252,16 @@ must be executed.</p>
 <span class="normal">1252</span>
 <span class="normal">1253</span>
 <span class="normal">1254</span>
-<span class="normal">1255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Requests</span><span class="p">(</span><span class="n">RootModel</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">DepositRequest</span> <span class="o">|</span> <span class="n">WithdrawalRequest</span> <span class="o">|</span> <span class="n">ConsolidationRequest</span><span class="p">]]):</span>
+<span class="normal">1255</span>
+<span class="normal">1256</span>
+<span class="normal">1257</span>
+<span class="normal">1258</span>
+<span class="normal">1259</span>
+<span class="normal">1260</span>
+<span class="normal">1261</span>
+<span class="normal">1262</span>
+<span class="normal">1263</span>
+<span class="normal">1264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Requests</span><span class="p">(</span><span class="n">RootModel</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">DepositRequest</span> <span class="o">|</span> <span class="n">WithdrawalRequest</span> <span class="o">|</span> <span class="n">ConsolidationRequest</span><span class="p">]]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Requests for the transition tool.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -29312,11 +29334,11 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1220</span>
-<span class="normal">1221</span>
-<span class="normal">1222</span>
-<span class="normal">1223</span>
-<span class="normal">1224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_serializable_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1229</span>
+<span class="normal">1230</span>
+<span class="normal">1231</span>
+<span class="normal">1232</span>
+<span class="normal">1233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_serializable_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the requests as a list of serializable elements.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -29374,11 +29396,11 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1239</span>
-<span class="normal">1240</span>
-<span class="normal">1241</span>
-<span class="normal">1242</span>
-<span class="normal">1243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deposit_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DepositRequest</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1248</span>
+<span class="normal">1249</span>
+<span class="normal">1250</span>
+<span class="normal">1251</span>
+<span class="normal">1252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deposit_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DepositRequest</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of deposit requests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -29409,11 +29431,11 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1245</span>
-<span class="normal">1246</span>
-<span class="normal">1247</span>
-<span class="normal">1248</span>
-<span class="normal">1249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">withdrawal_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">WithdrawalRequest</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1254</span>
+<span class="normal">1255</span>
+<span class="normal">1256</span>
+<span class="normal">1257</span>
+<span class="normal">1258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">withdrawal_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">WithdrawalRequest</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of withdrawal requests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -29444,11 +29466,11 @@ must be executed.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1251</span>
-<span class="normal">1252</span>
-<span class="normal">1253</span>
-<span class="normal">1254</span>
-<span class="normal">1255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consolidation_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ConsolidationRequest</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1260</span>
+<span class="normal">1261</span>
+<span class="normal">1262</span>
+<span class="normal">1263</span>
+<span class="normal">1264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consolidation_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ConsolidationRequest</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the list of consolidation requests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -31209,16 +31231,7 @@ zero values, to guarantee that the test overwrites the storage.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 656</span>
-<span class="normal"> 657</span>
-<span class="normal"> 658</span>
-<span class="normal"> 659</span>
-<span class="normal"> 660</span>
-<span class="normal"> 661</span>
-<span class="normal"> 662</span>
-<span class="normal"> 663</span>
-<span class="normal"> 664</span>
-<span class="normal"> 665</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 665</span>
 <span class="normal"> 666</span>
 <span class="normal"> 667</span>
 <span class="normal"> 668</span>
@@ -31631,7 +31644,16 @@ zero values, to guarantee that the test overwrites the storage.</p>
 <span class="normal">1075</span>
 <span class="normal">1076</span>
 <span class="normal">1077</span>
-<span class="normal">1078</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Transaction</span><span class="p">(</span><span class="n">TransactionGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">],</span> <span class="n">TransactionTransitionToolConverter</span><span class="p">):</span>
+<span class="normal">1078</span>
+<span class="normal">1079</span>
+<span class="normal">1080</span>
+<span class="normal">1081</span>
+<span class="normal">1082</span>
+<span class="normal">1083</span>
+<span class="normal">1084</span>
+<span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Transaction</span><span class="p">(</span><span class="n">TransactionGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">],</span> <span class="n">TransactionTransitionToolConverter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic object that can represent all Ethereum transaction types.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -31646,7 +31668,7 @@ zero values, to guarantee that the test overwrites the storage.</p>
     <span class="n">error</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransactionException</span><span class="p">]</span> <span class="o">|</span> <span class="n">TransactionException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">protected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">rlp_override</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">rlp_override</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">wrapped_blob_transaction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">blobs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -31766,7 +31788,7 @@ zero values, to guarantee that the test overwrites the storage.</p>
                 <span class="k">return</span> <span class="bp">self</span>
 
             <span class="n">public_key</span> <span class="o">=</span> <span class="n">PublicKey</span><span class="o">.</span><span class="n">from_signature_and_message</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">signature_bytes</span><span class="p">,</span> <span class="n">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="p">),</span> <span class="n">hasher</span><span class="o">=</span><span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">signature_bytes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="o">.</span><span class="n">keccak256</span><span class="p">(),</span> <span class="n">hasher</span><span class="o">=</span><span class="kc">None</span>
             <span class="p">)</span>
             <span class="n">updated_values</span><span class="p">[</span><span class="s2">&quot;sender&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span>
                 <span class="n">keccak256</span><span class="p">(</span><span class="n">public_key</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">compressed</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])[</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="p">:]</span>
@@ -31777,7 +31799,7 @@ zero values, to guarantee that the test overwrites the storage.</p>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;secret_key must be set to sign a transaction&quot;</span><span class="p">)</span>
 
         <span class="c1"># Get the signing bytes</span>
-        <span class="n">signing_hash</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="p">)</span>
+        <span class="n">signing_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
 
         <span class="c1"># Sign the bytes</span>
         <span class="n">signature_bytes</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span><span class="p">)</span><span class="o">.</span><span class="n">sign_recoverable</span><span class="p">(</span>
@@ -31962,7 +31984,7 @@ zero values, to guarantee that the test overwrites the storage.</p>
         <span class="k">return</span> <span class="n">signing_envelope</span> <span class="o">+</span> <span class="p">[</span><span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">),</span> <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">),</span> <span class="n">Uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)]</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span> <span class="nf">rlp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">rlp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns bytes of the serialized representation of the transaction,</span>
 <span class="sd">        which is almost always RLP encoding.</span>
@@ -31970,30 +31992,30 @@ zero values, to guarantee that the test overwrites the storage.</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlp_override</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlp_override</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">bytes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ty</span><span class="p">])</span> <span class="o">+</span> <span class="n">eth_rlp</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">payload_body</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="nb">bytes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ty</span><span class="p">])</span> <span class="o">+</span> <span class="n">eth_rlp</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">payload_body</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">eth_rlp</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">payload_body</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">eth_rlp</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">payload_body</span><span class="p">))</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hash</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns hash of the transaction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Hash</span><span class="p">(</span><span class="n">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rlp</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlp</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span> <span class="nf">signing_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">signing_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the serialized bytes of the transaction used for signing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
+        <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span>
             <span class="nb">bytes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ty</span><span class="p">])</span> <span class="o">+</span> <span class="n">eth_rlp</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signing_envelope</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ty</span> <span class="o">&gt;</span> <span class="mi">0</span>
             <span class="k">else</span> <span class="n">eth_rlp</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signing_envelope</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span> <span class="nf">signature_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">signature_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the serialized bytes of the transaction signature.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -32005,7 +32027,7 @@ zero values, to guarantee that the test overwrites the storage.</p>
                 <span class="n">v</span> <span class="o">-=</span> <span class="mi">35</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">v</span> <span class="o">-=</span> <span class="mi">27</span>
-        <span class="k">return</span> <span class="p">(</span>
+        <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
             <span class="o">+</span> <span class="nb">bytes</span><span class="p">([</span><span class="n">v</span><span class="p">])</span>
@@ -32052,7 +32074,7 @@ zero values, to guarantee that the test overwrites the storage.</p>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sender address is None&quot;</span><span class="p">)</span>
-        <span class="nb">hash</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="n">eth_rlp</span><span class="o">.</span><span class="n">encode</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">nonce_bytes</span><span class="p">]))</span>
+        <span class="nb">hash</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">eth_rlp</span><span class="o">.</span><span class="n">encode</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">nonce_bytes</span><span class="p">]))</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">Address</span><span class="p">(</span><span class="nb">hash</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:])</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -32087,14 +32109,14 @@ zero values, to guarantee that the test overwrites the storage.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">680</span>
-<span class="normal">681</span>
-<span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidFeePayment</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">689</span>
+<span class="normal">690</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidFeePayment</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction described more than one fee payment type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -32130,9 +32152,9 @@ zero values, to guarantee that the test overwrites the storage.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;only one type of fee payment field can be used in a single tx&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -32176,15 +32198,15 @@ source account.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidSignaturePrivateKey</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span>
+<span class="normal">703</span>
+<span class="normal">704</span>
+<span class="normal">705</span>
+<span class="normal">706</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">InvalidSignaturePrivateKey</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction describes both the signature and private key of</span>
 <span class="sd">    source account.</span>
@@ -32221,9 +32243,9 @@ source account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">704</span>
+<span class="normal">705</span>
+<span class="normal">706</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;can&#39;t define both &#39;signature&#39; and &#39;private_key&#39;&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -32261,16 +32283,7 @@ source account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span>
-<span class="normal">706</span>
-<span class="normal">707</span>
-<span class="normal">708</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">708</span>
 <span class="normal">709</span>
 <span class="normal">710</span>
 <span class="normal">711</span>
@@ -32325,7 +32338,16 @@ source account.</p>
 <span class="normal">760</span>
 <span class="normal">761</span>
 <span class="normal">762</span>
-<span class="normal">763</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">model_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__context</span><span class="p">):</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">model_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__context</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ensures the transaction has no conflicting properties.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -32416,13 +32438,13 @@ source account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span>
-<span class="normal">768</span>
-<span class="normal">769</span>
-<span class="normal">770</span>
-<span class="normal">771</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_error</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_error</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransactionException</span><span class="p">]</span> <span class="o">|</span> <span class="n">TransactionException</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -32455,11 +32477,11 @@ source account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">773</span>
-<span class="normal">774</span>
-<span class="normal">775</span>
-<span class="normal">776</span>
-<span class="normal">777</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_nonce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nonce</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span>
+<span class="normal">786</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_nonce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nonce</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a copy of the transaction with a modified nonce.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -32490,16 +32512,7 @@ source account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">779</span>
-<span class="normal">780</span>
-<span class="normal">781</span>
-<span class="normal">782</span>
-<span class="normal">783</span>
-<span class="normal">784</span>
-<span class="normal">785</span>
-<span class="normal">786</span>
-<span class="normal">787</span>
-<span class="normal">788</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">788</span>
 <span class="normal">789</span>
 <span class="normal">790</span>
 <span class="normal">791</span>
@@ -32548,7 +32561,16 @@ source account.</p>
 <span class="normal">834</span>
 <span class="normal">835</span>
 <span class="normal">836</span>
-<span class="normal">837</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_signature_and_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">keep_secret_key</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
+<span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span>
+<span class="normal">842</span>
+<span class="normal">843</span>
+<span class="normal">844</span>
+<span class="normal">845</span>
+<span class="normal">846</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">with_signature_and_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">keep_secret_key</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transaction&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a signed version of the transaction using the private key.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -32560,7 +32582,7 @@ source account.</p>
             <span class="k">return</span> <span class="bp">self</span>
 
         <span class="n">public_key</span> <span class="o">=</span> <span class="n">PublicKey</span><span class="o">.</span><span class="n">from_signature_and_message</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">signature_bytes</span><span class="p">,</span> <span class="n">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="p">),</span> <span class="n">hasher</span><span class="o">=</span><span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signature_bytes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="o">.</span><span class="n">keccak256</span><span class="p">(),</span> <span class="n">hasher</span><span class="o">=</span><span class="kc">None</span>
         <span class="p">)</span>
         <span class="n">updated_values</span><span class="p">[</span><span class="s2">&quot;sender&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span>
             <span class="n">keccak256</span><span class="p">(</span><span class="n">public_key</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">compressed</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])[</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="p">:]</span>
@@ -32571,7 +32593,7 @@ source account.</p>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;secret_key must be set to sign a transaction&quot;</span><span class="p">)</span>
 
     <span class="c1"># Get the signing bytes</span>
-    <span class="n">signing_hash</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="p">)</span>
+    <span class="n">signing_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signing_bytes</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
 
     <span class="c1"># Sign the bytes</span>
     <span class="n">signature_bytes</span> <span class="o">=</span> <span class="n">PrivateKey</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span><span class="p">)</span><span class="o">.</span><span class="n">sign_recoverable</span><span class="p">(</span>
@@ -32677,7 +32699,7 @@ source account.</p>
 
 
 <h3 id="ethereum_test_types.Transaction.rlp" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">rlp</span><span class="p">:</span> <span class="nb">bytes</span></code>
+            <code class="highlight language-python"><span class="n">rlp</span><span class="p">:</span> <span class="n">Bytes</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-cached"><code>cached</code></small>
@@ -32732,7 +32754,7 @@ which is almost always RLP encoding.</p>
 
 
 <h3 id="ethereum_test_types.Transaction.signing_bytes" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">signing_bytes</span><span class="p">:</span> <span class="nb">bytes</span></code>
+            <code class="highlight language-python"><span class="n">signing_bytes</span><span class="p">:</span> <span class="n">Bytes</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-cached"><code>cached</code></small>
@@ -32759,7 +32781,7 @@ which is almost always RLP encoding.</p>
 
 
 <h3 id="ethereum_test_types.Transaction.signature_bytes" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">signature_bytes</span><span class="p">:</span> <span class="nb">bytes</span></code>
+            <code class="highlight language-python"><span class="n">signature_bytes</span><span class="p">:</span> <span class="n">Bytes</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-cached"><code>cached</code></small>
@@ -32827,15 +32849,15 @@ which is almost always RLP encoding.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1043</span>
-<span class="normal">1044</span>
-<span class="normal">1045</span>
-<span class="normal">1046</span>
-<span class="normal">1047</span>
-<span class="normal">1048</span>
-<span class="normal">1049</span>
-<span class="normal">1050</span>
-<span class="normal">1051</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1052</span>
+<span class="normal">1053</span>
+<span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">list_root</span><span class="p">(</span><span class="n">input_txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Transaction&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Hash</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the transactions root of a list of transactions.</span>
@@ -32874,17 +32896,17 @@ which is almost always RLP encoding.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1053</span>
-<span class="normal">1054</span>
-<span class="normal">1055</span>
-<span class="normal">1056</span>
-<span class="normal">1057</span>
-<span class="normal">1058</span>
-<span class="normal">1059</span>
-<span class="normal">1060</span>
-<span class="normal">1061</span>
-<span class="normal">1062</span>
-<span class="normal">1063</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1062</span>
+<span class="normal">1063</span>
+<span class="normal">1064</span>
+<span class="normal">1065</span>
+<span class="normal">1066</span>
+<span class="normal">1067</span>
+<span class="normal">1068</span>
+<span class="normal">1069</span>
+<span class="normal">1070</span>
+<span class="normal">1071</span>
+<span class="normal">1072</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">list_blob_versioned_hashes</span><span class="p">(</span><span class="n">input_txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Transaction&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets a list of ordered blob versioned hashes from a list of transactions.</span>
@@ -32962,12 +32984,12 @@ which is almost always RLP encoding.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Withdrawal</span><span class="p">(</span><span class="n">WithdrawalGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Withdrawal</span><span class="p">(</span><span class="n">WithdrawalGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Withdrawal type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -33015,12 +33037,12 @@ which is almost always RLP encoding.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1167</span>
-<span class="normal">1168</span>
-<span class="normal">1169</span>
-<span class="normal">1170</span>
-<span class="normal">1171</span>
-<span class="normal">1172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">WithdrawalRequest</span><span class="p">(</span><span class="n">WithdrawalRequestGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1176</span>
+<span class="normal">1177</span>
+<span class="normal">1178</span>
+<span class="normal">1179</span>
+<span class="normal">1180</span>
+<span class="normal">1181</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">WithdrawalRequest</span><span class="p">(</span><span class="n">WithdrawalRequestGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Withdrawal Request type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -33039,6 +33061,41 @@ which is almost always RLP encoding.</p>
 
   </div>
 
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="ethereum_test_types.keccak256" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">keccak256</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_types.keccak256" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Calculates the keccak256 hash of the given data.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_types/types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hash</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the keccak256 hash of the given data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
     </div>
 
 </div>

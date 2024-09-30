@@ -22632,7 +22632,7 @@
 
 
 <h1 id="test_create2_return_data"><code>test_create2_return_data()</code><a class="headerlink" href="#test_create2_return_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6ae70a77482a46e1815c2ed6c9ab8a29250caa7e/tests/constantinople/eip1014_create2/test_create_returndata.py#L19"><code>tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data@6ae70a77</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8fe1c2309c17a4132c9c8d6917bd9d25e1d38c0d/tests/constantinople/eip1014_create2/test_create_returndata.py#L19"><code>tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data@8fe1c230</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Istanbul with:</p>
 <p>Istanbul only:
@@ -22771,7 +22771,9 @@
 <span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
-<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_return_size&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;return_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">])</span>
@@ -22857,20 +22859,22 @@
                 <span class="n">slot_returndatacopy_before_create_2</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
                 <span class="c1">#</span>
                 <span class="c1"># the actual bytes returned by returndatacopy opcode after create</span>
-                <span class="n">slot_returndatacopy_after_create</span><span class="p">:</span> <span class="n">return_data_in_create</span>
-                <span class="k">if</span> <span class="n">return_type_in_create</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span>
-                <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">slot_returndatacopy_after_create</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">return_data_in_create</span> <span class="k">if</span> <span class="n">return_type_in_create</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="p">),</span>
                 <span class="n">slot_returndatasize_before_create</span><span class="p">:</span> <span class="n">call_return_size</span><span class="p">,</span>
                 <span class="c1">#</span>
                 <span class="c1"># return datasize value after create</span>
-                <span class="n">slot_returndatasize_after_create</span><span class="p">:</span> <span class="mh">0x20</span>
-                <span class="k">if</span> <span class="n">return_type_in_create</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span>
-                <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">slot_returndatasize_after_create</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="mh">0x20</span> <span class="k">if</span> <span class="n">return_type_in_create</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="p">),</span>
                 <span class="c1">#</span>
                 <span class="n">slot_return_data_hash_before_create</span><span class="p">:</span> <span class="n">keccak256</span><span class="p">(</span><span class="n">expected_call_return_data</span><span class="p">),</span>
-                <span class="n">slot_return_data_hash_after_create</span><span class="p">:</span> <span class="n">keccak256</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">return_type_in_create</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span>
-                <span class="k">else</span> <span class="n">keccak256</span><span class="p">(</span><span class="nb">int</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">return_data_in_create</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)),</span>
+                <span class="n">slot_return_data_hash_after_create</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">keccak256</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">return_type_in_create</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span>
+                    <span class="k">else</span> <span class="n">keccak256</span><span class="p">(</span><span class="nb">int</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">return_data_in_create</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">))</span>
+                <span class="p">),</span>
                 <span class="c1">#</span>
                 <span class="c1"># check that create 2 didn&#39;t mess up with initial memory space declared for return</span>
                 <span class="n">slot_begin_memory_after_create</span><span class="p">:</span> <span class="n">expected_returndatacopy</span><span class="p">,</span>

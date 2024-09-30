@@ -24793,12 +24793,12 @@
             <span class="k">return</span> <span class="nb">input</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytes&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Hash&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the keccak256 hash of the opcode byte representation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">keccak</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">digest_bits</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">Hash</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -25021,12 +25021,12 @@
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
-<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytes&quot;</span><span class="p">:</span>
+<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Hash&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the keccak256 hash of the opcode byte representation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">keccak</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">digest_bits</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">Hash</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
