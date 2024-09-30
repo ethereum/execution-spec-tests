@@ -6,8 +6,8 @@ from functools import cached_property
 from typing import Annotated, Any, ClassVar, List, Literal, Tuple, Union, get_args, get_type_hints
 
 from ethereum import rlp as eth_rlp
-from ethereum.base_types import Uint
 from ethereum.crypto.hash import keccak256
+from ethereum_types.numeric import Uint
 from pydantic import AliasChoices, Field, PlainSerializer, computed_field
 
 from ethereum_test_base_types import (

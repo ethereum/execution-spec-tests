@@ -8,11 +8,11 @@ from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, Tuple
 
 from coincurve.keys import PrivateKey, PublicKey
 from ethereum import rlp as eth_rlp
-from ethereum.base_types import U256, Uint
 from ethereum.crypto.hash import keccak256
 from ethereum.frontier.fork_types import Account as FrontierAccount
 from ethereum.frontier.fork_types import Address as FrontierAddress
 from ethereum.frontier.state import State, set_account, set_storage, state_root
+from ethereum_types.numeric import U256, Uint
 from pydantic import (
     BaseModel,
     ConfigDict,
