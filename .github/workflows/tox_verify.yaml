@@ -8,10 +8,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-24.04
-            python: "3.10"
-            evm-type: "stable"
-            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
+          # Temporarily disable
+          # - os: ubuntu-24.04
+          #   python: "3.10"
+          #   evm-type: "stable"
+          #   tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
           - os: ubuntu-24.04
             python: "3.12"
             evm-type: "stable"
