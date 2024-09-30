@@ -873,7 +873,9 @@ def test_fill_blockchain_invalid_txs(fork: Fork, check_hive: bool, expected_json
     )
 
     t8n = ExecutionSpecsTransitionTool()
-    fixture_format = BlockchainEngineFixture if check_hive else BlockchainFixture  # type: ignore
+    fixture_format: FixtureFormat = (
+        BlockchainEngineFixture if check_hive else BlockchainFixture  # type: ignore
+    )
     generated_fixture = BlockchainTest(
         pre=pre,
         post=post,
