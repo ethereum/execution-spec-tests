@@ -86,3 +86,10 @@ The motivation to implement test cases in [ethereum/execution-spec-tests](https:
 
 !!! success "Contributing"
     Contributions via [PR](https://github.com/ethereum/execution-spec-tests/pulls) are welcome!
+
+!!! bug "Reporting a Vulnerability"
+
+    Care is required when adding PRs or issues for functionality that is live on Ethereum mainnet. Please report vulnerabilities and verify bounty eligibility via the [bug bounty program](https://bounty.ethereum.org).
+
+    - **Please do not create a PR with a vulnerability visible.**
+    - **Please do not file a public ticket mentioning the vulnerability.**
