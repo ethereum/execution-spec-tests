@@ -15,8 +15,8 @@ EOFTests/efValidation/EOF1_section_order_.json
 EOFTests/efValidation/EOF1_truncated_section_.json
 
 ([#647](https://github.com/ethereum/execution-spec-tests/pull/647))
- EOFTests/efValidation/EOF1_returncontract_invalid_.json
- EOFTests/efValidation/EOF1_returncontract_valid_.json
+EOFTests/efValidation/EOF1_returncontract_invalid_.json
+EOFTests/efValidation/EOF1_returncontract_valid_.json
 
 ([#440](https://github.com/ethereum/execution-spec-tests/pull/440))
 GeneralStateTests/Cancun/stEIP1153-transientStorage/01_tloadBeginningTxn.json

@@ -25,6 +25,8 @@ jobs:
         with:
           # TODO: non-test modules such as __init__.py or spec.py could effect coverage - in this case we should
           # fill all applicable tests (i.e., all the test_*.py files in or under the changed module's directory)
+          include_all_old_new_renamed_files: true
+          output_renamed_files_as_deleted_and_added: true
           files_yaml: |
             tests:
               - tests/**/test_*.py
@@ -40,7 +42,8 @@ jobs:
       - name: Report changed python test moudules
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
         run: |
-          echo "Changed python test modules: ${{ steps.changed-tests.outputs.tests_all_changed_files }}"
+          echo "${{ toJson(steps.changed-tests.outputs) }}"
+          echo "Changed python test modules: ${{ steps.changed-tests.outputs.tests_all_modified_files }}"
 
       - name: Debug GitHub context
         run: |
@@ -195,7 +198,7 @@ jobs:
       - name: Parse and fill introduced test sources from before the PR
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && env.converted_skip == 'true' }}
         env:
-          CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_changed_files }}
+          CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_modified_files }}
         run: |
             echo "--------------------"
             echo "converted-ethereum-tests.txt seem untouched, try to fill pre-patched version of .py files:"
@@ -207,14 +210,24 @@ jobs:
             PREV_COMMIT=$(git rev-parse HEAD)
             echo "Checkout head $PREV_COMMIT"
 
+            # Take only those files that exist in the filesystem (ignore newly created files)
+            files_fixed=$(echo "$files" | tr ' ' '\n' | while read file; do
+              if [ -f "$file" ]; then
+                echo "$file"
+              fi
+            done | tr '\n' ' ')
+
+            echo "Select files that were changed and exist on the main branch:"
+            echo $files_fixed
+
             rm -r fixtures
             rm filloutput.log
             rm filloutputEOF.log
             mkdir -p fixtures/state_tests
             mkdir -p fixtures/eof_tests
 
-            uv run fill $files --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
-            (uv run fill $files --fork=PragueEIP7692 --evm-bin evmone-t8n || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
+            uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+            (uv run fill $files_fixed --fork=PragueEIP7692 --evm-bin evmone-t8n || true) > >(tee -a filloutput.log filloutputEOF.log) 2>&1
 
             if grep -q "FAILURES" filloutput.log; then
               echo "Error: failed to generate .py tests from before the PR."
