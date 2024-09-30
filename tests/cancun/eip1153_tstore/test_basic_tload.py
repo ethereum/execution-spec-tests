@@ -1,5 +1,4 @@
 """
-touch
 Ethereum Transient Storage EIP Tests
 https://eips.ethereum.org/EIPS/eip-1153
 """
