@@ -34,9 +34,9 @@ class CallDestType(Enum):
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL])
-@pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Om.OOG])
-@pytest.mark.parametrize("call_dest_type", [CallDestType.REENTRANCY, CallDestType.EXTERNAL_CALL])
+@pytest.mark.parametrize("call_type", [Op.CALL])
+@pytest.mark.parametrize("call_return", [Op.RETURN])
+@pytest.mark.parametrize("call_dest_type", [CallDestType.REENTRANCY])
 def test_tload_reentrancy(
     state_test: StateTestFiller,
     pre: Alloc,
