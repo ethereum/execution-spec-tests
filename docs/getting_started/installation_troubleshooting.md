@@ -62,6 +62,40 @@ This page provides guidance on how to troubleshoot common issues that may arise 
         /Applications/Python\ 3.11/Install\ Certificates.command
         ```
 
+## Problem: `ValueError: unsupported hash type ripemd160`
+
+!!! danger "Problem: `Running fill fails with tests that use the RIPEMD160 precompile (0x03)`"
+    When running `fill`, you encounter the following error:
+
+    ```python
+    ValueError: unsupported hash type ripemd160
+    # or
+    ValueError: [digital envelope routines] unsupported
+    ```
+
+    This is due to the removal of certain cryptographic primitives in OpenSSL 3. These were re-introduced in [OpenSSL v3.0.7](https://github.com/openssl/openssl/blob/master/CHANGES.md#changes-between-306-and-307-1-nov-2022).
+
+!!! success "Solution: Modify OpenSSL configuration"
+    On platforms where OpenSSL v3.0.7 is unavailable (e.g., Ubuntu 22.04), modify your OpenSSL configuration to enable RIPEMD160. Make the following changes in the OpenSSL config file:
+
+    ```ini
+    [openssl_init]
+    providers = provider_sect
+    
+    # List of providers to load
+    [provider_sect]
+    default = default_sect
+    legacy = legacy_sect
+
+    [default_sect]
+    activate = 1
+
+    [legacy_sect]
+    activate = 1
+    ```
+
+    This will enable the legacy cryptographic algorithms, including RIPEMD160. See [ethereum/execution-specs#506](https://github.com/ethereum/execution-specs/issues/506) for more information.
+
 ## Other Issues Not Listed?
 
 If you're facing an issue that's not listed here, you can easily report it on GitHub for resolution.
