@@ -498,9 +498,10 @@ wheels = [
 [[package]]
 name = "ethereum"
 version = "0.1.0"
-source = { git = "https://github.com/ethereum/execution-specs#51fac24740e662844446439ceeb96a460aae0ba0" }
+source = { git = "https://github.com/ethereum/execution-specs#9b95554a88d2a8485f8180254d0f6a493a593fda" }
 dependencies = [
     { name = "coincurve" },
+    { name = "ethereum-types" },
     { name = "py-ecc" },
     { name = "pycryptodome" },
     { name = "typing-extensions" },
@@ -517,6 +518,7 @@ dependencies = [
     { name = "colorlog" },
     { name = "ethereum" },
     { name = "ethereum-spec-evm-resolver" },
+    { name = "ethereum-types" },
     { name = "filelock" },
     { name = "gitpython" },
     { name = "hive-py" },
@@ -578,6 +580,7 @@ requires-dist = [
     { name = "colorlog", specifier = ">=6.7.0,<7" },
     { name = "ethereum", git = "https://github.com/ethereum/execution-specs" },
     { name = "ethereum-spec-evm-resolver", git = "https://github.com/petertdavies/ethereum-spec-evm-resolver" },
+    { name = "ethereum-types", specifier = ">=0.2.1,<0.3" },
     { name = "filelock", specifier = ">=3.15.1,<4" },
     { name = "flake8", marker = "extra == 'lint'", specifier = ">=6.1.0,<7" },
     { name = "flake8-docstrings", marker = "extra == 'lint'", specifier = ">=1.6,<2" },
@@ -633,6 +636,18 @@ dependencies = [
     { name = "requests-unixsocket2" },
     { name = "typing-extensions" },
     { name = "urllib3" },
+]
+
+[[package]]
+name = "ethereum-types"
+version = "0.2.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/07/a8/053c5fcc8581fe599a87b86431a50b7df5b84a88242a6ba33ab1138a2a34/ethereum_types-0.2.1.tar.gz", hash = "sha256:2b53c5f08aff52004d7a49cdb09e70163482b55a41e274a95a8d27d194c5d146", size = 14935 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/aa/76/3bbd13a9637287388f23c0c4094c81adf2d1467e314f8974ea0c61d2fc94/ethereum_types-0.2.1-py3-none-any.whl", hash = "sha256:6f6c51b239c231c6e33c10451b8fffb2fc168c6a7f0975cac3893d7e38e9c3e9", size = 10288 },
 ]
 
 [[package]]
