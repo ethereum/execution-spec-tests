@@ -7,26 +7,18 @@ The `tox` tool can be executed locally to check that local changes won't cause G
 
 ## Executing `tox`
 
-### Prerequisites
-
-```console
-python -m venv ./venv/
-source ./venv/bin/activate
-pip install tox-uv
-```
-
 ### Execution
 
-Run tox, as executed in Github Actions, with:
+Run `tox` and execute the defined environments (see `tox.ini`) in parallel with:
 
 ```console
-tox run-parallel
+uvx --with=tox-uv tox run-parallel
 ```
 
 or, with sequential test environment execution and verbose output as:
 
 ```console
-tox
+uvx --with=tox-uv tox
 ```
 
 This executes all the environments described in the next section.
@@ -51,7 +43,7 @@ For targeted tox runs locally, each environment can be ran separately as describ
 Verify:
 
 ```console
-tox -e tests
+uvx --with=tox-uv tox -e tests
 ```
 
 ### Framework Verification: `framework`
@@ -59,7 +51,7 @@ tox -e tests
 Verify:
 
 ```console
-tox -e framework
+uvx --with=tox-uv tox -e framework
 ```
 
 ### Documentation Verification: `docs`
@@ -86,7 +78,7 @@ Additional, optional prerequisites:
 Verify:
 
 ```console
-tox -e docs
+uvx --with=tox-uv tox -e docs
 ```
 
 ### Verifying Fixture Changes
