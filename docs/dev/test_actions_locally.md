@@ -33,6 +33,7 @@ The Github Actions workflows can be tested locally using [nektos/act](https://gi
 ```bash
 gh act list
 ```
+
 will output something similar to:
 
 ```bash
@@ -51,7 +52,6 @@ Stage  Job ID                Job name              Workflow name                
 ```
 
 The `Job ID` is required to run a specific workflow and is provided to the `-j` option of `gh act`.
-
 
 ## Running Workflows Locally
 

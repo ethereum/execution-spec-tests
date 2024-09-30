@@ -270,6 +270,7 @@ namespace
 natively
 nav
 ncheck
+nektos
 nethermind
 nexternal
 nGo
@@ -288,6 +289,7 @@ ommer
 ommers
 oneliner
 oob
+OpenSSL
 opc
 oprypin
 ori
