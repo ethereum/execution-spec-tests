@@ -7,7 +7,7 @@ on:
 
 jobs:
   evmone-coverage-diff:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         driver: [retesteth, native]

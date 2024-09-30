@@ -79,62 +79,79 @@ All current tags, their t8n implementation and branch they point to, are listed 
 
 ### Prerequisites
 
-The following requires a Python 3.10, 3.11 or 3.12 installation.
+The tools provided by ethereum/execution-spec-tests use `uv` ([docs.astral.sh/uv](https://docs.astral.sh/uv/)) to manage their dependencies and virtual environment. `uv` downloads Python for your target platform if one of the required versions (Python 3.10, 3.11 or 3.12) is not available natively.
 
-### Quick Start
+`uv` can be installed via curl (recommended; can self-update):
 
-This guide installs stable versions of the external (go-ethereum) `evm` executable and will only enable generation of test fixtures for features deployed to mainnet. In order to generate fixtures for features under active development, you can follow the steps below and then follow the [additional steps in the online doc](https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_dev_fork/).
+```console
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-1. Ensure go-ethereum's `evm` tool is in your path. Either build the required version, or alternatively:
+or pip (requires Python, can't self-update):
+
+```console
+pip install uv
+```
+
+### Installation
+
+Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and install its dependencies:
+
+```console
+git clone https://github.com/ethereum/execution-spec-tests
+cd execution-spec-tests
+uv sync --all-extras
+uv run solc-select use 0.8.24 --always-install
+```
+
+See [Installation Troubleshooting](./installation_troubleshooting.md) in the online docs if you encounter issues.
+
+### Exploring and Filling Test Cases
+
+By default, JSON test fixtures are generated from this repository's Python test cases using the [Ethereum Execution Layer Specification](https://github.com/ethereum/execution-specs) (EELS) reference implementation. The resulting JSON fixtures can be executed against execution clients to verify consensus. The process of generating fixtures is often referred to as "filling".
+
+1. Explore test cases via `--collect-only` and search for test cases that combine `PUSH0` and `DELEGATECALL` in the EVM functionality introduced in the Shanghai hard fork:
 
     ```console
-    sudo add-apt-repository -y ppa:ethereum/ethereum
-    sudo apt-get update
-    sudo apt-get install ethereum
+    uv run fill --collect-only -k "push0 and delegatecall" tests/shanghai/
     ```
 
-    More help:
+    The `fill` command is based on [`pytest`](https://docs.pytest.org/en/stable/). The above command uses the [optional pytest arguments](https://docs.pytest.org/en/stable/how-to/usage.html):
 
-    - [geth installation doc](https://geth.ethereum.org/docs/getting-started/installing-geth#ubuntu-via-ppas).
+    - `--collect-only` only collect test cases; don't execute them.
+    - `-k <expression>` filter test cases by their test case ID based on the given expression.
+    - `tests/shanghai` the directory containing the test cases (tells `fill` to only discover test cases in this directory; default: `tests/`).
 
-    Help for other platforms is available in the [online doc](https://ethereum.github.io/execution-spec-tests/getting_started/quick_start/).
+    Expected console output:
+    ![Screenshot of pytest test collection console output](./docs/getting_started/img/pytest_collect_only.png)
 
-2. Clone the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repo and install its dependencies ([`uv`](https://docs.astral.sh/uv/) will create and manage a virtual environment for its installation):
+2. Fill `state_test` fixtures for these test cases:
 
-   ```console
-   git clone https://github.com/ethereum/execution-spec-tests
-   cd execution-spec-tests
-   pip install uv  # or curl -LsSf https://astral.sh/uv/install.sh | sh
-   uv sync --all-extras
-   source .venv/bin/activate  # or run `uv run fill ...`
-   ```
+    ```console
+    uv run fill -k "push0 and delegatecall" tests/shanghai/ -m state_test -v
+    ```
 
-3. Verify the installation:
-    1. Explore test cases:
+    where:
 
-       ```console
-       fill --collect-only
-       ```
+    - `-m state_test` only fills test cases marked as a `state_test` (see all available markers via `uv run fill --markers`).
+    - `-v` enables verbose output.
 
-       Expected console output:
-         ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_collect_only.png)
+    Expected console output:
+    ![Screenshot of fill test collection console output](./docs/getting_started/img/pytest_run_example.png)
 
-    2. Execute the test cases (verbosely) in the `./tests/berlin/eip2930_access_list/test_acl.py` module:
+3. Verify the generated fixtures:
 
-        ```console
-        fill -v tests/berlin/eip2930_access_list/test_acl.py
-        ```
+    a. Check the corresponding fixture file has been generated:
 
-        Expected console output:
-          ![Screenshot of pytest test collection console output](docs/getting_started/img/pytest_run_example.png)
-        Check:
+    ```console
+    head fixtures/state_tests/shanghai/eip3855_push0/push0/push0_contract_during_call_contexts.json
+    ```
 
-        1. The versions of the `evm` tool is as expected (your versions may differ from those in the highlighted box).
-        2. The corresponding fixture file has been generated:
+    b. Open the generated HTML test using the link provided at the bottom of the console output. This is written to the output directory at:
 
-           ```console
-           head fixtures/blockchain_tests/berlin/eip2930_access_list/acl/access_list.json
-           ```
+    ```console
+    ./fixtures/.meta/report_fill.html
+    ```
 
 ## Usage
 

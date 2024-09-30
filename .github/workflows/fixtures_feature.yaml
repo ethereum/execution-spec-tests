@@ -8,7 +8,7 @@ on:
 
 jobs:
   feature-names:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       names: ${{ steps.feature-name.outputs.names }}
     steps:
@@ -23,7 +23,7 @@ jobs:
           echo names=${names}
           echo names=${names} >> "$GITHUB_OUTPUT"
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: feature-names
     strategy:
       matrix:
@@ -36,7 +36,7 @@ jobs:
         with:
           release_name: ${{ matrix.feature }}
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
     if: startsWith(github.ref, 'refs/tags/')
     steps:
