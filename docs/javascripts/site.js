@@ -17,6 +17,9 @@ document$.subscribe(() => {
     // Listen for copy event
     listenForClipboardCopy();
   }
+
+  // Setup up select 2
+  $(`select${FILTER_INPUT_SELECTOR}`).select2();
 });
 
 const initDataTable = () => {
