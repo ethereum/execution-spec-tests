@@ -57,6 +57,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🔀 Simplify Python project configuration and consolidate it into `pyproject.toml` ([#764](https://github.com/ethereum/execution-spec-tests/pull/764)).
 - 🔀 Created `pytest_plugins.concurrency` plugin to sync multiple `xdist` processes without using a command flag to specify the temporary working folder ([#824](https://github.com/ethereum/execution-spec-tests/pull/824))
 - 🔀 Move pytest plugin `pytest_plugins.filler.solc` to `pytest_plugins.solc.solc` ([#823](https://github.com/ethereum/execution-spec-tests/pull/823)).
+- 🐞 Asserts that the deploy docs tags workflow is only triggered for full releases ([#857](https://github.com/ethereum/execution-spec-tests/pull/857)).
 
 ### 💥 Breaking Change
 
