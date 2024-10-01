@@ -2,7 +2,6 @@
 Define an entry point wrapper for pytest.
 """
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import List
 
 import click
@@ -116,27 +115,43 @@ def process_evm_bytes_string(evm_bytes_hex_string: str, assembly: bool = False) 
     return process_evm_bytes(evm_bytes, assembly=assembly)
 
 
-@click.command()
-@click.option("-a", "--assembly", default=False, is_flag=True, help="Output the code as assembly.")
-@click.argument("evm_bytes_hex_string_or_binary_file_path")
-def main(evm_bytes_hex_string_or_binary_file_path: str, assembly: bool):
-    """
-    Convert the given EVM bytes hex string to an EEST Opcodes.
+assembly_option = click.option(
+    "-a",
+    "--assembly",
+    default=False,
+    is_flag=True,
+    help="Output the code as assembly instead of python.",
+)
 
-    \b
-    EVM_BYTES_HEX_STRING: A hex string representing EVM bytes to be processed or a path to a binary
-        file containing EVM bytes.
-    ASSEMBLY: A flag to indicate whether to output the code as assembly.
+
+@click.group()
+def cli():
+    """
+    Convert the given EVM bytes from a binary file or a hex string to EEST's python opcodes.
     """  # noqa: D301
-    if Path(evm_bytes_hex_string_or_binary_file_path).is_file():
-        with open(evm_bytes_hex_string_or_binary_file_path, "rb") as f:
-            processed_output = process_evm_bytes(f.read(), assembly=assembly)
-    else:
-        processed_output = process_evm_bytes_string(
-            evm_bytes_hex_string_or_binary_file_path, assembly=assembly
-        )
+    pass
+
+
+@cli.command()
+@assembly_option
+@click.argument("hex_string")
+def hex_string(hex_string: str, assembly: bool):
+    """Convert the given EVM bytes hex string.
+
+    HEX_STRING: A hex string representing EVM bytes to be processed.
+    """
+    processed_output = process_evm_bytes_string(hex_string, assembly=assembly)
     click.echo(processed_output)
 
 
-if __name__ == "__main__":
-    main()
+@cli.command()
+@assembly_option
+@click.argument("binary_file_path", type=click.File("rb"))
+def binary_file(binary_file_path, assembly: bool):
+    """Convert the given EVM bytes binary file.
+
+    BINARY_FILE_PATH: A path to a binary file containing EVM bytes to be processed or use `-` to
+    read from stdin.
+    """
+    processed_output = process_evm_bytes(binary_file_path.read(), assembly=assembly)
+    click.echo(processed_output)

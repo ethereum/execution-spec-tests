@@ -89,7 +89,7 @@ gentest = "cli.gentest:make_test"
 pyspelling_soft_fail = "cli.tox_helpers:pyspelling"
 markdownlintcli2_soft_fail = "cli.tox_helpers:markdownlint"
 order_fixtures = "cli.order_fixtures:order_fixtures"
-evm_bytes = "cli.evm_bytes:main"
+evm_bytes = "cli.evm_bytes:cli"
 hasher = "cli.hasher:main"
 
 [tool.setuptools.packages.find]
