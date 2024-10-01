@@ -1,0 +1,125 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_container_combos_valid()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<h1>Test Function: <code>test_container_combos_valid()</code></h1>
+<p>Test valid subcontainer reference / opcode combos</p>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display nowrap">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>code_section</th>
+                        <th>sub_container</th>
+                        <th>container_kind</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>EOFCREATE_RETURNCONTRACT</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_STOP</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_RETURN</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xf3' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr>
+            <td>EOFCREATE_REVERT</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_REVERT</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr>
+            <td>EOFCREATE_RETURNCONTRACT</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_STOP</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_RETURN</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xf3' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr>
+            <td>EOFCREATE_REVERT</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_REVERT</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr>
+            <td>EOFCREATE_RETURNCONTRACT</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_STOP</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_RETURN</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xf3' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr>
+            <td>EOFCREATE_REVERT</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr>
+            <td>RETURNCONTRACT_REVERT</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
