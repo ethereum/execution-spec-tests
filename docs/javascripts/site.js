@@ -1,92 +1,97 @@
-// Function to initialize DataTables
-function initializeDataTables() {
-    if (!$.fn.DataTable.isDataTable('#test_table')) {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
+// Config
+const FILTER_INPUT_SELECTOR = ".custom_dt_filter";
+let table;
+
+// Subscribe to when a page is loaded in mkdocs.
+// see: https://github.com/squidfunk/mkdocs-material/issues/5816#issuecomment-1667654560
+document$.subscribe(() => {
+  initDataTable();
+
+  if (table) {
+    // Listen for changes to filters
+    $(FILTER_INPUT_SELECTOR).on("change", filterRows);
+
+    // Apply preselected filters (if present) on page load
+    filterRows();
+
+    // Listen for copy event
+    listenForClipboardCopy();
+  }
+});
+
+const initDataTable = () => {
+  // Only pages where a table is present.
+  if (!$("#test_table").length) return false;
+
+  // Setup DataTable plugin
+  // https://datatables.net/reference/api/
+  table = new DataTable("#test_table", {
+    pageLength: -1,
+    scrollX: true,
+    autoWidth: false,
+  });
+};
+
+// A custom DataTable filter is implemented using a <select> tag with the following requirements:
+// - It must have the `FILTER_INPUT_SELECTOR` class.
+// - It must include a `data-criteria` attribute that specifies the criteria this filter looks for.
+//
+// Example:
+// <select class="<FILTER_INPUT_SELECTOR>" data-criteria="fork"></select>
+//
+// The value of the `data-criteria' attribute must match the corresponding data attribute in the <tr> elements.
+// For instance, rows containing <tr data-fork="..."> will be filtered based on this selection.
+const filterRows = () => {
+  table
+    .rows()
+    .search(function (a, b, index) {
+      const row = $(table.row(index).node()).data(target);
+      let match = true;
+
+      for (let filter of $(FILTER_INPUT_SELECTOR)) {
+        // Filter is ignored if set to all
+        if ($(filter).val() == "all") continue;
+
+        // Otherwise, the result of this filter applied to the previous match.
+        match = match && row.data($(filter).data(criteria)) === $(filter).val();
+      }
+      return match;
+    })
+    .draw();
+};
+
+const listenForClipboardCopy = () => {
+  // Event delegation for copy-to-clipboard functionality
+  document.addEventListener("click", function (event) {
+    if (event.target && event.target.classList.contains("copy-id")) {
+      const fullId = event.target.getAttribute("data-full-id");
+
+      // Copy to clipboard
+      navigator.clipboard
+        .writeText(fullId)
+        .then(() => {
+          const originalContent = event.target.innerHTML;
+
+          // Set the sliding message with animation
+          event.target.innerHTML =
+            '<span class="slide show">...full test id copied!</span>';
+
+          // Delay the hiding of the slide-out message
+          setTimeout(() => {
+            const slideElement = event.target.querySelector(".slide");
+            if (slideElement) {
+              slideElement.classList.add("hide");
+            }
+          }, 1000);
+
+          // Restore the original content after the animation
+          setTimeout(() => {
+            event.target.innerHTML = originalContent;
+          }, 1500); // Total duration before restoring original content
+        })
+        .catch((err) => {
+          console.error("Failed to copy text: ", err);
         });
     }
-}
-
-// Function to attach event listeners to the selectors
-function attachFilterListeners() {
-
-    // Attach change event listeners
-    $('#fork_selector').off('change').on('change', filterTable);
-    $('#fixture_selector').off('change').on('change', filterTable);
-}
-
-// Function to filter table based on selected fork and fixture type
-function filterTable() {
-    var selectedFork = $('#fork_selector').val();
-    var selectedFixture = $('#fixture_selector').val();
-
-    $('#test_table tbody tr').each(function() {
-        var fork = $(this).attr('data-fork');
-        var fixture = $(this).attr('data-fixture');
-
-        // Show/Hide rows based on the selected fork and fixture type
-        var showRow = (selectedFork === 'all' || fork === selectedFork) &&
-                        (selectedFixture === 'all' || fixture === selectedFixture);
-
-        $(this).toggle(showRow);  // Show or hide the row
-    });
-}
-
-// Function to apply default filters on page load or navigation
-function applyDefaultFilters() {
-    // Trigger the filtering function on page load or navigation
-    filterTable();
-}
-
-// Use MutationObserver to detect changes in the DOM and reinitialize DataTables and filters
-const observer = new MutationObserver((mutationsList, observer) => {
-    for (let mutation of mutationsList) {
-        if (mutation.type === 'childList') {
-            initializeDataTables();
-            attachFilterListeners();
-            applyDefaultFilters();
-        }
-    }
-});
-
-// Start observing the body element for changes in child elements
-observer.observe(document.body, { childList: true, subtree: true });
-
-// Run on initial load
-document.addEventListener('DOMContentLoaded', function() {
-    initializeDataTables();
-    attachFilterListeners();
-    applyDefaultFilters();
-});
-
-// Event delegation for copy-to-clipboard functionality
-document.addEventListener('click', function(event) {
-    if (event.target && event.target.classList.contains('copy-id')) {
-        const fullId = event.target.getAttribute('data-full-id');
-
-        // Copy to clipboard
-        navigator.clipboard.writeText(fullId).then(() => {
-            const originalContent = event.target.innerHTML;
-
-            // Set the sliding message with animation
-            event.target.innerHTML = '<span class="slide show">...full test id copied!</span>';
-
-            // Delay the hiding of the slide-out message
-            setTimeout(() => {
-                const slideElement = event.target.querySelector('.slide');
-                if (slideElement) {
-                    slideElement.classList.add('hide');
-                }
-            }, 1000);
-
-            // Restore the original content after the animation
-            setTimeout(() => {
-                event.target.innerHTML = originalContent;
-            }, 1500);  // Total duration before restoring original content
-        }).catch(err => {
-            console.error('Failed to copy text: ', err);
-        });
-    }
-});
+  });
+};
