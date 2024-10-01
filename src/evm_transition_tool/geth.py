@@ -11,13 +11,19 @@ import tempfile
 import textwrap
 from pathlib import Path
 from re import compile
-from typing import Optional
+from typing import Dict, List, Optional, Tuple
 
-from ethereum_test_base_types import to_json
+from ethereum_test_base_types import Address, Alloc, ZeroPaddedHexNumber, to_json
 from ethereum_test_fixtures import BlockchainFixture, StateFixture
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc
-from ethereum_test_types.verkle import VerkleTree
+from ethereum_test_types.verkle import (
+    StateDiff,
+    Stem,
+    StemStateDiff,
+    SuffixStateDiff,
+    VerkleTree,
+    WitnessCheck,
+)
 
 from .transition_tool import FixtureFormat, TransitionTool, dump_files_to_directory
 
@@ -160,75 +166,143 @@ class GethTransitionTool(TransitionTool):
             result_json = []  # there is no parseable format for blocktest output
         return result_json
 
-    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
+    def _run_verkle_command(self, subcommand: str, *args: str) -> str:
         """
-        Returns the VKT state root of from an input MPT.
+        Helper function to run a verkle subcommand and return the output as a string.
         """
-        # Write the MPT alloc to a temporary file: alloc.json
-        with tempfile.TemporaryDirectory() as temp_dir:
-            input_dir = os.path.join(temp_dir, "input")
-            os.mkdir(input_dir)
-            alloc_path = os.path.join(input_dir, "alloc.json")
-            with open(alloc_path, "w") as f:
-                json.dump(to_json(mpt_alloc), f)
-
-            # Check if the file was created
-            if not os.path.exists(alloc_path):
-                raise Exception(f"Failed to create alloc.json at {alloc_path}")
-
-            # Run the verkle subcommand with the alloc.json file as input
-            command = [
-                str(self.binary),
-                str(self.verkle_subcommand),
-                "state-root",
-                "--input.alloc",
-                alloc_path,
-            ]
-            result = subprocess.run(
-                command,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+        command = [
+            str(self.binary),
+            str(self.verkle_subcommand),
+            subcommand,
+            *args,
+        ]
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        if result.returncode != 0:
+            raise Exception(
+                f"Failed to run verkle subcommand: '{' '.join(command)}'. "
+                f"Error: '{result.stderr.decode()}'"
             )
-            if result.returncode != 0:
-                raise Exception(
-                    f"Failed to run verkle subcommand: '{' '.join(command)}'. "
-                    f"Error: '{result.stderr.decode()}'"
-                )
-            hex_string = result.stdout.decode().strip()
-            return binascii.unhexlify(hex_string[2:])
+        return result.stdout.decode().strip()
 
     def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
         """
-        Returns the verkle tree representation for an entire MPT alloc using the verkle subcommand.
+        Returns the verkle tree representation for an input MPT.
         """
-        # Write the MPT alloc to a temporary file: alloc.json
         with tempfile.TemporaryDirectory() as temp_dir:
-            input_dir = os.path.join(temp_dir, "input")
-            os.mkdir(input_dir)
-            alloc_path = os.path.join(input_dir, "alloc.json")
+            alloc_path = os.path.join(temp_dir, "alloc.json")
             with open(alloc_path, "w") as f:
                 json.dump(to_json(mpt_alloc), f)
 
-            # Check if the file was created
-            if not os.path.exists(alloc_path):
-                raise Exception(f"Failed to create alloc.json at {alloc_path}")
+            output = self._run_verkle_command("tree-keys", "--input.alloc", alloc_path)
+            return VerkleTree(json.loads(output))
 
-            # Run the verkle subcommand with the alloc.json file as input
-            command = [
-                str(self.binary),
-                str(self.verkle_subcommand),
-                "tree-keys",
-                "--input.alloc",
-                alloc_path,
-            ]
-            result = subprocess.run(
-                command,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
+        """
+        Returns the VKT state root from an input MPT.
+        """
+        with tempfile.TemporaryDirectory() as temp_dir:
+            alloc_path = os.path.join(temp_dir, "alloc.json")
+            with open(alloc_path, "w") as f:
+                json.dump(to_json(mpt_alloc), f)
+
+            hex_string = self._run_verkle_command(
+                "state-root", "--input.alloc", alloc_path
             )
-            if result.returncode != 0:
-                raise Exception(
-                    f"Failed to run verkle subcommand: '{' '.join(command)}'. "
-                    f"Error: '{result.stderr.decode()}'"
+            return binascii.unhexlify(hex_string[2:])
+
+    def get_verkle_single_key(
+        self, address: Address, storage_slot: Optional[ZeroPaddedHexNumber] = None
+    ) -> str:
+        """
+        Returns the VKT key for an account address or storage slot.
+        """
+        args = [str(address)]
+        if storage_slot is not None:
+            args.append(str(storage_slot))
+        output = self._run_verkle_command("single-key", *args)
+        return output
+
+    def get_verkle_code_chunk_key(
+        self, address: Address, code_chunk: ZeroPaddedHexNumber
+    ) -> str:
+        """
+        Returns the VKT key of a code chunk for an account address.
+        """
+        output = self._run_verkle_command(
+            "code-chunk-key", str(address), str(code_chunk)
+        )
+        return output
+
+    def get_witness_check_mapping(
+        self, witness_check: WitnessCheck
+    ) -> Tuple[StateDiff, Dict[Stem, Address]]:
+        """
+        Returns a tuple containing:
+        A) StateDiff - A pseudo StateDiff type with stems, suffixes, and current values.
+        B) Dict[Stem, Address] - A mapping of stems to their associated addresses.
+        """
+        stem_account_mapping: Dict[Stem, Address] = {}
+        state_diff: List[StemStateDiff] = []
+
+        # Format account entries using `evm verkle single-key`
+        if witness_check.account_entries:
+            for address, entry, value in witness_check.account_entries:
+                account_tree_key_str = self.get_verkle_single_key(address)
+                tree_key = bytearray.fromhex(account_tree_key_str[2:])
+                stem = Stem(bytes(tree_key[:-1]))
+                stem_account_mapping[stem] = address
+                suffix_state_diff = SuffixStateDiff(
+                    suffix=entry,
+                    current_value=value,
                 )
-            return VerkleTree(json.loads(result.stdout.decode()))
+                stem_state_diff = next(
+                    (sd for sd in state_diff if sd.stem == stem), None
+                )
+                if stem_state_diff is None:
+                    stem_state_diff = StemStateDiff(stem=stem, suffix_diffs=[])
+                    state_diff.append(stem_state_diff)
+                stem_state_diff.suffix_diffs.append(suffix_state_diff)
+
+        # Format storage entries using `evm verkle single-key`
+        if witness_check.storage_slots:
+            for address, storage_slot, value in witness_check.storage_slots:
+                storage_tree_key_str = self.get_verkle_single_key(
+                    address, ZeroPaddedHexNumber(storage_slot)
+                )
+                tree_key = bytearray.fromhex(storage_tree_key_str[2:])
+                stem = Stem(bytes(tree_key[:-1]))
+                suffix = int(tree_key[-1])
+                stem_account_mapping[stem] = address
+                suffix_state_diff = SuffixStateDiff(suffix=suffix, current_value=value)
+                stem_state_diff = next(
+                    (sd for sd in state_diff if sd.stem == stem), None
+                )
+                if stem_state_diff is None:
+                    stem_state_diff = StemStateDiff(stem=stem, suffix_diffs=[])
+                    state_diff.append(stem_state_diff)
+                stem_state_diff.suffix_diffs.append(suffix_state_diff)
+
+        # Format code chunks using `evm verkle code-chunk-key`
+        if witness_check.code_chunks:
+            for address, code_chunk, value in witness_check.code_chunks:
+                code_chunk_tree_key_str = self.get_verkle_code_chunk_key(
+                    address, ZeroPaddedHexNumber(code_chunk)
+                )
+                tree_key = bytearray.fromhex(code_chunk_tree_key_str[2:])
+                stem = Stem(bytes(tree_key[:-1]))
+                suffix = int(tree_key[-1])
+                stem_account_mapping[stem] = address
+                suffix_state_diff = SuffixStateDiff(suffix=suffix, current_value=value)
+                stem_state_diff = next(
+                    (sd for sd in state_diff if sd.stem == stem), None
+                )
+                if stem_state_diff is None:
+                    stem_state_diff = StemStateDiff(stem=stem, suffix_diffs=[])
+                    state_diff.append(stem_state_diff)
+                stem_state_diff.suffix_diffs.append(suffix_state_diff)
+
+        return StateDiff(root=state_diff), stem_account_mapping

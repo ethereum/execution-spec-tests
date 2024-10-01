@@ -28,11 +28,11 @@ from .types import (
     Storage,
     Transaction,
     TransactionDefaults,
-    VerkleTree,
     Withdrawal,
     WithdrawalRequest,
     keccak256,
 )
+from .verkle import VerkleTree, Witness, WitnessCheck
 
 __all__ = (
     "AccessList",
@@ -60,6 +60,8 @@ __all__ = (
     "VerkleTree",
     "Withdrawal",
     "WithdrawalRequest",
+    "Witness",
+    "WitnessCheck",
     "ZeroPaddedHexNumber",
     "add_kzg_version",
     "ceiling_division",

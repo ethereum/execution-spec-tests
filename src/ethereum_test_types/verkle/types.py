@@ -2,12 +2,16 @@
 Useful Verkle types for generating Ethereum tests.
 """
 
-from typing import Any, Dict, List
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
 
+from ethereum.crypto.hash import keccak256
 from pydantic import Field, RootModel, field_validator
 from pydantic.functional_serializers import model_serializer
 
-from ethereum_test_base_types import CamelModel, HexNumber, PaddedFixedSizeBytes
+from ethereum_test_base_types import Address, CamelModel, HexNumber, PaddedFixedSizeBytes
+from ethereum_test_forks import Fork, Verkle
+from ethereum_test_types import Account
 
 IPA_PROOF_DEPTH = 8
 
@@ -76,7 +80,7 @@ class SuffixStateDiff(CamelModel):
 
     suffix: int
     current_value: Hash | None
-    new_value: Hash | None
+    new_value: Hash | None = Field(None)
 
     @model_serializer(mode="wrap")
     def custom_serializer(self, handler) -> Dict[str, Any]:
@@ -148,3 +152,121 @@ class VerkleTree(RootModel[Dict[Hash, Hash]]):
     """
 
     root: Dict[Hash, Hash] = Field(default_factory=dict)
+
+
+class WitnessCheck:
+    """
+    Definition of a Witness Check.
+
+    Used as an intermediary class to store all the necessary items required to check
+    during the filling process of a blockchain test.
+    """
+
+    version: int = 0
+
+    class AccountHeaderEntry(Enum):
+        """
+        Represents all the data entries in an account header.
+        """
+
+        BASIC_DATA = 0
+        CODEHASH = 1
+
+    def __init__(self, fork: Fork) -> None:
+        """
+        Initializes a WitnessCheck instance.
+        """
+        assert fork >= Verkle, "WitnessCheck is only supported for Verkle fork and later"
+        self.account_entries: List[
+            Tuple[Address, WitnessCheck.AccountHeaderEntry, Optional[Hash]]
+        ] = []
+        self.storage_slots: List[Tuple[Address, int, Optional[Hash]]] = []
+        self.code_chunks: List[Tuple[Address, int, Optional[Hash]]] = []
+
+        # Add the pre-allocation accounts by default
+        pre_allocations = fork.pre_allocation_blockchain()
+        for address, account_data in pre_allocations.items():
+            self.add_account_full(Address(address), Account(**account_data))
+
+    def __repr__(self) -> str:
+        """
+        Provides a detailed string representation of the WitnessCheck object for debugging.
+        """
+        return (
+            f"WitnessCheck(\n"
+            f"  account_entries={self.account_entries},\n"
+            f"  storage_slots={self.storage_slots},\n"
+            f"  code_chunks={self.code_chunks}\n"
+            f")"
+        )
+
+    def add_account_full(self, address: Address, account: Account | None) -> None:
+        """
+        Adds the address, nonce, balance, and code. Delays actual key computation until later.
+        """
+        self.add_account_basic_data(address, account)
+        if account:
+            if account.code:
+                code_hash = Hash(keccak256(account.code))
+            else:  # keccak256 of empty byte array
+                code_hash = Hash(
+                    0xC5D2460186F7233C927E7DB2DCC703C0E500B653CA82273B7BFAD8045D85A470
+                )
+            self.add_account_codehash(address, code_hash)
+        else:
+            self.add_account_codehash(address, None)
+
+    def add_account_basic_data(self, address: Address, account: Account | None) -> None:
+        """
+        Adds the basic data witness for the given address.
+        """
+        if account is None:
+            self.account_entries.append(
+                (address, WitnessCheck.AccountHeaderEntry.BASIC_DATA, None)
+            )
+        else:  # Use big-endian encoding for basic data items
+            basic_data_value = bytearray(32)
+
+            # Set version to 0 (1 byte at offset 0)
+            basic_data_value[0] = self.version
+
+            # Bytes 1..4 are reserved for future use, leave them as 0
+
+            # Set code_size (3 bytes at offset 5)
+            code_size_bytes = len(account.code).to_bytes(3, byteorder="big")
+            basic_data_value[5:8] = code_size_bytes
+
+            # Set nonce (8 bytes at offset 8)
+            nonce_bytes = account.nonce.to_bytes(8, byteorder="big")
+            basic_data_value[8:16] = nonce_bytes
+
+            # Set balance (16 bytes at offset 16) - encode as big-endian
+            balance_bytes = account.balance.to_bytes(16, byteorder="big")
+            basic_data_value[16:32] = balance_bytes
+
+            # Append the encoded basic data to account_entries
+            self.account_entries.append(
+                (
+                    address,
+                    WitnessCheck.AccountHeaderEntry.BASIC_DATA,
+                    Hash(bytes(basic_data_value)),
+                )
+            )
+
+    def add_account_codehash(self, address: Address, codehash: Optional[Hash]) -> None:
+        """
+        Adds the code hash witness for the given address.
+        """
+        self.account_entries.append((address, WitnessCheck.AccountHeaderEntry.CODEHASH, codehash))
+
+    def add_storage_slot(self, address: Address, storage_slot: int, value: Optional[Hash]) -> None:
+        """
+        Adds the storage slot witness for the given address and storage slot.
+        """
+        self.storage_slots.append((address, storage_slot, value))
+
+    def add_code_chunk(self, address: Address, chunk_number: int, value: Optional[Hash]) -> None:
+        """
+        Adds the code chunk witness for the given address and chunk number.
+        """
+        self.code_chunks.append((address, chunk_number, value))

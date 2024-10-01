@@ -24,9 +24,9 @@ from pydantic import (
 )
 from trie import HexaryTrie
 
-from ethereum_test_base_types import Account, Address
-from ethereum_test_base_types import Alloc as BaseAlloc
 from ethereum_test_base_types import (
+    Account,
+    Address,
     BLSPublicKey,
     BLSSignature,
     Bytes,
@@ -40,6 +40,7 @@ from ethereum_test_base_types import (
     TestAddress,
     TestPrivateKey,
 )
+from ethereum_test_base_types import Alloc as BaseAlloc
 from ethereum_test_base_types.conversions import (
     BytesConvertible,
     FixedSizeBytesConvertible,
@@ -102,7 +103,9 @@ class EOA(Address):
                 raise ValueError("impossible to initialize EOA without address")
             private_key = PrivateKey(Hash(key))
             public_key = private_key.public_key
-            address = Address(keccak256(public_key.format(compressed=False)[1:])[32 - 20 :])
+            address = Address(
+                keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
+            )
         elif isinstance(address, EOA):
             return address
         instance = super(EOA, cls).__new__(cls, address)
@@ -194,7 +197,9 @@ class Alloc(BaseAlloc):
         """
         return self.root.items()
 
-    def __getitem__(self, address: Address | FixedSizeBytesConvertible) -> Account | None:
+    def __getitem__(
+        self, address: Address | FixedSizeBytesConvertible
+    ) -> Account | None:
         """
         Returns the account associated with an address.
         """
@@ -202,7 +207,9 @@ class Alloc(BaseAlloc):
             address = Address(address)
         return self.root[address]
 
-    def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
+    def __setitem__(
+        self, address: Address | FixedSizeBytesConvertible, account: Account | None
+    ):
         """
         Sets the account associated with an address.
         """
@@ -253,7 +260,11 @@ class Alloc(BaseAlloc):
                 address=FrontierAddress(address),
                 account=FrontierAccount(
                     nonce=Uint(account.nonce) if account.nonce is not None else Uint(0),
-                    balance=(U256(account.balance) if account.balance is not None else U256(0)),
+                    balance=(
+                        U256(account.balance)
+                        if account.balance is not None
+                        else U256(0)
+                    ),
                     code=account.code if account.code is not None else b"",
                 ),
             )
@@ -301,7 +312,9 @@ class Alloc(BaseAlloc):
         """
         Deploy a contract to the allocation.
         """
-        raise NotImplementedError("deploy_contract is not implemented in the base class")
+        raise NotImplementedError(
+            "deploy_contract is not implemented in the base class"
+        )
 
     def fund_eoa(
         self,
@@ -386,11 +399,15 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     prev_randao: NumberBoundTypeVar | None = Field(None, alias="currentRandom")
     difficulty: NumberBoundTypeVar | None = Field(None, alias="currentDifficulty")
     base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="currentBaseFee")
-    excess_blob_gas: NumberBoundTypeVar | None = Field(None, alias="currentExcessBlobGas")
+    excess_blob_gas: NumberBoundTypeVar | None = Field(
+        None, alias="currentExcessBlobGas"
+    )
 
     parent_difficulty: NumberBoundTypeVar | None = Field(None)
     parent_timestamp: NumberBoundTypeVar | None = Field(None)
-    parent_base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="parentBaseFee")
+    parent_base_fee_per_gas: NumberBoundTypeVar | None = Field(
+        None, alias="parentBaseFee"
+    )
     parent_gas_used: NumberBoundTypeVar | None = Field(None)
     parent_gas_limit: NumberBoundTypeVar | None = Field(None)
 
@@ -406,9 +423,15 @@ class Environment(EnvironmentGeneric[Number]):
     parent_blob_gas_used: Number | None = Field(None)
     parent_excess_blob_gas: Number | None = Field(None)
     parent_beacon_block_root: Hash | None = Field(None)
-    verkle_conversion_address: Address | None = Field(None, alias="currentConversionAddress")
-    verkle_conversion_slot_hash: Hash | None = Field(None, alias="currentConversionSlotHash")
-    verkle_conversion_started: bool | None = Field(None, alias="currentConversionStarted")
+    verkle_conversion_address: Address | None = Field(
+        None, alias="currentConversionAddress"
+    )
+    verkle_conversion_slot_hash: Hash | None = Field(
+        None, alias="currentConversionSlotHash"
+    )
+    verkle_conversion_started: bool | None = Field(
+        None, alias="currentConversionStarted"
+    )
     verkle_conversion_ended: bool | None = Field(None, alias="currentConversionEnded")
     verkle_conversion_storage_processed: bool | None = Field(
         None,
@@ -442,10 +465,16 @@ class Environment(EnvironmentGeneric[Number]):
 
         updated_values: Dict[str, Any] = {}
 
-        if fork.header_prev_randao_required(number, timestamp) and self.prev_randao is None:
+        if (
+            fork.header_prev_randao_required(number, timestamp)
+            and self.prev_randao is None
+        ):
             updated_values["prev_randao"] = 0
 
-        if fork.header_withdrawals_required(number, timestamp) and self.withdrawals is None:
+        if (
+            fork.header_withdrawals_required(number, timestamp)
+            and self.withdrawals is None
+        ):
             updated_values["withdrawals"] = []
 
         if (
@@ -601,7 +630,9 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
                     signature_bytes, self.signing_bytes.keccak256(), hasher=None
                 )
                 self.signer = EOA(
-                    address=Address(keccak256(public_key.format(compressed=False)[1:])[32 - 20 :])
+                    address=Address(
+                        keccak256(public_key.format(compressed=False)[1:])[32 - 20 :]
+                    )
                 )
             except Exception:
                 # Signer remains `None` in this case
@@ -725,7 +756,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
     authorization_list: List[AuthorizationTuple] | None = None
 
     secret_key: Hash | None = None
-    error: List[TransactionException] | TransactionException | None = Field(None, exclude=True)
+    error: List[TransactionException] | TransactionException | None = Field(
+        None, exclude=True
+    )
 
     protected: bool = Field(True, exclude=True)
     rlp_override: Bytes | None = Field(None, exclude=True)
@@ -773,9 +806,15 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             # Try to deduce transaction type from included fields
             if self.authorization_list is not None:
                 self.ty = 4
-            elif self.max_fee_per_blob_gas is not None or self.blob_kzg_commitments is not None:
+            elif (
+                self.max_fee_per_blob_gas is not None
+                or self.blob_kzg_commitments is not None
+            ):
                 self.ty = 3
-            elif self.max_fee_per_gas is not None or self.max_priority_fee_per_gas is not None:
+            elif (
+                self.max_fee_per_gas is not None
+                or self.max_priority_fee_per_gas is not None
+            ):
                 self.ty = 2
             elif self.access_list is not None:
                 self.ty = 1
@@ -806,13 +845,19 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             self.max_priority_fee_per_gas = TransactionDefaults.max_priority_fee_per_gas
         if self.ty < 2:
             assert self.max_fee_per_gas is None, "max_fee_per_gas must be None"
-            assert self.max_priority_fee_per_gas is None, "max_priority_fee_per_gas must be None"
+            assert (
+                self.max_priority_fee_per_gas is None
+            ), "max_priority_fee_per_gas must be None"
 
         if self.ty == 3 and self.max_fee_per_blob_gas is None:
             self.max_fee_per_blob_gas = 1
         if self.ty != 3:
-            assert self.blob_versioned_hashes is None, "blob_versioned_hashes must be None"
-            assert self.max_fee_per_blob_gas is None, "max_fee_per_blob_gas must be None"
+            assert (
+                self.blob_versioned_hashes is None
+            ), "blob_versioned_hashes must be None"
+            assert (
+                self.max_fee_per_blob_gas is None
+            ), "max_fee_per_blob_gas must be None"
 
         if self.ty == 4 and self.authorization_list is None:
             self.authorization_list = []
@@ -836,7 +881,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         """
         return self.copy(nonce=nonce)
 
-    def with_signature_and_sender(self, *, keep_secret_key: bool = False) -> "Transaction":
+    def with_signature_and_sender(
+        self, *, keep_secret_key: bool = False
+    ) -> "Transaction":
         """
         Returns a signed version of the transaction using the private key.
         """
@@ -905,13 +952,17 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         if self.ty == 4:
             # EIP-7702: https://eips.ethereum.org/EIPS/eip-7702
             if self.max_priority_fee_per_gas is None:
-                raise ValueError(f"max_priority_fee_per_gas must be set for type {self.ty} tx")
+                raise ValueError(
+                    f"max_priority_fee_per_gas must be set for type {self.ty} tx"
+                )
             if self.max_fee_per_gas is None:
                 raise ValueError(f"max_fee_per_gas must be set for type {self.ty} tx")
             if self.access_list is None:
                 raise ValueError(f"access_list must be set for type {self.ty} tx")
             if self.authorization_list is None:
-                raise ValueError(f"authorization_tuples must be set for type {self.ty} tx")
+                raise ValueError(
+                    f"authorization_tuples must be set for type {self.ty} tx"
+                )
             return [
                 Uint(self.chain_id),
                 Uint(self.nonce),
@@ -927,13 +978,19 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         elif self.ty == 3:
             # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
             if self.max_priority_fee_per_gas is None:
-                raise ValueError(f"max_priority_fee_per_gas must be set for type {self.ty} tx")
+                raise ValueError(
+                    f"max_priority_fee_per_gas must be set for type {self.ty} tx"
+                )
             if self.max_fee_per_gas is None:
                 raise ValueError(f"max_fee_per_gas must be set for type {self.ty} tx")
             if self.max_fee_per_blob_gas is None:
-                raise ValueError(f"max_fee_per_blob_gas must be set for type {self.ty} tx")
+                raise ValueError(
+                    f"max_fee_per_blob_gas must be set for type {self.ty} tx"
+                )
             if self.blob_versioned_hashes is None:
-                raise ValueError(f"blob_versioned_hashes must be set for type {self.ty} tx")
+                raise ValueError(
+                    f"blob_versioned_hashes must be set for type {self.ty} tx"
+                )
             if self.access_list is None:
                 raise ValueError(f"access_list must be set for type {self.ty} tx")
             return [
@@ -952,7 +1009,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         elif self.ty == 2:
             # EIP-1559: https://eips.ethereum.org/EIPS/eip-1559
             if self.max_priority_fee_per_gas is None:
-                raise ValueError(f"max_priority_fee_per_gas must be set for type {self.ty} tx")
+                raise ValueError(
+                    f"max_priority_fee_per_gas must be set for type {self.ty} tx"
+                )
             if self.max_fee_per_gas is None:
                 raise ValueError(f"max_fee_per_gas must be set for type {self.ty} tx")
             if self.access_list is None:
@@ -1011,7 +1070,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
                     Uint(self.value),
                     self.data,
                 ]
-        raise NotImplementedError("signing for transaction type {self.ty} not implemented")
+        raise NotImplementedError(
+            "signing for transaction type {self.ty} not implemented"
+        )
 
     @cached_property
     def payload_body(self) -> List[Any]:
@@ -1031,7 +1092,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             if self.blobs is None:
                 raise ValueError(f"blobs must be set for type {self.ty} tx")
             if self.blob_kzg_commitments is None:
-                raise ValueError(f"blob_kzg_commitments must be set for type {self.ty} tx")
+                raise ValueError(
+                    f"blob_kzg_commitments must be set for type {self.ty} tx"
+                )
             if self.blob_kzg_proofs is None:
                 raise ValueError(f"blob_kzg_proofs must be set for type {self.ty} tx")
             return [
@@ -1131,7 +1194,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             raise ValueError("transaction is not a contract creation")
         if self.sender is None:
             raise ValueError("sender address is None")
-        hash = Bytes(eth_rlp.encode([self.sender, int_to_bytes(self.nonce)])).keccak256()
+        hash = Bytes(
+            eth_rlp.encode([self.sender, int_to_bytes(self.nonce)])
+        ).keccak256()
         return Address(hash[-20:])
 
 
@@ -1151,7 +1216,9 @@ class RequestBase:
         """
         Returns the request's attributes as a list of serializable elements.
         """
-        raise NotImplementedError("to_serializable_list must be implemented in child classes")
+        raise NotImplementedError(
+            "to_serializable_list must be implemented in child classes"
+        )
 
 
 class DepositRequestGeneric(RequestBase, CamelModel, Generic[NumberBoundTypeVar]):
@@ -1265,7 +1332,9 @@ class ConsolidationRequest(ConsolidationRequestGeneric[HexNumber]):
     pass
 
 
-class Requests(RootModel[List[DepositRequest | WithdrawalRequest | ConsolidationRequest]]):
+class Requests(
+    RootModel[List[DepositRequest | WithdrawalRequest | ConsolidationRequest]]
+):
     """
     Requests for the transition tool.
     """
@@ -1278,7 +1347,9 @@ class Requests(RootModel[List[DepositRequest | WithdrawalRequest | Consolidation
         """
         Returns the requests as a list of serializable elements.
         """
-        return [r.type_byte() + eth_rlp.encode(r.to_serializable_list()) for r in self.root]
+        return [
+            r.type_byte() + eth_rlp.encode(r.to_serializable_list()) for r in self.root
+        ]
 
     @cached_property
     def trie_root(self) -> Hash:

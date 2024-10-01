@@ -7,6 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
@@ -16,19 +17,18 @@ from ethereum_test_tools import (
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.types import Hash
+from ethereum_test_types.verkle.helpers import chunkify_code
 
-from ..temp_verkle_helpers import Witness
-
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
+TestAddress2Storage: dict[int, Hash] = {0: Hash(0xAA), 1000: Hash(0xBB)}
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "storage_slot_writes",
@@ -43,8 +43,8 @@ TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
         [(1000, 0xFF), (1000, 0xFE)],
     ],
     ids=[
-        "subreeedit_chunkedit_in_account_header",
-        "subreeedit_chunkedit_outside_account_header",
+        "chunkedit_in_account_header",
+        "chunkedit_outside_account_header",
         "two_in_same_branch_with_fill_cost",
         "two_different_subtreeedit_cost_and_no_fill_cost",
         "fill_and_subtree_edit_cost",
@@ -53,18 +53,13 @@ TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
         "warm_write",
     ],
 )
-def test_sstore(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_writes):
+def test_sstore(blockchain_test: BlockchainTestFiller, storage_slot_writes):
     """
     Test SSTORE witness.
     """
-    witness = Witness()
-    for sstore in storage_slot_writes:
-        witness.add_storage_slot(TestAddress2, sstore[0], TestAddress2Storage.get(sstore[0]))
-
-    _sstore(blockchain_test, fork, storage_slot_writes, witness)
+    _sstore(blockchain_test, storage_slot_writes)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("TBD gas limit")
 @pytest.mark.parametrize(
@@ -79,20 +74,14 @@ def test_sstore(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_w
     ],
 )
 def test_sstore_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, fork: str, gas_limit: int, must_be_in_witness: bool
+    blockchain_test: BlockchainTestFiller, gas_limit: int, must_be_in_witness: bool
 ):
     """
     Test SSTORE with insufficient gas.
     """
-    witness = Witness()
-    if must_be_in_witness:
-        witness.add_storage_slot(TestAddress2, 5000, None)
-
     _sstore(
         blockchain_test,
-        fork,
-        [(5000, 0xFF)],
-        witness,
+        [(5000, Hash(0xFF))],
         gas_limit=gas_limit,
         post_state_mutated_slot_count=0,
     )
@@ -100,9 +89,7 @@ def test_sstore_insufficient_gas(
 
 def _sstore(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
-    storage_slot_writes: list[tuple[int, int]],
-    extra_witness: Witness,
+    storage_slot_writes: list[tuple[int, Hash]],
     gas_limit=1_000_000,
     post_state_mutated_slot_count=None,
 ):
@@ -133,7 +120,6 @@ def _sstore(
         gas_limit=gas_limit,
         gas_price=10,
     )
-    blocks = [Block(txs=[tx])]
 
     postStorage = TestAddress2Storage.copy()
     successful_writes = (
@@ -151,16 +137,32 @@ def _sstore(
         ),
     }
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(TestAddress2, pre[TestAddress2])
-    # witness.merge(extra_witness)
+    witness_check = WitnessCheck(fork=Verkle)
+    for address in [TestAddress, TestAddress2, env.fee_recipient]:
+        witness_check.add_account_full(
+            address=address,
+            account=pre.get(address),
+        )
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+    for i in range(successful_writes):
+        witness_check.add_storage_slot(
+            TestAddress2,
+            storage_slot_writes[i][0],
+            TestAddress2Storage.get(storage_slot_writes[i][0]),
+        )
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        # witness=witness,
     )

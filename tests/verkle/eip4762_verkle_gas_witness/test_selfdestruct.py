@@ -7,31 +7,30 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
-    Alloc,
     Address,
+    Alloc,
     Block,
     BlockchainTestFiller,
     Environment,
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.helpers import chunkify_code
 
-from ..temp_verkle_helpers import Witness
-
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 ExampleAddress = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0c")
 precompile_address = Address("0x04")
-system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
+system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "target, beneficiary_must_exist",
@@ -56,7 +55,6 @@ system_contract_address = Address("0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02")
 )
 def test_self_destruct(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     target,
     beneficiary_must_exist,
     contract_balance,
@@ -66,25 +64,21 @@ def test_self_destruct(
     """
     _selfdestruct(
         blockchain_test,
-        fork,
         target,
         beneficiary_must_exist,
         contract_balance,
-        contract_balance > 0,
-        contract_balance > 0 and not beneficiary_must_exist,
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("TBD gas limit")
 @pytest.mark.parametrize(
-    "gas_limit, beneficiary_must_exist, beneficiary_add_basic_data, beneficiary_add_codehash",
+    "gas_limit, beneficiary_must_exist, beneficiary_add_basic_data",
     [
-        ("TBD", True, False, False),
-        ("TBD", True, False, False),
-        ("TBD", False, False, False),
-        ("TBD", False, True, False),
+        ("TBD", True, False),
+        ("TBD", True, False),
+        ("TBD", False, False),
+        ("TBD", False, True),
     ],
     ids=[
         "beneficiary_exist_not_enough_substract_contract_balance",
@@ -95,7 +89,6 @@ def test_self_destruct(
 )
 def test_self_destruct_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     gas_limit,
     beneficiary_must_exist,
     beneficiary_add_basic_data,
@@ -106,12 +99,9 @@ def test_self_destruct_insufficient_gas(
     """
     _selfdestruct(
         blockchain_test,
-        fork,
         ExampleAddress,
         beneficiary_must_exist,
         100,
-        beneficiary_add_basic_data,
-        beneficiary_add_codehash,
         gas_limit=gas_limit,
         fail=True,
     )
@@ -119,12 +109,9 @@ def test_self_destruct_insufficient_gas(
 
 def _selfdestruct(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     beneficiary: Address,
     beneficiary_must_exist: bool,
     contract_balance: int,
-    beneficiary_add_basic_data: bool,
-    beneficiary_add_codehash: bool,
     gas_limit=1_000_000,
     fail=False,
 ):
@@ -152,31 +139,41 @@ def _selfdestruct(
         gas_limit=gas_limit,
         gas_price=10,
     )
-    blocks = [Block(txs=[tx])]
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(TestAddress2, pre[TestAddress2])
-    # if beneficiary_add_basic_data:
-    #     witness.add_account_basic_data(beneficiary, pre.get(beneficiary))
-    # if beneficiary_add_codehash:
-    #     witness.add_account_codehash(beneficiary, None)
+    witness_check = WitnessCheck(fork=Verkle)
+    for address in [TestAddress, TestAddress2, env.fee_recipient]:
+        witness_check.add_account_full(address=address, account=pre.get(address))
+    if contract_balance > 0 or (beneficiary != precompile_address):
+        witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
+    if contract_balance > 0 and not beneficiary_must_exist:
+        witness_check.add_account_full(beneficiary, pre.get(beneficiary))
 
-    post: Alloc = {}
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
+
+    post: Alloc = Alloc({})
     if not fail and contract_balance > 0 and beneficiary != TestAddress2:
         beneficiary_account = pre.get(beneficiary)
         beneficiary_balance = 0 if beneficiary_account is None else beneficiary_account.balance
         pre[TestAddress2]
-        post = {
-            TestAddress2: Account(code=pre[TestAddress2].code, balance=0),
-            beneficiary: Account(balance=beneficiary_balance + contract_balance),
-        }
+        post = Alloc(
+            {
+                TestAddress2: Account(code=pre[TestAddress2].code, balance=0),
+                beneficiary: Account(balance=beneficiary_balance + contract_balance),
+            }
+        )
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
-        # witness=witness,
     )

@@ -13,14 +13,15 @@ from dataclasses import dataclass, field
 from itertools import groupby
 from pathlib import Path
 from re import Pattern
-from typing import Dict, List, Mapping, Optional, Type
+from typing import Dict, List, Mapping, Optional, Tuple, Type
 
 from requests_unixsocket import Session  # type: ignore
 
+from ethereum_test_base_types import Address, Alloc, ZeroPaddedHexNumber
 from ethereum_test_fixtures import FixtureFormat, FixtureVerifier
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction
-from ethereum_test_types.verkle import VerkleTree
+from ethereum_test_types import Environment, Transaction
+from ethereum_test_types.verkle import StateDiff, Stem, VerkleTree, WitnessCheck
 
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import TransactionReceipt, TransitionToolInput, TransitionToolOutput
@@ -341,7 +342,12 @@ class TransitionTool(FixtureVerifier):
                 }
             )
             args.extend(
-                ["--output.vkt", output_paths["vkt"], "--output.witness", output_paths["witness"]]
+                [
+                    "--output.vkt",
+                    output_paths["vkt"],
+                    "--output.witness",
+                    output_paths["witness"],
+                ]
             )
             if t8n_data.vkt is not None:
                 args.extend(["--input.vkt", input_paths["vkt"]])
@@ -685,23 +691,54 @@ class TransitionTool(FixtureVerifier):
             "The `verify_fixture()` function is not supported by this tool. Use geth's evm tool."
         )
 
-    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
-        """
-        Returns the VKT state root of from an input MPT.
-
-        Currently only implemented by geth's evm.
-        """
-        raise NotImplementedError(
-            "The `get_verkle_state_root` function is not supported by this tool. Use geth's evm "
-            "tool."
-        )
-
     def from_mpt_to_vkt(self, mpt_alloc: Alloc) -> VerkleTree:
         """
-        Returns the verkle tree representation for an entire MPT alloc using the verkle subcommand.
-
-        Currently only implemented by geth's evm.
+        Returns the verkle tree representation for an input MPT.
         """
         raise NotImplementedError(
-            "The `from_mpt_to_vkt` function is not supported by this tool. Use geth's evm tool."
+            "The `from_mpt_to_vkt()` function is not supported by this tool. Use geth's evm tool."
+        )
+
+    def get_verkle_state_root(self, mpt_alloc: Alloc) -> bytes:
+        """
+        Returns the VKT state root from an input MPT.
+        """
+        raise NotImplementedError(
+            "The `get_verkle_state_root()` function is not supported by this tool. Use geth's evm"
+            " tool."
+        )
+
+    def get_verkle_single_key(
+        self, address: Address, storage_slot: Optional[ZeroPaddedHexNumber] = None
+    ) -> str:
+        """
+        Returns the VKT key for an account address or storage slot.
+        """
+        raise NotImplementedError(
+            "The `get_verkle_single_key()` function is not supported by this tool. Use geth's evm"
+            " tool."
+        )
+
+    def get_verkle_code_chunk_key(
+        self, address: Address, code_chunk: ZeroPaddedHexNumber
+    ) -> str:
+        """
+        Returns the VKT key of a code chunk for an account address.
+        """
+        raise NotImplementedError(
+            "The `get_verkle_code_chunk_key()` function is not supported by this tool. Use geth's"
+            " evm tool."
+        )
+
+    def get_witness_check_mapping(
+        self, witness_check: WitnessCheck
+    ) -> Tuple[StateDiff, Dict[Stem, Address]]:
+        """
+        Returns a tuple containing:
+        A) StateDiff - A pseudo StateDiff type with stems, suffixes, and current values.
+        B) Dict[Stem, Address] - A mapping of stems to their associated addresses.
+        """
+        raise NotImplementedError(
+            "The `get_witness_check_mapping()` function is not supported by this tool. Use geth's"
+            " evm tool."
         )

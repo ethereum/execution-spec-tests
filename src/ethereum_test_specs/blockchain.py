@@ -2,7 +2,7 @@
 Ethereum blockchain test spec definition and filler.
 """
 
-from pprint import pprint
+from pprint import pformat
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Tuple, Type
 
 import pytest
@@ -54,7 +54,7 @@ from ethereum_test_types import (
     Withdrawal,
     WithdrawalRequest,
 )
-from ethereum_test_types.verkle import VerkleTree, Witness
+from ethereum_test_types.verkle import StateDiff, VerkleTree, Witness, WitnessCheck
 from evm_transition_tool import TransitionTool
 
 from .base import BaseTest, verify_result, verify_transactions
@@ -264,6 +264,10 @@ class Block(Header):
     """
     Custom list of requests to embed in this block.
     """
+    witness_check: WitnessCheck | None = None
+    """
+    Verkle execution witness check for the block.
+    """
 
     def set_environment(self, env: Environment) -> Environment:
         """
@@ -458,20 +462,52 @@ class BlockchainTest(BaseTest):
             debug_output_path=self.get_next_transition_tool_output_path(),
         )
 
-        try:
+        try:  # General checks for the transition tool output
             rejected_txs = verify_transactions(txs, transition_tool_output.result)
             verify_result(transition_tool_output.result, env)
-            # TODO: add verify witness (against vkt)
-            # verify_witness(transition_tool_output.witness, transition_tool_output.vkt)
+            if block.witness_check:
+                if transition_tool_output.result.state_diff is None:
+                    raise Exception(
+                        "no state diff in transition tool output, cannot verify witness"
+                    )
+                # TODO: hack for now, temp addition to check hist. storage contract
+                block.witness_check.add_storage_slot(
+                    address=Address(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE),
+                    storage_slot=env.number - 1,
+                    # value=env.parent_hash,
+                    value=None,
+                )
+                self.verify_witness(
+                    t8n=t8n,
+                    state_diff=transition_tool_output.result.state_diff,
+                    witness_check=block.witness_check,
+                )
         except Exception as e:
             print_traces(t8n.get_traces())
-            pprint(transition_tool_output.result)
-            pprint(previous_alloc)
-            pprint(transition_tool_output.alloc)
+            print(
+                "\nTransition tool output result:\n"
+                f"{pformat(transition_tool_output.result.model_dump_json())}"
+            )
+            print(
+                "\nPrevious transition tool alloc:\n"
+                f"{pformat(previous_alloc.model_dump_json())}"
+            )
+            if transition_tool_output.alloc is not None:
+                print(
+                    "\nTransition tool output alloc:\n"
+                    f"{pformat(transition_tool_output.alloc.model_dump_json())}"
+                )
             if transition_tool_output.vkt is not None:
-                pprint(transition_tool_output.vkt)
-            if transition_tool_output.witness is not None:
-                pprint(transition_tool_output.witness)
+                print(
+                    "\nTransition tools output verkle tree:\n"
+                    f"{pformat(transition_tool_output.vkt.model_dump_json())}"
+                )
+            # TODO: t8n has the witness state diff from the result for now
+            # if transition_tool_output.witness is not None:
+            # print(
+            # "\nTransition tools output witness:\n"
+            # f"{pformat(transition_tool_output.witness.model_dump_json())}"
+            # )
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
@@ -544,7 +580,7 @@ class BlockchainTest(BaseTest):
                 )
             )
             transition_tool_output.alloc = previous_alloc
-            # TODO: hack for now
+            # TODO: hack for now, replace with actual witness output once available from t8n
             transition_tool_output.witness = Witness(
                 verkle_proof=transition_tool_output.result.verkle_proof,
                 state_diff=transition_tool_output.result.state_diff,
@@ -592,6 +628,87 @@ class BlockchainTest(BaseTest):
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
+
+    def verify_witness(
+        self,
+        t8n: TransitionTool,
+        state_diff: StateDiff,
+        witness_check: WitnessCheck,
+    ) -> None:
+        """
+        Compares the expected witness check allocation account against the values updated
+        in the block execution witness state diff.
+        """
+        witness_check_state_diff, witness_check_address_mapping = t8n.get_witness_check_mapping(
+            witness_check
+        )
+        print("\nExpected witness check state diff:")
+        print(witness_check_state_diff.model_dump_json(indent=4))
+
+        for stem_state_diff in state_diff.root:
+            actual_stem = stem_state_diff.stem
+            address = witness_check_address_mapping.get(actual_stem, None)
+            print(f"\nChecking witness for stem: {actual_stem} at address: {address}")
+            # check for stem in the expected witness check
+            expected_stem_state_diff = next(
+                (sd for sd in witness_check_state_diff.root if sd.stem == actual_stem), None
+            )
+            if not expected_stem_state_diff:
+                raise ValueError(
+                    "Witness check failed - missing stem not found in expected witness check.\n\n"
+                    + pformat(
+                        {
+                            "test_account_address": str(address),
+                            "stem": str(actual_stem),
+                        },
+                        indent=4,
+                    )
+                )
+            for suffix_diff in stem_state_diff.suffix_diffs:
+                actual_suffix = suffix_diff.suffix
+                actual_current_value = suffix_diff.current_value
+                # check for suffix in the expected witness check
+                expected_suffix_state_diff = next(
+                    (
+                        sd
+                        for sd in expected_stem_state_diff.suffix_diffs
+                        if sd.suffix == actual_suffix
+                    ),
+                    None,
+                )
+                if not expected_suffix_state_diff:
+                    raise ValueError(
+                        "Witness check failed - actual suffix not found in expected witness"
+                        " check.\n\n"
+                        + pformat(
+                            {
+                                "test_account_address": str(address),
+                                "stem": str(actual_stem),
+                                "suffix": actual_suffix,
+                                "value_actual": str(actual_current_value),
+                                "value_expected": "value not found",
+                            },
+                            indent=4,
+                        )
+                    )
+                # check the current value of the actual suffix state diff matches the expected
+                if str(actual_current_value) != str(
+                    expected_suffix_state_diff.current_value
+                ):  # TODO: temp fix str casting
+                    raise ValueError(
+                        "Witness check failed - current value mismatch. The stem and suffix"
+                        " exist.\n\n"
+                        + pformat(
+                            {
+                                "test_account_address": str(address),
+                                "stem": str(actual_stem),
+                                "suffix": actual_suffix,
+                                "value_actual": str(actual_current_value),
+                                "value_expected": str(expected_suffix_state_diff.current_value),
+                            },
+                            indent=4,
+                        )
+                    )
 
     def make_fixture(
         self,
@@ -848,4 +965,5 @@ class BlockchainTest(BaseTest):
 
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]
+
 BlockchainTestFiller = Type[BlockchainTest]

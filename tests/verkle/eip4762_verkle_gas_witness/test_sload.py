@@ -7,28 +7,28 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
-    Bytecode,
     BlockchainTestFiller,
+    Bytecode,
     Environment,
     TestAddress,
     TestAddress2,
     Transaction,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.types import Hash
+from ethereum_test_types.verkle.helpers import chunkify_code
 
-from ..temp_verkle_helpers import Witness
-
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
+TestAddress2Storage: dict[int, Hash] = {0: Hash(0xAA), 1000: Hash(0xBB)}
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "storage_slot_accesses",
@@ -49,35 +49,34 @@ TestAddress2Storage = {0: 0xAA, 1000: 0xBB}
         "empty",
     ],
 )
-def test_sload(blockchain_test: BlockchainTestFiller, fork: str, storage_slot_accesses):
+def test_sload(blockchain_test: BlockchainTestFiller, storage_slot_accesses):
     """
     Test SLOAD witness.
     """
-    witness = Witness()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     for slot in storage_slot_accesses:
-        witness.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
+        witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
-    _sload(blockchain_test, fork, storage_slot_accesses, witness)
+    _sload(blockchain_test, storage_slot_accesses, witness_check_extra)
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
+@pytest.mark.skip("Unskip when geth fixes Touch* witness inclusion with insufficient gas")
 @pytest.mark.valid_from("Verkle")
 def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
     """
     Test SLOAD with insufficient gas.
     """
-    witness = Witness()
+    witness_check_extra = WitnessCheck(fork=Verkle)
     for slot in [1000, 1001]:
-        witness.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
+        witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
-    _sload(blockchain_test, fork, [1000, 1001, 1002, 1003], witness, gas_limit=21_024)
+    _sload(blockchain_test, [1000, 1001, 1002, 1003], witness_check_extra, gas_limit=23_506)
 
 
 def _sload(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     storage_slot_accesses: list[int],
-    extra_witness: Witness,
+    witness_check_extra: WitnessCheck,
     gas_limit=1_000_000,
 ):
     env = Environment(
@@ -107,18 +106,27 @@ def _sload(
         gas_limit=gas_limit,
         gas_price=10,
     )
-    blocks = [Block(txs=[tx])]
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(TestAddress2, pre[TestAddress2])
-    # witness.merge(extra_witness)
+    witness_check = witness_check_extra
+    for address in [TestAddress, TestAddress2, env.fee_recipient]:
+        witness_check.add_account_full(
+            address=address,
+            account=pre.get(address),
+        )
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        # witness=witness,
     )

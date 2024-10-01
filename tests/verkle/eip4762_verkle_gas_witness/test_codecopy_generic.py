@@ -7,31 +7,27 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Address,
     Block,
-    Bytecode,
     BlockchainTestFiller,
     Environment,
-    Initcode,
     TestAddress,
     TestAddress2,
     Transaction,
-    # compute_create_address,
+    WitnessCheck,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.verkle.helpers import chunkify_code
 
-# from ..temp_verkle_helpers import vkt_chunkify, Witness
-
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
-code_size = 200 * 31 + 60
+code_size = 130 * 31 + 60
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "instruction",
@@ -48,6 +44,7 @@ code_size = 200 * 31 + 60
         (0, 128 * 31),
         (0, code_size - 5),
         (0, code_size),
+        (code_size // 2, code_size * 2),
         (code_size - 1, 1),
         (code_size, 1),
         (code_size - 1, 1 + 1),
@@ -59,37 +56,35 @@ code_size = 200 * 31 + 60
         "all_chunks_account_header",
         "contract_size_after_header_but_incomplete",
         "contract_size",
+        "bigger_than_contract_size",
         "last_byte",
         "all_out_of_bounds",
         "partial_out_of_bounds_in_same_last_code_chunk",
         "partial_out_of_bounds_touching_further_non_existent_code_chunk",
     ],
 )
-def test_generic_codecopy(
-    blockchain_test: BlockchainTestFiller, fork: str, instruction, offset, size
-):
+def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, offset, size):
     """
     Test *CODECOPY witness.
     """
-    start = offset if offset < size else size
+    start = offset if offset < code_size else code_size
     end = offset + size if offset + size < code_size else code_size
     witness_code_chunks = range(0, 0)
-    if start < size and start != end:
+    if start < code_size and start != end:
         start_chunk = start // 31
-        end_chunk = (end - 1) // 31
+        end_chunk = end // 31
         witness_code_chunks = range(start_chunk, end_chunk + 1)
 
     _generic_codecopy(
         blockchain_test,
-        fork,
         instruction,
         offset,
         size,
         witness_code_chunks,
+        witness_target_basic_data=True,
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "instruction",
@@ -98,23 +93,23 @@ def test_generic_codecopy(
         Op.EXTCODECOPY,
     ],
 )
-def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, fork: str, instruction):
+def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instruction):
     """
     Test *CODECOPY with WARM access.
     """
-    witness_code_chunks = range(0, (code_size - 5) // 31 + 1)
+    code_len = 150
+    witness_code_chunks = range(0, code_len // 31 + 1)
     _generic_codecopy(
         blockchain_test,
-        fork,
         instruction,
         0,
-        code_size - 5,
+        code_len,
         witness_code_chunks,
+        witness_target_basic_data=True,
         warm=True,
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
@@ -128,25 +123,23 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, fork: str,
         "partial_code_range",
     ],
 )
-# TODO(verkle): consider reusing code from test_generic_codecopy.py.
 def test_codecopy_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, fork: str, gas_limit, witness_code_chunks
+    blockchain_test: BlockchainTestFiller, gas_limit, witness_code_chunks
 ):
     """
     Test CODECOPY with insufficient gas.
     """
     _generic_codecopy(
         blockchain_test,
-        fork,
         Op.CODECOPY,
         0,
         code_size,
         witness_code_chunks,
+        witness_target_basic_data=True,
         gas_limit=gas_limit,
     )
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
@@ -162,10 +155,8 @@ def test_codecopy_insufficient_gas(
         "partial_code_range",
     ],
 )
-# TODO(verkle): consider reusing code from test_generic_codecopy.py.
 def test_extcodecopy_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     gas_limit,
     witness_target_basic_data,
     witness_code_chunks,
@@ -175,7 +166,6 @@ def test_extcodecopy_insufficient_gas(
     """
     _generic_codecopy(
         blockchain_test,
-        fork,
         Op.CODECOPY,
         0,
         code_size,
@@ -187,15 +177,15 @@ def test_extcodecopy_insufficient_gas(
 
 def _generic_codecopy(
     blockchain_test: BlockchainTestFiller,
-    fork: str,
     instr: Op,
     offset: int,
     size: int,
     witness_code_chunks,
-    witness_target_basic_data=True,
+    witness_target_basic_data,
     warm=False,
     gas_limit=1_000_000,
 ):
+    dummy_address = Address("0xffff19589531694250d570040a0c4b74576919b8")
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
         difficulty=0x20000,
@@ -203,19 +193,19 @@ def _generic_codecopy(
         number=1,
         timestamp=1000,
     )
+
+    to = TestAddress2
+    if instr == Op.EXTCODECOPY:
+        to = dummy_address
+
     repeat = 2 if warm else 1
-    codecopy_code = Op.CODECOPY(0, offset, size) * repeat
+    codecopy_code = Op.CODECOPY(0, offset, size) * repeat + Op.STOP
+    extcodecopy_code = Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
         TestAddress2: Account(code=codecopy_code + Op.PUSH0 * (code_size - len(codecopy_code))),
+        dummy_address: Account(code=extcodecopy_code),
     }
-
-    to: Address | None = TestAddress2
-    data = Bytecode()
-    if instr == Op.EXTCODECOPY:
-        to = None
-        extcodecopy_code = Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat
-        data = Initcode(deploy_code=extcodecopy_code)
 
     tx = Transaction(
         ty=0x0,
@@ -224,28 +214,47 @@ def _generic_codecopy(
         to=to,
         gas_limit=gas_limit,
         gas_price=10,
-        data=data,
     )
-    blocks = [Block(txs=[tx])]
-    # tx_target_addr = (
-    #     TestAddress2 if instr == Op.CODECOPY else compute_create_address(TestAddress, 0)
-    # )
 
-    # code_chunks = vkt_chunkify(pre[TestAddress2].code)
+    witness_check = WitnessCheck(fork=Verkle)
+    for address in [TestAddress, to, env.fee_recipient]:
+        witness_check.add_account_full(address=address, account=pre.get(address))
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(tx_target_addr, pre[tx_target_addr])
-    # if witness_target_basic_data:
-    #     witness.add_account_basic_data(TestAddress2, pre[TestAddress2])
-    # for chunk_num in witness_code_chunks:
-    #     witness.add_code_chunk(TestAddress2, chunk_num, code_chunks[chunk_num])
+    # Add code-chunks related to CODECOPY/EXTCODECOPY execution.
+    code_chunks = chunkify_code(pre[to].code)
+    executed_code_len = (
+        # In CODECOPY, not all the code is executed, since we right-padded with dummy push0-s
+        # so we can copy more code than actually executed. If we didn't do that, we can't
+        # distinguish between the code in the witness that was executed and the code that
+        # was copied.
+        (len(codecopy_code) + 31) // 32
+        if instr == Op.CODECOPY
+        # In EXTCODECOPY, all the code is executed since we're copying code from an external
+        # account.
+        else (len(extcodecopy_code) + 31) // 32
+    )
+    for i in range(executed_code_len):
+        witness_check.add_code_chunk(to, i, code_chunks[i])
+
+    if instr == Op.EXTCODECOPY:
+        witness_check.add_account_basic_data(address=TestAddress2, account=pre.get(TestAddress2))
+
+    # Depending on the CODECOPY/EXTCODECOPY offset and size, we include the extra expected
+    # code-chunks.
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for chunk_num in witness_code_chunks:
+        witness_check.add_code_chunk(TestAddress2, chunk_num, code_chunks[chunk_num])
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
-        post={},
         blocks=blocks,
-        # witness=witness,
+        post={},
     )

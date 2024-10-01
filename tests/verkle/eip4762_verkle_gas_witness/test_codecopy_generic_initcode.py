@@ -7,26 +7,23 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
+from ethereum_test_forks import Verkle
 from ethereum_test_tools import (
     Account,
     Block,
     BlockchainTestFiller,
     Environment,
-    Initcode,
     TestAddress,
     Transaction,
+    WitnessCheck,
     compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-# from ..temp_verkle_helpers import Witness
-
-# TODO(verkle): Update reference spec version
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 
-# TODO(verkle): update to Osaka when t8n supports the fork.
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "instruction",
@@ -52,10 +49,9 @@ def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: 
 
     contract_address = compute_create_address(address=TestAddress, nonce=0)
     if instruction == Op.EXTCODECOPY:
-        deploy_code = Op.EXTCODECOPY(contract_address, 0, 0, 100) + Op.ORIGIN * 100
-        data = Initcode(deploy_code=deploy_code)
+        data = Op.EXTCODECOPY(contract_address, 0, 0, 100) + Op.ORIGIN * 100
     else:
-        data = Initcode(deploy_code=Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100)
+        data = Op.CODECOPY(0, 0, 100) + Op.ORIGIN * 100
 
     tx = Transaction(
         ty=0x0,
@@ -66,18 +62,21 @@ def test_generic_codecopy_initcode(blockchain_test: BlockchainTestFiller, fork: 
         gas_price=10,
         data=data,
     )
-    blocks = [Block(txs=[tx])]
 
-    # witness = Witness()
-    # witness.add_account_full(env.fee_recipient, None)
-    # witness.add_account_full(TestAddress, pre[TestAddress])
-    # witness.add_account_full(contract_address, None)
-    # No code chunks.
+    witness_check = WitnessCheck(fork=Verkle)
+    for address in [TestAddress, contract_address, env.fee_recipient]:
+        witness_check.add_account_full(address=address, account=pre.get(address))
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
-        # witness=witness,
     )
