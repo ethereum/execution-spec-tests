@@ -10,10 +10,10 @@
       
       
       
-        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi/">
+        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_invalid_max_stack_height/">
       
       
-        <link rel="prev" href="../test_rjumpi_rjumpv_backwards_min_stack_wrong/">
+        <link rel="prev" href="../test_double_rjumpi_stack_height_mismatch/">
       
       
         <link rel="next" href="../../test_rjumpv/">
@@ -24,7 +24,7 @@
     
     
       
-        <title>test_double_rjumpi - Ethereum Execution Spec Tests</title>
+        <title>test_double_rjumpi_invalid_max_stack_height - Ethereum Execution Spec Tests</title>
       
     
     
@@ -60,11 +60,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="<code>test_double_rjumpi</code> - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="<code>test_double_rjumpi_invalid_max_stack_height</code> - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi.png" >
+        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_invalid_max_stack_height.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -72,15 +72,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi/" >
+        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_invalid_max_stack_height/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="<code>test_double_rjumpi</code> - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="<code>test_double_rjumpi_invalid_max_stack_height</code> - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi.png" >
+        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_invalid_max_stack_height.png" >
       
     
     
@@ -105,7 +105,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#test_double_rjumpi" class="md-skip">
+        <a href="#test_double_rjumpi_invalid_max_stack_height" class="md-skip">
           Skip to content
         </a>
       
@@ -142,7 +142,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              <code>test_double_rjumpi</code>
+              <code>test_double_rjumpi_invalid_max_stack_height</code>
             
           </span>
         </div>
@@ -7325,6 +7325,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -8189,6 +8193,48 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_double_rjumpi_stack_underflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_double_rjumpi_stack_underflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_double_rjumpi_stack_height_mismatch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_double_rjumpi_stack_height_mismatch</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -8205,7 +8251,7 @@
           
   
   <span class="md-ellipsis">
-    <code>test_double_rjumpi</code>
+    <code>test_double_rjumpi_invalid_max_stack_height</code>
   </span>
   
 
@@ -8216,7 +8262,7 @@
         
   
   <span class="md-ellipsis">
-    <code>test_double_rjumpi</code>
+    <code>test_double_rjumpi_invalid_max_stack_height</code>
   </span>
   
 
@@ -8238,9 +8284,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi" class="md-nav__link">
+  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi_invalid_max_stack_height" class="md-nav__link">
     <span class="md-ellipsis">
-      test_double_rjumpi
+      test_double_rjumpi_invalid_max_stack_height
     </span>
   </a>
   
@@ -22592,9 +22638,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi" class="md-nav__link">
+  <a href="#tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi_invalid_max_stack_height" class="md-nav__link">
     <span class="md-ellipsis">
-      test_double_rjumpi
+      test_double_rjumpi_invalid_max_stack_height
     </span>
   </a>
   
@@ -22615,15 +22661,15 @@
                   
 
 
-<h1 id="test_double_rjumpi"><code>test_double_rjumpi()</code><a class="headerlink" href="#test_double_rjumpi" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d343b81284e8bd351f57a333f344eed3f1425aca/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L955"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi@d343b812</code></a>.</p>
+<h1 id="test_double_rjumpi_invalid_max_stack_height"><code>test_double_rjumpi_invalid_max_stack_height()</code><a class="headerlink" href="#test_double_rjumpi_invalid_max_stack_height" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/69681568270b0b718b66e2608dbaa63537283f07/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L1003"><code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height@69681568</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Pragueeip7692 with:</p>
 <p>Pragueeip7692 only:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi --fork=PragueEIP7692 --evm-bin=/path/to/evm-tool-dev-version</span>
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height --fork=PragueEIP7692 --evm-bin=/path/to/evm-tool-dev-version</span>
 </code></pre></div></p>
 <p>For all forks up to and including Pragueeip7692:
-    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi --until=PragueEIP7692</span>
+    <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height --until=PragueEIP7692</span>
 </code></pre></div></p>
 </div>
 
@@ -22632,55 +22678,60 @@
 
 
 
-<a id="tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi"></a>
+<a id="tests.prague.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_double_rjumpi_invalid_max_stack_height"></a>
     <div class="doc doc-contents first">
 
-      <p>Two RJUNMPIs, causing the min stack to underflow</p>
+      <p>Test max stack height of the final block
+targeted by two RJUMPIs with the non-uniform stack height range.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">955</span>
-<span class="normal">956</span>
-<span class="normal">957</span>
-<span class="normal">958</span>
-<span class="normal">959</span>
-<span class="normal">960</span>
-<span class="normal">961</span>
-<span class="normal">962</span>
-<span class="normal">963</span>
-<span class="normal">964</span>
-<span class="normal">965</span>
-<span class="normal">966</span>
-<span class="normal">967</span>
-<span class="normal">968</span>
-<span class="normal">969</span>
-<span class="normal">970</span>
-<span class="normal">971</span>
-<span class="normal">972</span>
-<span class="normal">973</span>
-<span class="normal">974</span>
-<span class="normal">975</span>
-<span class="normal">976</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_double_rjumpi</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1003</span>
+<span class="normal">1004</span>
+<span class="normal">1005</span>
+<span class="normal">1006</span>
+<span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span>
+<span class="normal">1014</span>
+<span class="normal">1015</span>
+<span class="normal">1016</span>
+<span class="normal">1017</span>
+<span class="normal">1018</span>
+<span class="normal">1019</span>
+<span class="normal">1020</span>
+<span class="normal">1021</span>
+<span class="normal">1022</span>
+<span class="normal">1023</span>
+<span class="normal">1024</span>
+<span class="normal">1025</span>
+<span class="normal">1026</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_double_rjumpi_invalid_max_stack_height</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Two RJUNMPIs, causing the min stack to underflow</span>
+<span class="sd">    Test max stack height of the final block</span>
+<span class="sd">    targeted by two RJUMPIs with the non-uniform stack height range.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-        <span class="n">code</span><span class="o">=</span><span class="p">(</span>
-            <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (0, 0)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (1, 1)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># (2, 2) To RETURN</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (1, 1)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (2, 2)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># (3, 3)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span>  <span class="c1"># (1, 2) Underflow</span>
-        <span class="p">),</span>
-        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-    <span class="p">)</span>
     <span class="n">eof_test</span><span class="p">(</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
-        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (0, 0)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (1, 1)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># (2, 2) to EXIT</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># (1, 1) to EXIT</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># EXIT: (0, 1)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (1, 2)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">,</span>  <span class="c1"># (2, 3)</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># should be 3</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAX_STACK_HEIGHT</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

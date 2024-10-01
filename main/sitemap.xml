@@ -1871,7 +1871,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_invalid_max_stack_height/</loc>
+         <lastmod>2024-10-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_stack_height_mismatch/</loc>
+         <lastmod>2024-10-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_stack_underflow/</loc>
          <lastmod>2024-10-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
