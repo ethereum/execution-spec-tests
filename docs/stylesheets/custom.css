@@ -48,3 +48,7 @@
 .control_panel .select2-container--default .select2-selection--single {
   border: none;
 }
+
+#test_table_wrapper .dt-search {
+  display: none;
+}
