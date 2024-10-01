@@ -76,3 +76,13 @@ Release builds require the `ref` input to be specified. To test a release build 
     ```bash
     gh act -j build --workflows .github/workflows/fixtures_feature.yaml -s GITHUB_TOKEN=$(gh auth token) -e event.json
     ```
+
+### Manually Specifying the Docker Image
+
+It's possible to specify the Docker image used by the `act` tool for a specific platform defined in a workflow using the `-P` (`--platform`) option. For example, use map `ubuntu-latest` in the workflow to use `ubuntu-24.04`:
+
+```bash
+-P ubuntu-latest=ubuntu-24.04
+```
+
+This can be added to any `gh act` command.
