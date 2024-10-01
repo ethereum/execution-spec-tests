@@ -21,6 +21,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.verkle.helpers import chunkify_code
+from ethereum_test_forks import Fork
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
@@ -254,6 +255,64 @@ def test_contract_execution(
     for chunk_ranges in witness_code_chunk_ranges:
         for chunk_number in range(chunk_ranges[0], chunk_ranges[1] + 1):
             witness_check.add_code_chunk(TestAddress2, chunk_number, code_chunks[chunk_number])
+
+    blocks = [
+        Block(
+            txs=[tx],
+            witness_check=witness_check,
+        )
+    ]
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=blocks,
+    )
+
+
+@pytest.mark.valid_from("Verkle")
+def test_contract_execution_2935_contract(blockchain_test: BlockchainTestFiller, fork: Fork):
+    """
+    Test that contract execution for 2935 system contract includes code-chunks
+    """
+    env = Environment(
+        fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        difficulty=0x20000,
+        gas_limit=10000000000,
+        number=1,
+        timestamp=1000,
+    )
+    addr = Address("0xfffffffffffffffffffffffffffffffffffffffe")
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+        TestAddress2: Account(code=Op.PUSH1(0) + Op.CALL(1_000, addr, 0, 0, 0, 0, 32)),
+    }
+    tx = Transaction(
+        ty=0x0,
+        chain_id=0x01,
+        nonce=0,
+        to=TestAddress2,
+        gas_limit=1_000_000,
+        gas_price=10,
+    )
+
+    witness_check = WitnessCheck(fork=Verkle)
+    for address in [TestAddress, TestAddress2, env.fee_recipient]:
+        witness_check.add_account_full(address=address, account=pre.get(address))
+
+    # Add TestAddress2 code chunks (i.e: CALL to system contract)
+    code_chunks = chunkify_code(pre[TestAddress2].code)
+    for i, chunk in enumerate(code_chunks, start=0):
+        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+
+    # TestAddress2 CALL to 2935 contract
+    system_contract_account = Account(**fork.pre_allocation_blockchain()[addr])
+    witness_check.add_account_basic_data(address=addr, account=system_contract_account)
+    # A successful execution of the 2935 contract would only include the first two code-chunks.
+    code_chunks = chunkify_code(system_contract_account.code)
+    witness_check.add_code_chunk(address=addr, chunk_number=0, value=code_chunks[0])
+    witness_check.add_code_chunk(address=addr, chunk_number=1, value=code_chunks[1])
 
     blocks = [
         Block(
