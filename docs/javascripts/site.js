@@ -1,5 +1,6 @@
 // Config
 const FILTER_INPUT_SELECTOR = ".custom_dt_filter";
+const FILTER_SEARCH_SELECTOR = "#custom_dt_search";
 let table;
 
 // This script is used both within mkdocs and in standalone html files.
@@ -19,6 +20,8 @@ document$.subscribe(() => {
   if (table) {
     // Listen for changes to filters
     $(FILTER_INPUT_SELECTOR).on("change", filterRows);
+
+    $(FILTER_SEARCH_SELECTOR).on("input", filterRows);
 
     // Apply preselected filters (if present) on page load
     filterRows();
@@ -55,9 +58,12 @@ const initDataTable = () => {
 const filterRows = () => {
   table
     .rows()
-    .search(function (a, b, index) {
+    .search(function (rowContent, b, index) {
       const row = $(table.row(index).node());
       let match = true;
+
+      const searchKeyword = $(FILTER_SEARCH_SELECTOR).val();
+      const searchHit = rowContent.includes(searchKeyword);
 
       for (let filter of $(FILTER_INPUT_SELECTOR)) {
         // Filter is ignored if set to all
@@ -67,7 +73,8 @@ const filterRows = () => {
         match =
           match && row.data($(filter).data("criteria")) === $(filter).val();
       }
-      return match;
+
+      return searchKeyword.length ? match && searchHit : match;
     })
     .draw();
 };
