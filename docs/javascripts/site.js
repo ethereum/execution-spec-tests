@@ -53,7 +53,8 @@ const filterRows = () => {
         if ($(filter).val() == "all") continue;
 
         // Otherwise, the result of this filter applied to the previous match.
-        match = match && row.data($(filter).data(criteria)) === $(filter).val();
+        match =
+          match && row.data($(filter).data("criteria")) === $(filter).val();
       }
       return match;
     })
