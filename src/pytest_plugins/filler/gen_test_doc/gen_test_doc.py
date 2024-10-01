@@ -388,16 +388,20 @@ class TestDocsGenerator:
                         values = [param_set[key] for key in keys]
                         # TODO: This formatting of bytes objects should be moved elsewhere
                         values = [
-                            " ".join(
-                                f"<code>{chunk}</code>" for chunk in textwrap.wrap(value.hex(), 32)
+                            (
+                                " ".join(
+                                    f"<code>{chunk}</code>"
+                                    for chunk in textwrap.wrap(value.hex(), 32)
+                                )
+                                if isinstance(value, bytes)
+                                else str(value)
                             )
-                            if isinstance(value, bytes)
-                            else str(value)
                             for value in values
                         ]
                         fork = item.callspec.params.get("fork").name()  # type: ignore
                         test_type = get_test_function_test_type(item)
-                        fixture_type = item.callspec.params.get(test_type).name  # type: ignore
+                        test_type_value = item.callspec.params.get(test_type)
+                        fixture_type = test_type_value.fixture_format_name  # type: ignore
                         test_cases.append(
                             TestCase(
                                 full_id=item.nodeid,
