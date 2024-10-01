@@ -2,8 +2,17 @@
 const FILTER_INPUT_SELECTOR = ".custom_dt_filter";
 let table;
 
-// Subscribe to when a page is loaded in mkdocs.
+// This script is used both within mkdocs and in standalone html files.
+// As such, a uniform listener to page load event is required.
+// The snippet below uses mkdocs subscription if present otherwise jquery is used
+// as a fallback.
 // see: https://github.com/squidfunk/mkdocs-material/issues/5816#issuecomment-1667654560
+
+if (typeof document$ == "undefined") {
+  document$ = {};
+  document$.subscribe = $(document).ready;
+}
+
 document$.subscribe(() => {
   initDataTable();
 
@@ -29,7 +38,6 @@ const initDataTable = () => {
   // Setup DataTable plugin
   // https://datatables.net/reference/api/
   table = new DataTable("#test_table", {
-    pageLength: -1,
     scrollX: true,
     autoWidth: false,
   });
@@ -48,7 +56,7 @@ const filterRows = () => {
   table
     .rows()
     .search(function (a, b, index) {
-      const row = $(table.row(index).node()).data(target);
+      const row = $(table.row(index).node());
       let match = true;
 
       for (let filter of $(FILTER_INPUT_SELECTOR)) {
