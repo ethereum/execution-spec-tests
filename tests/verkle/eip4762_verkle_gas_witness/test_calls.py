@@ -85,36 +85,44 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: Fork, call_inst
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("Pending TBD gas limits")
 @pytest.mark.parametrize(
-    "call_instruction, gas_limit",
+    "call_instruction, value_bearing, gas_limit, enough_gas_call_target",
     [
-        (Op.CALL, "TBD_insufficient_dynamic_cost"),
-        (Op.CALL, "TBD_insufficient_value_bearing"),
-        (Op.CALL, "TBD_insufficient_63/64"),
-        (Op.CALLCODE, "TBD_insufficient_dynamic_cost"),
-        (Op.CALLCODE, "TBD_insufficient_value_bearing"),
-        (Op.CALLCODE, "TBD_insufficient_63/64"),
-        (Op.DELEGATECALL, "TBD_insufficient_dynamic_cost"),
-        (Op.DELEGATECALL, "TBD_insufficient_63/64"),
-        (Op.STATICCALL, "TBD_insufficient_dynamic_cost"),
-        (Op.STATICCALL, "TBD_insufficient_63/64"),
+        (Op.CALL, True, 21_424 + 3500 + 5599, False),
+        (Op.CALL, True, 21_424 + 3500 + 5600, True),
+        (Op.CALL, False, 21_424 + 1000 + 2099, False),
+        (Op.CALL, False, 21_424 + 1000 + 2100, True),
+        # (Op.CALLCODE, "TBD_insufficient_dynamic_cost"),
+        # (Op.CALLCODE, "TBD_insufficient_value_bearing"),
+        # (Op.CALLCODE, "TBD_insufficient_63/64"),
+        # (Op.DELEGATECALL, "TBD_insufficient_dynamic_cost"),
+        # (Op.DELEGATECALL, "TBD_insufficient_63/64"),
+        # (Op.STATICCALL, "TBD_insufficient_dynamic_cost"),
+        # (Op.STATICCALL, "TBD_insufficient_63/64"),
     ],
     ids=[
-        "CALL_insufficient_dynamic_cost",
-        "CALL_insufficient_value_bearing",
-        "CALL_insufficient_minimum_63/64",
-        "CALLCODE_insufficient_dynamic_cost",
-        "CALLCODE_insufficient_value_bearing",
-        "CALLCODE_insufficient_minimum_63/64",
-        "DELEGATECALL_insufficient_dynamic_cost",
-        "DELEGATECALL_insufficient_minimum_63/64",
-        "STATICCALL_insufficient_dynamic_cost",
-        "STATICCALL_insufficient_minimum_63/64",
+        "CALL_with_value_insufficient_for_value_transfer_target",
+        "CALL_with_value_only_sufficient_for_value_transfer_target",
+        "CALL_with_value_insufficient_for_value_transfer_target",
+        "CALL_with_value_only_sufficient_for_value_transfer_target",
+        # "CALL_insufficient_value_bearing",
+        # "CALL_insufficient_minimum_63/64",
+        # "CALLCODE_insufficient_dynamic_cost",
+        # "CALLCODE_insufficient_value_bearing",
+        # "CALLCODE_insufficient_minimum_63/64",
+        # "DELEGATECALL_insufficient_dynamic_cost",
+        # "DELEGATECALL_insufficient_minimum_63/64",
+        # "STATICCALL_insufficient_dynamic_cost",
+        # "STATICCALL_insufficient_minimum_63/64",
     ],
 )
 def test_calls_insufficient_gas(
-    blockchain_test: BlockchainTestFiller, fork: Fork, call_instruction: Bytecode, gas_limit
+    blockchain_test: BlockchainTestFiller,
+    fork: Fork,
+    call_instruction: Bytecode,
+    value_bearing: bool,
+    gas_limit,
+    enough_gas_call_target: bool,
 ):
     """
     Test *CALL witness assertion when there's insufficient gas for different scenarios.
@@ -124,9 +132,9 @@ def test_calls_insufficient_gas(
         fork,
         call_instruction,
         TestAddress2,
-        0,
+        1 if value_bearing else 0,
         gas_limit=gas_limit,
-        enough_gas_read_witness=False,
+        enough_gas_call_target=enough_gas_call_target,
     )
 
 
@@ -137,7 +145,7 @@ def _generic_call(
     target: Address,
     value,
     gas_limit: int = 100000000,
-    enough_gas_read_witness: bool = True,
+    enough_gas_call_target: bool = True,
     warm=False,
 ):
     env = Environment(
@@ -181,7 +189,7 @@ def _generic_call(
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, caller_address, env.fee_recipient]:
         witness_check.add_account_full(address=address, account=pre.get(address))
-    if enough_gas_read_witness:
+    if enough_gas_call_target:
         if value > 0 or (target != precompile_address and target != precompile_address):
             witness_check.add_account_basic_data(address=target, account=target_account)
 
