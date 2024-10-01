@@ -956,7 +956,7 @@ def test_double_rjumpi_stack_underflow(
     eof_test: EOFTestFiller,
 ):
     """
-    Two RJUNMPIs, causing the min stack to underflow
+    Two RJUMPIs, causing the min stack to underflow.
     """
     container = Container.Code(
         code=(
