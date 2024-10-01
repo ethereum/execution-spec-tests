@@ -29,6 +29,7 @@ bidict
 big0
 big1
 bigint
+blake2f
 blobgasfee
 blockchain
 BlockchainFixtures
