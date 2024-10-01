@@ -23777,7 +23777,8 @@
 <li>✨ Added <code>selector</code> and <code>marks</code> fields to all <code>@pytest.mark.with_all*</code> markers, which allows passing lambda functions to select or mark specific parametrized values (see <a href="https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#covariant-marker-keyword-arguments">documentation</a> for more information) (<a href="https://github.com/ethereum/execution-spec-tests/pull/762">#762</a>).</li>
 <li>✨ Improves consume input flags for develop and stable fixture releases, fixes <code>--help</code> flag for consume (<a href="https://github.com/ethereum/execution-spec-tests/pull/745">#745</a>).</li>
 <li>🐞 Fix erroneous fork message in pytest session header with development forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/806">#806</a>).</li>
-<li>🐞 Fix <code>Conditional</code> code generator in EOF mode (<a href="https://github.com/ethereum/execution-spec-tests/pull/821">#821</a>)</li>
+<li>🐞 Fix <code>Conditional</code> code generator in EOF mode (<a href="https://github.com/ethereum/execution-spec-tests/pull/821">#821</a>).</li>
+<li>🐞 Ensure that <code>Block</code> objects keep track of their <code>fork</code>, for example, when the block's <code>rlp_modifier</code> is not <code>None</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/854">#854</a>).</li>
 <li>🔀 <code>ethereum_test_rpc</code> library has been created with what was previously <code>ethereum_test_tools.rpc</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/822">#822</a>)</li>
 <li>✨ Add <code>Wei</code> type to <code>ethereum_test_base_types</code> which allows parsing wei amounts from strings like "1 ether", "1000 wei", "10**2 gwei", etc (<a href="https://github.com/ethereum/execution-spec-tests/pull/825">#825</a>)</li>
 <li>🔀 Replace <code>ethereum.base_types</code> with <code>ethereum-types</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/850">#850</a>)</li>
@@ -24146,6 +24147,7 @@
         <a href="mailto:tomas-cooper@mail.ru">Artem</a>, 
         <a href="mailto:danceratopz@gmail.com">Dan</a>, 
         <a href="mailto:danno@numisight.com">Danno Ferrin</a>, 
+        <a href="mailto:etan@nimbus.team">Etan Kissling</a>, 
         <a href="mailto:jochembrouwer96@gmail.com">Jochem Brouwer</a>, 
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
         <a href="mailto:pawel@ethereum.org">Paweł Bylica</a>, 
