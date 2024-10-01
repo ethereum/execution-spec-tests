@@ -22,5 +22,6 @@ pectra-devnet-3:
 verkle:
   impl: geth
   repo: gballet/go-ethereum
-  ref: kaustinen-with-shapella
+  # ref: kaustinen-with-shapella
+  ref: jsign-witness-fix
   evm-bin: evm
