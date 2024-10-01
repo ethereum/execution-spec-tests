@@ -1,5 +1,5 @@
 <label for="fork_selector">Filter by Fork: </label>
-<select id="fork_selector">
+<select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
     <option value="all">All Forks</option>
     {% set default_fork = target_fork if target_fork in cases | map(attribute='fork') | list else cases | map(attribute='fork') | list | last %}
     {% for fork in cases | map(attribute='fork') | unique %}
@@ -8,7 +8,7 @@
 </select>
 
 <label for="fixture_selector">Filter by Fixture Type: </label>
-<select id="fixture_selector">
+<select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
     <option value="all">All Fixture Types</option>
     {% set default_fixture_type = "STATE_TEST" if "STATE_TEST" in cases | map(attribute='fixture_type') | list else cases[0].fixture_type %}
     {% for fixture_type in cases | map(attribute='fixture_type') | unique %}
