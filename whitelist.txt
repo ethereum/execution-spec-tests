@@ -538,6 +538,7 @@ tempdir
 testdir
 teststatus
 tmpdir
+toc
 tryfirst
 trylast
 usefixtures
