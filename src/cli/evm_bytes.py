@@ -1,6 +1,7 @@
 """
 Define an entry point wrapper for pytest.
 """
+
 from dataclasses import dataclass, field
 from typing import List
 
@@ -124,11 +125,11 @@ assembly_option = click.option(
 )
 
 
-@click.group()
+@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
 def cli():
     """
     Convert the given EVM bytes from a binary file or a hex string to EEST's python opcodes.
-    """  # noqa: D301
+    """
     pass
 
 
@@ -136,10 +137,47 @@ def cli():
 @assembly_option
 @click.argument("hex_string")
 def hex_string(hex_string: str, assembly: bool):
-    """Convert the given EVM bytes hex string.
-
-    HEX_STRING: A hex string representing EVM bytes to be processed.
     """
+    Process a hex string representing EVM bytes and convert it into EEST's Python opcodes.
+
+    Args:
+        hex_string (str): The hex string representing the EVM bytes.
+        assembly (bool): Whether to print the output as assembly or Python opcodes.
+
+    Returns:
+        str: The processed EVM opcodes in Python or assembly format.
+
+    Example:
+        Convert a hex string to Python opcodes:
+
+        ```bash
+        uv run evm_bytes hex-string 604260005260206000F3
+        ```
+
+        Output:
+
+        ```python
+        Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] + Op.PUSH1[0x0] + Op.RETURN
+        ```
+
+    Example:
+        Convert a hex string to assembly:
+
+        ```bash
+        uv run evm_bytes hex-string --assembly 604260005260206000F3
+        ```
+
+        Output:
+
+        ```text
+        push1 0x42
+        push1 0x00
+        mstore
+        push1 0x20
+        push1 0x00
+        return
+        ```
+    """  # noqa: E501
     processed_output = process_evm_bytes_string(hex_string, assembly=assembly)
     click.echo(processed_output)
 
@@ -148,10 +186,31 @@ def hex_string(hex_string: str, assembly: bool):
 @assembly_option
 @click.argument("binary_file_path", type=click.File("rb"))
 def binary_file(binary_file_path, assembly: bool):
-    """Convert the given EVM bytes binary file.
-
-    BINARY_FILE_PATH: A path to a binary file containing EVM bytes to be processed or use `-` to
-    read from stdin.
     """
+    Convert the given EVM bytes binary file.
+
+    Args:
+        binary_file_path (BinaryIO): A binary file containing EVM bytes to be processed or use `-` to
+        read from stdin.
+        assembly (bool): Whether to print the output as assembly or Python opcodes.
+
+    Example:
+        Convert a binary file to assembly:
+
+        ```bash
+        uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/contracts/withdrawal_request.bin --assembly
+        ```
+
+        Output:
+
+        ```text
+        caller
+        push20 0xfffffffffffffffffffffffffffffffffffffffe
+        eq
+        push1 0x90
+        jumpi
+        ...
+        ```
+    """  # noqa: E501
     processed_output = process_evm_bytes(binary_file_path.read(), assembly=assembly)
     click.echo(processed_output)
