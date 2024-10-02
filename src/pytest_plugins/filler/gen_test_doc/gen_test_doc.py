@@ -432,6 +432,7 @@ class TestDocsGenerator:
                 test_type=get_test_function_test_type(items[0]),
                 docstring_one_liner=get_docstring_one_liner(items[0]),
                 html_static_page_target=f"./{get_test_function_name(items[0])}.html",
+                mkdocs_function_page_target=f"./{get_test_function_name(items[0])}/",
             )
 
     def create_module_page_props(self) -> None:

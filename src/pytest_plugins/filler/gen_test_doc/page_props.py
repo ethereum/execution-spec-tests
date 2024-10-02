@@ -9,6 +9,7 @@ and target output file.
 A few helpers are defined with EEST logic in order to sanitize strings from
 file paths for use in navigation menu.
 """
+
 import re
 from abc import abstractmethod
 from dataclasses import asdict, dataclass
@@ -159,6 +160,7 @@ class FunctionPageProps(PagePropsBase):
     test_type: str
     docstring_one_liner: str
     html_static_page_target: str
+    mkdocs_function_page_target: str
     cases: Optional[List[TestCase]]
 
     @property
