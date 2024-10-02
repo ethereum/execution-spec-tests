@@ -18,7 +18,7 @@ from cli.pytest_commands.fill import fill
 importlib.reload(gen_test_doc)  # get changes in plugin for use with `mkdocs serve`
 
 logger = logging.getLogger("mkdocs")
-dev_fork = "PragueEIP7692"
+dev_fork = "Osaka"
 args = [
     "--override-ini",
     "filterwarnings=ignore::pytest.PytestAssertRewriteWarning",  # suppress warnings due to reload
@@ -31,7 +31,7 @@ args = [
     "-s",
     "tests",
     # "tests/shanghai",
-    # "tests/prague/eip7692_eof_v1",  # noqa: SC100
+    # "tests/osaka/eip7692_eof_v1",  # noqa: SC100
     # "tests/prague/eip2537_bls_12_381_precompiles",  # noqa: SC100
 ]
 
