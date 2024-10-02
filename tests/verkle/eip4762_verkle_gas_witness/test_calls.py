@@ -92,6 +92,9 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: Fork, call_inst
         (Op.CALL, True, 21_424 + 3500 + 5600, True),
         (Op.CALL, False, 21_424 + 1000 + 2099, False),
         (Op.CALL, False, 21_424 + 1000 + 2100, True),
+        (Op.CALLCODE, False, 21_424 + 1000 + 2099, False),
+        (Op.CALLCODE, False, 21_424 + 1000 + 2100, True),
+        ####
         # (Op.CALLCODE, "TBD_insufficient_dynamic_cost"),
         # (Op.CALLCODE, "TBD_insufficient_value_bearing"),
         # (Op.CALLCODE, "TBD_insufficient_63/64"),
@@ -103,10 +106,11 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: Fork, call_inst
     ids=[
         "CALL_with_value_insufficient_for_value_transfer_target",
         "CALL_with_value_only_sufficient_for_value_transfer_target",
-        "CALL_with_value_insufficient_for_value_transfer_target",
-        "CALL_with_value_only_sufficient_for_value_transfer_target",
-        # "CALL_insufficient_value_bearing",
-        # "CALL_insufficient_minimum_63/64",
+        "CALL_with_value_insufficient_for_target_basic_data",
+        "CALL_with_value_only_sufficient_for_target_basic_data",
+        "CALLCODE_with_value_insufficient_for_target_basic_data",
+        "CALLCODE_with_value_only_sufficient_for_target_basic_data",
+        #####
         # "CALLCODE_insufficient_dynamic_cost",
         # "CALLCODE_insufficient_value_bearing",
         # "CALLCODE_insufficient_minimum_63/64",
