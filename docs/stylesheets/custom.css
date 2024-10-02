@@ -52,3 +52,16 @@
 #test_table_wrapper .dt-search {
   display: none;
 }
+
+.twemoji {
+  --md-icon-size: 1.125em;
+  display: inline-flex;
+  height: var(--md-icon-size);
+  vertical-align: text-top;
+}
+
+.twemoji svg {
+  fill: currentcolor;
+  max-height: 100%;
+  width: var(--md-icon-size);
+}
