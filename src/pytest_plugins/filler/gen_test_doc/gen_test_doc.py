@@ -254,9 +254,6 @@ class TestDocsGenerator:
         self.source_dir = Path("tests")
         self.ref = get_current_commit_hash_or_tag()
         self.top_level_nav_entry = "Test Case Reference"
-        self.skip_params = ["fork"] + [
-            spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES
-        ]
         # intermediate collected pages and their properties
         self.function_page_props: FunctionPagePropsLookup = {}
         self.module_page_props: ModulePagePropsLookup = {}
@@ -361,9 +358,6 @@ class TestDocsGenerator:
             base_url=self.get_doc_site_base_url(),
             deployed_forks=deployed_forks,
             short_git_ref=get_current_commit_hash_or_tag(shorten_hash=True),
-            test_function_parameter_table_skipped_parameters=", ".join(
-                f"`{p}`" for p in self.skip_params
-            ),
         )
 
         self.jinja2_env.globals.update(global_page_props)
@@ -374,6 +368,7 @@ class TestDocsGenerator:
 
         To do: Needs refactor.
         """
+        skip_params = ["fork"] + [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]
         for function_id, function_items in test_functions.items():
             assert all(isinstance(item, pytest.Function) for item in function_items)
             items = cast(List[pytest.Function], function_items)  # help mypy infer type
@@ -383,7 +378,7 @@ class TestDocsGenerator:
             if getattr(items[0], "callspec", None):
                 for item in items:
                     param_set = item.callspec.params
-                    keys = [key for key in param_set.keys() if key not in self.skip_params]
+                    keys = [key for key in param_set.keys() if key not in skip_params]
                     if keys:
                         values = [param_set[key] for key in keys]
                         # TODO: This formatting of bytes objects should be moved elsewhere
