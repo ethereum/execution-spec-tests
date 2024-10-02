@@ -9,7 +9,12 @@ from ethereum.crypto.hash import keccak256
 from pydantic import Field, RootModel, field_validator
 from pydantic.functional_serializers import model_serializer
 
-from ethereum_test_base_types import Address, CamelModel, HexNumber, PaddedFixedSizeBytes
+from ethereum_test_base_types import (
+    Address,
+    CamelModel,
+    HexNumber,
+    PaddedFixedSizeBytes,
+)
 from ethereum_test_forks import Fork, Verkle
 from ethereum_test_types import Account
 
@@ -176,17 +181,14 @@ class WitnessCheck:
         """
         Initializes a WitnessCheck instance.
         """
-        assert fork >= Verkle, "WitnessCheck is only supported for Verkle fork and later"
+        assert (
+            fork >= Verkle
+        ), "WitnessCheck is only supported for Verkle fork and later"
         self.account_entries: List[
             Tuple[Address, WitnessCheck.AccountHeaderEntry, Optional[Hash]]
         ] = []
         self.storage_slots: List[Tuple[Address, int, Optional[Hash]]] = []
         self.code_chunks: List[Tuple[Address, int, Optional[Hash]]] = []
-
-        # Add the pre-allocation accounts by default
-        pre_allocations = fork.pre_allocation_blockchain()
-        for address, account_data in pre_allocations.items():
-            self.add_account_full(Address(address), Account(**account_data))
 
     def __repr__(self) -> str:
         """
@@ -257,15 +259,21 @@ class WitnessCheck:
         """
         Adds the code hash witness for the given address.
         """
-        self.account_entries.append((address, WitnessCheck.AccountHeaderEntry.CODEHASH, codehash))
+        self.account_entries.append(
+            (address, WitnessCheck.AccountHeaderEntry.CODEHASH, codehash)
+        )
 
-    def add_storage_slot(self, address: Address, storage_slot: int, value: Optional[Hash]) -> None:
+    def add_storage_slot(
+        self, address: Address, storage_slot: int, value: Optional[Hash]
+    ) -> None:
         """
         Adds the storage slot witness for the given address and storage slot.
         """
         self.storage_slots.append((address, storage_slot, value))
 
-    def add_code_chunk(self, address: Address, chunk_number: int, value: Optional[Hash]) -> None:
+    def add_code_chunk(
+        self, address: Address, chunk_number: int, value: Optional[Hash]
+    ) -> None:
         """
         Adds the code chunk witness for the given address and chunk number.
         """

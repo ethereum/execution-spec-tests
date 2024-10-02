@@ -7,7 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
-from ethereum_test_forks import Verkle
+from ethereum_test_forks import Fork, Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -19,7 +19,6 @@ from ethereum_test_tools import (
     Transaction,
     WitnessCheck,
 )
-from ethereum_test_forks import Fork
 from ethereum_test_types.verkle.helpers import chunkify_code
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4762.md"
@@ -80,7 +79,13 @@ def test_transfer(blockchain_test: BlockchainTestFiller, fork: Fork, target, val
     witness_check = WitnessCheck(fork=Verkle)
     witness_check.add_account_full(env.fee_recipient, None)
     witness_check.add_account_full(TestAddress, pre[TestAddress])
-    witness_check.add_account_full(target, pre.get(target))
+    if target == system_contract_address:
+        pre_allocations = fork.pre_allocation_blockchain()
+        witness_check.add_account_full(
+            Address(target), Account(**pre_allocations.get(Address(target)))
+        )
+    else:
+        witness_check.add_account_full(target, pre.get(target))
 
     if target == system_contract_address:
         code = Account(**fork.pre_allocation_blockchain()[system_contract_address]).code
