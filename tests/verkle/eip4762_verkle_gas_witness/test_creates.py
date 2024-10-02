@@ -96,23 +96,65 @@ def test_create_with_value_insufficient_balance(
 
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
+    "extra_gas_limit, witness_basic_data, witness_codehash, witness_chunk_count",
+    [
+        (2099, False, False, 0),
+        (2100 + 199, True, False, 0),
+        (2100 + 200, True, True, 0),
+        (2100 + 200 + 3499, True, True, 0),
+        (2100 + 200 + 3500 + 499, True, True, 0),
+        (2100 + 200 + 3500 + 500 + 811, True, True, 0),
+        (2100 + 200 + 3500 + 500 + 811 + 5 * (500 + 200), True, True, 5),
+    ],
+    ids=[
+        "insufficient_for_basic_data",
+        "insufficient_for_basic_data_and_codehash",
+        "enough_only_for_basic_data_and_codehash",
+        "insufficient_for_contract_init_basic_data",
+        "insufficient_for_contract_init_code_hash",
+        "insufficient_for_any_code_chunk_range",
+        "insufficient_for_all_code_chunk_range",
+    ],
+)
+def test_tx_creation_insufficient_gas(
+    blockchain_test: BlockchainTestFiller,
+    extra_gas_limit: int,
+    witness_basic_data: bool,
+    witness_codehash: bool,
+    witness_chunk_count: int,
+):
+    """
+    Test tx creation with insufficient gas at different points of execution.
+    """
+    base_gas = 118_074
+    contract_code = Op.PUSH0 * (129 * 31 + 42)
+    _create(
+        blockchain_test,
+        None,
+        contract_code,
+        value=0,
+        gas_limit=base_gas + extra_gas_limit,
+    )
+
+
+@pytest.mark.valid_from("Verkle")
+@pytest.mark.parametrize(
     "create_instruction",
     [
-        None,
-        # Op.CREATE,
+        Op.CREATE,
         # Op.CREATE2,
     ],
 )
 @pytest.mark.parametrize(
-    "gas_limit, witness_basic_data, witness_codehash, witness_chunk_count",
+    "extra_gas_limit, witness_basic_data, witness_codehash, witness_chunk_count",
     [
-        (118_074 + 2099, False, False, 0),
-        (118_074 + 2100 + 199, True, False, 0),
-        (118_074 + 2100 + 200, True, True, 0),
-        (118_074 + 2100 + 200 + 3499, True, True, 0),
-        (118_074 + 2100 + 200 + 3500 + 499, True, True, 0),
-        (118_074 + 2100 + 200 + 3500 + 500 + 811, True, True, 0),
-        (118_074 + 2100 + 200 + 3500 + 500 + 811 + 5 * (500 + 200), True, True, 5),
+        (2099, False, False, 0),
+        (2100 + 199, True, False, 0),
+        (2100 + 200, True, True, 0),
+        (2100 + 200 + 3499, True, True, 0),
+        (2100 + 200 + 3500 + 499, True, True, 0),
+        (2100 + 200 + 3500 + 500 + 811, True, True, 0),
+        (2100 + 200 + 3500 + 500 + 811 + 5 * (500 + 200), True, True, 5),
     ],
     ids=[
         "insufficient_for_basic_data",
@@ -127,14 +169,19 @@ def test_create_with_value_insufficient_balance(
 def test_create_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
     create_instruction,
-    gas_limit,
+    extra_gas_limit: int,
     witness_basic_data: bool,
     witness_codehash: bool,
     witness_chunk_count: int,
 ):
     """
-    Test *CREATE  with insufficient gas at different points of execution.
+    Test *CREATE with insufficient gas at different points of execution.
     """
+    if create_instruction is not None and create_instruction.int() == Op.CREATE.int():
+        base_gas = 88_088
+    elif create_instruction is not None and create_instruction.int() == Op.CREATE2.int():
+        base_gas = 100_000
+
     contract_code = Op.PUSH0 * (129 * 31 + 42)
 
     _create(
@@ -142,7 +189,7 @@ def test_create_insufficient_gas(
         create_instruction,
         contract_code,
         value=0,
-        gas_limit=gas_limit,
+        gas_limit=base_gas + (extra_gas_limit * 64) // 63,
     )
 
 
