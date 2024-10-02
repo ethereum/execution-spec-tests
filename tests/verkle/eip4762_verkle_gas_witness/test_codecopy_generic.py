@@ -111,15 +111,16 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instructio
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
     "gas_limit, witness_code_chunks",
     [
-        ("TBD", range(0, 0)),
-        ("TBD", range(0, 150)),
+        (22_012 + 199, range(0, 1)),
+        (22_012 + 200, range(100, 101)),
+        (22_012 + 5 * 200 - 1, range(100, 105)),
     ],
     ids=[
         "not_enough_for_even_first_chunk",
+        "exactly_only_first_chunk",
         "partial_code_range",
     ],
 )
@@ -132,7 +133,9 @@ def test_codecopy_insufficient_gas(
     _generic_codecopy(
         blockchain_test,
         Op.CODECOPY,
-        0,
+        # We target always code sections that aren't executed in the transaction
+        # since those were already paid.
+        100 * 31,
         code_size,
         witness_code_chunks,
         witness_target_basic_data=True,
