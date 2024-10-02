@@ -88,16 +88,15 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: Fork, call_inst
 @pytest.mark.parametrize(
     "call_instruction, value_bearing, gas_limit, enough_gas_call_target",
     [
-        (Op.CALL, True, 21_424 + 3500 + 5599, False),
-        (Op.CALL, True, 21_424 + 3500 + 5600, True),
-        (Op.CALL, False, 21_424 + 1000 + 2099, False),
-        (Op.CALL, False, 21_424 + 1000 + 2100, True),
-        (Op.CALLCODE, False, 21_424 + 1000 + 2099, False),
-        (Op.CALLCODE, False, 21_424 + 1000 + 2100, True),
+        (Op.CALL, True, 21_421 + 3503 + 5599, False),
+        (Op.CALL, True, 21_421 + 3503 + 5600, True),
+        (Op.CALL, False, 21_421 + 1003 + 2099, False),
+        (Op.CALL, False, 21_424 + 1003 + 2100, True),
+        (Op.CALLCODE, False, 21_421 + 1003 + 2099, False),
+        (Op.CALLCODE, False, 21_421 + 1003 + 2100, True),
+        (Op.DELEGATECALL, False, 21_418 + 1003 + 2099, False),
+        (Op.DELEGATECALL, False, 21_424 + 1000 + 2100, True),
         ####
-        # (Op.CALLCODE, "TBD_insufficient_dynamic_cost"),
-        # (Op.CALLCODE, "TBD_insufficient_value_bearing"),
-        # (Op.CALLCODE, "TBD_insufficient_63/64"),
         # (Op.DELEGATECALL, "TBD_insufficient_dynamic_cost"),
         # (Op.DELEGATECALL, "TBD_insufficient_63/64"),
         # (Op.STATICCALL, "TBD_insufficient_dynamic_cost"),
@@ -110,6 +109,8 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: Fork, call_inst
         "CALL_with_value_only_sufficient_for_target_basic_data",
         "CALLCODE_with_value_insufficient_for_target_basic_data",
         "CALLCODE_with_value_only_sufficient_for_target_basic_data",
+        "DELEGATECALL_with_value_insufficient_for_target_basic_data",
+        "DELEGATECODE_with_value_only_sufficient_for_target_basic_data",
         #####
         # "CALLCODE_insufficient_dynamic_cost",
         # "CALLCODE_insufficient_value_bearing",
