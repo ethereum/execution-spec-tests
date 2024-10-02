@@ -65,3 +65,7 @@
   max-height: 100%;
   width: var(--md-icon-size);
 }
+
+.stand_alone_container {
+  margin: 10px 15px;
+}
