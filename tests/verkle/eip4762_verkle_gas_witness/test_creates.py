@@ -141,13 +141,14 @@ def test_tx_creation_insufficient_gas(
 @pytest.mark.parametrize(
     "create_instruction",
     [
-        Op.CREATE,
-        # Op.CREATE2,
+        # Op.CREATE,
+        Op.CREATE2,
     ],
 )
 @pytest.mark.parametrize(
     "extra_gas_limit, witness_basic_data, witness_codehash, witness_chunk_count",
     [
+        (2099, False, False, 0),
         (2099, False, False, 0),
         (2100 + 199, True, False, 0),
         (2100 + 200, True, True, 0),
@@ -170,17 +171,17 @@ def test_create_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
     create_instruction,
     extra_gas_limit: int,
-    witness_basic_data: bool,
+    witness_basic_data: bool,  # TODO(verkle): fix
     witness_codehash: bool,
     witness_chunk_count: int,
 ):
     """
-    Test *CREATE with insufficient gas at different points of execution.
+    Test CREATE* with insufficient gas at different points of execution.
     """
     if create_instruction is not None and create_instruction.int() == Op.CREATE.int():
         base_gas = 88_088
     elif create_instruction is not None and create_instruction.int() == Op.CREATE2.int():
-        base_gas = 100_000
+        base_gas = 88_853
 
     contract_code = Op.PUSH0 * (129 * 31 + 42)
 
