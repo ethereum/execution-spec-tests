@@ -43,6 +43,11 @@ const initDataTable = () => {
   table = new DataTable("#test_table", {
     scrollX: true,
     autoWidth: false,
+    layout: {
+      topStart: {
+          buttons: ['colvis']
+      }
+    }
   });
 };
 
