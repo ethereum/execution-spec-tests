@@ -145,7 +145,7 @@ def hex_string(hex_string: str, assembly: bool):
         assembly (bool): Whether to print the output as assembly or Python opcodes.
 
     Returns:
-        str: The processed EVM opcodes in Python or assembly format.
+        (str): The processed EVM opcodes in Python or assembly format.
 
     Example:
         Convert a hex string to Python opcodes:
@@ -190,8 +190,8 @@ def binary_file(binary_file_path, assembly: bool):
     Convert the given EVM bytes binary file.
 
     Args:
-        binary_file_path (BinaryIO): A binary file containing EVM bytes to be processed or use `-` to
-        read from stdin.
+        binary_file_path (BinaryIO): A binary file containing EVM bytes to be processed or use `-`
+            to read from stdin.
         assembly (bool): Whether to print the output as assembly or Python opcodes.
 
     Example:
