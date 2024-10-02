@@ -972,15 +972,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prerequisites
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#execution" class="md-nav__link">
     <span class="md-ellipsis">
       Execution
@@ -22958,15 +22949,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prerequisites
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#execution" class="md-nav__link">
     <span class="md-ellipsis">
       Execution
@@ -23056,17 +23038,12 @@
 <p>Tox can be ran as a git pre-commit hook, see <a href="../../dev/precommit/">Enabling Pre-Commit Checks</a>.</p>
 </div>
 <h2 id="executing-tox">Executing <code>tox</code><a class="headerlink" href="#executing-tox" title="Permanent link">&para;</a></h2>
-<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="go">python -m venv ./venv/</span>
-<span class="go">source ./venv/bin/activate</span>
-<span class="go">pip install tox-uv</span>
-</code></pre></div>
 <h3 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h3>
-<p>Run tox, as executed in Github Actions, with:</p>
-<div class="highlight"><pre><span></span><code><span class="go">tox run-parallel</span>
+<p>Run <code>tox</code> and execute the defined environments (see <code>tox.ini</code>) in parallel with:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox run-parallel</span>
 </code></pre></div>
 <p>or, with sequential test environment execution and verbose output as:</p>
-<div class="highlight"><pre><span></span><code><span class="go">tox</span>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox</span>
 </code></pre></div>
 <p>This executes all the environments described in the next section.</p>
 <div class="admonition note">
@@ -23084,11 +23061,11 @@
 <p>For targeted tox runs locally, each environment can be ran separately as described below.</p>
 <h3 id="test-case-verification-tests">Test Case Verification: <code>tests</code><a class="headerlink" href="#test-case-verification-tests" title="Permanent link">&para;</a></h3>
 <p>Verify:</p>
-<div class="highlight"><pre><span></span><code><span class="go">tox -e tests</span>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e tests</span>
 </code></pre></div>
 <h3 id="framework-verification-framework">Framework Verification: <code>framework</code><a class="headerlink" href="#framework-verification-framework" title="Permanent link">&para;</a></h3>
 <p>Verify:</p>
-<div class="highlight"><pre><span></span><code><span class="go">tox -e framework</span>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e framework</span>
 </code></pre></div>
 <h3 id="documentation-verification-docs">Documentation Verification: <code>docs</code><a class="headerlink" href="#documentation-verification-docs" title="Permanent link">&para;</a></h3>
 <p>This environment runs <code>pyspelling</code> and <code>markdownlint-cli2</code> in a "soft fail" mode because they require external (non-python) packages. This allows developers who aren't working on documentation to execute tox locally without additional overhead. These commands are, however, ran as part of the checks in Github Actions.</p>
@@ -23108,7 +23085,7 @@
 </li>
 </ol>
 <p>Verify:</p>
-<div class="highlight"><pre><span></span><code><span class="go">tox -e docs</span>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e docs</span>
 </code></pre></div>
 <h3 id="verifying-fixture-changes">Verifying Fixture Changes<a class="headerlink" href="#verifying-fixture-changes" title="Permanent link">&para;</a></h3>
 <p>When writing a PR that modifies either the framework or test cases, it is important to verify that the changes do not cause any issues with the existing test cases.</p>

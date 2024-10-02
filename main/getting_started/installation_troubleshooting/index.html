@@ -672,6 +672,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#problem-valueerror-unsupported-hash-type-ripemd160" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: ValueError: unsupported hash type ripemd160
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-issues-not-listed" class="md-nav__link">
     <span class="md-ellipsis">
       Other Issues Not Listed?
@@ -22909,6 +22918,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#problem-valueerror-unsupported-hash-type-ripemd160" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: ValueError: unsupported hash type ripemd160
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-issues-not-listed" class="md-nav__link">
     <span class="md-ellipsis">
       Other Issues Not Listed?
@@ -22993,6 +23011,35 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </div>
 </div>
 </div>
+</div>
+<h2 id="problem-valueerror-unsupported-hash-type-ripemd160">Problem: <code>ValueError: unsupported hash type ripemd160</code><a class="headerlink" href="#problem-valueerror-unsupported-hash-type-ripemd160" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Problem: <code>Running fill fails with tests that use the RIPEMD160 precompile (0x03)</code></p>
+<p>When running <code>fill</code>, you encounter the following error:</p>
+<div class="highlight"><pre><span></span><code><span class="ne">ValueError</span><span class="p">:</span> <span class="n">unsupported</span> <span class="nb">hash</span> <span class="nb">type</span> <span class="n">ripemd160</span>
+<span class="c1"># or</span>
+<span class="ne">ValueError</span><span class="p">:</span> <span class="p">[</span><span class="n">digital</span> <span class="n">envelope</span> <span class="n">routines</span><span class="p">]</span> <span class="n">unsupported</span>
+</code></pre></div>
+<p>This is due to the removal of certain cryptographic primitives in OpenSSL 3. These were re-introduced in <a href="https://github.com/openssl/openssl/blob/master/CHANGES.md#changes-between-306-and-307-1-nov-2022">OpenSSL v3.0.7</a>.</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Solution: Modify OpenSSL configuration</p>
+<p>On platforms where OpenSSL v3.0.7 is unavailable (e.g., Ubuntu 22.04), modify your OpenSSL configuration to enable RIPEMD160. Make the following changes in the OpenSSL config file:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[openssl_init]</span>
+<span class="na">providers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">provider_sect</span>
+
+<span class="c1"># List of providers to load</span>
+<span class="k">[provider_sect]</span>
+<span class="na">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">default_sect</span>
+<span class="na">legacy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">legacy_sect</span>
+
+<span class="k">[default_sect]</span>
+<span class="na">activate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+
+<span class="k">[legacy_sect]</span>
+<span class="na">activate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</code></pre></div>
+<p>This will enable the legacy cryptographic algorithms, including RIPEMD160. See <a href="https://github.com/ethereum/execution-specs/issues/506">ethereum/execution-specs#506</a> for more information.</p>
 </div>
 <h2 id="other-issues-not-listed">Other Issues Not Listed?<a class="headerlink" href="#other-issues-not-listed" title="Permanent link">&para;</a></h2>
 <p>If you're facing an issue that's not listed here, you can easily report it on GitHub for resolution.</p>
