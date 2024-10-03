@@ -509,7 +509,7 @@ class TestDocsGenerator:
                 source_code_url=generate_github_url(directory, branch_or_commit_or_tag=self.ref),
                 # TODO: This won't work in all cases; should be from the development fork
                 # Currently breaks for `tests/osaka/eip7692_eof_v1/index.md`  # noqa: SC100
-                target_or_valid_fork=fork,
+                target_or_valid_fork=fork.capitalize(),
                 package_name=get_import_path(directory),  # init.py will be used for docstrings
             )
 
