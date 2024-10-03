@@ -128,7 +128,9 @@ assembly_option = click.option(
 @click.group(context_settings=dict(help_option_names=["-h", "--help"]))
 def cli():
     """
-    Convert the given EVM bytes from a binary file or a hex string to EEST's python opcodes.
+    Convert the given EVM bytes to EEST's python opcodes or assembly string.
+
+    The input can be either a hex string or a binary file containing EVM bytes.
     """
     pass
 
@@ -147,9 +149,7 @@ def hex_string(hex_string: str, assembly: bool):
     Returns:
         (str): The processed EVM opcodes in Python or assembly format.
 
-    Example:
-        Convert a hex string to Python opcodes:
-
+    Example: Convert a hex string to EEST Python `Opcodes`
         ```bash
         uv run evm_bytes hex-string 604260005260206000F3
         ```
@@ -160,9 +160,7 @@ def hex_string(hex_string: str, assembly: bool):
         Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] + Op.PUSH1[0x0] + Op.RETURN
         ```
 
-    Example:
-        Convert a hex string to assembly:
-
+    Example: Convert a hex string to assembly
         ```bash
         uv run evm_bytes hex-string --assembly 604260005260206000F3
         ```
@@ -194,9 +192,7 @@ def binary_file(binary_file_path, assembly: bool):
             to read from stdin.
         assembly (bool): Whether to print the output as assembly or Python opcodes.
 
-    Example:
-        Convert a binary file to assembly:
-
+    Example: Convert the Withdrawal Request contract to assembly
         ```bash
         uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/contracts/withdrawal_request.bin --assembly
         ```
