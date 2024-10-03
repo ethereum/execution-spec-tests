@@ -47,6 +47,7 @@ const initDataTable = () => {
   // Setup DataTable plugin
   // https://datatables.net/reference/api/
   table = new DataTable("#test_table", {
+    pageLength: -1,
     scrollX: true,
     autoWidth: false,
     layout: {
