@@ -96,7 +96,7 @@ class PagePropsBase:
 
     title: str
     source_code_url: str
-    valid_from_fork: str
+    target_or_valid_fork: str
     path: Path
     pytest_node_id: str
     package_name: str
@@ -157,11 +157,13 @@ class FunctionPageProps(PagePropsBase):
     corresponding static HTML pages.
     """
 
+    test_case_count: int
+    fixture_formats: List[str]
     test_type: str
     docstring_one_liner: str
     html_static_page_target: str
     mkdocs_function_page_target: str
-    cases: Optional[List[TestCase]]
+    cases: List[TestCase]
 
     @property
     def template(self) -> str:

@@ -245,6 +245,7 @@ class TestDocsGenerator:
     def __init__(self, config) -> None:
         self.config = config
         self.target_fork: str = config.getoption("gen_docs_target_fork")
+        self.deployed_forks = [fork.name() for fork in get_forks() if fork.is_deployed()]
         self._setup_logger()
         self.jinja2_env = Environment(
             loader=FileSystemLoader("docs/templates"),
@@ -352,11 +353,10 @@ class TestDocsGenerator:
         """
         Populate global page properties used in j2 templates.
         """
-        deployed_forks = ([fork.name().lower() for fork in get_forks() if fork.is_deployed()],)
         global_page_props = dict(
             target_fork=self.target_fork,
             base_url=self.get_doc_site_base_url(),
-            deployed_forks=deployed_forks,
+            deployed_forks=self.deployed_forks,
             short_git_ref=get_current_commit_hash_or_tag(shorten_hash=True),
         )
 
@@ -378,34 +378,33 @@ class TestDocsGenerator:
             if getattr(items[0], "callspec", None):
                 for item in items:
                     param_set = item.callspec.params
+                    # Don't show skipped parameters as columns in the test case table
                     keys = [key for key in param_set.keys() if key not in skip_params]
-                    if keys:
-                        values = [param_set[key] for key in keys]
-                        # TODO: This formatting of bytes objects should be moved elsewhere
-                        values = [
-                            (
-                                " ".join(
-                                    f"<code>{chunk}</code>"
-                                    for chunk in textwrap.wrap(value.hex(), 32)
-                                )
-                                if isinstance(value, bytes)
-                                else str(value)
+                    values = [param_set[key] for key in keys]
+                    # TODO: This formatting of bytes objects should be moved elsewhere
+                    values = [
+                        (
+                            " ".join(
+                                f"<code>{chunk}</code>" for chunk in textwrap.wrap(value.hex(), 32)
                             )
-                            for value in values
-                        ]
-                        fork = item.callspec.params.get("fork").name()  # type: ignore
-                        test_type = get_test_function_test_type(item)
-                        test_type_value = item.callspec.params.get(test_type)
-                        fixture_type = test_type_value.fixture_format_name  # type: ignore
-                        test_cases.append(
-                            TestCase(
-                                full_id=item.nodeid,
-                                abbreviated_id=item.nodeid.split("[")[-1].rstrip("]"),
-                                fork=fork,
-                                fixture_type=fixture_type,
-                                params=dict(zip(keys, values)),
-                            )
+                            if isinstance(value, bytes)
+                            else str(value)
                         )
+                        for value in values
+                    ]
+                    fork = item.callspec.params.get("fork").name()  # type: ignore
+                    test_type = get_test_function_test_type(item)
+                    test_type_value = item.callspec.params.get(test_type)
+                    fixture_type = test_type_value.fixture_format_name  # type: ignore
+                    test_cases.append(
+                        TestCase(
+                            full_id=item.nodeid,
+                            abbreviated_id=item.nodeid.split("[")[-1].rstrip("]"),
+                            fork=fork,
+                            fixture_type=fixture_type,
+                            params=dict(zip(keys, values)),
+                        )
+                    )
 
             module_relative_path = Path(items[0].module.__file__).relative_to(Path.cwd())
             source_url = generate_github_url(
@@ -421,15 +420,30 @@ class TestDocsGenerator:
                 # separated by a comma. Take the last.
                 valid_from_fork = valid_from_marker.args[0].split(",")[-1]
 
+            target_or_valid_fork = (
+                self.target_fork if valid_from_fork in self.deployed_forks else valid_from_fork
+            )
+            test_type = get_test_function_test_type(items[0])
+
+            test_case_count = len(
+                [
+                    case
+                    for case in test_cases
+                    if case.fork == target_or_valid_fork and case.fixture_type == test_type
+                ]
+            )
+
             self.function_page_props[function_id] = FunctionPageProps(
                 title=get_test_function_name(items[0]),
                 source_code_url=source_url,
-                valid_from_fork=valid_from_fork,
+                target_or_valid_fork=target_or_valid_fork,
                 path=module_relative_path,
                 pytest_node_id=function_id,
                 package_name=get_test_function_import_path(items[0]),
+                test_case_count=test_case_count,
                 cases=test_cases,
-                test_type=get_test_function_test_type(items[0]),
+                fixture_formats=sorted(set(case.fixture_type for case in test_cases)),
+                test_type=test_type,
                 docstring_one_liner=get_docstring_one_liner(items[0]),
                 html_static_page_target=f"./{get_test_function_name(items[0])}.html",
                 mkdocs_function_page_target=f"./{get_test_function_name(items[0])}/",
@@ -445,7 +459,7 @@ class TestDocsGenerator:
                 self.module_page_props[str(function_page.path)] = ModulePageProps(
                     title=sanitize_string_title(function_page.path.stem),
                     source_code_url=function_page.source_code_url,
-                    valid_from_fork=function_page.valid_from_fork,
+                    target_or_valid_fork=function_page.target_or_valid_fork,
                     path=module_path,
                     pytest_node_id=str(module_path),
                     package_name=get_import_path(module_path),
@@ -453,7 +467,7 @@ class TestDocsGenerator:
                         TestFunction(
                             name=function_page.title,
                             test_type=function_page.test_type,
-                            test_case_count=len(function_page.cases) if function_page.cases else 1,
+                            test_case_count=function_page.test_case_count,
                             docstring_one_liner=function_page.docstring_one_liner,
                         )
                     ],
@@ -464,7 +478,7 @@ class TestDocsGenerator:
                     TestFunction(
                         name=function_page.title,
                         test_type=function_page.test_type,
-                        test_case_count=len(function_page.cases) if function_page.cases else 1,
+                        test_case_count=function_page.test_case_count,
                         docstring_one_liner=function_page.docstring_one_liner,
                     )
                 )
@@ -495,7 +509,7 @@ class TestDocsGenerator:
                 source_code_url=generate_github_url(directory, branch_or_commit_or_tag=self.ref),
                 # TODO: This won't work in all cases; should be from the development fork
                 # Currently breaks for `tests/osaka/eip7692_eof_v1/index.md`  # noqa: SC100
-                valid_from_fork=fork,
+                target_or_valid_fork=fork,
                 package_name=get_import_path(directory),  # init.py will be used for docstrings
             )
 
@@ -529,7 +543,7 @@ class TestDocsGenerator:
                 source_code_url=generate_github_url(spec_path, branch_or_commit_or_tag=self.ref),
                 pytest_node_id=str(spec_path),
                 package_name=get_import_path(spec_path),
-                valid_from_fork="",
+                target_or_valid_fork="",
                 test_functions=[],
             )
 
@@ -543,7 +557,7 @@ class TestDocsGenerator:
                 path=md_path,
                 source_code_url=generate_github_url(md_path, branch_or_commit_or_tag=self.ref),
                 pytest_node_id=str(md_path),  # abuse: not a test, but used in source code link
-                valid_from_fork="",
+                target_or_valid_fork="",
                 package_name="",
             )
 
