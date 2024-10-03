@@ -96,7 +96,7 @@ def test_create_with_value_insufficient_balance(
 
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
-    "extra_gas_limit, witness_basic_data, witness_codehash, witness_chunk_count",
+    "extra_gas_limit, witness_basic_data, witness_codehash, witness_codechunk_count",
     [
         (2099, False, False, 0),
         (2100 + 199, True, False, 0),
@@ -116,12 +116,12 @@ def test_create_with_value_insufficient_balance(
         "insufficient_for_all_code_chunk_range",
     ],
 )
-def test_tx_creation_insufficient_gas(
+def test_insufficient_gas_tx_create(
     blockchain_test: BlockchainTestFiller,
     extra_gas_limit: int,
     witness_basic_data: bool,
     witness_codehash: bool,
-    witness_chunk_count: int,
+    witness_codechunk_count: int,
 ):
     """
     Test tx creation with insufficient gas at different points of execution.
@@ -134,6 +134,9 @@ def test_tx_creation_insufficient_gas(
         contract_code,
         value=0,
         gas_limit=base_gas + extra_gas_limit,
+        witness_basic_data=witness_basic_data,
+        witness_codehash=witness_codehash,
+        witness_codechunk_count=witness_codechunk_count,
     )
 
 
@@ -141,14 +144,13 @@ def test_tx_creation_insufficient_gas(
 @pytest.mark.parametrize(
     "create_instruction",
     [
-        # Op.CREATE,
+        Op.CREATE,
         Op.CREATE2,
     ],
 )
 @pytest.mark.parametrize(
-    "extra_gas_limit, witness_basic_data, witness_codehash, witness_chunk_count",
+    "extra_gas_limit, witness_basic_data, witness_codehash, witness_codechunk_count",
     [
-        (2099, False, False, 0),
         (2099, False, False, 0),
         (2100 + 199, True, False, 0),
         (2100 + 200, True, True, 0),
@@ -167,13 +169,13 @@ def test_tx_creation_insufficient_gas(
         "insufficient_for_all_code_chunk_range",
     ],
 )
-def test_create_insufficient_gas(
+def test_insufficient_gas_creates(
     blockchain_test: BlockchainTestFiller,
     create_instruction,
     extra_gas_limit: int,
-    witness_basic_data: bool,  # TODO(verkle): fix
+    witness_basic_data: bool,
     witness_codehash: bool,
-    witness_chunk_count: int,
+    witness_codechunk_count: int,
 ):
     """
     Test CREATE* with insufficient gas at different points of execution.
@@ -191,6 +193,9 @@ def test_create_insufficient_gas(
         contract_code,
         value=0,
         gas_limit=base_gas + (extra_gas_limit * 64) // 63,
+        witness_basic_data=witness_basic_data,
+        witness_codehash=witness_codehash,
+        witness_codechunk_count=witness_codechunk_count,
     )
 
 
@@ -278,6 +283,9 @@ def _create(
     generate_collision: bool = False,
     initcode_stop_prefix: bool = False,
     creator_balance: int = 0,
+    witness_basic_data: bool = True,
+    witness_codehash: bool = True,
+    witness_codechunk_count: int | None = None,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -348,19 +356,26 @@ def _create(
     # The contract address will always appear in the witness:
     # - If there's a collision, it should contain the existing contract for the collision check.
     # - Otherwise, it should prove there's no collision.
-    witness_check.add_account_full(contract_address, pre.get(contract_address))
+    # Under normal circumstances we'd add both basic_data & codehash in the witness. This is
+    # separated in two ifs to support testing the gas cost of each witness part separately.
+    if witness_basic_data:
+        witness_check.add_account_basic_data(contract_address, pre.get(contract_address))
+    if witness_codehash:
+        witness_check.add_account_codehash(contract_address, pre.get(contract_address))
+
     # Assert the code-chunks where the contract is deployed are provided
     # DO NOT include the code-chunks if there was a collision, or we're testing that
     # code-chunk inclusion isn't based on calldata size (see big_calldata test).
     if not generate_collision and not initcode_stop_prefix:
         code_chunks = chunkify_code(bytes(deploy_code.deploy_code))
         for i, chunk in enumerate(code_chunks, start=0):
-            witness_check.add_code_chunk(address=contract_address, chunk_number=i, value=None)
+            if witness_codechunk_count is None or i < witness_codechunk_count:
+                witness_check.add_code_chunk(address=contract_address, chunk_number=i, value=None)
 
     blocks = [
         Block(
             txs=[tx],
-            # witness_check=witness_check,
+            witness_check=witness_check,
         )
     ]
 
