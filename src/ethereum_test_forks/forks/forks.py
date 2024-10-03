@@ -1051,3 +1051,55 @@ class PragueEIP7692(  # noqa: SC200
         Returns the minimum version of solc that supports this fork.
         """
         return Version.parse("1.0.0")  # set a high version; currently unknown
+
+class Osaka(  # noqa: SC200
+    Prague,
+    transition_tool_name="Osaka",  # Besu enables EOF at Prague
+    blockchain_test_network_name="Osaka",  # Besu enables EOF at Prague
+    solc_name="osaka",
+):
+    """
+    Osaka fork
+    """
+
+    @classmethod
+    def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
+        """
+        EOF V1 is supported starting from this fork.
+        """
+        return super(Osaka, cls,).evm_code_types(  # noqa: SC200
+            block_number,
+            timestamp,
+        ) + [EVMCodeType.EOF_V1]
+
+    @classmethod
+    def call_opcodes(
+            cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        EOF V1 introduces EXTCALL, EXTSTATICCALL, EXTDELEGATECALL.
+        """
+        return [
+            (Opcodes.EXTCALL, EVMCodeType.EOF_V1),
+            (Opcodes.EXTSTATICCALL, EVMCodeType.EOF_V1),
+            (Opcodes.EXTDELEGATECALL, EVMCodeType.EOF_V1),
+        ] + super(
+            Osaka, cls  # noqa: SC200
+        ).call_opcodes(
+            block_number, timestamp
+        )
+
+    @classmethod
+    def is_deployed(cls) -> bool:
+        """
+        Flags that the fork has not been deployed to mainnet; it is under active
+        development.
+        """
+        return False
+
+    @classmethod
+    def solc_min_version(cls) -> Version:
+        """
+        Returns the minimum version of solc that supports this fork.
+        """
+        return Version.parse("1.0.0")  # set a high version; currently unknown
