@@ -1,0 +1,233 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_invalid_length_g2msm()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_invalid_length_g2msm()</code></h1>
+        <p>Test the BLS12_G2MSM discount gas table in full, by expecting the call to fail for</p>
+    <p><a href="./test_invalid_length_g2msm/">Back to <code>test_invalid_length_g2msm()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="Prague" selected>Prague</option>
+                                <option value="PragueEIP7692" >PragueEIP7692</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                <option value="state_test" >state_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>precompile_address</th>
+                        <th>tx_gas_limit</th>
+                        <th>expected_output</th>
+                        <th>precompile_gas_list</th>
+                        <th>precompile_data_length_list</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-blockchain_test-precompile_address_16---zero_length_input]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-blockchain_test-precompile_address_16---zero_length_input]">
+                    ...fork_Prague-blockchain_test-precompile_address_16---zero_length_input
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000]</td>
+                        <td>[0]</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-blockchain_test-precompile_address_16---input_one_byte_too_short_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-blockchain_test-precompile_address_16---input_one_byte_too_short_full_discount_table]">
+                    ...fork_Prague-blockchain_test-precompile_address_16---input_one_byte_too_short_full_discount_table
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000, 79920, 103140, 115380, 133650, 147690, 157500, 163080, 177390, 190350, 201960, 212760, 221715, 229320, 235575, 240480, 252450, 264060, 275310, 286200, 296730, 306900, 316710, 326160, 335250, 343980, 351135, 359100, 366705, 373950, 380835, 387360, 397980, 406980, 417375, 426060, 436230, 444600, 454545, 462600, 472320, 480060, 489555, 496980, 506250, 513360, 522405, 529200, 538020, 544500, 553095, 559260, 567630, 573480, 581625, 587160, 595080, 602910, 607995, 615600, 620370, 627750, 632205, 639360, 646425, 653400, 660285, 670140, 676890, 683550, 690120, 699840, 706275, 712620, 718875, 728460, 734580, 740610, 750105, 756000, 761805, 767520, 776880, 782460, 787950, 793350, 802575, 807840, 813015, 818100, 827190, 832140, 837000, 841770, 850725, 855360, 859905, 864360, 873180, 877500, 881730, 885870, 894555, 898560, 902475, 911070, 914850, 918540, 922140, 930600, 934065, 937440, 940725, 949050, 952200, 955260, 958230, 966420, 969255, 972000, 974655, 982710, 985230, 987660, 990000, 997920, 1000125, 1002240]</td>
+                        <td>[287, 575, 863, 1151, 1439, 1727, 2015, 2303, 2591, 2879, 3167, 3455, 3743, 4031, 4319, 4607, 4895, 5183, 5471, 5759, 6047, 6335, 6623, 6911, 7199, 7487, 7775, 8063, 8351, 8639, 8927, 9215, 9503, 9791, 10079, 10367, 10655, 10943, 11231, 11519, 11807, 12095, 12383, 12671, 12959, 13247, 13535, 13823, 14111, 14399, 14687, 14975, 15263, 15551, 15839, 16127, 16415, 16703, 16991, 17279, 17567, 17855, 18143, 18431, 18719, 19007, 19295, 19583, 19871, 20159, 20447, 20735, 21023, 21311, 21599, 21887, 22175, 22463, 22751, 23039, 23327, 23615, 23903, 24191, 24479, 24767, 25055, 25343, 25631, 25919, 26207, 26495, 26783, 27071, 27359, 27647, 27935, 28223, 28511, 28799, 29087, 29375, 29663, 29951, 30239, 30527, 30815, 31103, 31391, 31679, 31967, 32255, 32543, 32831, 33119, 33407, 33695, 33983, 34271, 34559, 34847, 35135, 35423, 35711, 35999, 36287, 36575, 36863]</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-blockchain_test-precompile_address_16---input_one_byte_too_long_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-blockchain_test-precompile_address_16---input_one_byte_too_long_full_discount_table]">
+                    ...fork_Prague-blockchain_test-precompile_address_16---input_one_byte_too_long_full_discount_table
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000, 79920, 103140, 115380, 133650, 147690, 157500, 163080, 177390, 190350, 201960, 212760, 221715, 229320, 235575, 240480, 252450, 264060, 275310, 286200, 296730, 306900, 316710, 326160, 335250, 343980, 351135, 359100, 366705, 373950, 380835, 387360, 397980, 406980, 417375, 426060, 436230, 444600, 454545, 462600, 472320, 480060, 489555, 496980, 506250, 513360, 522405, 529200, 538020, 544500, 553095, 559260, 567630, 573480, 581625, 587160, 595080, 602910, 607995, 615600, 620370, 627750, 632205, 639360, 646425, 653400, 660285, 670140, 676890, 683550, 690120, 699840, 706275, 712620, 718875, 728460, 734580, 740610, 750105, 756000, 761805, 767520, 776880, 782460, 787950, 793350, 802575, 807840, 813015, 818100, 827190, 832140, 837000, 841770, 850725, 855360, 859905, 864360, 873180, 877500, 881730, 885870, 894555, 898560, 902475, 911070, 914850, 918540, 922140, 930600, 934065, 937440, 940725, 949050, 952200, 955260, 958230, 966420, 969255, 972000, 974655, 982710, 985230, 987660, 990000, 997920, 1000125, 1002240]</td>
+                        <td>[289, 577, 865, 1153, 1441, 1729, 2017, 2305, 2593, 2881, 3169, 3457, 3745, 4033, 4321, 4609, 4897, 5185, 5473, 5761, 6049, 6337, 6625, 6913, 7201, 7489, 7777, 8065, 8353, 8641, 8929, 9217, 9505, 9793, 10081, 10369, 10657, 10945, 11233, 11521, 11809, 12097, 12385, 12673, 12961, 13249, 13537, 13825, 14113, 14401, 14689, 14977, 15265, 15553, 15841, 16129, 16417, 16705, 16993, 17281, 17569, 17857, 18145, 18433, 18721, 19009, 19297, 19585, 19873, 20161, 20449, 20737, 21025, 21313, 21601, 21889, 22177, 22465, 22753, 23041, 23329, 23617, 23905, 24193, 24481, 24769, 25057, 25345, 25633, 25921, 26209, 26497, 26785, 27073, 27361, 27649, 27937, 28225, 28513, 28801, 29089, 29377, 29665, 29953, 30241, 30529, 30817, 31105, 31393, 31681, 31969, 32257, 32545, 32833, 33121, 33409, 33697, 33985, 34273, 34561, 34849, 35137, 35425, 35713, 36001, 36289, 36577, 36865]</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-state_test-precompile_address_16---zero_length_input]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-state_test-precompile_address_16---zero_length_input]">
+                    ...fork_Prague-state_test-precompile_address_16---zero_length_input
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000]</td>
+                        <td>[0]</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-state_test-precompile_address_16---input_one_byte_too_short_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-state_test-precompile_address_16---input_one_byte_too_short_full_discount_table]">
+                    ...fork_Prague-state_test-precompile_address_16---input_one_byte_too_short_full_discount_table
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000, 79920, 103140, 115380, 133650, 147690, 157500, 163080, 177390, 190350, 201960, 212760, 221715, 229320, 235575, 240480, 252450, 264060, 275310, 286200, 296730, 306900, 316710, 326160, 335250, 343980, 351135, 359100, 366705, 373950, 380835, 387360, 397980, 406980, 417375, 426060, 436230, 444600, 454545, 462600, 472320, 480060, 489555, 496980, 506250, 513360, 522405, 529200, 538020, 544500, 553095, 559260, 567630, 573480, 581625, 587160, 595080, 602910, 607995, 615600, 620370, 627750, 632205, 639360, 646425, 653400, 660285, 670140, 676890, 683550, 690120, 699840, 706275, 712620, 718875, 728460, 734580, 740610, 750105, 756000, 761805, 767520, 776880, 782460, 787950, 793350, 802575, 807840, 813015, 818100, 827190, 832140, 837000, 841770, 850725, 855360, 859905, 864360, 873180, 877500, 881730, 885870, 894555, 898560, 902475, 911070, 914850, 918540, 922140, 930600, 934065, 937440, 940725, 949050, 952200, 955260, 958230, 966420, 969255, 972000, 974655, 982710, 985230, 987660, 990000, 997920, 1000125, 1002240]</td>
+                        <td>[287, 575, 863, 1151, 1439, 1727, 2015, 2303, 2591, 2879, 3167, 3455, 3743, 4031, 4319, 4607, 4895, 5183, 5471, 5759, 6047, 6335, 6623, 6911, 7199, 7487, 7775, 8063, 8351, 8639, 8927, 9215, 9503, 9791, 10079, 10367, 10655, 10943, 11231, 11519, 11807, 12095, 12383, 12671, 12959, 13247, 13535, 13823, 14111, 14399, 14687, 14975, 15263, 15551, 15839, 16127, 16415, 16703, 16991, 17279, 17567, 17855, 18143, 18431, 18719, 19007, 19295, 19583, 19871, 20159, 20447, 20735, 21023, 21311, 21599, 21887, 22175, 22463, 22751, 23039, 23327, 23615, 23903, 24191, 24479, 24767, 25055, 25343, 25631, 25919, 26207, 26495, 26783, 27071, 27359, 27647, 27935, 28223, 28511, 28799, 29087, 29375, 29663, 29951, 30239, 30527, 30815, 31103, 31391, 31679, 31967, 32255, 32543, 32831, 33119, 33407, 33695, 33983, 34271, 34559, 34847, 35135, 35423, 35711, 35999, 36287, 36575, 36863]</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-state_test-precompile_address_16---input_one_byte_too_long_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-state_test-precompile_address_16---input_one_byte_too_long_full_discount_table]">
+                    ...fork_Prague-state_test-precompile_address_16---input_one_byte_too_long_full_discount_table
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000, 79920, 103140, 115380, 133650, 147690, 157500, 163080, 177390, 190350, 201960, 212760, 221715, 229320, 235575, 240480, 252450, 264060, 275310, 286200, 296730, 306900, 316710, 326160, 335250, 343980, 351135, 359100, 366705, 373950, 380835, 387360, 397980, 406980, 417375, 426060, 436230, 444600, 454545, 462600, 472320, 480060, 489555, 496980, 506250, 513360, 522405, 529200, 538020, 544500, 553095, 559260, 567630, 573480, 581625, 587160, 595080, 602910, 607995, 615600, 620370, 627750, 632205, 639360, 646425, 653400, 660285, 670140, 676890, 683550, 690120, 699840, 706275, 712620, 718875, 728460, 734580, 740610, 750105, 756000, 761805, 767520, 776880, 782460, 787950, 793350, 802575, 807840, 813015, 818100, 827190, 832140, 837000, 841770, 850725, 855360, 859905, 864360, 873180, 877500, 881730, 885870, 894555, 898560, 902475, 911070, 914850, 918540, 922140, 930600, 934065, 937440, 940725, 949050, 952200, 955260, 958230, 966420, 969255, 972000, 974655, 982710, 985230, 987660, 990000, 997920, 1000125, 1002240]</td>
+                        <td>[289, 577, 865, 1153, 1441, 1729, 2017, 2305, 2593, 2881, 3169, 3457, 3745, 4033, 4321, 4609, 4897, 5185, 5473, 5761, 6049, 6337, 6625, 6913, 7201, 7489, 7777, 8065, 8353, 8641, 8929, 9217, 9505, 9793, 10081, 10369, 10657, 10945, 11233, 11521, 11809, 12097, 12385, 12673, 12961, 13249, 13537, 13825, 14113, 14401, 14689, 14977, 15265, 15553, 15841, 16129, 16417, 16705, 16993, 17281, 17569, 17857, 18145, 18433, 18721, 19009, 19297, 19585, 19873, 20161, 20449, 20737, 21025, 21313, 21601, 21889, 22177, 22465, 22753, 23041, 23329, 23617, 23905, 24193, 24481, 24769, 25057, 25345, 25633, 25921, 26209, 26497, 26785, 27073, 27361, 27649, 27937, 28225, 28513, 28801, 29089, 29377, 29665, 29953, 30241, 30529, 30817, 31105, 31393, 31681, 31969, 32257, 32545, 32833, 33121, 33409, 33697, 33985, 34273, 34561, 34849, 35137, 35425, 35713, 36001, 36289, 36577, 36865]</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-blockchain_test-precompile_address_16---zero_length_input]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-blockchain_test-precompile_address_16---zero_length_input]">
+                    ...fork_PragueEIP7692-blockchain_test-precompile_address_16---zero_length_input
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000]</td>
+                        <td>[0]</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-blockchain_test-precompile_address_16---input_one_byte_too_short_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-blockchain_test-precompile_address_16---input_one_byte_too_short_full_discount_table]">
+                    ...fork_PragueEIP7692-blockchain_test-precompile_address_16---input_one_byte_too_short_full_discount_table
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000, 79920, 103140, 115380, 133650, 147690, 157500, 163080, 177390, 190350, 201960, 212760, 221715, 229320, 235575, 240480, 252450, 264060, 275310, 286200, 296730, 306900, 316710, 326160, 335250, 343980, 351135, 359100, 366705, 373950, 380835, 387360, 397980, 406980, 417375, 426060, 436230, 444600, 454545, 462600, 472320, 480060, 489555, 496980, 506250, 513360, 522405, 529200, 538020, 544500, 553095, 559260, 567630, 573480, 581625, 587160, 595080, 602910, 607995, 615600, 620370, 627750, 632205, 639360, 646425, 653400, 660285, 670140, 676890, 683550, 690120, 699840, 706275, 712620, 718875, 728460, 734580, 740610, 750105, 756000, 761805, 767520, 776880, 782460, 787950, 793350, 802575, 807840, 813015, 818100, 827190, 832140, 837000, 841770, 850725, 855360, 859905, 864360, 873180, 877500, 881730, 885870, 894555, 898560, 902475, 911070, 914850, 918540, 922140, 930600, 934065, 937440, 940725, 949050, 952200, 955260, 958230, 966420, 969255, 972000, 974655, 982710, 985230, 987660, 990000, 997920, 1000125, 1002240]</td>
+                        <td>[287, 575, 863, 1151, 1439, 1727, 2015, 2303, 2591, 2879, 3167, 3455, 3743, 4031, 4319, 4607, 4895, 5183, 5471, 5759, 6047, 6335, 6623, 6911, 7199, 7487, 7775, 8063, 8351, 8639, 8927, 9215, 9503, 9791, 10079, 10367, 10655, 10943, 11231, 11519, 11807, 12095, 12383, 12671, 12959, 13247, 13535, 13823, 14111, 14399, 14687, 14975, 15263, 15551, 15839, 16127, 16415, 16703, 16991, 17279, 17567, 17855, 18143, 18431, 18719, 19007, 19295, 19583, 19871, 20159, 20447, 20735, 21023, 21311, 21599, 21887, 22175, 22463, 22751, 23039, 23327, 23615, 23903, 24191, 24479, 24767, 25055, 25343, 25631, 25919, 26207, 26495, 26783, 27071, 27359, 27647, 27935, 28223, 28511, 28799, 29087, 29375, 29663, 29951, 30239, 30527, 30815, 31103, 31391, 31679, 31967, 32255, 32543, 32831, 33119, 33407, 33695, 33983, 34271, 34559, 34847, 35135, 35423, 35711, 35999, 36287, 36575, 36863]</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-blockchain_test-precompile_address_16---input_one_byte_too_long_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-blockchain_test-precompile_address_16---input_one_byte_too_long_full_discount_table]">
+                    ...fork_PragueEIP7692-blockchain_test-precompile_address_16---input_one_byte_too_long_full_discount_table
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000, 79920, 103140, 115380, 133650, 147690, 157500, 163080, 177390, 190350, 201960, 212760, 221715, 229320, 235575, 240480, 252450, 264060, 275310, 286200, 296730, 306900, 316710, 326160, 335250, 343980, 351135, 359100, 366705, 373950, 380835, 387360, 397980, 406980, 417375, 426060, 436230, 444600, 454545, 462600, 472320, 480060, 489555, 496980, 506250, 513360, 522405, 529200, 538020, 544500, 553095, 559260, 567630, 573480, 581625, 587160, 595080, 602910, 607995, 615600, 620370, 627750, 632205, 639360, 646425, 653400, 660285, 670140, 676890, 683550, 690120, 699840, 706275, 712620, 718875, 728460, 734580, 740610, 750105, 756000, 761805, 767520, 776880, 782460, 787950, 793350, 802575, 807840, 813015, 818100, 827190, 832140, 837000, 841770, 850725, 855360, 859905, 864360, 873180, 877500, 881730, 885870, 894555, 898560, 902475, 911070, 914850, 918540, 922140, 930600, 934065, 937440, 940725, 949050, 952200, 955260, 958230, 966420, 969255, 972000, 974655, 982710, 985230, 987660, 990000, 997920, 1000125, 1002240]</td>
+                        <td>[289, 577, 865, 1153, 1441, 1729, 2017, 2305, 2593, 2881, 3169, 3457, 3745, 4033, 4321, 4609, 4897, 5185, 5473, 5761, 6049, 6337, 6625, 6913, 7201, 7489, 7777, 8065, 8353, 8641, 8929, 9217, 9505, 9793, 10081, 10369, 10657, 10945, 11233, 11521, 11809, 12097, 12385, 12673, 12961, 13249, 13537, 13825, 14113, 14401, 14689, 14977, 15265, 15553, 15841, 16129, 16417, 16705, 16993, 17281, 17569, 17857, 18145, 18433, 18721, 19009, 19297, 19585, 19873, 20161, 20449, 20737, 21025, 21313, 21601, 21889, 22177, 22465, 22753, 23041, 23329, 23617, 23905, 24193, 24481, 24769, 25057, 25345, 25633, 25921, 26209, 26497, 26785, 27073, 27361, 27649, 27937, 28225, 28513, 28801, 29089, 29377, 29665, 29953, 30241, 30529, 30817, 31105, 31393, 31681, 31969, 32257, 32545, 32833, 33121, 33409, 33697, 33985, 34273, 34561, 34849, 35137, 35425, 35713, 36001, 36289, 36577, 36865]</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-state_test-precompile_address_16---zero_length_input]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-state_test-precompile_address_16---zero_length_input]">
+                    ...fork_PragueEIP7692-state_test-precompile_address_16---zero_length_input
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000]</td>
+                        <td>[0]</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-state_test-precompile_address_16---input_one_byte_too_short_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-state_test-precompile_address_16---input_one_byte_too_short_full_discount_table]">
+                    ...fork_PragueEIP7692-state_test-precompile_address_16---input_one_byte_too_short_full_discount_table
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000, 79920, 103140, 115380, 133650, 147690, 157500, 163080, 177390, 190350, 201960, 212760, 221715, 229320, 235575, 240480, 252450, 264060, 275310, 286200, 296730, 306900, 316710, 326160, 335250, 343980, 351135, 359100, 366705, 373950, 380835, 387360, 397980, 406980, 417375, 426060, 436230, 444600, 454545, 462600, 472320, 480060, 489555, 496980, 506250, 513360, 522405, 529200, 538020, 544500, 553095, 559260, 567630, 573480, 581625, 587160, 595080, 602910, 607995, 615600, 620370, 627750, 632205, 639360, 646425, 653400, 660285, 670140, 676890, 683550, 690120, 699840, 706275, 712620, 718875, 728460, 734580, 740610, 750105, 756000, 761805, 767520, 776880, 782460, 787950, 793350, 802575, 807840, 813015, 818100, 827190, 832140, 837000, 841770, 850725, 855360, 859905, 864360, 873180, 877500, 881730, 885870, 894555, 898560, 902475, 911070, 914850, 918540, 922140, 930600, 934065, 937440, 940725, 949050, 952200, 955260, 958230, 966420, 969255, 972000, 974655, 982710, 985230, 987660, 990000, 997920, 1000125, 1002240]</td>
+                        <td>[287, 575, 863, 1151, 1439, 1727, 2015, 2303, 2591, 2879, 3167, 3455, 3743, 4031, 4319, 4607, 4895, 5183, 5471, 5759, 6047, 6335, 6623, 6911, 7199, 7487, 7775, 8063, 8351, 8639, 8927, 9215, 9503, 9791, 10079, 10367, 10655, 10943, 11231, 11519, 11807, 12095, 12383, 12671, 12959, 13247, 13535, 13823, 14111, 14399, 14687, 14975, 15263, 15551, 15839, 16127, 16415, 16703, 16991, 17279, 17567, 17855, 18143, 18431, 18719, 19007, 19295, 19583, 19871, 20159, 20447, 20735, 21023, 21311, 21599, 21887, 22175, 22463, 22751, 23039, 23327, 23615, 23903, 24191, 24479, 24767, 25055, 25343, 25631, 25919, 26207, 26495, 26783, 27071, 27359, 27647, 27935, 28223, 28511, 28799, 29087, 29375, 29663, 29951, 30239, 30527, 30815, 31103, 31391, 31679, 31967, 32255, 32543, 32831, 33119, 33407, 33695, 33983, 34271, 34559, 34847, 35135, 35423, 35711, 35999, 36287, 36575, 36863]</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-state_test-precompile_address_16---input_one_byte_too_long_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_PragueEIP7692-state_test-precompile_address_16---input_one_byte_too_long_full_discount_table]">
+                    ...fork_PragueEIP7692-state_test-precompile_address_16---input_one_byte_too_long_full_discount_table
+                </abbr>
+            </td>
+                        <td>16</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[54000, 79920, 103140, 115380, 133650, 147690, 157500, 163080, 177390, 190350, 201960, 212760, 221715, 229320, 235575, 240480, 252450, 264060, 275310, 286200, 296730, 306900, 316710, 326160, 335250, 343980, 351135, 359100, 366705, 373950, 380835, 387360, 397980, 406980, 417375, 426060, 436230, 444600, 454545, 462600, 472320, 480060, 489555, 496980, 506250, 513360, 522405, 529200, 538020, 544500, 553095, 559260, 567630, 573480, 581625, 587160, 595080, 602910, 607995, 615600, 620370, 627750, 632205, 639360, 646425, 653400, 660285, 670140, 676890, 683550, 690120, 699840, 706275, 712620, 718875, 728460, 734580, 740610, 750105, 756000, 761805, 767520, 776880, 782460, 787950, 793350, 802575, 807840, 813015, 818100, 827190, 832140, 837000, 841770, 850725, 855360, 859905, 864360, 873180, 877500, 881730, 885870, 894555, 898560, 902475, 911070, 914850, 918540, 922140, 930600, 934065, 937440, 940725, 949050, 952200, 955260, 958230, 966420, 969255, 972000, 974655, 982710, 985230, 987660, 990000, 997920, 1000125, 1002240]</td>
+                        <td>[289, 577, 865, 1153, 1441, 1729, 2017, 2305, 2593, 2881, 3169, 3457, 3745, 4033, 4321, 4609, 4897, 5185, 5473, 5761, 6049, 6337, 6625, 6913, 7201, 7489, 7777, 8065, 8353, 8641, 8929, 9217, 9505, 9793, 10081, 10369, 10657, 10945, 11233, 11521, 11809, 12097, 12385, 12673, 12961, 13249, 13537, 13825, 14113, 14401, 14689, 14977, 15265, 15553, 15841, 16129, 16417, 16705, 16993, 17281, 17569, 17857, 18145, 18433, 18721, 19009, 19297, 19585, 19873, 20161, 20449, 20737, 21025, 21313, 21601, 21889, 22177, 22465, 22753, 23041, 23329, 23617, 23905, 24193, 24481, 24769, 25057, 25345, 25633, 25921, 26209, 26497, 26785, 27073, 27361, 27649, 27937, 28225, 28513, 28801, 29089, 29377, 29665, 29953, 30241, 30529, 30817, 31105, 31393, 31681, 31969, 32257, 32545, 32833, 33121, 33409, 33697, 33985, 34273, 34561, 34849, 35137, 35425, 35713, 36001, 36289, 36577, 36865]</td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/javascripts/site.js"></script>

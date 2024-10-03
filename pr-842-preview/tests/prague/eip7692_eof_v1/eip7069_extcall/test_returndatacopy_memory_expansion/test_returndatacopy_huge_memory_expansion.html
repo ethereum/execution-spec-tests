@@ -1,0 +1,413 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_returndatacopy_huge_memory_expansion()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_returndatacopy_huge_memory_expansion()</code></h1>
+        <p>Perform RETURNDATACOPY operations that expand the memory by huge amounts, and verify that it</p>
+    <p><a href="./test_returndatacopy_huge_memory_expansion/">Back to <code>test_returndatacopy_huge_memory_expansion()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="PragueEIP7692" selected>PragueEIP7692</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                <option value="state_test" >state_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>initial_memory</th>
+                        <th>successful</th>
+                        <th>subcall_exact_cost</th>
+                        <th>dest</th>
+                        <th>src</th>
+                        <th>length</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_length_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_length_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_length_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_length_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]">
+                    ...fork_PragueEIP7692-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_length_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_length_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_existent_memory-successful_False--max_length_minus_one_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_existent_memory-successful_False--half_max_length_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_existent_memory-successful_False--half_max_length_expansion
+                </abbr>
+            </td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_length_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_length_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_empty_memory-successful_False--max_length_minus_one_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/prague/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_huge_memory_expansion[fork_PragueEIP7692-state_test-from_empty_memory-successful_False--half_max_length_expansion]">
+                    ...fork_PragueEIP7692-state_test-from_empty_memory-successful_False--half_max_length_expansion
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/javascripts/site.js"></script>

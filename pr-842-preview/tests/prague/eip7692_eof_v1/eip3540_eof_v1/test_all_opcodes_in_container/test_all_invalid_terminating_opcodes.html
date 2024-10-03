@@ -1,0 +1,1349 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_all_invalid_terminating_opcodes()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_all_invalid_terminating_opcodes()</code></h1>
+        <p>Test all opcodes that are invalid as the last opcode in a container</p>
+    <p><a href="./test_all_invalid_terminating_opcodes/">Back to <code>test_all_invalid_terminating_opcodes()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="PragueEIP7692" selected>PragueEIP7692</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="eof_test" selected>eof_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>opcode</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ADD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ADD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_ADD
+                </abbr>
+            </td>
+                        <td>ADD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MUL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MUL]">
+                    ...fork_PragueEIP7692-eof_test-opcode_MUL
+                </abbr>
+            </td>
+                        <td>MUL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SUB]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SUB]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SUB
+                </abbr>
+            </td>
+                        <td>SUB</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DIV]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DIV]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DIV
+                </abbr>
+            </td>
+                        <td>DIV</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SDIV]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SDIV]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SDIV
+                </abbr>
+            </td>
+                        <td>SDIV</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MOD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MOD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_MOD
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SMOD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SMOD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SMOD
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ADDMOD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ADDMOD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_ADDMOD
+                </abbr>
+            </td>
+                        <td>ADDMOD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MULMOD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MULMOD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_MULMOD
+                </abbr>
+            </td>
+                        <td>MULMOD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXP]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXP]">
+                    ...fork_PragueEIP7692-eof_test-opcode_EXP
+                </abbr>
+            </td>
+                        <td>EXP</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SIGNEXTEND]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SIGNEXTEND]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SIGNEXTEND
+                </abbr>
+            </td>
+                        <td>SIGNEXTEND</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LT]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LT]">
+                    ...fork_PragueEIP7692-eof_test-opcode_LT
+                </abbr>
+            </td>
+                        <td>LT</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_GT]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_GT]">
+                    ...fork_PragueEIP7692-eof_test-opcode_GT
+                </abbr>
+            </td>
+                        <td>GT</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SLT]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SLT]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SLT
+                </abbr>
+            </td>
+                        <td>SLT</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SGT]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SGT]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SGT
+                </abbr>
+            </td>
+                        <td>SGT</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EQ]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EQ]">
+                    ...fork_PragueEIP7692-eof_test-opcode_EQ
+                </abbr>
+            </td>
+                        <td>EQ</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ISZERO]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ISZERO]">
+                    ...fork_PragueEIP7692-eof_test-opcode_ISZERO
+                </abbr>
+            </td>
+                        <td>ISZERO</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_AND]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_AND]">
+                    ...fork_PragueEIP7692-eof_test-opcode_AND
+                </abbr>
+            </td>
+                        <td>AND</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_OR]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_OR]">
+                    ...fork_PragueEIP7692-eof_test-opcode_OR
+                </abbr>
+            </td>
+                        <td>OR</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_XOR]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_XOR]">
+                    ...fork_PragueEIP7692-eof_test-opcode_XOR
+                </abbr>
+            </td>
+                        <td>XOR</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_NOT]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_NOT]">
+                    ...fork_PragueEIP7692-eof_test-opcode_NOT
+                </abbr>
+            </td>
+                        <td>NOT</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BYTE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BYTE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_BYTE
+                </abbr>
+            </td>
+                        <td>BYTE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SHL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SHL]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SHL
+                </abbr>
+            </td>
+                        <td>SHL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SHR]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SHR]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SHR
+                </abbr>
+            </td>
+                        <td>SHR</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SAR]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SAR]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SAR
+                </abbr>
+            </td>
+                        <td>SAR</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SHA3]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SHA3]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SHA3
+                </abbr>
+            </td>
+                        <td>SHA3</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ADDRESS]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ADDRESS]">
+                    ...fork_PragueEIP7692-eof_test-opcode_ADDRESS
+                </abbr>
+            </td>
+                        <td>ADDRESS</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BALANCE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BALANCE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_BALANCE
+                </abbr>
+            </td>
+                        <td>BALANCE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ORIGIN]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_ORIGIN]">
+                    ...fork_PragueEIP7692-eof_test-opcode_ORIGIN
+                </abbr>
+            </td>
+                        <td>ORIGIN</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLER]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLER]">
+                    ...fork_PragueEIP7692-eof_test-opcode_CALLER
+                </abbr>
+            </td>
+                        <td>CALLER</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLVALUE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLVALUE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_CALLVALUE
+                </abbr>
+            </td>
+                        <td>CALLVALUE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLDATALOAD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLDATALOAD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_CALLDATALOAD
+                </abbr>
+            </td>
+                        <td>CALLDATALOAD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLDATASIZE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLDATASIZE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_CALLDATASIZE
+                </abbr>
+            </td>
+                        <td>CALLDATASIZE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLDATACOPY]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLDATACOPY]">
+                    ...fork_PragueEIP7692-eof_test-opcode_CALLDATACOPY
+                </abbr>
+            </td>
+                        <td>CALLDATACOPY</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_GASPRICE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_GASPRICE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_GASPRICE
+                </abbr>
+            </td>
+                        <td>GASPRICE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_RETURNDATASIZE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_RETURNDATASIZE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_RETURNDATASIZE
+                </abbr>
+            </td>
+                        <td>RETURNDATASIZE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_RETURNDATACOPY]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_RETURNDATACOPY]">
+                    ...fork_PragueEIP7692-eof_test-opcode_RETURNDATACOPY
+                </abbr>
+            </td>
+                        <td>RETURNDATACOPY</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BLOCKHASH]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BLOCKHASH]">
+                    ...fork_PragueEIP7692-eof_test-opcode_BLOCKHASH
+                </abbr>
+            </td>
+                        <td>BLOCKHASH</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_COINBASE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_COINBASE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_COINBASE
+                </abbr>
+            </td>
+                        <td>COINBASE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_TIMESTAMP]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_TIMESTAMP]">
+                    ...fork_PragueEIP7692-eof_test-opcode_TIMESTAMP
+                </abbr>
+            </td>
+                        <td>TIMESTAMP</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_NUMBER]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_NUMBER]">
+                    ...fork_PragueEIP7692-eof_test-opcode_NUMBER
+                </abbr>
+            </td>
+                        <td>NUMBER</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PREVRANDAO]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PREVRANDAO]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PREVRANDAO
+                </abbr>
+            </td>
+                        <td>PREVRANDAO</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_GASLIMIT]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_GASLIMIT]">
+                    ...fork_PragueEIP7692-eof_test-opcode_GASLIMIT
+                </abbr>
+            </td>
+                        <td>GASLIMIT</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CHAINID]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CHAINID]">
+                    ...fork_PragueEIP7692-eof_test-opcode_CHAINID
+                </abbr>
+            </td>
+                        <td>CHAINID</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SELFBALANCE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SELFBALANCE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SELFBALANCE
+                </abbr>
+            </td>
+                        <td>SELFBALANCE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BASEFEE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BASEFEE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_BASEFEE
+                </abbr>
+            </td>
+                        <td>BASEFEE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BLOBHASH]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BLOBHASH]">
+                    ...fork_PragueEIP7692-eof_test-opcode_BLOBHASH
+                </abbr>
+            </td>
+                        <td>BLOBHASH</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BLOBBASEFEE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_BLOBBASEFEE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_BLOBBASEFEE
+                </abbr>
+            </td>
+                        <td>BLOBBASEFEE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_POP]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_POP]">
+                    ...fork_PragueEIP7692-eof_test-opcode_POP
+                </abbr>
+            </td>
+                        <td>POP</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MLOAD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MLOAD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_MLOAD
+                </abbr>
+            </td>
+                        <td>MLOAD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MSTORE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MSTORE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_MSTORE
+                </abbr>
+            </td>
+                        <td>MSTORE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MSTORE8]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MSTORE8]">
+                    ...fork_PragueEIP7692-eof_test-opcode_MSTORE8
+                </abbr>
+            </td>
+                        <td>MSTORE8</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SLOAD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SLOAD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SLOAD
+                </abbr>
+            </td>
+                        <td>SLOAD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SSTORE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SSTORE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SSTORE
+                </abbr>
+            </td>
+                        <td>SSTORE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MSIZE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MSIZE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_MSIZE
+                </abbr>
+            </td>
+                        <td>MSIZE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_JUMPDEST]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_JUMPDEST]">
+                    ...fork_PragueEIP7692-eof_test-opcode_JUMPDEST
+                </abbr>
+            </td>
+                        <td>JUMPDEST</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_TLOAD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_TLOAD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_TLOAD
+                </abbr>
+            </td>
+                        <td>TLOAD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_TSTORE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_TSTORE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_TSTORE
+                </abbr>
+            </td>
+                        <td>TSTORE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MCOPY]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_MCOPY]">
+                    ...fork_PragueEIP7692-eof_test-opcode_MCOPY
+                </abbr>
+            </td>
+                        <td>MCOPY</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH0]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH0]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH0
+                </abbr>
+            </td>
+                        <td>PUSH0</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH1]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH1]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH1
+                </abbr>
+            </td>
+                        <td>PUSH1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH2]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH2]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH2
+                </abbr>
+            </td>
+                        <td>PUSH2</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH3]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH3]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH3
+                </abbr>
+            </td>
+                        <td>PUSH3</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH4]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH4]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH4
+                </abbr>
+            </td>
+                        <td>PUSH4</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH5]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH5]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH5
+                </abbr>
+            </td>
+                        <td>PUSH5</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH6]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH6]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH6
+                </abbr>
+            </td>
+                        <td>PUSH6</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH7]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH7]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH7
+                </abbr>
+            </td>
+                        <td>PUSH7</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH8]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH8]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH8
+                </abbr>
+            </td>
+                        <td>PUSH8</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH9]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH9]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH9
+                </abbr>
+            </td>
+                        <td>PUSH9</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH10]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH10]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH10
+                </abbr>
+            </td>
+                        <td>PUSH10</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH11]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH11]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH11
+                </abbr>
+            </td>
+                        <td>PUSH11</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH12]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH12]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH12
+                </abbr>
+            </td>
+                        <td>PUSH12</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH13]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH13]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH13
+                </abbr>
+            </td>
+                        <td>PUSH13</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH14]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH14]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH14
+                </abbr>
+            </td>
+                        <td>PUSH14</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH15]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH15]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH15
+                </abbr>
+            </td>
+                        <td>PUSH15</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH16]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH16]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH16
+                </abbr>
+            </td>
+                        <td>PUSH16</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH17]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH17]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH17
+                </abbr>
+            </td>
+                        <td>PUSH17</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH18]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH18]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH18
+                </abbr>
+            </td>
+                        <td>PUSH18</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH19]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH19]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH19
+                </abbr>
+            </td>
+                        <td>PUSH19</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH20]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH20]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH20
+                </abbr>
+            </td>
+                        <td>PUSH20</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH21]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH21]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH21
+                </abbr>
+            </td>
+                        <td>PUSH21</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH22]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH22]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH22
+                </abbr>
+            </td>
+                        <td>PUSH22</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH23]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH23]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH23
+                </abbr>
+            </td>
+                        <td>PUSH23</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH24]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH24]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH24
+                </abbr>
+            </td>
+                        <td>PUSH24</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH25]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH25]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH25
+                </abbr>
+            </td>
+                        <td>PUSH25</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH26]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH26]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH26
+                </abbr>
+            </td>
+                        <td>PUSH26</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH27]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH27]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH27
+                </abbr>
+            </td>
+                        <td>PUSH27</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH28]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH28]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH28
+                </abbr>
+            </td>
+                        <td>PUSH28</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH29]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH29]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH29
+                </abbr>
+            </td>
+                        <td>PUSH29</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH30]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH30]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH30
+                </abbr>
+            </td>
+                        <td>PUSH30</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH31]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH31]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH31
+                </abbr>
+            </td>
+                        <td>PUSH31</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH32]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_PUSH32]">
+                    ...fork_PragueEIP7692-eof_test-opcode_PUSH32
+                </abbr>
+            </td>
+                        <td>PUSH32</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP1]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP1]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP1
+                </abbr>
+            </td>
+                        <td>DUP1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP2]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP2]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP2
+                </abbr>
+            </td>
+                        <td>DUP2</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP3]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP3]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP3
+                </abbr>
+            </td>
+                        <td>DUP3</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP4]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP4]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP4
+                </abbr>
+            </td>
+                        <td>DUP4</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP5]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP5]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP5
+                </abbr>
+            </td>
+                        <td>DUP5</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP6]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP6]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP6
+                </abbr>
+            </td>
+                        <td>DUP6</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP7]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP7]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP7
+                </abbr>
+            </td>
+                        <td>DUP7</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP8]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP8]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP8
+                </abbr>
+            </td>
+                        <td>DUP8</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP9]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP9]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP9
+                </abbr>
+            </td>
+                        <td>DUP9</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP10]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP10]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP10
+                </abbr>
+            </td>
+                        <td>DUP10</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP11]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP11]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP11
+                </abbr>
+            </td>
+                        <td>DUP11</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP12]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP12]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP12
+                </abbr>
+            </td>
+                        <td>DUP12</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP13]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP13]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP13
+                </abbr>
+            </td>
+                        <td>DUP13</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP14]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP14]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP14
+                </abbr>
+            </td>
+                        <td>DUP14</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP15]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP15]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP15
+                </abbr>
+            </td>
+                        <td>DUP15</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP16]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUP16]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUP16
+                </abbr>
+            </td>
+                        <td>DUP16</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP1]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP1]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP1
+                </abbr>
+            </td>
+                        <td>SWAP1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP2]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP2]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP2
+                </abbr>
+            </td>
+                        <td>SWAP2</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP3]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP3]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP3
+                </abbr>
+            </td>
+                        <td>SWAP3</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP4]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP4]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP4
+                </abbr>
+            </td>
+                        <td>SWAP4</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP5]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP5]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP5
+                </abbr>
+            </td>
+                        <td>SWAP5</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP6]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP6]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP6
+                </abbr>
+            </td>
+                        <td>SWAP6</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP7]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP7]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP7
+                </abbr>
+            </td>
+                        <td>SWAP7</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP8]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP8]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP8
+                </abbr>
+            </td>
+                        <td>SWAP8</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP9]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP9]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP9
+                </abbr>
+            </td>
+                        <td>SWAP9</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP10]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP10]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP10
+                </abbr>
+            </td>
+                        <td>SWAP10</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP11]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP11]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP11
+                </abbr>
+            </td>
+                        <td>SWAP11</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP12]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP12]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP12
+                </abbr>
+            </td>
+                        <td>SWAP12</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP13]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP13]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP13
+                </abbr>
+            </td>
+                        <td>SWAP13</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP14]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP14]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP14
+                </abbr>
+            </td>
+                        <td>SWAP14</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP15]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP15]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP15
+                </abbr>
+            </td>
+                        <td>SWAP15</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP16]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAP16]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAP16
+                </abbr>
+            </td>
+                        <td>SWAP16</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG0]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG0]">
+                    ...fork_PragueEIP7692-eof_test-opcode_LOG0
+                </abbr>
+            </td>
+                        <td>LOG0</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG1]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG1]">
+                    ...fork_PragueEIP7692-eof_test-opcode_LOG1
+                </abbr>
+            </td>
+                        <td>LOG1</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG2]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG2]">
+                    ...fork_PragueEIP7692-eof_test-opcode_LOG2
+                </abbr>
+            </td>
+                        <td>LOG2</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG3]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG3]">
+                    ...fork_PragueEIP7692-eof_test-opcode_LOG3
+                </abbr>
+            </td>
+                        <td>LOG3</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG4]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_LOG4]">
+                    ...fork_PragueEIP7692-eof_test-opcode_LOG4
+                </abbr>
+            </td>
+                        <td>LOG4</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DATALOAD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DATALOAD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DATALOAD
+                </abbr>
+            </td>
+                        <td>DATALOAD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DATALOADN]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DATALOADN]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DATALOADN
+                </abbr>
+            </td>
+                        <td>DATALOADN</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DATASIZE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DATASIZE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DATASIZE
+                </abbr>
+            </td>
+                        <td>DATASIZE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DATACOPY]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DATACOPY]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DATACOPY
+                </abbr>
+            </td>
+                        <td>DATACOPY</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLF]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_CALLF]">
+                    ...fork_PragueEIP7692-eof_test-opcode_CALLF
+                </abbr>
+            </td>
+                        <td>CALLF</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUPN]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_DUPN]">
+                    ...fork_PragueEIP7692-eof_test-opcode_DUPN
+                </abbr>
+            </td>
+                        <td>DUPN</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAPN]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_SWAPN]">
+                    ...fork_PragueEIP7692-eof_test-opcode_SWAPN
+                </abbr>
+            </td>
+                        <td>SWAPN</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXCHANGE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXCHANGE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_EXCHANGE
+                </abbr>
+            </td>
+                        <td>EXCHANGE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EOFCREATE]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EOFCREATE]">
+                    ...fork_PragueEIP7692-eof_test-opcode_EOFCREATE
+                </abbr>
+            </td>
+                        <td>EOFCREATE</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_RETURNDATALOAD]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_RETURNDATALOAD]">
+                    ...fork_PragueEIP7692-eof_test-opcode_RETURNDATALOAD
+                </abbr>
+            </td>
+                        <td>RETURNDATALOAD</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXTCALL]">
+                    ...fork_PragueEIP7692-eof_test-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-eof_test-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_invalid_terminating_opcodes[fork_PragueEIP7692-eof_test-opcode_EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-eof_test-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/javascripts/site.js"></script>

@@ -1,0 +1,1153 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_opcodes_in_eof_calling_legacy()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_opcodes_in_eof_calling_legacy()</code></h1>
+        <p>Test all EOF only opcodes in legacy contracts and expects failure.</p>
+    <p><a href="./test_opcodes_in_eof_calling_legacy/">Back to <code>test_opcodes_in_eof_calling_legacy()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="PragueEIP7692" selected>PragueEIP7692</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                <option value="state_test" >state_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>code</th>
+                        <th>ext_call_opcode</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DUPN-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DUPN-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DUPN-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DUPN-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DUPN-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DUPN-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DUPN-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DUPN-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DUPN-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-SWAPN-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-SWAPN-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-SWAPN-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-SWAPN-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-SWAPN-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-SWAPN-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-SWAPN-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-SWAPN-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-SWAPN-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXCHANGE-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMP-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMP-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMP-EXTCALL
+                </abbr>
+            </td>
+                        <td>RJUMP_0x0000</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMP-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMP-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMP-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>RJUMP_0x0000</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMP-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMP-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMP-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>RJUMP_0x0000</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMPI0-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RJUMPI1-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-CALLF-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-CALLF-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-CALLF-EXTCALL
+                </abbr>
+            </td>
+                        <td>CALLF_0x0001</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-CALLF-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-CALLF-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-CALLF-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>CALLF_0x0001</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-CALLF-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-CALLF-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-CALLF-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>CALLF_0x0001</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETF-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETF-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RETF-EXTCALL
+                </abbr>
+            </td>
+                        <td>RETF</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETF-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETF-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RETF-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>RETF</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETF-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETF-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RETF-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>RETF</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-JUMPF-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-JUMPF-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-JUMPF-EXTCALL
+                </abbr>
+            </td>
+                        <td>JUMPF_0x0000</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-JUMPF-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-JUMPF-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-JUMPF-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>JUMPF_0x0000</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-JUMPF-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-JUMPF-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-JUMPF-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>JUMPF_0x0000</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTCALL-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTCALL-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTCALL-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTCALL-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTCALL-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTCALL-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTCALL-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTCALL-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTCALL-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTDELEGATECALL-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EXTSTATICCALL-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOAD-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOAD-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATALOAD-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOAD-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOAD-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATALOAD-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOAD-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOAD-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATALOAD-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOADN-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOADN-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATALOADN-EXTCALL
+                </abbr>
+            </td>
+                        <td>DATALOADN_0x0000</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOADN-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOADN-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATALOADN-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>DATALOADN_0x0000</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOADN-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATALOADN-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATALOADN-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>DATALOADN_0x0000</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATASIZE-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATASIZE-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATASIZE-EXTCALL
+                </abbr>
+            </td>
+                        <td>DATASIZE</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATASIZE-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATASIZE-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATASIZE-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>DATASIZE</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATASIZE-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATASIZE-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATASIZE-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>DATASIZE</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATACOPY-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATACOPY-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATACOPY-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATACOPY-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATACOPY-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATACOPY-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATACOPY-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-DATACOPY-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-DATACOPY-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-EOFCREATE-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTCALL
+                </abbr>
+            </td>
+                        <td>RETURNCONTRACT_0x00</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>RETURNCONTRACT_0x00</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-blockchain_test-RETURNCONTRACT-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>RETURNCONTRACT_0x00</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DUPN-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DUPN-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-DUPN-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DUPN-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DUPN-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-DUPN-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DUPN-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DUPN-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-DUPN-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-SWAPN-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-SWAPN-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-SWAPN-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-SWAPN-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-SWAPN-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-SWAPN-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-SWAPN-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-SWAPN-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-SWAPN-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXCHANGE-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXCHANGE-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-EXCHANGE-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXCHANGE-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXCHANGE-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-EXCHANGE-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXCHANGE-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXCHANGE-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-EXCHANGE-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMP-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMP-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMP-EXTCALL
+                </abbr>
+            </td>
+                        <td>RJUMP_0x0000</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMP-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMP-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMP-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>RJUMP_0x0000</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMP-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMP-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMP-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>RJUMP_0x0000</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI0-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI0-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMPI0-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI0-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI0-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMPI0-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI0-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI0-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMPI0-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI1-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI1-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMPI1-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI1-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI1-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMPI1-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI1-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RJUMPI1-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-RJUMPI1-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-CALLF-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-CALLF-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-CALLF-EXTCALL
+                </abbr>
+            </td>
+                        <td>CALLF_0x0001</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-CALLF-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-CALLF-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-CALLF-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>CALLF_0x0001</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-CALLF-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-CALLF-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-CALLF-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>CALLF_0x0001</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETF-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETF-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-RETF-EXTCALL
+                </abbr>
+            </td>
+                        <td>RETF</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETF-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETF-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-RETF-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>RETF</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETF-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETF-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-RETF-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>RETF</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-JUMPF-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-JUMPF-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-JUMPF-EXTCALL
+                </abbr>
+            </td>
+                        <td>JUMPF_0x0000</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-JUMPF-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-JUMPF-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-JUMPF-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>JUMPF_0x0000</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-JUMPF-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-JUMPF-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-JUMPF-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>JUMPF_0x0000</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTCALL-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTCALL-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-EXTCALL-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTCALL-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTCALL-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-EXTCALL-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTCALL-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTCALL-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-EXTCALL-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-EXTDELEGATECALL-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-EXTSTATICCALL-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOAD-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOAD-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-DATALOAD-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOAD-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOAD-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-DATALOAD-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOAD-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOAD-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-DATALOAD-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOADN-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOADN-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-DATALOADN-EXTCALL
+                </abbr>
+            </td>
+                        <td>DATALOADN_0x0000</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOADN-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOADN-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-DATALOADN-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>DATALOADN_0x0000</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOADN-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATALOADN-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-DATALOADN-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>DATALOADN_0x0000</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATASIZE-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATASIZE-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-DATASIZE-EXTCALL
+                </abbr>
+            </td>
+                        <td>DATASIZE</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATASIZE-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATASIZE-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-DATASIZE-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>DATASIZE</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATASIZE-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATASIZE-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-DATASIZE-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>DATASIZE</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATACOPY-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATACOPY-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-DATACOPY-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATACOPY-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATACOPY-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-DATACOPY-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATACOPY-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-DATACOPY-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-DATACOPY-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EOFCREATE-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EOFCREATE-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-EOFCREATE-EXTCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EOFCREATE-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EOFCREATE-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-EOFCREATE-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EOFCREATE-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-EOFCREATE-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-EOFCREATE-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTCALL]">
+                    ...fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTCALL
+                </abbr>
+            </td>
+                        <td>RETURNCONTRACT_0x00</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTDELEGATECALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTDELEGATECALL]">
+                    ...fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>RETURNCONTRACT_0x00</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="PragueEIP7692" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTSTATICCALL]" title="tests/prague/eip7692_eof_v1/eip3540_eof_v1/test_opcodes_in_legacy.py::test_opcodes_in_eof_calling_legacy[fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTSTATICCALL]">
+                    ...fork_PragueEIP7692-state_test-RETURNCONTRACT-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>RETURNCONTRACT_0x00</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/javascripts/site.js"></script>
