@@ -1976,7 +1976,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_invalid_max_stack_height/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_stack_height_mismatch/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_double_rjumpi_stack_underflow/</loc>
          <lastmod>2024-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2436,6 +2446,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip4750_functions/test_code_validation/test_unreachable_code_sections/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip6206_jumpf/</loc>
          <lastmod>2024-10-03</lastmod>
          <changefreq>daily</changefreq>
@@ -2701,6 +2716,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls/test_callee_context/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls/test_callee_fails/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls/test_eof_calls_clear_return_buffer/</loc>
          <lastmod>2024-10-03</lastmod>
          <changefreq>daily</changefreq>
@@ -2741,7 +2766,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls/test_eof_calls_revert_abort/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7069_extcall/test_calls/test_eof_calls_precompile/</loc>
          <lastmod>2024-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2887,6 +2912,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate/test_calldata/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_eofcreate/test_eofcreate_context/</loc>
          <lastmod>2024-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3162,6 +3192,21 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation/test_wide_container/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7698_eof_creation_tx/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx/</loc>
+         <lastmod>2024-10-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/pr-842-preview/tests/prague/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx/test_eof_creation_tx_context/</loc>
          <lastmod>2024-10-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
