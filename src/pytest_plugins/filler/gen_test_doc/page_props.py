@@ -14,7 +14,7 @@ import re
 from abc import abstractmethod
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import mkdocs_gen_files  # type: ignore
 from jinja2 import Environment

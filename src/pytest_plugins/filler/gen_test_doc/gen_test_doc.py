@@ -496,12 +496,16 @@ class TestDocsGenerator:
                 Path(*module_path_parts[: i + 1]) for i in range(len(module_path_parts))
             )
         for directory in sub_paths:
-            fork = (
-                directory.relative_to(self.source_dir).parts[0]
+            directory_fork_name = (
+                directory.relative_to(self.source_dir).parts[0].capitalize()
                 if directory != self.source_dir
-                # set any deployed fork for tests/index.md (to avoid dev-fork in command args)
-                else "cancun"
+                else self.target_fork
             )
+            if directory_fork_name in self.deployed_forks:
+                fork = self.target_fork
+            else:
+                # TODO: This won't work for PragueEIP7692, for example, but it will for Osaka :)
+                fork = directory_fork_name
             self.page_props[str(directory)] = DirectoryPageProps(
                 title=sanitize_string_title(str(directory.name)),
                 path=directory,

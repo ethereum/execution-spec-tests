@@ -546,6 +546,8 @@ verifier
 writelines
 xfail
 ZeroPaddedHexNumber
+P7692
+
 stop
 add
 mul
