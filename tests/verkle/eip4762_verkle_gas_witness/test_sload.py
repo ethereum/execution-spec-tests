@@ -60,7 +60,6 @@ def test_sload(blockchain_test: BlockchainTestFiller, storage_slot_accesses):
     _sload(blockchain_test, storage_slot_accesses, witness_check_extra)
 
 
-@pytest.mark.skip("Unskip when geth fixes Touch* witness inclusion with insufficient gas")
 @pytest.mark.valid_from("Verkle")
 def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
     """
@@ -70,7 +69,8 @@ def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str
     for slot in [1000, 1001]:
         witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
-    _sload(blockchain_test, [1000, 1001, 1002, 1003], witness_check_extra, gas_limit=23_506)
+    # Missing 1 gas for the third slot.
+    _sload(blockchain_test, [1000, 1001, 1002, 1003], witness_check_extra, gas_limit=23509 + 199)
 
 
 def _sload(
