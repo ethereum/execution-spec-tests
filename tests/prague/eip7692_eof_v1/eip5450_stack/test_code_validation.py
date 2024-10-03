@@ -66,7 +66,7 @@ class RjumpSpot(Enum):
 
 def rjump_code_with(
     rjump_kind: RjumpKind | None, code_so_far_len: int, next_code_len: int
-) -> Bytecode:
+) -> Tuple[Bytecode, bool]:
     """
     Unless `rjump_kind` is None generates a code snippet with an RJUMP* instruction.
     For some kinds `code_so_far_len` must be code length in bytes preceeding the snippet.
@@ -76,6 +76,8 @@ def rjump_code_with(
     or its stack balance might not.
     """
     body = Bytecode()
+
+    is_backwards = False
 
     if rjump_kind == RjumpKind.EMPTY_RJUMP:
         body = Op.RJUMP[0]
@@ -99,17 +101,19 @@ def rjump_code_with(
     elif rjump_kind == RjumpKind.RJUMPI_TO_START:
         rjumpi_len = len(Op.RJUMPI[0](0))
         body = Op.RJUMPI[-code_so_far_len - rjumpi_len](0)
+        is_backwards = True
     elif rjump_kind == RjumpKind.RJUMPV_EMPTY_AND_OVER_NEXT:
         body = Op.RJUMPV[[0, next_code_len]](0)
     elif rjump_kind == RjumpKind.RJUMPV_OVER_PUSH_AND_TO_START:
         rjumpv_two_destinations_len = len(Op.RJUMPV[[0, 0]](0))
         body = Op.RJUMPV[[1, -code_so_far_len - rjumpv_two_destinations_len]](0) + Op.PUSH0
+        is_backwards = True
     elif not rjump_kind:
         pass
     else:
         raise TypeError("unknown rjumps value" + str(rjump_kind))
 
-    return body
+    return body, is_backwards
 
 
 def call_code_with(inputs, outputs, call: Bytecode) -> Bytecode:
@@ -142,7 +146,7 @@ def section_code_with(
     rjump_spot: RjumpSpot,
     call: Bytecode | None,
     termination: Bytecode,
-) -> Bytecode:
+) -> Tuple[Bytecode, bool]:
     """
     Generates a code section with RJUMP* and CALLF/RETF instructions.
     """
@@ -153,18 +157,25 @@ def section_code_with(
     else:
         body = Op.POP * inputs + Op.PUSH0 * outputs
 
+    has_invalid_back_jump = False
+
     if rjump_spot == RjumpSpot.BEGINNING:
-        code += rjump_code_with(rjump_kind, 0, len(body))
+        rjump, is_backwards = rjump_code_with(rjump_kind, 0, len(body))
+        code += rjump
 
     code += body
 
     if rjump_spot == RjumpSpot.BEFORE_TERMINATION:
         # next_code_len=0 avoids jumping over the termination which never validates
-        code += rjump_code_with(rjump_kind, len(code), next_code_len=0)
+        rjump, is_backwards = rjump_code_with(rjump_kind, len(code), next_code_len=0)
+        code += rjump
+
+        if is_backwards and inputs != outputs:
+            has_invalid_back_jump = True
 
     code += termination
 
-    return code
+    return code, has_invalid_back_jump
 
 
 num_sections = 3
@@ -209,6 +220,7 @@ def test_eof_validity(
     assert len(inputs) == len(outputs) == num_sections
 
     sections = []
+    container_has_invalid_back_jump = False
     for section_idx in range(num_sections):
         if section_idx == 0:
             call = Op.CALLF[section_idx + 1]
@@ -228,13 +240,16 @@ def test_eof_validity(
             call = None
             termination = Op.RETF
 
-        code = section_code_with(
+        code, section_has_invalid_back_jump = section_code_with(
             inputs[section_idx],
             outputs[section_idx],
             rjump_kind if rjump_section_idx == section_idx else None,
             rjump_spot,
             call,
             termination,
+        )
+        container_has_invalid_back_jump = (
+            container_has_invalid_back_jump or section_has_invalid_back_jump
         )
         if section_idx > 0:
             sections.append(
@@ -256,13 +271,14 @@ def test_eof_validity(
         RjumpKind.RJUMPI_OVER_PUSH_POP,
     ]
     possible_exceptions = [
-        EOFException.STACK_HEIGHT_MISMATCH,
         EOFException.STACK_HIGHER_THAN_OUTPUTS,
         EOFException.STACK_UNDERFLOW,
     ]
 
     eof_test(
         data=bytes(Container(sections=sections)),
-        no_expectations_on_validity=not always_valid,
-        expect_exception=possible_exceptions if not always_valid else None,
+        no_expectations_on_validity=not always_valid and not container_has_invalid_back_jump,
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH
+        if container_has_invalid_back_jump
+        else (possible_exceptions if not always_valid else None),
     )
