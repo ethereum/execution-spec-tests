@@ -7,9 +7,11 @@ environment variable is already set, the plugin will not override it.
 """
 
 import os
+import shutil
 from pathlib import Path
 
 import pytest
+from pytest_metadata.plugin import metadata_key  # type: ignore
 
 
 def pytest_configure(config: pytest.Config) -> None:
@@ -46,6 +48,13 @@ def pytest_configure(config: pytest.Config) -> None:
         os.environ[env_var_name] = str(default_file_path)
         eels_resolutions_file = str(default_file_path)
 
+    if "Tools" not in config.stash[metadata_key]:
+        config.stash[metadata_key]["Tools"] = {
+            "EELS Resolutions": str(eels_resolutions_file),
+        }
+    else:
+        config.stash[metadata_key]["Tools"]["EELS Resolutions"] = str(eels_resolutions_file)
+
     config._eels_resolutions_file = eels_resolutions_file  # type: ignore
 
 
@@ -64,3 +73,24 @@ def pytest_report_header(config: pytest.Config, startdir: Path) -> str:
     if eels_resolutions_file:
         return f"EELS resolutions file: {eels_resolutions_file}"
     return ""
+
+
+@pytest.fixture(scope="session", autouse=True)
+def output_metadata_dir_with_teardown(request):
+    """
+    A session-scoped fixture that attempts to retrieve the filler's
+    "output_metadata_dir" fixture value and copies the EELS resolutions
+    file there, if `_eels_resolutions_file` is set on the config object.
+    """
+    yield
+    try:
+        output_metadata_dir = request.getfixturevalue("output_metadata_dir")
+    except pytest.FixtureLookupError:
+        output_metadata_dir = None
+
+    eels_resolutions_file = getattr(request.config, "_eels_resolutions_file", None)
+    if output_metadata_dir and eels_resolutions_file:
+        shutil.copy(
+            Path(eels_resolutions_file),
+            Path(output_metadata_dir) / Path(eels_resolutions_file).name,
+        )
