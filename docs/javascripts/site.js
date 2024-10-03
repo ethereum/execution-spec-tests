@@ -31,7 +31,7 @@ document$.subscribe(() => {
     // Listen for copy event
     listenForClipboardCopy();
 
-    // Style native daaTable buttons
+    // Style native dataTable buttons
     $(".dt-buttons").detach().appendTo(".panel_row.filters");
     $(".buttons-collection").prepend(ICON_COLUMN_FILTER);
   }
