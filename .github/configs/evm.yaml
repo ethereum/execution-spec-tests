@@ -10,7 +10,7 @@ eip7692:
   impl: evmone
   repo: ethereum/evmone
   ref: master
-eip7692-prague:
+osaka-devnet-0:
   impl: besu
   repo: hyperledger/besu
   ref: main
