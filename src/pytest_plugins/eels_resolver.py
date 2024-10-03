@@ -49,11 +49,8 @@ def pytest_configure(config: pytest.Config) -> None:
         eels_resolutions_file = str(default_file_path)
 
     if "Tools" not in config.stash[metadata_key]:
-        config.stash[metadata_key]["Tools"] = {
-            "EELS Resolutions": str(eels_resolutions_file),
-        }
-    else:
-        config.stash[metadata_key]["Tools"]["EELS Resolutions"] = str(eels_resolutions_file)
+        config.stash[metadata_key]["Tools"] = {}
+    config.stash[metadata_key]["Tools"]["EELS Resolutions"] = str(eels_resolutions_file)
 
     config._eels_resolutions_file = eels_resolutions_file  # type: ignore
 
