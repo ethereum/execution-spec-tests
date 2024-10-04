@@ -36,6 +36,7 @@
     * [Running Github Actions Locally](dev/test_actions_locally.md)
   * [Changelog](CHANGELOG.md)
   * [Library Reference](library/index.md)
+    * [Miscellaneous CLI Tools](library/cli/index.md)
     * [Ethereum Test Base Types Package](library/ethereum_test_base_types.md)
     * [Ethereum Test Exceptions Package](library/ethereum_test_exceptions.md)
     * [Ethereum Test Fixtures Package](library/ethereum_test_fixtures.md)

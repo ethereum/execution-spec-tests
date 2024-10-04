@@ -15,6 +15,7 @@ argcount
 argnames
 argvalues
 ase
+asm
 at5
 AuthorizationInvalidityType
 AutoSection
@@ -537,6 +538,7 @@ tempdir
 testdir
 teststatus
 tmpdir
+toc
 tryfirst
 trylast
 usefixtures
