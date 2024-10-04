@@ -154,10 +154,10 @@ def _generic_call(
 
     if call_instruction == Op.CALL or call_instruction == Op.CALLCODE:
         tx_value = 0
-        caller_code = call_instruction(1_000, target, value, 0, 0, 0, 32)
+        caller_code = call_instruction(10_000, target, value, 0, 0, 0, 32)
     if call_instruction == Op.DELEGATECALL or call_instruction == Op.STATICCALL:
         tx_value = value
-        caller_code = call_instruction(1_000, target, 0, 0, 0, 32)
+        caller_code = call_instruction(10_000, target, 0, 0, 0, 32)
 
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
@@ -186,7 +186,9 @@ def _generic_call(
     for address in [TestAddress, caller_address, env.fee_recipient]:
         witness_check.add_account_full(address=address, account=pre.get(address))
     if enough_gas_call_target:
-        if value > 0 or (target != precompile_address and target != precompile_address):
+        if target != precompile_address and target != system_contract_address:
+            witness_check.add_account_basic_data(address=target, account=target_account)
+        if call_instruction == Op.CALL and value > 0:
             witness_check.add_account_basic_data(address=target, account=target_account)
 
     code_chunks = chunkify_code(pre[caller_address].code)
@@ -200,7 +202,11 @@ def _generic_call(
     if target == system_contract_address:
         # If the target is the 2935 system contract, we should check for the first storage-slot.
         # The account storage address depends on the kind of *CALL done.
-        sslot_target = system_contract_address if call_instruction == Op.CALL else caller_address
+        sslot_target = (
+            system_contract_address
+            if (call_instruction == Op.CALL or call_instruction == Op.STATICCALL)
+            else caller_address
+        )
         witness_check.add_storage_slot(address=sslot_target, storage_slot=0, value=None)
 
     blocks = [
