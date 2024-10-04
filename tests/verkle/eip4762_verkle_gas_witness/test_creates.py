@@ -305,7 +305,7 @@ def _create(
     blocks = [
         Block(
             txs=[tx],
-            # witness_check=witness_check,
+            witness_check=witness_check,
         )
     ]
 
