@@ -7,14 +7,14 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
-from ethereum_test_forks import Verkle
+from ethereum_test_forks import Fork, Verkle
 from ethereum_test_tools import (
     Account,
     Address,
     Block,
     BlockchainTestFiller,
-    Environment,
     Bytecode,
+    Environment,
     TestAddress,
     TestAddress2,
     Transaction,
@@ -47,7 +47,7 @@ EmptyAddress = Address("0xFFFFFFf6D732807Ef1319fB7B8bB8522d0BeacFF")
         "system_contract",
     ],
 )
-def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode):
+def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode, fork: Fork):
     """
     Test EXTCODESIZE witness.
     """
@@ -57,6 +57,11 @@ def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode):
     elif target != precompile_address and target != system_contract_address:
         account = Account(code=bytecode)
         witness_check_extra.add_account_basic_data(target, account)
+
+    # Hack to add the system contract account basic data to the witness check
+    elif target == system_contract_address:
+        sys_contract_account = Account(**fork.pre_allocation_blockchain()[system_contract_address])
+        witness_check_extra.add_account_basic_data(target, sys_contract_account)
 
     _extcodesize(blockchain_test, target, bytecode, witness_check_extra)
 
@@ -96,6 +101,7 @@ def _extcodesize(
     gas_limit=1_000_000,
     warm=False,
     fails=False,
+    fork: Fork = Verkle,
 ):
 
     env = Environment(
