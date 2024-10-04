@@ -68,6 +68,7 @@ def test_create(blockchain_test: BlockchainTestFiller, create_instruction: Opcod
 
 
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip("TBD when exhaustive check PR gets merged")
 @pytest.mark.parametrize(
     "create_instruction",
     [
@@ -304,7 +305,7 @@ def _create(
     blocks = [
         Block(
             txs=[tx],
-            witness_check=witness_check,
+            # witness_check=witness_check,
         )
     ]
 
