@@ -206,7 +206,7 @@ def test_create_big_calldata(
     Test *CREATE checking that code-chunk touching in the witness is not calculated from calldata
     size but actual returned code from initcode execution.
     """
-    contract_code = bytes(Op.PUSH0 * (1000 * 31 + 42))
+    contract_code = bytes(Op.PUSH0 * (10 * 31 + 42))
     _create(
         blockchain_test,
         create_instruction,
@@ -297,7 +297,9 @@ def _create(
     # - Otherwise, it should prove there's no collision.
     witness_check.add_account_full(contract_address, pre.get(contract_address))
     # Assert the code-chunks where the contract is deployed are provided
-    if not generate_collision:
+    # DO NOT include the code-chunks if there was a collision, or we're testing that
+    # code-chunk inclusion isn't based on calldata size (see big_calldata test).
+    if not generate_collision and not initcode_stop_prefix:
         code_chunks = chunkify_code(bytes(deploy_code.deploy_code))
         for i, chunk in enumerate(code_chunks, start=0):
             witness_check.add_code_chunk(address=contract_address, chunk_number=i, value=None)
