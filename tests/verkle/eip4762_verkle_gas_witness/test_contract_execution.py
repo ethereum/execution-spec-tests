@@ -98,7 +98,7 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         ),
         (  # pushn_with_data_in_chunk_that_cant_be_paid
             Op.PUSH0 * 30 + Op.PUSH1(42),
-            21000,
+            21_263,
             [[0, 0]],
         ),
         (  # jump_to_jumpdest_in_pushn_data
