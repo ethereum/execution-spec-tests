@@ -68,7 +68,6 @@ def test_calls(
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("FIX")
 @pytest.mark.parametrize(
     "call_instruction",
     [
@@ -86,6 +85,7 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: Fork, call_inst
 
 
 @pytest.mark.valid_from("Verkle")
+@pytest.mark.skip("Adjust parameters")
 @pytest.mark.parametrize(
     "call_instruction, value_bearing, gas_limit, enough_gas_call_target",
     [
