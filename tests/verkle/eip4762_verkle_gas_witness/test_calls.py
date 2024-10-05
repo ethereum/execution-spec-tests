@@ -245,7 +245,7 @@ def _generic_call(
         # (Op.CALL, 62_000, False), # TODO(verkle): fix this
     ],
 )
-def test_call_non_existent_account_foo(
+def test_call_non_existent_account(
     blockchain_test: BlockchainTestFiller,
     call_instruction,
     gas_limit: int,

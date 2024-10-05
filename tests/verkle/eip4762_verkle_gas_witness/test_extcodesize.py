@@ -101,7 +101,6 @@ def _extcodesize(
     gas_limit=1_000_000,
     warm=False,
     fails=False,
-    fork: Fork = Verkle,
 ):
 
     env = Environment(
@@ -111,9 +110,10 @@ def _extcodesize(
         number=1,
         timestamp=1000,
     )
+    caller_addr = Address("0xffff19589531694250d570040a0c4b74576919b8")
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(
+        caller_addr: Account(
             code=Op.EXTCODESIZE(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE
         ),
     }
@@ -124,26 +124,26 @@ def _extcodesize(
         ty=0x0,
         chain_id=0x01,
         nonce=0,
-        to=TestAddress2,
+        to=caller_addr,
         gas_limit=gas_limit,
         gas_price=10,
     )
 
     post = {}
     if not fails:
-        post[TestAddress2] = Account(code=pre[TestAddress2].code, storage={0: 0x424242})
+        post[caller_addr] = Account(code=pre[caller_addr].code, storage={0: 0x424242})
 
     witness_check = witness_check_extra
     witness_check.add_account_full(env.fee_recipient, None)
     witness_check.add_account_full(TestAddress, pre[TestAddress])
-    witness_check.add_account_full(TestAddress2, pre[TestAddress2])
+    witness_check.add_account_full(caller_addr, pre[caller_addr])
 
-    code_chunks = chunkify_code(pre[TestAddress2].code)
+    code_chunks = chunkify_code(pre[caller_addr].code)
     for i, chunk in enumerate(code_chunks, start=0):
-        witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+        witness_check.add_code_chunk(address=caller_addr, chunk_number=i, value=chunk)
 
     if not fails:
-        witness_check.add_storage_slot(address=TestAddress2, storage_slot=0, value=None)
+        witness_check.add_storage_slot(address=caller_addr, storage_slot=0, value=None)
 
     blocks = [
         Block(
