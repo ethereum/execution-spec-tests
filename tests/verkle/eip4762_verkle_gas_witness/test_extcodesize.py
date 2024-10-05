@@ -67,16 +67,31 @@ def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode, fo
 
 
 @pytest.mark.valid_from("Verkle")
-def test_extcodesize_insufficient_gas(blockchain_test: BlockchainTestFiller):
+@pytest.mark.parametrize(
+    "gas, enough_gas_basicdata",
+    [
+        (21_203 + 2099, False),
+        (21_203 + 2100, True),
+    ],
+)
+def test_extcodesize_insufficient_gas(
+    blockchain_test: BlockchainTestFiller, gas, enough_gas_basicdata
+):
     """
-    Test EXTCODESIZE with insufficient gas.
+    Test EXTCODESIZE with insufficient gas for witness.
     """
+    bytecode = Op.PUSH0 * 10
+    witness = WitnessCheck(fork=Verkle)
+    if enough_gas_basicdata:
+        account = Account(code=bytecode)
+        witness.add_account_basic_data(address=TestAddress2, account=account)
+
     _extcodesize(
         blockchain_test,
         TestAddress2,
-        Op.PUSH0 * 1000,
-        WitnessCheck(fork=Verkle),
-        gas_limit=53_540,
+        bytecode,
+        witness,
+        gas_limit=gas,
         fails=True,
     )
 
