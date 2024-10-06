@@ -742,52 +742,44 @@ class EthRPC(BaseEthRPC):
 
     def wait_for_transaction(self, transaction: Transaction) -> TransactionByHashResponse:
         """
-        Uses `eth_getTransactionByHash` to wait until a transaction is included in a block.
-        """
-        tx_hash = transaction.hash
-        last_pending_tx_hashes_count: int | None = None
-        start_time = time.time()
-        i = 0
-        tx: TransactionByHashResponse | None = None
-        while True:
-            tx = self.get_transaction_by_hash(tx_hash)
-            if tx.block_number is not None:
-                return tx
-            with self.pending_tx_hashes:
-                if len(self.pending_tx_hashes) >= self.transactions_per_block:
-                    self.generate_block()
-                else:
-                    if (
-                        last_pending_tx_hashes_count is not None
-                        and len(self.pending_tx_hashes) == last_pending_tx_hashes_count
-                        and i % 10 == 0
-                    ):
-                        # If no new transactions have been added to the pending list,
-                        # produce the block to avoid a deadlock.
-                        self.generate_block()
+        Wait for a specific transaction to be included in a block.
 
-                    last_pending_tx_hashes_count = len(self.pending_tx_hashes)
-            if (time.time() - start_time) > self.transaction_wait_timeout:
-                break
-            time.sleep(0.1)
-            i += 1
-        raise Exception(
-            f"Transaction {tx_hash} ({transaction.model_dump_json()}) not "
-            f"included in a block after {self.transaction_wait_timeout} seconds: "
-            f"{tx.model_dump_json() if tx is not None else None}"
-        )
+        Waits for a specific transaction to be included in a block by polling
+        `eth_getTransactionByHash` until it is confirmed or a timeout occurs.
+
+        Args:
+            transaction: The transaction to track.
+
+        Returns:
+            The transaction details after it is included in a block.
+        """
+        return self.wait_for_transactions([transaction])[0]
 
     def wait_for_transactions(
         self, transactions: List[Transaction]
     ) -> List[TransactionByHashResponse]:
         """
-        Uses `eth_getTransactionByHash` to wait for all transactions in list are included in a
-        block.
+        Wait for all transactions in the provided list to be included in a block.
+
+        Waits for all transactions in the provided list to be included in a block
+        by polling `eth_getTransactionByHash` until they are confirmed or a
+        timeout occurs.
+
+        Args:
+            transactions: A list of transactions to track.
+
+        Returns:
+            A list of transaction details after they are included in a block.
+
+        Raises:
+            Exception: If one or more transactions are not included in a block
+                within the timeout period.
         """
         tx_hashes = [tx.hash for tx in transactions]
         responses: List[TransactionByHashResponse] = []
         pending_responses: Dict[Hash, TransactionByHashResponse] = {}
         last_pending_tx_hashes_count: int | None = None
+
         start_time = time.time()
         i = 0
         while True:
@@ -802,37 +794,55 @@ class EthRPC(BaseEthRPC):
                 else:
                     pending_responses[tx_hash] = tx
                     tx_id += 1
+
             if not tx_hashes:
                 return responses
-            with self.pending_tx_hashes:
-                if len(self.pending_tx_hashes) >= self.transactions_per_block:
-                    self.generate_block()
-                else:
-                    if (
-                        last_pending_tx_hashes_count is not None
-                        and len(self.pending_tx_hashes) == last_pending_tx_hashes_count
-                        and i % 10 == 0
-                    ):
-                        # If no new transactions have been added to the pending list,
-                        # produce the block to avoid a deadlock.
-                        self.generate_block()
 
-                    last_pending_tx_hashes_count = len(self.pending_tx_hashes)
+            self._handle_pending_transactions(last_pending_tx_hashes_count, i)
+            last_pending_tx_hashes_count = len(self.pending_tx_hashes)
+
             if (time.time() - start_time) > self.transaction_wait_timeout:
                 break
             time.sleep(0.1)
             i += 1
+
         missing_txs_strings = [
             f"{tx.hash} ({tx.model_dump_json()})" for tx in transactions if tx.hash in tx_hashes
         ]
+
         pending_tx_responses_string = "\n".join(
             [f"{tx_hash}: {tx.model_dump_json()}" for tx_hash, tx in pending_responses.items()]
         )
         raise Exception(
-            f"Transactions {', '.join(missing_txs_strings)} not included in a block "
-            f"after {self.transaction_wait_timeout} seconds:\n"
+            f"Transactions {', '.join(missing_txs_strings)} were not included in a block "
+            f"within {self.transaction_wait_timeout} seconds:\n"
             f"{pending_tx_responses_string}"
         )
+
+    def _handle_pending_transactions(
+        self, last_pending_tx_hashes_count: int | None, i: int
+    ) -> None:
+        """
+        Manages block generation based on the number of pending transactions.
+
+        Args:
+            last_pending_tx_hashes_count: The count of pending transactions
+                from the last iteration.
+            i: The current loop iteration index, used for conditional block
+                generation.
+        """
+        with self.pending_tx_hashes:
+            if len(self.pending_tx_hashes) >= self.transactions_per_block:
+                self.generate_block()
+            else:
+                if (
+                    last_pending_tx_hashes_count is not None
+                    and len(self.pending_tx_hashes) == last_pending_tx_hashes_count
+                    and i % 10 == 0
+                ):
+                    # If no new transactions have been added to the pending list,
+                    # generate a block to avoid potential deadlock.
+                    self.generate_block()
 
 
 @pytest.fixture(scope="session")
