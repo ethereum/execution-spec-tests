@@ -141,15 +141,6 @@ def pytest_configure(config):
         )
 
 
-@pytest.hookimpl(trylast=True)
-def pytest_report_header(config, start_path):
-    """Add lines to pytest's console output header"""
-    if config.option.collectonly:
-        return
-    solc_version = config.stash[metadata_key]["Tools"]["solc"]
-    return [(f"{solc_version}")]
-
-
 def pytest_metadata(metadata):
     """
     Add or remove metadata to/from the pytest report.
