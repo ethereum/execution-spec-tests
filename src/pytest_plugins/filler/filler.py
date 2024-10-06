@@ -266,8 +266,7 @@ def pytest_report_header(config: pytest.Config):
     if config.option.collectonly:
         return
     t8n_version = config.stash[metadata_key]["Tools"]["t8n"]
-    solc_version = config.stash[metadata_key]["Tools"]["solc"]
-    return [(f"{t8n_version}, {solc_version}")]
+    return [(f"{t8n_version}")]
 
 
 def pytest_report_teststatus(report, config: pytest.Config):
