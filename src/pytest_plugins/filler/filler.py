@@ -709,7 +709,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         output_dir: Path,
         dump_dir_parameter_level: Path | None,
         fixture_collector: FixtureCollector,
-        fixture_description: str,
+        test_case_description: str,
         fixture_source_url: str,
     ):
         """
@@ -740,7 +740,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 )
                 fixture.fill_info(
                     t8n.version(),
-                    fixture_description,
+                    test_case_description,
                     fixture_source_url=fixture_source_url,
                     ref_spec=reference_spec,
                 )
