@@ -72,7 +72,7 @@ def yul(fork: Fork, request: pytest.FixtureRequest):
 
 
 @pytest.fixture(scope="function")
-def fixture_description(request: pytest.FixtureRequest) -> str:
+def test_case_description(request: pytest.FixtureRequest) -> str:
     """Fixture to extract and combine docstrings from the test class and the test function."""
     description_unavailable = (
         "No description available - add a docstring to the python test class or function."
