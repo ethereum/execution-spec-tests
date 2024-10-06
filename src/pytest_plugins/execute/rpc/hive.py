@@ -820,7 +820,7 @@ class EthRPC(BaseEthRPC):
         )
 
     def _handle_pending_transactions(
-        self, last_pending_tx_hashes_count: int | None, i: int
+        self, last_pending_tx_hashes_count: int | None, i: int, block_generation_interval: int = 10
     ) -> None:
         """
         Manages block generation based on the number of pending transactions.
@@ -830,6 +830,8 @@ class EthRPC(BaseEthRPC):
                 from the last iteration.
             i: The current loop iteration index, used for conditional block
                 generation.
+            block_generation_interval: The number of iterations after which a block
+                is generated if no new transactions are added (default: 10).
         """
         with self.pending_tx_hashes:
             if len(self.pending_tx_hashes) >= self.transactions_per_block:
@@ -838,7 +840,7 @@ class EthRPC(BaseEthRPC):
                 if (
                     last_pending_tx_hashes_count is not None
                     and len(self.pending_tx_hashes) == last_pending_tx_hashes_count
-                    and i % 10 == 0
+                    and i % block_generation_interval == 0
                 ):
                     # If no new transactions have been added to the pending list,
                     # generate a block to avoid potential deadlock.
