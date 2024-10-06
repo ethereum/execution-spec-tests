@@ -117,17 +117,7 @@ def pytest_configure(config):
     if config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
         config.option.htmlpath = Path(default_html_report_file_path())
-    config.solc_version = Solc(config.getoption("solc_bin")).version
-    if config.solc_version < Frontier.solc_min_version():
-        pytest.exit(
-            f"Unsupported solc version: {config.solc_version}. Minimum required version is "
-            f"{Frontier.solc_min_version()}",
-            returncode=pytest.ExitCode.USAGE_ERROR,
-        )
 
-    config.stash[metadata_key]["Tools"] = {
-        "solc": str(config.solc_version),
-    }
     command_line_args = "fill " + " ".join(config.invocation_params.args)
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
 
@@ -203,14 +193,6 @@ def pytest_html_report_title(report):
     Set the HTML report title (pytest-html plugin).
     """
     report.title = "Execute Test Report"
-
-
-@pytest.fixture(autouse=True, scope="session")
-def solc_bin(request):
-    """
-    Returns the configured solc binary path.
-    """
-    return request.config.getoption("solc_bin")
 
 
 @pytest.fixture(scope="session")
