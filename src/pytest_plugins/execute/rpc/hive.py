@@ -393,41 +393,6 @@ def base_hive_test(
             users_file.unlink()
 
 
-@pytest.fixture(autouse=True, scope="function")
-def hive_test(request, test_suite: HiveTestSuite):
-    """
-    Hive test instance for the current test.
-    """
-    test: HiveTest = test_suite.start_test(
-        name=request.node.nodeid,
-        description=request.node.function.__doc__,
-    )
-    yield test
-    try:
-        # TODO: Handle xfail/skip, does this work with run=False?
-        if hasattr(request.node, "result_call") and request.node.result_call.passed:
-            test_passed = True
-            test_result_details = "Test passed."
-        elif hasattr(request.node, "result_call") and not request.node.result_call.passed:
-            test_passed = False
-            test_result_details = request.node.result_call.longreprtext
-        elif hasattr(request.node, "result_setup") and not request.node.result_setup.passed:
-            test_passed = False
-            test_result_details = "Test setup failed.\n" + request.node.result_setup.longreprtext
-        elif hasattr(request.node, "result_teardown") and not request.node.result_teardown.passed:
-            test_passed = False
-            test_result_details = (
-                "Test teardown failed.\n" + request.node.result_teardown.longreprtext
-            )
-        else:
-            test_passed = False
-            test_result_details = "Test failed for unknown reason (setup or call status unknown)."
-    except Exception as e:
-        test_passed = False
-        test_result_details = f"Exception whilst processing test result: {str(e)}"
-    test.end(result=HiveTestResult(test_pass=test_passed, details=test_result_details))
-
-
 @pytest.fixture(scope="session")
 def client_type(simulator: Simulation) -> ClientType:
     """
