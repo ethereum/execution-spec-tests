@@ -3,10 +3,12 @@ Shared pytest fixtures and hooks for EEST generation modes (fill and execute).
 """
 
 import warnings
-from typing import List, cast
+from typing import Dict, List, cast
 
 import pytest
 
+from ethereum_test_execution import EXECUTE_FORMATS, ExecuteFormat
+from ethereum_test_fixtures import FIXTURE_FORMATS, FixtureFormat
 from ethereum_test_forks import (
     Fork,
     get_closest_fork_with_solc_support,
@@ -15,6 +17,55 @@ from ethereum_test_forks import (
 from ethereum_test_specs import SPEC_TYPES
 from ethereum_test_tools import Yul
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: pytest.Config):
+    """
+    Pytest hook called after command line options have been parsed and before
+    test collection begins.
+
+    Couple of notes:
+    1. Register the plugin's custom markers and process command-line options.
+
+        Custom marker registration:
+        https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-markers
+
+    2. `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
+        called before the pytest-html plugin's pytest_configure to ensure that
+        it uses the modified `htmlpath` option.
+    """
+    if config.pluginmanager.has_plugin("pytest_plugins.filler.filler"):
+        for fixture_format in FIXTURE_FORMATS.values():
+            config.addinivalue_line(
+                "markers",
+                (f"{fixture_format.fixture_format_name.lower()}: {fixture_format.description}"),
+            )
+    elif config.pluginmanager.has_plugin("pytest_plugins.execute.execute"):
+        for execute_format in EXECUTE_FORMATS.values():
+            config.addinivalue_line(
+                "markers",
+                (f"{execute_format.execute_format_name.lower()}: {execute_format.description}"),
+            )
+    else:
+        raise Exception("Neither the filler nor the execute plugin is loaded.")
+
+    config.addinivalue_line(
+        "markers",
+        "yul_test: a test case that compiles Yul code.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "compile_yul_with(fork): Always compile Yul source using the corresponding evm version.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "fill: Markers to be added in fill mode only.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "execute: Markers to be added in execute mode only.",
+    )
 
 
 @pytest.fixture(autouse=True)

@@ -201,27 +201,6 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
-    for fixture_format in FIXTURE_FORMATS.values():
-        config.addinivalue_line(
-            "markers",
-            (f"{fixture_format.fixture_format_name.lower()}: {fixture_format.description}"),
-        )
-    config.addinivalue_line(
-        "markers",
-        "yul_test: a test case that compiles Yul code.",
-    )
-    config.addinivalue_line(
-        "markers",
-        "compile_yul_with(fork): Always compile Yul source using the corresponding evm version.",
-    )
-    config.addinivalue_line(
-        "markers",
-        "fill: Markers to be added in fill mode only.",
-    )
-    config.addinivalue_line(
-        "markers",
-        "execute: Markers to be added in execute mode only.",
-    )
     if config.option.collectonly:
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
