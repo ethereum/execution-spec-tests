@@ -89,33 +89,29 @@ def test_extcodehash_warm(blockchain_test: BlockchainTestFiller):
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("Pending TBD gas limits")
 @pytest.mark.parametrize(
-    "gas_limit, witness_assert_basic_data, witness_assert_codehash",
+    "gas_limit, witness_assert_codehash",
     [
-        ("TBD", False, False),
-        ("TBD", True, False),
+        (21_203 + 2099, False),
+        (21_203 + 2100, True),
     ],
     ids=[
-        "insufficient_gas_basic_data",
         "insufficient_gas_codehash",
+        "just_enough_gas_codehash",
     ],
 )
 def test_extcodehash_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
     gas_limit: int,
-    witness_assert_basic_data,
     witness_assert_codehash,
 ):
     """
     Test EXTCODEHASH with insufficient gas.
     """
     witness_check_extra = WitnessCheck(fork=Verkle)
-    if witness_assert_basic_data:
-        witness_check_extra.add_account_basic_data(ExampleAddress, ExampleAccount)
     if witness_assert_codehash:
         witness_check_extra.add_account_codehash(
-            ExampleAddress, Hash(keccak256(ExampleAccount.code))  # type: ignore
+            ExampleAddress, Hash(keccak256(ExampleAccount.code))
         )
 
     _extcodehash(blockchain_test, ExampleAddress, witness_check_extra, gas_limit, fails=True)
@@ -139,7 +135,7 @@ def _extcodehash(
     pre = {
         TestAddress: TestAccount,
         TestAddress2: Account(
-            code=Op.EXTCODEHASH(target) * (1 if warm else 2) + Op.PUSH0 + Op.SSTORE
+            code=Op.EXTCODEHASH(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE
         ),
         ExampleAddress: ExampleAccount,
     }
