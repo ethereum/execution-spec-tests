@@ -372,7 +372,11 @@ class TransactionException(ExceptionBase):
     """
     TYPE_4_INVALID_AUTHORITY_SIGNATURE = auto()
     """
-    Transaction is type 4, but has an empty authorization list.
+    Transaction authority signature is invalid
+    """
+    TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH = auto()
+    """
+    Transaction authority signature is invalid
     """
     TYPE_4_TX_CONTRACT_CREATION = auto()
     """

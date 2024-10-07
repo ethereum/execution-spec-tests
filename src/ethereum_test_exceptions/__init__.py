@@ -3,8 +3,7 @@ Exceptions for invalid execution.
 """
 
 from .engine_api import EngineAPIError
-from .evmone_exceptions import EvmoneExceptionMapper
-from .exception_mapper import ExceptionMapper
+from .exception_mapper import ExceptionMapper, ExceptionMessage
 from .exceptions import (
     BlockException,
     BlockExceptionInstanceOrList,
@@ -13,8 +12,8 @@ from .exceptions import (
     ExceptionInstanceOrList,
     TransactionException,
     TransactionExceptionInstanceOrList,
+    UndefinedException,
 )
-from .geth_exceptions import GethExceptionMapper
 
 __all__ = [
     "BlockException",
@@ -23,9 +22,9 @@ __all__ = [
     "EOFExceptionInstanceOrList",
     "EngineAPIError",
     "ExceptionMapper",
-    "EvmoneExceptionMapper",
-    "GethExceptionMapper",
+    "ExceptionMessage",
     "ExceptionInstanceOrList",
     "TransactionException",
+    "UndefinedException",
     "TransactionExceptionInstanceOrList",
 ]
