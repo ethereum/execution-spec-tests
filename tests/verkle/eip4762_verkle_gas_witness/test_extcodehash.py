@@ -135,7 +135,7 @@ def _extcodehash(
     pre = {
         TestAddress: TestAccount,
         TestAddress2: Account(
-            code=Op.EXTCODEHASH(target) * (1 if warm else 2) + Op.PUSH0 + Op.SSTORE
+            code=Op.EXTCODEHASH(target) * (2 if warm else 1) + Op.PUSH0 + Op.SSTORE
         ),
         ExampleAddress: ExampleAccount,
     }
