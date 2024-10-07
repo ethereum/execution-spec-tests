@@ -95,41 +95,96 @@ def test_create_with_value_insufficient_balance(
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("Pending TBD gas limits")
+@pytest.mark.parametrize(
+    "extra_gas_limit, witness_basic_data, witness_codehash, witness_codechunk_count",
+    [
+        (2099, False, False, 0),
+        (2100 + 199, True, False, 0),
+        (2100 + 200, True, True, 0),
+        (2100 + 200 + 3499, True, True, 0),
+        (2100 + 200 + 3500 + 499, True, True, 0),
+        (2100 + 200 + 3500 + 500 + 811, True, True, 0),
+        (2100 + 200 + 3500 + 500 + 811 + 5 * (500 + 200), True, True, 5),
+    ],
+    ids=[
+        "insufficient_for_basic_data",
+        "insufficient_for_basic_data_and_codehash",
+        "enough_only_for_basic_data_and_codehash",
+        "insufficient_for_contract_init_basic_data",
+        "insufficient_for_contract_init_code_hash",
+        "insufficient_for_any_code_chunk_range",
+        "insufficient_for_all_code_chunk_range",
+    ],
+)
+def test_insufficient_gas_tx_create(
+    blockchain_test: BlockchainTestFiller,
+    extra_gas_limit: int,
+    witness_basic_data: bool,
+    witness_codehash: bool,
+    witness_codechunk_count: int,
+):
+    """
+    Test tx creation with insufficient gas at different points of execution.
+    """
+    base_gas = 118_074
+    contract_code = Op.PUSH0 * (129 * 31 + 42)
+    _create(
+        blockchain_test,
+        None,
+        contract_code,
+        value=0,
+        gas_limit=base_gas + extra_gas_limit,
+        witness_basic_data=witness_basic_data,
+        witness_codehash=witness_codehash,
+        witness_codechunk_count=witness_codechunk_count,
+    )
+
+
+@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "create_instruction",
     [
-        None,
         Op.CREATE,
         Op.CREATE2,
     ],
 )
 @pytest.mark.parametrize(
-    "gas_limit, witness_basic_data, witness_codehash, witness_chunk_count",
+    "extra_gas_limit, witness_basic_data, witness_codehash, witness_codechunk_count",
     [
-        ("TBD", False, False, 0),
-        ("TBD", False, False, 0),
-        ("TBD", True, False, 0),
-        ("TBD", True, False, 3),
+        (2099, False, False, 0),
+        (2100 + 199, True, False, 0),
+        (2100 + 200, True, True, 0),
+        (2100 + 200 + 3499, True, True, 0),
+        (2100 + 200 + 3500 + 499, True, True, 0),
+        (2100 + 200 + 3500 + 500 + 811, True, True, 0),
+        (2100 + 200 + 3500 + 500 + 811 + 5 * (500 + 200), True, True, 5),
     ],
     ids=[
-        "insufficient_63/64_reservation",
-        "insufficient_for_contract_init",
-        "insufficient_for_all_contract_completion",
-        "insufficient_for_all_code_chunks",
+        "insufficient_for_basic_data",
+        "insufficient_for_basic_data_and_codehash",
+        "enough_only_for_basic_data_and_codehash",
+        "insufficient_for_contract_init_basic_data",
+        "insufficient_for_contract_init_code_hash",
+        "insufficient_for_any_code_chunk_range",
+        "insufficient_for_all_code_chunk_range",
     ],
 )
-def test_create_insufficient_gas(
+def test_insufficient_gas_creates(
     blockchain_test: BlockchainTestFiller,
     create_instruction,
-    gas_limit,
+    extra_gas_limit: int,
     witness_basic_data: bool,
     witness_codehash: bool,
-    witness_chunk_count: int,
+    witness_codechunk_count: int,
 ):
     """
-    Test *CREATE  with insufficient gas at different points of execution.
+    Test CREATE* with insufficient gas at different points of execution.
     """
+    if create_instruction is not None and create_instruction.int() == Op.CREATE.int():
+        base_gas = 88_088
+    elif create_instruction is not None and create_instruction.int() == Op.CREATE2.int():
+        base_gas = 88_853
+
     contract_code = Op.PUSH0 * (129 * 31 + 42)
 
     _create(
@@ -137,7 +192,10 @@ def test_create_insufficient_gas(
         create_instruction,
         contract_code,
         value=0,
-        gas_limit=gas_limit,
+        gas_limit=base_gas + (extra_gas_limit * 64) // 63,
+        witness_basic_data=witness_basic_data,
+        witness_codehash=witness_codehash,
+        witness_codechunk_count=witness_codechunk_count,
     )
 
 
@@ -225,6 +283,9 @@ def _create(
     generate_collision: bool = False,
     initcode_stop_prefix: bool = False,
     creator_balance: int = 0,
+    witness_basic_data: bool = True,
+    witness_codehash: bool = True,
+    witness_codechunk_count: int | None = None,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -295,14 +356,21 @@ def _create(
     # The contract address will always appear in the witness:
     # - If there's a collision, it should contain the existing contract for the collision check.
     # - Otherwise, it should prove there's no collision.
-    witness_check.add_account_full(contract_address, pre.get(contract_address))
+    # Under normal circumstances we'd add both basic_data & codehash in the witness. This is
+    # separated in two ifs to support testing the gas cost of each witness part separately.
+    if witness_basic_data:
+        witness_check.add_account_basic_data(contract_address, pre.get(contract_address))
+    if witness_codehash:
+        witness_check.add_account_codehash(contract_address, pre.get(contract_address))
+
     # Assert the code-chunks where the contract is deployed are provided
     # DO NOT include the code-chunks if there was a collision, or we're testing that
     # code-chunk inclusion isn't based on calldata size (see big_calldata test).
     if not generate_collision and not initcode_stop_prefix:
         code_chunks = chunkify_code(bytes(deploy_code.deploy_code))
         for i, chunk in enumerate(code_chunks, start=0):
-            witness_check.add_code_chunk(address=contract_address, chunk_number=i, value=None)
+            if witness_codechunk_count is None or i < witness_codechunk_count:
+                witness_check.add_code_chunk(address=contract_address, chunk_number=i, value=None)
 
     blocks = [
         Block(
