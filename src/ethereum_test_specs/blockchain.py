@@ -55,8 +55,9 @@ from ethereum_test_types import (
     WithdrawalRequest,
 )
 
-from .base import BaseTest, verify_result, verify_transactions
+from .base import BaseTest, verify_result
 from .debugging import print_traces
+from .helpers import verify_transactions
 
 
 def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":

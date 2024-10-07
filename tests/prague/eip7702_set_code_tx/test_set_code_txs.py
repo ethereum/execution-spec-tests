@@ -2021,9 +2021,7 @@ def test_set_code_invalid_authorization_tuple(
                 nonce=(
                     1
                     if invalidity_reason == InvalidityReason.NONCE
-                    else [0, 1]
-                    if invalidity_reason == InvalidityReason.MULTIPLE_NONCE
-                    else 0
+                    else [0, 1] if invalidity_reason == InvalidityReason.MULTIPLE_NONCE else 0
                 ),
                 chain_id=2 if invalidity_reason == InvalidityReason.CHAIN_ID else 0,
                 signer=auth_signer,
@@ -2243,7 +2241,10 @@ def test_invalid_tx_invalid_auth_signature(
         to=callee_address,
         value=0,
         authorization_list=[authorization_tuple],
-        error=TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE,
+        error=[
+            TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE,
+            TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH,
+        ],
         sender=pre.fund_eoa(),
     )
 
