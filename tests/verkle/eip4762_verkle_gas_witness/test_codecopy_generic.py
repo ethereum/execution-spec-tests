@@ -63,16 +63,14 @@ code_size = 130 * 31 + 60
         "partial_out_of_bounds_touching_further_non_existent_code_chunk",
     ],
 )
-def test_generic_codecopy(
-    blockchain_test: BlockchainTestFiller, instruction, offset, size
-):
+def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, offset, size):
     """
     Test *CODECOPY witness.
     """
     start = offset if offset < code_size else code_size
-    end = offset + size if offset + size < code_size else code_size
+    end = offset + size - 1 if offset + size < code_size else code_size - 1
     witness_code_chunks = range(0, 0)
-    if start < code_size and start != end:
+    if start < code_size:
         start_chunk = start // 31
         end_chunk = end // 31
         witness_code_chunks = range(start_chunk, end_chunk + 1)
@@ -205,9 +203,7 @@ def _generic_codecopy(
     extcodecopy_code = Op.EXTCODECOPY(TestAddress2, 0, offset, size) * repeat
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(
-            code=codecopy_code + Op.PUSH0 * (code_size - len(codecopy_code))
-        ),
+        TestAddress2: Account(code=codecopy_code + Op.PUSH0 * (code_size - len(codecopy_code))),
         dummy_address: Account(code=extcodecopy_code),
     }
 
@@ -241,9 +237,7 @@ def _generic_codecopy(
         witness_check.add_code_chunk(to, i, code_chunks[i])
 
     if instr == Op.EXTCODECOPY:
-        witness_check.add_account_basic_data(
-            address=TestAddress2, account=pre.get(TestAddress2)
-        )
+        witness_check.add_account_basic_data(address=TestAddress2, account=pre.get(TestAddress2))
 
     # Depending on the CODECOPY/EXTCODECOPY offset and size, we include the extra expected
     # code-chunks.

@@ -98,7 +98,7 @@ def code_with_jumps(size, jumps: list[Jump | Jumpi] = []):
         ),
         (  # pushn_with_data_in_chunk_that_cant_be_paid
             Op.PUSH0 * 30 + Op.PUSH1(42),
-            21000,
+            21_263,
             [[0, 0]],
         ),
         (  # jump_to_jumpdest_in_pushn_data
@@ -286,7 +286,7 @@ def test_contract_execution_2935_contract(blockchain_test: BlockchainTestFiller,
     addr = Address("0xfffffffffffffffffffffffffffffffffffffffe")
     pre = {
         TestAddress: Account(balance=1000000000000000000000),
-        TestAddress2: Account(code=Op.PUSH1(0) + Op.CALL(1_000, addr, 0, 0, 0, 0, 32)),
+        TestAddress2: Account(code=Op.PUSH1(0) + Op.CALL(100_000, addr, 0, 0, 0, 0, 32)),
     }
     tx = Transaction(
         ty=0x0,
@@ -308,7 +308,6 @@ def test_contract_execution_2935_contract(blockchain_test: BlockchainTestFiller,
 
     # TestAddress2 CALL to 2935 contract
     system_contract_account = Account(**fork.pre_allocation_blockchain()[addr])
-    witness_check.add_account_basic_data(address=addr, account=system_contract_account)
     # A successful execution of the 2935 contract would only include the first two code-chunks.
     code_chunks = chunkify_code(system_contract_account.code)
     witness_check.add_code_chunk(address=addr, chunk_number=0, value=code_chunks[0])

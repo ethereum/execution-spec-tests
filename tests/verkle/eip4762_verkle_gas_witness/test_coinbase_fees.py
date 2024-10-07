@@ -25,7 +25,13 @@ REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.parametrize("priority_fee", [0, 100])
+@pytest.mark.parametrize(
+    "priority_fee",
+    [
+        0,
+        100,
+    ],
+)
 def test_coinbase_fees(blockchain_test: BlockchainTestFiller, priority_fee):
     """
     Test coinbase witness.
@@ -48,7 +54,8 @@ def test_coinbase_fees(blockchain_test: BlockchainTestFiller, priority_fee):
         to=TestAddress2,
         value=100,
         gas_limit=1_000_000,
-        gas_price=priority_fee,
+        max_fee_per_gas=1_000,
+        max_priority_fee_per_gas=priority_fee,
     )
 
     # TODO(verkle): change value when filling
