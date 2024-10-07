@@ -111,16 +111,17 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instructio
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
     "gas_limit, witness_code_chunks",
     [
-        ("TBD", range(0, 0)),
-        ("TBD", range(0, 150)),
+        (22_012 + 199, range(100, 100)),
+        (22_012 + 200, range(100, 101)),
+        (22_012 + 6 * 200 - 1, range(100, 105)),
     ],
     ids=[
-        "not_enough_for_even_first_chunk",
-        "partial_code_range",
+        "not_enough_any_chunk",
+        "exactly_only_first_chunk",
+        "partial_range",
     ],
 )
 def test_codecopy_insufficient_gas(
@@ -132,7 +133,9 @@ def test_codecopy_insufficient_gas(
     _generic_codecopy(
         blockchain_test,
         Op.CODECOPY,
-        0,
+        # We target always code sections that aren't executed in the transaction
+        # since those were already paid.
+        100 * 31,
         code_size,
         witness_code_chunks,
         witness_target_basic_data=True,
@@ -141,18 +144,19 @@ def test_codecopy_insufficient_gas(
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("Pending to fill TBD gas limit")
 @pytest.mark.parametrize(
     "gas_limit, witness_target_basic_data, witness_code_chunks",
     [
-        ("TBD", False, range(0, 0)),
-        ("TBD", True, range(0, 0)),
-        ("TBD", True, range(0, 150)),
+        (22_012 + 2099, False, range(100, 100)),
+        (22_012 + 2100 + 199, True, range(100, 100)),
+        (22_012 + 2100 + 200, True, range(100, 101)),
+        (22_012 + 2100 + 5 * 200, True, range(100, 105)),
     ],
     ids=[
-        "insufficient_for_target_basic_data",
-        "not_enough_for_even_first_chunk",
-        "partial_code_range",
+        "not_enough_for_target_basic_data",
+        "enough_only_for_target_basic_data_not_for_first_chunk",
+        "exactly_only_first_chunk",
+        "partial_range",
     ],
 )
 def test_extcodecopy_insufficient_gas(
@@ -166,8 +170,8 @@ def test_extcodecopy_insufficient_gas(
     """
     _generic_codecopy(
         blockchain_test,
-        Op.CODECOPY,
-        0,
+        Op.EXTCODECOPY,
+        100 * 31,
         code_size,
         witness_code_chunks,
         witness_target_basic_data=witness_target_basic_data,
