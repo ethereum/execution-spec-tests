@@ -68,9 +68,9 @@ def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, of
     Test *CODECOPY witness.
     """
     start = offset if offset < code_size else code_size
-    end = offset + size if offset + size < code_size else code_size
+    end = offset + size - 1 if offset + size < code_size else code_size - 1
     witness_code_chunks = range(0, 0)
-    if start < code_size and start != end:
+    if start < code_size:
         start_chunk = start // 31
         end_chunk = end // 31
         witness_code_chunks = range(start_chunk, end_chunk + 1)

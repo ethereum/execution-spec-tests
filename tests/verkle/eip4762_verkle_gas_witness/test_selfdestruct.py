@@ -7,7 +7,7 @@ abstract: Tests [EIP-4762: Statelessness gas cost changes]
 
 import pytest
 
-from ethereum_test_forks import Verkle
+from ethereum_test_forks import Fork, Verkle
 from ethereum_test_tools import (
     Account,
     Address,
@@ -114,6 +114,7 @@ def _selfdestruct(
     contract_balance: int,
     gas_limit=1_000_000,
     fail=False,
+    fork: Fork = Verkle,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -143,10 +144,17 @@ def _selfdestruct(
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
         witness_check.add_account_full(address=address, account=pre.get(address))
-    if contract_balance > 0 or (beneficiary != precompile_address):
-        witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
-    if contract_balance > 0 and not beneficiary_must_exist:
-        witness_check.add_account_full(beneficiary, pre.get(beneficiary))
+
+    # Hack to add the system contract address account to the witness check
+    if beneficiary == system_contract_address:
+        witness_check.add_account_basic_data(
+            beneficiary, Account(**fork.pre_allocation_blockchain()[system_contract_address])
+        )
+    else:
+        if contract_balance > 0 or (beneficiary != precompile_address):
+            witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
+        if contract_balance > 0 and not beneficiary_must_exist:
+            witness_check.add_account_full(beneficiary, pre.get(beneficiary))
 
     code_chunks = chunkify_code(pre[TestAddress2].code)
     for i, chunk in enumerate(code_chunks, start=0):

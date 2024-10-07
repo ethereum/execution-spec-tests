@@ -49,12 +49,27 @@ def test_balance(blockchain_test: BlockchainTestFiller, fork: Fork, target, warm
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.parametrize("target", [example_address, precompile_address])
-def test_balance_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: Fork, target):
+@pytest.mark.parametrize(
+    "target",
+    [
+        example_address,
+        precompile_address,
+    ],
+)
+@pytest.mark.parametrize(
+    " gas, exp_target_basic_data",
+    [
+        (21_203 + 2099, False),
+        (21_203 + 2100, True),
+    ],
+)
+def test_balance_insufficient_gas(
+    blockchain_test: BlockchainTestFiller, fork: Fork, target, gas, exp_target_basic_data
+):
     """
     Test BALANCE with insufficient gas.
     """
-    _balance(blockchain_test, fork, target, False, 21_042)
+    _balance(blockchain_test, fork, target, exp_target_basic_data, gas, fails=True)
 
 
 def _balance(
@@ -64,6 +79,7 @@ def _balance(
     exp_target_basic_data: bool,
     gas_limit=1_000_000,
     warm=False,
+    fails=False,
 ):
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -98,8 +114,6 @@ def _balance(
     for i, chunk in enumerate(code_chunks, start=0):
         witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
 
-    witness_check.add_storage_slot(address=TestAddress2, storage_slot=0, value=None)
-
     target_account = (
         pre[target]
         if target != system_contract_address
@@ -108,6 +122,9 @@ def _balance(
 
     if exp_target_basic_data:
         witness_check.add_account_basic_data(address=target, account=target_account)
+
+    if not fails:
+        witness_check.add_storage_slot(address=TestAddress2, storage_slot=0, value=None)
 
     blocks = [
         Block(

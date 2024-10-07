@@ -20,7 +20,11 @@ from ethereum_test_base_types import (
     HexNumber,
     Number,
 )
-from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
+from ethereum_test_exceptions import (
+    BlockException,
+    EngineAPIError,
+    TransactionException,
+)
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
@@ -102,7 +106,11 @@ def count_blobs(txs: List[Transaction]) -> int:
     Returns the number of blobs in a list of transactions.
     """
     return sum(
-        [len(tx.blob_versioned_hashes) for tx in txs if tx.blob_versioned_hashes is not None]
+        [
+            len(tx.blob_versioned_hashes)
+            for tx in txs
+            if tx.blob_versioned_hashes is not None
+        ]
     )
 
 
@@ -239,7 +247,10 @@ class Block(Header):
     returned by the  `evm_transition_tool`.
     """
     exception: (
-        List[TransactionException | BlockException] | TransactionException | BlockException | None
+        List[TransactionException | BlockException]
+        | TransactionException
+        | BlockException
+        | None
     ) = None
     """
     If set, the block is expected to be rejected by the client.
@@ -260,7 +271,9 @@ class Block(Header):
     """
     List of withdrawals to perform for this block.
     """
-    requests: List[DepositRequest | WithdrawalRequest | ConsolidationRequest] | None = None
+    requests: List[DepositRequest | WithdrawalRequest | ConsolidationRequest] | None = (
+        None
+    )
     """
     Custom list of requests to embed in this block.
     """
@@ -282,7 +295,9 @@ class Block(Header):
         """
         new_env_values["difficulty"] = self.difficulty
         new_env_values["fee_recipient"] = (
-            self.fee_recipient if self.fee_recipient is not None else Environment().fee_recipient
+            self.fee_recipient
+            if self.fee_recipient is not None
+            else Environment().fee_recipient
         )
         new_env_values["gas_limit"] = (
             self.gas_limit or env.parent_gas_limit or Environment().gas_limit
@@ -307,7 +322,9 @@ class Block(Header):
             if len(env.block_hashes) == 0:
                 new_env_values["number"] = 0
             else:
-                new_env_values["number"] = max([Number(n) for n in env.block_hashes.keys()]) + 1
+                new_env_values["number"] = (
+                    max([Number(n) for n in env.block_hashes.keys()]) + 1
+                )
 
         if self.timestamp is not None:
             new_env_values["timestamp"] = self.timestamp
@@ -347,8 +364,9 @@ class BlockchainTest(BaseTest):
         assert (
             env.withdrawals is None or len(env.withdrawals) == 0
         ), "withdrawals must be empty at genesis"
-        assert env.parent_beacon_block_root is None or env.parent_beacon_block_root == Hash(
-            0
+        assert (
+            env.parent_beacon_block_root is None
+            or env.parent_beacon_block_root == Hash(0)
         ), "parent_beacon_block_root must be empty at genesis"
 
         pre_alloc = Alloc.merge(
@@ -385,11 +403,15 @@ class BlockchainTest(BaseTest):
             blob_gas_used=env.blob_gas_used,
             excess_blob_gas=env.excess_blob_gas,
             withdrawals_root=(
-                Withdrawal.list_root(env.withdrawals) if env.withdrawals is not None else None
+                Withdrawal.list_root(env.withdrawals)
+                if env.withdrawals is not None
+                else None
             ),
             parent_beacon_block_root=env.parent_beacon_block_root,
             requests_root=(
-                Requests(root=[]).trie_root if fork.header_requests_required(0, 0) else None
+                Requests(root=[]).trie_root
+                if fork.header_requests_required(0, 0)
+                else None
             ),
         )
 
@@ -400,9 +422,12 @@ class BlockchainTest(BaseTest):
                 withdrawals=None if env.withdrawals is None else [],
                 deposit_requests=[] if fork.header_requests_required(0, 0) else None,
                 withdrawal_requests=[] if fork.header_requests_required(0, 0) else None,
-                consolidation_requests=[] if fork.header_requests_required(0, 0) else None,
+                consolidation_requests=[]
+                if fork.header_requests_required(0, 0)
+                else None,
             ).with_rlp(
-                txs=[], requests=Requests() if fork.header_requests_required(0, 0) else None
+                txs=[],
+                requests=Requests() if fork.header_requests_required(0, 0) else None,
             ),
         )
 
@@ -552,7 +577,9 @@ class BlockchainTest(BaseTest):
 
         requests = None
         if fork.header_requests_required(header.number, header.timestamp):
-            requests_list: List[DepositRequest | WithdrawalRequest | ConsolidationRequest] = []
+            requests_list: List[
+                DepositRequest | WithdrawalRequest | ConsolidationRequest
+            ] = []
             if transition_tool_output.result.deposit_requests is not None:
                 requests_list += transition_tool_output.result.deposit_requests
             if transition_tool_output.result.withdrawal_requests is not None:
@@ -639,23 +666,21 @@ class BlockchainTest(BaseTest):
         Compares the expected witness check allocation account against the values updated
         in the block execution witness state diff.
         """
-        witness_check_state_diff, witness_check_address_mapping = t8n.get_witness_check_mapping(
-            witness_check
+        witness_check_state_diff, witness_check_address_mapping = (
+            t8n.get_witness_check_mapping(witness_check)
         )
-        print("\nExpected witness check state diff:")
-        print(witness_check_state_diff.model_dump_json(indent=4))
+        actual_stem_dict = {sd.stem: sd for sd in state_diff.root}
+        expected_stem_dict = {sd.stem: sd for sd in witness_check_state_diff.root}
 
-        for stem_state_diff in state_diff.root:
-            actual_stem = stem_state_diff.stem
+        # Check that all actual stems are in expected stems
+        for actual_stem, stem_state_diff in actual_stem_dict.items():
             address = witness_check_address_mapping.get(actual_stem, None)
-            print(f"\nChecking witness for stem: {actual_stem} at address: {address}")
-            # check for stem in the expected witness check
-            expected_stem_state_diff = next(
-                (sd for sd in witness_check_state_diff.root if sd.stem == actual_stem), None
-            )
+            print(f"\nChecking actual stem: {actual_stem} at address: {address}")
+
+            expected_stem_state_diff = expected_stem_dict.get(actual_stem)
             if not expected_stem_state_diff:
                 raise ValueError(
-                    "Witness check failed - missing stem not found in expected witness check.\n\n"
+                    "Witness check failed - actual stem not found in expected witness check.\n\n"
                     + pformat(
                         {
                             "test_account_address": str(address),
@@ -664,22 +689,18 @@ class BlockchainTest(BaseTest):
                         indent=4,
                     )
                 )
-            for suffix_diff in stem_state_diff.suffix_diffs:
-                actual_suffix = suffix_diff.suffix
+
+            actual_suffix_dict = {sd.suffix: sd for sd in stem_state_diff.suffix_diffs}
+            expected_suffix_dict = {
+                sd.suffix: sd for sd in expected_stem_state_diff.suffix_diffs
+            }
+            # Check that all actual suffixes are in expected suffixes
+            for actual_suffix, suffix_diff in actual_suffix_dict.items():
                 actual_current_value = suffix_diff.current_value
-                # check for suffix in the expected witness check
-                expected_suffix_state_diff = next(
-                    (
-                        sd
-                        for sd in expected_stem_state_diff.suffix_diffs
-                        if sd.suffix == actual_suffix
-                    ),
-                    None,
-                )
+                expected_suffix_state_diff = expected_suffix_dict.get(actual_suffix)
                 if not expected_suffix_state_diff:
                     raise ValueError(
-                        "Witness check failed - actual suffix not found in expected witness"
-                        " check.\n\n"
+                        "Witness check failed - actual suffix not in expected witness check.\n\n"
                         + pformat(
                             {
                                 "test_account_address": str(address),
@@ -691,20 +712,88 @@ class BlockchainTest(BaseTest):
                             indent=4,
                         )
                     )
-                # check the current value of the actual suffix state diff matches the expected
                 if str(actual_current_value) != str(
                     expected_suffix_state_diff.current_value
-                ):  # TODO: temp fix str casting
+                ):
                     raise ValueError(
-                        "Witness check failed - current value mismatch. The stem and suffix"
-                        " exist.\n\n"
+                        "Witness check failed - current value mismatch.\n\n"
                         + pformat(
                             {
                                 "test_account_address": str(address),
                                 "stem": str(actual_stem),
                                 "suffix": actual_suffix,
                                 "value_actual": str(actual_current_value),
-                                "value_expected": str(expected_suffix_state_diff.current_value),
+                                "value_expected": str(
+                                    expected_suffix_state_diff.current_value
+                                ),
+                            },
+                            indent=4,
+                        )
+                    )
+
+        # Check that all expected stems are in actual stems
+        for expected_stem, expected_stem_state_diff in expected_stem_dict.items():
+            address = witness_check_address_mapping.get(expected_stem, None)
+            print(f"\nChecking expected stem: {expected_stem} at address: {address}")
+
+            actual_stem_state_diff = actual_stem_dict.get(expected_stem)
+            if not actual_stem_state_diff:
+                raise ValueError(
+                    "Witness check failed - expected stem not found in actual state diff.\n\n"
+                    + pformat(
+                        {
+                            "test_account_address": str(address),
+                            "stem": str(expected_stem),
+                        },
+                        indent=4,
+                    )
+                )
+
+            actual_suffix_dict = {
+                sd.suffix: sd for sd in actual_stem_state_diff.suffix_diffs
+            }
+            expected_suffix_dict = {
+                sd.suffix: sd for sd in expected_stem_state_diff.suffix_diffs
+            }
+
+            # Check that all expected suffixes are in actual suffixes
+            for (
+                expected_suffix,
+                expected_suffix_state_diff,
+            ) in expected_suffix_dict.items():
+                if expected_suffix not in actual_suffix_dict:
+                    raise ValueError(
+                        "Witness check failed - expected suffix not in actual state diff.\n\n"
+                        + pformat(
+                            {
+                                "test_account_address": str(address),
+                                "stem": str(expected_stem),
+                                "suffix": expected_suffix,
+                                "value_expected": str(
+                                    expected_suffix_state_diff.current_value
+                                ),
+                                "value_actual": "value not found",
+                            },
+                            indent=4,
+                        )
+                    )
+                actual_suffix_state_diff = actual_suffix_dict[expected_suffix]
+                if str(actual_suffix_state_diff.current_value) != str(
+                    expected_suffix_state_diff.current_value
+                ):
+                    raise ValueError(
+                        "Witness check failed - current value mismatch.\n\n"
+                        + pformat(
+                            {
+                                "test_account_address": str(address),
+                                "stem": str(expected_stem),
+                                "suffix": expected_suffix,
+                                "value_actual": str(
+                                    actual_suffix_state_diff.current_value
+                                ),
+                                "value_expected": str(
+                                    expected_suffix_state_diff.current_value
+                                ),
                             },
                             indent=4,
                         )
@@ -767,7 +856,10 @@ class BlockchainTest(BaseTest):
                     txs=[FixtureTransaction.from_transaction(tx) for tx in txs],
                     ommers=[],
                     withdrawals=(
-                        [FixtureWithdrawal.from_withdrawal(w) for w in new_env.withdrawals]
+                        [
+                            FixtureWithdrawal.from_withdrawal(w)
+                            for w in new_env.withdrawals
+                        ]
                         if new_env.withdrawals is not None
                         else None
                     ),
@@ -795,7 +887,9 @@ class BlockchainTest(BaseTest):
                         if requests is not None
                         else None
                     ),
-                    witness=FixtureWitness.from_witness(witness) if witness is not None else None,
+                    witness=FixtureWitness.from_witness(witness)
+                    if witness is not None
+                    else None,
                 ).with_rlp(txs=txs, requests=requests)
                 if block.exception is None:
                     fixture_blocks.append(fixture_block)
@@ -811,7 +905,8 @@ class BlockchainTest(BaseTest):
                             expect_exception=block.exception,
                             rlp_decoded=(
                                 None
-                                if BlockException.RLP_STRUCTURES_ENCODING in block.exception
+                                if BlockException.RLP_STRUCTURES_ENCODING
+                                in block.exception
                                 else fixture_block.without_rlp()
                             ),
                         ),
@@ -870,14 +965,16 @@ class BlockchainTest(BaseTest):
 
         for block in self.blocks:
             # TODO: fix witness for hive fixture? Do we need it?
-            new_env, header, txs, new_alloc, requests, new_vkt, _ = self.generate_block_data(
-                t8n=t8n,
-                fork=fork,
-                block=block,
-                previous_env=env,
-                previous_alloc=alloc,
-                previous_vkt=vkt,
-                eips=eips,
+            new_env, header, txs, new_alloc, requests, new_vkt, _ = (
+                self.generate_block_data(
+                    t8n=t8n,
+                    fork=fork,
+                    block=block,
+                    previous_env=env,
+                    previous_alloc=alloc,
+                    previous_vkt=vkt,
+                    eips=eips,
+                )
             )
             if block.rlp is None:
                 fixture_payloads.append(
@@ -896,7 +993,9 @@ class BlockchainTest(BaseTest):
                     env = apply_new_parent(new_env, header)
                     head_hash = header.block_hash
                     vkt = new_vkt
-        fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
+        fcu_version = fork.engine_forkchoice_updated_version(
+            header.number, header.timestamp
+        )
         assert (
             fcu_version is not None
         ), "A hive fixture was requested but no forkchoice update is defined. The framework should"
