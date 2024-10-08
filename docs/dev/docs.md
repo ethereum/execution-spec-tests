@@ -5,7 +5,7 @@ The `execution-spec-tests` documentation is generated via [`mkdocs`](https://www
 ## Prerequisites
 
 ```console
-uv pip install -e .[docs]
+uv sync --all-extras
 ```
 
 ## Build the Documentation

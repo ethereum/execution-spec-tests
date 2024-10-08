@@ -226,13 +226,13 @@ initcode
 inputdata
 instantiation
 io
-ipython
 isidentifier
 islice
 isort
 isort's
 ispkg
 itemName
+javascripts
 jimporter
 joinpath
 jq
@@ -546,6 +546,8 @@ verifier
 writelines
 xfail
 ZeroPaddedHexNumber
+P7692
+
 stop
 add
 mul
