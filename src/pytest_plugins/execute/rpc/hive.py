@@ -743,10 +743,9 @@ class EthRPC(BaseEthRPC):
         tx_hashes = [tx.hash for tx in transactions]
         responses: List[TransactionByHashResponse] = []
         pending_responses: Dict[Hash, TransactionByHashResponse] = {}
-        last_pending_tx_hashes_count: int | None = None
 
         start_time = time.time()
-        i = 0
+        pending_transactions_handler = PendingTransactionHandler(self)
         while True:
             tx_id = 0
             pending_responses = {}
@@ -763,13 +762,11 @@ class EthRPC(BaseEthRPC):
             if not tx_hashes:
                 return responses
 
-            self._handle_pending_transactions(last_pending_tx_hashes_count, i)
-            last_pending_tx_hashes_count = len(self.pending_tx_hashes)
+            pending_transactions_handler.handle()
 
             if (time.time() - start_time) > self.transaction_wait_timeout:
                 break
             time.sleep(0.1)
-            i += 1
 
         missing_txs_strings = [
             f"{tx.hash} ({tx.model_dump_json()})" for tx in transactions if tx.hash in tx_hashes
@@ -784,32 +781,49 @@ class EthRPC(BaseEthRPC):
             f"{pending_tx_responses_string}"
         )
 
-    def _handle_pending_transactions(
-        self, last_pending_tx_hashes_count: int | None, i: int, block_generation_interval: int = 10
-    ) -> None:
-        """
-        Manages block generation based on the number of pending transactions.
 
-        Args:
-            last_pending_tx_hashes_count: The count of pending transactions
-                from the last iteration.
-            i: The current loop iteration index, used for conditional block
-                generation.
-            block_generation_interval: The number of iterations after which a block
-                is generated if no new transactions are added (default: 10).
+class PendingTransactionHandler:
+    """Manages block generation based on the number of pending transactions or a block generation
+    interval.
+
+    Attributes:
+        block_generation_interval: The number of iterations after which a block
+            is generated if no new transactions are added (default: 10).
+    """
+
+    eth_rpc: EthRPC
+    block_generation_interval: int
+    last_pending_tx_hashes_count: int | None = None
+    i: int = 0
+
+    def __init__(self, eth_rpc: EthRPC, block_generation_interval: int = 10):
+        """Initialize the pending transaction handler."""
+        self.eth_rpc = eth_rpc
+        self.block_generation_interval = block_generation_interval
+
+    def handle(self):
+        """Handle pending transactions and generate blocks if necessary.
+
+        If the number of pending transactions reaches the limit, a block is generated.
+
+        If no new transactions have been added to the pending list and the block
+        generation interval has been reached, a block is generated to avoid potential
+        deadlock.
         """
-        with self.pending_tx_hashes:
-            if len(self.pending_tx_hashes) >= self.transactions_per_block:
-                self.generate_block()
+        with self.eth_rpc.pending_tx_hashes:
+            if len(self.eth_rpc.pending_tx_hashes) >= self.eth_rpc.transactions_per_block:
+                self.eth_rpc.generate_block()
             else:
                 if (
-                    last_pending_tx_hashes_count is not None
-                    and len(self.pending_tx_hashes) == last_pending_tx_hashes_count
-                    and i % block_generation_interval == 0
+                    self.last_pending_tx_hashes_count is not None
+                    and len(self.eth_rpc.pending_tx_hashes) == self.last_pending_tx_hashes_count
+                    and self.i % self.block_generation_interval == 0
                 ):
                     # If no new transactions have been added to the pending list,
                     # generate a block to avoid potential deadlock.
-                    self.generate_block()
+                    self.eth_rpc.generate_block()
+            self.last_pending_tx_hashes_count = len(self.eth_rpc.pending_tx_hashes)
+            self.i += 1
 
 
 @pytest.fixture(scope="session")
