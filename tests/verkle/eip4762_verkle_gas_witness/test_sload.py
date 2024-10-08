@@ -61,16 +61,28 @@ def test_sload(blockchain_test: BlockchainTestFiller, storage_slot_accesses):
 
 
 @pytest.mark.valid_from("Verkle")
-def test_sload_insufficient_gas(blockchain_test: BlockchainTestFiller, fork: str):
+@pytest.mark.parametrize(
+    "gas, storage_slot_accesses",
+    [
+        (23_509 + 199, [1000, 1001]),
+        (23_509 + 200, [1000, 1001, 1002]),
+    ],
+    ids=[
+        "missing_1_gas_for_third_slot",
+        "exact_gas_for_three_slots",
+    ],
+)
+def test_sload_insufficient_gas(
+    blockchain_test: BlockchainTestFiller, fork: str, gas, storage_slot_accesses
+):
     """
     Test SLOAD with insufficient gas.
     """
     witness_check_extra = WitnessCheck(fork=Verkle)
-    for slot in [1000, 1001]:
+    for slot in storage_slot_accesses:
         witness_check_extra.add_storage_slot(TestAddress2, slot, TestAddress2Storage.get(slot))
 
-    # Missing 1 gas for the third slot.
-    _sload(blockchain_test, [1000, 1001, 1002, 1003], witness_check_extra, gas_limit=23509 + 199)
+    _sload(blockchain_test, [1000, 1001, 1002, 1003], witness_check_extra, gas_limit=gas)
 
 
 def _sload(
