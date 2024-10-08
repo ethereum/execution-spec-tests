@@ -361,7 +361,9 @@ def _create(
     if witness_basic_data:
         witness_check.add_account_basic_data(contract_address, pre.get(contract_address))
     if witness_codehash:
-        witness_check.add_account_codehash(contract_address, pre.get(contract_address))
+        witness_check.add_account_codehash(
+            contract_address, pre.get(contract_address).code.keccak256()
+        )
 
     # Assert the code-chunks where the contract is deployed are provided
     # DO NOT include the code-chunks if there was a collision, or we're testing that

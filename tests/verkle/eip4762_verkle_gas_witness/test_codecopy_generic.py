@@ -81,7 +81,7 @@ def test_generic_codecopy(blockchain_test: BlockchainTestFiller, instruction, of
         offset,
         size,
         witness_code_chunks,
-        witness_target_basic_data=True,
+        enough_gas_basicdata=True,
     )
 
 
@@ -105,7 +105,7 @@ def test_generic_codecopy_warm(blockchain_test: BlockchainTestFiller, instructio
         0,
         code_len,
         witness_code_chunks,
-        witness_target_basic_data=True,
+        enough_gas_basicdata=True,
         warm=True,
     )
 
@@ -138,14 +138,14 @@ def test_codecopy_insufficient_gas(
         100 * 31,
         code_size,
         witness_code_chunks,
-        witness_target_basic_data=True,
+        enough_gas_basicdata=True,
         gas_limit=gas_limit,
     )
 
 
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
-    "gas_limit, witness_target_basic_data, witness_code_chunks",
+    "gas_limit, enough_gas_basicdata, witness_code_chunks",
     [
         (22_012 + 2099, False, range(100, 100)),
         (22_012 + 2100 + 199, True, range(100, 100)),
@@ -162,7 +162,7 @@ def test_codecopy_insufficient_gas(
 def test_extcodecopy_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
     gas_limit,
-    witness_target_basic_data,
+    enough_gas_basicdata,
     witness_code_chunks,
 ):
     """
@@ -174,7 +174,7 @@ def test_extcodecopy_insufficient_gas(
         100 * 31,
         code_size,
         witness_code_chunks,
-        witness_target_basic_data=witness_target_basic_data,
+        enough_gas_basicdata=enough_gas_basicdata,
         gas_limit=gas_limit,
     )
 
@@ -185,7 +185,7 @@ def _generic_codecopy(
     offset: int,
     size: int,
     witness_code_chunks,
-    witness_target_basic_data,
+    enough_gas_basicdata,
     warm=False,
     gas_limit=1_000_000,
 ):
@@ -240,7 +240,7 @@ def _generic_codecopy(
     for i in range(executed_code_len):
         witness_check.add_code_chunk(to, i, code_chunks[i])
 
-    if instr == Op.EXTCODECOPY:
+    if enough_gas_basicdata and instr == Op.EXTCODECOPY:
         witness_check.add_account_basic_data(address=TestAddress2, account=pre.get(TestAddress2))
 
     # Depending on the CODECOPY/EXTCODECOPY offset and size, we include the extra expected
