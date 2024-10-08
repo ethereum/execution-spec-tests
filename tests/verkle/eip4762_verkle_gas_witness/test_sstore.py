@@ -61,16 +61,17 @@ def test_sstore(blockchain_test: BlockchainTestFiller, storage_slot_writes):
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("TBD gas limit")
 @pytest.mark.parametrize(
     "gas_limit, must_be_in_witness",
     [
-        ("TBD", False),
-        ("TBD", True),
+        (21_206 + 5599, False),
+        (21_206 + 5600, True),
+        # ("TBD", True),
     ],
     ids=[
-        "cant_pay_subtree_edit_and_chunk_edit_cost",
-        "cant_pay_fill_cost",
+        "insufficient_for_storage_slot",
+        "just_enough_for_storage_slot",
+        # "cant_pay_fill_cost",  # TODO(verkle): enable when FILL_COST is supported.
     ],
 )
 def test_sstore_insufficient_gas(
@@ -83,7 +84,7 @@ def test_sstore_insufficient_gas(
         blockchain_test,
         [(5000, Hash(0xFF))],
         gas_limit=gas_limit,
-        post_state_mutated_slot_count=0,
+        post_state_mutated_slot_count=1 if must_be_in_witness else 0,
     )
 
 
