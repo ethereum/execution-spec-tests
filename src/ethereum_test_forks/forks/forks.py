@@ -1026,11 +1026,7 @@ class Osaka(Prague, solc_name="cancun"):
             (Opcodes.EXTCALL, EVMCodeType.EOF_V1),
             (Opcodes.EXTSTATICCALL, EVMCodeType.EOF_V1),
             (Opcodes.EXTDELEGATECALL, EVMCodeType.EOF_V1),
-        ] + super(
-            Osaka, cls
-        ).call_opcodes(
-            block_number, timestamp
-        )
+        ] + super(Osaka, cls).call_opcodes(block_number, timestamp)
 
     @classmethod
     def is_deployed(cls) -> bool:
