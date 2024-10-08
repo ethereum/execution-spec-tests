@@ -514,7 +514,7 @@ class TestDocsGenerator:
 
             - ("Test Case Reference",) -> tests/index.md
             - ("Test Case Reference", "Berlin") -> tests/berlin/index.md
-            - ("Test Case Reference", "Prague", "EIP-7692 EOF V1", tracker.md")
+            - ("Test Case Reference", "Osaka", "EIP-7692 EOF V1", tracker.md")
                 tests/osaka/eip7692_eof_v1/tracker.md
             - ("Test Case Reference", "Shanghai", "EIP-3855 PUSH0", "Spec") ->
                 tests/shanghai/eip3855_push0/spec.py
