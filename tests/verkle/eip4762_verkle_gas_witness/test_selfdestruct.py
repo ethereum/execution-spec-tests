@@ -33,12 +33,12 @@ system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
-    "target, beneficiary_must_exist",
+    "target, precreate_benficiary",
     [
         [ExampleAddress, True],
         [ExampleAddress, False],
         [TestAddress2, True],
-        [precompile_address, False],
+        [precompile_address, True],
         [system_contract_address, False],
     ],
     ids=[
@@ -51,12 +51,15 @@ system_contract_address = Address("0xfffffffffffffffffffffffffffffffffffffffe")
 )
 @pytest.mark.parametrize(
     "contract_balance",
-    [0, 1],
+    [
+        0,
+        1,
+    ],
 )
 def test_self_destruct(
     blockchain_test: BlockchainTestFiller,
     target,
-    beneficiary_must_exist,
+    precreate_benficiary,
     contract_balance,
 ):
     """
@@ -65,34 +68,34 @@ def test_self_destruct(
     _selfdestruct(
         blockchain_test,
         target,
-        beneficiary_must_exist,
+        precreate_benficiary,
         contract_balance,
     )
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("TBD gas limit")
 @pytest.mark.parametrize(
-    "gas_limit, beneficiary_must_exist, beneficiary_add_basic_data",
+    "gas_limit, precreate_beneficiary, beneficiary_basicdata, \
+    beneficiary_codehash",
     [
-        ("TBD", True, False),
-        ("TBD", True, False),
-        ("TBD", False, False),
-        ("TBD", False, True),
+        (26_203 + 2099, True, False, False),
+        (26_203 + 2100, True, True, False),
+        (26_203 + 2100 + 3500 + 3500 + 699, False, True, False),
+        (26_203 + 2100 + 7000 + 3099 + 700, False, True, True),
     ],
     ids=[
-        "beneficiary_exist_not_enough_substract_contract_balance",
-        "beneficiary_exist_not_enough_add_beneficiary_balance",
-        "beneficiary_doesnt_exist_create_account_basic_data",
-        "beneficiary_doesnt_exist_create_account_codehash",
+        "existing_beneficiary_insufficient_beneficiary_basic_data",
+        "existing_beneficiary_just_enough_beneficiary_basic_data",
+        "non_existent_beneficiary_insufficient_beneficiary_codehash",
+        "non_existent_beneficiary_just_enough_beneficiary_codehash",
     ],
 )
 def test_self_destruct_insufficient_gas(
     blockchain_test: BlockchainTestFiller,
     gas_limit,
-    beneficiary_must_exist,
-    beneficiary_add_basic_data,
-    beneficiary_add_codehash,
+    precreate_beneficiary,
+    beneficiary_basicdata,
+    beneficiary_codehash,
 ):
     """
     Test SELFDESTRUCT insufficient gas.
@@ -100,19 +103,23 @@ def test_self_destruct_insufficient_gas(
     _selfdestruct(
         blockchain_test,
         ExampleAddress,
-        beneficiary_must_exist,
+        precreate_beneficiary,
         100,
         gas_limit=gas_limit,
         fail=True,
+        enough_gas_benficiary_basicdata=beneficiary_basicdata,
+        enough_gas_beneficiary_codehash=beneficiary_codehash,
     )
 
 
 def _selfdestruct(
     blockchain_test: BlockchainTestFiller,
     beneficiary: Address,
-    beneficiary_must_exist: bool,
+    precreate_benficiary: bool,
     contract_balance: int,
     gas_limit=1_000_000,
+    enough_gas_benficiary_basicdata: bool = True,
+    enough_gas_beneficiary_codehash: bool = True,
     fail=False,
     fork: Fork = Verkle,
 ):
@@ -129,7 +136,7 @@ def _selfdestruct(
     }
 
     assert beneficiary != TestAddress
-    if beneficiary_must_exist and beneficiary != TestAddress2:
+    if precreate_benficiary and beneficiary != TestAddress2:  # TestAddress2 is always created.
         pre[beneficiary] = Account(balance=0xFF)
 
     tx = Transaction(
@@ -145,20 +152,27 @@ def _selfdestruct(
     for address in [TestAddress, TestAddress2, env.fee_recipient]:
         witness_check.add_account_full(address=address, account=pre.get(address))
 
-    # Hack to add the system contract address account to the witness check
-    if beneficiary == system_contract_address:
-        witness_check.add_account_basic_data(
-            beneficiary, Account(**fork.pre_allocation_blockchain()[system_contract_address])
-        )
-    else:
-        if contract_balance > 0 or (beneficiary != precompile_address):
-            witness_check.add_account_basic_data(beneficiary, pre.get(beneficiary))
-        if contract_balance > 0 and not beneficiary_must_exist:
-            witness_check.add_account_full(beneficiary, pre.get(beneficiary))
-
     code_chunks = chunkify_code(pre[TestAddress2].code)
     for i, chunk in enumerate(code_chunks, start=0):
         witness_check.add_code_chunk(address=TestAddress2, chunk_number=i, value=chunk)
+
+    if enough_gas_benficiary_basicdata:
+        if contract_balance > 0 or (
+            beneficiary != precompile_address and beneficiary != system_contract_address
+        ):
+            beneficiary_account = (
+                pre.get(beneficiary)
+                if beneficiary != system_contract_address
+                else Account(**fork.pre_allocation_blockchain()[system_contract_address])
+            )
+            witness_check.add_account_basic_data(beneficiary, beneficiary_account)
+        if enough_gas_beneficiary_codehash and (
+            contract_balance > 0
+            and not precreate_benficiary
+            and beneficiary != precompile_address
+            and beneficiary != system_contract_address
+        ):
+            witness_check.add_account_codehash(beneficiary, pre.get(beneficiary))
 
     blocks = [
         Block(
