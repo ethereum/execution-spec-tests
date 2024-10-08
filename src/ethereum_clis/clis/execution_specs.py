@@ -142,7 +142,7 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
             ),
             ExceptionMessage(
                 TransactionException.TYPE_3_TX_PRE_FORK,
-                "Failed to parse transaction 0: module 'ethereum.shanghai.transactions' has no attribute 'BlobTransaction'",  # noqa: E501
+                "module 'ethereum.shanghai.transactions' has no attribute 'BlobTransaction'",
             ),
             ExceptionMessage(
                 TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH,
