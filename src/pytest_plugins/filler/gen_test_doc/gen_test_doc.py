@@ -504,7 +504,6 @@ class TestDocsGenerator:
             if directory_fork_name in self.deployed_forks:
                 fork = self.target_fork
             else:
-                # TODO: This won't work for PragueEIP7692, for example, but it will for Osaka :)
                 fork = directory_fork_name
             self.page_props[str(directory)] = DirectoryPageProps(
                 title=sanitize_string_title(str(directory.name)),
