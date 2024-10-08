@@ -3,12 +3,12 @@ Shared pytest fixtures and hooks for EEST generation modes (fill and execute).
 """
 
 import warnings
-from typing import Dict, List, cast
+from typing import List, cast
 
 import pytest
 
-from ethereum_test_execution import EXECUTE_FORMATS, ExecuteFormat
-from ethereum_test_fixtures import FIXTURE_FORMATS, FixtureFormat
+from ethereum_test_execution import EXECUTE_FORMATS
+from ethereum_test_fixtures import FIXTURE_FORMATS
 from ethereum_test_forks import (
     Fork,
     get_closest_fork_with_solc_support,
