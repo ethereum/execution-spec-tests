@@ -2,1052 +2,2365 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>test_all_opcodes_in_container()</title>
-    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link rel="icon" href="/execution-spec-tests/main/img/ETH-logo-icon.svg" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/main/stylesheets/custom.css">
 </head>
-
-<h1>Test Function: <code>test_all_opcodes_in_container()</code></h1>
-<p>Test all opcodes inside valid container</p>
-<h2>Parametrized Test Cases</h2>
-<table id="test_table" class="display nowrap">
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_all_opcodes_in_container()</code></h1>
+        <p>Test all opcodes inside valid container</p>
+    <p><a href="./test_all_opcodes_in_container/">Back to <code>test_all_opcodes_in_container()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="Osaka" selected>Osaka</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="eof_test" selected>eof_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
     <thead>
         <tr>
-            <th>Test ID</th>
+            <th>Test ID (Abbreviated)</th>
                         <th>opcode</th>
                     </tr>
     </thead>
     <tbody>
-                <tr>
-            <td>opcode_STOP</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_STOP]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_STOP]">
+                    ...fork_Osaka-eof_test-opcode_STOP
+                </abbr>
+            </td>
                         <td>STOP</td>
                     </tr>
-                <tr>
-            <td>opcode_ADD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ADD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ADD]">
+                    ...fork_Osaka-eof_test-opcode_ADD
+                </abbr>
+            </td>
                         <td>ADD</td>
                     </tr>
-                <tr>
-            <td>opcode_MUL</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MUL]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MUL]">
+                    ...fork_Osaka-eof_test-opcode_MUL
+                </abbr>
+            </td>
                         <td>MUL</td>
                     </tr>
-                <tr>
-            <td>opcode_SUB</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SUB]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SUB]">
+                    ...fork_Osaka-eof_test-opcode_SUB
+                </abbr>
+            </td>
                         <td>SUB</td>
                     </tr>
-                <tr>
-            <td>opcode_DIV</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DIV]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DIV]">
+                    ...fork_Osaka-eof_test-opcode_DIV
+                </abbr>
+            </td>
                         <td>DIV</td>
                     </tr>
-                <tr>
-            <td>opcode_SDIV</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SDIV]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SDIV]">
+                    ...fork_Osaka-eof_test-opcode_SDIV
+                </abbr>
+            </td>
                         <td>SDIV</td>
                     </tr>
-                <tr>
-            <td>opcode_MOD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MOD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MOD]">
+                    ...fork_Osaka-eof_test-opcode_MOD
+                </abbr>
+            </td>
                         <td>MOD</td>
                     </tr>
-                <tr>
-            <td>opcode_SMOD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SMOD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SMOD]">
+                    ...fork_Osaka-eof_test-opcode_SMOD
+                </abbr>
+            </td>
                         <td>SMOD</td>
                     </tr>
-                <tr>
-            <td>opcode_ADDMOD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ADDMOD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ADDMOD]">
+                    ...fork_Osaka-eof_test-opcode_ADDMOD
+                </abbr>
+            </td>
                         <td>ADDMOD</td>
                     </tr>
-                <tr>
-            <td>opcode_MULMOD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MULMOD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MULMOD]">
+                    ...fork_Osaka-eof_test-opcode_MULMOD
+                </abbr>
+            </td>
                         <td>MULMOD</td>
                     </tr>
-                <tr>
-            <td>opcode_EXP</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXP]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXP]">
+                    ...fork_Osaka-eof_test-opcode_EXP
+                </abbr>
+            </td>
                         <td>EXP</td>
                     </tr>
-                <tr>
-            <td>opcode_SIGNEXTEND</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SIGNEXTEND]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SIGNEXTEND]">
+                    ...fork_Osaka-eof_test-opcode_SIGNEXTEND
+                </abbr>
+            </td>
                         <td>SIGNEXTEND</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_0C</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_0C]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_0C]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_0C
+                </abbr>
+            </td>
                         <td>OPCODE_0C</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_0D</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_0D]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_0D]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_0D
+                </abbr>
+            </td>
                         <td>OPCODE_0D</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_0E</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_0E]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_0E]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_0E
+                </abbr>
+            </td>
                         <td>OPCODE_0E</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_0F</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_0F]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_0F]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_0F
+                </abbr>
+            </td>
                         <td>OPCODE_0F</td>
                     </tr>
-                <tr>
-            <td>opcode_LT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LT]">
+                    ...fork_Osaka-eof_test-opcode_LT
+                </abbr>
+            </td>
                         <td>LT</td>
                     </tr>
-                <tr>
-            <td>opcode_GT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_GT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_GT]">
+                    ...fork_Osaka-eof_test-opcode_GT
+                </abbr>
+            </td>
                         <td>GT</td>
                     </tr>
-                <tr>
-            <td>opcode_SLT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SLT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SLT]">
+                    ...fork_Osaka-eof_test-opcode_SLT
+                </abbr>
+            </td>
                         <td>SLT</td>
                     </tr>
-                <tr>
-            <td>opcode_SGT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SGT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SGT]">
+                    ...fork_Osaka-eof_test-opcode_SGT
+                </abbr>
+            </td>
                         <td>SGT</td>
                     </tr>
-                <tr>
-            <td>opcode_EQ</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EQ]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EQ]">
+                    ...fork_Osaka-eof_test-opcode_EQ
+                </abbr>
+            </td>
                         <td>EQ</td>
                     </tr>
-                <tr>
-            <td>opcode_ISZERO</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ISZERO]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ISZERO]">
+                    ...fork_Osaka-eof_test-opcode_ISZERO
+                </abbr>
+            </td>
                         <td>ISZERO</td>
                     </tr>
-                <tr>
-            <td>opcode_AND</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_AND]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_AND]">
+                    ...fork_Osaka-eof_test-opcode_AND
+                </abbr>
+            </td>
                         <td>AND</td>
                     </tr>
-                <tr>
-            <td>opcode_OR</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OR]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OR]">
+                    ...fork_Osaka-eof_test-opcode_OR
+                </abbr>
+            </td>
                         <td>OR</td>
                     </tr>
-                <tr>
-            <td>opcode_XOR</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_XOR]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_XOR]">
+                    ...fork_Osaka-eof_test-opcode_XOR
+                </abbr>
+            </td>
                         <td>XOR</td>
                     </tr>
-                <tr>
-            <td>opcode_NOT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_NOT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_NOT]">
+                    ...fork_Osaka-eof_test-opcode_NOT
+                </abbr>
+            </td>
                         <td>NOT</td>
                     </tr>
-                <tr>
-            <td>opcode_BYTE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BYTE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BYTE]">
+                    ...fork_Osaka-eof_test-opcode_BYTE
+                </abbr>
+            </td>
                         <td>BYTE</td>
                     </tr>
-                <tr>
-            <td>opcode_SHL</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SHL]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SHL]">
+                    ...fork_Osaka-eof_test-opcode_SHL
+                </abbr>
+            </td>
                         <td>SHL</td>
                     </tr>
-                <tr>
-            <td>opcode_SHR</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SHR]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SHR]">
+                    ...fork_Osaka-eof_test-opcode_SHR
+                </abbr>
+            </td>
                         <td>SHR</td>
                     </tr>
-                <tr>
-            <td>opcode_SAR</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SAR]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SAR]">
+                    ...fork_Osaka-eof_test-opcode_SAR
+                </abbr>
+            </td>
                         <td>SAR</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_1E</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_1E]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_1E]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_1E
+                </abbr>
+            </td>
                         <td>OPCODE_1E</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_1F</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_1F]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_1F]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_1F
+                </abbr>
+            </td>
                         <td>OPCODE_1F</td>
                     </tr>
-                <tr>
-            <td>opcode_SHA3</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SHA3]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SHA3]">
+                    ...fork_Osaka-eof_test-opcode_SHA3
+                </abbr>
+            </td>
                         <td>SHA3</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_21</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_21]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_21]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_21
+                </abbr>
+            </td>
                         <td>OPCODE_21</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_22</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_22]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_22]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_22
+                </abbr>
+            </td>
                         <td>OPCODE_22</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_23</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_23]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_23]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_23
+                </abbr>
+            </td>
                         <td>OPCODE_23</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_24</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_24]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_24]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_24
+                </abbr>
+            </td>
                         <td>OPCODE_24</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_25</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_25]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_25]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_25
+                </abbr>
+            </td>
                         <td>OPCODE_25</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_26</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_26]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_26]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_26
+                </abbr>
+            </td>
                         <td>OPCODE_26</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_27</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_27]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_27]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_27
+                </abbr>
+            </td>
                         <td>OPCODE_27</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_28</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_28]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_28]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_28
+                </abbr>
+            </td>
                         <td>OPCODE_28</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_29</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_29]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_29]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_29
+                </abbr>
+            </td>
                         <td>OPCODE_29</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_2A</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2A]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2A]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_2A
+                </abbr>
+            </td>
                         <td>OPCODE_2A</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_2B</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2B]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2B]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_2B
+                </abbr>
+            </td>
                         <td>OPCODE_2B</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_2C</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2C]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2C]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_2C
+                </abbr>
+            </td>
                         <td>OPCODE_2C</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_2D</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2D]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2D]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_2D
+                </abbr>
+            </td>
                         <td>OPCODE_2D</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_2E</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2E]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2E]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_2E
+                </abbr>
+            </td>
                         <td>OPCODE_2E</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_2F</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2F]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_2F]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_2F
+                </abbr>
+            </td>
                         <td>OPCODE_2F</td>
                     </tr>
-                <tr>
-            <td>opcode_ADDRESS</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ADDRESS]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ADDRESS]">
+                    ...fork_Osaka-eof_test-opcode_ADDRESS
+                </abbr>
+            </td>
                         <td>ADDRESS</td>
                     </tr>
-                <tr>
-            <td>opcode_BALANCE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BALANCE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BALANCE]">
+                    ...fork_Osaka-eof_test-opcode_BALANCE
+                </abbr>
+            </td>
                         <td>BALANCE</td>
                     </tr>
-                <tr>
-            <td>opcode_ORIGIN</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ORIGIN]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_ORIGIN]">
+                    ...fork_Osaka-eof_test-opcode_ORIGIN
+                </abbr>
+            </td>
                         <td>ORIGIN</td>
                     </tr>
-                <tr>
-            <td>opcode_CALLER</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLER]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLER]">
+                    ...fork_Osaka-eof_test-opcode_CALLER
+                </abbr>
+            </td>
                         <td>CALLER</td>
                     </tr>
-                <tr>
-            <td>opcode_CALLVALUE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLVALUE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLVALUE]">
+                    ...fork_Osaka-eof_test-opcode_CALLVALUE
+                </abbr>
+            </td>
                         <td>CALLVALUE</td>
                     </tr>
-                <tr>
-            <td>opcode_CALLDATALOAD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLDATALOAD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLDATALOAD]">
+                    ...fork_Osaka-eof_test-opcode_CALLDATALOAD
+                </abbr>
+            </td>
                         <td>CALLDATALOAD</td>
                     </tr>
-                <tr>
-            <td>opcode_CALLDATASIZE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLDATASIZE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLDATASIZE]">
+                    ...fork_Osaka-eof_test-opcode_CALLDATASIZE
+                </abbr>
+            </td>
                         <td>CALLDATASIZE</td>
                     </tr>
-                <tr>
-            <td>opcode_CALLDATACOPY</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLDATACOPY]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLDATACOPY]">
+                    ...fork_Osaka-eof_test-opcode_CALLDATACOPY
+                </abbr>
+            </td>
                         <td>CALLDATACOPY</td>
                     </tr>
-                <tr>
-            <td>opcode_CODESIZE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CODESIZE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CODESIZE]">
+                    ...fork_Osaka-eof_test-opcode_CODESIZE
+                </abbr>
+            </td>
                         <td>CODESIZE</td>
                     </tr>
-                <tr>
-            <td>opcode_CODECOPY</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CODECOPY]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CODECOPY]">
+                    ...fork_Osaka-eof_test-opcode_CODECOPY
+                </abbr>
+            </td>
                         <td>CODECOPY</td>
                     </tr>
-                <tr>
-            <td>opcode_GASPRICE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_GASPRICE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_GASPRICE]">
+                    ...fork_Osaka-eof_test-opcode_GASPRICE
+                </abbr>
+            </td>
                         <td>GASPRICE</td>
                     </tr>
-                <tr>
-            <td>opcode_EXTCODESIZE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTCODESIZE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTCODESIZE]">
+                    ...fork_Osaka-eof_test-opcode_EXTCODESIZE
+                </abbr>
+            </td>
                         <td>EXTCODESIZE</td>
                     </tr>
-                <tr>
-            <td>opcode_EXTCODECOPY</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTCODECOPY]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTCODECOPY]">
+                    ...fork_Osaka-eof_test-opcode_EXTCODECOPY
+                </abbr>
+            </td>
                         <td>EXTCODECOPY</td>
                     </tr>
-                <tr>
-            <td>opcode_RETURNDATASIZE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURNDATASIZE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURNDATASIZE]">
+                    ...fork_Osaka-eof_test-opcode_RETURNDATASIZE
+                </abbr>
+            </td>
                         <td>RETURNDATASIZE</td>
                     </tr>
-                <tr>
-            <td>opcode_RETURNDATACOPY</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURNDATACOPY]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURNDATACOPY]">
+                    ...fork_Osaka-eof_test-opcode_RETURNDATACOPY
+                </abbr>
+            </td>
                         <td>RETURNDATACOPY</td>
                     </tr>
-                <tr>
-            <td>opcode_EXTCODEHASH</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTCODEHASH]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTCODEHASH]">
+                    ...fork_Osaka-eof_test-opcode_EXTCODEHASH
+                </abbr>
+            </td>
                         <td>EXTCODEHASH</td>
                     </tr>
-                <tr>
-            <td>opcode_BLOCKHASH</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BLOCKHASH]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BLOCKHASH]">
+                    ...fork_Osaka-eof_test-opcode_BLOCKHASH
+                </abbr>
+            </td>
                         <td>BLOCKHASH</td>
                     </tr>
-                <tr>
-            <td>opcode_COINBASE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_COINBASE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_COINBASE]">
+                    ...fork_Osaka-eof_test-opcode_COINBASE
+                </abbr>
+            </td>
                         <td>COINBASE</td>
                     </tr>
-                <tr>
-            <td>opcode_TIMESTAMP</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_TIMESTAMP]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_TIMESTAMP]">
+                    ...fork_Osaka-eof_test-opcode_TIMESTAMP
+                </abbr>
+            </td>
                         <td>TIMESTAMP</td>
                     </tr>
-                <tr>
-            <td>opcode_NUMBER</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_NUMBER]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_NUMBER]">
+                    ...fork_Osaka-eof_test-opcode_NUMBER
+                </abbr>
+            </td>
                         <td>NUMBER</td>
                     </tr>
-                <tr>
-            <td>opcode_PREVRANDAO</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PREVRANDAO]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PREVRANDAO]">
+                    ...fork_Osaka-eof_test-opcode_PREVRANDAO
+                </abbr>
+            </td>
                         <td>PREVRANDAO</td>
                     </tr>
-                <tr>
-            <td>opcode_GASLIMIT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_GASLIMIT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_GASLIMIT]">
+                    ...fork_Osaka-eof_test-opcode_GASLIMIT
+                </abbr>
+            </td>
                         <td>GASLIMIT</td>
                     </tr>
-                <tr>
-            <td>opcode_CHAINID</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CHAINID]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CHAINID]">
+                    ...fork_Osaka-eof_test-opcode_CHAINID
+                </abbr>
+            </td>
                         <td>CHAINID</td>
                     </tr>
-                <tr>
-            <td>opcode_SELFBALANCE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SELFBALANCE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SELFBALANCE]">
+                    ...fork_Osaka-eof_test-opcode_SELFBALANCE
+                </abbr>
+            </td>
                         <td>SELFBALANCE</td>
                     </tr>
-                <tr>
-            <td>opcode_BASEFEE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BASEFEE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BASEFEE]">
+                    ...fork_Osaka-eof_test-opcode_BASEFEE
+                </abbr>
+            </td>
                         <td>BASEFEE</td>
                     </tr>
-                <tr>
-            <td>opcode_BLOBHASH</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BLOBHASH]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BLOBHASH]">
+                    ...fork_Osaka-eof_test-opcode_BLOBHASH
+                </abbr>
+            </td>
                         <td>BLOBHASH</td>
                     </tr>
-                <tr>
-            <td>opcode_BLOBBASEFEE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BLOBBASEFEE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_BLOBBASEFEE]">
+                    ...fork_Osaka-eof_test-opcode_BLOBBASEFEE
+                </abbr>
+            </td>
                         <td>BLOBBASEFEE</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_4B</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4B]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4B]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_4B
+                </abbr>
+            </td>
                         <td>OPCODE_4B</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_4C</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4C]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4C]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_4C
+                </abbr>
+            </td>
                         <td>OPCODE_4C</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_4D</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4D]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4D]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_4D
+                </abbr>
+            </td>
                         <td>OPCODE_4D</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_4E</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4E]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4E]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_4E
+                </abbr>
+            </td>
                         <td>OPCODE_4E</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_4F</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4F]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_4F]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_4F
+                </abbr>
+            </td>
                         <td>OPCODE_4F</td>
                     </tr>
-                <tr>
-            <td>opcode_POP</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_POP]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_POP]">
+                    ...fork_Osaka-eof_test-opcode_POP
+                </abbr>
+            </td>
                         <td>POP</td>
                     </tr>
-                <tr>
-            <td>opcode_MLOAD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MLOAD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MLOAD]">
+                    ...fork_Osaka-eof_test-opcode_MLOAD
+                </abbr>
+            </td>
                         <td>MLOAD</td>
                     </tr>
-                <tr>
-            <td>opcode_MSTORE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MSTORE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MSTORE]">
+                    ...fork_Osaka-eof_test-opcode_MSTORE
+                </abbr>
+            </td>
                         <td>MSTORE</td>
                     </tr>
-                <tr>
-            <td>opcode_MSTORE8</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MSTORE8]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MSTORE8]">
+                    ...fork_Osaka-eof_test-opcode_MSTORE8
+                </abbr>
+            </td>
                         <td>MSTORE8</td>
                     </tr>
-                <tr>
-            <td>opcode_SLOAD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SLOAD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SLOAD]">
+                    ...fork_Osaka-eof_test-opcode_SLOAD
+                </abbr>
+            </td>
                         <td>SLOAD</td>
                     </tr>
-                <tr>
-            <td>opcode_SSTORE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SSTORE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SSTORE]">
+                    ...fork_Osaka-eof_test-opcode_SSTORE
+                </abbr>
+            </td>
                         <td>SSTORE</td>
                     </tr>
-                <tr>
-            <td>opcode_JUMP</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_JUMP]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_JUMP]">
+                    ...fork_Osaka-eof_test-opcode_JUMP
+                </abbr>
+            </td>
                         <td>JUMP</td>
                     </tr>
-                <tr>
-            <td>opcode_JUMPI</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_JUMPI]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_JUMPI]">
+                    ...fork_Osaka-eof_test-opcode_JUMPI
+                </abbr>
+            </td>
                         <td>JUMPI</td>
                     </tr>
-                <tr>
-            <td>opcode_PC</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PC]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PC]">
+                    ...fork_Osaka-eof_test-opcode_PC
+                </abbr>
+            </td>
                         <td>PC</td>
                     </tr>
-                <tr>
-            <td>opcode_MSIZE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MSIZE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MSIZE]">
+                    ...fork_Osaka-eof_test-opcode_MSIZE
+                </abbr>
+            </td>
                         <td>MSIZE</td>
                     </tr>
-                <tr>
-            <td>opcode_GAS</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_GAS]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_GAS]">
+                    ...fork_Osaka-eof_test-opcode_GAS
+                </abbr>
+            </td>
                         <td>GAS</td>
                     </tr>
-                <tr>
-            <td>opcode_JUMPDEST</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_JUMPDEST]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_JUMPDEST]">
+                    ...fork_Osaka-eof_test-opcode_JUMPDEST
+                </abbr>
+            </td>
                         <td>JUMPDEST</td>
                     </tr>
-                <tr>
-            <td>opcode_TLOAD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_TLOAD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_TLOAD]">
+                    ...fork_Osaka-eof_test-opcode_TLOAD
+                </abbr>
+            </td>
                         <td>TLOAD</td>
                     </tr>
-                <tr>
-            <td>opcode_TSTORE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_TSTORE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_TSTORE]">
+                    ...fork_Osaka-eof_test-opcode_TSTORE
+                </abbr>
+            </td>
                         <td>TSTORE</td>
                     </tr>
-                <tr>
-            <td>opcode_MCOPY</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MCOPY]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_MCOPY]">
+                    ...fork_Osaka-eof_test-opcode_MCOPY
+                </abbr>
+            </td>
                         <td>MCOPY</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH0</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH0]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH0]">
+                    ...fork_Osaka-eof_test-opcode_PUSH0
+                </abbr>
+            </td>
                         <td>PUSH0</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH1</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH1]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH1]">
+                    ...fork_Osaka-eof_test-opcode_PUSH1
+                </abbr>
+            </td>
                         <td>PUSH1</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH2</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH2]">
+                    ...fork_Osaka-eof_test-opcode_PUSH2
+                </abbr>
+            </td>
                         <td>PUSH2</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH3</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH3]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH3]">
+                    ...fork_Osaka-eof_test-opcode_PUSH3
+                </abbr>
+            </td>
                         <td>PUSH3</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH4</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH4]">
+                    ...fork_Osaka-eof_test-opcode_PUSH4
+                </abbr>
+            </td>
                         <td>PUSH4</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH5</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH5]">
+                    ...fork_Osaka-eof_test-opcode_PUSH5
+                </abbr>
+            </td>
                         <td>PUSH5</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH6</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH6]">
+                    ...fork_Osaka-eof_test-opcode_PUSH6
+                </abbr>
+            </td>
                         <td>PUSH6</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH7</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH7]">
+                    ...fork_Osaka-eof_test-opcode_PUSH7
+                </abbr>
+            </td>
                         <td>PUSH7</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH8</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH8]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH8]">
+                    ...fork_Osaka-eof_test-opcode_PUSH8
+                </abbr>
+            </td>
                         <td>PUSH8</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH9</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH9]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH9]">
+                    ...fork_Osaka-eof_test-opcode_PUSH9
+                </abbr>
+            </td>
                         <td>PUSH9</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH10</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH10]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH10]">
+                    ...fork_Osaka-eof_test-opcode_PUSH10
+                </abbr>
+            </td>
                         <td>PUSH10</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH11</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH11]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH11]">
+                    ...fork_Osaka-eof_test-opcode_PUSH11
+                </abbr>
+            </td>
                         <td>PUSH11</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH12</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH12]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH12]">
+                    ...fork_Osaka-eof_test-opcode_PUSH12
+                </abbr>
+            </td>
                         <td>PUSH12</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH13</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH13]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH13]">
+                    ...fork_Osaka-eof_test-opcode_PUSH13
+                </abbr>
+            </td>
                         <td>PUSH13</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH14</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH14]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH14]">
+                    ...fork_Osaka-eof_test-opcode_PUSH14
+                </abbr>
+            </td>
                         <td>PUSH14</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH15</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH15]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH15]">
+                    ...fork_Osaka-eof_test-opcode_PUSH15
+                </abbr>
+            </td>
                         <td>PUSH15</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH16</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH16]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH16]">
+                    ...fork_Osaka-eof_test-opcode_PUSH16
+                </abbr>
+            </td>
                         <td>PUSH16</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH17</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH17]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH17]">
+                    ...fork_Osaka-eof_test-opcode_PUSH17
+                </abbr>
+            </td>
                         <td>PUSH17</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH18</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH18]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH18]">
+                    ...fork_Osaka-eof_test-opcode_PUSH18
+                </abbr>
+            </td>
                         <td>PUSH18</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH19</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH19]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH19]">
+                    ...fork_Osaka-eof_test-opcode_PUSH19
+                </abbr>
+            </td>
                         <td>PUSH19</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH20</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH20]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH20]">
+                    ...fork_Osaka-eof_test-opcode_PUSH20
+                </abbr>
+            </td>
                         <td>PUSH20</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH21</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH21]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH21]">
+                    ...fork_Osaka-eof_test-opcode_PUSH21
+                </abbr>
+            </td>
                         <td>PUSH21</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH22</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH22]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH22]">
+                    ...fork_Osaka-eof_test-opcode_PUSH22
+                </abbr>
+            </td>
                         <td>PUSH22</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH23</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH23]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH23]">
+                    ...fork_Osaka-eof_test-opcode_PUSH23
+                </abbr>
+            </td>
                         <td>PUSH23</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH24</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH24]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH24]">
+                    ...fork_Osaka-eof_test-opcode_PUSH24
+                </abbr>
+            </td>
                         <td>PUSH24</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH25</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH25]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH25]">
+                    ...fork_Osaka-eof_test-opcode_PUSH25
+                </abbr>
+            </td>
                         <td>PUSH25</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH26</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH26]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH26]">
+                    ...fork_Osaka-eof_test-opcode_PUSH26
+                </abbr>
+            </td>
                         <td>PUSH26</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH27</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH27]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH27]">
+                    ...fork_Osaka-eof_test-opcode_PUSH27
+                </abbr>
+            </td>
                         <td>PUSH27</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH28</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH28]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH28]">
+                    ...fork_Osaka-eof_test-opcode_PUSH28
+                </abbr>
+            </td>
                         <td>PUSH28</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH29</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH29]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH29]">
+                    ...fork_Osaka-eof_test-opcode_PUSH29
+                </abbr>
+            </td>
                         <td>PUSH29</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH30</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH30]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH30]">
+                    ...fork_Osaka-eof_test-opcode_PUSH30
+                </abbr>
+            </td>
                         <td>PUSH30</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH31</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH31]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH31]">
+                    ...fork_Osaka-eof_test-opcode_PUSH31
+                </abbr>
+            </td>
                         <td>PUSH31</td>
                     </tr>
-                <tr>
-            <td>opcode_PUSH32</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH32]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_PUSH32]">
+                    ...fork_Osaka-eof_test-opcode_PUSH32
+                </abbr>
+            </td>
                         <td>PUSH32</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP1</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP1]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP1]">
+                    ...fork_Osaka-eof_test-opcode_DUP1
+                </abbr>
+            </td>
                         <td>DUP1</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP2</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP2]">
+                    ...fork_Osaka-eof_test-opcode_DUP2
+                </abbr>
+            </td>
                         <td>DUP2</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP3</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP3]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP3]">
+                    ...fork_Osaka-eof_test-opcode_DUP3
+                </abbr>
+            </td>
                         <td>DUP3</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP4</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP4]">
+                    ...fork_Osaka-eof_test-opcode_DUP4
+                </abbr>
+            </td>
                         <td>DUP4</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP5</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP5]">
+                    ...fork_Osaka-eof_test-opcode_DUP5
+                </abbr>
+            </td>
                         <td>DUP5</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP6</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP6]">
+                    ...fork_Osaka-eof_test-opcode_DUP6
+                </abbr>
+            </td>
                         <td>DUP6</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP7</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP7]">
+                    ...fork_Osaka-eof_test-opcode_DUP7
+                </abbr>
+            </td>
                         <td>DUP7</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP8</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP8]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP8]">
+                    ...fork_Osaka-eof_test-opcode_DUP8
+                </abbr>
+            </td>
                         <td>DUP8</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP9</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP9]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP9]">
+                    ...fork_Osaka-eof_test-opcode_DUP9
+                </abbr>
+            </td>
                         <td>DUP9</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP10</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP10]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP10]">
+                    ...fork_Osaka-eof_test-opcode_DUP10
+                </abbr>
+            </td>
                         <td>DUP10</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP11</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP11]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP11]">
+                    ...fork_Osaka-eof_test-opcode_DUP11
+                </abbr>
+            </td>
                         <td>DUP11</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP12</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP12]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP12]">
+                    ...fork_Osaka-eof_test-opcode_DUP12
+                </abbr>
+            </td>
                         <td>DUP12</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP13</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP13]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP13]">
+                    ...fork_Osaka-eof_test-opcode_DUP13
+                </abbr>
+            </td>
                         <td>DUP13</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP14</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP14]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP14]">
+                    ...fork_Osaka-eof_test-opcode_DUP14
+                </abbr>
+            </td>
                         <td>DUP14</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP15</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP15]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP15]">
+                    ...fork_Osaka-eof_test-opcode_DUP15
+                </abbr>
+            </td>
                         <td>DUP15</td>
                     </tr>
-                <tr>
-            <td>opcode_DUP16</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP16]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUP16]">
+                    ...fork_Osaka-eof_test-opcode_DUP16
+                </abbr>
+            </td>
                         <td>DUP16</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP1</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP1]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP1]">
+                    ...fork_Osaka-eof_test-opcode_SWAP1
+                </abbr>
+            </td>
                         <td>SWAP1</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP2</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP2]">
+                    ...fork_Osaka-eof_test-opcode_SWAP2
+                </abbr>
+            </td>
                         <td>SWAP2</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP3</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP3]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP3]">
+                    ...fork_Osaka-eof_test-opcode_SWAP3
+                </abbr>
+            </td>
                         <td>SWAP3</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP4</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP4]">
+                    ...fork_Osaka-eof_test-opcode_SWAP4
+                </abbr>
+            </td>
                         <td>SWAP4</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP5</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP5]">
+                    ...fork_Osaka-eof_test-opcode_SWAP5
+                </abbr>
+            </td>
                         <td>SWAP5</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP6</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP6]">
+                    ...fork_Osaka-eof_test-opcode_SWAP6
+                </abbr>
+            </td>
                         <td>SWAP6</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP7</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP7]">
+                    ...fork_Osaka-eof_test-opcode_SWAP7
+                </abbr>
+            </td>
                         <td>SWAP7</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP8</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP8]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP8]">
+                    ...fork_Osaka-eof_test-opcode_SWAP8
+                </abbr>
+            </td>
                         <td>SWAP8</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP9</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP9]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP9]">
+                    ...fork_Osaka-eof_test-opcode_SWAP9
+                </abbr>
+            </td>
                         <td>SWAP9</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP10</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP10]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP10]">
+                    ...fork_Osaka-eof_test-opcode_SWAP10
+                </abbr>
+            </td>
                         <td>SWAP10</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP11</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP11]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP11]">
+                    ...fork_Osaka-eof_test-opcode_SWAP11
+                </abbr>
+            </td>
                         <td>SWAP11</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP12</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP12]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP12]">
+                    ...fork_Osaka-eof_test-opcode_SWAP12
+                </abbr>
+            </td>
                         <td>SWAP12</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP13</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP13]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP13]">
+                    ...fork_Osaka-eof_test-opcode_SWAP13
+                </abbr>
+            </td>
                         <td>SWAP13</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP14</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP14]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP14]">
+                    ...fork_Osaka-eof_test-opcode_SWAP14
+                </abbr>
+            </td>
                         <td>SWAP14</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP15</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP15]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP15]">
+                    ...fork_Osaka-eof_test-opcode_SWAP15
+                </abbr>
+            </td>
                         <td>SWAP15</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAP16</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP16]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAP16]">
+                    ...fork_Osaka-eof_test-opcode_SWAP16
+                </abbr>
+            </td>
                         <td>SWAP16</td>
                     </tr>
-                <tr>
-            <td>opcode_LOG0</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG0]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG0]">
+                    ...fork_Osaka-eof_test-opcode_LOG0
+                </abbr>
+            </td>
                         <td>LOG0</td>
                     </tr>
-                <tr>
-            <td>opcode_LOG1</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG1]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG1]">
+                    ...fork_Osaka-eof_test-opcode_LOG1
+                </abbr>
+            </td>
                         <td>LOG1</td>
                     </tr>
-                <tr>
-            <td>opcode_LOG2</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG2]">
+                    ...fork_Osaka-eof_test-opcode_LOG2
+                </abbr>
+            </td>
                         <td>LOG2</td>
                     </tr>
-                <tr>
-            <td>opcode_LOG3</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG3]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG3]">
+                    ...fork_Osaka-eof_test-opcode_LOG3
+                </abbr>
+            </td>
                         <td>LOG3</td>
                     </tr>
-                <tr>
-            <td>opcode_LOG4</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_LOG4]">
+                    ...fork_Osaka-eof_test-opcode_LOG4
+                </abbr>
+            </td>
                         <td>LOG4</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_A5</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A5]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_A5
+                </abbr>
+            </td>
                         <td>OPCODE_A5</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_A6</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A6]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_A6
+                </abbr>
+            </td>
                         <td>OPCODE_A6</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_A7</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A7]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_A7
+                </abbr>
+            </td>
                         <td>OPCODE_A7</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_A8</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A8]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A8]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_A8
+                </abbr>
+            </td>
                         <td>OPCODE_A8</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_A9</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A9]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_A9]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_A9
+                </abbr>
+            </td>
                         <td>OPCODE_A9</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_AA</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AA]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AA]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_AA
+                </abbr>
+            </td>
                         <td>OPCODE_AA</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_AB</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AB]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AB]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_AB
+                </abbr>
+            </td>
                         <td>OPCODE_AB</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_AC</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AC]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AC]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_AC
+                </abbr>
+            </td>
                         <td>OPCODE_AC</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_AD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AD]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_AD
+                </abbr>
+            </td>
                         <td>OPCODE_AD</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_AE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AE]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_AE
+                </abbr>
+            </td>
                         <td>OPCODE_AE</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_AF</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AF]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_AF]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_AF
+                </abbr>
+            </td>
                         <td>OPCODE_AF</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B0</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B0]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B0]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B0
+                </abbr>
+            </td>
                         <td>OPCODE_B0</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B1</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B1]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B1]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B1
+                </abbr>
+            </td>
                         <td>OPCODE_B1</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B2</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B2]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B2
+                </abbr>
+            </td>
                         <td>OPCODE_B2</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B3</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B3]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B3]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B3
+                </abbr>
+            </td>
                         <td>OPCODE_B3</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B4</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B4]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B4
+                </abbr>
+            </td>
                         <td>OPCODE_B4</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B5</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B5]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B5
+                </abbr>
+            </td>
                         <td>OPCODE_B5</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B6</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B6]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B6
+                </abbr>
+            </td>
                         <td>OPCODE_B6</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B7</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B7]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B7
+                </abbr>
+            </td>
                         <td>OPCODE_B7</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B8</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B8]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B8]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B8
+                </abbr>
+            </td>
                         <td>OPCODE_B8</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_B9</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B9]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_B9]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_B9
+                </abbr>
+            </td>
                         <td>OPCODE_B9</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_BA</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BA]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BA]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_BA
+                </abbr>
+            </td>
                         <td>OPCODE_BA</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_BB</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BB]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BB]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_BB
+                </abbr>
+            </td>
                         <td>OPCODE_BB</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_BC</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BC]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BC]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_BC
+                </abbr>
+            </td>
                         <td>OPCODE_BC</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_BD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BD]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_BD
+                </abbr>
+            </td>
                         <td>OPCODE_BD</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_BE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BE]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_BE
+                </abbr>
+            </td>
                         <td>OPCODE_BE</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_BF</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BF]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_BF]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_BF
+                </abbr>
+            </td>
                         <td>OPCODE_BF</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C0</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C0]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C0]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C0
+                </abbr>
+            </td>
                         <td>OPCODE_C0</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C1</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C1]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C1]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C1
+                </abbr>
+            </td>
                         <td>OPCODE_C1</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C2</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C2]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C2
+                </abbr>
+            </td>
                         <td>OPCODE_C2</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C3</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C3]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C3]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C3
+                </abbr>
+            </td>
                         <td>OPCODE_C3</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C4</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C4]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C4
+                </abbr>
+            </td>
                         <td>OPCODE_C4</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C5</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C5]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C5
+                </abbr>
+            </td>
                         <td>OPCODE_C5</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C6</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C6]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C6
+                </abbr>
+            </td>
                         <td>OPCODE_C6</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C7</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C7]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C7
+                </abbr>
+            </td>
                         <td>OPCODE_C7</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C8</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C8]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C8]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C8
+                </abbr>
+            </td>
                         <td>OPCODE_C8</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_C9</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C9]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_C9]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_C9
+                </abbr>
+            </td>
                         <td>OPCODE_C9</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_CA</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CA]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CA]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_CA
+                </abbr>
+            </td>
                         <td>OPCODE_CA</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_CB</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CB]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CB]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_CB
+                </abbr>
+            </td>
                         <td>OPCODE_CB</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_CC</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CC]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CC]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_CC
+                </abbr>
+            </td>
                         <td>OPCODE_CC</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_CD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CD]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_CD
+                </abbr>
+            </td>
                         <td>OPCODE_CD</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_CE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CE]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_CE
+                </abbr>
+            </td>
                         <td>OPCODE_CE</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_CF</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CF]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_CF]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_CF
+                </abbr>
+            </td>
                         <td>OPCODE_CF</td>
                     </tr>
-                <tr>
-            <td>opcode_DATALOAD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DATALOAD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DATALOAD]">
+                    ...fork_Osaka-eof_test-opcode_DATALOAD
+                </abbr>
+            </td>
                         <td>DATALOAD</td>
                     </tr>
-                <tr>
-            <td>opcode_DATALOADN</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DATALOADN]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DATALOADN]">
+                    ...fork_Osaka-eof_test-opcode_DATALOADN
+                </abbr>
+            </td>
                         <td>DATALOADN</td>
                     </tr>
-                <tr>
-            <td>opcode_DATASIZE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DATASIZE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DATASIZE]">
+                    ...fork_Osaka-eof_test-opcode_DATASIZE
+                </abbr>
+            </td>
                         <td>DATASIZE</td>
                     </tr>
-                <tr>
-            <td>opcode_DATACOPY</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DATACOPY]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DATACOPY]">
+                    ...fork_Osaka-eof_test-opcode_DATACOPY
+                </abbr>
+            </td>
                         <td>DATACOPY</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_D4</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D4]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_D4
+                </abbr>
+            </td>
                         <td>OPCODE_D4</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_D5</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D5]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_D5
+                </abbr>
+            </td>
                         <td>OPCODE_D5</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_D6</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D6]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_D6
+                </abbr>
+            </td>
                         <td>OPCODE_D6</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_D7</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D7]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_D7
+                </abbr>
+            </td>
                         <td>OPCODE_D7</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_D8</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D8]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D8]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_D8
+                </abbr>
+            </td>
                         <td>OPCODE_D8</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_D9</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D9]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_D9]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_D9
+                </abbr>
+            </td>
                         <td>OPCODE_D9</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_DA</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DA]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DA]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_DA
+                </abbr>
+            </td>
                         <td>OPCODE_DA</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_DB</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DB]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DB]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_DB
+                </abbr>
+            </td>
                         <td>OPCODE_DB</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_DC</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DC]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DC]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_DC
+                </abbr>
+            </td>
                         <td>OPCODE_DC</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_DD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DD]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_DD
+                </abbr>
+            </td>
                         <td>OPCODE_DD</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_DE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DE]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_DE
+                </abbr>
+            </td>
                         <td>OPCODE_DE</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_DF</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DF]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_DF]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_DF
+                </abbr>
+            </td>
                         <td>OPCODE_DF</td>
                     </tr>
-                <tr>
-            <td>opcode_RJUMP</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RJUMP]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RJUMP]">
+                    ...fork_Osaka-eof_test-opcode_RJUMP
+                </abbr>
+            </td>
                         <td>RJUMP</td>
                     </tr>
-                <tr>
-            <td>opcode_RJUMPI</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RJUMPI]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RJUMPI]">
+                    ...fork_Osaka-eof_test-opcode_RJUMPI
+                </abbr>
+            </td>
                         <td>RJUMPI</td>
                     </tr>
-                <tr>
-            <td>opcode_RJUMPV</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RJUMPV]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RJUMPV]">
+                    ...fork_Osaka-eof_test-opcode_RJUMPV
+                </abbr>
+            </td>
                         <td>RJUMPV</td>
                     </tr>
-                <tr>
-            <td>opcode_CALLF</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLF]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLF]">
+                    ...fork_Osaka-eof_test-opcode_CALLF
+                </abbr>
+            </td>
                         <td>CALLF</td>
                     </tr>
-                <tr>
-            <td>opcode_JUMPF</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_JUMPF]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_JUMPF]">
+                    ...fork_Osaka-eof_test-opcode_JUMPF
+                </abbr>
+            </td>
                         <td>JUMPF</td>
                     </tr>
-                <tr>
-            <td>opcode_DUPN</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUPN]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DUPN]">
+                    ...fork_Osaka-eof_test-opcode_DUPN
+                </abbr>
+            </td>
                         <td>DUPN</td>
                     </tr>
-                <tr>
-            <td>opcode_SWAPN</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAPN]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SWAPN]">
+                    ...fork_Osaka-eof_test-opcode_SWAPN
+                </abbr>
+            </td>
                         <td>SWAPN</td>
                     </tr>
-                <tr>
-            <td>opcode_EXCHANGE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXCHANGE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXCHANGE]">
+                    ...fork_Osaka-eof_test-opcode_EXCHANGE
+                </abbr>
+            </td>
                         <td>EXCHANGE</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_E9</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_E9]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_E9]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_E9
+                </abbr>
+            </td>
                         <td>OPCODE_E9</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_EA</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_EA]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_EA]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_EA
+                </abbr>
+            </td>
                         <td>OPCODE_EA</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_EB</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_EB]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_EB]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_EB
+                </abbr>
+            </td>
                         <td>OPCODE_EB</td>
                     </tr>
-                <tr>
-            <td>opcode_EOFCREATE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EOFCREATE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EOFCREATE]">
+                    ...fork_Osaka-eof_test-opcode_EOFCREATE
+                </abbr>
+            </td>
                         <td>EOFCREATE</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_ED</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_ED]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_ED]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_ED
+                </abbr>
+            </td>
                         <td>OPCODE_ED</td>
                     </tr>
-                <tr>
-            <td>opcode_RETURNCONTRACT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURNCONTRACT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURNCONTRACT]">
+                    ...fork_Osaka-eof_test-opcode_RETURNCONTRACT
+                </abbr>
+            </td>
                         <td>RETURNCONTRACT</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_EF</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_EF]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_EF]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_EF
+                </abbr>
+            </td>
                         <td>OPCODE_EF</td>
                     </tr>
-                <tr>
-            <td>opcode_CREATE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CREATE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CREATE]">
+                    ...fork_Osaka-eof_test-opcode_CREATE
+                </abbr>
+            </td>
                         <td>CREATE</td>
                     </tr>
-                <tr>
-            <td>opcode_CALL</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALL]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALL]">
+                    ...fork_Osaka-eof_test-opcode_CALL
+                </abbr>
+            </td>
                         <td>CALL</td>
                     </tr>
-                <tr>
-            <td>opcode_CALLCODE</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLCODE]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CALLCODE]">
+                    ...fork_Osaka-eof_test-opcode_CALLCODE
+                </abbr>
+            </td>
                         <td>CALLCODE</td>
                     </tr>
-                <tr>
-            <td>opcode_RETURN</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURN]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURN]">
+                    ...fork_Osaka-eof_test-opcode_RETURN
+                </abbr>
+            </td>
                         <td>RETURN</td>
                     </tr>
-                <tr>
-            <td>opcode_DELEGATECALL</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_DELEGATECALL]">
+                    ...fork_Osaka-eof_test-opcode_DELEGATECALL
+                </abbr>
+            </td>
                         <td>DELEGATECALL</td>
                     </tr>
-                <tr>
-            <td>opcode_CREATE2</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CREATE2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_CREATE2]">
+                    ...fork_Osaka-eof_test-opcode_CREATE2
+                </abbr>
+            </td>
                         <td>CREATE2</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_F6</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_F6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_F6]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_F6
+                </abbr>
+            </td>
                         <td>OPCODE_F6</td>
                     </tr>
-                <tr>
-            <td>opcode_RETURNDATALOAD</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURNDATALOAD]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_RETURNDATALOAD]">
+                    ...fork_Osaka-eof_test-opcode_RETURNDATALOAD
+                </abbr>
+            </td>
                         <td>RETURNDATALOAD</td>
                     </tr>
-                <tr>
-            <td>opcode_EXTCALL</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTCALL]">
+                    ...fork_Osaka-eof_test-opcode_EXTCALL
+                </abbr>
+            </td>
                         <td>EXTCALL</td>
                     </tr>
-                <tr>
-            <td>opcode_EXTDELEGATECALL</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-eof_test-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
-                <tr>
-            <td>opcode_STATICCALL</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_STATICCALL]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_STATICCALL]">
+                    ...fork_Osaka-eof_test-opcode_STATICCALL
+                </abbr>
+            </td>
                         <td>STATICCALL</td>
                     </tr>
-                <tr>
-            <td>opcode_EXTSTATICCALL</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-eof_test-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
                         <td>EXTSTATICCALL</td>
                     </tr>
-                <tr>
-            <td>opcode_OPCODE_FC</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_FC]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_OPCODE_FC]">
+                    ...fork_Osaka-eof_test-opcode_OPCODE_FC
+                </abbr>
+            </td>
                         <td>OPCODE_FC</td>
                     </tr>
-                <tr>
-            <td>opcode_REVERT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_REVERT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_REVERT]">
+                    ...fork_Osaka-eof_test-opcode_REVERT
+                </abbr>
+            </td>
                         <td>REVERT</td>
                     </tr>
-                <tr>
-            <td>opcode_INVALID</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_INVALID]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_INVALID]">
+                    ...fork_Osaka-eof_test-opcode_INVALID
+                </abbr>
+            </td>
                         <td>INVALID</td>
                     </tr>
-                <tr>
-            <td>opcode_SELFDESTRUCT</td>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SELFDESTRUCT]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container[fork_Osaka-eof_test-opcode_SELFDESTRUCT]">
+                    ...fork_Osaka-eof_test-opcode_SELFDESTRUCT
+                </abbr>
+            </td>
                         <td>SELFDESTRUCT</td>
                     </tr>
             </tbody>
-</table>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#test_table').DataTable({
-            pageLength: -1,
-            scrollX: true,
-            autoWidth: false
-        });
-    });
-</script>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/main/javascripts/site.js"></script>

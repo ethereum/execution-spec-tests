@@ -441,6 +441,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/test_beacon_root_contract_deploy/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/test_beacon_root_contract_timestamps/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
@@ -456,6 +461,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/test_beacon_root_transition/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/test_calldata_lengths/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
@@ -467,6 +477,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/test_multi_block_beacon_root_timestamp_calls/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4788_beacon_root/test_beacon_root_contract/test_no_beacon_root_contract_at_transition/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -517,6 +532,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_blob_txs/test_blob_tx_attribute_value_opcode/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_blob_txs/test_blob_type_tx_pre_fork/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -696,6 +716,26 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/test_fork_transition_excess_blob_gas/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/test_invalid_post_fork_block_without_blob_fields/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/test_invalid_pre_fork_block_with_blob_fields/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_point_evaluation_precompile/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
@@ -712,6 +752,16 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_point_evaluation_precompile/test_invalid_inputs/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_point_evaluation_precompile/test_precompile_before_fork/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_point_evaluation_precompile/test_precompile_during_fork/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -896,6 +946,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode/test_blobbasefee_before_fork/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode/test_blobbasefee_during_fork/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip7516_blobgasfee/test_blobgasfee_opcode/test_blobbasefee_out_of_gas/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
@@ -931,6 +991,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/eip1014_create2/test_recreate/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/constantinople/eip1014_create2/test_recreate/test_recreate/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
@@ -956,12 +1026,32 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_call_and_callcode_gas_calculation/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_call_and_callcode_gas_calculation/test_value_transfer_gas_calculation/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_dup/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_dup/test_dup/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_selfdestruct/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_selfdestruct/test_double_kill/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2936,6 +3026,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork/test_precompile_before_fork/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
@@ -3007,6 +3107,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes/test_block_hashes_history/</loc>
+         <lastmod>2024-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes/test_block_hashes_history_at_transition/</loc>
          <lastmod>2024-10-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
