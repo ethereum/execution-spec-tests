@@ -271,6 +271,48 @@ def test_something_with_all_tx_types_but_skip_type_1(state_test_only, tx_type):
 
 In this example, the test will be skipped if `tx_type` is equal to 1 by returning a `pytest.mark.skip` marker, and return `None` otherwise.
 
+## Fill/Execute Markers
+
+These markers are used to apply different markers to a test depending on whether it is being filled or executed.
+
+### `@pytest.mark.fill`
+
+This marker is used to apply markers to a test when it is being filled.
+
+```python
+import pytest
+
+from ethereum_test_tools import Alloc, StateTestFiller
+
+@pytest.mark.fill(pytest.mark.skip(reason="Only for execution"))
+def test_something(
+    state_test: StateTestFiller, 
+    pre: Alloc
+):
+    pass
+```
+
+In this example, the test will be skipped when it is being filled.
+
+### `@pytest.mark.execute`
+
+This marker is used to apply markers to a test when it is being executed.
+
+```python
+import pytest
+
+from ethereum_test_tools import Alloc, StateTestFiller
+
+@pytest.mark.execute(pytest.mark.xfail(reason="Depends on block context"))
+def test_something(
+    state_test: StateTestFiller, 
+    pre: Alloc
+):
+    pass
+```
+
+In this example, the test will be marked as expected to fail when it is being executed, which is particularly useful so that the test is still executed but does not fail the test run.
+
 ## Other Markers
 
 ### `@pytest.mark.slow`

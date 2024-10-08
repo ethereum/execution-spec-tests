@@ -40,6 +40,7 @@ dependencies = [
     "solc-select>=1.0.4,<2",
     "filelock>=3.15.1,<4",
     "ethereum-types>=0.2.1,<0.3",
+    "pytest-json-report>=1.5.0,<2",
 ]
 
 [project.urls]
@@ -81,6 +82,7 @@ docs = [
 
 [project.scripts]
 fill = "cli.pytest_commands.fill:fill"
+execute = "cli.pytest_commands.execute:execute"
 tf = "cli.pytest_commands.fill:tf"
 checkfixtures = "cli.check_fixtures:check_fixtures"
 consume = "cli.pytest_commands.consume:consume"
