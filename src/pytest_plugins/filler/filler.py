@@ -19,7 +19,7 @@ from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
 from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_fixtures import FIXTURE_FORMATS, BaseFixture, FixtureCollector, TestInfo
+from ethereum_test_fixtures import BaseFixture, FixtureCollector, TestInfo
 from ethereum_test_forks import Fork
 from ethereum_test_specs import SPEC_TYPES, BaseTest
 from ethereum_test_tools.utility.versioning import (

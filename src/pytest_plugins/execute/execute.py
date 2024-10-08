@@ -11,10 +11,9 @@ from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from ethereum_test_base_types import Number
 from ethereum_test_execution import EXECUTE_FORMATS, BaseExecute
-from ethereum_test_forks import Fork, Frontier
+from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import SPEC_TYPES, BaseTest, TestInfo, Transaction
-from ethereum_test_tools.code import Solc
 from ethereum_test_types import TransactionDefaults
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
