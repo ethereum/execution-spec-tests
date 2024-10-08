@@ -1010,7 +1010,7 @@ class Osaka(Prague, solc_name="cancun"):
         """
         EOF V1 is supported starting from Osaka.
         """
-        return super(Osaka, cls,).evm_code_types(  # noqa: SC200
+        return super(Osaka, cls,).evm_code_types(
             block_number,
             timestamp,
         ) + [EVMCodeType.EOF_V1]
@@ -1027,7 +1027,7 @@ class Osaka(Prague, solc_name="cancun"):
             (Opcodes.EXTSTATICCALL, EVMCodeType.EOF_V1),
             (Opcodes.EXTDELEGATECALL, EVMCodeType.EOF_V1),
         ] + super(
-            Osaka, cls  # noqa: SC200
+            Osaka, cls
         ).call_opcodes(
             block_number, timestamp
         )
