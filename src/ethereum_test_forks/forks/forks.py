@@ -136,6 +136,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return False
 
     @classmethod
+    def engine_new_payload_requests(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """
+        At genesis, payloads do not have requests.
+        """
+        return False
+
+    @classmethod
     def engine_forkchoice_updated_version(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> Optional[int]:
@@ -357,6 +364,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [
             (Opcodes.CREATE, EVMCodeType.LEGACY),
         ]
+
+    @classmethod
+    def max_request_type(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        At genesis, no request type is supported, signaled by -1
+        """
+        return -1
 
     @classmethod
     def pre_allocation(cls) -> Mapping:
@@ -848,6 +862,13 @@ class Prague(Cancun):
         ] + super(Prague, cls).system_contracts(block_number, timestamp)
 
     @classmethod
+    def max_request_type(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        At Prague, three request types are introduced, hence the max request type is 2
+        """
+        return 2
+
+    @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
         """
         Prague requires pre-allocation of the beacon chain deposit contract for EIP-6110,
@@ -912,8 +933,22 @@ class Prague(Cancun):
     @classmethod
     def header_requests_required(cls, block_number: int, timestamp: int) -> bool:
         """
-        Prague requires that the execution layer block contains the beacon
-        chain requests.
+        Prague requires that the execution layer header contains the beacon
+        chain requests hash.
+        """
+        return True
+
+    @classmethod
+    def engine_new_payload_requests(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """
+        Starting at Prague, new payloads include the requests hash as a parameter.
+        """
+        return True
+
+    @classmethod
+    def engine_new_payload_blob_hashes(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """
+        Starting at Prague, new payload directives must contain requests as parameter.
         """
         return True
 
