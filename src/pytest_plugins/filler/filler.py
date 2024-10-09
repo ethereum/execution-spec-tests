@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any, Dict, Generator, List, Type
 
 import pytest
+from _pytest.terminal import TerminalReporter
 from filelock import FileLock
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
@@ -269,16 +270,51 @@ def pytest_report_header(config: pytest.Config):
 
 def pytest_report_teststatus(report, config: pytest.Config):
     """
-    Disable test session progress report if we're writing the JSON fixtures to
-    stdout to be read by a consume command on stdin. I.e., don't write this
-    type of output to the console:
+    This hook modifies the test results in pytest's terminal output.
 
+    We use this for:
+
+    1. To change the test results to display `FILLED` instead of `PASSED`.
+    2. To disable test session progress report if we're writing the JSON
+        fixtures to stdout to be read by a consume command on stdin. I.e.,
+        don't write this type of output to the console:
     ```text
     ...x...
     ```
     """
+    if report.when == "call" and report.passed:
+        return (report.outcome, ".", "FILLED")
     if is_output_stdout(config.getoption("output")):
         return report.outcome, "", report.outcome.upper()
+
+
+@pytest.hookimpl(hookwrapper=True, trylast=True)
+def pytest_terminal_summary(
+    terminalreporter: TerminalReporter, exitstatus: int, config: pytest.Config
+):
+    """
+    Modify pytest's terminal summary to emphasize that no tests were ran.
+
+    Emphasize that fixtures have only been filled; they must now be executed to
+    actually run the tests.
+    """
+    passed_display_text = "fixtures filled"
+    stats = terminalreporter.stats
+    if "passed" in stats:
+        terminalreporter._add_stats(passed_display_text, stats["passed"])
+        stats.pop("passed")
+    yield
+    if passed_display_text in stats and stats[passed_display_text]:
+        # append / to indicate this is a directory
+        output_dir = str(strip_output_tarball_suffix(config.getoption("output"))) + "/"
+        terminalreporter.write_sep(
+            "=",
+            (
+                f' No tests executed - the test fixtures in "{output_dir}" may now be executed '
+                "against a client "
+            ),
+            bold=True,
+        )
 
 
 def pytest_metadata(metadata):
