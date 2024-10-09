@@ -257,7 +257,6 @@ def test_valid_deposit_withdrawal_consolidation_request_from_same_tx(
 
         contract_code += Op.CALLDATACOPY(0, calldata_start, len(current_calldata))
 
-        call_contract_address = 0
         value = 0
         if isinstance(request, DepositRequest):
             call_contract_address = Spec_EIP6110.DEPOSIT_CONTRACT_ADDRESS

@@ -6,6 +6,7 @@ from typing import SupportsBytes
 
 import pytest
 
+from ethereum_test_addresses import Precompile
 from ethereum_test_tools import EOA, Address, Alloc, Bytecode
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import Storage, Transaction, keccak256
@@ -14,7 +15,7 @@ from .spec import GAS_CALCULATION_FUNCTION_MAP
 
 
 @pytest.fixture
-def precompile_gas(precompile_address: int, input: bytes) -> int:
+def precompile_gas(precompile_address: Precompile, input: bytes) -> int:
     """Gas cost for the precompile."""
     return GAS_CALCULATION_FUNCTION_MAP[precompile_address](len(input))
 

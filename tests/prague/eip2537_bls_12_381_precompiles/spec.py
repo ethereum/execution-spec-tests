@@ -5,6 +5,8 @@ import json
 from dataclasses import dataclass
 from typing import Callable, List, Sized, SupportsBytes, Tuple
 
+from ethereum_test_addresses import Precompile
+
 from .helpers import current_python_script_directory
 
 
@@ -122,15 +124,15 @@ class Spec:
     """
 
     # Addresses
-    G1ADD = 0x0B
-    G1MUL = 0x0C
-    G1MSM = 0x0D
-    G2ADD = 0x0E
-    G2MUL = 0x0F
-    G2MSM = 0x10
-    PAIRING = 0x11
-    MAP_FP_TO_G1 = 0x12
-    MAP_FP2_TO_G2 = 0x13
+    G1ADD = Precompile.BLS_12_381_G1_ADD
+    G1MUL = Precompile.BLS_12_381_G1_MUL
+    G1MSM = Precompile.BLS_12_381_G1_MULTIEXP
+    G2ADD = Precompile.BLS_12_381_G2_ADD
+    G2MUL = Precompile.BLS_12_381_G2_MUL
+    G2MSM = Precompile.BLS_12_381_G2_MULTIEXP
+    PAIRING = Precompile.BLS_12_381_PAIRING
+    MAP_FP_TO_G1 = Precompile.BLS_12_381_MAP_FP_TO_G1
+    MAP_FP2_TO_G2 = Precompile.BLS_12_381_MAP_FP2_TO_G2
 
     # Gas constants
     G1ADD_GAS = 500
