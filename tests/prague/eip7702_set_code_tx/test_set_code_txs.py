@@ -10,6 +10,7 @@ from typing import List
 
 import pytest
 
+from ethereum_test_addresses import SystemContract
 from ethereum_test_tools import (
     AccessList,
     Account,
@@ -2496,12 +2497,12 @@ def test_set_code_to_system_contract(
 
     # Setup the initial storage of the account to mimic the system contract if required
     match system_contract:
-        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
+        case SystemContract.BEACON_DEPOSITS:  # EIP-6110
             # Deposit contract needs specific storage values, so we set them on the account
             auth_signer = pre.fund_eoa(
                 auth_account_start_balance, storage=deposit_contract_initial_storage()
             )
-        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
+        case SystemContract.BEACON_ROOT_HISTORY:  # EIP-4788
             auth_signer = pre.fund_eoa(auth_account_start_balance, storage=Storage({1: 1}))
         case _:
             # Pre-fund without storage
@@ -2509,10 +2510,10 @@ def test_set_code_to_system_contract(
 
     # Fabricate the payload for the system contract
     match system_contract:
-        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
+        case SystemContract.BEACON_ROOT_HISTORY:  # EIP-4788
             caller_payload = Hash(1)
             caller_code_storage[call_return_data_size_slot] = 32
-        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
+        case SystemContract.BEACON_DEPOSITS:  # EIP-6110
             # Fabricate a valid deposit request to the set-code account
             deposit_request = DepositRequest(
                 pubkey=0x01,
@@ -2523,7 +2524,7 @@ def test_set_code_to_system_contract(
             )
             caller_payload = deposit_request.calldata
             call_value = deposit_request.value
-        case Address(0x00A3CA265EBCB825B45F985A16CEFB49958CE017):  # EIP-7002
+        case SystemContract.WITHDRAWAL_REQUESTS:  # EIP-7002
             # Fabricate a valid withdrawal request to the set-code account
             withdrawal_request = WithdrawalRequest(
                 source_address=0x01,
@@ -2533,7 +2534,7 @@ def test_set_code_to_system_contract(
             )
             caller_payload = withdrawal_request.calldata
             call_value = withdrawal_request.value
-        case Address(0x00B42DBF2194E931E80326D950320F7D9DBEAC02):  # EIP-7251
+        case SystemContract.CONSOLIDATION_REQUESTS:  # EIP-7251
             # Fabricate a valid consolidation request to the set-code account
             consolidation_request = ConsolidationRequest(
                 source_address=0x01,
@@ -2543,7 +2544,7 @@ def test_set_code_to_system_contract(
             )
             caller_payload = consolidation_request.calldata
             call_value = consolidation_request.value
-        case Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E):  # EIP-2935
+        case SystemContract.BLOCK_HISTORY:  # EIP-2935
             caller_payload = Hash(0)
             caller_code_storage[call_return_data_size_slot] = 32
         case _:
