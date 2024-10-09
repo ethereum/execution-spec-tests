@@ -6,7 +6,8 @@ from typing import List
 
 import pytest
 
-from ethereum_test_tools import Alloc, Block, Header
+from ethereum_test_forks import Fork
+from ethereum_test_tools import Alloc, Block, Header, Requests
 
 from .helpers import WithdrawalRequest, WithdrawalRequestInteractionBase
 from .spec import Spec
@@ -70,6 +71,7 @@ def included_requests(
 
 @pytest.fixture
 def blocks(
+    fork: Fork,
     update_pre: None,  # Fixture is used for its side effects
     blocks_withdrawal_requests: List[List[WithdrawalRequestInteractionBase]],
     included_requests: List[List[WithdrawalRequest]],
@@ -80,7 +82,12 @@ def blocks(
     return [  # type: ignore
         Block(
             txs=sum((r.transactions() for r in block_requests), []),
-            header_verify=Header(requests_root=block_included_requests),
+            header_verify=Header(
+                requests_hash=Requests(
+                    *block_included_requests,
+                    max_request_type=fork.max_request_type(block_number=1, timestamp=1),
+                )
+            ),
         )
         for block_requests, block_included_requests in zip_longest(
             blocks_withdrawal_requests,
@@ -88,5 +95,11 @@ def blocks(
             fillvalue=[],
         )
     ] + [
-        Block(header_verify=Header(requests_root=[]))
+        Block(
+            header_verify=Header(
+                requests_hash=Requests(
+                    max_request_type=fork.max_request_type(block_number=1, timestamp=1)
+                )
+            )
+        )
     ]  # Add an empty block at the end to verify that no more withdrawal requests are included

@@ -11,6 +11,7 @@ from typing import List
 import pytest
 
 from ethereum_test_addresses import SystemContract
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
     Account,
@@ -31,6 +32,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Macros as Om
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
+    Requests,
     StateTestFiller,
     Storage,
     Transaction,
@@ -2478,6 +2480,7 @@ def deposit_contract_initial_storage() -> Storage:
 def test_set_code_to_system_contract(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
+    fork: Fork,
     system_contract: int,
     call_opcode: Op,
 ):
@@ -2583,7 +2586,9 @@ def test_set_code_to_system_contract(
         blocks=[
             Block(
                 txs=txs,
-                requests_root=[],  # Verify nothing slipped into the requests trie
+                requests_hash=Requests(
+                    max_request_type=fork.max_request_type(block_number=1)
+                ),  # Verify nothing slipped into the requests trie
             )
         ],
         post={
