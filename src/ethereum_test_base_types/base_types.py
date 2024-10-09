@@ -162,7 +162,7 @@ class Bytes(bytes, ToStringSchema):
     Class that helps represent bytes of variable length in tests.
     """
 
-    def __new__(cls, input: BytesConvertible):
+    def __new__(cls, input: BytesConvertible = b""):
         """
         Creates a new Bytes object.
         """
