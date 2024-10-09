@@ -6,6 +6,9 @@ from typing import Mapping, cast
 
 from semver import Version
 
+from ethereum_test_addresses import Precompile
+from ethereum_test_base_types import Address
+
 from ..base_fork import Fork
 from ..forks.forks import Berlin, Cancun, Frontier, London, Paris, Prague, Shanghai
 from ..forks.transition import BerlinToLondonAt5, ParisToShanghaiAtTime15k
@@ -14,7 +17,6 @@ from ..helpers import (
     forks_from_until,
     get_closest_fork_with_solc_support,
     get_deployed_forks,
-    get_development_forks,
     get_forks,
     get_forks_with_solc_support,
     transition_fork_from_to,
@@ -210,7 +212,7 @@ def test_pre_alloc():
 
 
 def test_precompiles():
-    Cancun.precompiles() == list(range(11))[1:]
+    Cancun.precompiles() == [Precompile(Address(p)) for p in list(range(11))[1:]]
 
 
 def test_tx_types():

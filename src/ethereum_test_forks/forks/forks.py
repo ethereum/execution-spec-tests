@@ -5,10 +5,11 @@ All Ethereum fork class definitions.
 from hashlib import sha256
 from os.path import realpath
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple
+from typing import Dict, List, Mapping, Optional, Tuple
 
 from semver import Version
 
+from ethereum_test_addresses import Precompile, SystemContract
 from ethereum_test_base_types import Address
 from ethereum_test_vm import EVMCodeType, Opcodes
 
@@ -16,6 +17,22 @@ from ..base_fork import BaseFork
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
+
+
+def get_system_contract_allocation(
+    system_contract: SystemContract, storage: Dict = {}
+) -> Dict[Address, Dict]:
+    """
+    Add a system contract to the allocation.
+    """
+    with open(CURRENT_FOLDER / "contracts" / f"{system_contract.label}.bin", mode="rb") as f:
+        return {
+            system_contract: {
+                "nonce": 1,
+                "code": f.read(),
+                "storage": storage,
+            }
+        }
 
 
 # All forks must be listed here !!! in the order they were introduced !!!
@@ -387,9 +404,12 @@ class Homestead(Frontier):
         """
         At Homestead, EC-recover, SHA256, RIPEMD160, and Identity pre-compiles are introduced
         """
-        return list(Address(i) for i in range(1, 5)) + super(Homestead, cls).precompiles(
-            block_number, timestamp
-        )
+        return [
+            Precompile.EC_RECOVER,
+            Precompile.SHA256,
+            Precompile.RIPEMD_160,
+            Precompile.IDENTITY,
+        ] + super(Homestead, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def call_opcodes(
@@ -432,9 +452,12 @@ class Byzantium(Homestead):
         multiplication on elliptic curve alt_bn128, and optimal ate pairing check on
         elliptic curve alt_bn128 are introduced
         """
-        return list(Address(i) for i in range(5, 9)) + super(Byzantium, cls).precompiles(
-            block_number, timestamp
-        )
+        return [
+            Precompile.BIG_INT_MOD_EXP,
+            Precompile.ALT_BN_128_ADD,
+            Precompile.ALT_BN_128_MUL,
+            Precompile.ALT_BN_128_PAIRING,
+        ] + super(Byzantium, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def call_opcodes(
@@ -515,7 +538,7 @@ class Istanbul(ConstantinopleFix):
         """
         At Istanbul, pre-compile for blake2 compression is introduced
         """
-        return [Address(9)] + super(Istanbul, cls).precompiles(block_number, timestamp)
+        return [Precompile.BLAKE2_F] + super(Istanbul, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def valid_opcodes(
@@ -732,14 +755,16 @@ class Cancun(Shanghai):
         """
         At Cancun, pre-compile for kzg point evaluation is introduced
         """
-        return [Address(0xA)] + super(Cancun, cls).precompiles(block_number, timestamp)
+        return [Precompile.KZG_POINT_EVALUATION] + super(Cancun, cls).precompiles(
+            block_number, timestamp
+        )
 
     @classmethod
     def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         Cancun introduces the system contract for EIP-4788
         """
-        return [Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02)]
+        return [SystemContract.BEACON_ROOT_HISTORY]
 
     @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
@@ -747,14 +772,9 @@ class Cancun(Shanghai):
         Cancun requires pre-allocation of the beacon root contract for EIP-4788 on blockchain
         type tests
         """
-        new_allocation = {
-            0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02: {
-                "nonce": 1,
-                "code": "0x3373fffffffffffffffffffffffffffffffffffffffe14604d57602036146024575f5f"
-                "fd5b5f35801560495762001fff810690815414603c575f5ffd5b62001fff01545f5260205ff35b5f"
-                "5ffd5b62001fff42064281555f359062001fff015500",
-            }
-        }
+        new_allocation: Dict[Address, Dict] = get_system_contract_allocation(
+            SystemContract.BEACON_ROOT_HISTORY
+        )
         return new_allocation | super(Cancun, cls).pre_allocation_blockchain()
 
     @classmethod
@@ -831,9 +851,17 @@ class Prague(Cancun):
         MAP_FP_TO_G1 = 0x12
         MAP_FP2_TO_G2 = 0x13
         """
-        return list(Address(i) for i in range(0xB, 0x13 + 1)) + super(Prague, cls).precompiles(
-            block_number, timestamp
-        )
+        return [
+            Precompile.BLS_12_381_G1_ADD,
+            Precompile.BLS_12_381_G1_MUL,
+            Precompile.BLS_12_381_G1_MULTIEXP,
+            Precompile.BLS_12_381_G2_ADD,
+            Precompile.BLS_12_381_G2_MUL,
+            Precompile.BLS_12_381_G2_MULTIEXP,
+            Precompile.BLS_12_381_PAIRING,
+            Precompile.BLS_12_381_MAP_FP_TO_G1,
+            Precompile.BLS_12_381_MAP_FP2_TO_G2,
+        ] + super(Prague, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
@@ -841,10 +869,10 @@ class Prague(Cancun):
         Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251 and EIP-2935
         """
         return [
-            Address(0x00000000219AB540356CBB839CBE05303D7705FA),
-            Address(0x00A3CA265EBCB825B45F985A16CEFB49958CE017),
-            Address(0x00B42DBF2194E931E80326D950320F7D9DBEAC02),
-            Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E),
+            SystemContract.BEACON_DEPOSITS,
+            SystemContract.WITHDRAWAL_REQUESTS,
+            SystemContract.CONSOLIDATION_REQUESTS,
+            SystemContract.BLOCK_HISTORY,
         ] + super(Prague, cls).system_contracts(block_number, timestamp)
 
     @classmethod
@@ -853,7 +881,7 @@ class Prague(Cancun):
         Prague requires pre-allocation of the beacon chain deposit contract for EIP-6110,
         the exits contract for EIP-7002, and the history storage contract for EIP-2935.
         """
-        new_allocation = {}
+        new_allocation: Dict[Address, Dict] = {}
 
         # Add the beacon chain deposit contract
         DEPOSIT_CONTRACT_TREE_DEPTH = 32
@@ -863,49 +891,20 @@ class Prague(Cancun):
             storage[i] = next_hash
             next_hash = sha256(next_hash + next_hash).digest()
 
-        with open(CURRENT_FOLDER / "contracts" / "deposit_contract.bin", mode="rb") as f:
-            new_allocation.update(
-                {
-                    0x00000000219AB540356CBB839CBE05303D7705FA: {
-                        "nonce": 1,
-                        "code": f.read(),
-                        "storage": storage,
-                    }
-                }
-            )
+        new_allocation.update(
+            get_system_contract_allocation(SystemContract.BEACON_DEPOSITS, storage)
+        )
 
         # Add the withdrawal request contract
-        with open(CURRENT_FOLDER / "contracts" / "withdrawal_request.bin", mode="rb") as f:
-            new_allocation.update(
-                {
-                    0x00A3CA265EBCB825B45F985A16CEFB49958CE017: {
-                        "nonce": 1,
-                        "code": f.read(),
-                    },
-                }
-            )
+        new_allocation.update(get_system_contract_allocation(SystemContract.WITHDRAWAL_REQUESTS))
 
         # Add the consolidation request contract
-        with open(CURRENT_FOLDER / "contracts" / "consolidation_request.bin", mode="rb") as f:
-            new_allocation.update(
-                {
-                    0x00B42DBF2194E931E80326D950320F7D9DBEAC02: {
-                        "nonce": 1,
-                        "code": f.read(),
-                    },
-                }
-            )
+        new_allocation.update(
+            get_system_contract_allocation(SystemContract.CONSOLIDATION_REQUESTS)
+        )
 
         # Add the history storage contract
-        with open(CURRENT_FOLDER / "contracts" / "history_contract.bin", mode="rb") as f:
-            new_allocation.update(
-                {
-                    0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E: {
-                        "nonce": 1,
-                        "code": f.read(),
-                    }
-                }
-            )
+        new_allocation.update(get_system_contract_allocation(SystemContract.BLOCK_HISTORY))
 
         return new_allocation | super(Prague, cls).pre_allocation_blockchain()
 
