@@ -43,7 +43,6 @@ class StateTest(BaseTest):
     engine_api_error_code: Optional[EngineAPIError] = None
     blockchain_test_header_verify: Optional[Header] = None
     blockchain_test_rlp_modifier: Optional[Header] = None
-    chain_id: int = 1
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         BlockchainFixture,
@@ -139,7 +138,7 @@ class StateTest(BaseTest):
             txs=[tx],
             env=env,
             fork=fork,
-            chain_id=self.chain_id,
+            chain_id=env.chain_id,
             reward=0,  # Reward on state tests is always zero
             eips=eips,
             debug_output_path=self.get_next_transition_tool_output_path(),

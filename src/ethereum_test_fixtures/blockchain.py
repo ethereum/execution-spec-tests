@@ -232,9 +232,9 @@ class FixtureExecutionPayload(CamelModel):
             withdrawals=withdrawals,
             deposit_requests=requests.deposit_requests() if requests is not None else None,
             withdrawal_requests=requests.withdrawal_requests() if requests is not None else None,
-            consolidation_requests=requests.consolidation_requests()
-            if requests is not None
-            else None,
+            consolidation_requests=(
+                requests.consolidation_requests() if requests is not None else None
+            ),
         )
 
 
@@ -481,6 +481,8 @@ class FixtureCommon(BaseFixture):
     """
 
     fork: str = Field(..., alias="network")
+    chain_id: ZeroPaddedHexNumber = Field(1, alias="chainId")  # type: ignore
+
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
     post_state: Alloc | None = Field(None)

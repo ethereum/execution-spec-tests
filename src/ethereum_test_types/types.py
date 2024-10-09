@@ -374,6 +374,7 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     Used as a parent class for `Environment` and `FixtureEnvironment`.
     """
 
+    chain_id: NumberBoundTypeVar = Field(1)  # type: ignore
     fee_recipient: Address = Field(
         Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"),
         alias="currentCoinbase",
