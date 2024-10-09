@@ -488,6 +488,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 "parentUncleHash": (
                     "0x0000000000000000000000000000000000000000000000000000000000000000"
                 ),
+                "isStateTest": False,
             },
             id="environment_1",
         ),
@@ -545,6 +546,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
                 },
                 "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000004",
                 "ommers": [],
+                "isStateTest": False,
             },
             id="environment_2",
         ),
