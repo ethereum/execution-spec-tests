@@ -130,6 +130,7 @@ el
 endianness
 EngineAPI
 enum
+enums
 env
 envvar
 EOA
