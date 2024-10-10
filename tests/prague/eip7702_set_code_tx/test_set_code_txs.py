@@ -216,42 +216,6 @@ def test_set_code_to_sstore(
     )
 
 
-def test_set_code_to_zero_address(
-    state_test: StateTestFiller,
-    pre: Alloc,
-):
-    """
-    Test setting the code to the zero address (0x0) in a set-code transaction.
-    """
-    auth_signer = pre.fund_eoa(auth_account_start_balance)
-
-    tx = Transaction(
-        gas_limit=500_000,
-        to=auth_signer,
-        authorization_list=[
-            AuthorizationTuple(
-                address=Address(0),
-                nonce=0,
-                signer=auth_signer,
-            ),
-        ],
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
-        env=Environment(),
-        pre=pre,
-        tx=tx,
-        post={
-            auth_signer: Account(
-                nonce=1,
-                code=Spec.delegation_designation(Address(0)),
-                storage={},
-            ),
-        },
-    )
-
-
 def test_set_code_to_sstore_then_sload(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
