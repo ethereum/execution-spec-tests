@@ -2289,6 +2289,214 @@ def test_valid_tx_invalid_auth_signature(
 
 
 @pytest.mark.parametrize(
+    "chain_id,transaction_exception",
+    [
+        pytest.param(
+            2**64, TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT, id="chain_id=2**64"
+        ),
+        pytest.param(2**64 - 1, None, id="chain_id=2**64-1"),
+    ],
+)
+def test_tx_validity_chain_id(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    chain_id: int,
+    transaction_exception: TransactionException | None,
+):
+    """
+    Test sending a transaction where the chain id field of an authorization overflows the
+    maximum value, or almost overflows the maximum value.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    success_slot = 1
+    return_slot = 2
+
+    set_code = Op.RETURN(0, 1)
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    authorization = AuthorizationTuple(
+        address=set_code_to_address,
+        nonce=0,
+        chain_id=chain_id,
+        signer=auth_signer,
+    )
+
+    entry_code = (
+        Op.SSTORE(success_slot, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(return_slot, Op.RETURNDATASIZE)
+    )
+    entry_address = pre.deploy_contract(entry_code)
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization],
+        error=transaction_exception,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account.NONEXISTENT,
+            entry_address: Account(
+                storage={
+                    success_slot: 1 if transaction_exception is None else 0,
+                    return_slot: 0,
+                },
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "nonce,transaction_exception",
+    [
+        pytest.param(
+            2**64, TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT, id="nonce=2**64"
+        ),
+        pytest.param(2**64 - 1, None, id="nonce=2**64-1"),
+        pytest.param(2**64 - 2, None, id="nonce=2**64-2"),
+    ],
+)
+def test_tx_validity_nonce(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    nonce: int,
+    transaction_exception: TransactionException | None,
+):
+    """
+    Test sending a transaction where the nonce field of an authorization overflows the maximum
+    value, or almost overflows the maximum value.
+    """
+    auth_signer = pre.fund_eoa(
+        auth_account_start_balance, nonce=nonce if nonce < 2**64 else None
+    )
+
+    success_slot = 1
+    return_slot = 2
+
+    valid_authorization = nonce < 2**64 - 1
+    set_code = Op.RETURN(0, 1)
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    authorization = AuthorizationTuple(
+        address=set_code_to_address,
+        nonce=nonce,
+        signer=auth_signer,
+    )
+
+    entry_code = (
+        Op.SSTORE(success_slot, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(return_slot, Op.RETURNDATASIZE)
+    )
+    entry_address = pre.deploy_contract(entry_code)
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization],
+        error=transaction_exception,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=(nonce + 1) if (nonce < (2**64 - 1)) else nonce,
+                code=Spec.delegation_designation(set_code_to_address)
+                if valid_authorization
+                else b"",
+            )
+            if nonce < 2**64
+            else Account.NONEXISTENT,
+            entry_address: Account(
+                storage={
+                    success_slot: 1 if transaction_exception is None else 0,
+                    return_slot: 1 if valid_authorization else 0,
+                },
+            ),
+        },
+    )
+
+
+def test_nonce_overflow_after_first_authorization(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test sending a transaction with two authorization where the first one bumps the nonce
+    to 2**64-1 and the second would result in overflow.
+    """
+    nonce = 2**64 - 2
+    auth_signer = pre.fund_eoa(auth_account_start_balance, nonce=nonce)
+
+    success_slot = 1
+    return_slot = 2
+
+    set_code_1 = Op.RETURN(0, 1)
+    set_code_to_address_1 = pre.deploy_contract(set_code_1)
+    set_code_2 = Op.RETURN(0, 2)
+    set_code_to_address_2 = pre.deploy_contract(set_code_2)
+
+    authorization_list = [
+        AuthorizationTuple(
+            address=set_code_to_address_1,
+            nonce=nonce,
+            signer=auth_signer,
+        ),
+        AuthorizationTuple(
+            address=set_code_to_address_2,
+            nonce=nonce + 1,
+            signer=auth_signer,
+        ),
+    ]
+
+    entry_code = (
+        Op.SSTORE(success_slot, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(return_slot, Op.RETURNDATASIZE)
+    )
+    entry_address = pre.deploy_contract(entry_code)
+
+    tx = Transaction(
+        gas_limit=200_000,
+        to=entry_address,
+        value=0,
+        authorization_list=authorization_list,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=nonce + 1,
+                code=Spec.delegation_designation(set_code_to_address_1),
+            ),
+            entry_address: Account(
+                storage={
+                    success_slot: 1,
+                    return_slot: 1,
+                },
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
     "log_opcode",
     [
         Op.LOG0,
