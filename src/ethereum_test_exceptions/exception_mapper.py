@@ -43,14 +43,15 @@ class ExceptionMapper(ABC):
         """This method should be overridden in the subclass to provide mapping data."""
         pass
 
-    def exception_to_message(self, exception: ExceptionBase) -> str:
+    def exception_to_message(self, exception: ExceptionBase) -> str | None:
         """Takes an exception and returns a formatted string."""
-        message = self.exception_to_message_map.get(exception, "Undefined")
+        message = self.exception_to_message_map.get(exception, None)
         return message
 
     def message_to_exception(self, exception_string: str) -> ExceptionBase:
         """Takes a string and tries to find matching exception"""
-        # TODO inform tester where to add the missing exception if get uses default
+        # TODO exception strings are not matching the exception perfectly
+        # Use Levenshtein distance to try to find the best matching exception
         exception = self.exception_to_message_map.inverse.get(
             exception_string, UndefinedException.UNDEFINED_EXCEPTION
         )
