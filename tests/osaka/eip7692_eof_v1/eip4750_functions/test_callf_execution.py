@@ -262,8 +262,8 @@ def test_callf_with_inputs_stack_overflow(
 @pytest.mark.parametrize(
     ("stack_height", "inputs", "outputs", "failure"),
     (
-        pytest.param(1020, 1, 3, False, id="1020"),
-        pytest.param(1021, 1, 3, True, id="1021"),
+        pytest.param(1020, 1, 3, False, id="no_overflow"),
+        pytest.param(1021, 1, 3, True, id="with_overflow"),
     ),
 )
 def test_callf_sneaky_stack_overflow(
@@ -351,8 +351,6 @@ def test_callf_sneaky_stack_overflow(
     tx = Transaction(
         to=contract_address,
         gas_limit=10_000_000,
-        gas_price=10,
-        protected=False,
         sender=sender,
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
