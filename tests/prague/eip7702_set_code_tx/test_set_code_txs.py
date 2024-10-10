@@ -2106,40 +2106,10 @@ SECP256K1N_OVER_2 = SECP256K1N // 2
     [
         pytest.param(0, 1, 1, id="v=0,r=1,s=1"),
         pytest.param(1, 1, 1, id="v=1,r=1,s=1"),
-        pytest.param(
-            2, 1, 1, id="v=2,r=1,s=1", marks=pytest.mark.xfail(reason="invalid signature")
-        ),
-        pytest.param(
-            1, 0, 1, id="v=1,r=0,s=1", marks=pytest.mark.xfail(reason="invalid signature")
-        ),
-        pytest.param(
-            1, 1, 0, id="v=1,r=1,s=0", marks=pytest.mark.xfail(reason="invalid signature")
-        ),
-        pytest.param(
-            0,
-            SECP256K1N - 0,
-            1,
-            id="v=0,r=SECP256K1N,s=1",
-            marks=pytest.mark.xfail(reason="invalid signature"),
-        ),
-        pytest.param(
-            0,
-            SECP256K1N - 1,
-            1,
-            id="v=0,r=SECP256K1N-1,s=1",
-            marks=pytest.mark.xfail(reason="invalid signature"),
-        ),
         pytest.param(0, SECP256K1N - 2, 1, id="v=0,r=SECP256K1N-2,s=1"),
         pytest.param(1, SECP256K1N - 2, 1, id="v=1,r=SECP256K1N-2,s=1"),
         pytest.param(0, 1, SECP256K1N_OVER_2, id="v=0,r=1,s=SECP256K1N_OVER_2"),
         pytest.param(1, 1, SECP256K1N_OVER_2, id="v=1,r=1,s=SECP256K1N_OVER_2"),
-        pytest.param(
-            0,
-            1,
-            SECP256K1N_OVER_2 + 1,
-            id="v=0,r=1,s=SECP256K1N_OVER_2+1",
-            marks=pytest.mark.xfail(reason="invalid signature"),
-        ),
     ],
 )
 def test_set_code_using_valid_synthetic_signatures(
@@ -2196,25 +2166,10 @@ def test_set_code_using_valid_synthetic_signatures(
 @pytest.mark.parametrize(
     "v,r,s",
     [
-        pytest.param(2, 1, 1, id="v_2,r_1,s_1"),
-        pytest.param(
-            0,
-            1,
-            SECP256K1N_OVER_2 + 1,
-            id="v_0,r_1,s_SECP256K1N_OVER_2+1",
-        ),
-        pytest.param(
-            2**256 - 1,
-            1,
-            1,
-            id="v_2**256-1,r_1,s_1",
-        ),
-        pytest.param(
-            0,
-            1,
-            2**256 - 1,
-            id="v_0,r_1,s_2**256-1",
-        ),
+        pytest.param(2**8, 1, 1, id="v=2**8"),
+        pytest.param(1, 2**256, 1, id="r=2**256"),
+        pytest.param(1, 1, 2**256, id="s=2**256"),
+        pytest.param(2**8, 2**256, 2**256, id="v=r=s=2**256"),
     ],
 )
 def test_invalid_tx_invalid_auth_signature(
@@ -2265,41 +2220,30 @@ def test_invalid_tx_invalid_auth_signature(
 @pytest.mark.parametrize(
     "v,r,s",
     [
-        pytest.param(1, 0, 1, id="v_1,r_0,s_1"),
-        pytest.param(1, 1, 0, id="v_1,r_1,s_0"),
-        pytest.param(
-            0,
-            SECP256K1N,
-            1,
-            id="v_0,r_SECP256K1N,s_1",
-        ),
-        pytest.param(
-            0,
-            SECP256K1N - 1,
-            1,
-            id="v_0,r_SECP256K1N-1,s_1",
-        ),
-        pytest.param(
-            0,
-            1,
-            SECP256K1N_OVER_2,
-            id="v_0,r_1,s_SECP256K1N_OVER_2",
-        ),
-        pytest.param(
-            0,
-            1,
-            SECP256K1N_OVER_2 - 1,
-            id="v_0,r_1,s_SECP256K1N_OVER_2_minus_one",
-        ),
-        pytest.param(
-            1,
-            2**256 - 1,
-            1,
-            id="v_1,r_2**256-1,s_1",
-        ),
+        # V
+        pytest.param(2, 1, 1, id="v=2"),
+        pytest.param(2**8 - 1, 1, 1, id="v=2**8-1"),
+        # R
+        pytest.param(1, 0, 1, id="r=0"),
+        pytest.param(0, SECP256K1N - 1, 1, id="r=SECP256K1N-1"),
+        pytest.param(0, SECP256K1N, 1, id="r=SECP256K1N"),
+        pytest.param(0, SECP256K1N + 1, 1, id="r=SECP256K1N+1"),
+        pytest.param(1, 2**256 - 1, 1, id="r=2**256-1"),
+        # S
+        pytest.param(1, 1, 0, id="s=0"),
+        pytest.param(0, 1, SECP256K1N_OVER_2 - 1, id="s=SECP256K1N_OVER_2-1"),
+        pytest.param(0, 1, SECP256K1N_OVER_2, id="s=SECP256K1N_OVER_2"),
+        pytest.param(0, 1, SECP256K1N_OVER_2 + 1, id="s=SECP256K1N_OVER_2+1"),
+        pytest.param(0, 1, SECP256K1N - 1, id="s=SECP256K1N-1"),
+        pytest.param(0, 1, SECP256K1N, id="s=SECP256K1N"),
+        pytest.param(0, 1, SECP256K1N + 1, id="s=SECP256K1N+1"),
+        pytest.param(0, 1, 2**256 - 1, id="s=2**256-1"),
+        # All Values
+        pytest.param(0, 0, 0, id="v=r=s=0"),
+        pytest.param(2**256 - 1, 2**256 - 1, 2**256 - 1, id="v=r=s=2**256-1"),
     ],
 )
-def test_set_code_using_invalid_signatures(
+def test_valid_tx_invalid_auth_signature(
     state_test: StateTestFiller,
     pre: Alloc,
     v: int,
