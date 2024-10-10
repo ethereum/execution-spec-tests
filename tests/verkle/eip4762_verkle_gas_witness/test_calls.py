@@ -86,24 +86,18 @@ def test_calls_warm(blockchain_test: BlockchainTestFiller, fork: Fork, call_inst
 
 @pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
-    "call_instruction, value_bearing, gas_limit, enough_gas_call_target, fails",
+    "call_instruction, value_bearing, gas_limit, enough_gas_target_basicdata",
     [
-        (Op.CALL, True, 21_424 + 3500 + 5599, False, True),
-        (Op.CALL, True, 21_424 + 3500 + 5600, True, True),
-        (Op.CALL, False, 21_424 + 10_000 + 2099, False, True),
-        (Op.CALL, False, 21_424 + 10_000 + 2100, True, False),
-        (Op.CALLCODE, False, 21_424 + 10_000 + 2099, False, True),
-        (Op.CALLCODE, False, 21_424 + 10_000 + 2100, True, False),
-        (Op.DELEGATECALL, False, 21_421 + 10_000 + 2099, False, True),
-        (Op.DELEGATECALL, False, 21_421 + 10_000 + 2100, True, False),
-        (
-            Op.STATICCALL,
-            False,
-            21_421 + 10_000 + 2099,
-            False,
-            True,
-        ),
-        (Op.STATICCALL, False, 21_421 + 10_000 + 2100, True, False),
+        (Op.CALL, True, 21_424 + 3500 + 5599, False),
+        (Op.CALL, True, 21_424 + 3500 + 5600, True),
+        (Op.CALL, False, 21_424 + 2099, False),
+        (Op.CALL, False, 21_424 + 2100, True),
+        (Op.CALLCODE, False, 21_424 + 2099, False),
+        (Op.CALLCODE, False, 21_424 + 2100, True),
+        (Op.DELEGATECALL, False, 21_421 + 2099, False),
+        (Op.DELEGATECALL, False, 21_421 + 2100, True),
+        (Op.STATICCALL, False, 21_421 + 2099, False),
+        (Op.STATICCALL, False, 21_421 + 2100, True),
     ],
     ids=[
         "CALL_with_value_insufficient_for_value_transfer_target",
@@ -124,8 +118,7 @@ def test_calls_insufficient_gas(
     call_instruction: Bytecode,
     value_bearing: bool,
     gas_limit,
-    enough_gas_call_target: bool,
-    fails: bool,
+    enough_gas_target_basicdata: bool,
 ):
     """
     Test *CALL witness assertion when there's insufficient gas for different scenarios.
@@ -137,8 +130,8 @@ def test_calls_insufficient_gas(
         TestAddress2,
         1 if value_bearing else 0,
         gas_limit=gas_limit,
-        enough_gas_call_target=enough_gas_call_target,
-        fails=fails,
+        enough_gas_target_basicdata=enough_gas_target_basicdata,
+        fails=True,
     )
 
 
@@ -149,7 +142,7 @@ def _generic_call(
     target: Address,
     value,
     gas_limit: int = 100000000,
-    enough_gas_call_target: bool = True,
+    enough_gas_target_basicdata: bool = True,
     warm=False,
     fails=False,
 ):
@@ -194,7 +187,7 @@ def _generic_call(
     witness_check = WitnessCheck(fork=Verkle)
     for address in [TestAddress, caller_address, env.fee_recipient]:
         witness_check.add_account_full(address=address, account=pre.get(address))
-    if enough_gas_call_target:
+    if enough_gas_target_basicdata:
         if target != precompile_address and target != system_contract_address:
             witness_check.add_account_basic_data(address=target, account=target_account)
         if call_instruction == Op.CALL and value > 0:
