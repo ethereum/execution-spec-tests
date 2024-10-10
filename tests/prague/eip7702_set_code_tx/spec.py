@@ -31,6 +31,7 @@ class Spec:
     PER_AUTH_BASE_COST = 12_500
     PER_EMPTY_ACCOUNT_COST = 25_000
     DELEGATION_DESIGNATION = bytes.fromhex("ef0100")
+    RESET_DELEGATION_ADDRESS = Address(0)
 
     @staticmethod
     def delegation_designation(address: Address) -> Bytes:
