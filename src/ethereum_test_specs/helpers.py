@@ -5,7 +5,7 @@ Helper functions
 from dataclasses import dataclass
 from typing import Dict, List
 
-from ethereum_test_exceptions import ExceptionMapper, TransactionException, UndefinedException
+from ethereum_test_exceptions import ExceptionMapper, UndefinedException
 from ethereum_test_types import Transaction
 from evm_transition_tool import Result
 
@@ -14,7 +14,7 @@ from evm_transition_tool import Result
 class TransactionExceptionInfo:
     """Info to print transaction exception error messages"""
 
-    error_message: str | None
+    t8n_error_message: str | None
     transaction_ind: int
     tx: Transaction
 
@@ -29,16 +29,20 @@ def verify_transaction_exception(
     )
 
     # info.tx.error is expected error code defined in .py test
-    if expected_error and not info.error_message:
+    if expected_error and not info.t8n_error_message:
         raise Exception(f"{exception_info} Error: tx expected to fail succeeded")
-    elif not expected_error and info.error_message:
-        raise Exception(f"{exception_info} Error: tx unexpectedly failed: {info.error_message}")
-    elif expected_error and info.error_message:
+    elif not expected_error and info.t8n_error_message:
+        raise Exception(
+            f'{exception_info} Error: tx unexpectedly failed: "{info.t8n_error_message}"'
+        )
+    elif expected_error and info.t8n_error_message:
 
         if isinstance(info.tx.error, List):
             for expected_exception in info.tx.error:
                 expected_error_msg = exception_mapper.exception_to_message(expected_exception)
-                if expected_error_msg in info.error_message:
+                if expected_error_msg is None:
+                    continue
+                if expected_error_msg in info.t8n_error_message:
                     # One of expected exceptions is found in tx error string, no error
                     return
 
@@ -50,26 +54,28 @@ def verify_transaction_exception(
             expected_exception = info.tx.error
 
         expected_error_msg = exception_mapper.exception_to_message(expected_exception)
-        error_exception = exception_mapper.message_to_exception(info.error_message)
+        t8n_error_exception = exception_mapper.message_to_exception(info.t8n_error_message)
         exception_mapper_name = exception_mapper.__class__.__name__
 
         define_message_hint = (
-            f"No message defined for {expected_exception}, please add it to {exception_mapper_name}"
-            if expected_error_msg == "Undefined"
+            f"No message defined for {expected_exception}, "
+            f"please add it to {exception_mapper_name}"
+            if expected_error_msg is None
             else ""
         )
         define_exception_hint = (
-            f"No exception defined for error message got, "
-            f"please add it to {exception_mapper.__class__.__name__}"
-            if error_exception == UndefinedException.UNDEFINED_EXCEPTION
+            "No exception defined for error message got, "
+            f"please add it to {exception_mapper_name}"
+            if t8n_error_exception == UndefinedException.UNDEFINED_EXCEPTION
             else ""
         )
 
-        if expected_error_msg not in info.error_message:
+        if expected_error_msg is None or expected_error_msg not in info.t8n_error_message:
             raise Exception(
                 f"{exception_info}"
-                f"Error: exception mismatch:\n want = '{expected_error_msg}' ({expected_exception}),"
-                f"\n got  = '{info.error_message}' ({error_exception})"
+                f"Error: exception mismatch:"
+                f"\n want = '{expected_error_msg}' ({expected_exception}),"
+                f"\n got  = '{info.t8n_error_message}' ({t8n_error_exception})"
                 f"\n {define_message_hint}"
                 f"\n {define_exception_hint}"
             )
@@ -88,7 +94,7 @@ def verify_transactions(
 
     for i, tx in enumerate(txs):
         error_message = rejected_txs[i] if i in rejected_txs else None
-        info = TransactionExceptionInfo(error_message=error_message, transaction_ind=i, tx=tx)
+        info = TransactionExceptionInfo(t8n_error_message=error_message, transaction_ind=i, tx=tx)
         verify_transaction_exception(exception_mapper=exception_mapper, info=info)
 
     return list(rejected_txs.keys())
