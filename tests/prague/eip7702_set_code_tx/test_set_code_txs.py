@@ -3112,3 +3112,37 @@ def test_delegation_clearing_failing_tx(
             ),
         },
     )
+
+
+def test_deploying_delegation_designation_contract(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test attempting to deploy a contract that has the same format as a delegation designation.
+    """
+    sender = pre.fund_eoa()
+
+    set_to_code = Op.RETURN(0, 1)
+    set_to_address = pre.deploy_contract(set_to_code)
+
+    initcode = Initcode(deploy_code=Spec.delegation_designation(set_to_address))
+
+    tx = Transaction(
+        sender=sender,
+        to=None,
+        gas_limit=100_000,
+        data=initcode,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            sender: Account(
+                nonce=1,
+            ),
+            tx.created_contract: Account.NONEXISTENT,
+        },
+    )
