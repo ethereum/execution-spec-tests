@@ -3035,3 +3035,54 @@ def test_delegation_clearing(
             ),
         },
     )
+
+
+@pytest.mark.parametrize(
+    "entry_code",
+    [
+        pytest.param(Om.OOG + Op.STOP, id="out_of_gas"),
+        pytest.param(Op.INVALID, id="invalid_opcode"),
+        pytest.param(Op.REVERT(0, 0), id="revert"),
+    ],
+)
+def test_delegation_clearing_failing_tx(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    entry_code: Bytecode,
+):
+    """
+    Test clearing the delegation of an account in a transaction that fails, OOGs or reverts.
+    """  # noqa: D417
+    pre_set_delegation_code = Op.RETURN(0, 1)
+    pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
+
+    auth_signer = pre.fund_eoa(0, delegation=pre_set_delegation_address)
+
+    entry_address = pre.deploy_contract(entry_code)
+
+    authorization = AuthorizationTuple(
+        address=Spec.RESET_DELEGATION_ADDRESS,  # Reset
+        nonce=auth_signer.nonce,
+        signer=auth_signer,
+    )
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=auth_signer.nonce + 1,
+                code=b"",
+                storage={},
+            ),
+        },
+    )
