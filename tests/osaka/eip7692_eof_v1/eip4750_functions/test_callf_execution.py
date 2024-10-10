@@ -260,16 +260,14 @@ def test_callf_with_inputs_stack_overflow(
 
 
 @pytest.mark.parametrize(
-    ("stack_height", "inputs", "outputs", "failure"),
+    ("stack_height", "failure"),
     (
-        pytest.param(1020, 1, 3, False, id="no_overflow"),
-        pytest.param(1021, 1, 3, True, id="with_overflow"),
+        pytest.param(1020, False, id="no_overflow"),
+        pytest.param(1021, True, id="with_overflow"),
     ),
 )
 def test_callf_sneaky_stack_overflow(
     stack_height: int,
-    inputs: int,
-    outputs: int,
     failure: bool,
     state_test: StateTestFiller,
     pre: Alloc,
@@ -286,6 +284,8 @@ def test_callf_sneaky_stack_overflow(
     """
     env = Environment()
     sender = pre.fund_eoa()
+    inputs = 1
+    outputs = 3
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -351,6 +351,92 @@ def test_callf_sneaky_stack_overflow(
     tx = Transaction(
         to=contract_address,
         gas_limit=10_000_000,
+        sender=sender,
+    )
+    state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
+    ("stack_height", "failure"),
+    (
+        pytest.param(1018, False, id="no_max_stack"),
+        pytest.param(1019, True, id="with_max_stack"),
+    ),
+)
+def test_callf_max_stack(
+    stack_height: int,
+    failure: bool,
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    CALLF where a normal execution would not overflow, but EIP-4750 CALLF rule #4 triggers.
+
+    Code Section 0 - calls #1 with the configured height, but we load some operands so the
+                     return stack does not overflow
+    Code Section 1 - recursively calls itself until input is zero, then calls 2 and returns.
+    Code Section 2 - Just returns, zero inputs, zero outputs
+
+    This will catch  CALLF rule #4: always fail if the operand stack is full. Not checking
+    rule 4 results in a call to section 2 and not overfilling the stack (as it is just RETF).
+    """
+    env = Environment()
+    sender = pre.fund_eoa()
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 * 4 # fill the stack up a little bit
+                    + Op.PUSH2(stack_height)
+                    + Op.CALLF[1]
+                    + Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.RETURN(0, 0),
+                    max_stack_height=7
+                ),
+                Section.Code(
+                    Op.PUSH1(1)     # arg, 1
+                    + Op.SWAP1      # 1, arg
+                    + Op.SUB        # arg-1,
+                    + Op.DUP1       # arg-1, arg-1
+                    + Op.CALLF[2]   # arg-1, arg-1
+                    + Op.ISZERO     # jump?, arg-1,
+                    + Op.RJUMPI[5]  # arg-1
+                    + Op.DUP1       # arg-1, arg-1
+                    + Op.CALLF[1]   # ret, arg-1
+                    + Op.POP        # arg-1
+                    + Op.RETF,
+                    code_inputs=1,
+                    code_outputs=1,
+                    max_stack_height=2,
+                ),
+                Section.Code(
+                    Op.RETF,
+                    code_inputs=0,
+                    code_outputs=0,
+                    max_stack_height=0,
+                ),
+            ],
+        ),
+        storage={
+            slot_code_worked: (
+                value_canary_should_not_change if failure else value_canary_to_be_overwritten
+            ),
+        },
+    )
+
+    post = {
+        contract_address: Account(
+            storage={
+                slot_code_worked: (
+                    value_canary_should_not_change if failure else value_code_worked
+                ),
+            }
+        )
+    }
+
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=100_000,
         sender=sender,
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
