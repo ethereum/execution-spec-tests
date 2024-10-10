@@ -11,6 +11,7 @@ from typing import List
 import pytest
 
 from ethereum_test_addresses import SystemContract
+from ethereum_test_base_types import HexNumber
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
@@ -2204,7 +2205,7 @@ def test_invalid_tx_invalid_auth_signature(
         pytest.param(0, 1, 2**256 - 1, id="s=2**256-1"),
         # All Values
         pytest.param(0, 0, 0, id="v=r=s=0"),
-        pytest.param(2**256 - 1, 2**256 - 1, 2**256 - 1, id="v=r=s=2**256-1"),
+        pytest.param(2**8 - 1, 2**256 - 1, 2**256 - 1, id="v=2**8-1,r=s=2**256-1"),
     ],
 )
 def test_valid_tx_invalid_auth_signature(
@@ -2246,6 +2247,56 @@ def test_valid_tx_invalid_auth_signature(
         tx=tx,
         post={
             callee_address: Account(
+                storage={success_slot: 1},
+            ),
+        },
+    )
+
+
+def test_signature_s_out_of_range(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test sending a transaction with an authorization tuple where the signature s value is out of
+    range by modifying its value to be `SECP256K1N - S` and flipping the v value.
+    """
+    auth_signer = pre.fund_eoa(0)
+
+    set_code = Op.STOP
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    authorization_tuple = AuthorizationTuple(
+        address=set_code_to_address,
+        nonce=0,
+        chain_id=1,
+        signer=auth_signer,
+    )
+
+    authorization_tuple.s = HexNumber(SECP256K1N - authorization_tuple.s)
+    authorization_tuple.v = HexNumber(1 - authorization_tuple.v)
+
+    assert authorization_tuple.s > SECP256K1N_OVER_2
+
+    success_slot = 1
+    entry_code = Op.SSTORE(success_slot, 1) + Op.STOP
+    entry_address = pre.deploy_contract(entry_code)
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization_tuple],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account.NONEXISTENT,
+            entry_address: Account(
                 storage={success_slot: 1},
             ),
         },
