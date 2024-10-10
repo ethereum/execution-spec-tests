@@ -200,32 +200,6 @@ def test_insufficient_gas_creates(
 
 
 @pytest.mark.valid_from("Verkle")
-@pytest.mark.skip("Pending TBD gas limits")
-@pytest.mark.parametrize(
-    "create_instruction, gas_limit",
-    [
-        (Op.CREATE, "TBD"),
-        (Op.CREATE2, "TBD"),
-    ],
-)
-def test_create_static_cost(
-    blockchain_test: BlockchainTestFiller,
-    create_instruction,
-    gas_limit,
-):
-    """
-    Test *CREATE  with insufficient gas to pay for static cost.
-    """
-    _create(
-        blockchain_test,
-        create_instruction,
-        Op.PUSH0 * (129 * 31 + 42),
-        value=0,
-        gas_limit=gas_limit,
-    )
-
-
-@pytest.mark.valid_from("Verkle")
 @pytest.mark.parametrize(
     "create_instruction",
     [
