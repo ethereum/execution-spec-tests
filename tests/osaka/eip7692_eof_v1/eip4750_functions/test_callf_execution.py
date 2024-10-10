@@ -278,7 +278,7 @@ def test_callf_sneaky_stack_overflow(
     CALLF where a normal execution would not overflow, but EIP-4750 CALLF rule #3 triggers.
 
     Code Section 0 - Mostly fills the stack
-    Code Section 1 - jumper to 2, so class verification passes (we want a runtime failure)
+    Code Section 1 - jumper to 2, so container verification passes (we want a runtime failure)
     Code Section 2 - Could require too much stack, but doesn't as it JUMPFs to 3
     Code Section 3 - Writes canary values
 
