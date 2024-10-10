@@ -3,6 +3,8 @@ Defines EIP-6110 specification constants and functions.
 """
 from dataclasses import dataclass
 
+from ethereum_test_addresses import SystemContract
+
 
 @dataclass(frozen=True)
 class ReferenceSpec:
@@ -24,4 +26,4 @@ class Spec:
     https://eips.ethereum.org/EIPS/eip-6110
     """
 
-    DEPOSIT_CONTRACT_ADDRESS = 0x00000000219AB540356CBB839CBE05303D7705FA
+    DEPOSIT_CONTRACT_ADDRESS = SystemContract.BEACON_DEPOSITS

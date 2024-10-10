@@ -3,6 +3,7 @@ Defines EIP-4788 specification constants and functions.
 """
 from dataclasses import dataclass
 
+from ethereum_test_addresses import SystemContract
 from ethereum_test_tools import Storage
 
 
@@ -27,7 +28,7 @@ class Spec:
     https://eips.ethereum.org/EIPS/eip-4788#specification
     """
 
-    BEACON_ROOTS_ADDRESS = 0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02
+    BEACON_ROOTS_ADDRESS = SystemContract.BEACON_ROOT_HISTORY
     BEACON_ROOTS_CALL_GAS = 100_000
     BEACON_ROOTS_DEPLOYER_ADDRESS = 0x0B799C86A49DEEB90402691F1041AA3AF2D3C875
     HISTORY_BUFFER_LENGTH = 8_191
