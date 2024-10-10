@@ -31,6 +31,7 @@ big0
 big1
 bigint
 blake2f
+blake2
 blobgasfee
 blockchain
 BlockchainFixtures
@@ -45,6 +46,7 @@ blocktest
 bls
 bls12
 blueswen
+bn
 bool
 boolean
 br
@@ -128,6 +130,7 @@ el
 endianness
 EngineAPI
 enum
+enums
 env
 envvar
 EOA
@@ -266,6 +269,7 @@ mixhash
 mkdocs
 mkdocstrings
 msm
+multiexp
 mypy
 ctx
 namespace
@@ -436,6 +440,7 @@ v0
 v1
 v2
 v3
+v4
 validator
 validators
 venv

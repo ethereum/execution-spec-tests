@@ -4,6 +4,8 @@ Defines EIP-2935 specification constants and functions.
 
 from dataclasses import dataclass
 
+from ethereum_test_addresses import SystemContract
+
 
 @dataclass(frozen=True)
 class ReferenceSpec:
@@ -26,6 +28,6 @@ class Spec:
     """
 
     FORK_TIMESTAMP = 15_000
-    HISTORY_STORAGE_ADDRESS = 0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E
+    HISTORY_STORAGE_ADDRESS = SystemContract.BLOCK_HISTORY
     HISTORY_SERVE_WINDOW = 8192
     BLOCKHASH_OLD_WINDOW = 256

@@ -5,6 +5,8 @@ Common procedures to test
 
 from dataclasses import dataclass
 
+from ethereum_test_addresses import SYSTEM_ADDRESS, SystemContract
+
 
 @dataclass(frozen=True)
 class ReferenceSpec:
@@ -16,7 +18,7 @@ class ReferenceSpec:
     version: str
 
 
-ref_spec_7002 = ReferenceSpec("EIPS/eip-7002.md", "e5af719767e789c88c0e063406c6557c8f53cfba")
+ref_spec_7002 = ReferenceSpec("EIPS/eip-7002.md", "9fe721f56f45bd5cf2d2958c0e6867aa81f82ebc")
 
 
 # Constants
@@ -30,8 +32,8 @@ class Spec:
     out.
     """
 
-    WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS = 0x00A3CA265EBCB825B45F985A16CEFB49958CE017
-    SYSTEM_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE
+    WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS = SystemContract.WITHDRAWAL_REQUESTS
+    SYSTEM_ADDRESS = SYSTEM_ADDRESS
 
     EXCESS_WITHDRAWAL_REQUESTS_STORAGE_SLOT = 0
     WITHDRAWAL_REQUEST_COUNT_STORAGE_SLOT = 1

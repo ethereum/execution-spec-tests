@@ -10,6 +10,9 @@ from typing import List
 
 import pytest
 
+from ethereum_test_addresses import SystemContract
+from ethereum_test_base_types import HexNumber
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
     Account,
@@ -30,6 +33,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Macros as Om
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import (
+    Requests,
     StateTestFiller,
     Storage,
     Transaction,
@@ -208,42 +212,6 @@ def test_set_code_to_sstore(
                 nonce=2 if self_sponsored else 1,
                 code=Spec.delegation_designation(set_code_to_address),
                 storage=storage if succeeds else {},
-            ),
-        },
-    )
-
-
-def test_set_code_to_zero_address(
-    state_test: StateTestFiller,
-    pre: Alloc,
-):
-    """
-    Test setting the code to the zero address (0x0) in a set-code transaction.
-    """
-    auth_signer = pre.fund_eoa(auth_account_start_balance)
-
-    tx = Transaction(
-        gas_limit=500_000,
-        to=auth_signer,
-        authorization_list=[
-            AuthorizationTuple(
-                address=Address(0),
-                nonce=0,
-                signer=auth_signer,
-            ),
-        ],
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
-        env=Environment(),
-        pre=pre,
-        tx=tx,
-        post={
-            auth_signer: Account(
-                nonce=1,
-                code=Spec.delegation_designation(Address(0)),
-                storage={},
             ),
         },
     )
@@ -2103,40 +2071,10 @@ SECP256K1N_OVER_2 = SECP256K1N // 2
     [
         pytest.param(0, 1, 1, id="v=0,r=1,s=1"),
         pytest.param(1, 1, 1, id="v=1,r=1,s=1"),
-        pytest.param(
-            2, 1, 1, id="v=2,r=1,s=1", marks=pytest.mark.xfail(reason="invalid signature")
-        ),
-        pytest.param(
-            1, 0, 1, id="v=1,r=0,s=1", marks=pytest.mark.xfail(reason="invalid signature")
-        ),
-        pytest.param(
-            1, 1, 0, id="v=1,r=1,s=0", marks=pytest.mark.xfail(reason="invalid signature")
-        ),
-        pytest.param(
-            0,
-            SECP256K1N - 0,
-            1,
-            id="v=0,r=SECP256K1N,s=1",
-            marks=pytest.mark.xfail(reason="invalid signature"),
-        ),
-        pytest.param(
-            0,
-            SECP256K1N - 1,
-            1,
-            id="v=0,r=SECP256K1N-1,s=1",
-            marks=pytest.mark.xfail(reason="invalid signature"),
-        ),
         pytest.param(0, SECP256K1N - 2, 1, id="v=0,r=SECP256K1N-2,s=1"),
         pytest.param(1, SECP256K1N - 2, 1, id="v=1,r=SECP256K1N-2,s=1"),
         pytest.param(0, 1, SECP256K1N_OVER_2, id="v=0,r=1,s=SECP256K1N_OVER_2"),
         pytest.param(1, 1, SECP256K1N_OVER_2, id="v=1,r=1,s=SECP256K1N_OVER_2"),
-        pytest.param(
-            0,
-            1,
-            SECP256K1N_OVER_2 + 1,
-            id="v=0,r=1,s=SECP256K1N_OVER_2+1",
-            marks=pytest.mark.xfail(reason="invalid signature"),
-        ),
     ],
 )
 def test_set_code_using_valid_synthetic_signatures(
@@ -2193,25 +2131,10 @@ def test_set_code_using_valid_synthetic_signatures(
 @pytest.mark.parametrize(
     "v,r,s",
     [
-        pytest.param(2, 1, 1, id="v_2,r_1,s_1"),
-        pytest.param(
-            0,
-            1,
-            SECP256K1N_OVER_2 + 1,
-            id="v_0,r_1,s_SECP256K1N_OVER_2+1",
-        ),
-        pytest.param(
-            2**256 - 1,
-            1,
-            1,
-            id="v_2**256-1,r_1,s_1",
-        ),
-        pytest.param(
-            0,
-            1,
-            2**256 - 1,
-            id="v_0,r_1,s_2**256-1",
-        ),
+        pytest.param(2**8, 1, 1, id="v=2**8"),
+        pytest.param(1, 2**256, 1, id="r=2**256"),
+        pytest.param(1, 1, 2**256, id="s=2**256"),
+        pytest.param(2**8, 2**256, 2**256, id="v=r=s=2**256"),
     ],
 )
 def test_invalid_tx_invalid_auth_signature(
@@ -2262,41 +2185,30 @@ def test_invalid_tx_invalid_auth_signature(
 @pytest.mark.parametrize(
     "v,r,s",
     [
-        pytest.param(1, 0, 1, id="v_1,r_0,s_1"),
-        pytest.param(1, 1, 0, id="v_1,r_1,s_0"),
-        pytest.param(
-            0,
-            SECP256K1N,
-            1,
-            id="v_0,r_SECP256K1N,s_1",
-        ),
-        pytest.param(
-            0,
-            SECP256K1N - 1,
-            1,
-            id="v_0,r_SECP256K1N-1,s_1",
-        ),
-        pytest.param(
-            0,
-            1,
-            SECP256K1N_OVER_2,
-            id="v_0,r_1,s_SECP256K1N_OVER_2",
-        ),
-        pytest.param(
-            0,
-            1,
-            SECP256K1N_OVER_2 - 1,
-            id="v_0,r_1,s_SECP256K1N_OVER_2_minus_one",
-        ),
-        pytest.param(
-            1,
-            2**256 - 1,
-            1,
-            id="v_1,r_2**256-1,s_1",
-        ),
+        # V
+        pytest.param(2, 1, 1, id="v=2"),
+        pytest.param(2**8 - 1, 1, 1, id="v=2**8-1"),
+        # R
+        pytest.param(1, 0, 1, id="r=0"),
+        pytest.param(0, SECP256K1N - 1, 1, id="r=SECP256K1N-1"),
+        pytest.param(0, SECP256K1N, 1, id="r=SECP256K1N"),
+        pytest.param(0, SECP256K1N + 1, 1, id="r=SECP256K1N+1"),
+        pytest.param(1, 2**256 - 1, 1, id="r=2**256-1"),
+        # S
+        pytest.param(1, 1, 0, id="s=0"),
+        pytest.param(0, 1, SECP256K1N_OVER_2 - 1, id="s=SECP256K1N_OVER_2-1"),
+        pytest.param(0, 1, SECP256K1N_OVER_2, id="s=SECP256K1N_OVER_2"),
+        pytest.param(0, 1, SECP256K1N_OVER_2 + 1, id="s=SECP256K1N_OVER_2+1"),
+        pytest.param(0, 1, SECP256K1N - 1, id="s=SECP256K1N-1"),
+        pytest.param(0, 1, SECP256K1N, id="s=SECP256K1N"),
+        pytest.param(0, 1, SECP256K1N + 1, id="s=SECP256K1N+1"),
+        pytest.param(0, 1, 2**256 - 1, id="s=2**256-1"),
+        # All Values
+        pytest.param(0, 0, 0, id="v=r=s=0"),
+        pytest.param(2**8 - 1, 2**256 - 1, 2**256 - 1, id="v=2**8-1,r=s=2**256-1"),
     ],
 )
-def test_set_code_using_invalid_signatures(
+def test_valid_tx_invalid_auth_signature(
     state_test: StateTestFiller,
     pre: Alloc,
     v: int,
@@ -2336,6 +2248,264 @@ def test_set_code_using_invalid_signatures(
         post={
             callee_address: Account(
                 storage={success_slot: 1},
+            ),
+        },
+    )
+
+
+def test_signature_s_out_of_range(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test sending a transaction with an authorization tuple where the signature s value is out of
+    range by modifying its value to be `SECP256K1N - S` and flipping the v value.
+    """
+    auth_signer = pre.fund_eoa(0)
+
+    set_code = Op.STOP
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    authorization_tuple = AuthorizationTuple(
+        address=set_code_to_address,
+        nonce=0,
+        chain_id=1,
+        signer=auth_signer,
+    )
+
+    authorization_tuple.s = HexNumber(SECP256K1N - authorization_tuple.s)
+    authorization_tuple.v = HexNumber(1 - authorization_tuple.v)
+
+    assert authorization_tuple.s > SECP256K1N_OVER_2
+
+    success_slot = 1
+    entry_code = Op.SSTORE(success_slot, 1) + Op.STOP
+    entry_address = pre.deploy_contract(entry_code)
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization_tuple],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account.NONEXISTENT,
+            entry_address: Account(
+                storage={success_slot: 1},
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "chain_id,transaction_exception",
+    [
+        pytest.param(
+            2**64, TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT, id="chain_id=2**64"
+        ),
+        pytest.param(2**64 - 1, None, id="chain_id=2**64-1"),
+    ],
+)
+def test_tx_validity_chain_id(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    chain_id: int,
+    transaction_exception: TransactionException | None,
+):
+    """
+    Test sending a transaction where the chain id field of an authorization overflows the
+    maximum value, or almost overflows the maximum value.
+    """
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    success_slot = 1
+    return_slot = 2
+
+    set_code = Op.RETURN(0, 1)
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    authorization = AuthorizationTuple(
+        address=set_code_to_address,
+        nonce=0,
+        chain_id=chain_id,
+        signer=auth_signer,
+    )
+
+    entry_code = (
+        Op.SSTORE(success_slot, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(return_slot, Op.RETURNDATASIZE)
+    )
+    entry_address = pre.deploy_contract(entry_code)
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization],
+        error=transaction_exception,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account.NONEXISTENT,
+            entry_address: Account(
+                storage={
+                    success_slot: 1 if transaction_exception is None else 0,
+                    return_slot: 0,
+                },
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "nonce,transaction_exception",
+    [
+        pytest.param(
+            2**64, TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT, id="nonce=2**64"
+        ),
+        pytest.param(2**64 - 1, None, id="nonce=2**64-1"),
+        pytest.param(2**64 - 2, None, id="nonce=2**64-2"),
+    ],
+)
+def test_tx_validity_nonce(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    nonce: int,
+    transaction_exception: TransactionException | None,
+):
+    """
+    Test sending a transaction where the nonce field of an authorization overflows the maximum
+    value, or almost overflows the maximum value.
+    """
+    auth_signer = pre.fund_eoa(
+        auth_account_start_balance, nonce=nonce if nonce < 2**64 else None
+    )
+
+    success_slot = 1
+    return_slot = 2
+
+    valid_authorization = nonce < 2**64 - 1
+    set_code = Op.RETURN(0, 1)
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    authorization = AuthorizationTuple(
+        address=set_code_to_address,
+        nonce=nonce,
+        signer=auth_signer,
+    )
+
+    entry_code = (
+        Op.SSTORE(success_slot, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(return_slot, Op.RETURNDATASIZE)
+    )
+    entry_address = pre.deploy_contract(entry_code)
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization],
+        error=transaction_exception,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=(nonce + 1) if (nonce < (2**64 - 1)) else nonce,
+                code=Spec.delegation_designation(set_code_to_address)
+                if valid_authorization
+                else b"",
+            )
+            if nonce < 2**64
+            else Account.NONEXISTENT,
+            entry_address: Account(
+                storage={
+                    success_slot: 1 if transaction_exception is None else 0,
+                    return_slot: 1 if valid_authorization else 0,
+                },
+            ),
+        },
+    )
+
+
+def test_nonce_overflow_after_first_authorization(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test sending a transaction with two authorization where the first one bumps the nonce
+    to 2**64-1 and the second would result in overflow.
+    """
+    nonce = 2**64 - 2
+    auth_signer = pre.fund_eoa(auth_account_start_balance, nonce=nonce)
+
+    success_slot = 1
+    return_slot = 2
+
+    set_code_1 = Op.RETURN(0, 1)
+    set_code_to_address_1 = pre.deploy_contract(set_code_1)
+    set_code_2 = Op.RETURN(0, 2)
+    set_code_to_address_2 = pre.deploy_contract(set_code_2)
+
+    authorization_list = [
+        AuthorizationTuple(
+            address=set_code_to_address_1,
+            nonce=nonce,
+            signer=auth_signer,
+        ),
+        AuthorizationTuple(
+            address=set_code_to_address_2,
+            nonce=nonce + 1,
+            signer=auth_signer,
+        ),
+    ]
+
+    entry_code = (
+        Op.SSTORE(success_slot, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(return_slot, Op.RETURNDATASIZE)
+    )
+    entry_address = pre.deploy_contract(entry_code)
+
+    tx = Transaction(
+        gas_limit=200_000,
+        to=entry_address,
+        value=0,
+        authorization_list=authorization_list,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=nonce + 1,
+                code=Spec.delegation_designation(set_code_to_address_1),
+            ),
+            entry_address: Account(
+                storage={
+                    success_slot: 1,
+                    return_slot: 1,
+                },
             ),
         },
     )
@@ -2477,6 +2647,7 @@ def deposit_contract_initial_storage() -> Storage:
 def test_set_code_to_system_contract(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
+    fork: Fork,
     system_contract: int,
     call_opcode: Op,
 ):
@@ -2496,12 +2667,12 @@ def test_set_code_to_system_contract(
 
     # Setup the initial storage of the account to mimic the system contract if required
     match system_contract:
-        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
+        case SystemContract.BEACON_DEPOSITS:  # EIP-6110
             # Deposit contract needs specific storage values, so we set them on the account
             auth_signer = pre.fund_eoa(
                 auth_account_start_balance, storage=deposit_contract_initial_storage()
             )
-        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
+        case SystemContract.BEACON_ROOT_HISTORY:  # EIP-4788
             auth_signer = pre.fund_eoa(auth_account_start_balance, storage=Storage({1: 1}))
         case _:
             # Pre-fund without storage
@@ -2509,10 +2680,10 @@ def test_set_code_to_system_contract(
 
     # Fabricate the payload for the system contract
     match system_contract:
-        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
+        case SystemContract.BEACON_ROOT_HISTORY:  # EIP-4788
             caller_payload = Hash(1)
             caller_code_storage[call_return_data_size_slot] = 32
-        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
+        case SystemContract.BEACON_DEPOSITS:  # EIP-6110
             # Fabricate a valid deposit request to the set-code account
             deposit_request = DepositRequest(
                 pubkey=0x01,
@@ -2523,7 +2694,7 @@ def test_set_code_to_system_contract(
             )
             caller_payload = deposit_request.calldata
             call_value = deposit_request.value
-        case Address(0x00A3CA265EBCB825B45F985A16CEFB49958CE017):  # EIP-7002
+        case SystemContract.WITHDRAWAL_REQUESTS:  # EIP-7002
             # Fabricate a valid withdrawal request to the set-code account
             withdrawal_request = WithdrawalRequest(
                 source_address=0x01,
@@ -2533,7 +2704,7 @@ def test_set_code_to_system_contract(
             )
             caller_payload = withdrawal_request.calldata
             call_value = withdrawal_request.value
-        case Address(0x00B42DBF2194E931E80326D950320F7D9DBEAC02):  # EIP-7251
+        case SystemContract.CONSOLIDATION_REQUESTS:  # EIP-7251
             # Fabricate a valid consolidation request to the set-code account
             consolidation_request = ConsolidationRequest(
                 source_address=0x01,
@@ -2543,7 +2714,7 @@ def test_set_code_to_system_contract(
             )
             caller_payload = consolidation_request.calldata
             call_value = consolidation_request.value
-        case Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E):  # EIP-2935
+        case SystemContract.BLOCK_HISTORY:  # EIP-2935
             caller_payload = Hash(0)
             caller_code_storage[call_return_data_size_slot] = 32
         case _:
@@ -2582,7 +2753,9 @@ def test_set_code_to_system_contract(
         blocks=[
             Block(
                 txs=txs,
-                requests_root=[],  # Verify nothing slipped into the requests trie
+                requests_hash=Requests(
+                    max_request_type=fork.max_request_type(block_number=1)
+                ),  # Verify nothing slipped into the requests trie
             )
         ],
         post={
@@ -2784,5 +2957,181 @@ def test_reset_code(
                 code=Spec.delegation_designation(set_code_2_address),
                 storage={1: 1, 2: 1},
             ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "self_sponsored",
+    [
+        pytest.param(False, id="not_self_sponsored"),
+        pytest.param(True, id="self_sponsored"),
+    ],
+)
+@pytest.mark.parametrize(
+    "pre_set_delegation_code",
+    [
+        pytest.param(Op.RETURN(0, 1), id="delegated_account"),
+        pytest.param(None, id="undelegated_account"),
+    ],
+)
+def test_delegation_clearing(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    pre_set_delegation_code: Bytecode | None,
+    self_sponsored: bool,
+):
+    """
+    Test clearing the delegation of an account under a variety of circumstances.
+
+    Args:
+        pre_set_delegation_code: The code to set on the account before clearing delegation, or None
+            if the account should not have any code set.
+        self_sponsored: Whether the delegation clearing transaction is self-sponsored.
+    """  # noqa: D417
+    pre_set_delegation_address: Address | None = None
+    if pre_set_delegation_code is not None:
+        pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
+
+    if self_sponsored:
+        auth_signer = pre.fund_eoa(delegation=pre_set_delegation_address)
+    else:
+        auth_signer = pre.fund_eoa(0, delegation=pre_set_delegation_address)
+
+    success_slot = 1
+    return_slot = 2
+    ext_code_size_slot = 3
+    ext_code_hash_slot = 4
+    ext_code_copy_slot = 5
+    entry_code = (
+        Op.SSTORE(success_slot, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(return_slot, Op.RETURNDATASIZE)
+        + Op.SSTORE(ext_code_size_slot, Op.EXTCODESIZE(address=auth_signer))
+        + Op.SSTORE(ext_code_hash_slot, Op.EXTCODEHASH(address=auth_signer))
+        + Op.EXTCODECOPY(address=auth_signer, size=32)
+        + Op.SSTORE(ext_code_copy_slot, Op.MLOAD(0))
+        + Op.STOP
+    )
+    entry_address = pre.deploy_contract(entry_code)
+
+    authorization = AuthorizationTuple(
+        address=Spec.RESET_DELEGATION_ADDRESS,  # Reset
+        nonce=auth_signer.nonce + (1 if self_sponsored else 0),
+        signer=auth_signer,
+    )
+
+    tx = Transaction(
+        gas_limit=200_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization],
+        sender=pre.fund_eoa() if not self_sponsored else auth_signer,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=auth_signer.nonce + 1,
+                code=b"",
+                storage={},
+            ),
+            entry_address: Account(
+                storage={
+                    success_slot: 1,
+                    return_slot: 0,
+                    ext_code_size_slot: 0,
+                    ext_code_hash_slot: Bytes().keccak256(),
+                    ext_code_copy_slot: 0,
+                },
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "entry_code",
+    [
+        pytest.param(Om.OOG + Op.STOP, id="out_of_gas"),
+        pytest.param(Op.INVALID, id="invalid_opcode"),
+        pytest.param(Op.REVERT(0, 0), id="revert"),
+    ],
+)
+def test_delegation_clearing_failing_tx(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    entry_code: Bytecode,
+):
+    """
+    Test clearing the delegation of an account in a transaction that fails, OOGs or reverts.
+    """  # noqa: D417
+    pre_set_delegation_code = Op.RETURN(0, 1)
+    pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
+
+    auth_signer = pre.fund_eoa(0, delegation=pre_set_delegation_address)
+
+    entry_address = pre.deploy_contract(entry_code)
+
+    authorization = AuthorizationTuple(
+        address=Spec.RESET_DELEGATION_ADDRESS,  # Reset
+        nonce=auth_signer.nonce,
+        signer=auth_signer,
+    )
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=auth_signer.nonce + 1,
+                code=b"",
+                storage={},
+            ),
+        },
+    )
+
+
+def test_deploying_delegation_designation_contract(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test attempting to deploy a contract that has the same format as a delegation designation.
+    """
+    sender = pre.fund_eoa()
+
+    set_to_code = Op.RETURN(0, 1)
+    set_to_address = pre.deploy_contract(set_to_code)
+
+    initcode = Initcode(deploy_code=Spec.delegation_designation(set_to_address))
+
+    tx = Transaction(
+        sender=sender,
+        to=None,
+        gas_limit=100_000,
+        data=initcode,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            sender: Account(
+                nonce=1,
+            ),
+            tx.created_contract: Account.NONEXISTENT,
         },
     )

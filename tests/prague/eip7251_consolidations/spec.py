@@ -4,6 +4,8 @@ Defines EIP-7251 specification constants and functions.
 
 from dataclasses import dataclass
 
+from ethereum_test_addresses import SYSTEM_ADDRESS, SystemContract
+
 
 @dataclass(frozen=True)
 class ReferenceSpec:
@@ -15,7 +17,7 @@ class ReferenceSpec:
     version: str
 
 
-ref_spec_7251 = ReferenceSpec("EIPS/eip-7251.md", "e5af719767e789c88c0e063406c6557c8f53cfba")
+ref_spec_7251 = ReferenceSpec("EIPS/eip-7251.md", "18af57e74e4e862da5cbb8140aeb24128088f4e2")
 
 
 # Constants
@@ -26,8 +28,8 @@ class Spec:
     https://eips.ethereum.org/EIPS/eip-7251#execution-layer
     """
 
-    CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS = 0x00B42DBF2194E931E80326D950320F7D9DBEAC02
-    SYSTEM_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE
+    CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS = SystemContract.CONSOLIDATION_REQUESTS
+    SYSTEM_ADDRESS = SYSTEM_ADDRESS
 
     EXCESS_CONSOLIDATION_REQUESTS_STORAGE_SLOT = 0
     CONSOLIDATION_REQUEST_COUNT_STORAGE_SLOT = 1
