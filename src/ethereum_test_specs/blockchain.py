@@ -55,8 +55,9 @@ from ethereum_test_types import (
 )
 from evm_transition_tool import TransitionTool
 
-from .base import BaseTest, verify_result, verify_transactions
+from .base import BaseTest, verify_result
 from .debugging import print_traces
+from .helpers import verify_transactions
 
 
 def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
@@ -236,9 +237,9 @@ class Block(Header):
     An RLP modifying header which values would be used to override the ones
     returned by the  `evm_transition_tool`.
     """
-    exception: List[
-        TransactionException | BlockException
-    ] | TransactionException | BlockException | None = None
+    exception: (
+        List[TransactionException | BlockException] | TransactionException | BlockException | None
+    ) = None
     """
     If set, the block is expected to be rejected by the client.
     """
@@ -370,13 +371,13 @@ class BlockchainTest(BaseTest):
             base_fee_per_gas=env.base_fee_per_gas,
             blob_gas_used=env.blob_gas_used,
             excess_blob_gas=env.excess_blob_gas,
-            withdrawals_root=Withdrawal.list_root(env.withdrawals)
-            if env.withdrawals is not None
-            else None,
+            withdrawals_root=(
+                Withdrawal.list_root(env.withdrawals) if env.withdrawals is not None else None
+            ),
             parent_beacon_block_root=env.parent_beacon_block_root,
-            requests_root=Requests(root=[]).trie_root
-            if fork.header_requests_required(0, 0)
-            else None,
+            requests_root=(
+                Requests(root=[]).trie_root if fork.header_requests_required(0, 0) else None
+            ),
             fork=fork,
         )
 
@@ -440,7 +441,9 @@ class BlockchainTest(BaseTest):
         )
 
         try:
-            rejected_txs = verify_transactions(txs, transition_tool_output.result)
+            rejected_txs = verify_transactions(
+                t8n.exception_mapper, txs, transition_tool_output.result
+            )
             verify_result(transition_tool_output.result, env)
         except Exception as e:
             print_traces(t8n.get_traces())
@@ -574,27 +577,35 @@ class BlockchainTest(BaseTest):
                     header=header,
                     txs=[FixtureTransaction.from_transaction(tx) for tx in txs],
                     ommers=[],
-                    withdrawals=[FixtureWithdrawal.from_withdrawal(w) for w in new_env.withdrawals]
-                    if new_env.withdrawals is not None
-                    else None,
-                    deposit_requests=[
-                        FixtureDepositRequest.from_deposit_request(d)
-                        for d in requests.deposit_requests()
-                    ]
-                    if requests is not None
-                    else None,
-                    withdrawal_requests=[
-                        FixtureWithdrawalRequest.from_withdrawal_request(w)
-                        for w in requests.withdrawal_requests()
-                    ]
-                    if requests is not None
-                    else None,
-                    consolidation_requests=[
-                        FixtureConsolidationRequest.from_consolidation_request(c)
-                        for c in requests.consolidation_requests()
-                    ]
-                    if requests is not None
-                    else None,
+                    withdrawals=(
+                        [FixtureWithdrawal.from_withdrawal(w) for w in new_env.withdrawals]
+                        if new_env.withdrawals is not None
+                        else None
+                    ),
+                    deposit_requests=(
+                        [
+                            FixtureDepositRequest.from_deposit_request(d)
+                            for d in requests.deposit_requests()
+                        ]
+                        if requests is not None
+                        else None
+                    ),
+                    withdrawal_requests=(
+                        [
+                            FixtureWithdrawalRequest.from_withdrawal_request(w)
+                            for w in requests.withdrawal_requests()
+                        ]
+                        if requests is not None
+                        else None
+                    ),
+                    consolidation_requests=(
+                        [
+                            FixtureConsolidationRequest.from_consolidation_request(c)
+                            for c in requests.consolidation_requests()
+                        ]
+                        if requests is not None
+                        else None
+                    ),
                     fork=fork,
                 ).with_rlp(txs=txs, requests=requests)
                 if block.exception is None:

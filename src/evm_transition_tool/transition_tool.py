@@ -17,6 +17,7 @@ from typing import Dict, List, Mapping, Optional, Type
 
 from requests_unixsocket import Session  # type: ignore
 
+from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_fixtures import FixtureFormat, FixtureVerifier
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
@@ -61,6 +62,7 @@ class TransitionTool(FixtureVerifier):
     blocktest_subcommand: Optional[str] = None
     cached_version: Optional[str] = None
     t8n_use_stream: bool = False
+    exception_mapper: ExceptionMapper
 
     t8n_use_server: bool = False
     server_url: str
@@ -72,12 +74,14 @@ class TransitionTool(FixtureVerifier):
     def __init__(
         self,
         *,
+        exception_mapper: ExceptionMapper,
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
         """
         Abstract initialization method that all subclasses must implement.
         """
+        self.exception_mapper = exception_mapper
         if binary is None:
             binary = self.default_binary
         else:

@@ -4,7 +4,7 @@ Library of Python wrappers for the different implementations of transition tools
 
 from .besu import BesuTransitionTool
 from .ethereumjs import EthereumJSTransitionTool
-from .evmone import EvmOneTransitionTool
+from .evmone import EvmoneExceptionMapper, EvmOneTransitionTool
 from .execution_specs import ExecutionSpecsTransitionTool
 from .geth import GethTransitionTool
 from .nimbus import NimbusTransitionTool
@@ -19,6 +19,7 @@ __all__ = (
     "EvmOneTransitionTool",
     "ExecutionSpecsTransitionTool",
     "GethTransitionTool",
+    "EvmoneExceptionMapper",
     "NimbusTransitionTool",
     "Result",
     "TransitionTool",
