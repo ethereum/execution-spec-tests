@@ -2970,3 +2970,94 @@ def test_contract_create(
         tx=tx,
         post={},
     )
+
+
+@pytest.mark.parametrize(
+    "self_sponsored",
+    [
+        pytest.param(False, id="not_self_sponsored"),
+        pytest.param(True, id="self_sponsored"),
+    ],
+)
+@pytest.mark.parametrize(
+    "pre_set_delegation_code",
+    [
+        pytest.param(Op.RETURN(0, 1), id="delegated_account"),
+        pytest.param(None, id="undelegated_account"),
+    ],
+)
+def test_delegation_clearing(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    pre_set_delegation_code: Bytecode | None,
+    self_sponsored: bool,
+):
+    """
+    Test clearing the delegation of an account under a variety of circumstances.
+
+    Args:
+        pre_set_delegation_code: The code to set on the account before clearing delegation, or None
+            if the account should not have any code set.
+        self_sponsored: Whether the delegation clearing transaction is self-sponsored.
+    """  # noqa: D417
+    pre_set_delegation_address: Address | None = None
+    if pre_set_delegation_code is not None:
+        pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
+
+    if self_sponsored:
+        auth_signer = pre.fund_eoa(delegation=pre_set_delegation_address)
+    else:
+        auth_signer = pre.fund_eoa(0, delegation=pre_set_delegation_address)
+
+    success_slot = 1
+    return_slot = 2
+    ext_code_size_slot = 3
+    ext_code_hash_slot = 4
+    ext_code_copy_slot = 5
+    entry_code = (
+        Op.SSTORE(success_slot, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(return_slot, Op.RETURNDATASIZE)
+        + Op.SSTORE(ext_code_size_slot, Op.EXTCODESIZE(address=auth_signer))
+        + Op.SSTORE(ext_code_hash_slot, Op.EXTCODEHASH(address=auth_signer))
+        + Op.EXTCODECOPY(address=auth_signer, size=32)
+        + Op.SSTORE(ext_code_copy_slot, Op.MLOAD(0))
+        + Op.STOP
+    )
+    entry_address = pre.deploy_contract(entry_code)
+
+    authorization = AuthorizationTuple(
+        address=Spec.RESET_DELEGATION_ADDRESS,  # Reset
+        nonce=auth_signer.nonce + (1 if self_sponsored else 0),
+        signer=auth_signer,
+    )
+
+    tx = Transaction(
+        gas_limit=200_000,
+        to=entry_address,
+        value=0,
+        authorization_list=[authorization],
+        sender=pre.fund_eoa() if not self_sponsored else auth_signer,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=auth_signer.nonce + 1,
+                code=b"",
+                storage={},
+            ),
+            entry_address: Account(
+                storage={
+                    success_slot: 1,
+                    return_slot: 0,
+                    ext_code_size_slot: 0,
+                    ext_code_hash_slot: Bytes().keccak256(),
+                    ext_code_copy_slot: 0,
+                },
+            ),
+        },
+    )
