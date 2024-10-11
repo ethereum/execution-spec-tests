@@ -5,6 +5,7 @@ Defines EIP-7251 specification constants and functions.
 from dataclasses import dataclass
 
 from ethereum_test_addresses import SYSTEM_ADDRESS, SystemContract
+from ethereum_test_tools import Address
 
 
 @dataclass(frozen=True)
@@ -29,6 +30,7 @@ class Spec:
     """
 
     CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS = SystemContract.CONSOLIDATION_REQUESTS
+    CONSOLIDATION_REQUEST_PREDEPLOY_SENDER = Address(0x81E9AFA909FE8B57AF2A6FD18862AE9DAE3163F4)
     SYSTEM_ADDRESS = SYSTEM_ADDRESS
 
     EXCESS_CONSOLIDATION_REQUESTS_STORAGE_SLOT = 0

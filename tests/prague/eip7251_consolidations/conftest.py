@@ -71,36 +71,64 @@ def included_requests(
 
 
 @pytest.fixture
+def timestamp() -> int:
+    """
+    Return the timestamp for the first block.
+    """
+    return 1
+
+
+@pytest.fixture
 def blocks(
     fork: Fork,
     update_pre: None,  # Fixture is used for its side effects
     blocks_consolidation_requests: List[List[ConsolidationRequestInteractionBase]],
     included_requests: List[List[ConsolidationRequest]],
+    timestamp: int,
 ) -> List[Block]:
     """
     Return the list of blocks that should be included in the test.
     """
-    return [  # type: ignore
-        Block(
-            txs=sum((r.transactions() for r in block_requests), []),
-            header_verify=Header(
+    blocks: List[Block] = []
+
+    for block_requests, block_included_requests in zip_longest(  # type: ignore
+        blocks_consolidation_requests,
+        included_requests,
+        fillvalue=[],
+    ):
+        max_request_type = fork.max_request_type(
+            block_number=len(blocks) + 1,
+            timestamp=timestamp,
+        )
+        header_verify: Header | None = None
+        if max_request_type > -1:
+            header_verify = Header(
                 requests_hash=Requests(
                     *block_included_requests,
-                    max_request_type=fork.max_request_type(block_number=1, timestamp=1),
+                    max_request_type=max_request_type,
                 )
-            ),
+            )
+        else:
+            assert not block_included_requests
+        blocks.append(
+            Block(
+                txs=sum((r.transactions() for r in block_requests), []),
+                header_verify=header_verify,
+                timestamp=timestamp,
+            )
         )
-        for block_requests, block_included_requests in zip_longest(
-            blocks_consolidation_requests,
-            included_requests,
-            fillvalue=[],
-        )
-    ] + [
+        timestamp += 1
+
+    return blocks + [
         Block(
             header_verify=Header(
                 requests_hash=Requests(
-                    max_request_type=fork.max_request_type(block_number=1, timestamp=1)
+                    max_request_type=fork.max_request_type(
+                        block_number=len(blocks) + 1,
+                        timestamp=timestamp,
+                    )
                 )
-            )
+            ),
+            timestamp=timestamp,
         )
     ]  # Add an empty block at the end to verify that no more consolidation requests are included
