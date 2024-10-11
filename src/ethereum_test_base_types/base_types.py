@@ -326,6 +326,8 @@ class FixedSizeBytes(Bytes):
         """
         Compares two FixedSizeBytes objects to be equal.
         """
+        if other is None:
+            return False
         if not isinstance(other, FixedSizeBytes):
             assert (
                 isinstance(other, str)
