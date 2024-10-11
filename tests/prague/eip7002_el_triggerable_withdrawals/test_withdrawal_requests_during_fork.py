@@ -115,7 +115,6 @@ def test_withdrawal_requests_during_fork(
     # Append the deployment transaction to the first block
     blocks[0].txs.append(deploy_tx)
 
-    # Contract deployment transaction
     blockchain_test(
         genesis_environment=Environment(),
         pre=pre,
