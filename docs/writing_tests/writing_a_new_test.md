@@ -76,6 +76,8 @@ def test_contract_creating_tx(
 
 The `state_test` and `blockchain_test` objects are actually wrapper classes to the `StateTest`, respectively `BlockchainTest` objects, that once called actually instantiate a new instance of these objects and fill the test case using the `evm` tool according to the pre and post states and the transactions defined within the test.
 
+If a blockchain-type test should only generate a test fixture in the Engine format (`EngineFixture`), the `blockchain_test_engine` object can be specified. This object is a wrapper for the `BlockchainTestEngine` class.
+
 ## `StateTest` Object
 
 The `StateTest` object represents a single test vector, and contains the
@@ -99,6 +101,10 @@ Ethereum VM by attempting to append multiple blocks to the chain:
 - `post`: Post-State containing the information of all Ethereum accounts that are
     created or modified after all blocks are executed.
 - `blocks`: All blocks to be appended to the blockchain during the test.
+
+## `BlockchainTestEngine` Object
+
+The `BlockchainTestEngine` object has the same properties as the `BlockchainTest` but it's used to only generate a blockchain test in the Engine format.
 
 ## Pre/Post State of the Test
 
