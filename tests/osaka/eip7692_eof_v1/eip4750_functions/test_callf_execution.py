@@ -386,24 +386,24 @@ def test_callf_max_stack(
         code=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH0 * 4 # fill the stack up a little bit
+                    code=Op.PUSH0 * 4  # fill the stack up a little bit
                     + Op.PUSH2(stack_height)
                     + Op.CALLF[1]
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.RETURN(0, 0),
-                    max_stack_height=7
+                    max_stack_height=7,
                 ),
                 Section.Code(
-                    Op.PUSH1(1)     # arg, 1
-                    + Op.SWAP1      # 1, arg
-                    + Op.SUB        # arg-1,
-                    + Op.DUP1       # arg-1, arg-1
-                    + Op.CALLF[2]   # arg-1, arg-1
-                    + Op.ISZERO     # jump?, arg-1,
+                    Op.PUSH1(1)  # arg, 1
+                    + Op.SWAP1  # 1, arg
+                    + Op.SUB  # arg-1,
+                    + Op.DUP1  # arg-1, arg-1
+                    + Op.CALLF[2]  # arg-1, arg-1
+                    + Op.ISZERO  # jump?, arg-1,
                     + Op.RJUMPI[5]  # arg-1
-                    + Op.DUP1       # arg-1, arg-1
-                    + Op.CALLF[1]   # ret, arg-1
-                    + Op.POP        # arg-1
+                    + Op.DUP1  # arg-1, arg-1
+                    + Op.CALLF[1]  # ret, arg-1
+                    + Op.POP  # arg-1
                     + Op.RETF,
                     code_inputs=1,
                     code_outputs=1,
