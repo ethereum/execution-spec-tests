@@ -6,6 +6,7 @@ Common procedures to test
 from dataclasses import dataclass
 
 from ethereum_test_addresses import SYSTEM_ADDRESS, SystemContract
+from ethereum_test_tools import Address
 
 
 @dataclass(frozen=True)
@@ -33,6 +34,7 @@ class Spec:
     """
 
     WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS = SystemContract.WITHDRAWAL_REQUESTS
+    WITHDRAWAL_REQUEST_PREDEPLOY_SENDER = Address(0x57B8C3C2766D0623EA0A499365A6F5A26AD38B47)
     SYSTEM_ADDRESS = SYSTEM_ADDRESS
 
     EXCESS_WITHDRAWAL_REQUESTS_STORAGE_SLOT = 0
