@@ -78,11 +78,11 @@ BLOCKS_BEFORE_FORK = 2
                     ),
                 ],
             ],
-            id="single_block_single_withdrawal_request_from_eoa",
+            id="one_valid_request_second_block_after_fork",
         ),
     ],
 )
-@pytest.mark.parametrize("timestamp", [15_000 - BLOCKS_BEFORE_FORK])
+@pytest.mark.parametrize("timestamp", [15_000 - BLOCKS_BEFORE_FORK], ids=[""])
 def test_withdrawal_requests_during_fork(
     blockchain_test: BlockchainTestFiller,
     blocks: List[Block],
