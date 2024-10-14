@@ -3,12 +3,13 @@ Library of Python wrappers for the different implementations of transition tools
 """
 
 from .besu import BesuTransitionTool
+from .clis import CLINotFoundInPath, UnknownCLI
 from .ethereumjs import EthereumJSTransitionTool
 from .evmone import EvmOneTransitionTool
 from .execution_specs import ExecutionSpecsTransitionTool
 from .geth import GethTransitionTool
 from .nimbus import NimbusTransitionTool
-from .transition_tool import TransitionTool, TransitionToolNotFoundInPath, UnknownTransitionTool
+from .transition_tool import TransitionTool
 from .types import Result, TransitionToolOutput
 
 TransitionTool.set_default_tool(ExecutionSpecsTransitionTool)
@@ -23,6 +24,6 @@ __all__ = (
     "Result",
     "TransitionTool",
     "TransitionToolOutput",
-    "TransitionToolNotFoundInPath",
-    "UnknownTransitionTool",
+    "CLINotFoundInPath",
+    "UnknownCLI",
 )

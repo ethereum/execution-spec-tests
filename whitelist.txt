@@ -69,6 +69,7 @@ changelog
 chfast
 classdict
 cli
+clis
 cli2
 cmd
 codeAddr

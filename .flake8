@@ -23,11 +23,11 @@ extend-ignore = E203, D107, D200, D203, D205,
     # Ignore N806: Variable names with all caps (ALL_CAPS)
 max-line-length = 99
 per-file-ignore =
-    tests/evm_transition_tool/test_evaluate.py:E501
+    tests/ethereum_clis/test_evaluate.py:E501
 
 extend-exclude =
     setup.py
-    src/evm_transition_tool/tests/
+    src/ethereum_clis/tests/
     src/ethereum_test_tools/tests/
     src/ethereum_test_forks/tests/
 
