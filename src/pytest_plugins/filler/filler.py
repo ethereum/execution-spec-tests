@@ -298,13 +298,9 @@ def pytest_terminal_summary(
     Emphasize that fixtures have only been filled; they must now be executed to
     actually run the tests.
     """
-    passed_display_text = "fixtures filled"
-    stats = terminalreporter.stats
-    if "passed" in stats:
-        terminalreporter._add_stats(passed_display_text, stats["passed"])
-        stats.pop("passed")
     yield
-    if passed_display_text in stats and stats[passed_display_text]:
+    stats = terminalreporter.stats
+    if "passed" in stats and stats["passed"]:
         # append / to indicate this is a directory
         output_dir = str(strip_output_tarball_suffix(config.getoption("output"))) + "/"
         terminalreporter.write_sep(
