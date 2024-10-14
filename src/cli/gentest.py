@@ -38,7 +38,7 @@ Limitations:
 """
 
 import json
-import os
+from pathlib import Path
 from dataclasses import asdict, dataclass
 from sys import stderr
 from typing import Dict, List, TextIO
@@ -56,7 +56,7 @@ from ethereum_test_types import Transaction
     "-c",
     envvar="GENTEST_CONFIG_FILE",
     type=click.File("r"),
-    default=os.path.expanduser("~/.eest/gentest/config.json"),
+    default=Path.home() / ".eest" / "gentest" / "config.json",
     help="Config file with remote node data.",
 )
 @click.argument("transaction_hash")
