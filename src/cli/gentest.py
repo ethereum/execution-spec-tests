@@ -56,7 +56,7 @@ from ethereum_test_types import Transaction
     "-c",
     envvar="GENTEST_CONFIG_FILE",
     type=click.File("r"),
-    default=Path.home() / ".eest" / "gentest" / "config.json",
+    default=Path.home() / ".eest" / "gentest.json",
     help="Config file with remote node data.",
 )
 @click.argument("transaction_hash")
