@@ -10,23 +10,9 @@ Requirements:
 
 1. Access to an archive node for the network where the transaction
     originates. A provider may be used.
-2. A config file with the remote node data in JSON format
-
-    ```json
-    {
-        "remote_nodes" : [
-            {
-                "name" : "mainnet_archive",
-                "node_url" : "https://example.archive.node.url/v1
-                "client_id" : "",
-                "secret" : ""
-            }
-        ]
-    }
-    ```
-
-    `client_id` and `secret` may be left empty if the node does not require
-    them.
+2. A config file with the remote node data in JSON format. Refer `config.json.example` in root dir
+    for a template config. You can include any node specific request headers in `rpc_headers`.
+    If no headers are required, this field can be empty.
 3. The transaction hash of a type 0 transaction (currently only legacy
     transactions are supported).
 
@@ -70,7 +56,7 @@ from ethereum_test_types import Transaction
     "-c",
     envvar="GENTEST_CONFIG_FILE",
     type=click.File("r"),
-    default=os.path.expanduser("~/.eest/gentest"),
+    default=os.path.expanduser("~/.eest/gentest/config.json"),
     help="Config file with remote node data.",
 )
 @click.argument("transaction_hash")
@@ -236,8 +222,7 @@ class Config:
 
         name: str
         node_url: str
-        client_id: str
-        secret: str
+        rpc_headers: Dict[str, str]
 
     remote_nodes: List["Config.RemoteNode"]
 
@@ -284,10 +269,7 @@ class RequestManager:
         Initialize the RequestManager with specific client config.
         """
         self.node_url = node_config.node_url
-        headers = {
-            "CF-Access-Client-Id": node_config.client_id,
-            "CF-Access-Client-Secret": node_config.secret,
-        }
+        headers = node_config.rpc_headers
         self.rpc = EthRPC(node_config.node_url, extra_headers=headers)
         self.debug_rpc = DebugRPC(node_config.node_url, extra_headers=headers)
 

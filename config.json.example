@@ -1,12 +1,12 @@
 {
-    "remote_nodes": [
-        {
-            "name": "<YOUR_NODE_NAME>",
-            "node_url": "<YOUR_NODE_URL>",
-            "rpc_headers": {
-                "Authorization": "Bearer your_token_here",
-                "Another-Header": "value"
-            }
-        }
-    ]
+  "remote_nodes": [
+    {
+      "name": "<YOUR_NODE_NAME>",
+      "node_url": "<YOUR_NODE_URL>",
+      "rpc_headers": {
+        "Authorization": "Bearer your_token_here",
+        "Another-Header": "value"
+      }
+    }
+  ]
 }
