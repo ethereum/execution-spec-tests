@@ -18,3 +18,7 @@ pectra-devnet-3:
   impl: ethjs
   repo: ethereumjs/ethereumjs-monorepo
   ref: t8ntool
+pectra-devnet-4:
+  impl: ethjs
+  repo: ethereumjs/ethereumjs-monorepo
+  ref: 7702-devnet-4-plus-t8ntool
