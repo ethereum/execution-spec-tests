@@ -70,6 +70,7 @@ chfast
 classdict
 cli
 clis
+CLIs
 cli2
 cmd
 codeAddr
