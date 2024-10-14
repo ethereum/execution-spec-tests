@@ -19,7 +19,7 @@ from ethereum_test_fixtures import FixtureFormat, FixtureVerifier
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
 
-from .clis import EthereumCLI
+from .ethereum_cli import EthereumCLI
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import TransactionReceipt, TransitionToolInput, TransitionToolOutput
 
