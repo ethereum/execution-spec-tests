@@ -473,8 +473,8 @@ class BlockchainTest(BaseTest):
             requests_list = requests.requests_list
 
         if block.requests is not None:
-            # TODO: We might need to modify `requests_list` here too.
             header.requests_hash = Hash(Requests(requests_lists=list(block.requests)))
+            requests_list = block.requests
 
         if block.rlp_modifier is not None:
             # Modify any parameter specified in the `rlp_modifier` after
