@@ -38,8 +38,9 @@ Limitations:
 """
 
 import json
-from pathlib import Path
 from dataclasses import asdict, dataclass
+from dataclasses import field as dataclass_field
+from pathlib import Path
 from sys import stderr
 from typing import Dict, List, TextIO
 
@@ -222,7 +223,7 @@ class Config:
 
         name: str
         node_url: str
-        rpc_headers: Dict[str, str]
+        rpc_headers: Dict[str, str] = dataclass_field(default_factory=dict)
 
     remote_nodes: List["Config.RemoteNode"]
 
