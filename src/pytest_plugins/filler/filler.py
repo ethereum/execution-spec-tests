@@ -273,18 +273,15 @@ def pytest_report_teststatus(report, config: pytest.Config):
     """
     This hook modifies the test results in pytest's terminal output.
 
-    We use this for:
+    We use this:
 
-    1. To change the test results to display `FILLED` instead of `PASSED`.
-    2. To disable test session progress report if we're writing the JSON
+    1. To disable test session progress report if we're writing the JSON
         fixtures to stdout to be read by a consume command on stdin. I.e.,
         don't write this type of output to the console:
     ```text
     ...x...
     ```
     """
-    if report.when == "call" and report.passed:
-        return (report.outcome, ".", "FILLED")
     if is_output_stdout(config.getoption("output")):
         return report.outcome, "", report.outcome.upper()
 
