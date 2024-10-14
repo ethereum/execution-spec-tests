@@ -195,7 +195,7 @@ class TestHtmlReportFlags:
 
 def test_phil_default_output_options(runner):
     """
-    Test default pytest html behavior: Neither `--html` or `--output` is specified.
+    A simple sanity test for phil.
     """
     fill_args = ["-k", "test_dup and state_test-DUP16 and LEGACY", "--fork", "Frontier"]
     result = runner.invoke(phil, fill_args)
