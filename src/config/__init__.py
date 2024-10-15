@@ -7,4 +7,4 @@ environment configurations, making them accessible throughout the application.
 
 # This import is done to facilitate cleaner imports in the project
 # `from config import env` instead of `from config.env import EnvConfig`
-from .env import EnvConfig as Env  # noqa: 401
+from .env import EnvConfig  # noqa: 401
