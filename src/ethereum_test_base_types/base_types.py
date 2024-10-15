@@ -2,6 +2,7 @@
 Basic type primitives used to define other types.
 """
 
+from hashlib import sha256
 from typing import Any, ClassVar, SupportsBytes, Type, TypeVar
 
 from Crypto.Hash import keccak
@@ -162,7 +163,7 @@ class Bytes(bytes, ToStringSchema):
     Class that helps represent bytes of variable length in tests.
     """
 
-    def __new__(cls, input: BytesConvertible):
+    def __new__(cls, input: BytesConvertible = b""):
         """
         Creates a new Bytes object.
         """
@@ -203,6 +204,12 @@ class Bytes(bytes, ToStringSchema):
         """
         k = keccak.new(digest_bits=256)
         return Hash(k.update(bytes(self)).digest())
+
+    def sha256(self) -> "Hash":
+        """
+        Return the sha256 hash of the opcode byte representation.
+        """
+        return Hash(sha256(self).digest())
 
 
 S = TypeVar("S", bound="FixedSizeHexNumber")
@@ -279,6 +286,7 @@ class FixedSizeBytes(Bytes):
     """
 
     byte_length: ClassVar[int]
+    _sized_: ClassVar[Type["FixedSizeBytes"]]
 
     def __class_getitem__(cls, length: int) -> Type["FixedSizeBytes"]:
         """
@@ -288,6 +296,7 @@ class FixedSizeBytes(Bytes):
         class Sized(cls):  # type: ignore
             byte_length = length
 
+        Sized._sized_ = Sized
         return Sized
 
     def __new__(cls, input: FixedSizeBytesConvertible | T):
@@ -317,6 +326,8 @@ class FixedSizeBytes(Bytes):
         """
         Compares two FixedSizeBytes objects to be equal.
         """
+        if other is None:
+            return False
         if not isinstance(other, FixedSizeBytes):
             assert (
                 isinstance(other, str)
@@ -324,7 +335,7 @@ class FixedSizeBytes(Bytes):
                 or isinstance(other, bytes)
                 or isinstance(other, SupportsBytes)
             )
-            other = self.__class__(other)
+            other = self._sized_(other)
         return super().__eq__(other)
 
     def __ne__(self, other: object) -> bool:
@@ -340,6 +351,17 @@ class Address(FixedSizeBytes[20]):  # type: ignore
     """
 
     label: str | None = None
+
+    def __new__(cls, input: "FixedSizeBytesConvertible | Address", *, label: str | None = None):
+        """
+        Creates a new Address object with an optional label.
+        """
+        instance = super(Address, cls).__new__(cls, input)
+        if isinstance(input, Address) and label is None:
+            instance.label = input.label
+        else:
+            instance.label = label
+        return instance
 
 
 class Hash(FixedSizeBytes[32]):  # type: ignore
