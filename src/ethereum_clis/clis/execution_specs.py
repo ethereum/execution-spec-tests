@@ -165,6 +165,10 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
                 TransactionException.INITCODE_SIZE_EXCEEDED,
                 "ansaction: ",
             ),
+            ExceptionMessage(
+                TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS,
+                "nsaction: ",
+            ),
             # TODO EVMONE needs to differentiate when the section is missing in the header or body
             ExceptionMessage(EOFException.MISSING_STOP_OPCODE, "err: no_terminating_instruction"),
             ExceptionMessage(EOFException.MISSING_CODE_HEADER, "err: code_section_missing"),

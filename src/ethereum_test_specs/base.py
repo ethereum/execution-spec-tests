@@ -7,17 +7,16 @@ from functools import reduce
 from itertools import count
 from os import path
 from pathlib import Path
-from typing import Callable, ClassVar, Dict, Generator, Iterator, List, Optional
+from typing import Callable, ClassVar, Generator, Iterator, List, Optional
 
 import pytest
 from pydantic import BaseModel, Field
 
 from ethereum_clis import Result, TransitionTool
 from ethereum_test_base_types import to_hex
-from ethereum_test_exceptions import ExceptionMapper, TransactionException
 from ethereum_test_fixtures import BaseFixture, FixtureFormat
 from ethereum_test_forks import Fork
-from ethereum_test_types import Environment, Transaction, Withdrawal
+from ethereum_test_types import Environment, Withdrawal
 
 
 class HashMismatchException(Exception):

@@ -2021,7 +2021,9 @@ def test_set_code_invalid_authorization_tuple(
                 nonce=(
                     1
                     if invalidity_reason == InvalidityReason.NONCE
-                    else [0, 1] if invalidity_reason == InvalidityReason.MULTIPLE_NONCE else 0
+                    else [0, 1]
+                    if invalidity_reason == InvalidityReason.MULTIPLE_NONCE
+                    else 0
                 ),
                 chain_id=2 if invalidity_reason == InvalidityReason.CHAIN_ID else 0,
                 signer=auth_signer,
