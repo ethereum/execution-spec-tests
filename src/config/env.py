@@ -1,0 +1,105 @@
+"""
+env.py
+
+This module is responsible for loading, parsing, and validating the application's
+environment configuration from the `env.yaml` file. It uses Pydantic to ensure that
+the configuration adheres to expected formats and types.
+
+Functions:
+- create_default_config: Creates a default configuration file if it doesn't exist.
+
+Classes:
+- EnvConfig: Loads the configuration and exposes it as Python objects.
+- RemoteNode: Represents a remote node configuration with validation.
+- Config: Represents the overall configuration structure with validation.
+
+Usage:
+- Initialize an instance of EnvConfig to load the configuration.
+- Access configuration values via properties (e.g., env.remote_nodes).
+"""
+
+from pathlib import Path
+from typing import Dict, List
+
+import yaml
+from pydantic import BaseModel, HttpUrl, ValidationError
+
+ENV_PATH = Path(__file__).resolve().parent.parent.parent / "env.yaml"
+
+
+def create_default_config():
+    """Creates a default configuration file if it doesn't exist."""
+    default_config = """
+# This file contains environment-specific configurations for the application.
+# It is git-ignored to keep local secrets safe.
+
+# The configuration stores Ethereum RPC node details.
+remote_nodes:
+  - name: mainnet_archive
+    # Replace with your Ethereum RPC node URL
+    node_url: http://example.com
+    # Optional: Headers for RPC requests
+    rpc_headers:
+      client-secret: <secret>
+"""
+    with ENV_PATH.open("w") as file:
+        file.write(default_config.strip())
+        print(f"Env file created: {ENV_PATH}")
+
+
+class RemoteNode(BaseModel):
+    """
+    Represents a configuration for a remote node.
+
+    Attributes:
+    - name (str): The name of the remote node.
+    - node_url (HttpUrl): The URL for the remote node, validated as a proper URL.
+    - rpc_headers (Dict[str, str]): A dictionary of optional RPC headers, defaults to empty dict.
+    """
+
+    name: str
+    node_url: HttpUrl
+    rpc_headers: Dict[str, str] = {}
+
+
+class Config(BaseModel):
+    """
+    Represents the overall environment configuration.
+
+    Attributes:
+    - remote_nodes (List[RemoteNode]): A list of remote node configurations.
+    """
+
+    remote_nodes: List[RemoteNode]
+
+
+class EnvConfig:
+    """
+    Loads and validates environment configuration from `env.yaml`.
+
+    Attributes:
+    - config (Config): An instance of the Config class containing validated settings.
+
+    Raises:
+    - ValueError: If the configuration is invalid.
+    """
+
+    def __init__(self):
+        if not ENV_PATH.exists():
+            create_default_config()
+
+        with ENV_PATH.open("r") as file:
+            config_data = yaml.safe_load(file)
+            try:
+                self.config = Config(**config_data)  # Validate and parse with Pydantic
+            except ValidationError as e:
+                raise ValueError(f"Invalid configuration: {e}")
+
+    @property
+    def remote_nodes(self):
+        """Returns the list of remote nodes from the configuration."""
+        return self.config.remote_nodes
+
+
+# Initialize the EnvConfig instance
+env = EnvConfig()
