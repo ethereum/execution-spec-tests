@@ -47,6 +47,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Pin EELS versions in `eels_resolutions.json` and include this file in fixture releases ([#872](https://github.com/ethereum/execution-spec-tests/pull/872)).
 - 🔀 Replace `ethereum.base_types` with `ethereum-types` ([#850](https://github.com/ethereum/execution-spec-tests/pull/850)).
 - 💥 `PragueEIP7692` fork has been renamed to `Osaka` ([#869](https://github.com/ethereum/execution-spec-tests/pull/869))
+- ✨ Improve `fill` terminal output to emphasize that filling tests is not actually testing a client ([#807](https://github.com/ethereum/execution-spec-tests/pull/887)).
 
 ### 🔧 EVM Tools
 

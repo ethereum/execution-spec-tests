@@ -525,6 +525,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "pyjwt" },
     { name = "pytest" },
+    { name = "pytest-custom-report" },
     { name = "pytest-html" },
     { name = "pytest-metadata" },
     { name = "pytest-xdist" },
@@ -607,6 +608,7 @@ requires-dist = [
     { name = "pyspelling", marker = "extra == 'docs'", specifier = ">=2.8.2,<3" },
     { name = "pytest", specifier = ">7.3.2,<8" },
     { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=4.1.0,<5" },
+    { name = "pytest-custom-report", specifier = ">=1.0.1,<2" },
     { name = "pytest-html", specifier = ">=4.1.0,<5" },
     { name = "pytest-metadata", specifier = ">=3,<4" },
     { name = "pytest-xdist", specifier = ">=3.3.1,<4" },
@@ -1561,6 +1563,17 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/7a/15/da3df99fd551507694a9b01f512a2f6cf1254f33601605843c3775f39460/pytest-cov-4.1.0.tar.gz", hash = "sha256:3904b13dfbfec47f003b8e77fd5b589cd11904a21ddf1ab38a64f204d6a10ef6", size = 63245 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a7/4b/8b78d126e275efa2379b1c2e09dc52cf70df16fc3b90613ef82531499d73/pytest_cov-4.1.0-py3-none-any.whl", hash = "sha256:6ba70b9e97e69fcc3fb45bfeab2d0a138fb65c4d0d6a41ef33983ad114be8c3a", size = 21949 },
+]
+
+[[package]]
+name = "pytest-custom-report"
+version = "1.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/64/9a/a2d1e9173c8ed7df06de8a50b1c526b0b3a912c5925c153e46e3da69d7d8/pytest_custom_report-1.0.1-py2.py3-none-any.whl", hash = "sha256:f048c5a06faf1621099a27571f4d749a666e8bfc038e158e10f17775add27364", size = 5099 },
 ]
 
 [[package]]
