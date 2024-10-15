@@ -2390,6 +2390,9 @@ def test_tx_validity_nonce(
     """
     Test sending a transaction where the nonce field of an authorization overflows the maximum
     value, or almost overflows the maximum value.
+
+    Also test calling the account of the authorization signer in order to verify that the account
+    is not warm.
     """
     auth_signer = pre.fund_eoa(
         auth_account_start_balance, nonce=nonce if nonce < 2**64 else None
