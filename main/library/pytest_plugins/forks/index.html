@@ -25226,7 +25226,7 @@ that filters the values.</p>
     <span class="n">header</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span>
             <span class="n">bold</span>
-            <span class="o">+</span> <span class="s2">&quot;Executing tests for: &quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;Generating fixtures for: &quot;</span>
             <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">fork_set</span><span class="p">))])</span>
             <span class="o">+</span> <span class="n">reset</span>
         <span class="p">),</span>
@@ -25234,7 +25234,7 @@ that filters the values.</p>
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">is_deployed</span><span class="p">()</span> <span class="k">for</span> <span class="n">fork</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">fork_set</span><span class="p">):</span>
         <span class="n">header</span> <span class="o">+=</span> <span class="p">[</span>
             <span class="p">(</span>
-                <span class="n">bold</span> <span class="o">+</span> <span class="n">warning</span> <span class="o">+</span> <span class="s2">&quot;Only executing tests with stable/deployed forks: &quot;</span>
+                <span class="n">bold</span> <span class="o">+</span> <span class="n">warning</span> <span class="o">+</span> <span class="s2">&quot;Only generating fixtures with stable/deployed forks: &quot;</span>
                 <span class="s2">&quot;Specify an upcoming fork via --until=fork to &quot;</span>
                 <span class="s2">&quot;add forks under development.&quot;</span> <span class="o">+</span> <span class="n">reset</span>
             <span class="p">)</span>
