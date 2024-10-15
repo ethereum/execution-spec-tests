@@ -43,9 +43,7 @@ class TransitionTool(EthereumCLI, FixtureVerifier):
 
     registered_tools: List[Type["TransitionTool"]] = []
     default_tool: Optional[Type["TransitionTool"]] = None
-    # default_binary: Path
-    # detect_binary_pattern: Pattern
-    # version_flag: str = "-v"
+
     t8n_subcommand: Optional[str] = None
     statetest_subcommand: Optional[str] = None
     blocktest_subcommand: Optional[str] = None

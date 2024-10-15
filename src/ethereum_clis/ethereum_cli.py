@@ -1,5 +1,5 @@
 """
-Base class for interacting with Ethereum CLIs.
+Abstract base class to help create Python interfaces to Ethereum CLIs.
 """
 
 import os
@@ -13,15 +13,15 @@ from typing import Any, List, Optional, Type
 
 
 class UnknownCLI(Exception):
-    """Exception raised if an unknown t8n is encountered"""
+    """Exception raised if an unknown CLI is encountered"""
 
     pass
 
 
 class CLINotFoundInPath(Exception):
-    """Exception raised if the specified t8n tool is not found in the path"""
+    """Exception raised if the specified CLI binary is not found in the path"""
 
-    def __init__(self, message="The transition tool was not found in the path", binary=None):
+    def __init__(self, message="The CLI binary was not found in the path", binary=None):
         if binary:
             message = f"{message} ({binary})"
         super().__init__(message)
@@ -29,7 +29,13 @@ class CLINotFoundInPath(Exception):
 
 class EthereumCLI(ABC):
     """
-    Abstract base class to help create an Ethereum CLI.
+    Abstract base class to help create Python interfaces to Ethereum CLIs.
+
+    This base class helps handle the special case of EVM subcommands, such as
+    the EVM transition tool `t8n`, which have multiple implementations, one
+    from each client team. In the case of these tools, this class mainly serves
+    to help instantiate the correct subclass based on the output of the CLI's
+    version flag.
     """
 
     registered_tools: List[Type[Any]] = []
@@ -39,15 +45,8 @@ class EthereumCLI(ABC):
     version_flag: str = "-v"
     cached_version: Optional[str] = None
 
-    # Abstract methods that each tool must implement
-
     @abstractmethod
-    def __init__(
-        self,
-        *,
-        binary: Optional[Path] = None,
-        trace: bool = False,
-    ):
+    def __init__(self, *, binary: Optional[Path] = None, trace: bool = False):
         """
         Abstract initialization method that all subclasses must implement.
         """
@@ -81,10 +80,12 @@ class EthereumCLI(ABC):
     @classmethod
     def from_binary_path(cls, *, binary_path: Optional[Path], **kwargs) -> Any:
         """
-        Instantiates the appropriate TransitionTool subclass derived from the
-        tool's binary path.
+        Instantiates the appropriate CLI subclass derived from the CLI's `binary_path`.
+
+        This method will attempt to detect the CLI version and instantiate the appropriate
+        subclass based on the version output by running hte CLI with the version flag.
         """
-        assert cls.default_tool is not None, "default transition tool was never set"
+        assert cls.default_tool is not None, "default CLI implementation was never set"
 
         if binary_path is None:
             return cls.default_tool(binary=binary_path, **kwargs)
@@ -130,7 +131,7 @@ class EthereumCLI(ABC):
     @classmethod
     def detect_binary(cls, binary_output: str) -> bool:
         """
-        Returns True if the binary matches the tool
+        Returns True if a CLI's `binary_output` matches the class's expected output.
         """
         assert cls.detect_binary_pattern is not None
 
@@ -138,7 +139,7 @@ class EthereumCLI(ABC):
 
     def version(self) -> str:
         """
-        Return name and version of tool used to state transition
+        Returns the name and version of the CLI as reported by the CLI's version flag.
         """
         if self.cached_version is None:
             result = subprocess.run(
