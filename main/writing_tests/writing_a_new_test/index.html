@@ -956,6 +956,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#blockchaintestengine-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlockchainTestEngine Object
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#prepost-state-of-the-test" class="md-nav__link">
     <span class="md-ellipsis">
       Pre/Post State of the Test
@@ -23845,6 +23854,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#blockchaintestengine-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlockchainTestEngine Object
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#prepost-state-of-the-test" class="md-nav__link">
     <span class="md-ellipsis">
       Pre/Post State of the Test
@@ -24039,6 +24057,7 @@
 <span class="p">):</span>
 </code></pre></div>
 <p>The <code>state_test</code> and <code>blockchain_test</code> objects are actually wrapper classes to the <code>StateTest</code>, respectively <code>BlockchainTest</code> objects, that once called actually instantiate a new instance of these objects and fill the test case using the <code>evm</code> tool according to the pre and post states and the transactions defined within the test.</p>
+<p>If a blockchain-type test should only generate a test fixture in the Engine format (<code>EngineFixture</code>), the <code>blockchain_test_engine</code> object can be specified. This object is a wrapper for the <code>BlockchainTestEngine</code> class.</p>
 <h2 id="statetest-object"><code>StateTest</code> Object<a class="headerlink" href="#statetest-object" title="Permanent link">&para;</a></h2>
 <p>The <code>StateTest</code> object represents a single test vector, and contains the
 following attributes:</p>
@@ -24061,6 +24080,8 @@ Ethereum VM by attempting to append multiple blocks to the chain:</p>
     created or modified after all blocks are executed.</li>
 <li><code>blocks</code>: All blocks to be appended to the blockchain during the test.</li>
 </ul>
+<h2 id="blockchaintestengine-object"><code>BlockchainTestEngine</code> Object<a class="headerlink" href="#blockchaintestengine-object" title="Permanent link">&para;</a></h2>
+<p>The <code>BlockchainTestEngine</code> object has the same properties as the <code>BlockchainTest</code> but it's used to only generate a blockchain test in the Engine format.</p>
 <h2 id="prepost-state-of-the-test">Pre/Post State of the Test<a class="headerlink" href="#prepost-state-of-the-test" title="Permanent link">&para;</a></h2>
 <p>The <code>pre</code> and <code>post</code> states are elemental to setup and then verify the outcome
 of the state test.</p>
