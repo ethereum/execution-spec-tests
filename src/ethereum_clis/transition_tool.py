@@ -23,13 +23,6 @@ from .ethereum_cli import EthereumCLI
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import TransactionReceipt, TransitionToolInput, TransitionToolOutput
 
-
-class UnknownCLI(Exception):
-    """Exception raised if an unknown t8n is encountered"""
-
-    pass
-
-
 model_dump_config: Mapping = {"by_alias": True, "exclude_none": True}
 
 
