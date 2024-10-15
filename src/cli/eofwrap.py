@@ -25,6 +25,7 @@ from ethereum_test_fixtures.blockchain import FixtureBlock, InvalidFixtureBlock
 from ethereum_test_fixtures.file import BaseFixturesRootModel, BlockchainFixtures
 from ethereum_test_forks.forks.forks import CancunEIP7692
 from ethereum_test_specs.blockchain import Block, BlockchainFixture, BlockchainTest
+from ethereum_test_specs.debugging import print_traces
 from ethereum_test_specs.eof import EOFParse
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types import Transaction
@@ -286,12 +287,15 @@ class EofWrapper:
 
             test.blocks.append(block)
 
-        return test.generate(
+        result = test.generate(
             request=None,  # type: ignore
             t8n=t8n,
             fork=CancunEIP7692,
             fixture_format=BlockchainFixture,
         )
+        if traces:
+            print_traces(t8n.get_traces())
+        return result
 
     def _validate_eof(self, container: Container, metrics: bool = True) -> bool:
         eof_parse = EOFParse()
