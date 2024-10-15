@@ -227,25 +227,17 @@ class EofWrapper:
             if isinstance(fixture_block, FixtureBlock):
                 header = fixture_block.header
                 block = Block(
-                    parent_hash=header.parent_hash,
                     ommers_hash=header.ommers_hash,
                     fee_recipient=header.fee_recipient,
-                    state_root=header.state_root,
-                    transactions_trie=header.transactions_trie,
-                    receipts_root=header.receipts_root,
-                    logs_bloom=header.logs_bloom,
                     difficulty=header.difficulty,
                     number=header.number,
                     gas_limit=header.gas_limit,
-                    gas_used=header.gas_used,
                     timestamp=header.timestamp,
                     extra_data=header.extra_data,
                     prev_randao=header.prev_randao,
                     nonce=header.nonce,
                     base_fee_per_gas=header.base_fee_per_gas,
                     withdrawals_root=header.withdrawals_root,
-                    blob_gas_used=header.blob_gas_used,
-                    excess_blob_gas=header.excess_blob_gas,
                     parent_beacon_block_root=header.parent_beacon_block_root,
                     requests_root=header.requests_root,
                 )
