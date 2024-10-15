@@ -248,25 +248,13 @@ class EofWrapper:
                 assert not fixture_block.consolidation_requests
 
                 for fixture_tx in fixture_block.txs:
+                    fixture_tx_dump = fixture_tx.model_dump()
+                    fixture_tx_dump.pop("ty")
+                    fixture_tx_dump.pop("data")
                     tx = Transaction(
                         type=fixture_tx.ty,
-                        chain_id=fixture_tx.chain_id,
-                        nonce=fixture_tx.nonce,
-                        gas_price=fixture_tx.gas_price,
-                        max_priority_fee_per_gas=fixture_tx.max_priority_fee_per_gas,
-                        max_fee_per_gas=fixture_tx.max_fee_per_gas,
-                        gas_limit=fixture_tx.gas_limit,
-                        to=fixture_tx.to,
-                        value=fixture_tx.value,
                         input=fixture_tx.data,
-                        access_list=fixture_tx.access_list,
-                        max_fee_per_blob_gas=fixture_tx.max_fee_per_blob_gas,
-                        blob_versioned_hashes=fixture_tx.blob_versioned_hashes,
-                        v=fixture_tx.v,
-                        r=fixture_tx.r,
-                        s=fixture_tx.s,
-                        sender=fixture_tx.sender,
-                        authorization_list=fixture_tx.authorization_list,
+                        **fixture_tx_dump,
                     )
                     block.txs.append(tx)
             elif isinstance(fixture_block, InvalidFixtureBlock):
