@@ -122,23 +122,23 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
         return [
             ExceptionMessage(
                 TransactionException.TYPE_4_TX_CONTRACT_CREATION,
-                "Failed transaction: ",
+                "$1",
             ),
             ExceptionMessage(
                 TransactionException.INSUFFICIENT_ACCOUNT_FUNDS,
-                "ailed transaction: ",
+                "$2",
             ),
             ExceptionMessage(
                 TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
-                "iled transaction: ",
+                "$3",
             ),
             ExceptionMessage(
                 TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
-                "led transaction: ",
+                "$4",
             ),
             ExceptionMessage(
                 TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS,
-                "ed transaction: ",
+                "$5",
             ),
             ExceptionMessage(
                 TransactionException.TYPE_3_TX_PRE_FORK,
@@ -146,24 +146,24 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
             ),
             ExceptionMessage(
                 TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH,
-                "d transaction: ",
+                "$6",
             ),
             # This message is the same as TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
             ExceptionMessage(
                 TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
-                " transaction: ",
+                "$7",
             ),
             ExceptionMessage(
                 TransactionException.TYPE_3_TX_ZERO_BLOBS,
-                "transaction: ",
+                "$8",
             ),
             ExceptionMessage(
                 TransactionException.INTRINSIC_GAS_TOO_LOW,
-                "ransaction: ",
+                "$9",
             ),
             ExceptionMessage(
                 TransactionException.INITCODE_SIZE_EXCEEDED,
-                "ansaction: ",
+                "$10",
             ),
             # TODO EVMONE needs to differentiate when the section is missing in the header or body
             ExceptionMessage(EOFException.MISSING_STOP_OPCODE, "err: no_terminating_instruction"),
