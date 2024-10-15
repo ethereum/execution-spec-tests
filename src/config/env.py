@@ -1,5 +1,5 @@
 """
-env.py
+A module for exposing application-wide environment variables.
 
 This module is responsible for loading, parsing, and validating the application's
 environment configuration from the `env.yaml` file. It uses Pydantic to ensure that
@@ -22,29 +22,10 @@ from pathlib import Path
 from typing import Dict, List
 
 import yaml
+from jinja2 import Environment, PackageLoader
 from pydantic import BaseModel, HttpUrl, ValidationError
 
 ENV_PATH = Path(__file__).resolve().parent.parent.parent / "env.yaml"
-
-
-def create_default_config():
-    """Creates a default configuration file if it doesn't exist."""
-    default_config = """
-# This file contains environment-specific configurations for the application.
-# It is git-ignored to keep local secrets safe.
-
-# The configuration stores Ethereum RPC node details.
-remote_nodes:
-  - name: mainnet_archive
-    # Replace with your Ethereum RPC node URL
-    node_url: http://example.com
-    # Optional: Headers for RPC requests
-    rpc_headers:
-      client-secret: <secret>
-"""
-    with ENV_PATH.open("w") as file:
-        file.write(default_config.strip())
-        print(f"Env file created: {ENV_PATH}")
 
 
 class RemoteNode(BaseModel):
@@ -86,7 +67,10 @@ class EnvConfig:
 
     def __init__(self):
         if not ENV_PATH.exists():
-            create_default_config()
+            raise FileNotFoundError(
+                f"The configuration file '{ENV_PATH}' does not exist. "
+                "Run `uv run env_int` to create it."
+            )
 
         with ENV_PATH.open("r") as file:
             config_data = yaml.safe_load(file)
@@ -101,5 +85,41 @@ class EnvConfig:
         return self.config.remote_nodes
 
 
-# Initialize the EnvConfig instance
-env = EnvConfig()
+# The default configuration represented as a Config model.
+DEFAULT_CONFIG = Config(
+    remote_nodes=[
+        RemoteNode(
+            name="mainnet_archive",
+            node_url="http://example.com",
+            rpc_headers={"client-secret": "<secret>"},
+        )
+    ]
+)
+
+
+def create_default_config():
+    """
+    Creates a default configuration file `env.yaml` from the Jinja2 template.
+
+    Raises:
+        IOError: If there is an error writing to the `env.yaml` file.
+    """
+
+    # Check if the config file already exists
+    if ENV_PATH.exists():
+        print(
+            f"🚧 The configuration file '{ENV_PATH}' already exists. "
+            "Please update it manually if needed."
+        )
+        exit(1)
+
+    template_environment = Environment(
+        loader=PackageLoader("config"), trim_blocks=True, lstrip_blocks=True
+    )
+    template = template_environment.get_template("env.yaml.j2")
+
+    env_yaml = template.render(config=DEFAULT_CONFIG)
+
+    with ENV_PATH.open("w") as file:
+        file.write(env_yaml)
+        print(f"Env file created: {ENV_PATH}")

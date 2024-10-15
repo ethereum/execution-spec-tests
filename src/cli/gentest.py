@@ -40,7 +40,7 @@ from typing import Dict, TextIO
 
 import click
 
-from config import env
+from config import Env
 from ethereum_test_base_types import Account, Address, Hash, ZeroPaddedHexNumber
 from ethereum_test_rpc import BlockNumberType, DebugRPC, EthRPC
 from ethereum_test_types import Transaction
@@ -229,7 +229,7 @@ class RequestManager:
         """
         Initialize the RequestManager with specific client config.
         """
-        node_config = env.remote_nodes[0]
+        node_config = Env().remote_nodes[0]
         self.node_url = node_config.node_url
         headers = node_config.rpc_headers
         self.rpc = EthRPC(node_config.node_url, extra_headers=headers)
