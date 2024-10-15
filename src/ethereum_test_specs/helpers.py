@@ -5,9 +5,9 @@ Helper functions
 from dataclasses import dataclass
 from typing import Dict, List
 
+from ethereum_clis import Result
 from ethereum_test_exceptions import ExceptionMapper, UndefinedException
 from ethereum_test_types import Transaction
-from evm_transition_tool import Result
 
 
 @dataclass
