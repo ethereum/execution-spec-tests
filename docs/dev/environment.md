@@ -38,7 +38,7 @@ remote_nodes:
       client-secret: <secret>
 ```
 
-### 2. Import env
+### 2. Import `EnvConfig`
 
 ```console
 from config import EnvConfig
