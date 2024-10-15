@@ -104,7 +104,6 @@ def create_default_config():
     Raises:
         IOError: If there is an error writing to the `env.yaml` file.
     """
-
     # Check if the config file already exists
     if ENV_PATH.exists():
         print(
