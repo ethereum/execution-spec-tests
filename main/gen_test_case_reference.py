@@ -5,6 +5,7 @@ Called via the mkdocs-gen-files plugin; it's specified in mkdocs.yaml and
 can't take command-line arguments. The main logic is implemented in
 src/pytest_plugins/filler/gen_test_doc.py.
 """
+
 import importlib
 import logging
 import sys
@@ -14,11 +15,12 @@ from click.testing import CliRunner
 
 import pytest_plugins.filler.gen_test_doc.gen_test_doc as gen_test_doc
 from cli.pytest_commands.fill import fill
+from config import DocsConfig
 
 importlib.reload(gen_test_doc)  # get changes in plugin to trigger an update for `mkdocs serve`
 
-TARGET_FORK = "Prague"
-GENERATE_UNTIL_FORK = "Osaka"
+TARGET_FORK = DocsConfig().TARGET_FORK
+GENERATE_UNTIL_FORK = DocsConfig().GENERATE_UNTIL_FORK
 
 logger = logging.getLogger("mkdocs")
 
