@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_callf_with_inputs_stack_size_1024_at_push/">
       
       
-        <link rel="next" href="../../test_code_validation/">
+        <link rel="next" href="../test_callf_sneaky_stack_overflow/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -6605,6 +6605,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -6846,6 +6850,48 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_callf_sneaky_stack_overflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_sneaky_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_callf_max_stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_max_stack</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -23729,7 +23775,7 @@
 
 
 <h1 id="test_callf_with_inputs_stack_overflow"><code>test_callf_with_inputs_stack_overflow()</code><a class="headerlink" href="#test_callf_with_inputs_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e88cb3c746a3e76587f3de4583f848990d9c9a65/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L220"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_overflow@e88cb3c7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6fb195be140a1d7ce450f7a083032f56828928b8/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L225"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_overflow@6fb195be</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_overflow --fork Osaka</span>
@@ -23748,12 +23794,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
@@ -23782,7 +23823,12 @@
 <span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_callf_with_inputs_stack_overflow</span><span class="p">(</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_callf_with_inputs_stack_overflow</span><span class="p">(</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test stack overflowing 1024 items in called function with inputs&quot;&quot;&quot;</span>

@@ -6605,6 +6605,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -6842,6 +6846,48 @@
   
   <span class="md-ellipsis">
     <code>test_callf_with_inputs_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_callf_sneaky_stack_overflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_sneaky_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_callf_max_stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_max_stack</code>
   </span>
   
 
@@ -23729,7 +23775,7 @@
 
 
 <h1 id="test_callf_stack_size_1024_at_callf"><code>test_callf_stack_size_1024_at_callf()</code><a class="headerlink" href="#test_callf_stack_size_1024_at_callf" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e88cb3c746a3e76587f3de4583f848990d9c9a65/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L74"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_stack_size_1024_at_callf@e88cb3c7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6fb195be140a1d7ce450f7a083032f56828928b8/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L79"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_stack_size_1024_at_callf@6fb195be</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_stack_size_1024_at_callf --fork Osaka</span>
@@ -23748,12 +23794,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
 <span class="normal"> 82</span>
@@ -23780,7 +23821,12 @@
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_callf_stack_size_1024_at_callf</span><span class="p">(</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_callf_stack_size_1024_at_callf</span><span class="p">(</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test stack reaching 1024 items in called function at CALLF instruction&quot;&quot;&quot;</span>

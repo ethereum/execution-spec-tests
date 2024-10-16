@@ -6605,6 +6605,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -6784,6 +6788,48 @@
   
   <span class="md-ellipsis">
     <code>test_callf_with_inputs_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_callf_sneaky_stack_overflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_sneaky_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_callf_max_stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_max_stack</code>
   </span>
   
 
@@ -23671,7 +23717,7 @@
 
 
 <h1 id="test-callf-execution">Test CALLF Execution<a class="headerlink" href="#test-callf-execution" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e88cb3c746a3e76587f3de4583f848990d9c9a65/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L20"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py@e88cb3c7</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6fb195be140a1d7ce450f7a083032f56828928b8/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L25"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py@6fb195be</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py --fork Osaka</span>
@@ -23752,6 +23798,18 @@
 <td>eof_state_test</td>
 <td>0</td>
 <td>Test stack overflowing 1024 items in called function with inputs</td>
+</tr>
+<tr>
+<td><a href="test_callf_sneaky_stack_overflow/"><code>test_callf_sneaky_stack_overflow</code></a></td>
+<td>state_test</td>
+<td>2</td>
+<td>CALLF where a normal execution would not overflow, but EIP-4750 CALLF rule <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereum/execution-spec-tests/issues/3" title="GitHub Issue: ethereum/execution-spec-tests #3">#3</a> triggers.</td>
+</tr>
+<tr>
+<td><a href="test_callf_max_stack/"><code>test_callf_max_stack</code></a></td>
+<td>state_test</td>
+<td>2</td>
+<td>CALLF where a normal execution would not overflow, but EIP-4750 CALLF rule <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereum/execution-spec-tests/issues/4" title="GitHub Issue: ethereum/execution-spec-tests #4">#4</a> triggers.</td>
 </tr>
 </tbody>
 </table>
