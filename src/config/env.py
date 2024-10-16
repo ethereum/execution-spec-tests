@@ -15,7 +15,7 @@ Classes:
 
 Usage:
 - Initialize an instance of EnvConfig to load the configuration.
-- Access configuration values via properties (e.g., env.remote_nodes).
+- Access configuration values via properties (e.g., EnvConfig().remote_nodes).
 """
 
 from pathlib import Path
@@ -38,9 +38,9 @@ class RemoteNode(BaseModel):
     - rpc_headers (Dict[str, str]): A dictionary of optional RPC headers, defaults to empty dict.
     """
 
-    name: str
-    node_url: HttpUrl
-    rpc_headers: Dict[str, str] = {}
+    name: str = "mainnet_archive"
+    node_url: HttpUrl = "http://example.com"
+    rpc_headers: Dict[str, str] = {"client-secret": "<secret>"}
 
 
 class Config(BaseModel):
@@ -51,7 +51,7 @@ class Config(BaseModel):
     - remote_nodes (List[RemoteNode]): A list of remote node configurations.
     """
 
-    remote_nodes: List[RemoteNode]
+    remote_nodes: List[RemoteNode] = [RemoteNode()]
 
 
 class EnvConfig(Config):
@@ -77,18 +77,6 @@ class EnvConfig(Config):
                 raise ValueError(f"Invalid configuration: {e}")
 
 
-# The default configuration represented as a Config model.
-DEFAULT_CONFIG = Config(
-    remote_nodes=[
-        RemoteNode(
-            name="mainnet_archive",
-            node_url="http://example.com",
-            rpc_headers={"client-secret": "<secret>"},
-        )
-    ]
-)
-
-
 def create_default_config():
     """
     Creates a default configuration file `env.yaml` from the Jinja2 template.
@@ -109,7 +97,7 @@ def create_default_config():
     )
     template = template_environment.get_template("env.yaml.j2")
 
-    env_yaml = template.render(config=DEFAULT_CONFIG)
+    env_yaml = template.render(config=Config())
 
     with ENV_PATH.open("w") as file:
         file.write(env_yaml)

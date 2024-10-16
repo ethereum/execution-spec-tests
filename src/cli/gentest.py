@@ -18,7 +18,7 @@ Example Usage:
 1. Generate a test for a transaction with hash
 
     ```console
-    uv run gentest
+    uv run gentest \
     0xa41f343be7a150b740e5c939fa4d89f3a2850dbe21715df96b612fc20d1906be \
     tests/paris/test_0xa41f.py
     ```
