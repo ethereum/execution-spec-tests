@@ -58,11 +58,6 @@ def test_extcodesize(blockchain_test: BlockchainTestFiller, target, bytecode, fo
         account = Account(code=bytecode)
         witness_check_extra.add_account_basic_data(target, account)
 
-    # Hack to add the system contract account basic data to the witness check
-    elif target == system_contract_address:
-        sys_contract_account = Account(**fork.pre_allocation_blockchain()[system_contract_address])
-        witness_check_extra.add_account_basic_data(target, sys_contract_account)
-
     _extcodesize(blockchain_test, target, bytecode, witness_check_extra)
 
 
