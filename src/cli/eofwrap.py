@@ -14,10 +14,11 @@ Example Usage:
 import json
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, no_type_check
 
 import click
 
+from cli.evm_bytes import OpcodeWithOperands, process_evm_bytes
 from ethereum_clis.clis.evmone import EvmOneTransitionTool
 from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_base_types.conversions import to_hex
@@ -29,7 +30,7 @@ from ethereum_test_specs.debugging import print_traces
 from ethereum_test_specs.eof import EOFParse
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types import Transaction
-from ethereum_test_types.eof.v1 import OPCODE_MAP, Container, compute_code_stack_values
+from ethereum_test_types.eof.v1 import Container
 from ethereum_test_types.types import Environment
 from ethereum_test_vm.bytecode import Bytecode
 
@@ -291,16 +292,9 @@ class EofWrapper:
         return True
 
 
-def _has_opcode_at(code: Bytecode, i: int, op: Op) -> bool:
-    opcode_at = OPCODE_MAP.get(
-        bytes(code)[i],
-    )
-    if not opcode_at:
-        return False
-
-    return opcode_at == op
-
-
+# `no_type_check` required because OpcodeWithOperand.opcode can be `None` when formatting as a
+# string, but here it can never be `None`.
+@no_type_check
 def wrap_code(account_code: Bytes) -> Container:
     """
     Wraps `account_code` into a simplest EOF container, applying some simple heuristics in
@@ -308,44 +302,24 @@ def wrap_code(account_code: Bytes) -> Container:
     """
     assert len(account_code) > 0
 
-    (
-        auto_code_inputs,
-        auto_code_outputs,
-        auto_max_height,
-    ) = compute_code_stack_values(account_code)
-    code = Bytecode(
-        account_code,
-        popped_stack_items=auto_code_inputs,
-        pushed_stack_items=auto_code_outputs,
-    )
+    opcodes = process_evm_bytes(account_code, allow_unknown=True)
 
-    if len(code) >= 2 and _has_opcode_at(code, -2, Op.PUSH1):
-        # Non-truncated PUSH1 at the end, a common case causing "no termination" but looks like
-        # `00` at the end
-        code += Op.STOP
+    if not opcodes[-1].opcode.terminating:
+        opcodes.append(OpcodeWithOperands(opcode=Op.STOP))
 
-    # Something other than STOP at the end - let's add it and potentially cleanup below
-    if not _has_opcode_at(code, -1, Op.STOP):
-        code += Op.STOP
+    while len(opcodes) > 1 and opcodes[-2].opcode.terminating and opcodes[-1].opcode.terminating:
+        opcodes.pop()
 
-    while len(code) >= 2:
-        if len(code) >= 3 and bytes(code)[-3:] == bytes(Op.PUSH1(0) + Op.STOP):
-            break
-        elif (
-            bytes(code)[-2:] == bytes(Op.STOP + Op.STOP)
-            or bytes(code)[-2:] == bytes(Op.RETURN + Op.STOP)
-            or bytes(code)[-2:] == bytes(Op.REVERT + Op.STOP)
-            or bytes(code)[-2:] == bytes(Op.INVALID + Op.STOP)
-        ):
-            code = Bytecode(
-                bytes(code)[:-1],
-                popped_stack_items=code.popped_stack_items,
-                pushed_stack_items=code.pushed_stack_items,
-            )
+    bytecode = Bytecode()
+
+    for opcode in opcodes:
+        if opcode.operands:
+            # opcode.opcode[*opcode.operands] crashes `black` formatter and doesn't work.
+            bytecode += opcode.opcode.__getitem__(*opcode.operands)
         else:
-            break
+            bytecode += opcode.opcode
 
-    return Container.Code(code, max_stack_height=auto_max_height)
+    return Container.Code(bytecode)
 
 
 def _inc_counter(d: dict, key: Any) -> None:
