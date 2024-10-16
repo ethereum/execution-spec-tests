@@ -10,6 +10,7 @@ import click
 from ethereum_test_base_types import ZeroPaddedHexNumber
 from ethereum_test_vm import Macro
 from ethereum_test_vm import Opcodes as Op
+from ethereum_test_vm.opcode import Opcode
 
 OPCODES_WITH_EMPTY_LINES_AFTER = {
     Op.STOP,
@@ -28,7 +29,7 @@ OPCODES_WITH_EMPTY_LINES_BEFORE = {
 class OpcodeWithOperands:
     """Simple opcode with its operands."""
 
-    opcode: Op | None
+    opcode: Opcode | None
     operands: List[int] = field(default_factory=list)
 
     def format(self, assembly: bool) -> str:
@@ -57,7 +58,9 @@ class OpcodeWithOperands:
             return f"{opcode_name} {operands}"
 
 
-def process_evm_bytes(evm_bytes: bytes, assembly: bool = False) -> str:  # noqa: D103
+def process_evm_bytes(  # noqa: D103
+    evm_bytes: bytes, allow_unknown: bool = False
+) -> List[OpcodeWithOperands]:
     evm_bytes = bytearray(evm_bytes)
 
     opcodes: List[OpcodeWithOperands] = []
@@ -65,13 +68,16 @@ def process_evm_bytes(evm_bytes: bytes, assembly: bool = False) -> str:  # noqa:
     while evm_bytes:
         opcode_byte = evm_bytes.pop(0)
 
-        opcode: Op
+        opcode: Opcode
         for op in Op:
             if not isinstance(op, Macro) and op.int() == opcode_byte:
                 opcode = op
                 break
         else:
-            raise ValueError(f"Unknown opcode: {opcode_byte}")
+            if allow_unknown:
+                opcode = Opcode(opcode_byte)
+            else:
+                raise ValueError(f"Unknown opcode: {opcode_byte}")
 
         if opcode.data_portion_length > 0:
             opcodes.append(
@@ -82,15 +88,22 @@ def process_evm_bytes(evm_bytes: bytes, assembly: bool = False) -> str:  # noqa:
             )
             evm_bytes = evm_bytes[opcode.data_portion_length :]
         elif opcode == Op.RJUMPV:
-            max_index = evm_bytes.pop(0)
-            operands: List[int] = []
-            for _ in range(max_index + 1):
-                operands.append(int.from_bytes(evm_bytes[:2], "big"))
-                evm_bytes = evm_bytes[2:]
-            opcodes.append(OpcodeWithOperands(opcode=opcode, operands=operands))
+            if len(evm_bytes) == 0:
+                opcodes.append(OpcodeWithOperands(opcode=opcode))
+            else:
+                max_index = evm_bytes.pop(0)
+                operands: List[int] = []
+                for _ in range(max_index + 1):
+                    operands.append(int.from_bytes(evm_bytes[:2], "big"))
+                    evm_bytes = evm_bytes[2:]
+                opcodes.append(OpcodeWithOperands(opcode=opcode, operands=operands))
         else:
             opcodes.append(OpcodeWithOperands(opcode=opcode))
 
+    return opcodes
+
+
+def format_opcodes(opcodes: List[OpcodeWithOperands], assembly: bool = False) -> str:  # noqa: D103
     if assembly:
         opcodes_with_empty_lines: List[OpcodeWithOperands] = []
         for i, op_with_operands in enumerate(opcodes):
@@ -113,7 +126,7 @@ def process_evm_bytes_string(evm_bytes_hex_string: str, assembly: bool = False) 
         evm_bytes_hex_string = evm_bytes_hex_string[2:]
 
     evm_bytes = bytes.fromhex(evm_bytes_hex_string)
-    return process_evm_bytes(evm_bytes, assembly=assembly)
+    return format_opcodes(process_evm_bytes(evm_bytes), assembly=assembly)
 
 
 assembly_option = click.option(
@@ -208,5 +221,7 @@ def binary_file(binary_file_path, assembly: bool):
         ...
         ```
     """  # noqa: E501
-    processed_output = process_evm_bytes(binary_file_path.read(), assembly=assembly)
+    processed_output = format_opcodes(
+        process_evm_bytes(binary_file_path.read()), assembly=assembly
+    )
     click.echo(processed_output)
