@@ -39,7 +39,7 @@ class RemoteNode(BaseModel):
     """
 
     name: str = "mainnet_archive"
-    node_url: HttpUrl = "http://example.com"
+    node_url: HttpUrl = HttpUrl("http://example.com")
     rpc_headers: Dict[str, str] = {"client-secret": "<secret>"}
 
 

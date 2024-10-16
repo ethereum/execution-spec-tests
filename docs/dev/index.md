@@ -2,7 +2,7 @@
 
 This documentation is aimed at maintainers of `execution-spec-tests` but may be helpful during test case development:
 
-- [Setting up your environment](./environment.md)
+- [Managing configurations](./configurations.md)
 - [Generating documentation](./docs.md)
 - [Coding style](./coding_style.md)
 - [Enabling pre-commit checks](./precommit.md)

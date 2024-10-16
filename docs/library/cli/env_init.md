@@ -1,6 +1,6 @@
 # The `env_init` CLI
 
-Generate an example `env.yaml` [environment](../../dev/environment.md) config file if it doesn't exist.
+Generate an example `env.yaml` [environment](../../dev/configurations.md) config file if it doesn't exist.
 
 ```console
 ➜ uv run env_init http EnvConfig
