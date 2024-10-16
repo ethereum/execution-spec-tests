@@ -41,6 +41,8 @@ dependencies = [
     "solc-select>=1.0.4,<2",
     "filelock>=3.15.1,<4",
     "ethereum-types>=0.2.1,<0.3",
+    "pyyaml>=6.0.2",
+    "types-pyyaml>=6.0.12.20240917",
 ]
 
 [project.urls]
@@ -93,6 +95,7 @@ markdownlintcli2_soft_fail = "cli.tox_helpers:markdownlint"
 order_fixtures = "cli.order_fixtures:order_fixtures"
 evm_bytes = "cli.evm_bytes:cli"
 hasher = "cli.hasher:main"
+env_init = "config.env:create_default_config"
 
 [tool.setuptools.packages.find]
 where = ["src"]
