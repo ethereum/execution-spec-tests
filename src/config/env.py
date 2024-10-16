@@ -54,15 +54,11 @@ class Config(BaseModel):
     remote_nodes: List[RemoteNode]
 
 
-class EnvConfig:
-    """
-    Loads and validates environment configuration from `env.yaml`.
+class EnvConfig(Config):
+    """Loads and validates environment configuration from `env.yaml`.
 
-    Attributes:
-    - config (Config): An instance of the Config class containing validated settings.
-
-    Raises:
-    - ValueError: If the configuration is invalid.
+    This is a wrapper class for the Config model. It reads a config file
+    from disk into a Config model and then exposes it.
     """
 
     def __init__(self):
@@ -75,14 +71,10 @@ class EnvConfig:
         with ENV_PATH.open("r") as file:
             config_data = yaml.safe_load(file)
             try:
-                self.config = Config(**config_data)  # Validate and parse with Pydantic
+                # Validate and parse with Pydantic
+                super().__init__(**config_data)
             except ValidationError as e:
                 raise ValueError(f"Invalid configuration: {e}")
-
-    @property
-    def remote_nodes(self):
-        """Returns the list of remote nodes from the configuration."""
-        return self.config.remote_nodes
 
 
 # The default configuration represented as a Config model.
