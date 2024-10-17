@@ -114,6 +114,13 @@ class BlockchainTestProvider(BaseModel):
         return tr_str
 
     def get_context(self) -> Dict[str, Any]:
+        """
+        Get the context for generating a blockchain test.
+
+        Returns:
+            Dict[str, Any]: A dictionary containing module docstring, test name,
+            test docstring, environment kwargs, pre-state items, and transaction items.
+        """
         return {
             "module_docstring": self._get_module_docstring(),
             "test_name": self._get_test_name(),

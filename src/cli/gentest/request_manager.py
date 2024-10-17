@@ -104,6 +104,9 @@ class RequestManager:
         """
         Get pre-state required for transaction
         """
+        assert transaction.sender is not None
+        assert transaction.to is not None
+
         return self.debug_rpc.trace_call(
             {
                 "from": transaction.sender.hex(),
