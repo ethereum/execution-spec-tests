@@ -1,0 +1,64 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_gas()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<h1>Test Function: <code>test_gas()</code></h1>
+<p>Test the BLS12_MAP_FP_TO_G2 precompile gas requirements.</p>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display nowrap">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>input</th>
+                        <th>expected_output</th>
+                        <th>precompile_gas_modifier</th>
+                        <th>precompile_address</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>extra_gas</td>
+                        <td>FP2(x=(0, 0))</td>
+                        <td>PointG2(x=(232751224930677745396095561951152042576424604713130436843934548678666406429167866909490329228404544352148194115534, 1601558386896345240320690342453673501793035385728549575803514192020355846653238172333813953555511850549100476205202), y=(366072527324011932385571544496195798415567032250142018360048479110276041591259208603171511238009482094790662379841, 735055000775559535481906131992536480072884649650286758007297964611137923289749918348543505818551800823925955026780))</td>
+                        <td>1</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>insufficient_gas</td>
+                        <td>FP2(x=(0, 0))</td>
+                        <td></td>
+                        <td>-1</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>extra_gas</td>
+                        <td>FP2(x=(0, 0))</td>
+                        <td>PointG2(x=(232751224930677745396095561951152042576424604713130436843934548678666406429167866909490329228404544352148194115534, 1601558386896345240320690342453673501793035385728549575803514192020355846653238172333813953555511850549100476205202), y=(366072527324011932385571544496195798415567032250142018360048479110276041591259208603171511238009482094790662379841, 735055000775559535481906131992536480072884649650286758007297964611137923289749918348543505818551800823925955026780))</td>
+                        <td>1</td>
+                        <td>19</td>
+                    </tr>
+                <tr>
+            <td>insufficient_gas</td>
+                        <td>FP2(x=(0, 0))</td>
+                        <td></td>
+                        <td>-1</td>
+                        <td>19</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
