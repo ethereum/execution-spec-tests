@@ -1,0 +1,48 @@
+
+"""
+{{ module_docstring }}
+"""
+
+import pytest
+
+from ethereum_test_tools import (
+    Account,
+    Address,
+    Block,
+    Environment,
+    BlockchainTestFiller,
+    Transaction,
+)
+
+REFERENCE_SPEC_GIT_PATH = "N/A"
+REFERENCE_SPEC_VERSION = "N/A"
+
+
+@pytest.fixture
+def env():  # noqa: D103
+    return Environment(
+{{ environment_kwargs }}
+    )
+
+
+@pytest.mark.valid_from("Paris")
+def {{ test_name }}(
+    env: Environment,
+    blockchain_test: BlockchainTestFiller,
+):
+    """
+    {{ test_docstring }}
+    """
+
+    pre = {
+{{ pre_state_items }}
+    }
+
+    post = {
+    }
+
+    tx = Transaction(
+{{ transaction_items }}
+    )
+
+    blockchain_test(genesis_environment=env, pre=pre, post=post, blocks=[Block(txs=[tx])])
