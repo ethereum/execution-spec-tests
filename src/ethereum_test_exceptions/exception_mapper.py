@@ -50,9 +50,7 @@ class ExceptionMapper(ABC):
 
     def message_to_exception(self, exception_string: str) -> ExceptionBase:
         """Takes a string and tries to find matching exception"""
-        # TODO exception strings are not matching the exception perfectly
-        # Use Levenshtein distance to try to find the best matching exception
-        exception = self.exception_to_message_map.inverse.get(
-            exception_string, UndefinedException.UNDEFINED_EXCEPTION
-        )
-        return exception
+        for entry in self._mapping_data:
+            if entry.message in exception_string:
+                return entry.exception
+        return UndefinedException.UNDEFINED_EXCEPTION

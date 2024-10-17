@@ -6,8 +6,71 @@ from dataclasses import dataclass
 from typing import Dict, List
 
 from ethereum_clis import Result
-from ethereum_test_exceptions import ExceptionMapper, UndefinedException
+from ethereum_test_exceptions import ExceptionBase, ExceptionMapper, UndefinedException
 from ethereum_test_types import Transaction
+
+
+class TransactionExpectedToFailSucceed(Exception):
+    """
+    Exception used when the transaction expected to return an error, did succeed
+    """
+
+    def __init__(self, index: int, nonce: int):
+        message = (
+            f"\nTransactionException (pos={index}, nonce={nonce}):"
+            f"\n  What: tx expected to fail succeeded!"
+        )
+        super().__init__(message)
+
+
+class TransactionUnexpectedFail(Exception):
+    """
+    Exception used when the transaction expected to succeed, did fail
+    """
+
+    def __init__(self, index: int, nonce: int, message: str, exception: ExceptionBase):
+        message = (
+            f"\nTransactionException (pos={index}, nonce={nonce}):"
+            f"\n   What: tx unexpectedly failed!"
+            f'\n  Error: "{message}" ({exception})'
+        )
+        super().__init__(message)
+
+
+class TransactionExceptionMismatch(Exception):
+    """
+    Exception used when the actual transaction error string differs from the expected one.
+    """
+
+    def __init__(
+        self,
+        index: int,
+        nonce: int,
+        expected_message: str | None,
+        expected_exception: ExceptionBase,
+        got_message: str,
+        got_exception: ExceptionBase,
+        mapper_name: str,
+    ):
+        define_message_hint = (
+            f"No message defined for {expected_exception}, please add it to {mapper_name}"
+            if expected_message is None
+            else ""
+        )
+        define_exception_hint = (
+            f"No exception defined for error message got, please add it to {mapper_name}"
+            if got_exception == UndefinedException.UNDEFINED_EXCEPTION
+            else ""
+        )
+        message = (
+            f"\nTransactionException (pos={index}, nonce={nonce}):"
+            f"\n   What: exception mismatch!"
+            f'\n   Want: "{expected_message}" ({expected_exception})'
+            f'\n    Got: "{got_message}" ({got_exception})'
+            f"\n {define_message_hint}"
+            f"\n {define_exception_hint}"
+        )
+        super().__init__(message)
 
 
 @dataclass
@@ -23,20 +86,21 @@ def verify_transaction_exception(
     exception_mapper: ExceptionMapper, info: TransactionExceptionInfo
 ):
     """Verify transaction exception"""
-    exception_info = f"TransactionException (pos={info.transaction_ind}, nonce={info.tx.nonce})\n"
     expected_error: bool = info.tx.error is not None or (
         isinstance(info.tx.error, list) and len(info.tx.error) != 0
     )
 
     # info.tx.error is expected error code defined in .py test
     if expected_error and not info.t8n_error_message:
-        raise Exception(f"{exception_info} Error: tx expected to fail succeeded")
+        raise TransactionExpectedToFailSucceed(index=info.transaction_ind, nonce=info.tx.nonce)
     elif not expected_error and info.t8n_error_message:
-        raise Exception(
-            f'{exception_info} Error: tx unexpectedly failed: "{info.t8n_error_message}"'
+        raise TransactionUnexpectedFail(
+            index=info.transaction_ind,
+            nonce=info.tx.nonce,
+            message=info.t8n_error_message,
+            exception=exception_mapper.message_to_exception(info.t8n_error_message),
         )
     elif expected_error and info.t8n_error_message:
-
         if isinstance(info.tx.error, List):
             for expected_exception in info.tx.error:
                 expected_error_msg = exception_mapper.exception_to_message(expected_exception)
@@ -57,27 +121,15 @@ def verify_transaction_exception(
         t8n_error_exception = exception_mapper.message_to_exception(info.t8n_error_message)
         exception_mapper_name = exception_mapper.__class__.__name__
 
-        define_message_hint = (
-            f"No message defined for {expected_exception}, "
-            f"please add it to {exception_mapper_name}"
-            if expected_error_msg is None
-            else ""
-        )
-        define_exception_hint = (
-            "No exception defined for error message got, "
-            f"please add it to {exception_mapper_name}"
-            if t8n_error_exception == UndefinedException.UNDEFINED_EXCEPTION
-            else ""
-        )
-
         if expected_error_msg is None or expected_error_msg not in info.t8n_error_message:
-            raise Exception(
-                f"{exception_info}"
-                f"Error: exception mismatch:"
-                f"\n want = '{expected_error_msg}' ({expected_exception}),"
-                f"\n got  = '{info.t8n_error_message}' ({t8n_error_exception})"
-                f"\n {define_message_hint}"
-                f"\n {define_exception_hint}"
+            raise TransactionExceptionMismatch(
+                index=info.transaction_ind,
+                nonce=info.tx.nonce,
+                expected_exception=expected_exception,
+                expected_message=expected_error_msg,
+                got_exception=t8n_error_exception,
+                got_message=info.t8n_error_message,
+                mapper_name=exception_mapper_name,
             )
 
 
