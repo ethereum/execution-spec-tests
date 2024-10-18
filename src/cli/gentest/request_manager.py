@@ -20,7 +20,7 @@ from ethereum_test_rpc import BlockNumberType, DebugRPC, EthRPC
 from ethereum_test_types import Transaction
 
 
-class RequestManager:
+class RPCRequest:
     """
     Interface for the RPC interaction with remote node
     """
