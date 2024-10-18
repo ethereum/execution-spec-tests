@@ -63,7 +63,7 @@ def eof_wrap(input: str, output_dir: str, traces: bool):
 
                 eof_wrapper.wrap_file(in_path, out_path, traces)
 
-    os.makedirs(os.path.dirname(output_dir), exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
     with open(os.path.join(output_dir, "metrics.json"), "w") as f:
         json.dump(eof_wrapper.metrics, f, indent=4)
 
