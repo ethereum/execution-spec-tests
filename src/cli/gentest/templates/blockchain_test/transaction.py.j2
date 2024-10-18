@@ -26,7 +26,7 @@ def env():  # noqa: D103
 
 
 @pytest.mark.valid_from("Paris")
-def {{ test_name }}(
+def {{ test_name }}(  # noqa: SC200, E501
     env: Environment,
     blockchain_test: BlockchainTestFiller,
 ):
