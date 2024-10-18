@@ -2,116 +2,94 @@
 This module contains various providers which generates context required to create test scripts.
 
 Classes:
-- BlockchainTestProvider: The BlockchainTestProvider class takes information about a block,
-a transaction, and the associated state, and provides methods to generate various elements
-needed for testing, such as module docstrings, test names, and pre-state items.
+- Provider: An provider generates required context for creating a test.
+- BlockchainTestProvider: The BlockchainTestProvider takes a transaction hash and creates
+  required context to create a test.
 
 Example:
-    provider = BlockchainTestProvider(block=block, transaction=transaction, state=state)
+    provider = BlockchainTestProvider(transaction=transaction)
     context = provider.get_context()
 """
 
-from typing import Any, Dict
+from abc import ABC, abstractmethod
+from sys import stderr
+from typing import Any, Dict, Optional
 
 from pydantic import BaseModel
 
-from ethereum_test_base_types import Account, Address, ZeroPaddedHexNumber
+from ethereum_test_base_types import Account, Hash
+from ethereum_test_tools import Environment, Transaction
 
 from .request_manager import RPCRequest
 
 
-class BlockchainTestProvider(BaseModel):
+class Provider(ABC, BaseModel):
+    """
+    An provider generates required context for creating a test.
+    """
+
+    @abstractmethod
+    def get_context(self):
+        """
+        Get the context for generating a test.
+        """
+
+    pass
+
+
+class BlockchainTestProvider(Provider):
     """
     Provides context required to generate a `blockchain_test` using pytest.
     """
 
-    block: RPCRequest.RemoteBlock
-    transaction: RPCRequest.RemoteTransaction
-    state: Dict[Address, Account]
+    transaction_hash: Hash
+    block: Optional[RPCRequest.RemoteBlock] = None
+    transaction: Optional[RPCRequest.RemoteTransaction] = None
+    state: Optional[Dict[str, Dict]] = None
 
-    def _get_environment_kwargs(self) -> str:
-        env_str = ""
-        pad = "        "
-        for field, value in self.block.dict().items():
-            env_str += (
-                f'{pad}{field}="{value}",\n' if field == "coinbase" else f"{pad}{field}={value},\n"
-            )
+    def _make_rpc_calls(self):
+        request = RPCRequest()
+        print(
+            f"Perform tx request: eth_get_transaction_by_hash({self.transaction_hash})",
+            file=stderr,
+        )
+        self.transaction = request.eth_get_transaction_by_hash(self.transaction_hash)
 
-        return env_str
+        print("Perform debug_trace_call", file=stderr)
+        self.state = request.debug_trace_call(self.transaction)
 
-    # TODO: Output should be dict. Formatting should happen in the template.
-    def _get_pre_state_items(self) -> str:
-        # Print a nice .py storage pre
-        pad = "            "
-        state_str = ""
-        for address, account_obj in self.state.items():
-            state_str += f'        "{address}": Account(\n'
-            state_str += f"{pad}balance={str(account_obj.balance)},\n"
-            if address == self.transaction.sender:
-                state_str += f"{pad}nonce={self.transaction.nonce},\n"
-            else:
-                state_str += f"{pad}nonce={str(account_obj.nonce)},\n"
+        print("Perform eth_get_block_by_number", file=stderr)
+        self.block = request.eth_get_block_by_number(self.transaction.block_number)
 
-            if account_obj.code is None:
-                state_str += f'{pad}code="0x",\n'
-            else:
-                state_str += f'{pad}code="{str(account_obj.code)}",\n'
-            state_str += pad + "storage={\n"
+        print("Generate py test", file=stderr)
 
-            if account_obj.storage is not None:
-                for record, value in account_obj.storage.root.items():
-                    pad_record = ZeroPaddedHexNumber(record)
-                    pad_value = ZeroPaddedHexNumber(value)
-                    state_str += f'{pad}    "{pad_record}" : "{pad_value}",\n'
+    def _get_environment(self) -> Environment:
+        assert self.block is not None
+        return Environment(**self.block.model_dump())
 
-            state_str += pad + "}\n"
-            state_str += "        ),\n"
-        return state_str
+    def _get_pre_state(self) -> Dict[str, Account]:
+        assert self.state is not None
+        pre_state: Dict[str, Account] = {}
+        for address, account in self.state.items():
+            pre_state[str(address)] = Account(**account)
+        return pre_state
 
-    # TODO: Output should be dict. Formatting should happen in the template.
-    def _get_transaction_items(self) -> str:
-        """
-        Print legacy transaction in .py
-        """
-        pad = "            "
-        tr_str = ""
-        quoted_fields_array = ["data", "to"]
-        hex_fields_array = ["v", "r", "s"]
-        legacy_fields_array = [
-            "ty",
-            "chain_id",
-            "nonce",
-            "gas_price",
-            "protected",
-            "gas_limit",
-            "value",
-        ]
-        for field, value in iter(self.transaction):
-            if value is None:
-                continue
-
-            if field in legacy_fields_array:
-                tr_str += f"{pad}{field}={value},\n"
-
-            if field in quoted_fields_array:
-                tr_str += f'{pad}{field}="{value}",\n'
-
-            if field in hex_fields_array:
-                tr_str += f"{pad}{field}={hex(value)},\n"
-
-        return tr_str
+    def _get_transaction(self) -> Transaction:
+        assert self.transaction is not None
+        return Transaction(**self.transaction.model_dump())
 
     def get_context(self) -> Dict[str, Any]:
         """
         Get the context for generating a blockchain test.
 
         Returns:
-            Dict[str, Any]: A dictionary containing module docstring, test name,
-            test docstring, environment kwargs, pre-state items, and transaction items.
+            Dict[str, Any]: A dictionary containing environment,
+            pre-state, a transaction and its hash.
         """
+        self._make_rpc_calls()
         return {
-            "environment_kwargs": self._get_environment_kwargs(),
-            "pre_state_items": self._get_pre_state_items(),
-            "transaction_items": self._get_transaction_items(),
-            "tx_hash": self.transaction.tx_hash,
+            "environment": self._get_environment(),
+            "pre_state": self._get_pre_state(),
+            "transaction": self._get_transaction(),
+            "tx_hash": self.transaction_hash,
         }
