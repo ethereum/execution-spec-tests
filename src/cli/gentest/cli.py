@@ -13,7 +13,7 @@ import jinja2
 
 from ethereum_test_base_types import Hash
 
-from .request_manager import RequestManager
+from .request_manager import RPCRequest
 from .test_providers import BlockchainTestProvider
 
 template_loader = jinja2.PackageLoader("cli.gentest")
@@ -31,7 +31,7 @@ def generate(transaction_hash: str, output_file: TextIO):
 
     OUTPUT_FILE is the path to the output python script.
     """
-    request = RequestManager()
+    request = RPCRequest()
 
     print(
         "Perform tx request: eth_get_transaction_by_hash(" + f"{transaction_hash}" + ")",

@@ -69,7 +69,7 @@ class RPCRequest:
             res.ty == 0
         ), f"Transaction has type {res.ty}: Currently only type 0 transactions are supported."
 
-        return RequestManager.RemoteTransaction(
+        return RPCRequest.RemoteTransaction(
             block_number=block_number,
             tx_hash=res.transaction_hash,
             ty=res.ty,
@@ -92,7 +92,7 @@ class RPCRequest:
         """
         res = self.rpc.get_block_by_number(block_number)
 
-        return RequestManager.RemoteBlock(
+        return RPCRequest.RemoteBlock(
             coinbase=res["miner"],
             number=res["number"],
             difficulty=res["difficulty"],
