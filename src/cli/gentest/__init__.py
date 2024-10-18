@@ -4,8 +4,6 @@ Generate a Python blockchain test from a transaction hash.
 This script can be used to generate Python source for a blockchain test case
 that replays a mainnet or testnet transaction from its transaction hash.
 
-Note:
-
 Requirements:
 
 1. Access to an archive node for the network where the transaction
