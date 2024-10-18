@@ -80,10 +80,15 @@ def process_evm_bytes(  # noqa: D103
                 raise ValueError(f"Unknown opcode: {opcode_byte}")
 
         if opcode.data_portion_length > 0:
+            signed = opcode in [Op.RJUMP, Op.RJUMPI]
             opcodes.append(
                 OpcodeWithOperands(
                     opcode=opcode,
-                    operands=[int.from_bytes(evm_bytes[: opcode.data_portion_length], "big")],
+                    operands=[
+                        int.from_bytes(
+                            evm_bytes[: opcode.data_portion_length], "big", signed=signed
+                        )
+                    ],
                 )
             )
             evm_bytes = evm_bytes[opcode.data_portion_length :]
@@ -94,7 +99,7 @@ def process_evm_bytes(  # noqa: D103
                 max_index = evm_bytes.pop(0)
                 operands: List[int] = []
                 for _ in range(max_index + 1):
-                    operands.append(int.from_bytes(evm_bytes[:2], "big"))
+                    operands.append(int.from_bytes(evm_bytes[:2], "big", signed=True))
                     evm_bytes = evm_bytes[2:]
                 opcodes.append(OpcodeWithOperands(opcode=opcode, operands=operands))
         else:

@@ -42,6 +42,10 @@ from ..eofwrap import wrap_code
         [Opcode(185), Container.Code(Opcode(185) + Op.STOP)],
         [Op.RJUMPV[1, 2, 3], Container.Code(Op.RJUMPV[1, 2, 3] + Op.STOP)],
         [Op.RJUMPV, Container.Code(Op.RJUMPV + Op.STOP)],
+        [
+            Op.RJUMPV[-1, 0x7FFF, -0x7FFF],
+            Container.Code(Op.RJUMPV[-1, 0x7FFF, -0x7FFF] + Op.STOP),
+        ],
     ],
     ids=lambda param: to_hex(param),
 )
