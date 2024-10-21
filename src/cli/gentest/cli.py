@@ -14,7 +14,7 @@ import jinja2
 from ethereum_test_base_types import Hash
 
 from .request_manager import RPCRequest
-from .test_providers import BlockchainTestProvider
+from .test_providers import TransactionTestProvider
 
 template_loader = jinja2.PackageLoader("cli.gentest")
 template_env = jinja2.Environment(loader=template_loader, keep_trailing_newline=True)
@@ -46,7 +46,7 @@ def generate(transaction_hash: str, output_file: TextIO):
     block = request.eth_get_block_by_number(transaction.block_number)
 
     print("Generate py test", file=stderr)
-    context = BlockchainTestProvider(
+    context = TransactionTestProvider(
         block=block, transaction=transaction, state=state
     ).get_context()
 
