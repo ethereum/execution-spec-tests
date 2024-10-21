@@ -81,7 +81,7 @@ def test_self_destruct(
         (26_203 + 2099, True, False, False),
         (26_203 + 2100, True, True, False),
         (26_203 + 2100 + 3500 + 3500 + 699, False, True, False),
-        (26_203 + 2100 + 7000 + 3099 + 700, False, True, True),
+        (26_203 + 2100 + 3500 + 3500 + 700, False, True, True),
     ],
     ids=[
         "existing_beneficiary_insufficient_beneficiary_basic_data",
