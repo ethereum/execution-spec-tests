@@ -20,6 +20,9 @@ jobs:
           echo "Git reference: ${{ github.ref }}"
           echo "Git head ref: ${{ github.head_ref }}"
           echo "Git base ref: ${{ github.base_ref }}"
+          echo "Node Version: $(node -v)"
+          echo "NPM Version: $(npm -v)"
+
 
       - name: Get all changed python files in tests/ and changes to coverted-ethereum-tests.txt
         id: changed-tests
@@ -88,7 +91,7 @@ jobs:
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
         id: evm-builder2
         with:
-          type: "main"
+          targets: "evmone-t8n"
 
       - name: Checkout ethereum/tests
         uses: actions/checkout@v4
@@ -175,7 +178,9 @@ jobs:
           mkdir -p fixtures/state_tests
           mkdir -p fixtures/eof_tests
 
-          uv run fill $files -n auto --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+          echo "uv run fill $files --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
+          uv run fill $files --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1
+          cat filloutput.log
 
           if grep -q "FAILURES" filloutput.log; then
               echo "Error: failed to generate .py tests."
@@ -229,7 +234,9 @@ jobs:
             mkdir -p fixtures/eof_tests
 
             if [ -n "$files_fixed" ]; then
-                uv run fill $files_fixed -n auto --until=Cancun --evm-bin evmone-t8n || true >> filloutput.log 2>&1
+                echo "uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
+                uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1
+                cat filloutput.log
 
                 if grep -q "FAILURES" filloutput.log; then
                   echo "Error: failed to generate .py tests from before the PR."
@@ -240,20 +247,22 @@ jobs:
                   echo "Error: failed to generate .py tests from before the PR."
                   exit 1
                 fi
-
-                filesState=$(find fixtures/state_tests -type f -name "*.json")
-                filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
-
-                BASE_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
-                mkdir -p $BASE_TEST_PATH
-                find fixtures/state_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
-                find fixtures/eof_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
-                for file in $BASE_TEST_PATH/*.json; do
-                    if [ -e "$file" ]; then
-                        mv "$file" "${file%.json}_$PREV_COMMIT.json"
-                    fi
-                done
+            else
+                echo "No tests affected from before patch!"
             fi
+
+            filesState=$(find fixtures/state_tests -type f -name "*.json")
+            filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
+
+            BASE_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
+            mkdir -p $BASE_TEST_PATH
+            find fixtures/state_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
+            find fixtures/eof_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
+            for file in $BASE_TEST_PATH/*.json; do
+                if [ -e "$file" ]; then
+                    mv "$file" "${file%.json}_$PREV_COMMIT.json"
+                fi
+            done
 
       - name: Print tests that will be covered
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
