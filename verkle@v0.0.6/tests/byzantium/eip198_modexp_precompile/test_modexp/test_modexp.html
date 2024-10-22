@@ -1,0 +1,194 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_modexp()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<h1>Test Function: <code>test_modexp()</code></h1>
+<p>Test the MODEXP precompile</p>
+<h2>Parametrized Test Cases</h2>
+<table id="test_table" class="display nowrap">
+    <thead>
+        <tr>
+            <th>Test ID</th>
+                        <th>input</th>
+                        <th>output</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_02-ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                        <td>ModExpInput_base_-exponent_-modulus_02</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_0002-ExpectedOutput_call_return_code_0x01-returned_data_0x0001</td>
+                        <td>ModExpInput_base_-exponent_-modulus_0002</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x0001</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_00-exponent_00-modulus_02-ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                        <td>ModExpInput_base_00-exponent_00-modulus_02</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_01-modulus_02-ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                        <td>ModExpInput_base_-exponent_01-modulus_02</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_01-exponent_01-modulus_02-ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                        <td>ModExpInput_base_01-exponent_01-modulus_02</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_02-exponent_01-modulus_03-ExpectedOutput_call_return_code_0x01-returned_data_0x02</td>
+                        <td>ModExpInput_base_02-exponent_01-modulus_03</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x02</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_02-exponent_02-modulus_05-ExpectedOutput_call_return_code_0x01-returned_data_0x04</td>
+                        <td>ModExpInput_base_02-exponent_02-modulus_05</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x04</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_-ExpectedOutput_call_return_code_0x01-returned_data_0x</td>
+                        <td>ModExpInput_base_-exponent_-modulus_</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_00-ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                        <td>ModExpInput_base_-exponent_-modulus_00</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_01-ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                        <td>ModExpInput_base_-exponent_-modulus_01</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_0001-ExpectedOutput_call_return_code_0x01-returned_data_0x0000</td>
+                        <td>ModExpInput_base_-exponent_-modulus_0001</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x0000</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case1</td>
+                        <td>ModExpInput_base_03-exponent_fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2e-modulus_fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0000000000000000000000000000000000000000000000000000000000000001</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case2</td>
+                        <td>ModExpInput_base_-exponent_fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2e-modulus_fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0000000000000000000000000000000000000000000000000000000000000000</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case3-raw-input-out-of-gas</td>
+                        <td>ModExpRawInput_raw_input_00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd</td>
+                        <td>ExpectedOutput_call_return_code_0x00-returned_data_0000000000000000000000000000000000000000000000000000000000000000</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case4-extra-data_07</td>
+                        <td>ModExpInput_base_03-exponent_ffff-modulus_8000000000000000000000000000000000000000000000000000000000000000-extra_data_07</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case5-raw-input</td>
+                        <td>ModExpRawInput_raw_input_00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000002003ffff80</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_02-ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                        <td>ModExpInput_base_-exponent_-modulus_02</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_0002-ExpectedOutput_call_return_code_0x01-returned_data_0x0001</td>
+                        <td>ModExpInput_base_-exponent_-modulus_0002</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x0001</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_00-exponent_00-modulus_02-ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                        <td>ModExpInput_base_00-exponent_00-modulus_02</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_01-modulus_02-ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                        <td>ModExpInput_base_-exponent_01-modulus_02</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_01-exponent_01-modulus_02-ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                        <td>ModExpInput_base_01-exponent_01-modulus_02</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x01</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_02-exponent_01-modulus_03-ExpectedOutput_call_return_code_0x01-returned_data_0x02</td>
+                        <td>ModExpInput_base_02-exponent_01-modulus_03</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x02</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_02-exponent_02-modulus_05-ExpectedOutput_call_return_code_0x01-returned_data_0x04</td>
+                        <td>ModExpInput_base_02-exponent_02-modulus_05</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x04</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_-ExpectedOutput_call_return_code_0x01-returned_data_0x</td>
+                        <td>ModExpInput_base_-exponent_-modulus_</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_00-ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                        <td>ModExpInput_base_-exponent_-modulus_00</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_01-ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                        <td>ModExpInput_base_-exponent_-modulus_01</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x00</td>
+                    </tr>
+                <tr>
+            <td>ModExpInput_base_-exponent_-modulus_0001-ExpectedOutput_call_return_code_0x01-returned_data_0x0000</td>
+                        <td>ModExpInput_base_-exponent_-modulus_0001</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x0000</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case1</td>
+                        <td>ModExpInput_base_03-exponent_fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2e-modulus_fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0000000000000000000000000000000000000000000000000000000000000001</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case2</td>
+                        <td>ModExpInput_base_-exponent_fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2e-modulus_fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0000000000000000000000000000000000000000000000000000000000000000</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case3-raw-input-out-of-gas</td>
+                        <td>ModExpRawInput_raw_input_00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd</td>
+                        <td>ExpectedOutput_call_return_code_0x00-returned_data_0000000000000000000000000000000000000000000000000000000000000000</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case4-extra-data_07</td>
+                        <td>ModExpInput_base_03-exponent_ffff-modulus_8000000000000000000000000000000000000000000000000000000000000000-extra_data_07</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab</td>
+                    </tr>
+                <tr>
+            <td>EIP-198-case5-raw-input</td>
+                        <td>ModExpRawInput_raw_input_00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000002003ffff80</td>
+                        <td>ExpectedOutput_call_return_code_0x01-returned_data_0x3b01b01ac41f2d6e917c6d6a221ce793802469026d9ab7578fa2e79e4da6aaab</td>
+                    </tr>
+            </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#test_table').DataTable({
+            pageLength: -1,
+            scrollX: true,
+            autoWidth: false
+        });
+    });
+</script>
