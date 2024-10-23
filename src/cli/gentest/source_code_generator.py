@@ -11,7 +11,7 @@ from pathlib import Path
 
 import jinja2
 
-from .test_providers import Provider
+from .test_context_providers import Provider
 
 template_loader = jinja2.PackageLoader("cli.gentest")
 template_env = jinja2.Environment(loader=template_loader, keep_trailing_newline=True)

@@ -13,7 +13,7 @@ import click
 from ethereum_test_base_types import Hash
 
 from .source_code_generator import get_test_source
-from .test_providers import BlockchainTestProvider
+from .test_context_providers import BlockchainTestContextProvider
 
 
 @click.command()
@@ -27,7 +27,7 @@ def generate(transaction_hash: str, output_file: TextIO):
 
     OUTPUT_FILE is the path to the output python script.
     """
-    provider = BlockchainTestProvider(transaction_hash=Hash(transaction_hash))
+    provider = BlockchainTestContextProvider(transaction_hash=Hash(transaction_hash))
 
     source = get_test_source(provider=provider, template_path="blockchain_test/transaction.py.j2")
     output_file.write(source)

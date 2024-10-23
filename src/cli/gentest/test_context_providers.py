@@ -7,7 +7,7 @@ Classes:
   required context to create a test.
 
 Example:
-    provider = BlockchainTestProvider(transaction=transaction)
+    provider = BlockchainTestContextProvider(transaction=transaction)
     context = provider.get_context()
 """
 
@@ -29,7 +29,7 @@ class Provider(ABC, BaseModel):
     """
 
     @abstractmethod
-    def get_context(self):
+    def get_context(self) -> Dict:
         """
         Get the context for generating a test.
         """
@@ -37,7 +37,7 @@ class Provider(ABC, BaseModel):
     pass
 
 
-class BlockchainTestProvider(Provider):
+class BlockchainTestContextProvider(Provider):
     """
     Provides context required to generate a `blockchain_test` using pytest.
     """
