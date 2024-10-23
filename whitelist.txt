@@ -110,6 +110,7 @@ dir
 dirname
 dirs
 discordapp
+dockerdocs
 docstring
 docstrings
 dunder
