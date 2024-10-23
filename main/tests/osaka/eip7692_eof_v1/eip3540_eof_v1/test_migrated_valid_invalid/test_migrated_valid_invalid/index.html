@@ -23926,7 +23926,7 @@
 
 
 <h1 id="test_migrated_valid_invalid"><code>test_migrated_valid_invalid()</code><a class="headerlink" href="#test_migrated_valid_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5a31516932aa9682314a5e9d83314cfe085045c6/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py#L21"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid@5a315169</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e317fd03a0b16724ea9cfde4b1ff58810a2f9a69/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py#L21"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid@e317fd03</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid --fork Osaka</span>
@@ -24320,7 +24320,7 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Trailing bytes after code section with wrong first section type</span>
             <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001 010004 0200010001 040000 00 00000000 fe aabbcc&quot;</span><span class="p">),</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -24375,7 +24375,7 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Trailing bytes after data section with wrong first section type</span>
             <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001 010004 0200010001 040002 00 00000000 fe aabbccdd&quot;</span><span class="p">),</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -24694,7 +24694,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000402000100010400000000</code> <code>000000feaabbcc</code></td>
-                        <td>EOFException.INVALID_FIRST_SECTION_TYPE</td>
+                        <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -24774,7 +24774,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000402000100010400020000</code> <code>000000feaabbccdd</code></td>
-                        <td>EOFException.INVALID_FIRST_SECTION_TYPE</td>
+                        <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 

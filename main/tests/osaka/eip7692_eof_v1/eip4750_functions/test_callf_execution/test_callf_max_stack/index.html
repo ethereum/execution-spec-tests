@@ -23926,7 +23926,7 @@
 
 
 <h1 id="test_callf_max_stack"><code>test_callf_max_stack()</code><a class="headerlink" href="#test_callf_max_stack" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5a31516932aa9682314a5e9d83314cfe085045c6/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L359"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack@5a315169</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e317fd03a0b16724ea9cfde4b1ff58810a2f9a69/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L359"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack@e317fd03</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack --fork Osaka</span>
@@ -23944,10 +23944,12 @@
       <p>CALLF where a normal execution would not overflow, but EIP-4750 CALLF rule <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereum/execution-spec-tests/issues/4" title="GitHub Issue: ethereum/execution-spec-tests #4">#4</a> triggers.</p>
 <p>Code Section 0 - calls <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereum/execution-spec-tests/issues/1" title="GitHub Issue: ethereum/execution-spec-tests #1">#1</a> with the configured height, but we load some operands so the
                  return stack does not overflow
-Code Section 1 - recursively calls itself until input is zero, then calls 2 and returns.
+Code Section 1 - expands stack, calls <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereum/execution-spec-tests/issues/2" title="GitHub Issue: ethereum/execution-spec-tests #2">#2</a>, THEN recursively calls itself until input is zero,
+                 and returns.
 Code Section 2 - Just returns, zero inputs, zero outputs</p>
-<p>This will catch  CALLF rule <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereum/execution-spec-tests/issues/4" title="GitHub Issue: ethereum/execution-spec-tests #4">#4</a>: always fail if the operand stack is full. Not checking
-rule 4 results in a call to section 2 and not overfilling the stack (as it is just RETF).</p>
+<p>This will catch  CALLF execution rule <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereum/execution-spec-tests/issues/3" title="GitHub Issue: ethereum/execution-spec-tests #3">#3</a>: always fail if the operand stack is full. Not
+checking rule 3 results in a call to section 2 and not overfilling the stack (as it is just
+RETF).</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py</code></summary>
@@ -24034,11 +24036,15 @@ rule 4 results in a call to section 2 and not overfilling the stack (as it is ju
 <span class="normal">439</span>
 <span class="normal">440</span>
 <span class="normal">441</span>
-<span class="normal">442</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">(</span><span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="s2">&quot;failure&quot;</span><span class="p">),</span>
     <span class="p">(</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1018</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no_max_stack&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1019</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;with_max_stack&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1019</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;with_max_stack&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1020</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;over_max_stack&quot;</span><span class="p">),</span>
     <span class="p">),</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_callf_max_stack</span><span class="p">(</span>
@@ -24052,11 +24058,13 @@ rule 4 results in a call to section 2 and not overfilling the stack (as it is ju
 
 <span class="sd">    Code Section 0 - calls #1 with the configured height, but we load some operands so the</span>
 <span class="sd">                     return stack does not overflow</span>
-<span class="sd">    Code Section 1 - recursively calls itself until input is zero, then calls 2 and returns.</span>
+<span class="sd">    Code Section 1 - expands stack, calls #2, THEN recursively calls itself until input is zero,</span>
+<span class="sd">                     and returns.</span>
 <span class="sd">    Code Section 2 - Just returns, zero inputs, zero outputs</span>
 
-<span class="sd">    This will catch  CALLF rule #4: always fail if the operand stack is full. Not checking</span>
-<span class="sd">    rule 4 results in a call to section 2 and not overfilling the stack (as it is just RETF).</span>
+<span class="sd">    This will catch  CALLF execution rule #3: always fail if the operand stack is full. Not</span>
+<span class="sd">    checking rule 3 results in a call to section 2 and not overfilling the stack (as it is just</span>
+<span class="sd">    RETF).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
@@ -24189,6 +24197,16 @@ rule 4 results in a call to section 2 and not overfilling the stack (as it is ju
                 </abbr>
             </td>
                         <td>1019</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack[fork_Osaka-blockchain_test-over_max_stack]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack[fork_Osaka-blockchain_test-over_max_stack]">
+                    ...fork_Osaka-blockchain_test-over_max_stack
+                </abbr>
+            </td>
+                        <td>1020</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -24209,6 +24227,16 @@ rule 4 results in a call to section 2 and not overfilling the stack (as it is ju
                 </abbr>
             </td>
                         <td>1019</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack[fork_Osaka-state_test-over_max_stack]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack[fork_Osaka-state_test-over_max_stack]">
+                    ...fork_Osaka-state_test-over_max_stack
+                </abbr>
+            </td>
+                        <td>1020</td>
                         <td>True</td>
                     </tr>
             </tbody>
