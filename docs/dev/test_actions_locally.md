@@ -4,15 +4,13 @@ The Github Actions workflows can be tested locally using [nektos/act](https://gi
 
 ## Prerequisites
 
-1. Install the Github CLI (`gh`): [linux](https://github.com/cli/cli/blob/trunk/docs/install_linux.md), [macos](https://github.com/cli/cli/tree/trunk?tab=readme-ov-file#macos).
-2. Install the `act` tool as a Github extension ([nektos/act docs](https://nektosact.com/installation/gh.html)):
+1. A docker installation without `sudo` prefix requirement ([see also dockerdocs](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)):
 
     ```bash
-    gh extension install https://github.com/nektos/gh-act
+    sudo usermod -aG docker $USER
     ```
 
-    or use one of the [other available methods](https://nektosact.com/installation/index.html).
-
+2. Install the Github CLI (`gh`): [linux](https://github.com/cli/cli/blob/trunk/docs/install_linux.md), [macos](https://github.com/cli/cli/tree/trunk?tab=readme-ov-file#macos).
 3. Authenticate your Github account with the Github CLI:
 
     ```bash
@@ -20,6 +18,14 @@ The Github Actions workflows can be tested locally using [nektos/act](https://gi
     ```
 
     This is required to set `GITHUB_TOKEN` to the output of `gh auth token` when running the workflows.
+
+4. Install the `act` tool as a Github extension ([nektos/act docs](https://nektosact.com/installation/gh.html)):
+
+    ```bash
+    gh extension install https://github.com/nektos/gh-act
+    ```
+
+    or use one of the [other available methods](https://nektosact.com/installation/index.html).
 
 !!! note "Updating nektos/act to the latest version via the Github CLI"
     The `act` tool can be updated via the Github CLI:
@@ -31,7 +37,7 @@ The Github Actions workflows can be tested locally using [nektos/act](https://gi
 ## Listing the Available Workflows
 
 ```bash
-gh act list
+gh act --list
 ```
 
 will output something similar to:
@@ -82,7 +88,7 @@ Release builds require the `ref` input to be specified. To test a release build 
 It's possible to specify the Docker image used by the `act` tool for a specific platform defined in a workflow using the `-P` (`--platform`) option. For example, use map `ubuntu-latest` in the workflow to use `ubuntu-24.04`:
 
 ```bash
--P ubuntu-latest=ubuntu-24.04
+-P ubuntu-latest=ubuntu:24.04
 ```
 
 This can be added to any `gh act` command.
