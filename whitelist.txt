@@ -252,6 +252,7 @@ kzg
 kzgs
 lastblockhash
 len
+Levenshtein
 linux
 listdir
 lll
