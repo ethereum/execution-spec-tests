@@ -11,6 +11,8 @@ from re import compile
 from tempfile import TemporaryDirectory
 from typing import Optional
 
+from requests_unixsocket import Session  # type: ignore
+
 from ethereum_test_forks import Fork
 
 from ..transition_tool import TransitionTool
@@ -76,12 +78,22 @@ class ExecutionSpecsTransitionTool(TransitionTool):
             ],
         )
         start = time.time()
+        wait_time = 0.1
+        while not self.server_file_path.exists():
+            time.sleep(wait_time)
+            wait_time *= 2
         while True:
-            if self.server_file_path.exists():
+            try:
+                # This will probably 404, but we are only checking whether connections are
+                # accepted.
+                Session().get(self.server_url + "heartbeat/")
                 break
-            if time.time() - start > DAEMON_STARTUP_TIMEOUT_SECONDS:
-                raise Exception("Failed starting ethereum-spec-evm subprocess")
-            time.sleep(0)  # yield to other processes
+            except ConnectionError:
+                time.sleep(wait_time)
+                wait_time *= 2
+                pass
+        if time.time() - start > DAEMON_STARTUP_TIMEOUT_SECONDS:
+            raise Exception("Failed starting ethereum-spec-evm subprocess")
 
     def shutdown(self):
         """
