@@ -12,7 +12,7 @@ from pydantic.functional_serializers import model_serializer
 from ethereum_test_base_types import (
     Address,
     CamelModel,
-    HexNumber,
+    ZeroPaddedHexNumber,
     PaddedFixedSizeBytes,
 )
 from ethereum_test_forks import Fork, Verkle
@@ -69,7 +69,7 @@ class VerkleProof(CamelModel):
     """
 
     other_stems: List[Stem]
-    depth_extension_present: HexNumber
+    depth_extension_present: ZeroPaddedHexNumber
     commitments_by_path: List[Hash]
     d: Hash
     ipa_proof: IpaProof | None = Field(None)
@@ -143,7 +143,7 @@ class Witness(CamelModel):
 
     state_diff: StateDiff
     verkle_proof: VerkleProof
-    # parent_state_root: Hash
+    parent_root: Hash
 
 
 class VerkleTree(RootModel[Dict[Hash, Hash]]):

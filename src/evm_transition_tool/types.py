@@ -112,6 +112,7 @@ class Result(CamelModel):
 
     verkle_proof: VerkleProof | None = None
     state_diff: StateDiff | None = None
+    parent_root: Hash | None = None
 
 
 class TransitionToolInput(CamelModel):
