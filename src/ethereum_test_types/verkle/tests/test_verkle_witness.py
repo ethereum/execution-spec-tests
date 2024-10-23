@@ -152,6 +152,7 @@ def witness_data(state_diff_data, verkle_proof_data):
     return {
         "stateDiff": state_diff_data,
         "verkleProof": verkle_proof_data,
+        "parentRoot": "0x5b5fdfedd6a0e932da408ac7d772a36513d1eee9b9926e52620c43a433aad7",
     }
 
 
@@ -170,3 +171,6 @@ def test_witness_validation(witness_data):
         == 0x647ED3C87A4F764421EA2F5BFC73195812F6B7DD15AC2B8D295730C1DEDE1EDF
     )
     assert witness.state_diff.root[0].suffix_diffs[0].new_value is None
+    assert witness.parent_root == (
+        0x5B5FDFEDD6A0E932DA408AC7D772A36513D1EEE9B9926E52620C43A433AAD7
+    )

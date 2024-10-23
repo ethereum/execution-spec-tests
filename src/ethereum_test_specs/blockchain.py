@@ -608,9 +608,12 @@ class BlockchainTest(BaseTest):
             )
             transition_tool_output.alloc = previous_alloc
             # TODO: hack for now, replace with actual witness output once available from t8n
+            witness_parent_root = transition_tool_output.result.parent_root
+            assert witness_parent_root == header.parent_hash
             transition_tool_output.witness = Witness(
                 verkle_proof=transition_tool_output.result.verkle_proof,
                 state_diff=transition_tool_output.result.state_diff,
+                parent_root=witness_parent_root,
             )
 
         return (
