@@ -15089,6 +15089,8 @@
       
         
       
+        
+      
     
     
       
@@ -15998,6 +16000,27 @@
   
   <span class="md-ellipsis">
     <code>test_reset_code</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_contract_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_contract_create</code>
   </span>
   
 
@@ -23924,7 +23947,7 @@
 
 
 <h1 id="test_eoa_tx_after_set_code"><code>test_eoa_tx_after_set_code()</code><a class="headerlink" href="#test_eoa_tx_after_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e317fd03a0b16724ea9cfde4b1ff58810a2f9a69/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2600"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@e317fd03</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/247c31241ef3b5b41656442f5ae3ccff299b67a4/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2603"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@247c3124</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code --fork Prague</span>
@@ -23943,10 +23966,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2600</span>
-<span class="normal">2601</span>
-<span class="normal">2602</span>
-<span class="normal">2603</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2603</span>
 <span class="normal">2604</span>
 <span class="normal">2605</span>
 <span class="normal">2606</span>
@@ -24056,7 +24076,10 @@
 <span class="normal">2710</span>
 <span class="normal">2711</span>
 <span class="normal">2712</span>
-<span class="normal">2713</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">2713</span>
+<span class="normal">2714</span>
+<span class="normal">2715</span>
+<span class="normal">2716</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_eoa_tx_after_set_code</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>

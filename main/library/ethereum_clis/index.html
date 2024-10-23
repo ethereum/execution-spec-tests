@@ -1878,6 +1878,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_clis.EvmoneExceptionMapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      EvmoneExceptionMapper
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_clis.EvmOneTransitionTool" class="md-nav__link">
     <span class="md-ellipsis">
       EvmOneTransitionTool
@@ -15549,6 +15558,8 @@
       
         
       
+        
+      
     
     
       
@@ -16400,6 +16411,27 @@
   
   <span class="md-ellipsis">
     <code>test_reset_code</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_set_code_txs/test_contract_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_contract_create</code>
   </span>
   
 
@@ -24377,6 +24409,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_clis.EvmoneExceptionMapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      EvmoneExceptionMapper
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_clis.EvmOneTransitionTool" class="md-nav__link">
     <span class="md-ellipsis">
       EvmOneTransitionTool
@@ -24798,13 +24839,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/besu.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
-<span class="normal"> 27</span>
-<span class="normal"> 28</span>
-<span class="normal"> 29</span>
-<span class="normal"> 30</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
 <span class="normal"> 33</span>
@@ -24977,7 +25012,13 @@
 <span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BesuTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BesuTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Besu EvmTool Transition tool frontend wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -24997,7 +25038,7 @@
         <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">exception_mapper</span><span class="o">=</span><span class="n">BesuExceptionMapper</span><span class="p">(),</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">binary</span><span class="p">),</span> <span class="s2">&quot;t8n&quot;</span><span class="p">,</span> <span class="s2">&quot;--help&quot;</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -25185,13 +25226,7 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/besu.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
@@ -25213,7 +25248,13 @@
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Starts the t8n-server process, extracts the port, and leaves it running for future re-use.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25268,14 +25309,14 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/besu.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Stops the t8n-server process if it was started</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25309,13 +25350,7 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/besu.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
@@ -25412,7 +25447,13 @@
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
-<span class="normal">197</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -25542,11 +25583,11 @@
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/besu.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25591,13 +25632,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/ethereumjs.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
@@ -25618,7 +25653,13 @@
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
-<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EthereumJSTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EthereumJSTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EthereumJS Transition tool interface wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25638,7 +25679,7 @@
         <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">exception_mapper</span><span class="o">=</span><span class="n">EthereumJSExceptionMapper</span><span class="p">(),</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -25675,12 +25716,12 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/ethereumjs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool.</span>
 <span class="sd">    Currently, EthereumJS-t8n provides no way to determine supported forks.</span>
@@ -25691,6 +25732,333 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
     </div>
 
 </div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_clis.EvmoneExceptionMapper" class="doc doc-heading">
+            <code>EvmoneExceptionMapper</code>
+
+
+<a href="#ethereum_clis.EvmoneExceptionMapper" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_exceptions.ExceptionMapper" href="../ethereum_test_exceptions/#ethereum_test_exceptions.ExceptionMapper">ExceptionMapper</a></code></p>
+
+
+      <p>Translate between EEST exceptions and error strings returned by evmone.</p>
+
+              <details class="quote">
+                <summary>Source code in <code>src/ethereum_clis/clis/evmone.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">(</span><span class="n">ExceptionMapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Translate between EEST exceptions and error strings returned by evmone.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_mapping_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_TX_CONTRACT_CREATION</span><span class="p">,</span>
+                <span class="s2">&quot;set code transaction must &quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE</span><span class="p">,</span>
+                <span class="s2">&quot;invalid authorization signature&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH</span><span class="p">,</span>
+                <span class="s2">&quot;authorization signature s value too high&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_EMPTY_AUTHORIZATION_LIST</span><span class="p">,</span>
+                <span class="s2">&quot;empty authorization list&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">INTRINSIC_GAS_TOO_LOW</span><span class="p">,</span>
+                <span class="s2">&quot;intrinsic gas too low&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED</span><span class="p">,</span>
+                <span class="s2">&quot;lob gas limit exceeded&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">INITCODE_SIZE_EXCEEDED</span><span class="p">,</span>
+                <span class="s2">&quot;max initcode size exceeded&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">INSUFFICIENT_ACCOUNT_FUNDS</span><span class="p">,</span>
+                <span class="s2">&quot;insufficient funds for gas * price + value&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">INSUFFICIENT_MAX_FEE_PER_GAS</span><span class="p">,</span>
+                <span class="s2">&quot;max fee per gas less than block base fee&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</span><span class="p">,</span>
+                <span class="s2">&quot;fee per gas less than block base fee&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_PRE_FORK</span><span class="p">,</span>
+                <span class="s2">&quot;transaction type not supported&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH</span><span class="p">,</span>
+                <span class="s2">&quot;invalid blob hash version&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_BLOB_COUNT_EXCEEDED</span><span class="p">,</span>
+                <span class="s2">&quot;blob gas limit exceeded&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_ZERO_BLOBS</span><span class="p">,</span>
+                <span class="s2">&quot;empty blob hashes list&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="c1"># TODO EVMONE needs to differentiate when the section is missing in the header or body</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_STOP_OPCODE</span><span class="p">,</span> <span class="s2">&quot;err: no_terminating_instruction&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="s2">&quot;err: code_section_missing&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="s2">&quot;err: type_section_missing&quot;</span><span class="p">),</span>
+            <span class="c1"># TODO EVMONE these exceptions are too similar, this leeds to ambiguity</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="s2">&quot;err: header_terminator_missing&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span> <span class="s2">&quot;err: section_headers_not_terminated&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_VERSION</span><span class="p">,</span> <span class="s2">&quot;err: eof_version_unknown&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_NON_RETURNING_FLAG</span><span class="p">,</span> <span class="s2">&quot;err: invalid_non_returning_flag&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAGIC</span><span class="p">,</span> <span class="s2">&quot;err: invalid_prefix&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span> <span class="s2">&quot;err: invalid_first_section_type&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span> <span class="s2">&quot;err: invalid_section_bodies_size&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span> <span class="s2">&quot;err: invalid_type_section_size&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span> <span class="s2">&quot;err: incomplete_section_size&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_NUMBER</span><span class="p">,</span> <span class="s2">&quot;err: incomplete_section_number&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TOO_MANY_CODE_SECTIONS</span><span class="p">,</span> <span class="s2">&quot;err: too_many_code_sections&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span> <span class="s2">&quot;err: zero_section_size&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_DATA_SECTION</span><span class="p">,</span> <span class="s2">&quot;err: data_section_missing&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">UNDEFINED_INSTRUCTION</span><span class="p">,</span> <span class="s2">&quot;err: undefined_instruction&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INPUTS_OUTPUTS_NUM_ABOVE_LIMIT</span><span class="p">,</span> <span class="s2">&quot;err: inputs_outputs_num_above_limit&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">UNREACHABLE_INSTRUCTIONS</span><span class="p">,</span> <span class="s2">&quot;err: unreachable_instructions&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_RJUMP_DESTINATION</span><span class="p">,</span> <span class="s2">&quot;err: invalid_rjump_destination&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">UNREACHABLE_CODE_SECTIONS</span><span class="p">,</span> <span class="s2">&quot;err: unreachable_code_sections&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_UNDERFLOW</span><span class="p">,</span> <span class="s2">&quot;err: stack_underflow&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">MAX_STACK_HEIGHT_ABOVE_LIMIT</span><span class="p">,</span> <span class="s2">&quot;err: max_stack_height_above_limit&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HIGHER_THAN_OUTPUTS</span><span class="p">,</span> <span class="s2">&quot;err: stack_higher_than_outputs_required&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</span><span class="p">,</span>
+                <span class="s2">&quot;err: jumpf_destination_incompatible_outputs&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAX_STACK_HEIGHT</span><span class="p">,</span> <span class="s2">&quot;err: invalid_max_stack_height&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_DATALOADN_INDEX</span><span class="p">,</span> <span class="s2">&quot;err: invalid_dataloadn_index&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TRUNCATED_INSTRUCTION</span><span class="p">,</span> <span class="s2">&quot;err: truncated_instruction&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">,</span> <span class="s2">&quot;err: toplevel_container_truncated&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ORPHAN_SUBCONTAINER</span><span class="p">,</span> <span class="s2">&quot;err: unreferenced_subcontainer&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">CONTAINER_SIZE_ABOVE_LIMIT</span><span class="p">,</span> <span class="s2">&quot;err: container_size_above_limit&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_CONTAINER_SECTION_INDEX</span><span class="p">,</span>
+                <span class="s2">&quot;err: invalid_container_section_index&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPATIBLE_CONTAINER_KIND</span><span class="p">,</span> <span class="s2">&quot;err: incompatible_container_kind&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_HEIGHT_MISMATCH</span><span class="p">,</span> <span class="s2">&quot;err: stack_height_mismatch&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TOO_MANY_CONTAINERS</span><span class="p">,</span> <span class="s2">&quot;err: too_many_container_sections&quot;</span><span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_CODE_SECTION_INDEX</span><span class="p">,</span> <span class="s2">&quot;err: invalid_code_section_index&quot;</span>
+            <span class="p">),</span>
+        <span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
 
 
 
@@ -25726,13 +26094,7 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/evmone.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
@@ -25752,7 +26114,13 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmOneTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmOneTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evmone `evmone-t8n` Transition tool interface wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -25771,7 +26139,7 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
         <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">exception_mapper</span><span class="o">=</span><span class="n">EvmoneExceptionMapper</span><span class="p">(),</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -25808,12 +26176,12 @@ Currently, evmone-t8n provides no way to determine supported forks.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/evmone.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool.</span>
 <span class="sd">    Currently, evmone-t8n provides no way to determine supported forks.</span>
@@ -25867,13 +26235,7 @@ versions of EELS hosted in different places.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 21</span>
-<span class="normal"> 22</span>
-<span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
-<span class="normal"> 27</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 27</span>
 <span class="normal"> 28</span>
 <span class="normal"> 29</span>
 <span class="normal"> 30</span>
@@ -25950,7 +26312,15 @@ versions of EELS hosted in different places.</p>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExecutionSpecsTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExecutionSpecsTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ethereum Specs EVM Resolver `ethereum-spec-evm-resolver` Transition Tool wrapper class.</span>
 
@@ -25978,7 +26348,9 @@ versions of EELS hosted in different places.</p>
         <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">exception_mapper</span><span class="o">=</span><span class="n">ExecutionSpecsExceptionMapper</span><span class="p">(),</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span>
+        <span class="p">)</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">binary</span><span class="p">),</span> <span class="s2">&quot;--help&quot;</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -26062,15 +26434,7 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
@@ -26084,7 +26448,15 @@ versions of EELS hosted in different places.</p>
 <span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Starts the t8n-server process, extracts the port, and leaves it running for future re-use.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -26133,15 +26505,15 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Stops the t8n-server process if it was started.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -26178,15 +26550,15 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool.</span>
 
@@ -26235,13 +26607,7 @@ versions of EELS hosted in different places.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 19</span>
-<span class="normal"> 20</span>
-<span class="normal"> 21</span>
-<span class="normal"> 22</span>
-<span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 25</span>
 <span class="normal"> 26</span>
 <span class="normal"> 27</span>
 <span class="normal"> 28</span>
@@ -26365,7 +26731,13 @@ versions of EELS hosted in different places.</p>
 <span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
-<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Go-ethereum `evm` Transition tool interface wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -26386,7 +26758,7 @@ versions of EELS hosted in different places.</p>
         <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">exception_mapper</span><span class="o">=</span><span class="n">GethExceptionMapper</span><span class="p">(),</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">binary</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t8n_subcommand</span><span class="p">),</span> <span class="s2">&quot;--help&quot;</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -26525,13 +26897,13 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool.</span>
 
@@ -26564,18 +26936,18 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_blocktest_help</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_blocktest_help</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the help string for the blocktest subcommand.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -26613,14 +26985,14 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_verifiable</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_verifiable</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -26654,13 +27026,7 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 86</span>
 <span class="normal"> 87</span>
 <span class="normal"> 88</span>
 <span class="normal"> 89</span>
@@ -26723,7 +27089,13 @@ versions of EELS hosted in different places.</p>
 <span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
-<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -26833,13 +27205,7 @@ versions of EELS hosted in different places.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/nimbus.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
@@ -26877,7 +27243,13 @@ versions of EELS hosted in different places.</p>
 <span class="normal">57</span>
 <span class="normal">58</span>
 <span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">NimbusTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">NimbusTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Nimbus `evm` Transition tool interface wrapper class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -26896,7 +27268,7 @@ versions of EELS hosted in different places.</p>
         <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">exception_mapper</span><span class="o">=</span><span class="n">NimbusExceptionMapper</span><span class="p">(),</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">)</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">binary</span><span class="p">),</span> <span class="s2">&quot;--help&quot;</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -26950,14 +27322,14 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nimbus.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets `evm` binary version.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -26992,13 +27364,13 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nimbus.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool.</span>
 
@@ -27140,8 +27512,7 @@ implementations.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
-<span class="normal"> 30</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
 <span class="normal"> 33</span>
@@ -27622,7 +27993,10 @@ implementations.</p>
 <span class="normal">508</span>
 <span class="normal">509</span>
 <span class="normal">510</span>
-<span class="normal">511</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransitionTool</span><span class="p">(</span><span class="n">EthereumCLI</span><span class="p">,</span> <span class="n">FixtureVerifier</span><span class="p">):</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransitionTool</span><span class="p">(</span><span class="n">EthereumCLI</span><span class="p">,</span> <span class="n">FixtureVerifier</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transition tool abstract base class which should be inherited by all transition tool</span>
 <span class="sd">    implementations.</span>
@@ -27647,12 +28021,14 @@ implementations.</p>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
+        <span class="n">exception_mapper</span><span class="p">:</span> <span class="n">ExceptionMapper</span><span class="p">,</span>
         <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Abstract initialization method that all subclasses must implement.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exception_mapper</span> <span class="o">=</span> <span class="n">exception_mapper</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">trace</span> <span class="o">=</span> <span class="n">trace</span>
 
@@ -28122,7 +28498,7 @@ implementations.</p>
 
 
 <h3 id="ethereum_clis.TransitionTool.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">exception_mapper</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
@@ -28137,8 +28513,7 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
-<span class="normal">51</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
@@ -28148,16 +28523,21 @@ implementations.</p>
 <span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
+    <span class="n">exception_mapper</span><span class="p">:</span> <span class="n">ExceptionMapper</span><span class="p">,</span>
     <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract initialization method that all subclasses must implement.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">exception_mapper</span> <span class="o">=</span> <span class="n">exception_mapper</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">trace</span> <span class="o">=</span> <span class="n">trace</span>
 </code></pre></div></td></tr></table></div>
@@ -28186,11 +28566,11 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Registers all subclasses of TransitionTool as possible tools.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28225,12 +28605,12 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
 <span class="normal">73</span>
-<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns True if the fork is supported by the tool</span>
@@ -28262,11 +28642,11 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Starts the t8n-server process, extracts the port, and leaves it running for future re-use.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28297,11 +28677,11 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform any cleanup tasks related to the tested tool.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28332,11 +28712,11 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">reset_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">reset_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resets the internal trace storage for a new test to begin</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28367,13 +28747,13 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">append_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_traces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]):</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">append_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_traces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Appends a list of traces of a state transition to the current list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28406,11 +28786,11 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the accumulated traces</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28441,10 +28821,7 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">111</span>
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
@@ -28463,7 +28840,10 @@ implementations.</p>
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
-<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">collect_traces</span><span class="p">(</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">collect_traces</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">receipts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TransactionReceipt</span><span class="p">],</span>
     <span class="n">temp_dir</span><span class="p">:</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">,</span>
@@ -28519,10 +28899,7 @@ implementations.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
@@ -28540,7 +28917,10 @@ implementations.</p>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">TransitionToolData</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transition tool files and data to pass between methods</span>
@@ -28590,15 +28970,15 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransitionToolInput</span><span class="p">:</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransitionToolInput</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert the data to a TransactionToolInput object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -28642,10 +29022,7 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">381</span>
 <span class="normal">382</span>
 <span class="normal">383</span>
 <span class="normal">384</span>
@@ -28667,7 +29044,10 @@ implementations.</p>
 <span class="normal">400</span>
 <span class="normal">401</span>
 <span class="normal">402</span>
-<span class="normal">403</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">construct_args_stream</span><span class="p">(</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">construct_args_stream</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">t8n_data</span><span class="p">:</span> <span class="n">TransitionToolData</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">:</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -28719,10 +29099,7 @@ implementations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">408</span>
 <span class="normal">409</span>
 <span class="normal">410</span>
 <span class="normal">411</span>
@@ -28760,7 +29137,10 @@ implementations.</p>
 <span class="normal">443</span>
 <span class="normal">444</span>
 <span class="normal">445</span>
-<span class="normal">446</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dump_debug_stream</span><span class="p">(</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dump_debug_stream</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">debug_output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">temp_dir</span><span class="p">:</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">,</span>
@@ -28830,10 +29210,7 @@ can be overridden.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
 <span class="normal">454</span>
@@ -28877,7 +29254,10 @@ can be overridden.</p>
 <span class="normal">492</span>
 <span class="normal">493</span>
 <span class="normal">494</span>
-<span class="normal">495</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -28952,10 +29332,7 @@ can be overridden.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/transition_tool.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">500</span>
 <span class="normal">501</span>
 <span class="normal">502</span>
 <span class="normal">503</span>
@@ -28966,7 +29343,10 @@ can be overridden.</p>
 <span class="normal">508</span>
 <span class="normal">509</span>
 <span class="normal">510</span>
-<span class="normal">511</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>

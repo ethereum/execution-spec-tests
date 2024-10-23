@@ -3316,6 +3316,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_contract_create/</loc>
+         <lastmod>2024-10-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_eoa_tx_after_set_code/</loc>
          <lastmod>2024-10-23</lastmod>
          <changefreq>daily</changefreq>

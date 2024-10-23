@@ -1843,6 +1843,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH" class="md-nav__link">
+    <span class="md-ellipsis">
+      TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.TransactionException.TYPE_4_TX_CONTRACT_CREATION" class="md-nav__link">
+    <span class="md-ellipsis">
+      TYPE_4_TX_CONTRACT_CREATION
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blockexception" class="md-nav__link">
     <span class="md-ellipsis">
       BlockException
@@ -16554,6 +16572,8 @@
       
         
       
+        
+      
     
     
       
@@ -17405,6 +17425,27 @@
   
   <span class="md-ellipsis">
     <code>test_reset_code</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_set_code_txs/test_contract_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_contract_create</code>
   </span>
   
 
@@ -25883,6 +25924,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH" class="md-nav__link">
+    <span class="md-ellipsis">
+      TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.TransactionException.TYPE_4_TX_CONTRACT_CREATION" class="md-nav__link">
+    <span class="md-ellipsis">
+      TYPE_4_TX_CONTRACT_CREATION
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blockexception" class="md-nav__link">
     <span class="md-ellipsis">
       BlockException
@@ -26766,7 +26825,7 @@ the exceptions.</p>
 <a id="ethereum_test_exceptions.TransactionException"></a>
     <div class="doc doc-contents first">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="ethereum_test_exceptions.exceptions.ExceptionBase">ExceptionBase</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_exceptions.exceptions.ExceptionBase" href="../../library/ethereum_test_exceptions/#ethereum_test_exceptions.ExceptionBase">ExceptionBase</a></code></p>
 
 
       <p>Exception raised when a transaction is invalid, and thus cannot be executed.</p>
@@ -26774,19 +26833,7 @@ the exceptions.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
@@ -27033,7 +27080,27 @@ the exceptions.</p>
 <span class="normal">361</span>
 <span class="normal">362</span>
 <span class="normal">363</span>
-<span class="normal">364</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
@@ -27291,7 +27358,15 @@ the exceptions.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction is type 4, but has an empty authorization list.</span>
+<span class="sd">    Transaction authority signature is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transaction authority signature is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TYPE_4_TX_CONTRACT_CREATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transaction is a type 4 transaction and has an empty `to`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -28997,7 +29072,61 @@ the exceptions.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Transaction is type 4, but has an empty authorization list.</p>
+      <p>Transaction authority signature is invalid</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="ethereum_test_exceptions.TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Transaction authority signature is invalid</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="ethereum_test_exceptions.TransactionException.TYPE_4_TX_CONTRACT_CREATION" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">TYPE_4_TX_CONTRACT_CREATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.TransactionException.TYPE_4_TX_CONTRACT_CREATION" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Transaction is a type 4 transaction and has an empty <code>to</code>.</p>
     </div>
 
 </div>
@@ -29019,7 +29148,7 @@ the exceptions.</p>
 <a id="ethereum_test_exceptions.BlockException"></a>
     <div class="doc doc-contents first">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="ethereum_test_exceptions.exceptions.ExceptionBase">ExceptionBase</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_exceptions.exceptions.ExceptionBase" href="../../library/ethereum_test_exceptions/#ethereum_test_exceptions.ExceptionBase">ExceptionBase</a></code></p>
 
 
       <p>Exception raised when a block is invalid, but not due to a transaction.</p>
@@ -29028,27 +29157,7 @@ block header contains an invalid field.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
 <span class="normal">390</span>
@@ -29209,7 +29318,27 @@ block header contains an invalid field.</p>
 <span class="normal">545</span>
 <span class="normal">546</span>
 <span class="normal">547</span>
-<span class="normal">548</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -30578,34 +30707,14 @@ a fork that is not active yet.</p>
 <a id="ethereum_test_exceptions.EOFException"></a>
     <div class="doc doc-contents first">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="ethereum_test_exceptions.exceptions.ExceptionBase">ExceptionBase</span></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_exceptions.exceptions.ExceptionBase" href="../../library/ethereum_test_exceptions/#ethereum_test_exceptions.ExceptionBase">ExceptionBase</a></code></p>
 
 
       <p>Exception raised when an EOF container is invalid.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">571</span>
 <span class="normal">572</span>
 <span class="normal">573</span>
 <span class="normal">574</span>
@@ -30782,7 +30891,27 @@ a fork that is not active yet.</p>
 <span class="normal">745</span>
 <span class="normal">746</span>
 <span class="normal">747</span>
-<span class="normal">748</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span>
+<span class="normal">758</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when an EOF container is invalid.</span>

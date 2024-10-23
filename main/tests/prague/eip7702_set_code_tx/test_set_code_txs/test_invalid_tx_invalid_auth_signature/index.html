@@ -15089,6 +15089,8 @@
       
         
       
+        
+      
     
     
       
@@ -15998,6 +16000,27 @@
   
   <span class="md-ellipsis">
     <code>test_reset_code</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_contract_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_contract_create</code>
   </span>
   
 
@@ -23924,7 +23947,7 @@
 
 
 <h1 id="test_invalid_tx_invalid_auth_signature"><code>test_invalid_tx_invalid_auth_signature()</code><a class="headerlink" href="#test_invalid_tx_invalid_auth_signature" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e317fd03a0b16724ea9cfde4b1ff58810a2f9a69/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2193"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_invalid_tx_invalid_auth_signature@e317fd03</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/247c31241ef3b5b41656442f5ae3ccff299b67a4/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2193"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_invalid_tx_invalid_auth_signature@247c3124</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_invalid_tx_invalid_auth_signature --fork Prague</span>
@@ -24009,7 +24032,10 @@
 <span class="normal">2256</span>
 <span class="normal">2257</span>
 <span class="normal">2258</span>
-<span class="normal">2259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2259</span>
+<span class="normal">2260</span>
+<span class="normal">2261</span>
+<span class="normal">2262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;v,r,s&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;v_2,r_1,s_1&quot;</span><span class="p">),</span>
@@ -24062,7 +24088,10 @@
         <span class="n">to</span><span class="o">=</span><span class="n">callee_address</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">authorization_list</span><span class="o">=</span><span class="p">[</span><span class="n">authorization_tuple</span><span class="p">],</span>
-        <span class="n">error</span><span class="o">=</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE</span><span class="p">,</span>
+        <span class="n">error</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE</span><span class="p">,</span>
+            <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH</span><span class="p">,</span>
+        <span class="p">],</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
