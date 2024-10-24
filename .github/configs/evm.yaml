@@ -23,5 +23,5 @@ verkle:
   impl: geth
   repo: gballet/go-ethereum
   # ref: kaustinen-with-shapella
-  ref: jsign-witness-fix
+  ref: jsign-fixtures-witness-check
   evm-bin: evm
