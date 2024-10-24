@@ -2,14 +2,17 @@
 
 ## Test Functions
 
-Every test case is defined as a python function that defines a single `StateTest` or `BlockchainTest` by using one of the `state_test` or `blockchain_test` objects made available by the framework. Test cases, respectively test modules, must fulfill the following requirements:
+Every test case is defined as a Python function that implements a single `StateTest`
+or `BlockchainTest` using the `state_test` or `blockchain_test` objects made available
+by the framework ([learn how to decide on a test type](./types_of_tests.md#deciding-on-a-test-type)). Test
+cases, and the respective test modules, must fulfill the following requirements:
 
-| Requirement                                                            | When                                        |
-| -----------------------------------------------------------------------|---------------------------------------------|
-| Be [decorated with validity markers](#specifying-which-forks-tests-are-valid-for) | If the test case is not valid for all forks |
-| Use one of `state_test` or `blockchain_test` [in its function arguments](#the-state_test-and-blockchain_test-test-function-arguments) | Always |
-| Call the `state_test` or `blockchain_test` in its test body                                                                           | Always |
-| Add a [reference version of the EIP spec](./reference_specification.md) under test | Test path contains `eip`  |
+| Requirement                                                                                                                           | When                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| Be [decorated with validity markers](#specifying-which-forks-tests-are-valid-for)                                                     | If the test case is not valid for all forks |
+| Use one of `state_test` or `blockchain_test` [in its function arguments](#the-state_test-and-blockchain_test-test-function-arguments) | Always                                      |
+| Call the `state_test` or `blockchain_test` in its test body                                                                           | Always                                      |
+| Add a [reference version of the EIP spec](./reference_specification.md) under test                                                    | Test path contains `eip`                    |
 
 ### Specifying which Forks Tests are Valid For
 
@@ -84,11 +87,11 @@ The `StateTest` object represents a single test vector, and contains the
 following attributes:
 
 - `env`: Environment object which describes the global state of the blockchain
-    before the test starts.
+  before the test starts.
 - `pre`: Pre-State containing the information of all Ethereum accounts that exist
-    before any transaction is executed.
+  before any transaction is executed.
 - `post`: Post-State containing the information of all Ethereum accounts that are
-    created or modified after all transactions are executed.
+  created or modified after all transactions are executed.
 - `txs`: All transactions to be executed during test execution.
 
 ## `BlockchainTest` Object
@@ -97,9 +100,9 @@ The `BlockchainTest` object represents a single test vector that evaluates the
 Ethereum VM by attempting to append multiple blocks to the chain:
 
 - `pre`: Pre-State containing the information of all Ethereum accounts that exist
-    before any block is executed.
+  before any block is executed.
 - `post`: Post-State containing the information of all Ethereum accounts that are
-    created or modified after all blocks are executed.
+  created or modified after all blocks are executed.
 - `blocks`: All blocks to be appended to the blockchain during the test.
 
 ## `BlockchainTestEngine` Object
@@ -124,7 +127,7 @@ must perform specific actions within the accounts (smart contracts) that result
 in verifiable changes to the balance, nonce, and/or storage in each of them.
 
 `post` is compared against the outcome of the client after the execution
-of each transaction, and any differences are considered a failure
+of each transaction, and any differences are considered a failure.
 
 When designing a test, all the changes must be ideally saved into the contract's
 storage to be able to verify them in the post-state.
@@ -132,7 +135,7 @@ storage to be able to verify them in the post-state.
 ## Test Transactions
 
 Transactions can be crafted by sending them with specific `data` or to a
-specific account, which contains the code to be executed
+specific account, which contains the code to be executed.
 
 Transactions can also create more accounts, by setting the `to` field to an
 empty string.
@@ -193,12 +196,12 @@ It can verify the following properties of an account:
 
 - `nonce`: the scalar value equal to a) the number of transactions sent by
   an Externally Owned Account, b) the amount of contracts created by a contract.
-  
-- `balance`: the amount of Wei (10<sup>-18</sup> Eth) the account has.  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+
+- `balance`: the amount of Wei (10<sup>-18</sup> Eth) the account has. <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
 
 - `code`: Bytecode contained by the account. To verify that an account contains
   no code, this property needs to be set to "0x" or "".
-  
+
   It is not recommended to verify Yul compiled code in the output account,
   because the bytecode can change from version to version.
 

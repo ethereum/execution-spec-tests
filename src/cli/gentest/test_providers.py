@@ -20,9 +20,9 @@ from ethereum_test_base_types import Account, Address, ZeroPaddedHexNumber
 from .request_manager import RPCRequest
 
 
-class BlockchainTestProvider(BaseModel):
+class TransactionTestProvider(BaseModel):
     """
-    Provides context required to generate a `blockchain_test` using pytest.
+    Provides context required for creating a test for a transaction.
     """
 
     block: RPCRequest.RemoteBlock
