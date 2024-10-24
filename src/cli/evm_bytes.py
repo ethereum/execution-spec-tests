@@ -10,6 +10,7 @@ import click
 from ethereum_test_base_types import ZeroPaddedHexNumber
 from ethereum_test_vm import Macro
 from ethereum_test_vm import Opcodes as Op
+from ethereum_test_vm.bytecode import Bytecode
 from ethereum_test_vm.opcode import Opcode
 
 OPCODES_WITH_EMPTY_LINES_AFTER = {
@@ -56,6 +57,20 @@ class OpcodeWithOperands:
         else:
             operands = ", ".join(str(ZeroPaddedHexNumber(operand)) for operand in self.operands)
             return f"{opcode_name} {operands}"
+
+    @property
+    def terminating(self) -> bool:
+        """Whether the opcode is terminating or not"""
+        return self.opcode.terminating if self.opcode else False
+
+    @property
+    def bytecode(self) -> Bytecode:
+        """Opcode as bytecode with its operands if any."""
+        # opcode.opcode[*opcode.operands] crashes `black` formatter and doesn't work.
+        if self.opcode:
+            return self.opcode.__getitem__(*self.operands) if self.operands else self.opcode
+        else:
+            return Bytecode()
 
 
 def process_evm_bytes(  # noqa: D103

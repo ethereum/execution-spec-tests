@@ -314,20 +314,16 @@ def wrap_code(account_code: Bytes) -> Container:
 
     opcodes = process_evm_bytes(account_code, allow_unknown=True)
 
-    if not opcodes[-1].opcode.terminating:
+    if not opcodes[-1].terminating:
         opcodes.append(OpcodeWithOperands(opcode=Op.STOP))
 
-    while len(opcodes) > 1 and opcodes[-2].opcode.terminating and opcodes[-1].opcode.terminating:
+    while len(opcodes) > 1 and opcodes[-2].terminating and opcodes[-1].terminating:
         opcodes.pop()
 
     bytecode = Bytecode()
 
     for opcode in opcodes:
-        if opcode.operands:
-            # opcode.opcode[*opcode.operands] crashes `black` formatter and doesn't work.
-            bytecode += opcode.opcode.__getitem__(*opcode.operands)
-        else:
-            bytecode += opcode.opcode
+        bytecode += opcode.bytecode
 
     return Container.Code(bytecode)
 
