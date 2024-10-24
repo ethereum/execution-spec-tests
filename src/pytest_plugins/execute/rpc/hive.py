@@ -680,6 +680,8 @@ class EthRPC(BaseEthRPC):
             new_payload_args.append(new_payload.blobs_bundle.blob_versioned_hashes())
         if parent_beacon_block_root is not None:
             new_payload_args.append(parent_beacon_block_root)
+        if new_payload.execution_requests is not None:
+            new_payload_args.append(new_payload.execution_requests)
         new_payload_version = self.fork.engine_new_payload_version()
         assert new_payload_version is not None, "Fork does not support engine new_payload"
         new_payload_response = self.engine_rpc.new_payload(
