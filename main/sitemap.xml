@@ -1261,6 +1261,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution/</loc>
+         <lastmod>2024-10-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution/test_eof_execution/</loc>
+         <lastmod>2024-10-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution_function/</loc>
          <lastmod>2024-10-24</lastmod>
          <changefreq>daily</changefreq>
