@@ -2133,7 +2133,7 @@ def test_set_code_using_valid_synthetic_signatures(
         pytest.param(2**8, 1, 1, id="v=2**8"),
         pytest.param(1, 2**256, 1, id="r=2**256"),
         pytest.param(1, 1, 2**256, id="s=2**256"),
-        pytest.param(2**8, 2**256, 2**256, id="v=r=s=2**256"),
+        pytest.param(2**8, 2**256, 2**256, id="v=2**8,r=s=2**256"),
     ],
 )
 def test_invalid_tx_invalid_auth_signature(
