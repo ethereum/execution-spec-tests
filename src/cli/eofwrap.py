@@ -36,8 +36,6 @@ from ethereum_test_types.eof.v1 import Container
 from ethereum_test_types.types import Environment
 from ethereum_test_vm.bytecode import Bytecode
 
-GENERATION_ERROR_MESSAGE_THRESHOLD = 30
-
 
 @click.command()
 @click.argument("input", type=click.Path(exists=True, dir_okay=True, file_okay=True))
@@ -180,7 +178,16 @@ class EofWrapper:
                 for address, account in fixture.pre.root.items():
                     if account is None or account.code is None or len(account.code) == 0:
                         continue
-                    wrapped = wrap_code(account.code)
+
+                    try:
+                        wrapped = wrap_code(account.code)
+                    except ValueError as e:
+                        self.metrics[self.ACCOUNTS_INVALID_EOF] += 1
+                        _inc_counter(
+                            self.metrics[self.VALIDATION_ERRORS], self._short_exception_msg(e)
+                        )
+                        continue
+
                     if self._validate_eof(wrapped):
                         account.code = Bytes(wrapped)
                         wrapped_at_least_one_account = True
@@ -203,11 +210,7 @@ class EofWrapper:
                 self.unique_eof.update(fixture_eof_codes)
                 self.metrics[self.UNIQUE_ACCOUNTS_WRAPPED] = len(self.unique_eof)
             except Exception as e:
-                short = str(e)
-                if len(short) > GENERATION_ERROR_MESSAGE_THRESHOLD:
-                    short = short[:GENERATION_ERROR_MESSAGE_THRESHOLD] + "..."
-
-                _inc_counter(self.metrics[self.GENERATION_ERRORS], short)
+                _inc_counter(self.metrics[self.GENERATION_ERRORS], self._short_exception_msg(e))
 
                 self.metrics[self.FIXTURES_CANT_GENERATE] += 1
                 self.metrics[self.ACCOUNTS_CANT_GENERATE] += len(fixture_eof_codes)
@@ -219,6 +222,14 @@ class EofWrapper:
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         out_fixtures.collect_into_file(Path(out_path))
         self.metrics[self.FILES_GENERATED] += 1
+
+    def _short_exception_msg(self, e: Exception):
+        THRESHOLD = 30
+
+        short = str(e)
+        if len(short) > THRESHOLD:
+            short = short[:THRESHOLD] + "..."
+        return short
 
     def _wrap_fixture(self, fixture: BlockchainFixture, traces: bool):
         env = Environment()
@@ -312,7 +323,7 @@ def wrap_code(account_code: Bytes) -> Container:
     """
     assert len(account_code) > 0
 
-    opcodes = process_evm_bytes(account_code, allow_unknown=True)
+    opcodes = process_evm_bytes(account_code)
 
     if not opcodes[-1].terminating:
         opcodes.append(OpcodeWithOperands(opcode=Op.STOP))

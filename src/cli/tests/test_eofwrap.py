@@ -6,7 +6,6 @@ import pytest
 from ethereum_test_base_types.conversions import to_hex
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container
-from ethereum_test_vm.opcode import Opcode
 
 from ..eofwrap import wrap_code
 
@@ -38,8 +37,6 @@ from ..eofwrap import wrap_code
         [Op.GAS + Op.RETURN(0, 0), Container.Code(Op.GAS + Op.RETURN(0, 0))],
         [Op.GAS + Op.REVERT(0, 0), Container.Code(Op.GAS + Op.REVERT(0, 0))],
         [Op.GAS + Op.INVALID, Container.Code(Op.GAS + Op.INVALID)],
-        # Not valid legacy opcodes, but they show up in the tests so need to somehow handle.
-        [Opcode(185), Container.Code(Opcode(185) + Op.STOP)],
         [Op.RJUMPV[1, 2, 3], Container.Code(Op.RJUMPV[1, 2, 3] + Op.STOP)],
         [Op.RJUMPV, Container.Code(Op.RJUMPV + Op.STOP)],
         [

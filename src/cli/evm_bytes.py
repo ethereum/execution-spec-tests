@@ -11,7 +11,6 @@ from ethereum_test_base_types import ZeroPaddedHexNumber
 from ethereum_test_vm import Macro
 from ethereum_test_vm import Opcodes as Op
 from ethereum_test_vm.bytecode import Bytecode
-from ethereum_test_vm.opcode import Opcode
 
 OPCODES_WITH_EMPTY_LINES_AFTER = {
     Op.STOP,
@@ -30,7 +29,7 @@ OPCODES_WITH_EMPTY_LINES_BEFORE = {
 class OpcodeWithOperands:
     """Simple opcode with its operands."""
 
-    opcode: Opcode | None
+    opcode: Op | None
     operands: List[int] = field(default_factory=list)
 
     def format(self, assembly: bool) -> str:
@@ -73,9 +72,7 @@ class OpcodeWithOperands:
             return Bytecode()
 
 
-def process_evm_bytes(  # noqa: D103
-    evm_bytes: bytes, allow_unknown: bool = False
-) -> List[OpcodeWithOperands]:
+def process_evm_bytes(evm_bytes: bytes) -> List[OpcodeWithOperands]:  # noqa: D103
     evm_bytes = bytearray(evm_bytes)
 
     opcodes: List[OpcodeWithOperands] = []
@@ -83,16 +80,13 @@ def process_evm_bytes(  # noqa: D103
     while evm_bytes:
         opcode_byte = evm_bytes.pop(0)
 
-        opcode: Opcode
+        opcode: Op
         for op in Op:
             if not isinstance(op, Macro) and op.int() == opcode_byte:
                 opcode = op
                 break
         else:
-            if allow_unknown:
-                opcode = Opcode(opcode_byte)
-            else:
-                raise ValueError(f"Unknown opcode: {opcode_byte}")
+            raise ValueError(f"Unknown opcode: {opcode_byte}")
 
         if opcode.data_portion_length > 0:
             signed = opcode in [Op.RJUMP, Op.RJUMPI]
