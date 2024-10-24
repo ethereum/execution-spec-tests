@@ -2189,6 +2189,10 @@ def test_invalid_tx_invalid_auth_signature(
     [
         # V
         pytest.param(2, 1, 1, id="v=2"),
+        pytest.param(27, 1, 1, id="v=27"),  # Type-0 transaction valid value
+        pytest.param(28, 1, 1, id="v=28"),  # Type-0 transaction valid value
+        pytest.param(35, 1, 1, id="v=35"),  # Type-0 replay-protected transaction valid value
+        pytest.param(36, 1, 1, id="v=36"),  # Type-0 replay-protected transaction valid value
         pytest.param(2**8 - 1, 1, 1, id="v=2**8-1"),
         # R
         pytest.param(1, 0, 1, id="r=0"),
