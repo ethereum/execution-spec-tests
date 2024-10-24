@@ -2381,8 +2381,18 @@ def test_tx_validity_chain_id(
         pytest.param(
             2**64, TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT, id="nonce=2**64"
         ),
-        pytest.param(2**64 - 1, None, id="nonce=2**64-1"),
-        pytest.param(2**64 - 2, None, id="nonce=2**64-2"),
+        pytest.param(
+            2**64 - 1,
+            None,
+            id="nonce=2**64-1",
+            marks=pytest.mark.execute(pytest.mark.skip(reason="Impossible account nonce")),
+        ),
+        pytest.param(
+            2**64 - 2,
+            None,
+            id="nonce=2**64-2",
+            marks=pytest.mark.execute(pytest.mark.skip(reason="Impossible account nonce")),
+        ),
     ],
 )
 def test_tx_validity_nonce(
@@ -2454,6 +2464,7 @@ def test_tx_validity_nonce(
     )
 
 
+@pytest.mark.execute(pytest.mark.skip(reason="Impossible account nonce"))
 def test_nonce_overflow_after_first_authorization(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -2739,10 +2750,13 @@ def test_set_code_to_system_contract(
         + Op.STOP
     )
     caller_code_address = pre.deploy_contract(caller_code)
+    sender = pre.fund_eoa()
+    if call_value > 0:
+        pre.fund_address(sender, call_value)
 
     txs = [
         Transaction(
-            sender=pre.fund_eoa(),
+            sender=sender,
             gas_limit=500_000,
             to=caller_code_address,
             value=call_value,
@@ -2780,7 +2794,12 @@ def test_set_code_to_system_contract(
 
 
 @pytest.mark.with_all_evm_code_types
-@pytest.mark.with_all_tx_types(selector=lambda tx_type: tx_type != 4)
+@pytest.mark.with_all_tx_types(
+    selector=lambda tx_type: tx_type != 4,
+    marks=lambda tx_type: pytest.mark.execute(pytest.mark.skip("incompatible tx"))
+    if tx_type in [0, 3]
+    else None,
+)
 def test_eoa_tx_after_set_code(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
