@@ -40,6 +40,7 @@ class RjumpKind(Enum):
     RJUMPI_TO_START = auto()
     RJUMPV_EMPTY_AND_OVER_NEXT = auto()
     RJUMPV_OVER_PUSH_AND_TO_START = auto()
+    RJUMPI_OVER_RETF = auto()
 
     def __str__(self) -> str:
         """
@@ -119,6 +120,8 @@ def rjump_code_with(
         body = Op.RJUMPV[[1, -code_so_far_len - rjumpv_two_destinations_len]](0) + Op.PUSH0
         is_backwards = True
         pushes = True
+    elif rjump_kind == RjumpKind.RJUMPI_OVER_RETF:
+        body = Op.RJUMPI[1](0) + Op.RETF
     elif not rjump_kind:
         pass
     else:
@@ -188,6 +191,11 @@ def section_code_with(
         rjump, is_backwards, rjump_snippet_pops, rjump_snippet_pushes = rjump_code_with(
             rjump_kind, 0, body
         )
+        if rjump_kind == RjumpKind.RJUMPI_OVER_RETF:
+            if inputs > outputs:
+                rjump_snippet_pushes = True
+            elif outputs > inputs:
+                rjump_snippet_pops = True
         code += rjump
 
     code += body
@@ -264,6 +272,10 @@ def test_eof_validity(
     container_has_rjump_pops = False
     container_has_rjump_pushes = False
     container_has_rjump_off_code = False
+    container_has_section_0_retf = (
+        rjump_section_idx == 0 and rjump_kind == RjumpKind.RJUMPI_OVER_RETF
+    )
+
     for section_idx in range(num_sections):
         if section_idx == 0:
             call = Op.CALLF[section_idx + 1]
@@ -298,15 +310,15 @@ def test_eof_validity(
             termination,
         )
 
-        container_has_invalid_back_jump = (
-            container_has_invalid_back_jump or section_has_invalid_back_jump
-        )
-        container_has_rjump_pops = container_has_rjump_pops or rjump_snippet_pops
+        if section_has_invalid_back_jump:
+            container_has_invalid_back_jump = True
+        if rjump_snippet_pops:
+            container_has_rjump_pops = True
         # Pushes to the stack never affect the zeroth section, because it `STOP`s and not `RETF`s.
-        container_has_rjump_pushes = container_has_rjump_pushes or (
-            rjump_snippet_pushes and section_idx != 0
-        )
-        container_has_rjump_off_code = container_has_rjump_off_code or rjump_falls_off_code
+        if rjump_snippet_pushes and section_idx != 0:
+            container_has_rjump_pushes = True
+        if rjump_falls_off_code:
+            container_has_rjump_off_code = True
 
         if section_idx > 0:
             sections.append(
@@ -328,6 +340,8 @@ def test_eof_validity(
         possible_exceptions.append(EOFException.STACK_HIGHER_THAN_OUTPUTS)
     if container_has_rjump_off_code:
         possible_exceptions.append(EOFException.INVALID_RJUMP_DESTINATION)
+    if container_has_section_0_retf:
+        possible_exceptions.append(EOFException.INVALID_NON_RETURNING_FLAG)
 
     eof_test(
         data=bytes(Container(sections=sections)), expect_exception=possible_exceptions or None
