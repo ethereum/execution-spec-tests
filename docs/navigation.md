@@ -27,6 +27,7 @@
     * [EOF Tests](consuming_tests/eof_test.md)
     * [Common Types](consuming_tests/common_types.md)
     * [Exceptions](consuming_tests/exceptions.md)
+  * [Executing Tests](executing_tests/index.md)
   * [Getting Help](getting_help/index.md)
   * [Developer Doc](dev/index.md)
     * [Managing Configurations](dev/configurations.md)
