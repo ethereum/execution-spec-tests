@@ -324,7 +324,6 @@ class BlockchainTest(BaseTest):
     blocks: List[Block]
     genesis_environment: Environment = Field(default_factory=Environment)
     verify_sync: bool = False
-    chain_id: int = 1
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         BlockchainFixture,
@@ -438,7 +437,7 @@ class BlockchainTest(BaseTest):
             txs=txs,
             env=env,
             fork=fork,
-            chain_id=self.chain_id,
+            chain_id=self.genesis_environment.chain_id,
             reward=fork.get_reward(env.number, env.timestamp),
             eips=eips,
             debug_output_path=self.get_next_transition_tool_output_path(),
