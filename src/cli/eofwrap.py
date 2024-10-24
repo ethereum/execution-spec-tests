@@ -26,7 +26,7 @@ from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_base_types.conversions import to_hex
 from ethereum_test_fixtures.blockchain import FixtureBlock, InvalidFixtureBlock
 from ethereum_test_fixtures.file import BaseFixturesRootModel, BlockchainFixtures
-from ethereum_test_forks.forks.forks import CancunEIP7692
+from ethereum_test_forks.forks.forks import Osaka
 from ethereum_test_specs.blockchain import Block, BlockchainFixture, BlockchainTest
 from ethereum_test_specs.debugging import print_traces
 from ethereum_test_specs.eof import EOFParse
@@ -282,7 +282,7 @@ class EofWrapper:
         result = test.generate(
             request=None,  # type: ignore
             t8n=t8n,
-            fork=CancunEIP7692,
+            fork=Osaka,
             fixture_format=BlockchainFixture,
         )
         if traces:
