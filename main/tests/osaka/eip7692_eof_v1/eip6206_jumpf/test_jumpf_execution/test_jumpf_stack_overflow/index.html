@@ -23981,7 +23981,7 @@
 
 
 <h1 id="test_jumpf_stack_overflow"><code>test_jumpf_stack_overflow()</code><a class="headerlink" href="#test_jumpf_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/496c591237eea05bcfee3ca629ea34e9396e70e3/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L238"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow@496c5912</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3b4709b1c3029655bf9c75b200b02d1879404570/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L238"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow@3b4709b1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow --fork Osaka</span>
@@ -23996,7 +23996,12 @@
 <a id="tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_execution.test_jumpf_stack_overflow"></a>
     <div class="doc doc-contents first">
 
-      <p>Test stack overflowing 1024 items in JUMPF target function</p>
+      <p>Test rule <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/ethereum/execution-spec-tests/issues/2" title="GitHub Issue: ethereum/execution-spec-tests #2">#2</a> in execution semantics, where we make sure we have enough stack to guarantee
+safe execution (the "reserved stack rule") max possible stack will not exceed 1024. But some
+executions may not overflow the stack, so we need to ensure the rule is checked.</p>
+<p><code>no_overflow</code> - the stack does not overflow at JUMPF call, executes to end
+<code>rule_overflow</code> - reserved stack rule triggers, but execution would not overflow if allowed
+<code>execution_overflow</code> - execution would overflow (but still blocked by reserved stack rule)</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py</code></summary>
@@ -24033,39 +24038,93 @@
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_jumpf_stack_overflow</span><span class="p">(</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="p">(</span><span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="s2">&quot;failure&quot;</span><span class="p">),</span>
+    <span class="p">(</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1021</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no_overflow&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1022</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;rule_overflow&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1023</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;execution_overflow&quot;</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_jumpf_stack_overflow</span><span class="p">(</span>
+    <span class="n">stack_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">failure</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test stack overflowing 1024 items in JUMPF target function&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test rule #2 in execution semantics, where we make sure we have enough stack to guarantee</span>
+<span class="sd">    safe execution (the &quot;reserved stack rule&quot;) max possible stack will not exceed 1024. But some</span>
+<span class="sd">    executions may not overflow the stack, so we need to ensure the rule is checked.</span>
+
+<span class="sd">    `no_overflow` - the stack does not overflow at JUMPF call, executes to end</span>
+<span class="sd">    `rule_overflow` - reserved stack rule triggers, but execution would not overflow if allowed</span>
+<span class="sd">    `execution_overflow` - execution would overflow (but still blocked by reserved stack rule)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eof_state_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">1023</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">stack_height</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">1023</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="n">stack_height</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1023</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="n">stack_height</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="c1"># Stack has 1023 items</span>
+                    <span class="c1"># Stack has stack_height items</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span>
-                    <span class="c1"># Runtime stack overflow</span>
-                    <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">3</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">3</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_stack_canary</span><span class="p">,</span> <span class="n">value_canary_written</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
-        <span class="n">container_post</span><span class="o">=</span><span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_code_worked</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
+        <span class="n">container_post</span><span class="o">=</span><span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
+                <span class="n">slot_code_worked</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">failure</span> <span class="k">else</span> <span class="n">value_code_worked</span><span class="p">,</span>
+                <span class="n">slot_stack_canary</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">failure</span> <span class="k">else</span> <span class="n">value_canary_written</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -24116,32 +24175,100 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>stack_height</th>
+                        <th>failure</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test]">
-                    ...fork_Osaka-eof_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-no_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-no_overflow]">
+                    ...fork_Osaka-eof_test-no_overflow
                 </abbr>
             </td>
+                        <td>1021</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-rule_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-rule_overflow]">
+                    ...fork_Osaka-eof_test-rule_overflow
+                </abbr>
+            </td>
+                        <td>1022</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-execution_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-execution_overflow]">
+                    ...fork_Osaka-eof_test-execution_overflow
+                </abbr>
+            </td>
+                        <td>1023</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-no_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-no_overflow]">
+                    ...fork_Osaka-state_test-no_overflow
                 </abbr>
             </td>
+                        <td>1021</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-rule_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-rule_overflow]">
+                    ...fork_Osaka-state_test-rule_overflow
+                </abbr>
+            </td>
+                        <td>1022</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-execution_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-execution_overflow]">
+                    ...fork_Osaka-state_test-execution_overflow
+                </abbr>
+            </td>
+                        <td>1023</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-no_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-no_overflow]">
+                    ...fork_Osaka-blockchain_test-no_overflow
                 </abbr>
             </td>
+                        <td>1021</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-rule_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-rule_overflow]">
+                    ...fork_Osaka-blockchain_test-rule_overflow
+                </abbr>
+            </td>
+                        <td>1022</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-execution_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-execution_overflow]">
+                    ...fork_Osaka-blockchain_test-execution_overflow
+                </abbr>
+            </td>
+                        <td>1023</td>
+                        <td>True</td>
                     </tr>
             </tbody>
 </table>

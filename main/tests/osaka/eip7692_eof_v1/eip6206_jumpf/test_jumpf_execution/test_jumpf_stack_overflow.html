@@ -11,7 +11,7 @@
 </head>
 <div class="stand_alone_container">
         <h1>Test Function: <code>test_jumpf_stack_overflow()</code></h1>
-        <p>Test stack overflowing 1024 items in JUMPF target function</p>
+        <p>Test rule #2 in execution semantics, where we make sure we have enough stack to guarantee</p>
     <p><a href="./test_jumpf_stack_overflow/">Back to <code>test_jumpf_stack_overflow()</code></a>.</p>
         <h2>Parametrized Test Cases</h2>
     <div class="control_panel">
@@ -57,32 +57,100 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>stack_height</th>
+                        <th>failure</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test]">
-                    ...fork_Osaka-eof_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-no_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-no_overflow]">
+                    ...fork_Osaka-eof_test-no_overflow
                 </abbr>
             </td>
+                        <td>1021</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-rule_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-rule_overflow]">
+                    ...fork_Osaka-eof_test-rule_overflow
+                </abbr>
+            </td>
+                        <td>1022</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-execution_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-eof_test-execution_overflow]">
+                    ...fork_Osaka-eof_test-execution_overflow
+                </abbr>
+            </td>
+                        <td>1023</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-no_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-no_overflow]">
+                    ...fork_Osaka-state_test-no_overflow
                 </abbr>
             </td>
+                        <td>1021</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-rule_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-rule_overflow]">
+                    ...fork_Osaka-state_test-rule_overflow
+                </abbr>
+            </td>
+                        <td>1022</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-execution_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-state_test-execution_overflow]">
+                    ...fork_Osaka-state_test-execution_overflow
+                </abbr>
+            </td>
+                        <td>1023</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-no_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-no_overflow]">
+                    ...fork_Osaka-blockchain_test-no_overflow
                 </abbr>
             </td>
+                        <td>1021</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-rule_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-rule_overflow]">
+                    ...fork_Osaka-blockchain_test-rule_overflow
+                </abbr>
+            </td>
+                        <td>1022</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-execution_overflow]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_overflow[fork_Osaka-blockchain_test-execution_overflow]">
+                    ...fork_Osaka-blockchain_test-execution_overflow
+                </abbr>
+            </td>
+                        <td>1023</td>
+                        <td>True</td>
                     </tr>
             </tbody>
 </table>    </div>
