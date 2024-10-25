@@ -607,11 +607,14 @@ class BlockchainTest(BaseTest):
                 )
             )
             transition_tool_output.alloc = previous_alloc
-            # TODO: hack for now, replace with actual witness output once available from t8n
-            transition_tool_output.witness = Witness(
-                verkle_proof=transition_tool_output.result.verkle_proof,
-                state_diff=transition_tool_output.result.state_diff,
-            )
+            if transition_tool_output.result.verkle_conversion_ended:
+                # TODO: hack for now, replace with actual witness output once available from t8n
+                transition_tool_output.witness = Witness(
+                    verkle_proof=transition_tool_output.result.verkle_proof,
+                    state_diff=transition_tool_output.result.state_diff,
+                )
+            else:
+                transition_tool_output.witness = None
 
         return (
             env,
