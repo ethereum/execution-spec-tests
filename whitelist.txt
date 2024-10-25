@@ -125,6 +125,7 @@ eip7002
 eip7069
 eip7620
 eip7692
+P7692
 eip7251
 eips
 EIPs
@@ -137,6 +138,7 @@ envvar
 EOA
 EOAs
 eof
+eofwrap
 EOF1
 EOFException
 eofparse
@@ -232,6 +234,7 @@ initcode
 inputdata
 instantiation
 io
+isfile
 isidentifier
 islice
 isort
@@ -393,6 +396,7 @@ str
 streetsidesoftware
 subcall
 subclasscheck
+subdir
 subdirectories
 subdirectory
 subgraph
