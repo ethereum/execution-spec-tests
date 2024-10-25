@@ -1,7 +1,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_callf_with_inputs_stack_size_1024()</title>
+    <title>test_callf_operand_stack_overflow()</title>
     <link rel="icon" href="/execution-spec-tests/main/img/ETH-logo-icon.svg" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="/execution-spec-tests/main/stylesheets/custom.css">
 </head>
 <div class="stand_alone_container">
-        <h1>Test Function: <code>test_callf_with_inputs_stack_size_1024()</code></h1>
-        <p>Test stack reaching 1024 items in called function with inputs</p>
-    <p><a href="./test_callf_with_inputs_stack_size_1024/">Back to <code>test_callf_with_inputs_stack_size_1024()</code></a>.</p>
+        <h1>Test Function: <code>test_callf_operand_stack_overflow()</code></h1>
+        <p>Test stack overflowing 1024 items in called function</p>
+    <p><a href="./test_callf_operand_stack_overflow/">Back to <code>test_callf_operand_stack_overflow()</code></a>.</p>
         <h2>Parametrized Test Cases</h2>
     <div class="control_panel">
     <div class="panel_row filters">
@@ -57,32 +57,63 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>container</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_size_1024[fork_Osaka-eof_test]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_size_1024[fork_Osaka-eof_test]">
-                    ...fork_Osaka-eof_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-eof_test-no_inputs]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-eof_test-no_inputs]">
+                    ...fork_Osaka-eof_test-no_inputs
                 </abbr>
             </td>
+                        <td>no_inputs</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-eof_test-with_inputs]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-eof_test-with_inputs]">
+                    ...fork_Osaka-eof_test-with_inputs
+                </abbr>
+            </td>
+                        <td>with_inputs</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_size_1024[fork_Osaka-state_test]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_size_1024[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-state_test-no_inputs]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-state_test-no_inputs]">
+                    ...fork_Osaka-state_test-no_inputs
                 </abbr>
             </td>
+                        <td>no_inputs</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-state_test-with_inputs]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-state_test-with_inputs]">
+                    ...fork_Osaka-state_test-with_inputs
+                </abbr>
+            </td>
+                        <td>with_inputs</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_size_1024[fork_Osaka-blockchain_test]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_with_inputs_stack_size_1024[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-blockchain_test-no_inputs]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-blockchain_test-no_inputs]">
+                    ...fork_Osaka-blockchain_test-no_inputs
                 </abbr>
             </td>
+                        <td>no_inputs</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-blockchain_test-with_inputs]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_operand_stack_overflow[fork_Osaka-blockchain_test-with_inputs]">
+                    ...fork_Osaka-blockchain_test-with_inputs
+                </abbr>
+            </td>
+                        <td>with_inputs</td>
                     </tr>
             </tbody>
 </table>    </div>

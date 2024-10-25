@@ -2006,42 +2006,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_operand_stack_overflow/</loc>
+         <lastmod>2024-10-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_operand_stack_size_max/</loc>
+         <lastmod>2024-10-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_sneaky_stack_overflow/</loc>
-         <lastmod>2024-10-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_stack_overflow/</loc>
-         <lastmod>2024-10-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_stack_size_1024/</loc>
-         <lastmod>2024-10-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_stack_size_1024_at_callf/</loc>
-         <lastmod>2024-10-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_stack_size_1024_at_push/</loc>
-         <lastmod>2024-10-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_with_inputs_stack_overflow/</loc>
-         <lastmod>2024-10-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_with_inputs_stack_size_1024/</loc>
-         <lastmod>2024-10-25</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_with_inputs_stack_size_1024_at_push/</loc>
          <lastmod>2024-10-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
