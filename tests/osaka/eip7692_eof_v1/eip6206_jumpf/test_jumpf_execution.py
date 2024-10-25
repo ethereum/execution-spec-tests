@@ -249,10 +249,12 @@ def test_jumpf_stack_overflow(
     eof_state_test: EOFStateTestFiller,
 ):
     """
-    Test stack overflowing 1024 items in JUMPF target function
+    Test rule #2 in execution semantics, where we make sure we have enough stack to guarantee
+    safe execution (the "reserved stack rule") max possible stack will not exceed 1024. But some
+    executions may not overflow the stack, so we need to ensure the rule is checked.
 
     `no_overflow` - the stack does not overflow at JUMPF call, executes to end
-    `rule_overflow` - reserved stack overflows, but execution would not overflow
+    `rule_overflow` - reserved stack rule triggers, but execution would not overflow if allowed
     `execution_overflow` - execution would overflow (but still blocked by reserved stack rule)
     """
     eof_state_test(
