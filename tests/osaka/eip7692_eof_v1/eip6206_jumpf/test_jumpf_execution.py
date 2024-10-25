@@ -236,24 +236,33 @@ def test_jumpf_stack_size_1024_at_push(
 
 
 @pytest.mark.parametrize(
-    ("stack_height", "failure"),
+    ("stack_height", "target_inputs", "target_max_stack_height", "failure"),
     (
-        pytest.param(1021, False, id="no_overflow"),
-        pytest.param(1022, True, id="rule_overflow"),
-        pytest.param(1023, True, id="execution_overflow"),
+        pytest.param(1021, 0, 3, False, id="no_overflow_no_inputs"),
+        pytest.param(1022, 0, 3, True, id="rule_overflow_no_inputs"),
+        pytest.param(1023, 0, 3, True, id="execution_overflow"),
+        pytest.param(1021, 1, 4, False, id="no_overflow_with_inputs"),
+        pytest.param(1021, 2, 4, False, id="no_overflow_with_2_inputs"),
+        pytest.param(1022, 2, 5, True, id="rule_overflow_with_inputs"),
+        pytest.param(1022, 2, 3, True, id="rule_overflow_call_max"),
     ),
 )
 def test_jumpf_stack_overflow(
     stack_height: int,
     failure: bool,
+    target_inputs: int,
+    target_max_stack_height: int,
     eof_state_test: EOFStateTestFiller,
 ):
     """
-    Test stack overflowing 1024 items in JUMPF target function
+    Test rule #2 in execution semantics, where we make sure we have enough stack to guarantee
+    safe execution (the "reserved stack rule") max possible stack will not exceed 1024. But some
+    executions may not overflow the stack, so we need to ensure the rule is checked.
 
     `no_overflow` - the stack does not overflow at JUMPF call, executes to end
-    `rule_overflow` - reserved stack overflows, but execution would not overflow
     `execution_overflow` - execution would overflow (but still blocked by reserved stack rule)
+    `rule_overflow_*` - reserved stack rule triggers, but execution would not overflow,
+        in various combinations
     """
     eof_state_test(
         data=Container(
@@ -274,12 +283,16 @@ def test_jumpf_stack_overflow(
                     max_stack_height=0,
                 ),
                 Section.Code(
-                    Op.CALLDATALOAD(0)
+                    # clear space to work if needed
+                    Op.POP * max(0, target_inputs-3)
+                    + Op.CALLDATALOAD(0)
                     + Op.ISZERO
                     + Op.RJUMPI[6]
                     + Op.PUSH0 * 3
                     + Op.POP * 3
                     + Op.SSTORE(slot_stack_canary, value_canary_written)
+                    # restore popped space, to ensure stack net zero
+                    + Op.PUSH0 * max(0, target_inputs-3)
                     + Op.RETF,
                     code_inputs=0,
                     code_outputs=0,
