@@ -111,6 +111,7 @@ class StateTest(BaseTest):
         Generate a BlockchainTest fixture from this StateTest fixture.
         """
         return BlockchainTest(
+            chain_id=self.chain_id,
             genesis_environment=self._generate_blockchain_genesis_environment(),
             pre=self.pre,
             post=self.post,
@@ -167,6 +168,7 @@ class StateTest(BaseTest):
             raise e
 
         return Fixture(
+            chain_id=self.chain_id,
             env=FixtureEnvironment(**env.model_dump(exclude_none=True)),
             pre=pre_alloc,
             post={

@@ -1,10 +1,10 @@
 {
     "000/my_chain_id_test/Paris": {
         "_info": {
-            "hash": "0xc698794bb4d053d9200b352c2ff94829a506a986567e13c8a384ae11157b8292"
+            "hash": "0xd8c863777e2efb178ebef6661f879439ec6411849b313af0326183d701039ef5"
         },
+        "chainId": "0x01",
         "env": {
-            "chainId": "0x01",
             "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
             "currentGasLimit": "0x02540be400",
             "currentNumber": "0x01",

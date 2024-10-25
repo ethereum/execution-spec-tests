@@ -1,10 +1,10 @@
 {
     "000/my_chain_id_test/Shanghai": {
         "_info": {
-            "hash": "0x0bd6c5179a96d754f76637e8b89a6a6bdc9773af4d81094d9416a3c26c93fd5a"
+            "hash": "0x28112159ff2ea133b0864f428ef5b24d1e95ff14406f5ad8e16f70fdcac48199"
         },
+        "chainId": "0x01",
         "env": {
-            "chainId": "0x01",
             "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
             "currentGasLimit": "0x02540be400",
             "currentNumber": "0x01",

@@ -431,7 +431,7 @@ class FixtureCommon(BaseFixture):
     """
 
     fork: str = Field(..., alias="network")
-    chain_id: ZeroPaddedHexNumber = Field(1)
+    chain_id: ZeroPaddedHexNumber = Field(..., alias="chainId")
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
     post_state: Alloc | None = Field(None)

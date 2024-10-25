@@ -588,6 +588,7 @@ class BlockchainTest(BaseTest):
         self.verify_post_state(t8n, alloc)
         return Fixture(
             fork=self.network_info(fork, eips),
+            chain_id=self.chain_id,
             genesis=genesis.header,
             genesis_rlp=genesis.rlp,
             blocks=fixture_blocks,
@@ -670,6 +671,7 @@ class BlockchainTest(BaseTest):
 
         return EngineFixture(
             fork=self.network_info(fork, eips),
+            chain_id=self.chain_id,
             genesis=genesis.header,
             payloads=fixture_payloads,
             fcu_version=fcu_version,
