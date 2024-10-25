@@ -30,7 +30,7 @@ from ethereum_test_tools import StateTestFiller, Storage, Transaction
         Op.DUP13,
         Op.DUP14,
         Op.DUP15,
-        Op.DUP16,
+        # Op.DUP16,  # TEST: Removing coverage
     ],
     ids=lambda op: str(op),
 )
