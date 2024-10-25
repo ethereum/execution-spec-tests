@@ -3844,6 +3844,8 @@
       
         
       
+        
+      
     
     
       
@@ -3883,6 +3885,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_rjump_negative/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjump_negative</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -24073,7 +24096,7 @@
 
 
 <h1 id="test_rjump_zero"><code>test_rjump_zero()</code><a class="headerlink" href="#test_rjump_zero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0ed27a0e1dfd70c8b175bd347ba7060b2c63e08a/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L44"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_zero@0ed27a0e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2939e0ac62f6efacb909cb778229ab77d07d866b/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L61"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_zero@2939e0ac</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_zero --fork Osaka</span>
@@ -24092,20 +24115,20 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_zero</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_zero</span><span class="p">(</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF1V4200_0002 (Valid) EOF code containing RJUMP (Zero)&quot;&quot;&quot;</span>

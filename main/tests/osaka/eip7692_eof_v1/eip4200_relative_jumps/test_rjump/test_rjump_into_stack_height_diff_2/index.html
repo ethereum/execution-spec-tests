@@ -3844,6 +3844,8 @@
       
         
       
+        
+      
     
     
       
@@ -3883,6 +3885,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_rjump_negative/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjump_negative</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -24073,7 +24096,7 @@
 
 
 <h1 id="test_rjump_into_stack_height_diff_2"><code>test_rjump_into_stack_height_diff_2()</code><a class="headerlink" href="#test_rjump_into_stack_height_diff_2" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0ed27a0e1dfd70c8b175bd347ba7060b2c63e08a/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L317"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_stack_height_diff_2@0ed27a0e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2939e0ac62f6efacb909cb778229ab77d07d866b/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L334"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_stack_height_diff_2@2939e0ac</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_stack_height_diff_2 --fork Osaka</span>
@@ -24092,20 +24115,20 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_into_stack_height_diff_2</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_into_stack_height_diff_2</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing RJUMP with target instruction that cause stack height difference&quot;&quot;&quot;</span>
