@@ -179,8 +179,7 @@ jobs:
           mkdir -p fixtures/eof_tests
 
           echo "uv run fill $files --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
-          uv run fill $files --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1
-          cat filloutput.log
+          uv run fill $files --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
 
           if grep -q "FAILURES" filloutput.log; then
               echo "Error: failed to generate .py tests."
@@ -235,8 +234,7 @@ jobs:
 
             if [ -n "$files_fixed" ]; then
                 echo "uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
-                uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1
-                cat filloutput.log
+                uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
 
                 if grep -q "FAILURES" filloutput.log; then
                   echo "Error: failed to generate .py tests from before the PR."
