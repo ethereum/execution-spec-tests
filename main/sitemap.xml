@@ -3206,6 +3206,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests_during_fork/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests_during_fork/test_withdrawal_requests_during_fork/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7251_consolidations/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
@@ -3227,6 +3237,16 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7251_consolidations/test_consolidations/test_consolidation_requests_negative/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7251_consolidations/test_consolidations_during_fork/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7251_consolidations/test_consolidations_during_fork/test_consolidation_requests_during_fork/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3257,6 +3277,16 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7685_general_purpose_el_requests/test_deposits_withdrawals_consolidations/test_valid_deposit_withdrawal_consolidation_requests/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7685_general_purpose_el_requests/test_request_types/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7685_general_purpose_el_requests/test_request_types/test_invalid_request_type/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3321,6 +3351,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_delegation_clearing/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_delegation_clearing_failing_tx/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_deploying_delegation_designation_contract/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_eoa_tx_after_set_code/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
@@ -3347,6 +3392,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_invalid_tx_invalid_auth_signature/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_nonce_overflow_after_first_authorization/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3471,22 +3521,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_to_zero_address/</loc>
-         <lastmod>2024-10-28</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_using_chain_specific_id/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_using_invalid_signatures/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_using_valid_synthetic_signatures/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_using_valid_synthetic_signatures/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_signature_s_out_of_range/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3497,6 +3542,21 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_tx_into_self_delegating_set_code/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_tx_validity_chain_id/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_tx_validity_nonce/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_valid_tx_invalid_auth_signature/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
