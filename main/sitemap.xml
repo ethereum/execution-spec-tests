@@ -2401,6 +2401,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas/test_transfer_gas_is_cleared/</loc>
+         <lastmod>2024-10-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion/</loc>
          <lastmod>2024-10-28</lastmod>
          <changefreq>daily</changefreq>
