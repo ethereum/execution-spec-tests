@@ -631,6 +631,7 @@ jumpdest
 rjump
 rjumpi
 rjumpkind
+rjumps
 rjumpv
 RJUMPV
 callf
