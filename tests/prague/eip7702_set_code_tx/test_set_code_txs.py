@@ -3193,7 +3193,11 @@ def test_deploying_delegation_designation_contract(
     "signer_balance",
     [
         pytest.param(0, id="empty_balance"),
-        pytest.param(1, id="non_empty_balance"),
+        pytest.param(
+            1,
+            id="non_empty_balance",
+            marks=pytest.mark.execute(pytest.mark.skip(reason="excessive pre-fund txs")),
+        ),
     ],
 )
 @pytest.mark.parametrize(
