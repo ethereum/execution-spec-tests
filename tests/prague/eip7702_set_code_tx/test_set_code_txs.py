@@ -3209,8 +3209,8 @@ def test_deploying_delegation_designation_contract(
             marks=pytest.mark.execute(pytest.mark.skip(reason="excessive gas")),
         ),
         pytest.param(
-            30_000_000,
-            id="30m",
+            20_000_000,
+            id="20m",
             marks=pytest.mark.fill(pytest.mark.skip(reason="execute-only test")),
         ),
     ],
