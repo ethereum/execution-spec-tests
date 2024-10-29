@@ -1,10 +1,10 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    // If the VS Code "Run and Debug" button, respecively launch selector are not visible, see this answer:
-    // https://stackoverflow.com/a/74245823
-    //
+    "_comment": [
+        "Main configuration for VS Code debugging",
+        "Use IntelliSense to learn about possible attributes.",
+        "If the VS Code 'Run and Debug' button or launch selector",
+        "is not visible, see: https://stackoverflow.com/a/74245823"
+    ],
     "version": "0.2.0",
     "configurations": [
         {
