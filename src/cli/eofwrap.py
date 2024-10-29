@@ -184,7 +184,8 @@ class EofWrapper:
                     except ValueError as e:
                         self.metrics[self.ACCOUNTS_INVALID_EOF] += 1
                         _inc_counter(
-                            self.metrics[self.VALIDATION_ERRORS], self._short_exception_msg(e)
+                            self.metrics[self.VALIDATION_ERRORS],
+                            self._short_exception_msg(e),
                         )
                         continue
 
@@ -262,13 +263,10 @@ class EofWrapper:
                     base_fee_per_gas=header.base_fee_per_gas,
                     withdrawals_root=header.withdrawals_root,
                     parent_beacon_block_root=header.parent_beacon_block_root,
-                    requests_root=header.requests_root,
+                    requests_hash=header.requests_hash,
                 )
                 assert not fixture_block.ommers
                 assert not fixture_block.withdrawals
-                assert not fixture_block.deposit_requests
-                assert not fixture_block.withdrawal_requests
-                assert not fixture_block.consolidation_requests
 
                 for fixture_tx in fixture_block.txs:
                     fixture_tx_dump = fixture_tx.model_dump()
