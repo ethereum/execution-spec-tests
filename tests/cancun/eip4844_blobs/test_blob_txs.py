@@ -738,7 +738,7 @@ def test_invalid_normal_gas(
 @pytest.mark.parametrize(
     "tx_error", [TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED], ids=[""]
 )
-@pytest.mark.valid_from("Cancun")
+@pytest.mark.valid_until("Cancun")
 def test_invalid_block_blob_count(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -1008,7 +1008,7 @@ def test_insufficient_balance_blob_tx_combinations(
     ],
     ids=["too_few_blobs", "too_many_blobs"],
 )
-@pytest.mark.valid_from("Cancun")
+@pytest.mark.valid_until("Cancun")
 def test_invalid_tx_blob_count(
     state_test: StateTestFiller,
     state_env: Environment,

@@ -119,6 +119,7 @@ class Header(CamelModel):
     excess_blob_gas: Removable | HexNumber | None = None
     parent_beacon_block_root: Removable | Hash | None = None
     requests_hash: Removable | Hash | None = None
+    target_blobs_per_block: Removable | HexNumber | None = None
 
     REMOVE_FIELD: ClassVar[Removable] = Removable()
     """
@@ -357,6 +358,11 @@ class BlockchainTest(BaseTest):
             ),
             parent_beacon_block_root=env.parent_beacon_block_root,
             requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
+            target_blobs_per_block=(
+                fork.target_blobs_per_block(0, 0)
+                if fork.header_target_blobs_per_block_required(0, 0)
+                else None
+            ),
             fork=fork,
         )
 
@@ -549,9 +555,11 @@ class BlockchainTest(BaseTest):
                     header=header,
                     txs=[FixtureTransaction.from_transaction(tx) for tx in txs],
                     ommers=[],
-                    withdrawals=[FixtureWithdrawal.from_withdrawal(w) for w in new_env.withdrawals]
-                    if new_env.withdrawals is not None
-                    else None,
+                    withdrawals=(
+                        [FixtureWithdrawal.from_withdrawal(w) for w in new_env.withdrawals]
+                        if new_env.withdrawals is not None
+                        else None
+                    ),
                     fork=fork,
                 ).with_rlp(txs=txs)
                 if block.exception is None:
