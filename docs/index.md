@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 (MD041=first-line-heading) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
