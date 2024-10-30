@@ -74,18 +74,18 @@ One important feature of the `execute hive` command is that, since there is no c
 
 Tests can be executed on a live remote network by running the `execute remote` command.
 
-The command also accepts the `--fork` flag which should match the fork that is currently active in the network (fork transition tests are not supported yet).
+The command requires the `--fork` flag which must match the fork that is currently active in the network (fork transition tests are not supported yet).
 
 The `execute remote` command requires to be pointed to an RPC endpoint of a client that is connected to the network, which can be specified by using the `--rpc-endpoint` flag:
 
 ```bash
-uv run execute remote --rpc-endpoint=https://rpc.endpoint.io
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io
 ```
 
 Another requirement is that the command is provided with a seed account that has funds available in the network to deploy contracts and fund accounts. This can be done by setting the `--rpc-seed-key` flag:
 
 ```bash
-uv run execute remote --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
 ```
 
 The value needs to be a private key that is used to sign the transactions that deploy the contracts and fund the accounts.
@@ -93,7 +93,15 @@ The value needs to be a private key that is used to sign the transactions that d
 One last requirement is that the `--rpc-chain-id` flag is set to the chain id of the network that is being tested:
 
 ```bash
-uv run execute remote --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345
+```
+
+The `execute remote` command will connect to the client via the RPC endpoint and will start executing every test in the `./tests` folder in the same way as the `execute hive` command, but instead of using the Engine API to generate blocks, it will send the transactions to the client via the RPC endpoint.
+
+It is recommended to only run a subset of the tests when executing on a live network. To do so, a path to a specific test can be provided to the command:
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 ./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_sstore
 ```
 
 ## `execute` Command Test Execution
