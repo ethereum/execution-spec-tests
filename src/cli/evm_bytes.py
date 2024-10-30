@@ -1,6 +1,4 @@
-"""
-Define an entry point wrapper for pytest.
-"""
+"""Define an entry point wrapper for pytest."""
 
 from dataclasses import dataclass, field
 from typing import List
@@ -59,13 +57,12 @@ class OpcodeWithOperands:
 
     @property
     def terminating(self) -> bool:
-        """Whether the opcode is terminating or not"""
+        """Whether the opcode is terminating or not."""
         return self.opcode.terminating if self.opcode else False
 
     @property
     def bytecode(self) -> Bytecode:
         """Opcode as bytecode with its operands if any."""
-        # opcode.opcode[*opcode.operands] crashes `black` formatter and doesn't work.
         if self.opcode:
             return self.opcode.__getitem__(*self.operands) if self.operands else self.opcode
         else:
@@ -152,8 +149,17 @@ assembly_option = click.option(
 )
 
 
+<<<<<<< HEAD
 @click.group("evm_bytes", context_settings=dict(help_option_names=["-h", "--help"]))
 def evm_bytes():
+=======
+@click.group(
+    context_settings={
+        "help_option_names": ["-h", "--help"],
+    }
+)
+def cli():
+>>>>>>> 870186fb74 (chore(ruff): changes to `src/cli`.)
     """
     Convert EVM bytecode to EEST's Python Opcodes or an assembly string.
 
@@ -188,6 +194,7 @@ def hex_string(hex_string: str, assembly: bool):
 
         uv run evm_bytes hex-string --assembly 604260005260206000F3
 
+<<<<<<< HEAD
     Output 2:
 
         \b
@@ -198,6 +205,19 @@ def hex_string(hex_string: str, assembly: bool):
         push1 0x00
         return
     """  # noqa: D301
+=======
+        Output:
+            ```text
+            push1 0x42
+            push1 0x00
+            mstore
+            push1 0x20
+            push1 0x00
+            return
+            ```
+
+    """  # noqa: E501
+>>>>>>> 870186fb74 (chore(ruff): changes to `src/cli`.)
     processed_output = process_evm_bytes_string(hex_string, assembly=assembly)
     click.echo(processed_output)
 
@@ -222,6 +242,7 @@ def binary_file(binary_file, assembly: bool):
 
     Output:
 
+<<<<<<< HEAD
         \b
         caller
         push20 0xfffffffffffffffffffffffffffffffffffffffe
@@ -231,4 +252,19 @@ def binary_file(binary_file, assembly: bool):
         ...
     """  # noqa: E501,D301
     processed_output = format_opcodes(process_evm_bytes(binary_file.read()), assembly=assembly)
+=======
+            ```text
+            caller
+            push20 0xfffffffffffffffffffffffffffffffffffffffe
+            eq
+            push1 0x90
+            jumpi
+            ...
+            ```
+
+    """  # noqa: E501
+    processed_output = format_opcodes(
+        process_evm_bytes(binary_file_path.read()), assembly=assembly
+    )
+>>>>>>> 870186fb74 (chore(ruff): changes to `src/cli`.)
     click.echo(processed_output)

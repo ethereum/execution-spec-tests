@@ -27,6 +27,7 @@ basename
 bb
 besu
 bidict
+pyspecs
 big0
 big1
 bigint
