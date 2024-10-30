@@ -20,7 +20,7 @@ def tf() -> None:
         "The `tf` command-line tool has been superseded by `fill`. Try:\n\n"
         "fill --help\n\n"
         "or see the online docs:\n"
-        "https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_command_line/"  # noqa: E501
+        "https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_command_line/"
     )
     sys.exit(1)
 
