@@ -1,6 +1,4 @@
-"""
-CLI entry point for the `fill` pytest-based command.
-"""
+"""CLI entry point for the `fill` pytest-based command."""
 
 import sys
 from typing import List
@@ -11,11 +9,13 @@ import pytest
 from .common import common_click_options, handle_help_flags
 
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
+@click.command(
+    context_settings={
+        "ignore_unknown_options": True,
+    }
+)
 def tf() -> None:
-    """
-    The `tf` command, deprecated as of 2023-06.
-    """
+    """`tf` command, deprecated as of 2023-06."""
     print(
         "The `tf` command-line tool has been superseded by `fill`. Try:\n\n"
         "fill --help\n\n"
@@ -45,20 +45,20 @@ def handle_stdout_flags(args: List[str]) -> List[str]:
 
 
 def handle_fill_command_flags(fill_args: List[str]) -> List[str]:
-    """
-    Handles all fill CLI flag pre-processing.
-    """
+    """Handle all fill CLI flag pre-processing."""
     args = handle_help_flags(fill_args, pytest_type="fill")
     args = handle_stdout_flags(args)
     return args
 
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
+@click.command(
+    context_settings={
+        "ignore_unknown_options": True,
+    }
+)
 @common_click_options
 def fill(pytest_args: List[str], **kwargs) -> None:
-    """
-    Entry point for the fill command.
-    """
+    """Entry point for the fill command."""
     result = pytest.main(
         handle_fill_command_flags(
             ["--index", *pytest_args],
@@ -67,12 +67,14 @@ def fill(pytest_args: List[str], **kwargs) -> None:
     sys.exit(result)
 
 
-@click.command(context_settings=dict(ignore_unknown_options=True))
+@click.command(
+    context_settings={
+        "ignore_unknown_options": True,
+    }
+)
 @common_click_options
 def phil(pytest_args: List[str], **kwargs) -> None:
-    """
-    A friendly alias for the fill command.
-    """
+    """Friendly alias for the fill command."""
     args = handle_fill_command_flags(
         ["--index", *pytest_args],
     )
