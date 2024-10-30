@@ -44,15 +44,6 @@ def test_fill_with_invalid_option(runner):
     assert "unrecognized arguments" in result.output
 
 
-def test_tf_deprecation(runner):
-    """Test the deprecation message of the `tf` command."""
-    from ..pytest_commands.fill import tf
-
-    result = runner.invoke(tf, [])
-    assert result.exit_code == 1
-    assert "The `tf` command-line tool has been superseded by `fill`" in result.output
-
-
 @pytest.mark.run_in_serial
 class TestHtmlReportFlags:
     """Test html report generation and output options."""
