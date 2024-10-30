@@ -422,7 +422,6 @@ TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 testrun
 textwrap
-tf
 ThreeHrSleep
 time15k
 timestamp
@@ -555,7 +554,6 @@ subcommand
 subcontainer
 substring
 substrings
-tf
 teardown
 tempdir
 testdir

@@ -9,22 +9,6 @@ import pytest
 from .common import common_click_options, handle_help_flags
 
 
-@click.command(
-    context_settings={
-        "ignore_unknown_options": True,
-    }
-)
-def tf() -> None:
-    """`tf` command, deprecated as of 2023-06."""
-    print(
-        "The `tf` command-line tool has been superseded by `fill`. Try:\n\n"
-        "fill --help\n\n"
-        "or see the online docs:\n"
-        "https://ethereum.github.io/execution-spec-tests/getting_started/executing_tests_command_line/"
-    )
-    sys.exit(1)
-
-
 def handle_stdout_flags(args: List[str]) -> List[str]:
     """
     If the user has requested to write to stdout, add pytest arguments in order
