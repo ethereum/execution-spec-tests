@@ -1,0 +1,383 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_valid()</title>
+    <link rel="icon" href="/execution-spec-tests/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_valid()</code></h1>
+        <p>Test the BLS12_MAP_FP_TO_G1 precompile.</p>
+    <p><a href="./test_valid/">Back to <code>test_valid()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="Prague" selected>Prague</option>
+                                <option value="Osaka" >Osaka</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                <option value="state_test" >state_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>input</th>
+                        <th>expected_output</th>
+                        <th>precompile_address</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_-]">
+                    ...fork_Prague-blockchain_test-bls_g1map_-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>156c8a6a2c184569d69a76be144b5cdc</code> <code>5141d2d2ca4fe341f011e25e3969c55a</code> <code>d9e9b9ce2eb833c81a908e5fa4ac5f03</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>184bb665c37ff561a89ec2122dd343f2</code> <code>0e0f4cbcaec84e3c3052ea81d1834e19</code> <code>2c426074b02ed3dca4e7676ce4ce48ba</code> <code>00000000000000000000000000000000</code> <code>04407b8d35af4dacc809927071fc0405</code> <code>218f1401a6d15af775810e4e460064bc</code> <code>c9468beeba82fdc751be70476c888bf3</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_616263-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_616263-]">
+                    ...fork_Prague-blockchain_test-bls_g1map_616263-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>147e1ed29f06e4c5079b9d14fc89d282</code> <code>0d32419b990c1c7bb7dbea2a36a04512</code> <code>4b31ffbde7c99329c05c559af1c6cc82</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>009769f3ab59bfd551d53a5f846b9984</code> <code>c59b97d6842b20a2c565baa167945e3d</code> <code>026a3755b6345df8ec7e6acb6868ae6d</code> <code>00000000000000000000000000000000</code> <code>1532c00cf61aa3d0ce3e5aa20c3b531a</code> <code>2abd2c770a790a2613818303c6b830ff</code> <code>c0ecf6c357af3317b9575c567f11cd2c</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_6162636465663031-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_6162636465663031-]">
+                    ...fork_Prague-blockchain_test-bls_g1map_6162636465663031-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>04090815ad598a06897dd89bcda860f2</code> <code>5837d54e897298ce31e6947378134d37</code> <code>61dc59a572154963e8c954919ecfa82d</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>1974dbb8e6b5d20b84df7e625e2fbfec</code> <code>b2cdb5f77d5eae5fb2955e5ce7313cae</code> <code>8364bc2fff520a6c25619739c6bdcb6a</code> <code>00000000000000000000000000000000</code> <code>15f9897e11c6441eaa676de141c8d83c</code> <code>37aab8667173cbe1dfd6de74d11861b9</code> <code>61dccebcd9d289ac633455dfcc7013a3</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_713132385f717171-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_713132385f717171-]">
+                    ...fork_Prague-blockchain_test-bls_g1map_713132385f717171-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>08dccd088ca55b8bfbc96fb50bb25c59</code> <code>2faa867a8bb78d4e94a8cc2c92306190</code> <code>244532e91feba2b7fed977e3c3bb5a1f</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0a7a047c4a8397b3446450642c2ac64d</code> <code>7239b61872c9ae7a59707a8f4f950f10</code> <code>1e766afe58223b3bff3a19a7f754027c</code> <code>00000000000000000000000000000000</code> <code>1383aebba1e4327ccff7cf9912bda0db</code> <code>c77de048b71ef8c8a81111d71dc33c5e</code> <code>3aa6edee9cf6f5fe525d50cc50b77cc9</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_613531325f616161-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-bls_g1map_613531325f616161-]">
+                    ...fork_Prague-blockchain_test-bls_g1map_613531325f616161-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>0dd824886d2123a96447f6c56e3a3fa9</code> <code>92fbfefdba17b6673f9f630ff19e4d32</code> <code>6529db37e1c1be43f905bf9202e0278d</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0e7a16a975904f131682edbb03d9560d</code> <code>3e48214c9986bd50417a77108d13dc95</code> <code>7500edf96462a3d01e62dc6cd468ef11</code> <code>00000000000000000000000000000000</code> <code>0ae89e677711d05c30a48d6d75e76ca9</code> <code>fb70fe06c6dd6ff988683d89ccde29ac</code> <code>7d46c53bb97a59b1901abf1db66052db</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-fp_0-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-fp_0-]">
+                    ...fork_Prague-blockchain_test-fp_0-
+                </abbr>
+            </td>
+                        <td>FP(x=0)</td>
+                        <td>PointG1(x=2718523093224377422680924513836569955862094615601650617640302534610709548675950121390173489943242206205504662709269, y=1411717398097673129936182529224644864953905593399347218631786464447277645552464825136124091127047943658180991656243)</td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-fp_p_minus_1-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test-fp_p_minus_1-]">
+                    ...fork_Prague-blockchain_test-fp_p_minus_1-
+                </abbr>
+            </td>
+                        <td>FP(x=4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786)</td>
+                        <td>PointG1(x=2531881720866212573106624935600227374014134685620935604786417060151780484946724414277918138685897016648236293492627, y=3494113976393496954514859967781871848183489674769716304743090628898465306424935307060494264779649759723587972840806)</td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_-]">
+                    ...fork_Prague-state_test-bls_g1map_-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>156c8a6a2c184569d69a76be144b5cdc</code> <code>5141d2d2ca4fe341f011e25e3969c55a</code> <code>d9e9b9ce2eb833c81a908e5fa4ac5f03</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>184bb665c37ff561a89ec2122dd343f2</code> <code>0e0f4cbcaec84e3c3052ea81d1834e19</code> <code>2c426074b02ed3dca4e7676ce4ce48ba</code> <code>00000000000000000000000000000000</code> <code>04407b8d35af4dacc809927071fc0405</code> <code>218f1401a6d15af775810e4e460064bc</code> <code>c9468beeba82fdc751be70476c888bf3</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_616263-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_616263-]">
+                    ...fork_Prague-state_test-bls_g1map_616263-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>147e1ed29f06e4c5079b9d14fc89d282</code> <code>0d32419b990c1c7bb7dbea2a36a04512</code> <code>4b31ffbde7c99329c05c559af1c6cc82</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>009769f3ab59bfd551d53a5f846b9984</code> <code>c59b97d6842b20a2c565baa167945e3d</code> <code>026a3755b6345df8ec7e6acb6868ae6d</code> <code>00000000000000000000000000000000</code> <code>1532c00cf61aa3d0ce3e5aa20c3b531a</code> <code>2abd2c770a790a2613818303c6b830ff</code> <code>c0ecf6c357af3317b9575c567f11cd2c</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_6162636465663031-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_6162636465663031-]">
+                    ...fork_Prague-state_test-bls_g1map_6162636465663031-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>04090815ad598a06897dd89bcda860f2</code> <code>5837d54e897298ce31e6947378134d37</code> <code>61dc59a572154963e8c954919ecfa82d</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>1974dbb8e6b5d20b84df7e625e2fbfec</code> <code>b2cdb5f77d5eae5fb2955e5ce7313cae</code> <code>8364bc2fff520a6c25619739c6bdcb6a</code> <code>00000000000000000000000000000000</code> <code>15f9897e11c6441eaa676de141c8d83c</code> <code>37aab8667173cbe1dfd6de74d11861b9</code> <code>61dccebcd9d289ac633455dfcc7013a3</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_713132385f717171-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_713132385f717171-]">
+                    ...fork_Prague-state_test-bls_g1map_713132385f717171-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>08dccd088ca55b8bfbc96fb50bb25c59</code> <code>2faa867a8bb78d4e94a8cc2c92306190</code> <code>244532e91feba2b7fed977e3c3bb5a1f</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0a7a047c4a8397b3446450642c2ac64d</code> <code>7239b61872c9ae7a59707a8f4f950f10</code> <code>1e766afe58223b3bff3a19a7f754027c</code> <code>00000000000000000000000000000000</code> <code>1383aebba1e4327ccff7cf9912bda0db</code> <code>c77de048b71ef8c8a81111d71dc33c5e</code> <code>3aa6edee9cf6f5fe525d50cc50b77cc9</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_613531325f616161-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-bls_g1map_613531325f616161-]">
+                    ...fork_Prague-state_test-bls_g1map_613531325f616161-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>0dd824886d2123a96447f6c56e3a3fa9</code> <code>92fbfefdba17b6673f9f630ff19e4d32</code> <code>6529db37e1c1be43f905bf9202e0278d</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0e7a16a975904f131682edbb03d9560d</code> <code>3e48214c9986bd50417a77108d13dc95</code> <code>7500edf96462a3d01e62dc6cd468ef11</code> <code>00000000000000000000000000000000</code> <code>0ae89e677711d05c30a48d6d75e76ca9</code> <code>fb70fe06c6dd6ff988683d89ccde29ac</code> <code>7d46c53bb97a59b1901abf1db66052db</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-fp_0-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-fp_0-]">
+                    ...fork_Prague-state_test-fp_0-
+                </abbr>
+            </td>
+                        <td>FP(x=0)</td>
+                        <td>PointG1(x=2718523093224377422680924513836569955862094615601650617640302534610709548675950121390173489943242206205504662709269, y=1411717398097673129936182529224644864953905593399347218631786464447277645552464825136124091127047943658180991656243)</td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-fp_p_minus_1-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-fp_p_minus_1-]">
+                    ...fork_Prague-state_test-fp_p_minus_1-
+                </abbr>
+            </td>
+                        <td>FP(x=4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786)</td>
+                        <td>PointG1(x=2531881720866212573106624935600227374014134685620935604786417060151780484946724414277918138685897016648236293492627, y=3494113976393496954514859967781871848183489674769716304743090628898465306424935307060494264779649759723587972840806)</td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_-]">
+                    ...fork_Osaka-blockchain_test-bls_g1map_-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>156c8a6a2c184569d69a76be144b5cdc</code> <code>5141d2d2ca4fe341f011e25e3969c55a</code> <code>d9e9b9ce2eb833c81a908e5fa4ac5f03</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>184bb665c37ff561a89ec2122dd343f2</code> <code>0e0f4cbcaec84e3c3052ea81d1834e19</code> <code>2c426074b02ed3dca4e7676ce4ce48ba</code> <code>00000000000000000000000000000000</code> <code>04407b8d35af4dacc809927071fc0405</code> <code>218f1401a6d15af775810e4e460064bc</code> <code>c9468beeba82fdc751be70476c888bf3</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_616263-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_616263-]">
+                    ...fork_Osaka-blockchain_test-bls_g1map_616263-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>147e1ed29f06e4c5079b9d14fc89d282</code> <code>0d32419b990c1c7bb7dbea2a36a04512</code> <code>4b31ffbde7c99329c05c559af1c6cc82</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>009769f3ab59bfd551d53a5f846b9984</code> <code>c59b97d6842b20a2c565baa167945e3d</code> <code>026a3755b6345df8ec7e6acb6868ae6d</code> <code>00000000000000000000000000000000</code> <code>1532c00cf61aa3d0ce3e5aa20c3b531a</code> <code>2abd2c770a790a2613818303c6b830ff</code> <code>c0ecf6c357af3317b9575c567f11cd2c</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_6162636465663031-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_6162636465663031-]">
+                    ...fork_Osaka-blockchain_test-bls_g1map_6162636465663031-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>04090815ad598a06897dd89bcda860f2</code> <code>5837d54e897298ce31e6947378134d37</code> <code>61dc59a572154963e8c954919ecfa82d</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>1974dbb8e6b5d20b84df7e625e2fbfec</code> <code>b2cdb5f77d5eae5fb2955e5ce7313cae</code> <code>8364bc2fff520a6c25619739c6bdcb6a</code> <code>00000000000000000000000000000000</code> <code>15f9897e11c6441eaa676de141c8d83c</code> <code>37aab8667173cbe1dfd6de74d11861b9</code> <code>61dccebcd9d289ac633455dfcc7013a3</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_713132385f717171-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_713132385f717171-]">
+                    ...fork_Osaka-blockchain_test-bls_g1map_713132385f717171-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>08dccd088ca55b8bfbc96fb50bb25c59</code> <code>2faa867a8bb78d4e94a8cc2c92306190</code> <code>244532e91feba2b7fed977e3c3bb5a1f</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0a7a047c4a8397b3446450642c2ac64d</code> <code>7239b61872c9ae7a59707a8f4f950f10</code> <code>1e766afe58223b3bff3a19a7f754027c</code> <code>00000000000000000000000000000000</code> <code>1383aebba1e4327ccff7cf9912bda0db</code> <code>c77de048b71ef8c8a81111d71dc33c5e</code> <code>3aa6edee9cf6f5fe525d50cc50b77cc9</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_613531325f616161-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-bls_g1map_613531325f616161-]">
+                    ...fork_Osaka-blockchain_test-bls_g1map_613531325f616161-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>0dd824886d2123a96447f6c56e3a3fa9</code> <code>92fbfefdba17b6673f9f630ff19e4d32</code> <code>6529db37e1c1be43f905bf9202e0278d</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0e7a16a975904f131682edbb03d9560d</code> <code>3e48214c9986bd50417a77108d13dc95</code> <code>7500edf96462a3d01e62dc6cd468ef11</code> <code>00000000000000000000000000000000</code> <code>0ae89e677711d05c30a48d6d75e76ca9</code> <code>fb70fe06c6dd6ff988683d89ccde29ac</code> <code>7d46c53bb97a59b1901abf1db66052db</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-fp_0-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-fp_0-]">
+                    ...fork_Osaka-blockchain_test-fp_0-
+                </abbr>
+            </td>
+                        <td>FP(x=0)</td>
+                        <td>PointG1(x=2718523093224377422680924513836569955862094615601650617640302534610709548675950121390173489943242206205504662709269, y=1411717398097673129936182529224644864953905593399347218631786464447277645552464825136124091127047943658180991656243)</td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-fp_p_minus_1-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test-fp_p_minus_1-]">
+                    ...fork_Osaka-blockchain_test-fp_p_minus_1-
+                </abbr>
+            </td>
+                        <td>FP(x=4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786)</td>
+                        <td>PointG1(x=2531881720866212573106624935600227374014134685620935604786417060151780484946724414277918138685897016648236293492627, y=3494113976393496954514859967781871848183489674769716304743090628898465306424935307060494264779649759723587972840806)</td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_-]">
+                    ...fork_Osaka-state_test-bls_g1map_-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>156c8a6a2c184569d69a76be144b5cdc</code> <code>5141d2d2ca4fe341f011e25e3969c55a</code> <code>d9e9b9ce2eb833c81a908e5fa4ac5f03</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>184bb665c37ff561a89ec2122dd343f2</code> <code>0e0f4cbcaec84e3c3052ea81d1834e19</code> <code>2c426074b02ed3dca4e7676ce4ce48ba</code> <code>00000000000000000000000000000000</code> <code>04407b8d35af4dacc809927071fc0405</code> <code>218f1401a6d15af775810e4e460064bc</code> <code>c9468beeba82fdc751be70476c888bf3</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_616263-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_616263-]">
+                    ...fork_Osaka-state_test-bls_g1map_616263-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>147e1ed29f06e4c5079b9d14fc89d282</code> <code>0d32419b990c1c7bb7dbea2a36a04512</code> <code>4b31ffbde7c99329c05c559af1c6cc82</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>009769f3ab59bfd551d53a5f846b9984</code> <code>c59b97d6842b20a2c565baa167945e3d</code> <code>026a3755b6345df8ec7e6acb6868ae6d</code> <code>00000000000000000000000000000000</code> <code>1532c00cf61aa3d0ce3e5aa20c3b531a</code> <code>2abd2c770a790a2613818303c6b830ff</code> <code>c0ecf6c357af3317b9575c567f11cd2c</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_6162636465663031-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_6162636465663031-]">
+                    ...fork_Osaka-state_test-bls_g1map_6162636465663031-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>04090815ad598a06897dd89bcda860f2</code> <code>5837d54e897298ce31e6947378134d37</code> <code>61dc59a572154963e8c954919ecfa82d</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>1974dbb8e6b5d20b84df7e625e2fbfec</code> <code>b2cdb5f77d5eae5fb2955e5ce7313cae</code> <code>8364bc2fff520a6c25619739c6bdcb6a</code> <code>00000000000000000000000000000000</code> <code>15f9897e11c6441eaa676de141c8d83c</code> <code>37aab8667173cbe1dfd6de74d11861b9</code> <code>61dccebcd9d289ac633455dfcc7013a3</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_713132385f717171-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_713132385f717171-]">
+                    ...fork_Osaka-state_test-bls_g1map_713132385f717171-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>08dccd088ca55b8bfbc96fb50bb25c59</code> <code>2faa867a8bb78d4e94a8cc2c92306190</code> <code>244532e91feba2b7fed977e3c3bb5a1f</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0a7a047c4a8397b3446450642c2ac64d</code> <code>7239b61872c9ae7a59707a8f4f950f10</code> <code>1e766afe58223b3bff3a19a7f754027c</code> <code>00000000000000000000000000000000</code> <code>1383aebba1e4327ccff7cf9912bda0db</code> <code>c77de048b71ef8c8a81111d71dc33c5e</code> <code>3aa6edee9cf6f5fe525d50cc50b77cc9</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_613531325f616161-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-bls_g1map_613531325f616161-]">
+                    ...fork_Osaka-state_test-bls_g1map_613531325f616161-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>0dd824886d2123a96447f6c56e3a3fa9</code> <code>92fbfefdba17b6673f9f630ff19e4d32</code> <code>6529db37e1c1be43f905bf9202e0278d</code></td>
+                        <td><code>00000000000000000000000000000000</code> <code>0e7a16a975904f131682edbb03d9560d</code> <code>3e48214c9986bd50417a77108d13dc95</code> <code>7500edf96462a3d01e62dc6cd468ef11</code> <code>00000000000000000000000000000000</code> <code>0ae89e677711d05c30a48d6d75e76ca9</code> <code>fb70fe06c6dd6ff988683d89ccde29ac</code> <code>7d46c53bb97a59b1901abf1db66052db</code></td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-fp_0-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-fp_0-]">
+                    ...fork_Osaka-state_test-fp_0-
+                </abbr>
+            </td>
+                        <td>FP(x=0)</td>
+                        <td>PointG1(x=2718523093224377422680924513836569955862094615601650617640302534610709548675950121390173489943242206205504662709269, y=1411717398097673129936182529224644864953905593399347218631786464447277645552464825136124091127047943658180991656243)</td>
+                        <td>18</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-fp_p_minus_1-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-fp_p_minus_1-]">
+                    ...fork_Osaka-state_test-fp_p_minus_1-
+                </abbr>
+            </td>
+                        <td>FP(x=4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786)</td>
+                        <td>PointG1(x=2531881720866212573106624935600227374014134685620935604786417060151780484946724414277918138685897016648236293492627, y=3494113976393496954514859967781871848183489674769716304743090628898465306424935307060494264779649759723587972840806)</td>
+                        <td>18</td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/javascripts/site.js"></script>
