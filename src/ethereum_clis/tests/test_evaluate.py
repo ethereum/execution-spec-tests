@@ -89,14 +89,16 @@ def test_calc_state_root(  # noqa: D103
     fork: Fork,
     alloc: Dict,
     base_fee: int | None,
-    hash: bytes,
+    expected_hash: bytes,
 ) -> None:
+    """Test calculation of the state root against expected hash."""
+
     class TestEnv:
         base_fee: int | None
 
     env = TestEnv()
     env.base_fee = base_fee
-    assert Alloc(alloc).state_root().startswith(hash)
+    assert Alloc(alloc).state_root().startswith(expected_hash)
 
 
 @pytest.mark.parametrize("evm_tool", [ExecutionSpecsTransitionTool])
@@ -182,7 +184,7 @@ def test_evm_t8n(  # noqa: D103
                     del expected.get("result")["receipts"][i]["logsBloom"]
 
             t8n_result = to_json(t8n_output.result)
-            for i, rejected in enumerate(expected.get("result")["rejected"]):
+            for i, _ in enumerate(expected.get("result")["rejected"]):
                 del expected.get("result")["rejected"][i]["error"]
                 del t8n_result["rejected"][i]["error"]
 
