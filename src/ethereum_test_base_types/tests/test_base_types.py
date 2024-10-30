@@ -1,6 +1,4 @@
-"""
-Test suite for `ethereum_test` module base types.
-"""
+"""Test suite for `ethereum_test` module base types."""
 
 from typing import Any, Dict
 
@@ -45,9 +43,7 @@ from ..json import to_json
     ],
 )
 def test_comparisons(a: Any, b: Any, equal: bool):
-    """
-    Test the comparison methods of the base types.
-    """
+    """Test the comparison methods of the base types."""
     if equal:
         assert a == b
         assert not a != b
@@ -89,9 +85,7 @@ def test_comparisons(a: Any, b: Any, equal: bool):
     ],
 )
 def test_wei_parsing(s: str, expected: int):
-    """
-    Test the parsing of wei values.
-    """
+    """Test the parsing of wei values."""
     assert Wei(s) == expected
 
 
