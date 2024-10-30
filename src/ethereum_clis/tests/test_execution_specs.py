@@ -1,4 +1,6 @@
-import json  # noqa: D100
+"""Additional tests for the EELS t8n tool."""
+
+import json
 import os
 import sysconfig
 from pathlib import Path
@@ -10,7 +12,7 @@ from pydantic import TypeAdapter
 
 from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
 from ethereum_test_base_types import to_json
-from ethereum_test_forks import Berlin, Fork, Istanbul, London
+from ethereum_test_forks import Berlin, Istanbul, London
 from ethereum_test_types import Alloc, Environment, Transaction
 
 FIXTURES_ROOT = Path(os.path.join("src", "ethereum_clis", "tests", "fixtures"))
@@ -84,9 +86,7 @@ def monkeypatch_path_for_entry_points(monkeypatch):
         ),
     ],
 )
-def test_calc_state_root(  # noqa: D103
-    t8n: TransitionTool,
-    fork: Fork,
+def test_calc_state_root(
     alloc: Dict,
     base_fee: int | None,
     expected_hash: bytes,
@@ -103,7 +103,8 @@ def test_calc_state_root(  # noqa: D103
 
 @pytest.mark.parametrize("evm_tool", [ExecutionSpecsTransitionTool])
 @pytest.mark.parametrize("binary_arg", ["no_binary_arg", "path_type", "str_type"])
-def test_evm_tool_binary_arg(evm_tool, binary_arg):  # noqa: D103
+def test_evm_tool_binary_arg(evm_tool, binary_arg):
+    """Test the `evm_tool` binary argument."""
     if binary_arg == "no_binary_arg":
         evm_tool().version()
         return
@@ -124,21 +125,24 @@ transaction_type_adapter = TypeAdapter(List[Transaction])
 
 
 @pytest.fixture
-def alloc(test_dir: str) -> Alloc:  # noqa: D103
+def alloc(test_dir: str) -> Alloc:
+    """Fixture for the `alloc.json` file."""
     alloc_path = Path(FIXTURES_ROOT, test_dir, "alloc.json")
     with open(alloc_path, "r") as f:
         return Alloc.model_validate_json(f.read())
 
 
 @pytest.fixture
-def txs(test_dir: str) -> List[Transaction]:  # noqa: D103
+def txs(test_dir: str) -> List[Transaction]:
+    """Fixture for the `txs.json` file."""
     txs_path = Path(FIXTURES_ROOT, test_dir, "txs.json")
     with open(txs_path, "r") as f:
         return transaction_type_adapter.validate_json(f.read())
 
 
 @pytest.fixture
-def env(test_dir: str) -> Environment:  # noqa: D103
+def env(test_dir: str) -> Environment:
+    """Fixture for the `env.json` file."""
     env_path = Path(FIXTURES_ROOT, test_dir, "env.json")
     with open(env_path, "r") as f:
         return Environment.model_validate_json(f.read())
@@ -146,13 +150,14 @@ def env(test_dir: str) -> Environment:  # noqa: D103
 
 @pytest.mark.parametrize("t8n", [ExecutionSpecsTransitionTool()])
 @pytest.mark.parametrize("test_dir", os.listdir(path=FIXTURES_ROOT))
-def test_evm_t8n(  # noqa: D103
+def test_evm_t8n(
     t8n: TransitionTool,
     alloc: Alloc,
     txs: List[Transaction],
     env: Environment,
     test_dir: str,
 ) -> None:
+    """Test the `evaluate` method of the `ExecutionSpecsTransitionTool` class."""
     expected_path = Path(FIXTURES_ROOT, test_dir, "exp.json")
 
     with open(expected_path, "r") as exp:
