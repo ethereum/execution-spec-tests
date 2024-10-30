@@ -86,7 +86,7 @@ fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinb
     fill --until Cancun
     ```
 
-    See: [Executing Tests for Features under Development](./executing_tests_dev_fork.md).
+    See: [Filling Tests for Features under Development](./filling_tests_dev_fork.md).
 
 ## Debugging the `t8n` Command
 
