@@ -51,16 +51,16 @@ In this snippet the required constants, types and helper functions are imported 
 
 In Python this kind of definition is called a [*decorator*](https://docs.python.org/3/search.html?q=decorator).
 It modifies the action of the function after it.
-In this case, the decorator is a custom [pytest fixture](https://docs.pytest.org/en/latest/explanation/fixtures.html) defined by the execution-specs-test framework that specifies that the test is valid for the [Homestead fork](https://ethereum.org/en/history/#homestead) and all forks after it. The framework will then execute this test case for all forks in the fork range specified by the command-line arguments.
+In this case, the decorator is a custom [pytest fixture](https://docs.pytest.org/en/latest/explanation/fixtures.html) defined by the execution-specs-test framework that specifies that the test is valid for the [Homestead fork](https://ethereum.org/en/history/#homestead) and all forks after it. The framework will then fill this test case for all forks in the fork range specified by the command-line arguments.
 
-!!! info "Executing the test"
-    To execute this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
+!!! info "Filling the test"
+    To fill this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
 
     ```console
     fill -k test_yul
     ```
 
-    and to execute it for a specific fork range, we can provide the `--from` and `--until` command-line arguments:
+    and to fill it for a specific fork range, we can provide the `--from` and `--until` command-line arguments:
 
     ```console
     fill -k test_yul --from London --until Paris
@@ -95,7 +95,7 @@ For more information, [see the static test documentation](../../consuming_tests/
 
 #### Pre State
 
-For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the test executes.
+For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the transaction is executed.
 It can be used as a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), which is the Python term for an associative array, but the appropriate way to populate it is by using the methods `fund_eoa`, `deploy_contract` or `fund_address` from the `Alloc` object.
 
 In this example we are using the `deploy_contract` method to deploy a contract to some address available in the pre-state.
