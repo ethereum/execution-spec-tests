@@ -7,7 +7,6 @@
     * [Repository Overview](getting_started/repository_overview.md)
     * [Getting Help](getting_started/getting_help.md)
   * [Writing Tests](writing_tests/index.md)
-    * [Code Standards](writing_tests/code_standards.md)
     * [Types of Test](writing_tests/types_of_tests.md)
     * [Adding a New Test](writing_tests/adding_a_new_test.md)
     * [Types of Test](writing_tests/types_of_tests.md)
