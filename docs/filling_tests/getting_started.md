@@ -1,6 +1,6 @@
 # Getting Started: Filling Tests
 
-By default, JSON test fixtures are generated from this repository's Python test cases using the [Ethereum Execution Layer Specification](https://github.com/ethereum/execution-specs) (EELS) reference implementation. The resulting JSON fixtures can be executed against execution clients to verify consensus. The process of generating fixtures is often referred to as "filling".
+By default, JSON test fixtures are generated from this repository's Python test cases using the [Ethereum Execution Layer Specification](https://github.com/ethereum/execution-specs) (EELS) reference implementation. The resulting JSON fixtures can be executed against execution clients to verify consensus.
 
 1. Explore test cases via `--collect-only` and search for test cases that combine `PUSH0` and `DELEGATECALL` in the EVM functionality introduced in the Shanghai hard fork:
 
