@@ -28082,7 +28082,7 @@
                 <span class="k">return</span> <span class="mi">10</span><span class="o">**</span><span class="mi">12</span>
             <span class="k">case</span> <span class="s2">&quot;finney&quot;</span> <span class="o">|</span> <span class="s2">&quot;milliether&quot;</span> <span class="o">|</span> <span class="s2">&quot;milli&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="mi">10</span><span class="o">**</span><span class="mi">15</span>
-            <span class="k">case</span> <span class="s2">&quot;ether&quot;</span><span class="p">:</span>
+            <span class="k">case</span> <span class="s2">&quot;ether&quot;</span> <span class="o">|</span> <span class="s2">&quot;eth&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span>
             <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid unit </span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
