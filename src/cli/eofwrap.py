@@ -20,7 +20,7 @@ from typing import Any, no_type_check
 import click
 
 from cli.evm_bytes import OpcodeWithOperands, process_evm_bytes
-from ethereum_clis import CLINotFoundInPath
+from ethereum_clis import CLINotFoundInPathError
 from ethereum_clis.clis.evmone import EvmOneTransitionTool
 from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_base_types.conversions import to_hex
@@ -50,7 +50,7 @@ def eof_wrap(input_path: str, output_dir: str, traces: bool):
 
     try:
         EvmOneTransitionTool()
-    except CLINotFoundInPath:
+    except CLINotFoundInPathError:
         print(f"Error: {EvmOneTransitionTool.default_binary} must be in the PATH.")
         sys.exit(1)
     except Exception as e:
