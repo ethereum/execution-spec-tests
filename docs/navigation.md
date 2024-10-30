@@ -18,8 +18,7 @@
     * [Referencing an EIP Spec Version](writing_tests/reference_specification.md)
     * [Verifying Changes Locally](writing_tests/verifying_changes.md)
     * [Exception Tests](writing_tests/exception_tests.md)
-  * Tutorials
-    * [State Transition Tests](tutorials/state_transition.md)
+    * [Tutorial: Adding a State Test](writing_tests/tutorials/state_transition.md)
   * [Consuming Tests](consuming_tests/index.md)
     * [State Tests](consuming_tests/state_test.md)
     * [Blockchain Tests](consuming_tests/blockchain_test.md)

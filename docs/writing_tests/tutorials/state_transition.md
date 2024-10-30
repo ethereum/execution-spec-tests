@@ -6,7 +6,8 @@ This tutorial teaches you to create a state transition execution specification t
 
 Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:
 
-- Set up and run an execution specification test as outlined in the [quick start guide](../getting_started/quick_start.md).
+- Repository set-up, see [installation](../../getting_started/installation.md).and run an execution specification test as outlined in the .
+- Able to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
 - Understand how to read a [static state transition test](https://ethereum-tests.readthedocs.io/en/latest/state-transition-tutorial.html#the-source-code).
 - Know the basics of [Yul](https://docs.soliditylang.org/en/latest/yul.html), which is an EVM assembly language.
 - Familiarity with [Python](https://docs.python.org/3/tutorial/).
@@ -90,7 +91,7 @@ This line specifies that `env` is an [`Environment`](https://github.com/ethereum
 If necessary we can modify the environment to have different block gas limits, block numbers, etc.
 In most tests the defaults are good enough.
 
-For more information, [see the static test documentation](../consuming_tests/state_test.md).
+For more information, [see the static test documentation](../../consuming_tests/state_test.md).
 
 #### Pre State
 
@@ -206,7 +207,7 @@ The `nonce` field of the `sender` variable is automatically incremented for us b
 
 The `to` field specifies the address of the contract we want to call and, in this case, it is the address of the contract we deployed earlier.
 
-For more information, [see the static test documentation](../consuming_tests/state_test.md)
+For more information, [see the static test documentation](../../consuming_tests/state_test.md)
 
 #### Post State
 
