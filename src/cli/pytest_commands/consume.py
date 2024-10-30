@@ -15,7 +15,6 @@ from .common import common_click_options, handle_help_flags
 def handle_hive_env_flags(args: List[str]) -> List[str]:
     """Convert hive environment variables into pytest flags."""
     env_var_mappings = {
-        # TODO: Align `--sim.limit` regex with pytest -k.
         "HIVE_TEST_PATTERN": ["-k"],
         "HIVE_PARALLELISM": ["-n"],
     }

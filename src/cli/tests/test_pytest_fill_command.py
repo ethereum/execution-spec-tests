@@ -74,7 +74,8 @@ class TestHtmlReportFlags:
         return pytest_plugins.filler.filler.default_html_report_file_path()
 
     @pytest.fixture(scope="function")
-    def temp_dir(self) -> Generator[Path, None, None]:  # noqa: D102
+    def temp_dir(self) -> Generator[Path, None, None]:
+        """Provide a temporary directory as a pytest fixture."""
         temp_dir = TemporaryDirectory()
         yield Path(temp_dir.name)
         temp_dir.cleanup()

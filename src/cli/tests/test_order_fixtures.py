@@ -10,7 +10,8 @@ from click.testing import CliRunner
 from ..order_fixtures import order_fixtures, process_directory
 
 
-def create_temp_json_file(directory, name, content):  # noqa: D103
+def create_temp_json_file(directory, name, content):
+    """Create a temporary JSON file with specified content."""
     file_path = directory / name
     with file_path.open("w") as f:
         json.dump(content, f)
