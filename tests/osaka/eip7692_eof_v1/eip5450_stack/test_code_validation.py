@@ -246,13 +246,13 @@ possible_inputs_outputs = range(2)
 )
 @pytest.mark.parametrize(
     "rjump_kind",
-    RjumpKind.__members__.values(),
+    RjumpKind,
 )
 # Parameter value fixed for first iteration, to cover the most important case.
 @pytest.mark.parametrize("rjump_section_idx", [0, 1])
 @pytest.mark.parametrize(
     "rjump_spot",
-    RjumpSpot.__members__.values(),
+    RjumpSpot,
 )
 def test_rjumps_callf_retf(
     eof_test: EOFTestFiller,
@@ -360,7 +360,7 @@ def test_rjumps_callf_retf(
 )
 @pytest.mark.parametrize(
     "rjump_kind",
-    RjumpKind.__members__.values(),
+    RjumpKind,
 )
 # Parameter value fixed for first iteration, to cover the most important case.
 @pytest.mark.parametrize("rjump_section_idx", [0, 1])
@@ -368,7 +368,7 @@ def test_rjumps_callf_retf(
     "rjump_spot",
     # `termination` is empty for JUMPF codes, because JUMPF serves as one. Spot
     # `BEFORE_TERMINATION` is unreachable code.
-    [k for k in RjumpSpot.__members__.values() if k not in [RjumpSpot.BEFORE_TERMINATION]],
+    [k for k in RjumpSpot if k not in [RjumpSpot.BEFORE_TERMINATION]],
 )
 def test_rjumps_jumpf_nonreturning(
     eof_test: EOFTestFiller,
