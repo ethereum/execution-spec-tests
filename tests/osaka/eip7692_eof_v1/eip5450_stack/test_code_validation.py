@@ -385,7 +385,6 @@ def test_rjumps_jumpf_nonreturning(
     inputs = (0,) + inputs
 
     sections = []
-    container_has_invalid_back_jump = False
     container_has_rjump_pops = False
     container_has_rjump_off_code = False
     container_has_non_returning_retf = False
@@ -402,11 +401,13 @@ def test_rjumps_jumpf_nonreturning(
             call = None
             termination = Op.STOP
 
+        # `section_has_invalid_back_jump` - never happens: we excluded RJUMP from the end
+        # `rjump_snippet_pushes` - never happens: we never RETF where too large stack would fail
         (
             code,
-            section_has_invalid_back_jump,
+            _section_has_invalid_back_jump,
             rjump_snippet_pops,
-            rjump_snippet_pushes,
+            _rjump_snippet_pushes,
             rjump_falls_off_code,
         ) = section_code_with(
             inputs[section_idx],
@@ -417,8 +418,6 @@ def test_rjumps_jumpf_nonreturning(
             termination,
         )
 
-        if section_has_invalid_back_jump:
-            container_has_invalid_back_jump = True
         if rjump_snippet_pops:
             container_has_rjump_pops = True
         if rjump_falls_off_code:
@@ -438,8 +437,6 @@ def test_rjumps_jumpf_nonreturning(
             sections.append(Section.Code(code))
 
     possible_exceptions = []
-    if container_has_invalid_back_jump:
-        possible_exceptions.append(EOFException.STACK_HEIGHT_MISMATCH)
     if container_has_rjump_pops:
         possible_exceptions.append(EOFException.STACK_UNDERFLOW)
     if container_has_rjump_off_code:
