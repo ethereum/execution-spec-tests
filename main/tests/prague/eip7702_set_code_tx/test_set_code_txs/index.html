@@ -15497,6 +15497,8 @@
       
         
       
+        
+      
     
     
       
@@ -16495,6 +16497,27 @@
   
   <span class="md-ellipsis">
     <code>test_deploying_delegation_designation_contract</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_many_delegations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_many_delegations</code>
   </span>
   
 
@@ -24421,7 +24444,7 @@
 
 
 <h1 id="test-set-code-txs">Test Set Code Txs<a class="headerlink" href="#test-set-code-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff96593e0d7671fa9c0f58c89c6c6582000f5543/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L62"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py@ff96593e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/83de6e1ba301ab30ce3e63522b701a679a36b2ed/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L62"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py@83de6e1b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py --fork Prague</span>
@@ -24740,6 +24763,12 @@
 <td>state_test</td>
 <td>1</td>
 <td>Test attempting to deploy a contract that has the same format as a delegation designation.</td>
+</tr>
+<tr>
+<td><a href="test_many_delegations/"><code>test_many_delegations</code></a></td>
+<td>state_test</td>
+<td>4</td>
+<td>Perform as many delegations as possible in a single 120 million gas transaction.</td>
 </tr>
 </tbody>
 </table>
