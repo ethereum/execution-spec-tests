@@ -351,7 +351,7 @@ def test_rjumps_callf_retf(
         possible_exceptions.append(EOFException.INVALID_NON_RETURNING_FLAG)
 
     eof_test(
-        data=bytes(Container(sections=sections)), expect_exception=possible_exceptions or None
+        data=Container(sections=sections), expect_exception=possible_exceptions or None
     )
 
 
@@ -445,5 +445,5 @@ def test_rjumps_jumpf_nonreturning(
         possible_exceptions.append(EOFException.INVALID_NON_RETURNING_FLAG)
 
     eof_test(
-        data=bytes(Container(sections=sections)), expect_exception=possible_exceptions or None
+        data=Container(sections=sections), expect_exception=possible_exceptions or None
     )
