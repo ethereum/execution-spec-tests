@@ -1,6 +1,6 @@
-# Executing Tests in VS Code
+# Filling Tests in VS Code
 
-Prerequisite: [VS Code Setup](./setup_vs_code.md).
+Prerequisite: [VS Code Setup](../getting_started/setup_vs_code.md).
 
 ## Exploring Test Cases
 
@@ -11,9 +11,9 @@ Implemented test cases can be explored in VS Code's "Testing" View; click on the
 </figure>
 
 !!! note "Testing EVM Features Under Active Development"
-     See [the VS Code section](./executing_tests_dev_fork.md#executing-tests-for-features-under-development) in [Executing Tests for Features under Development](./executing_tests_dev_fork.md) to explore tests targeting EVM features under development.
+     See [the VS Code section](./filling_tests_dev_fork.md#executing-tests-for-features-under-development) in [Filling Tests for Features under Development](./filling_tests_dev_fork.md) to explore tests targeting EVM features under development.
 
-## Executing and Debugging Test Cases
+## Filling and Debugging Test Cases
 
 <figure markdown>
  ![VS Code Testing Tab](./img/vs_code_executing_tests.png){ width=auto align=center}

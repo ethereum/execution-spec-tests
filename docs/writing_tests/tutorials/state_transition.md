@@ -6,7 +6,8 @@ This tutorial teaches you to create a state transition execution specification t
 
 Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:
 
-- Set up and run an execution specification test as outlined in the [quick start guide](../getting_started/quick_start.md).
+- Repository set-up, see [installation](../../getting_started/installation.md).and run an execution specification test as outlined in the .
+- Able to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
 - Understand how to read a [static state transition test](https://ethereum-tests.readthedocs.io/en/latest/state-transition-tutorial.html#the-source-code).
 - Know the basics of [Yul](https://docs.soliditylang.org/en/latest/yul.html), which is an EVM assembly language.
 - Familiarity with [Python](https://docs.python.org/3/tutorial/).
@@ -17,7 +18,7 @@ The most effective method of learning how to write tests is to study a couple of
 
 ### Yul Test
 
-You can find the source code for the Yul test in [tests/homestead/yul/test_yul_example.py](../tests/homestead/yul/test_yul_example/index.md).
+You can find the source code for the Yul test in [tests/homestead/yul/test_yul_example.py](../../tests/homestead/yul/test_yul_example/index.md).
 It is the spec test equivalent of this [static test](https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml).
 
 Lets examine each section.
@@ -50,16 +51,16 @@ In this snippet the required constants, types and helper functions are imported 
 
 In Python this kind of definition is called a [*decorator*](https://docs.python.org/3/search.html?q=decorator).
 It modifies the action of the function after it.
-In this case, the decorator is a custom [pytest fixture](https://docs.pytest.org/en/latest/explanation/fixtures.html) defined by the execution-specs-test framework that specifies that the test is valid for the [Homestead fork](https://ethereum.org/en/history/#homestead) and all forks after it. The framework will then execute this test case for all forks in the fork range specified by the command-line arguments.
+In this case, the decorator is a custom [pytest fixture](https://docs.pytest.org/en/latest/explanation/fixtures.html) defined by the execution-specs-test framework that specifies that the test is valid for the [Homestead fork](https://ethereum.org/en/history/#homestead) and all forks after it. The framework will then fill this test case for all forks in the fork range specified by the command-line arguments.
 
-!!! info "Executing the test"
-    To execute this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
+!!! info "Filling the test"
+    To fill this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
 
     ```console
     fill -k test_yul
     ```
 
-    and to execute it for a specific fork range, we can provide the `--from` and `--until` command-line arguments:
+    and to fill it for a specific fork range, we can provide the `--from` and `--until` command-line arguments:
 
     ```console
     fill -k test_yul --from London --until Paris
@@ -90,11 +91,11 @@ This line specifies that `env` is an [`Environment`](https://github.com/ethereum
 If necessary we can modify the environment to have different block gas limits, block numbers, etc.
 In most tests the defaults are good enough.
 
-For more information, [see the static test documentation](../consuming_tests/state_test.md).
+For more information, [see the static test documentation](../../consuming_tests/state_test.md).
 
 #### Pre State
 
-For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the test executes.
+For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the transaction is executed.
 It can be used as a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), which is the Python term for an associative array, but the appropriate way to populate it is by using the methods `fund_eoa`, `deploy_contract` or `fund_address` from the `Alloc` object.
 
 In this example we are using the `deploy_contract` method to deploy a contract to some address available in the pre-state.
@@ -206,7 +207,7 @@ The `nonce` field of the `sender` variable is automatically incremented for us b
 
 The `to` field specifies the address of the contract we want to call and, in this case, it is the address of the contract we deployed earlier.
 
-For more information, [see the static test documentation](../consuming_tests/state_test.md)
+For more information, [see the static test documentation](../../consuming_tests/state_test.md)
 
 #### Post State
 

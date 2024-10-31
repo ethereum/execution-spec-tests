@@ -1,4 +1,4 @@
-# Executing Tests for Features under Development
+# Filling Tests for Features under Development
 
 ## Requirements
 
@@ -45,4 +45,4 @@ By default, execution-spec-tests only generates fixtures for forks that have bee
 
 ## VS Code Setup
 
-By default, VS Code's Testing View will only show tests for stable forks. To show tests for development forks, uncomment the relevant line in the `python.testing.pytestArgs` configuration section of included settings file (`.vscode/settings.json`) to enable the `--until=FORK` flag. See [VS Code Setup](./setup_vs_code.md) for help finding the settings files.
+By default, VS Code's Testing View will only show tests for stable forks. To show tests for development forks, uncomment the relevant line in the `python.testing.pytestArgs` configuration section of included settings file (`.vscode/settings.json`) to enable the `--until=FORK` flag. See [VS Code Setup](../getting_started/setup_vs_code.md) for help finding the settings files.

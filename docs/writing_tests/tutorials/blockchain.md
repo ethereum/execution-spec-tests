@@ -6,7 +6,8 @@ This tutorial teaches you to create a blockchain execution specification test. T
 
 Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:
 
-- Set up and run an execution specification test as outlined in the [quick start guide](../getting_started/quick_start.md).
+- Repository set-up, see [installation](../../getting_started/installation.md).and run an execution specification test as outlined in the .
+- Able to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
 - Understand how to read a [blockchain test](https://ethereum-tests.readthedocs.io/en/latest/test_filler/blockchain_filler.html).
 - Know the basics of [Yul](https://docs.soliditylang.org/en/latest/yul.html), which is an EVM assembly language.
 - Familiarity with [Python](https://docs.python.org/3/tutorial/).

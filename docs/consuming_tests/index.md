@@ -17,7 +17,7 @@ Here's a top-level comparison of the different methods of consuming tests:
 
 !!! note "Running `blocktest`, `statetest`, directly within the execution-spec-tests framework"
 
-    It's possible to execute `evm blocktest` directly within the execution-spec-tests framework. This is intended to verify fixture generation, see [Debugging `t8n` Tools](../getting_started/debugging_t8n_tools.md).
+    It's possible to execute `evm blocktest` directly within the execution-spec-tests framework. This is intended to verify fixture generation, see [Debugging `t8n` Tools](../filling_tests/debugging_t8n_tools.md).
 
 !!! note "Generating test fixtures using a `t8n` tool via `fill` is not considered to be the actual test"
 

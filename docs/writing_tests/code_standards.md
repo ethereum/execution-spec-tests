@@ -24,4 +24,4 @@ These checks must pass in order for the execution-spec-tests Github Actions to p
 !!! info "Running the checks with tox"
     All these checks can be executed locally in a single command, `tox`, see [Verifying Changes](./verifying_changes.md).
 
-    If you need help, [get in touch](../getting_help/index.md)!
+    If you need help, [get in touch](../getting_started/getting_help.md)!

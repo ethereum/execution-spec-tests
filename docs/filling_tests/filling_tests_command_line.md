@@ -1,4 +1,4 @@
-# Executing Tests at a Prompt
+# Filling Tests at a Prompt
 
 The execution-spec-tests test framework uses the [pytest framework](https://docs.pytest.org/en/latest/) for test case collection and execution. The `fill` command is essentially an alias for `pytest`, which uses several [custom pytest plugins](../library/pytest_plugins/index.md) to run transition tools against test cases and generate JSON fixtures.
 
@@ -33,7 +33,7 @@ fill --collect-only -k warm_coinbase -vv
 
 ## Execution
 
-By default, test cases are executed for all forks already deployed to mainnet, but not for forks still under active development, i.e., as of time of writing, Q2 2023:
+By default, test cases are filled for all forks already deployed to mainnet, but not for forks still under active development, i.e., as of time of writing, Q2 2023:
 
 ```console
 fill
@@ -77,16 +77,16 @@ fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinb
 ## Execution for Development Forks
 
 !!! note ""
-    By default, test cases are not executed with upcoming Ethereum forks so that they can be readily executed against the `evm` tool from the latest `geth` release.
+    By default, test cases are not filled for upcoming Ethereum forks so that they can be readily filled using the `evm` tool from the latest `geth` release.
 
-    In order to execute test cases for an upcoming fork, ensure that the `evm` tool used supports that fork and features under test and use the `--until` or `--fork` flag.
+    In order to fill test cases for an upcoming fork, ensure that the `evm` tool used supports that fork and features under test and use the `--until` or `--fork` flag.
     
     For example, as of Q2 2023, the current fork under active development is `Cancun`:
     ```console
     fill --until Cancun
     ```
 
-    See: [Executing Tests for Features under Development](./executing_tests_dev_fork.md).
+    See: [Filling Tests for Features under Development](./filling_tests_dev_fork.md).
 
 ## Debugging the `t8n` Command
 
