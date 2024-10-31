@@ -96,27 +96,47 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_help/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/filling_tests/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/debugging_t8n_tools/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/filling_tests/debugging_t8n_tools/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/executing_tests_command_line/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_command_line/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/executing_tests_dev_fork/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_dev_fork/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/executing_tests_vs_code/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_vs_code/</loc>
+         <lastmod>2024-10-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/filling_tests/getting_started/</loc>
+         <lastmod>2024-10-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/filling_tests/transition_tool_support/</loc>
+         <lastmod>2024-10-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/getting_help/</loc>
+         <lastmod>2024-10-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/installation/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -126,7 +146,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/quick_start/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/overview/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3726,21 +3746,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tutorials/blockchain/</loc>
-         <lastmod>2024-10-31</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tutorials/state_transition/</loc>
-         <lastmod>2024-10-31</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tutorials/state_transition_bad_opcode/</loc>
-         <lastmod>2024-10-31</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
@@ -3782,6 +3787,21 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/writing_a_new_test/</loc>
+         <lastmod>2024-10-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/tutorials/blockchain/</loc>
+         <lastmod>2024-10-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/tutorials/state_transition/</loc>
+         <lastmod>2024-10-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/writing_tests/tutorials/state_transition_bad_opcode/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
