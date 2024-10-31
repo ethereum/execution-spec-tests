@@ -51,6 +51,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 💥 Rename the `PragueEIP7692` fork to `Osaka` ([#869](https://github.com/ethereum/execution-spec-tests/pull/869)).
 - ✨ Improve `fill` terminal output to emphasize that filling tests is not actually testing a client ([#807](https://github.com/ethereum/execution-spec-tests/pull/887)).
 - ✨ Add the `BlockchainTestEngine` test spec type that only generates a fixture in the `EngineFixture` (`blockchain_test_engine`) format ([#888](https://github.com/ethereum/execution-spec-tests/pull/888)).
+- 🔀 `ethereum_test_forks` forks now contain gas-calculating functions, which return the appropriate function to calculate the gas used by a transaction or memory function for the given fork ([#779](https://github.com/ethereum/execution-spec-tests/pull/779)).
 
 ### 🔧 EVM Tools
 
