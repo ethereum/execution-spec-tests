@@ -149,6 +149,7 @@ class Frontier(BaseFork, solc_name="homestead"):
             G_KECCAK_256_WORD=6,
             G_COPY=3,
             G_BLOCKHASH=20,
+            G_AUTHORIZATION=25_000,
         )
 
     @classmethod
@@ -209,8 +210,10 @@ class Frontier(BaseFork, solc_name="homestead"):
             calldata: BytesConvertible = b"",
             contract_creation: bool = False,
             access_list: List[AccessList] | None = None,
+            authorization_count: int | None = None,
         ) -> int:
             assert access_list is None, f"Access list is not supported in {cls.name()}"
+            assert authorization_count is None, f"Authorizations are not supported in {cls.name()}"
             intrinsic_cost: int = gas_costs.G_TRANSACTION
 
             if contract_creation:
@@ -573,11 +576,13 @@ class Homestead(Frontier):
             calldata: BytesConvertible = b"",
             contract_creation: bool = False,
             access_list: List[AccessList] | None = None,
+            authorization_count: int | None = None,
         ) -> int:
             intrinsic_cost: int = super_fn(
                 calldata=calldata,
                 contract_creation=contract_creation,
                 access_list=access_list,
+                authorization_count=authorization_count,
             )
             if contract_creation:
                 intrinsic_cost += gas_costs.G_TRANSACTION_CREATE
@@ -756,10 +761,12 @@ class Berlin(Istanbul):
             calldata: BytesConvertible = b"",
             contract_creation: bool = False,
             access_list: List[AccessList] | None = None,
+            authorization_count: int | None = None,
         ) -> int:
             intrinsic_cost: int = super_fn(
                 calldata=calldata,
                 contract_creation=contract_creation,
+                authorization_count=authorization_count,
             )
             if access_list is not None:
                 for access in access_list:
@@ -970,7 +977,7 @@ class Cancun(Shanghai):
                 "5ffd5b62001fff42064281555f359062001fff015500",
             }
         }
-        return new_allocation | super(Cancun, cls).pre_allocation_blockchain()
+        return new_allocation | super(Cancun, cls).pre_allocation_blockchain()  # type: ignore
 
     @classmethod
     def engine_new_payload_version(
@@ -1070,6 +1077,36 @@ class Prague(Cancun):
         return 2
 
     @classmethod
+    def transaction_intrinsic_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionIntrinsicCostCalculator:
+        """
+        At Prague, the transaction intrinsic cost needs to take the authorizations into account
+        """
+        super_fn = super(Prague, cls).transaction_intrinsic_cost_calculator(
+            block_number, timestamp
+        )
+        gas_costs = cls.gas_costs(block_number, timestamp)
+
+        def fn(
+            *,
+            calldata: BytesConvertible = b"",
+            contract_creation: bool = False,
+            access_list: List[AccessList] | None = None,
+            authorization_count: int | None = None,
+        ) -> int:
+            intrinsic_cost: int = super_fn(
+                calldata=calldata,
+                contract_creation=contract_creation,
+                access_list=access_list,
+            )
+            if authorization_count is not None:
+                intrinsic_cost += authorization_count * gas_costs.G_AUTHORIZATION
+            return intrinsic_cost
+
+        return fn
+
+    @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
         """
         Prague requires pre-allocation of the beacon chain deposit contract for EIP-6110,
@@ -1129,7 +1166,7 @@ class Prague(Cancun):
                 }
             )
 
-        return new_allocation | super(Prague, cls).pre_allocation_blockchain()
+        return new_allocation | super(Prague, cls).pre_allocation_blockchain()  # type: ignore
 
     @classmethod
     def header_requests_required(cls, block_number: int, timestamp: int) -> bool:

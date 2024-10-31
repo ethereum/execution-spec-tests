@@ -58,3 +58,5 @@ class GasCosts:
 
     G_COPY: int
     G_BLOCKHASH: int
+
+    G_AUTHORIZATION: int

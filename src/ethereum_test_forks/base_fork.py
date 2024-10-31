@@ -62,6 +62,7 @@ class TransactionIntrinsicCostCalculator(Protocol):
         calldata: BytesConvertible = b"",
         contract_creation: bool = False,
         access_list: List[AccessList] | None = None,
+        authorization_count: int | None = None,
     ) -> int:
         """
         Returns the intrinsic gas cost of a transaction given its properties.
