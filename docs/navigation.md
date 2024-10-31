@@ -21,6 +21,7 @@
     * [Filling Tests at a Prompt](filling_tests/filling_tests_command_line.md)
     * [Filling Tests in VS Code](filling_tests/filling_tests_vs_code.md)
     * [Filling Tests for Features Under Development](filling_tests/filling_tests_dev_fork.md)
+    * [Transition Tool Support](filling_tests/transition_tool_support.md)
     * [Debugging Transition Tools](filling_tests/debugging_t8n_tools.md)
   * [Consuming Tests](consuming_tests/index.md)
     * [State Tests](consuming_tests/state_test.md)
