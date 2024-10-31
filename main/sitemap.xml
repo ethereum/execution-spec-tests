@@ -2021,6 +2021,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf/</loc>
+         <lastmod>2024-10-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution/test_callf_factorial/</loc>
          <lastmod>2024-10-31</lastmod>
          <changefreq>daily</changefreq>
