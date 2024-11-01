@@ -143,7 +143,7 @@ class Witness(CamelModel):
 
     state_diff: StateDiff
     verkle_proof: VerkleProof
-    parent_root: Hash
+    parent_state_root: Hash
 
 
 class VerkleTree(RootModel[Dict[Hash, Hash]]):
@@ -181,9 +181,7 @@ class WitnessCheck:
         """
         Initializes a WitnessCheck instance.
         """
-        assert (
-            fork >= Verkle
-        ), "WitnessCheck is only supported for Verkle fork and later"
+        assert fork >= Verkle, "WitnessCheck is only supported for Verkle fork and later"
         self.account_entries: List[
             Tuple[Address, WitnessCheck.AccountHeaderEntry, Optional[Hash]]
         ] = []
@@ -259,21 +257,15 @@ class WitnessCheck:
         """
         Adds the code hash witness for the given address.
         """
-        self.account_entries.append(
-            (address, WitnessCheck.AccountHeaderEntry.CODEHASH, codehash)
-        )
+        self.account_entries.append((address, WitnessCheck.AccountHeaderEntry.CODEHASH, codehash))
 
-    def add_storage_slot(
-        self, address: Address, storage_slot: int, value: Optional[Hash]
-    ) -> None:
+    def add_storage_slot(self, address: Address, storage_slot: int, value: Optional[Hash]) -> None:
         """
         Adds the storage slot witness for the given address and storage slot.
         """
         self.storage_slots.append((address, storage_slot, value))
 
-    def add_code_chunk(
-        self, address: Address, chunk_number: int, value: Optional[Hash]
-    ) -> None:
+    def add_code_chunk(self, address: Address, chunk_number: int, value: Optional[Hash]) -> None:
         """
         Adds the code chunk witness for the given address and chunk number.
         """
