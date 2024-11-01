@@ -9064,6 +9064,8 @@
       
         
       
+        
+      
     
     
       
@@ -9112,11 +9114,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation/test_eof_validity/" class="md-nav__link">
+      <a href="../../tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation/test_rjumps_callf_retf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_eof_validity</code>
+    <code>test_rjumps_callf_retf</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation/test_rjumps_jumpf_nonreturning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumps_jumpf_nonreturning</code>
   </span>
   
 
@@ -40893,7 +40916,7 @@ cherry-picked opcodes from this Enum within the test if iteration is needed.</p>
 <span class="sd">    3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">JUMPF</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0xE5</span><span class="p">,</span> <span class="n">data_portion_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">terminating</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">JUMPF</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0xE5</span><span class="p">,</span> <span class="n">data_portion_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">terminating</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unchecked_stack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    !!! Note: This opcode is under development</span>
 
@@ -48223,7 +48246,7 @@ function/section produces</p>
 
 
 <h3 id="ethereum_test_vm.Opcodes.JUMPF" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">JUMPF</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mi">229</span><span class="p">,</span> <span class="n">data_portion_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">terminating</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">JUMPF</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mi">229</span><span class="p">,</span> <span class="n">data_portion_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">terminating</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unchecked_stack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
