@@ -350,9 +350,7 @@ def test_rjumps_callf_retf(
     if container_has_section_0_retf:
         possible_exceptions.append(EOFException.INVALID_NON_RETURNING_FLAG)
 
-    eof_test(
-        data=Container(sections=sections), expect_exception=possible_exceptions or None
-    )
+    eof_test(data=Container(sections=sections), expect_exception=possible_exceptions or None)
 
 
 @pytest.mark.parametrize(
@@ -444,6 +442,4 @@ def test_rjumps_jumpf_nonreturning(
     if container_has_non_returning_retf:
         possible_exceptions.append(EOFException.INVALID_NON_RETURNING_FLAG)
 
-    eof_test(
-        data=Container(sections=sections), expect_exception=possible_exceptions or None
-    )
+    eof_test(data=Container(sections=sections), expect_exception=possible_exceptions or None)
