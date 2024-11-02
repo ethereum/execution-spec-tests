@@ -69,9 +69,18 @@ class BlockchainTestContextProvider(Provider):
 
     def _get_pre_state(self) -> Dict[str, Account]:
         assert self.state is not None
+        assert self.transaction is not None
+
         pre_state: Dict[str, Account] = {}
-        for address, account in self.state.items():
-            pre_state[str(address)] = Account(**account)
+        for address, account_data in self.state.items():
+
+            # TODO: Check if this is required. Ideally,
+            # the pre-state tracer should have the correct
+            # values without requiring any additional modifications.
+            if address == self.transaction.sender:
+                account_data["nonce"] = self.transaction.nonce
+
+            pre_state[address] = Account(**account_data)
         return pre_state
 
     def _get_transaction(self) -> Transaction:
