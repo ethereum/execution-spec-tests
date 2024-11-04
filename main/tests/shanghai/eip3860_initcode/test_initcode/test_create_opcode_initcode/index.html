@@ -24566,7 +24566,7 @@
 
 
 <h1 id="test_create_opcode_initcode"><code>test_create_opcode_initcode()</code><a class="headerlink" href="#test_create_opcode_initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cfbfea9821e505a13227da85eb09f7d1642dc7f0/tests/shanghai/eip3860_initcode/test_initcode.py#L467"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode@cfbfea98</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4ddc4f0d7b853f8e64c4eb6879bc86497015262e/tests/shanghai/eip3860_initcode/test_initcode.py#L480"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode@4ddc4f0d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode --fork Prague</span>
@@ -24587,7 +24587,10 @@ that is on/over the max allowed limit.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">335</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
 <span class="normal">336</span>
 <span class="normal">337</span>
 <span class="normal">338</span>
@@ -24795,7 +24798,20 @@ that is on/over the max allowed limit.</p>
 <span class="normal">540</span>
 <span class="normal">541</span>
 <span class="normal">542</span>
-<span class="normal">543</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -24865,18 +24881,13 @@ that is on/over the max allowed limit.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the address of the contract created by the creator contract.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">compute_create_address</span><span class="p">(</span>
-                <span class="n">address</span><span class="o">=</span><span class="n">creator_contract_address</span><span class="p">,</span>
-                <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">compute_create2_address</span><span class="p">(</span>
-                <span class="n">address</span><span class="o">=</span><span class="n">creator_contract_address</span><span class="p">,</span>
-                <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">,</span>
-                <span class="n">initcode</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid opcode for generator&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">compute_create_address</span><span class="p">(</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">creator_contract_address</span><span class="p">,</span>
+            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">,</span>
+            <span class="n">initcode</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
+            <span class="n">opcode</span><span class="o">=</span><span class="n">opcode</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span> <span class="nf">caller_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creator_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
@@ -24909,14 +24920,16 @@ that is on/over the max allowed limit.</p>
         <span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-    <span class="k">def</span> <span class="nf">contract_creation_gas_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">contract_creation_gas_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the gas cost of the contract creation operation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">CREATE_CONTRACT_BASE_GAS</span> <span class="o">=</span> <span class="mi">32000</span>
-        <span class="n">GAS_OPCODE_GAS</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="n">PUSH_DUP_OPCODE_GAS</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="n">CALLDATASIZE_OPCODE_GAS</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+
+        <span class="n">CREATE_CONTRACT_BASE_GAS</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_CREATE</span>
+        <span class="n">GAS_OPCODE_GAS</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>
+        <span class="n">PUSH_DUP_OPCODE_GAS</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span>
+        <span class="n">CALLDATASIZE_OPCODE_GAS</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>
         <span class="n">contract_creation_gas_usage</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">CREATE_CONTRACT_BASE_GAS</span>
             <span class="o">+</span> <span class="n">GAS_OPCODE_GAS</span>
@@ -24927,6 +24940,25 @@ that is on/over the max allowed limit.</p>
             <span class="n">contract_creation_gas_usage</span> <span class="o">+=</span> <span class="n">PUSH_DUP_OPCODE_GAS</span>
         <span class="k">return</span> <span class="n">contract_creation_gas_usage</span>
 
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span> <span class="nf">initcode_word_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates gas cost charged for the initcode length.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ceiling_division</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">),</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_INITCODE_WORD</span>
+
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span> <span class="nf">create2_word_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates gas cost charged for the initcode length.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ceiling_division</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">),</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>
+
     <span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -24934,12 +24966,13 @@ that is on/over the max allowed limit.</p>
         <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">post</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
-        <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
         <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">,</span>
         <span class="n">caller_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
         <span class="n">creator_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
         <span class="n">created_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
         <span class="n">contract_creation_gas_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">initcode_word_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">create2_word_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test contract creation via the CREATE/CREATE2 opcodes that have an</span>
@@ -24971,14 +25004,13 @@ that is on/over the max allowed limit.</p>
             <span class="c1"># The code is only deployed if the length check succeeds</span>
             <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">initcode</span><span class="o">.</span><span class="n">deployment_gas</span>
 
-            <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
-                <span class="c1"># CREATE2 hashing cost should only be deducted if the initcode</span>
-                <span class="c1"># does not exceed the max length</span>
-                <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_create2_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
+            <span class="c1"># CREATE2 hashing cost should only be deducted if the initcode</span>
+            <span class="c1"># does not exceed the max length</span>
+            <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">create2_word_cost</span>
 
             <span class="c1"># Initcode word cost is only deducted if the length check</span>
             <span class="c1"># succeeds</span>
-            <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_initcode_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
+            <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">initcode_word_cost</span>
 
             <span class="c1"># Call returns 1 as valid initcode length s[0]==1 &amp;&amp; s[1]==1</span>
             <span class="n">post</span><span class="p">[</span><span class="n">caller_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
@@ -25021,7 +25053,7 @@ that is on/over the max allowed limit.</p>
 
 
 <h2 id="tests.shanghai.eip3860_initcode.test_initcode.TestCreateInitcode.test_create_opcode_initcode" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_create_opcode_initcode</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">opcode</span><span class="p">,</span> <span class="n">initcode</span><span class="p">,</span> <span class="n">caller_contract_address</span><span class="p">,</span> <span class="n">creator_contract_address</span><span class="p">,</span> <span class="n">created_contract_address</span><span class="p">,</span> <span class="n">contract_creation_gas_cost</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_create_opcode_initcode</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">initcode</span><span class="p">,</span> <span class="n">caller_contract_address</span><span class="p">,</span> <span class="n">creator_contract_address</span><span class="p">,</span> <span class="n">created_contract_address</span><span class="p">,</span> <span class="n">contract_creation_gas_cost</span><span class="p">,</span> <span class="n">initcode_word_cost</span><span class="p">,</span> <span class="n">create2_word_cost</span><span class="p">)</span></code>
 
 <a href="#tests.shanghai.eip3860_initcode.test_initcode.TestCreateInitcode.test_create_opcode_initcode" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -25033,20 +25065,7 @@ initcode that is on/over the max allowed limit.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">480</span>
 <span class="normal">481</span>
 <span class="normal">482</span>
 <span class="normal">483</span>
@@ -25109,19 +25128,33 @@ initcode that is on/over the max allowed limit.</p>
 <span class="normal">540</span>
 <span class="normal">541</span>
 <span class="normal">542</span>
-<span class="normal">543</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
-    <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">,</span>
     <span class="n">caller_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">creator_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">created_contract_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">contract_creation_gas_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">initcode_word_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">create2_word_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test contract creation via the CREATE/CREATE2 opcodes that have an</span>
@@ -25153,14 +25186,13 @@ initcode that is on/over the max allowed limit.</p>
         <span class="c1"># The code is only deployed if the length check succeeds</span>
         <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">initcode</span><span class="o">.</span><span class="n">deployment_gas</span>
 
-        <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">:</span>
-            <span class="c1"># CREATE2 hashing cost should only be deducted if the initcode</span>
-            <span class="c1"># does not exceed the max length</span>
-            <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_create2_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
+        <span class="c1"># CREATE2 hashing cost should only be deducted if the initcode</span>
+        <span class="c1"># does not exceed the max length</span>
+        <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">create2_word_cost</span>
 
         <span class="c1"># Initcode word cost is only deducted if the length check</span>
         <span class="c1"># succeeds</span>
-        <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">calculate_initcode_word_cost</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">))</span>
+        <span class="n">expected_gas_usage</span> <span class="o">+=</span> <span class="n">initcode_word_cost</span>
 
         <span class="c1"># Call returns 1 as valid initcode length s[0]==1 &amp;&amp; s[1]==1</span>
         <span class="n">post</span><span class="p">[</span><span class="n">caller_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>

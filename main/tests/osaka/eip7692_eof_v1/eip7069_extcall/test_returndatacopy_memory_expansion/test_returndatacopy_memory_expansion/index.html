@@ -24550,7 +24550,7 @@
 
 
 <h1 id="test_returndatacopy_memory_expansion"><code>test_returndatacopy_memory_expansion()</code><a class="headerlink" href="#test_returndatacopy_memory_expansion" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cfbfea9821e505a13227da85eb09f7d1642dc7f0/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py#L162"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_memory_expansion@cfbfea98</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4ddc4f0d7b853f8e64c4eb6879bc86497015262e/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py#L168"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_memory_expansion@4ddc4f0d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py::test_returndatacopy_memory_expansion --fork Osaka</span>
@@ -24569,13 +24569,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndatacopy_memory_expansion.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
@@ -24623,7 +24617,13 @@
 <span class="normal">213</span>
 <span class="normal">214</span>
 <span class="normal">215</span>
-<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;dest,src,length&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">),</span>

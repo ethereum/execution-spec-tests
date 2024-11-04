@@ -1809,6 +1809,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.AccessList" class="md-nav__link">
+    <span class="md-ellipsis">
+      AccessList
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AccessList">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.AccessList.to_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      to_list
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Account" class="md-nav__link">
     <span class="md-ellipsis">
       Account
@@ -27263,6 +27287,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_tools.AccessList" class="md-nav__link">
+    <span class="md-ellipsis">
+      AccessList
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AccessList">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.AccessList.to_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      to_list
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_tools.Account" class="md-nav__link">
     <span class="md-ellipsis">
       Account
@@ -30071,6 +30119,108 @@ tests.</p>
 
 
 
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_tools.AccessList" class="doc doc-heading">
+            <code>AccessList</code>
+
+
+<a href="#ethereum_test_tools.AccessList" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_base_types.pydantic.CamelModel" href="../ethereum_test_base_types/#ethereum_test_base_types.CamelModel">CamelModel</a></code></p>
+
+
+      <p>Access List for transactions.</p>
+
+              <details class="quote">
+                <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AccessList</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Access List for transactions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
+    <span class="n">storage_keys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the access list as a list of serializable elements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_keys</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_tools.AccessList.to_list" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">to_list</span><span class="p">()</span></code>
+
+<a href="#ethereum_test_tools.AccessList.to_list" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Returns the access list as a list of serializable elements.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the access list as a list of serializable elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_keys</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
 
 
 

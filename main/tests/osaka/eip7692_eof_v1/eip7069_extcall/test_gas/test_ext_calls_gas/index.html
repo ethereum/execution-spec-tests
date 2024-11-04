@@ -24550,7 +24550,7 @@
 
 
 <h1 id="test_ext_calls_gas"><code>test_ext_calls_gas()</code><a class="headerlink" href="#test_ext_calls_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cfbfea9821e505a13227da85eb09f7d1642dc7f0/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py#L41"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas@cfbfea98</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4ddc4f0d7b853f8e64c4eb6879bc86497015262e/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py#L41"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas@4ddc4f0d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas --fork Osaka</span>
@@ -24670,7 +24670,8 @@
 <span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
-<span class="normal">142</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">142</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;pre_setup&quot;</span><span class="p">,</span> <span class="s2">&quot;cold_gas&quot;</span><span class="p">,</span> <span class="s2">&quot;warm_gas&quot;</span><span class="p">,</span> <span class="s2">&quot;new_account&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -24746,6 +24747,7 @@
 <span class="k">def</span> <span class="nf">test_ext_calls_gas</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">pre_setup</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
@@ -24758,7 +24760,7 @@
     <span class="n">address_target</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">new_account</span> <span class="k">else</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">))</span>
     <span class="p">)</span>
-
+    <span class="n">cost_memory_bytes</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">memory_expansion_gas_calculator</span><span class="p">()</span>
     <span class="n">gas_test</span><span class="p">(</span>
         <span class="n">state_test</span><span class="p">,</span>
         <span class="n">state_env</span><span class="p">,</span>
@@ -24769,8 +24771,8 @@
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">(</span><span class="n">address_target</span><span class="p">),</span>
         <span class="n">subject_code</span><span class="o">=</span><span class="n">opcode</span><span class="p">,</span>
         <span class="n">tear_down_code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-        <span class="n">cold_gas</span><span class="o">=</span><span class="n">cold_gas</span> <span class="o">+</span> <span class="n">cost_memory_bytes</span><span class="p">(</span><span class="n">mem_expansion_bytes</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="n">warm_gas</span><span class="o">=</span><span class="n">warm_gas</span> <span class="o">+</span> <span class="n">cost_memory_bytes</span><span class="p">(</span><span class="n">mem_expansion_bytes</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="n">cold_gas</span><span class="o">=</span><span class="n">cold_gas</span> <span class="o">+</span> <span class="n">cost_memory_bytes</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="n">mem_expansion_bytes</span><span class="p">),</span>
+        <span class="n">warm_gas</span><span class="o">=</span><span class="n">warm_gas</span> <span class="o">+</span> <span class="n">cost_memory_bytes</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="n">mem_expansion_bytes</span><span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

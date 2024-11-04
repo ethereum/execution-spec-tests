@@ -24548,7 +24548,7 @@
 
 
 <h1 id="test_gas_cost"><code>test_gas_cost()</code><a class="headerlink" href="#test_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cfbfea9821e505a13227da85eb09f7d1642dc7f0/tests/prague/eip7702_set_code_tx/test_gas.py#L680"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost@cfbfea98</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4ddc4f0d7b853f8e64c4eb6879bc86497015262e/tests/prague/eip7702_set_code_tx/test_gas.py#L680"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost@4ddc4f0d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost --fork Prague</span>
@@ -24666,11 +24666,11 @@
 <span class="normal">776</span>
 <span class="normal">777</span>
 <span class="normal">778</span>
-<span class="normal">779</span>
-<span class="normal">780</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="o">**</span><span class="n">gas_test_parameter_args</span><span class="p">(</span><span class="n">include_pre_authorized</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="normal">779</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="o">**</span><span class="n">gas_test_parameter_args</span><span class="p">(</span><span class="n">include_pre_authorized</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">test_gas_cost</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">authorization_list_with_properties</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorizationWithProperties</span><span class="p">],</span>
     <span class="n">authorization_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorizationTuple</span><span class="p">],</span>
     <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
@@ -24680,15 +24680,13 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test gas at the execution start of a set-code transaction in multiple scenarios.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">intrinsic_gas</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="mi">21_000</span>
-        <span class="o">+</span> <span class="n">eip_2028_transaction_data_cost</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="o">+</span> <span class="mi">1900</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">al</span><span class="o">.</span><span class="n">storage_keys</span><span class="p">)</span> <span class="k">for</span> <span class="n">al</span> <span class="ow">in</span> <span class="n">access_list</span><span class="p">)</span>
-        <span class="o">+</span> <span class="mi">2400</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">access_list</span><span class="p">)</span>
-    <span class="p">)</span>
     <span class="c1"># Calculate the intrinsic gas cost of the authorizations, by default the</span>
     <span class="c1"># full empty account cost is charged for each authorization.</span>
-    <span class="n">intrinsic_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">PER_EMPTY_ACCOUNT_COST</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">authorization_list_with_properties</span><span class="p">)</span>
+    <span class="n">intrinsic_gas</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()(</span>
+        <span class="n">calldata</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">access_list</span><span class="o">=</span><span class="n">access_list</span><span class="p">,</span>
+        <span class="n">authorization_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">authorization_list</span><span class="p">),</span>
+    <span class="p">)</span>
 
     <span class="n">discounted_authorizations</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">seen_authority</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
