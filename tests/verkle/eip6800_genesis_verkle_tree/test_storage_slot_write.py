@@ -46,6 +46,17 @@ precompile_address = Address("0x04")
     ],
 )
 def test_storage_slot_write(blockchain_test: BlockchainTestFiller, fork: str, slot_num):
+    _storage_slot_write(blockchain_test, fork, slot_num)
+
+
+@pytest.mark.valid_from("Verkle")
+def test_storage_slot_write_absent_zero(blockchain_test: BlockchainTestFiller, fork: str):
+    _storage_slot_write(blockchain_test, fork, 0x88, slot_value=0x00)
+
+
+def _storage_slot_write(
+    blockchain_test: BlockchainTestFiller, fork: str, slot_num, slot_value: int = 0x42
+):
     """
     Test that storage slot writes work as expected.
     """
@@ -66,7 +77,7 @@ def test_storage_slot_write(blockchain_test: BlockchainTestFiller, fork: str, sl
         to=None,
         gas_limit=100000000,
         gas_price=10,
-        data=Op.SSTORE(slot_num, 0x42),
+        data=Op.SSTORE(slot_num, slot_value),
     )
     blocks = [Block(txs=[tx])]
 
@@ -75,7 +86,7 @@ def test_storage_slot_write(blockchain_test: BlockchainTestFiller, fork: str, sl
     post = {
         contract_address: Account(
             storage={
-                slot_num: 0x42,
+                slot_num: slot_value,
             },
         ),
     }
