@@ -25,7 +25,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
     root: Dict[StorageKeyValueType, StorageKeyValueType] = Field(default_factory=dict)
 
     _current_slot: int = PrivateAttr(0)
-    _hint_map: Dict[StorageKeyValueType, str] = {}
+    _hint_map: Dict[StorageKeyValueType, str] = PrivateAttr(default_factory=dict)
 
     StorageDictType: ClassVar[TypeAlias] = Dict[
         str | int | bytes | SupportsBytes, str | int | bytes | SupportsBytes
@@ -111,7 +111,7 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
                 label_str = f" ({self.address.label})"
             return (
                 f"incorrect value in address {self.address}{label_str} for "
-                + f"key {Hash(self.key)} ({self.hint}):"
+                + f"key {Hash(self.key)}{f' ({self.hint})' if self.hint else ''}:"
                 + f" want {HexNumber(self.want)} (dec:{int(self.want)}),"
                 + f" got {HexNumber(self.got)} (dec:{int(self.got)})"
             )
@@ -196,7 +196,8 @@ class Storage(RootModel[Dict[StorageKeyValueType, StorageKeyValueType]]):
         """
         slot = StorageKeyValueTypeAdapter.validate_python(self._current_slot)
         self._current_slot += 1
-        self._hint_map[slot] = hint
+        if hint:
+            self._hint_map[slot] = hint
         self[slot] = StorageKeyValueTypeAdapter.validate_python(value)
         return slot
 
