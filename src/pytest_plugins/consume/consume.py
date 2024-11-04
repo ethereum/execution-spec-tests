@@ -205,9 +205,9 @@ def pytest_generate_tests(metafunc):
 
     fork = metafunc.config.getoption("single_fork")
     metafunc.parametrize(
-        "test_case",
+        "test_case,fixture_format",
         (
-            pytest.param(test_case, id=test_case.id)
+            pytest.param(test_case, test_case.format, id=test_case.id)
             for test_case in metafunc.config.test_cases
             if test_case.format in metafunc.function.fixture_format
             and (not fork or test_case.fork == fork)
@@ -226,7 +226,7 @@ def pytest_generate_tests(metafunc):
         metafunc.parametrize("client_type", metafunc.config.hive_execution_clients, ids=client_ids)
 
 
-def pytest_collection_modifyitems(session, config, items):
+def pytest_collection_modifyitems(items):
     """Modify collected item names to remove the test runner function from the name."""
     for item in items:
         original_name = item.originalname
