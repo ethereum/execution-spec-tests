@@ -1,7 +1,8 @@
 {
     "fixture": {
         "_info" : {
-            "hash" : "0x3c588e18802a3c0c875da0e7bc8f9066369572c30d11e2568a516650216a33e7"
+            "hash" : "0x3c588e18802a3c0c875da0e7bc8f9066369572c30d11e2568a516650216a33e7",
+            "fixture_format": "transaction_test"
         },
         "result" : {
             "Shanghai" : {

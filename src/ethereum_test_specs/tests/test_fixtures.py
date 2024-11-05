@@ -179,6 +179,7 @@ def test_fill_state_test(
         )
     ) as f:
         expected = json.load(f)
+        remove_info_metadata(expected)
 
     remove_info_metadata(fixture)
     assert fixture == expected
@@ -524,6 +525,7 @@ class TestFillBlockchainValidTxs:
             )
         ) as f:
             expected = json.load(f)
+            remove_info_metadata(expected)
 
         remove_info_metadata(fixture)
         assert fixture_name in fixture
@@ -898,6 +900,7 @@ def test_fill_blockchain_invalid_txs(fork: Fork, check_hive: bool, expected_json
         )
     ) as f:
         expected = json.load(f)
+        remove_info_metadata(expected)
 
     remove_info_metadata(fixture)
     assert fixture_name in fixture

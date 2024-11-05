@@ -4,7 +4,9 @@ Defines models for interacting with JSON fixture files.
 
 import json
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Annotated, Any, Dict, Optional
+
+from pydantic import Discriminator, Tag
 
 from ethereum_test_base_types import EthereumTestRootModel
 
@@ -118,13 +120,27 @@ class BaseFixturesRootModel(EthereumTestRootModel):
         return model_class(root=json_data)
 
 
+def fixture_type_discriminator(v: Any) -> str | None:
+    """
+    A discriminator function that returns the model type as a string.
+    """
+    return v.get("_info").get("fixture_format")
+
+
 class Fixtures(BaseFixturesRootModel):
     """
     A model that can contain any fixture type.
     """
 
     root: Dict[
-        str, BlockchainFixture | BlockchainEngineFixture | StateFixture | TransactionFixture
+        str,
+        Annotated[
+            Annotated[BlockchainFixture, Tag(BlockchainFixture.fixture_format_name)]
+            | Annotated[BlockchainEngineFixture, Tag(BlockchainEngineFixture.fixture_format_name)]
+            | Annotated[StateFixture, Tag(StateFixture.fixture_format_name)]
+            | Annotated[TransactionFixture, Tag(TransactionFixture.fixture_format_name)],
+            Discriminator(fixture_type_discriminator),
+        ],
     ]
 
 

@@ -31,8 +31,9 @@ def test_transaction_test_filling(name: str, tx: Transaction, fork: Fork):
         fixture_format=TransactionFixture,
     )
     assert generated_fixture.__class__ == TransactionFixture
+    fixture_json_dict = generated_fixture.json_dict_with_info()
     fixture = {
-        "fixture": generated_fixture.json_dict_with_info(hash_only=True),
+        "fixture": fixture_json_dict,
     }
 
     expected_json_file = f"tx_{name}_{fork.name().lower()}.json"
@@ -46,6 +47,7 @@ def test_transaction_test_filling(name: str, tx: Transaction, fork: Fork):
         )
     ) as f:
         expected = json.load(f)
+        remove_info_metadata(expected)
 
     remove_info_metadata(fixture)
     assert fixture == expected
