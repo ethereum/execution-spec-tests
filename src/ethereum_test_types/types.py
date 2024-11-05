@@ -1116,14 +1116,6 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
         hash = Bytes(eth_rlp.encode([self.sender, int_to_bytes(self.nonce)])).keccak256()
         return Address(hash[-20:])
 
-    def intrinsic_gas(self, fork: Fork) -> int:
-        """
-        Returns the intrinsic gas for the transaction.
-        """
-        intrinsic_gas = 21_000
-        # TODO: Remaining gas calculations
-        return intrinsic_gas
-
 
 class RequestBase:
     """

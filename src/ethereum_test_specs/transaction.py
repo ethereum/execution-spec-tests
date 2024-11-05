@@ -49,10 +49,17 @@ class TransactionTest(BaseTest):
                 sender=None,
             )
         else:
+            intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
+            intrinsic_gas = intrinsic_gas_cost_calculator(
+                calldata=self.tx.data,
+                contract_creation=self.tx.to is None,
+                access_list=self.tx.access_list,
+                authorization_list_or_count=self.tx.authorization_list,
+            )
             result = FixtureResult(
                 exception=None,
                 hash=self.tx.hash,
-                intrinsic_gas=self.tx.intrinsic_gas(fork),
+                intrinsic_gas=intrinsic_gas,
                 sender=self.tx.sender,
             )
 
