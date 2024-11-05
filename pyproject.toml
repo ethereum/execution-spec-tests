@@ -82,6 +82,10 @@ docs = [
     "pillow>=10.0.1,<11",
     "pyspelling>=2.8.2,<3",
 ]
+diagrams = [
+    "jupyter>=1.1.1,<2",
+    "diagrams>=0.23.3,<1",
+]
 
 [project.scripts]
 fill = "cli.pytest_commands.fill:fill"
