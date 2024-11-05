@@ -13,8 +13,11 @@ from .blockchain import EngineFixture as BlockchainEngineFixture
 from .blockchain import Fixture as BlockchainFixture
 from .eof import Fixture as EOFFixture
 from .state import Fixture as StateFixture
+from .transaction import Fixture as TransactionFixture
 
-FixtureModel = BlockchainFixture | BlockchainEngineFixture | StateFixture | EOFFixture
+FixtureModel = (
+    BlockchainFixture | BlockchainEngineFixture | StateFixture | EOFFixture | TransactionFixture
+)
 
 
 class BaseFixturesRootModel(EthereumTestRootModel):
@@ -101,6 +104,7 @@ class BaseFixturesRootModel(EthereumTestRootModel):
             BlockchainFixture: BlockchainFixtures,
             BlockchainEngineFixture: BlockchainEngineFixtures,
             StateFixture: StateFixtures,
+            TransactionFixture: TransactionFixtures,
             EOFFixture: EOFFixtures,
         }
 
@@ -119,7 +123,9 @@ class Fixtures(BaseFixturesRootModel):
     A model that can contain any fixture type.
     """
 
-    root: Dict[str, BlockchainFixture | BlockchainEngineFixture | StateFixture]
+    root: Dict[
+        str, BlockchainFixture | BlockchainEngineFixture | StateFixture | TransactionFixture
+    ]
 
 
 class BlockchainFixtures(BaseFixturesRootModel):
@@ -150,6 +156,16 @@ class StateFixtures(BaseFixturesRootModel):
     """
 
     root: Dict[str, StateFixture]
+
+
+class TransactionFixtures(BaseFixturesRootModel):
+    """
+    Defines a top-level model containing multiple transaction test fixtures in a
+    dictionary of (fixture-name, fixture) pairs. This is the format used in JSON
+    fixture files for transaction tests.
+    """
+
+    root: Dict[str, TransactionFixture]
 
 
 class EOFFixtures(BaseFixturesRootModel):
