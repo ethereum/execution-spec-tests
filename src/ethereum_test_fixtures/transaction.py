@@ -18,10 +18,10 @@ class FixtureResult(CamelModel):
     The per-network (fork) result structure.
     """
 
-    hash: Hash | None
+    hash: Hash | None = None
     intrinsic_gas: ZeroPaddedHexNumber
-    sender: Address | None
-    exception: TransactionException | None
+    sender: Address | None = None
+    exception: TransactionException | None = None
 
 
 class Fixture(BaseFixture):
