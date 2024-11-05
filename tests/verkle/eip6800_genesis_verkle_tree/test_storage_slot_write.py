@@ -46,19 +46,53 @@ precompile_address = Address("0x04")
     ],
 )
 def test_storage_slot_write(blockchain_test: BlockchainTestFiller, fork: str, slot_num):
-    _storage_slot_write(blockchain_test, fork, slot_num)
+    """
+    Test that executes a SSTORE with a non-zero value.
+    """
+    env = Environment(
+        fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        difficulty=0x20000,
+        gas_limit=10000000000,
+        number=1,
+        timestamp=1000,
+    )
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+    }
+    slot_value = 0x42
+    tx = Transaction(
+        ty=0x0,
+        chain_id=0x01,
+        nonce=0,
+        to=None,
+        gas_limit=100000000,
+        gas_price=10,
+        data=Op.SSTORE(slot_num, slot_value),
+    )
+    blocks = [Block(txs=[tx])]
+
+    contract_address = compute_create_address(address=TestAddress, nonce=tx.nonce)
+
+    post = {
+        contract_address: Account(
+            storage={
+                slot_num: slot_value,
+            },
+        ),
+    }
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post=post,
+        blocks=blocks,
+    )
 
 
 @pytest.mark.valid_from("Verkle")
-def test_storage_slot_write_absent_zero(blockchain_test: BlockchainTestFiller, fork: str):
-    _storage_slot_write(blockchain_test, fork, 0x88, slot_value=0x00)
-
-
-def _storage_slot_write(
-    blockchain_test: BlockchainTestFiller, fork: str, slot_num, slot_value: int = 0x42
-):
+def test_storage_slot_zero_nonzero_zero(blockchain_test: BlockchainTestFiller, fork: str):
     """
-    Test that storage slot writes work as expected.
+    Test that executes in the same tx a SSTORE looping from abscent to zero.
     """
     env = Environment(
         fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
@@ -77,7 +111,7 @@ def _storage_slot_write(
         to=None,
         gas_limit=100000000,
         gas_price=10,
-        data=Op.SSTORE(slot_num, slot_value),
+        data=Op.SSTORE(0x88, 0x42) + Op.SSTORE(0x88, 0x00),
     )
     blocks = [Block(txs=[tx])]
 
@@ -86,7 +120,7 @@ def _storage_slot_write(
     post = {
         contract_address: Account(
             storage={
-                slot_num: slot_value,
+                0x88: 0x00,
             },
         ),
     }
