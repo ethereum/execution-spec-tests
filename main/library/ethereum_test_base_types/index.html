@@ -2571,6 +2571,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_base_types.EthereumTestBaseModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      EthereumTestBaseModel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_base_types.EthereumTestRootModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      EthereumTestRootModel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_base_types.ReferenceSpec" class="md-nav__link">
     <span class="md-ellipsis">
       ReferenceSpec
@@ -26339,6 +26357,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_base_types.EthereumTestBaseModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      EthereumTestBaseModel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_base_types.EthereumTestRootModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      EthereumTestRootModel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_base_types.ReferenceSpec" class="md-nav__link">
     <span class="md-ellipsis">
       ReferenceSpec
@@ -26467,6 +26503,10 @@
 
 
   <div class="doc doc-children">
+
+
+
+
 
 
 
@@ -29743,7 +29783,7 @@ Raises exception on failure.</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="pydantic.RootModel">RootModel</span>[<span title="typing.Dict">Dict</span>[<a class="autorefs autorefs-internal" title="ethereum_test_base_types.base_types.Address" href="#ethereum_test_base_types.Address">Address</a>, <a class="autorefs autorefs-internal" title="ethereum_test_base_types.composite_types.Account" href="#ethereum_test_base_types.Account">Account</a> | None]]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_base_types.pydantic.EthereumTestRootModel" href="#ethereum_test_base_types.EthereumTestRootModel">EthereumTestRootModel</a>[<span title="typing.Dict">Dict</span>[<a class="autorefs autorefs-internal" title="ethereum_test_base_types.base_types.Address" href="#ethereum_test_base_types.Address">Address</a>, <a class="autorefs autorefs-internal" title="ethereum_test_base_types.composite_types.Account" href="#ethereum_test_base_types.Account">Account</a> | None]]</code></p>
 
 
       <p>Allocation of accounts in the state, pre and post test execution.</p>
@@ -29755,7 +29795,7 @@ Raises exception on failure.</p>
 <span class="normal">473</span>
 <span class="normal">474</span>
 <span class="normal">475</span>
-<span class="normal">476</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Alloc</span><span class="p">(</span><span class="n">RootModel</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]):</span>
+<span class="normal">476</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Alloc</span><span class="p">(</span><span class="n">EthereumTestRootModel</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allocation of accounts in the state, pre and post test execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -29796,7 +29836,7 @@ Raises exception on failure.</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="pydantic.RootModel">RootModel</span>[<span title="typing.Dict">Dict</span>[<span title="ethereum_test_base_types.composite_types.StorageKeyValueType">StorageKeyValueType</span>, <span title="ethereum_test_base_types.composite_types.StorageKeyValueType">StorageKeyValueType</span>]]</code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_base_types.pydantic.EthereumTestRootModel" href="#ethereum_test_base_types.EthereumTestRootModel">EthereumTestRootModel</a>[<span title="typing.Dict">Dict</span>[<span title="ethereum_test_base_types.composite_types.StorageKeyValueType">StorageKeyValueType</span>, <span title="ethereum_test_base_types.composite_types.StorageKeyValueType">StorageKeyValueType</span>]]</code></p>
 
 
       <p>Definition of a storage in pre or post state of a test</p>
@@ -30072,7 +30112,7 @@ Raises exception on failure.</p>
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
-<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Storage</span><span class="p">(</span><span class="n">RootModel</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">StorageKeyValueType</span><span class="p">,</span> <span class="n">StorageKeyValueType</span><span class="p">]]):</span>
+<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Storage</span><span class="p">(</span><span class="n">EthereumTestRootModel</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">StorageKeyValueType</span><span class="p">,</span> <span class="n">StorageKeyValueType</span><span class="p">]]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Definition of a storage in pre or post state of a test</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -31764,16 +31804,26 @@ zero values, to guarantee that the test overwrites the storage.</p>
 <span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
-<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span>
-    <span class="nb">input</span><span class="p">:</span> <span class="n">BaseModel</span> <span class="o">|</span> <span class="n">RootModel</span> <span class="o">|</span> <span class="n">AnyStr</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModel</span> <span class="o">|</span> <span class="n">RootModel</span> <span class="o">|</span> <span class="n">AnyStr</span><span class="p">],</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">EthereumTestBaseModel</span>
+        <span class="o">|</span> <span class="n">EthereumTestRootModel</span>
+        <span class="o">|</span> <span class="n">AnyStr</span>
+        <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">EthereumTestBaseModel</span> <span class="o">|</span> <span class="n">EthereumTestRootModel</span> <span class="o">|</span> <span class="n">AnyStr</span><span class="p">]</span>
+    <span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a model to its json data representation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">to_json</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">RootModel</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="nb">input</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="n">EthereumTestBaseModel</span><span class="p">,</span> <span class="n">EthereumTestRootModel</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">input</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -31809,19 +31859,19 @@ as <code>currentTimestamp</code> when it is serialized to json.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/pydantic.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CamelModel</span><span class="p">(</span><span class="n">CopyValidateModel</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CamelModel</span><span class="p">(</span><span class="n">CopyValidateModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A base model that converts field names to camel case when serializing.</span>
 
@@ -31834,6 +31884,112 @@ as <code>currentTimestamp</code> when it is serialized to json.</p>
         <span class="n">populate_by_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">validate_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_base_types.EthereumTestBaseModel" class="doc doc-heading">
+            <code>EthereumTestBaseModel</code>
+
+
+<a href="#ethereum_test_base_types.EthereumTestBaseModel" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code>, <code><span title="ethereum_test_base_types.mixins.ModelCustomizationsMixin">ModelCustomizationsMixin</span></code></p>
+
+
+      <p>Base model for all models for Ethereum tests.</p>
+
+              <details class="quote">
+                <summary>Source code in <code>src/ethereum_test_base_types/pydantic.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EthereumTestBaseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">ModelCustomizationsMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base model for all models for Ethereum tests.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_base_types.EthereumTestRootModel" class="doc doc-heading">
+            <code>EthereumTestRootModel</code>
+
+
+<a href="#ethereum_test_base_types.EthereumTestRootModel" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.RootModel">RootModel</span>[<span title="ethereum_test_base_types.pydantic.RootModelRootType">RootModelRootType</span>]</code>, <code><span title="ethereum_test_base_types.mixins.ModelCustomizationsMixin">ModelCustomizationsMixin</span></code></p>
+
+
+      <p>Base model for all models for Ethereum tests.</p>
+
+              <details class="quote">
+                <summary>Source code in <code>src/ethereum_test_base_types/pydantic.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EthereumTestRootModel</span><span class="p">(</span><span class="n">RootModel</span><span class="p">[</span><span class="n">RootModelRootType</span><span class="p">],</span> <span class="n">ModelCustomizationsMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base model for all models for Ethereum tests.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">root</span><span class="p">:</span> <span class="n">Any</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
