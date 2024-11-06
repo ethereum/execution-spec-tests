@@ -13,6 +13,7 @@ from abc import abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Mapping, Optional, Type
+from urllib.parse import urlencode
 
 from requests import Response
 from requests.exceptions import ConnectionError
@@ -275,7 +276,7 @@ class TransitionTool(EthereumCLI, FixtureVerifier):
     def _server_post(
         self,
         data: Dict[str, Any],
-        url_args: List[str] = [],
+        url_args: Dict[str, List[str] | str] = {},
         retries: int = 5,
     ) -> Response:
         """
@@ -285,7 +286,7 @@ class TransitionTool(EthereumCLI, FixtureVerifier):
         while True:
             try:
                 response = Session().post(
-                    f"{self.server_url}?{'&'.join(url_args)}",
+                    f"{self.server_url}?{urlencode(url_args, doseq=True)}",
                     json=data,
                     timeout=20,
                 )
@@ -304,11 +305,11 @@ class TransitionTool(EthereumCLI, FixtureVerifier):
             )
         return response
 
-    def _generate_post_args(self, t8n_data: TransitionToolData) -> List[str]:
+    def _generate_post_args(self, t8n_data: TransitionToolData) -> Dict[str, List[str] | str]:
         """
         Generate the arguments for the POST request to the t8n-server.
         """
-        return []
+        return {}
 
     def _evaluate_server(
         self,
