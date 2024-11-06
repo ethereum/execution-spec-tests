@@ -273,6 +273,8 @@ md
 mem
 mempool
 metaclass
+mixin
+mixins
 mixhash
 mkdocs
 mkdocstrings
