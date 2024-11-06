@@ -127,7 +127,7 @@ class Bytecode:
             )
         if isinstance(other, SupportsBytes):
             return bytes(self) == bytes(other)
-        raise NotImplementedError(f"Unsupported type for comparison f{type(other)}")
+        raise NotImplementedError(f"Unsupported type for comparison: {type(other)}")
 
     def __hash__(self):
         """
