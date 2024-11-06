@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 from re import compile
 from tempfile import TemporaryDirectory
-from typing import Optional
+from typing import List, Optional
 
 from ethereum_test_exceptions import (
     EOFException,
@@ -110,6 +110,14 @@ class ExecutionSpecsTransitionTool(TransitionTool):
         `ethereum-spec-evm` appends newlines to forks in the help string.
         """
         return (fork.transition_tool_name() + "\n") in self.help_string
+
+    def _generate_post_args(self, t8n_data: TransitionTool.TransitionToolData) -> List[str]:
+        """
+        Generate the arguments for the POST request to the t8n-server.
+
+        EELS T8N expects `--state-test` when running a state test.
+        """
+        return ["arg=--state-test"] if t8n_data.state_test else []
 
 
 class ExecutionSpecsExceptionMapper(ExceptionMapper):
