@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg316"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="state.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview318"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="0.77593294"
+     inkscape:cx="79.259427"
+     inkscape:cy="458.80253"
+     inkscape:window-width="1967"
+     inkscape:window-height="1372"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid15297" />
+  </sodipodi:namedview>
+  <defs
+     id="defs313" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.729373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1654"
+       width="47.625"
+       height="21.166666"
+       x="15.875001"
+       y="100.54166"
+       inkscape:label="pre-state" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.729373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1654-2"
+       width="47.625004"
+       height="21.166658"
+       x="153.45833"
+       y="100.54166"
+       inkscape:label="pre-state" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.81944px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="153.32571"
+       y="114.02078"
+       id="text4127-0"
+       inkscape:label="text: pre-state"><tspan
+         sodipodi:role="line"
+         id="tspan4125-2"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.81944px;font-family:monospace;-inkscape-font-specification:monospace;stroke-width:0.264583"
+         x="153.32571"
+         y="114.02078" /></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.987577;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1654-3"
+       width="58.208332"
+       height="31.749996"
+       x="79.375"
+       y="95.25"
+       inkscape:label="pre-state" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.81944px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="63.47683"
+       y="44.838028"
+       id="text4127-7"
+       inkscape:label="text: pre-state"><tspan
+         sodipodi:role="line"
+         id="tspan4125-5"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.81944px;font-family:monospace;-inkscape-font-specification:monospace;stroke-width:0.264583"
+         x="63.47683"
+         y="44.838028">Pre-State</tspan></text>
+  </g>
+</svg>
