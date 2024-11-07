@@ -44,6 +44,7 @@ dependencies = [
     "pyyaml>=6.0.2",
     "types-pyyaml>=6.0.12.20240917",
     "pytest-json-report>=1.5.0,<2",
+    "questionary>=2.0.1",
 ]
 
 [project.urls]
