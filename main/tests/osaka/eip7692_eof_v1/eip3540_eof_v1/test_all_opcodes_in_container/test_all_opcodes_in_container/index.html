@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../test_all_invalid_terminating_opcodes/">
+        <link rel="next" href="../test_invalid_opcodes_after_stop/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -2224,6 +2224,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -2351,6 +2355,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../test_invalid_opcodes_after_stop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_opcodes_after_stop</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../test_all_invalid_terminating_opcodes/" class="md-nav__link">
         
   
@@ -2440,6 +2465,27 @@
   
   <span class="md-ellipsis">
     <code>test_all_opcodes_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_truncated_data_portion_opcodes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_truncated_data_portion_opcodes</code>
   </span>
   
 
@@ -24550,7 +24596,7 @@
 
 
 <h1 id="test_all_opcodes_in_container"><code>test_all_opcodes_in_container()</code><a class="headerlink" href="#test_all_opcodes_in_container" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ec65b3b675e1f6fc6ddcacd3f50083d96f0fc6a9/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py#L65"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container@ec65b3b6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fe37ca2f0dc57b085274360a16a6ef86fb1b0eb5/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py#L69"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container@fe37ca2f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_in_container --fork Osaka</span>
@@ -24570,11 +24616,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
 <span class="normal"> 72</span>
@@ -24623,7 +24665,11 @@
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
-<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="nb">sorted</span><span class="p">((</span><span class="n">all_opcodes</span> <span class="o">|</span> <span class="n">undefined_opcodes</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">}),</span>
 <span class="p">)</span>

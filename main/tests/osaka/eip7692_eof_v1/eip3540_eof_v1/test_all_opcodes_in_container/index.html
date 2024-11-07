@@ -2224,6 +2224,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -2277,6 +2281,27 @@
   
   <span class="md-ellipsis">
     <code>test_all_opcodes_in_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_invalid_opcodes_after_stop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_opcodes_after_stop</code>
   </span>
   
 
@@ -2382,6 +2407,27 @@
   
   <span class="md-ellipsis">
     <code>test_all_opcodes_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_truncated_data_portion_opcodes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_truncated_data_portion_opcodes</code>
   </span>
   
 
@@ -24492,7 +24538,7 @@
 
 
 <h1 id="test-all-opcodes-in-container">Test All Opcodes In Container<a class="headerlink" href="#test-all-opcodes-in-container" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ec65b3b675e1f6fc6ddcacd3f50083d96f0fc6a9/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py#L65"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py@ec65b3b6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fe37ca2f0dc57b085274360a16a6ef86fb1b0eb5/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py#L69"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py@fe37ca2f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py --fork Osaka</span>
@@ -24539,6 +24585,12 @@
 <td>Test all opcodes inside valid container</td>
 </tr>
 <tr>
+<td><a href="test_invalid_opcodes_after_stop/"><code>test_invalid_opcodes_after_stop</code></a></td>
+<td>eof_test</td>
+<td>624</td>
+<td>Test that an invalid opcode placed after STOP (terminating instruction) invalidates EOF.</td>
+</tr>
+<tr>
 <td><a href="test_all_invalid_terminating_opcodes/"><code>test_all_invalid_terminating_opcodes</code></a></td>
 <td>eof_test</td>
 <td>142</td>
@@ -24567,6 +24619,12 @@
 <td>eof_test</td>
 <td>140</td>
 <td>Test stack overflow on all opcodes that push more items than they pop</td>
+</tr>
+<tr>
+<td><a href="test_truncated_data_portion_opcodes/"><code>test_truncated_data_portion_opcodes</code></a></td>
+<td>eof_test</td>
+<td>152</td>
+<td>Test that an instruction with data portion and truncated immediate bytes</td>
 </tr>
 </tbody>
 </table>
