@@ -21,8 +21,9 @@ from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
 from ethereum_clis import TransitionTool
+from ethereum_clis.clis.geth import GethFixtureConsumer
 from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_fixtures import BaseFixture, FixtureCollector, TestInfo
+from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureConsumer, TestInfo
 from ethereum_test_forks import Fork
 from ethereum_test_specs import SPEC_TYPES, BaseTest
 from ethereum_test_tools.utility.versioning import (
@@ -429,10 +430,11 @@ def do_fixture_verification(
 
 @pytest.fixture(autouse=True, scope="session")
 def evm_fixture_verification(
+    request: pytest.FixtureRequest,
     do_fixture_verification: bool,
     evm_bin: Path,
     verify_fixtures_bin: Path | None,
-) -> Generator[TransitionTool | None, None, None]:
+) -> Generator[FixtureConsumer | None, None, None]:
     """
     Returns the configured evm binary for executing statetest and blocktest
     commands used to verify generated JSON fixtures.
@@ -442,15 +444,19 @@ def evm_fixture_verification(
         return
     if not verify_fixtures_bin and evm_bin:
         verify_fixtures_bin = evm_bin
-    evm_fixture_verification = TransitionTool.from_binary_path(binary_path=verify_fixtures_bin)
-    if not evm_fixture_verification.blocktest_subcommand:
+    if not verify_fixtures_bin:
+        return
+    try:
+        evm_fixture_verification = GethFixtureConsumer(
+            binary=Path(verify_fixtures_bin), trace=request.config.getoption("evm_collect_traces")
+        )
+    except Exception:
         pytest.exit(
-            "Only geth's evm tool is supported to verify fixtures: "
+            "Only geth's evm tool is currently supported to verify fixtures: "
             "Either remove --verify-fixtures or set --verify-fixtures-bin to a Geth evm binary.",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
     yield evm_fixture_verification
-    evm_fixture_verification.shutdown()
 
 
 @pytest.fixture(scope="session")
@@ -609,7 +615,7 @@ def generate_index(request) -> bool:  # noqa: D103
 def fixture_collector(
     request: pytest.FixtureRequest,
     do_fixture_verification: bool,
-    evm_fixture_verification: TransitionTool,
+    evm_fixture_verification: FixtureConsumer,
     filler_path: Path,
     base_dump_dir: Path | None,
     output_dir: Path,

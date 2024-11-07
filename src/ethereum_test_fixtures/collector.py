@@ -15,7 +15,7 @@ from ethereum_test_base_types import to_json
 
 from .base import BaseFixture
 from .file import Fixtures
-from .verify import FixtureVerifier
+from .fixture_consumer import FixtureConsumer
 
 
 def strip_test_prefix(name: str) -> str:
@@ -166,23 +166,23 @@ class FixtureCollector:
                 raise TypeError("All fixtures in a single file must have the same format.")
             fixtures.collect_into_file(fixture_path)
 
-    def verify_fixture_files(self, evm_fixture_verification: FixtureVerifier) -> None:
+    def verify_fixture_files(self, evm_fixture_verification: FixtureConsumer) -> None:
         """
         Runs `evm [state|block]test` on each fixture.
         """
         for fixture_path, name_fixture_dict in self.all_fixtures.items():
             for fixture_name, fixture in name_fixture_dict.items():
-                if evm_fixture_verification.is_verifiable(fixture.__class__):
+                if evm_fixture_verification.is_consumable(fixture.__class__):
                     info = self.json_path_to_test_item[fixture_path]
-                    verify_fixtures_dump_dir = self._get_verify_fixtures_dump_dir(info)
-                    evm_fixture_verification.verify_fixture(
+                    consume_direct_dump_dir = self._get_consume_direct_dump_dir(info)
+                    evm_fixture_verification.consume_fixture(
                         fixture.__class__,
                         fixture_path,
                         fixture_name=None,
-                        debug_output_path=verify_fixtures_dump_dir,
+                        debug_output_path=consume_direct_dump_dir,
                     )
 
-    def _get_verify_fixtures_dump_dir(
+    def _get_consume_direct_dump_dir(
         self,
         info: TestInfo,
     ):

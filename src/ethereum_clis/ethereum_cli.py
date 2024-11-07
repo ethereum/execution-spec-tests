@@ -46,7 +46,7 @@ class EthereumCLI(ABC):
     cached_version: Optional[str] = None
 
     @abstractmethod
-    def __init__(self, *, binary: Optional[Path] = None, trace: bool = False):
+    def __init__(self, *, binary: Optional[Path] = None):
         """
         Abstract initialization method that all subclasses must implement.
         """
@@ -61,7 +61,6 @@ class EthereumCLI(ABC):
         if not binary:
             raise CLINotFoundInPath(binary=binary)
         self.binary = Path(binary)
-        self.trace = trace
 
     @classmethod
     def register_tool(cls, tool_subclass: Type[Any]):

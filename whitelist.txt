@@ -515,6 +515,8 @@ makereport
 metafunc
 modifyitems
 monkeypatching
+neth
+nethtest
 nodeid
 noop
 oog
@@ -561,6 +563,7 @@ tryfirst
 trylast
 usefixtures
 verifier
+verifiers
 writelines
 xfail
 ZeroPaddedHexNumber
@@ -726,6 +729,7 @@ callcode
 return
 delegatecall
 eofcreate
+eoftest
 extcall
 extcalls
 extdelegatecall

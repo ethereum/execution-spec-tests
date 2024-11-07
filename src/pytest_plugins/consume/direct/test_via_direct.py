@@ -9,8 +9,7 @@ from typing import Any, List, Optional
 
 import pytest
 
-from ethereum_clis import TransitionTool
-from ethereum_test_fixtures import BlockchainFixture, StateFixture
+from ethereum_test_fixtures import BlockchainFixture, FixtureConsumer, StateFixture
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 
 from ..decorator import fixture_format
@@ -21,15 +20,15 @@ statetest_results: dict[Path, List[dict[str, Any]]] = {}
 @fixture_format(BlockchainFixture)
 def test_blocktest(  # noqa: D103
     test_case: TestCaseIndexFile | TestCaseStream,
-    evm: TransitionTool,
-    evm_run_single_test: bool,
+    fixture_consumer: FixtureConsumer,
+    run_single_test: bool,
     fixture_path: Path,
     test_dump_dir: Optional[Path],
 ):
     fixture_name = None
-    if evm_run_single_test:
+    if run_single_test:
         fixture_name = re.escape(test_case.id)
-    evm.verify_fixture(
+    fixture_consumer.consume_fixture(
         test_case.format,
         fixture_path,
         fixture_name=fixture_name,
@@ -40,7 +39,7 @@ def test_blocktest(  # noqa: D103
 @pytest.fixture(scope="function")
 def run_statetest(
     test_case: TestCaseIndexFile | TestCaseStream,
-    evm: TransitionTool,
+    fixture_consumer: FixtureConsumer,
     fixture_path: Path,
     test_dump_dir: Optional[Path],
 ):
@@ -50,7 +49,7 @@ def run_statetest(
     # TODO: Check if all required results have been tested and delete test result data if so.
     # TODO: Can we group the tests appropriately so that this works more efficiently with xdist?
     if fixture_path not in statetest_results:
-        json_result = evm.verify_fixture(
+        json_result = fixture_consumer.consume_fixture(
             test_case.format,
             fixture_path,
             fixture_name=None,
