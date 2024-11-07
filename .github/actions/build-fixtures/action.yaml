@@ -24,6 +24,15 @@ runs:
       id: evm-builder
       with:
         type: ${{ steps.properties.outputs.evm-type }}
+    - name: Wrap ethereum/tests fixtures with eofwrap tool
+      shell: bash
+      if: ${{ steps.properties.outputs.eofwrap }}
+      run: |
+        curl -L https://github.com/ethereum/tests/archive/refs/tags/v14.1.tar.gz | tar -xz
+        ls -l
+        uv run eofwrap tests-14.1/BlockchainTests/GeneralStateTests/ fixtures_${{ inputs.release_name }}/blockchain_tests/osaka/eofwrap
+        mkdir -p ./fixtures_${{ inputs.release_name }}/.meta/
+        mv fixtures_${{ inputs.release_name }}/blockchain_tests/osaka/eofwrap/metrics.json ./fixtures_${{ inputs.release_name }}/.meta/eofwrap_metrics.json
     - name: Generate fixtures using fill
       shell: bash
       run: |
