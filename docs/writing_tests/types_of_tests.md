@@ -57,6 +57,4 @@ def test_blob_type_tx_pre_fork(
 
 Whenever possible, use `state_test` to examine individual transactions. This method is more straightforward and less prone to external influences that can occur during block building.
 
-This provides more targeted testing since it does not invoke the client's block-building machinery. This reduces the risk of
-encountering false positives, particularly in exception scenarios (e.g., see issue
-[#343: "Zero max_fee_per_blob_gas test is ineffective"](https://github.com/ethereum/execution-spec-tests/issues/343)).
+This provides more targeted testing since it does not invoke the client's block-building machinery. This reduces the risk of encountering false positives, particularly in exception scenarios (e.g., see issue [#343: "Zero max_fee_per_blob_gas test is ineffective"](https://github.com/ethereum/execution-spec-tests/issues/343)).
