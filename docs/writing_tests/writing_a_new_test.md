@@ -2,7 +2,7 @@
 
 ## Test Functions
 
-Every test case is defined as a python function that defines a single `StateTest` or `BlockchainTest` by using one of the `state_test` or `blockchain_test` objects made available by the framework. Test cases, respectively test modules, must fulfill the following requirements:
+Every test case is defined as a Python function that implements a single `StateTest` or `BlockchainTest` using the `state_test` or `blockchain_test` objects made available by the framework ([learn how to decide on a test type](./types_of_tests.md#deciding-on-a-test-type)). Test cases, and the respective test modules, must fulfill the following requirements:
 
 | Requirement                                                            | When                                        |
 | -----------------------------------------------------------------------|---------------------------------------------|

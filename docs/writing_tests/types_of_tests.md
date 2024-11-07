@@ -7,16 +7,28 @@ There are currently two types of tests that can be produced by a test spec:
 
 ## State Tests
 
-State tests span a single block and, ideally, a single transaction. For example:
+### Purpose
+
+Tests the effects of individual transactions (ideally a single one) that span a single block in a controlled environment.
+
+### Use cases
 
 - Test a single opcode behavior.
 - Verify opcode gas costs.
 - Test interactions between multiple smart contracts.
 - Test creation of smart contracts.
 
+!!! info
+
+    The fill function will automatically generate a `blockchain_test` fixture from `state_tests`, consisting of one block and one transaction.
+
 ## Blockchain Tests
 
-Blockchain tests span multiple blocks which may or may not contain transactions and mainly focus on the block to block effects to the Ethereum state. For example:
+### Purpose
+
+Blockchain tests span multiple blocks which may or may not contain transactions and mainly focus on the block to block effects to the Ethereum state.
+
+### Use cases
 
 - Verify system-level operations such as coinbase balance updates or withdrawals.
 - Verify fork transitions.
@@ -38,3 +50,11 @@ def test_blob_type_tx_pre_fork(
     Reject blocks with blobs before blobs fork
     """
 ```
+
+## Deciding on a test type
+
+### Prefer `state_test` for single transactions
+
+Whenever possible, use `state_test` to examine individual transactions. This method is more straightforward and less prone to external influences that can occur during block building.
+
+This provides more targeted testing since it does not invoke the client's block-building machinery. This reduces the risk of encountering false positives, particularly in exception scenarios (e.g., see issue [#343: "Zero max_fee_per_blob_gas test is ineffective"](https://github.com/ethereum/execution-spec-tests/issues/343)).
