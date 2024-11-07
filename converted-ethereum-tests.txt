@@ -9,10 +9,14 @@ GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.jso
 ([#598](https://github.com/ethereum/execution-spec-tests/pull/598))
 EOFTests/EIP3540/validInvalid.json
 
+EOFTests/EIP3670/validInvalid.json
 EOFTests/efValidation/EOF1_embedded_container_.json
 EOFTests/efValidation/EOF1_eofcreate_valid_.json
 EOFTests/efValidation/EOF1_section_order_.json
 EOFTests/efValidation/EOF1_truncated_section_.json
+EOFTests/efValidation/EOF1_undefined_opcodes_.json
+EOFTests/efValidation/EOF1_truncated_push_.json
+EOFTests/efValidation/deprecated_instructions_.json
 EOFTests/efValidation/unreachable_code_sections_.json
 
 ([#647](https://github.com/ethereum/execution-spec-tests/pull/647))
