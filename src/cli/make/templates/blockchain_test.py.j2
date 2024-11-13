@@ -1,0 +1,21 @@
+"""
+A blockchain test for EIP-{{eip_number}} [fork: `{{fork}}`].
+"""
+
+import pytest
+
+from ethereum_test_tools import Alloc, Environment, BlockchainTestFiller, Transaction
+
+
+@pytest.mark.valid_from("{{fork}}")
+def test_{{test_name}}(blockchain_test: BlockchainTestFiller, pre: Alloc):
+    """
+    Test type 1 transaction.
+    """
+    env = Environment()
+
+    tx = Transaction()
+
+    post: dict[str, dict] = {}
+
+    blockchain_test(env=env, pre=pre, post=post, tx=[tx])
