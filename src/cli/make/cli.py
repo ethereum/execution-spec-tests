@@ -3,10 +3,9 @@ The `make` CLI streamlines the process of scaffolding tasks, such as generating 
 enabling developers to concentrate on the core aspects of specification testing.
 
 
-The module verifies the presence of a valid subcommand and calls the appropriate
-function for the subcommand. If an invalid subcommand is present, it throws an error
-and shows a list of valid subcommands. If no subcommand is present, it shows a list
-of valid subcommands to choose from.
+The module calls the appropriate function for the subcommand. If an invalid subcommand
+is chosen, it throws an error and shows a list of valid subcommands. If no subcommand
+is present, it shows a list of valid subcommands to choose from.
 """
 
 import click
