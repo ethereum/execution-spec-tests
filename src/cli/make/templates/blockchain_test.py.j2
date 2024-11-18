@@ -1,5 +1,5 @@
 """
-A blockchain test for EIP-{{eip_number}} [fork: `{{fork}}`].
+A blockchain test for [EIP-{{eip_number}} {{eip_name}}](https://eips.ethereum.org/EIPS/eip-{eip_number}}).
 """
 
 import pytest
@@ -10,7 +10,9 @@ from ethereum_test_tools import Alloc, Environment, BlockchainTestFiller, Transa
 @pytest.mark.valid_from("{{fork}}")
 def test_{{test_name}}(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
-    Test type 1 transaction.
+    TODO: Enter a one-line test summary here.
+
+    TODO: (Optional) Enter a more detailed test function description here.
     """
     env = Environment()
 
