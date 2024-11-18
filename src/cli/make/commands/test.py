@@ -1,5 +1,5 @@
 """
-This module provides a CLI command to scaffold a test file. 
+This module provides a CLI command to scaffold a test file.
 
 The `test` command guides the user through a series of prompts to generate a test file
 based on the selected test type, fork, EIP number, and EIP name. The generated test file
