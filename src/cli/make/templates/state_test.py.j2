@@ -1,5 +1,5 @@
 """
-A state test for EIP-{{eip_number}} [fork: `{{fork}}`].
+A state test for [EIP-{{eip_number}} {{eip_name}}](https://eips.ethereum.org/EIPS/eip-{eip_number}}).
 """
 
 import pytest
@@ -10,7 +10,9 @@ from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
 @pytest.mark.valid_from("{{fork}}")
 def test_{{test_name}}(state_test: StateTestFiller, pre: Alloc):
     """
-    Test type 1 transaction.
+    TODO: Enter a one-line test summary here.
+
+    TODO: (Optional) Enter a more detailed test function description here.
     """
     env = Environment()
 
