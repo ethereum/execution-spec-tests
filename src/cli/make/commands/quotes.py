@@ -10,7 +10,8 @@ make_something_great = [
     "🖌️ Simplicity is an acquired taste. - Katharine G.",
     "💡 To create a memorable design you need to start with a thought that’s worth remembering."
     " - Thomas M.",
-    "✏️ Designers are crazy and yet sane enough to know where to draw the line. - Benjamin W.",
+    "🚀 Well begun is half done. - Aristotle",
+    "🖌️ Designers are crazy and yet sane enough to know where to draw the line. - Benjamin W.",
     "🌟 Creativity is piercing the mundane to find the marvelous. - Bill M.",
     "🔍 Mistakes are the portals of discovery. - James J.",
     "🧠 It’s extremely difficult to be simultaneously concerned with the end-user experience of"
