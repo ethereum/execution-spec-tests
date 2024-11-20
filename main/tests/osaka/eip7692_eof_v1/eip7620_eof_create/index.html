@@ -24550,7 +24550,7 @@
 
 
 <h1 id="eip-7620-eof-create">EIP-7620 EOF CREATE<a class="headerlink" href="#eip-7620-eof-create" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f8e4ee9b9a81ddaeeb3fa04e0b115900aa800fca/tests/osaka/eip7692_eof_v1/eip7620_eof_create"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create@f8e4ee9b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e546b9c251a089a026493503ded40ab0d2d34dac/tests/osaka/eip7692_eof_v1/eip7620_eof_create"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create@e546b9c2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create --fork Osaka</span>
@@ -24565,16 +24565,24 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7620_eof_create"></a>
     <div class="doc doc-contents first">
 
-      <p>EOFCREATE, RETURNCONTRACT, and container tests</p>
+
+
+<details class="abstract" open>
+  <summary>Test cases for <a href="https://eips.ethereum.org/EIPS/eip-7620">EIP-7620: EOF Contract Creation</a></summary>
+  <p>EIP-7620 replaces <code>CREATE</code> and <code>CREATE2</code> with <code>EOFCREATE</code> for deploying contracts in the EOF format.
+Opcodes introduced: <code>EOFCREATE</code> (<code>0xEC</code>), <code>RETURNCONTRACT</code> (<code>0xEE</code>).</p>
+</details>      <p>EOFCREATE, RETURNCONTRACT, and container tests</p>
 <p>evmone tests not ported</p>
-<p>create_tx_with_eof_initcode - This calls it invalid, it is now the way to add EOF contacts to state
-eofcreate_extcall_returncontract - per the new initcode mode tests you cannot have RETURNCONTRACT
-    in a deployed contract
-eofcreate_dataloadn_referring_to_auxdata - covered by
-    tests.osaka.eip7480_data_section.test_data_opcodes.test_data_section_succeed
-eofcreate_initcontainer_return - RETURN is banned in initcode containers
-eofcreate_initcontainer_stop - STOP is banned in initcode containers
-All TXCREATE tests - TXCREATE has been removed from Prague</p>
+<ul>
+<li>create_tx_with_eof_initcode - This calls it invalid, it is now the way to add EOF contacts to state</li>
+<li>eofcreate_extcall_returncontract - per the new initcode mode tests you cannot have RETURNCONTRACT
+    in a deployed contract</li>
+<li>eofcreate_dataloadn_referring_to_auxdata - covered by
+    tests.osaka.eip7480_data_section.test_data_opcodes.test_data_section_succeed</li>
+<li>eofcreate_initcontainer_return - RETURN is banned in initcode containers</li>
+<li>eofcreate_initcontainer_stop - STOP is banned in initcode containers</li>
+<li>All TXCREATE tests.</li>
+</ul>
 
 
 

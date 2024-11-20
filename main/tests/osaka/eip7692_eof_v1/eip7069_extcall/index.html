@@ -24550,7 +24550,7 @@
 
 
 <h1 id="eip-7069-extcall">EIP-7069 EXTCALL<a class="headerlink" href="#eip-7069-extcall" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f8e4ee9b9a81ddaeeb3fa04e0b115900aa800fca/tests/osaka/eip7692_eof_v1/eip7069_extcall"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall@f8e4ee9b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e546b9c251a089a026493503ded40ab0d2d34dac/tests/osaka/eip7692_eof_v1/eip7069_extcall"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall@e546b9c2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall --fork Osaka</span>
@@ -24565,8 +24565,13 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7069_extcall"></a>
     <div class="doc doc-contents first">
 
-      <p>Revamped Call Instructions Tests</p>
 
+
+<details class="abstract" open>
+  <summary>Test cases for <a href="https://eips.ethereum.org/EIPS/eip-7069">EIP-7069: Revamped CALL instructions</a></summary>
+  <p>EIP-7069 proposes modifications to <code>CALL</code> instructions to align with the structured EOF format.
+Opcodes introduced: <code>EXTCALL</code> (<code>0xF8</code>), <code>EXTDELEGATECALL</code> (<code>0xF9</code>), <code>EXTSTATICCALL</code> (<code>0xFB</code>), <code>RETURNDATALOAD</code> (<code>0xF7</code>).</p>
+</details>
 
 
   <div class="doc doc-children">
