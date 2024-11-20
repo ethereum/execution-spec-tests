@@ -3,7 +3,18 @@ BlockchainTest types
 """
 
 from functools import cached_property
-from typing import Annotated, Any, ClassVar, List, Literal, Tuple, Union, get_args, get_type_hints
+from typing import (
+    Annotated,
+    Any,
+    ClassVar,
+    List,
+    Literal,
+    Tuple,
+    Union,
+    cast,
+    get_args,
+    get_type_hints,
+)
 
 from ethereum import rlp as eth_rlp
 from ethereum_types.numeric import Uint
@@ -97,9 +108,13 @@ class FixtureHeader(CamelModel):
     extra_data: Bytes
     prev_randao: Hash = Field(Hash(0), alias="mixHash")
     nonce: HeaderNonce = Field(HeaderNonce(0), validate_default=True)
-    base_fee_per_gas: Annotated[
-        ZeroPaddedHexNumber, HeaderForkRequirement("base_fee")
-    ] | None = Field(None)
+    base_fee_per_gas: (
+        Annotated[
+            ZeroPaddedHexNumber,
+            HeaderForkRequirement("base_fee"),
+        ]
+        | None
+    ) = Field(None)
     withdrawals_root: Annotated[Hash, HeaderForkRequirement("withdrawals")] | None = Field(None)
     blob_gas_used: (
         Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("blob_gas_used")] | None
@@ -111,9 +126,9 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
-    target_blobs_per_block: Annotated[
-        ZeroPaddedHexNumber, HeaderForkRequirement("target_blobs_per_block")
-    ] | None = Field(None)
+    target_blobs_per_block: (
+        Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("target_blobs_per_block")] | None
+    ) = Field(None)
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -322,7 +337,10 @@ class FixtureEngineNewPayload(CamelModel):
                 raise ValueError(f"Target blobs per block is required for ${fork}.")
             params.append(target_blobs_per_block)
 
-        payload_params: EngineNewPayloadParameters = tuple(params)
+        payload_params: EngineNewPayloadParameters = cast(
+            EngineNewPayloadParameters,
+            tuple(params),
+        )
         new_payload = cls(
             params=payload_params,
             new_payload_version=new_payload_version,
