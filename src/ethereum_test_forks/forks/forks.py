@@ -233,6 +233,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return 0
 
     @classmethod
+    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+        """
+        Returns the target number of blobs per block for a given fork.
+        """
+        return 0
+
+    @classmethod
     def header_requests_required(cls, block_number: int, timestamp: int) -> bool:
         """
         At genesis, header must not contain beacon chain requests.
@@ -256,6 +263,17 @@ class Frontier(BaseFork, solc_name="homestead"):
         return False
 
     @classmethod
+    def header_target_blobs_per_block_required(
+        cls,
+        block_number: int = 0,
+        timestamp: int = 0,
+    ) -> bool:
+        """
+        At genesis, header must not contain target blobs per block.
+        """
+        return False
+
+    @classmethod
     def engine_new_payload_blob_hashes(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         At genesis, payloads do not have blob hashes.
@@ -273,6 +291,17 @@ class Frontier(BaseFork, solc_name="homestead"):
     def engine_new_payload_requests(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         At genesis, payloads do not have requests.
+        """
+        return False
+
+    @classmethod
+    def engine_new_payload_target_blobs_per_block(
+        cls,
+        block_number: int = 0,
+        timestamp: int = 0,
+    ) -> bool:
+        """
+        At genesis, payloads do not have target blobs per block.
         """
         return False
 
