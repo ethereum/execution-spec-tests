@@ -60,6 +60,8 @@ runs:
       with:
         repo: ${{ steps.config-evm-reader.outputs.repo }}
         ref: ${{ steps.config-evm-reader.outputs.ref }}
+        # `targets` in the evm.yaml must be an inline array to not interfere with `config-evm-reader`'s parsing
+        targets: ${{ join(fromJSON(steps.config-evm-reader.outputs.targets), ' ') }}
     - name: Build the EVM using Besu action
       if: steps.config-evm-reader.outputs.impl == 'besu'
       uses: ./.github/actions/build-evm-client/besu
