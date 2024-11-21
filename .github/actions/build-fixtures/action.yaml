@@ -28,11 +28,15 @@ runs:
       shell: bash
       if: ${{ steps.properties.outputs.eofwrap }}
       run: |
-        curl -L https://github.com/ethereum/tests/archive/refs/tags/v14.1.tar.gz | tar -xz
+        curl -L ${tests_url}${tests_version}.tar.gz | tar -xz
         ls -l
-        uv run eofwrap tests-14.1/BlockchainTests/GeneralStateTests/ fixtures_${{ inputs.release_name }}/blockchain_tests/osaka/eofwrap
+        uv run eofwrap tests-${tests_version}/BlockchainTests/GeneralStateTests/ fixtures_${{ inputs.release_name }}/${output_path}
         mkdir -p ./fixtures_${{ inputs.release_name }}/.meta/
-        mv fixtures_${{ inputs.release_name }}/blockchain_tests/osaka/eofwrap/metrics.json ./fixtures_${{ inputs.release_name }}/.meta/eofwrap_metrics.json
+        mv fixtures_${{ inputs.release_name }}/${output_path}/metrics.json ./fixtures_${{ inputs.release_name }}/.meta/eofwrap_metrics.json
+      env:
+        tests_url: https://github.com/ethereum/tests/archive/refs/tags/v
+        tests_version: 14.1
+        output_path: blockchain_tests/osaka/eofwrap
     - name: Generate fixtures using fill
       shell: bash
       run: |
