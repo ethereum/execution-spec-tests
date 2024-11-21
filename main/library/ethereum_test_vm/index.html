@@ -28646,7 +28646,7 @@ consideration.</p>
             <span class="n">instance</span><span class="o">.</span><span class="n">_name_</span> <span class="o">=</span> <span class="n">name</span>
             <span class="k">return</span> <span class="n">instance</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bytes_or_byte_code_base</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Bytecode</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bytes_or_byte_code_base</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">):</span>
             <span class="c1"># Required because Enum class calls the base class with the instantiated object as</span>
             <span class="c1"># parameter.</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
@@ -28928,7 +28928,7 @@ consideration.</p>
         <span class="n">instance</span><span class="o">.</span><span class="n">_name_</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">return</span> <span class="n">instance</span>
 
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bytes_or_byte_code_base</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Bytecode</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bytes_or_byte_code_base</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">):</span>
         <span class="c1"># Required because Enum class calls the base class with the instantiated object as</span>
         <span class="c1"># parameter.</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
