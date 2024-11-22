@@ -81,3 +81,52 @@ def test_contract_creation(
         post=post,
         blocks=blocks,
     )
+
+
+@pytest.mark.valid_from("Verkle")
+@pytest.mark.parametrize(
+    "value",
+    [0, 1],
+)
+def test_contract_creation_failed_initcode(
+    blockchain_test: BlockchainTestFiller, fork: str, value: int
+):
+    """
+    Test that contract creation with failed initcode.
+    """
+    env = Environment(
+        fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        difficulty=0x20000,
+        gas_limit=10000000000,
+        number=1,
+        timestamp=1000,
+    )
+    pre = {
+        TestAddress: Account(balance=1000000000000000000000),
+    }
+    tx = Transaction(
+        ty=0x0,
+        chain_id=0x01,
+        nonce=0,
+        to=None,
+        gas_limit=100000000,
+        gas_price=10,
+        value=value,
+        data=Op.REVERT(0, 0),
+    )
+    blocks = [Block(txs=[tx])]
+
+    contract_address = compute_create_address(address=TestAddress, nonce=tx.nonce)
+
+    post = {
+        contract_address: Account(
+            balance=value,
+        ),
+    }
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post=post,
+        blocks=blocks,
+    )
