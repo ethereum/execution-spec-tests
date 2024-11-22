@@ -177,6 +177,7 @@ fp2
 fromhex
 frozenbidict
 func
+fullmatch
 g1
 g1add
 g1msm
@@ -207,7 +208,10 @@ Golang
 gwei
 hacky
 hardfork
+hash8
 hash32
+hash20
+hash256
 Hashable
 hasher
 HeaderNonce
