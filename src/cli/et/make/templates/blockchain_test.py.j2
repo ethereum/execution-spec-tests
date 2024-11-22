@@ -4,7 +4,7 @@ A blockchain test for [EIP-{{eip_number}} {{eip_name}}](https://eips.ethereum.or
 
 import pytest
 
-from ethereum_test_tools import Alloc, Environment, BlockchainTestFiller, Transaction
+from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Transaction
 
 REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
 REFERENCE_SPEC_VERSION = "DUMMY_VERSION"
@@ -16,10 +16,11 @@ def test_{{test_name}}(blockchain_test: BlockchainTestFiller, pre: Alloc):
 
     TODO: (Optional) Enter a more detailed test function description here.
     """
-    env = Environment()
-
-    tx = Transaction()
+    tx = Transaction(
+        sender=pre.fund_eoa(),
+        to="0x000000000000000000000000000000000001abe1",
+    )
 
     post: dict[str, dict] = {}
 
-    blockchain_test(env=env, pre=pre, post=post, tx=[tx])
+    blockchain_test(pre=pre, blocks=[Block(txs=[tx])], post=post)

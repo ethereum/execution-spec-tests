@@ -18,7 +18,10 @@ def test_{{test_name}}(state_test: StateTestFiller, pre: Alloc):
     """
     env = Environment()
 
-    tx = Transaction()
+    tx = Transaction(
+        sender=pre.fund_eoa(),
+        to="0x000000000000000000000000000000000001abe1",
+    )
 
     post: dict[str, dict] = {}
 
