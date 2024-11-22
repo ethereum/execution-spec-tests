@@ -494,6 +494,7 @@ dedent
 dest
 exc
 extractall
+fg
 fixturenames
 fspath
 funcargs

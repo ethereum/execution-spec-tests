@@ -10,13 +10,13 @@ is present, it shows a list of valid subcommands to choose from.
 
 import click
 
-from cli.make.commands import test
+from .commands import test
 
 
 @click.group()
 def make():
     """
-    The `make` CLI command helps you get started with new writing tests.
+    Generate project files from the CLI.
     """
     pass
 

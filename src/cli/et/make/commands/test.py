@@ -7,15 +7,17 @@ is saved in the appropriate directory with a rendered template using Jinja2.
 """
 
 import os
+import sys
+from pathlib import Path
 
 import click
 import jinja2
 
 from cli.input import input_select, input_text
+from config.docs import DocsConfig
+from ethereum_test_forks import get_forks
 
-from .quotes import get_quote
-
-template_loader = jinja2.PackageLoader("cli.make")
+template_loader = jinja2.PackageLoader("cli.et.make")
 template_env = jinja2.Environment(loader=template_loader, keep_trailing_newline=True)
 
 
@@ -53,18 +55,29 @@ def test():
     test_type = input_select(
         "Choose the type of test to generate", choices=["State", "Blockchain"]
     )
-    # TODO: Get forks from a config called `UPCOMING_FORKS`
-    fork = input_select("Select the fork to use", choices=["Prague", "Osaka"])
+
+    fork_choices = [str(fork) for fork in get_forks()]
+    fork = input_select("Select the fork to use", choices=fork_choices)
 
     eip_number = input_text("Enter the EIP number").strip()
 
     # TODO: Perhaps get the EIP name from the number using an API?
     eip_name = input_text("Enter the EIP name").strip()
 
-    file_name = f"test_{eip_name.lower().replace(' ', '_')}.py"
+    test_name = eip_name.lower().replace(" ", "_")
 
-    directory_path = f"tests/{fork.lower()}/eip{eip_number}_{eip_name.lower().replace(' ', '_')}"
-    file_path = f"{directory_path}/{file_name}"
+    file_name = f"test_{test_name}.py"
+
+    directory_path = Path("tests") / fork.lower() / f"eip{eip_number}_{test_name}"
+
+    file_path = directory_path / file_name
+
+    if file_path.exists():
+        click.echo(
+            click.style(f"\n 🛑 The target test module {file_path} already exists!", fg="red"),
+            err=True,
+        )
+        sys.exit(1)
 
     # Create directories if they don't exist
     os.makedirs(directory_path, exist_ok=True)
@@ -74,11 +87,17 @@ def test():
         fork=fork,
         eip_number=eip_number,
         eip_name=eip_name,
-        test_name=eip_name.lower().replace(" ", "_"),
+        test_name=test_name,
     )
 
     with open(file_path, "w") as file:
         file.write(rendered_template)
 
-    print(f"\n 🎉 Success! Test file created at: {file_path}")
-    print(get_quote())
+    click.echo(
+        click.style(
+            f"\n 🎉 Success! Test file created at: {file_path}"
+            f"\n 📝 Get started with tests:  {DocsConfig().DOCS_URL__WRITING_TESTS}"  # noqa 501
+            f"\n ⛽ To fill this test, run: `uv run fill {file_path} --until={fork}`",
+            fg="green",
+        )
+    )
