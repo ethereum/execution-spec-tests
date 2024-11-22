@@ -95,9 +95,15 @@ def test():
 
     click.echo(
         click.style(
-            f"\n 🎉 Success! Test file created at: {file_path}"
-            f"\n 📝 Get started with tests:  {DocsConfig().DOCS_URL__WRITING_TESTS}"  # noqa 501
-            f"\n ⛽ To fill this test, run: `uv run fill {file_path} --until={fork}`",
+            f"\n 🎉 Success! Test file created at: {file_path}",
             fg="green",
+        )
+    )
+
+    click.echo(
+        click.style(
+            f"\n 📝 Get started with tests:  {DocsConfig().DOCS_URL__WRITING_TESTS}"
+            f"\n ⛽ To fill this test, run: `uv run fill {file_path} --until={fork}`",
+            fg="cyan",
         )
     )

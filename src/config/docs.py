@@ -7,8 +7,6 @@ Classes:
 
 from pydantic import BaseModel
 
-from .app import AppConfig
-
 
 class DocsConfig(BaseModel):
     """
@@ -21,7 +19,7 @@ class DocsConfig(BaseModel):
     GENERATE_UNTIL_FORK: str = "Osaka"
     """The fork until which documentation should be generated."""
 
-    DOCS_BASE_URL: str = f"https://ethereum.github.io/execution-spec-tests/v{AppConfig().version}"
+    DOCS_BASE_URL: str = "https://ethereum.github.io/execution-spec-tests"
 
     # Documentation URLs prefixed with `DOCS_URL__` to avoid conflicts with other URLs
     DOCS_URL__WRITING_TESTS: str = f"{DOCS_BASE_URL}/writing_tests/"

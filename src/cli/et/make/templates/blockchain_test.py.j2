@@ -16,10 +16,9 @@ def test_{{test_name}}(blockchain_test: BlockchainTestFiller, pre: Alloc):
 
     TODO: (Optional) Enter a more detailed test function description here.
     """
-    tx = Transaction(
-        sender=pre.fund_eoa(),
-        to="0x000000000000000000000000000000000001abe1",
-    )
+    sender = pre.fund_eoa()
+
+    tx = Transaction(sender=sender, to=sender)
 
     post: dict[str, dict] = {}
 
