@@ -112,7 +112,7 @@ def test_contract_creation_failed_initcode(
         gas_limit=100000000,
         gas_price=10,
         value=value,
-        data=Op.REVERT,
+        data=Op.REVERT(0, 0),
     )
     blocks = [Block(txs=[tx])]
 
