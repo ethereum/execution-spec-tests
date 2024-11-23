@@ -18,10 +18,17 @@ def test_{{test_name}}(state_test: StateTestFiller, pre: Alloc):
     """
     env = Environment()
 
-    sender = pre.fund_eoa()
+    # TODO: Add pre-state allocations here.
+    # This is a demo transaction, where alice sends one wei to herself.
+    alice = pre.fund_eoa()
 
-    tx = Transaction(sender=sender, to=sender)
+    {% if fork in ["Frontier", "Homestead"] %}
+    tx = Transaction(sender=alice, to=alice, value=1, protected=False)
+    {% else %}
+    tx = Transaction(sender=alice, to=alice, value=1)
+    {% endif %}
 
+    # TODO: Add post-state allocations here.
     post: dict[str, dict] = {}
 
     state_test(env=env, pre=pre, post=post, tx=tx)

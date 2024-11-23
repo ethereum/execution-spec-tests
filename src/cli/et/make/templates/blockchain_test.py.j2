@@ -16,10 +16,17 @@ def test_{{test_name}}(blockchain_test: BlockchainTestFiller, pre: Alloc):
 
     TODO: (Optional) Enter a more detailed test function description here.
     """
-    sender = pre.fund_eoa()
+    # TODO: Add pre-state allocations here.
+    # This is a demo transaction, where alice sends one wei to herself.
+    alice = pre.fund_eoa()
 
-    tx = Transaction(sender=sender, to=sender)
+    {% if fork in ["Frontier", "Homestead"] %}
+    tx = Transaction(sender=alice, to=alice, value=1, protected=False)
+    {% else %}
+    tx = Transaction(sender=alice, to=alice, value=1)
+    {% endif %}
 
+    # TODO: Add post-state allocations here.
     post: dict[str, dict] = {}
 
     blockchain_test(pre=pre, blocks=[Block(txs=[tx])], post=post)

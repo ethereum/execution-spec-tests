@@ -18,7 +18,9 @@ from config.docs import DocsConfig
 from ethereum_test_forks import get_forks
 
 template_loader = jinja2.PackageLoader("cli.et.make")
-template_env = jinja2.Environment(loader=template_loader, keep_trailing_newline=True)
+template_env = jinja2.Environment(
+    loader=template_loader, keep_trailing_newline=True, trim_blocks=True, lstrip_blocks=True
+)
 
 
 @click.command()
