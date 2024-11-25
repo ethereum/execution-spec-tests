@@ -59,7 +59,9 @@ def test():
     )
 
     fork_choices = [str(fork) for fork in get_forks()]
-    fork = input_select("Select the fork to use", choices=fork_choices)
+    fork = input_select(
+        "Select the fork where this functionality was introduced", choices=fork_choices
+    )
 
     eip_number = input_text("Enter the EIP number").strip()
 
