@@ -37,6 +37,6 @@
     "Prague": {
         "git_url": "https://github.com/ethereum/execution-specs.git",
         "branch": "forks/prague",
-        "commit": "5278aa095572e267a487d2580930c6d8c263b262"
+        "commit": "1ea4a8d30d68bb819e77ff52eeb2095ae3c67f5f"
     }
 }
