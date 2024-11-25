@@ -12,12 +12,9 @@ develop:
   solc: 0.8.21
 eip7692:
   evm-type: eip7692
-  fill-params: --fork=CancunEIP7692 ./tests/osaka
+  fill-params: --fork=Osaka ./tests/osaka
   solc: 0.8.21
-eip7692-osaka:
-  evm-type: eip7692-osaka
-  fill-params: --fork=Osaka ./tests/prague ./tests/osaka -k "not slow"
-  solc: 0.8.21
+  eofwrap: true
 pectra-devnet-3:
   evm-type: pectra-devnet-3
   fill-params: --fork=Prague -m "not slow" ./tests/prague/
