@@ -24821,6 +24821,7 @@
 <h3 id="prefer-state_test-for-single-transactions">Prefer <code>state_test</code> for single transactions<a class="headerlink" href="#prefer-state_test-for-single-transactions" title="Permanent link">&para;</a></h3>
 <p>Whenever possible, use <code>state_test</code> to examine individual transactions. This method is more straightforward and less prone to external influences that can occur during block building.</p>
 <p>This provides more targeted testing since it does not invoke the client's block-building machinery. This reduces the risk of encountering false positives, particularly in exception scenarios (e.g., see issue <a href="https://github.com/ethereum/execution-spec-tests/issues/343">#343: "Zero max_fee_per_blob_gas test is ineffective"</a>).</p>
+<p>Moreover, the <code>fill</code> command automatically additionally generates a <code>blockchain_test</code> for every <code>state_test</code> by wrapping the <code>state_test</code>'s transaction in a block.</p>
 
 
 

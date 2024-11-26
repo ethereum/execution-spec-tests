@@ -24530,7 +24530,21 @@
 
 
 <h1 id="writing-tests">Writing Tests<a class="headerlink" href="#writing-tests" title="Permanent link">&para;</a></h1>
-<p>The best way to get started is to use one of the existing test modules for inspiration. A good simple example is <a href="../tests/berlin/eip2930_access_list/test_acl/test_access_list/">tests.berlin.eip2930_access_list.test_acl.test_access_list</a>.</p>
+<p>The easiest way to get started is to use the interactive CLI:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run et make test</span>
+</code></pre></div>
+<p>and modify the generated test module to suit your needs.</p>
+<figure class="video_container">
+  <video controls="true" allowfullscreen="true">
+    <source src="./img/et_make_test.mp4" type="video/mp4">
+  </video>
+</figure>
+
+<p>For help deciding which test format to select, see <a href="types_of_tests/">Types of Tests</a>, in particular <a href="types_of_tests/#deciding-on-a-test-type">Deciding on a Test Type</a>. Otherwise, some simple test case examples to get started with are:</p>
+<ul>
+<li><a href="../tests/berlin/eip2930_access_list/test_acl/test_access_list/">tests.berlin.eip2930_access_list.test_acl.test_access_list</a>.</li>
+<li><a href="../tests/istanbul/eip1344_chainid/test_chainid/test_chainid/">tests.istanbul.eip1344_chainid.test_chainid.test_chainid</a>.</li>
+</ul>
 <p>Please check that your code adheres to the repo's <a href="code_standards/">Coding Standards</a> and read the other pages in this section for more background and an explanation of how to implement state transition and blockchain tests.</p>
 
 
@@ -24552,12 +24566,13 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:10168946+raxhvl@users.noreply.github.com">raxhvl</a>
     </nav>
   </span>
 
