@@ -15,7 +15,7 @@ import jinja2
 
 from cli.input import input_select, input_text
 from config.docs import DocsConfig
-from ethereum_test_forks import get_forks
+from ethereum_test_forks import get_development_forks, get_forks
 
 template_loader = jinja2.PackageLoader("cli.et.make")
 template_env = jinja2.Environment(
@@ -59,7 +59,9 @@ def test():
     )
 
     fork_choices = [str(fork) for fork in get_forks()]
-    fork = input_select("Select the fork to use", choices=fork_choices)
+    fork = input_select(
+        "Select the fork where this functionality was introduced", choices=fork_choices
+    )
 
     eip_number = input_text("Enter the EIP number").strip()
 
@@ -102,10 +104,14 @@ def test():
         )
     )
 
+    fork_option = ""
+    if fork in [dev_fork.name() for dev_fork in get_development_forks()]:
+        fork_option = f" --until={fork}"
+
     click.echo(
         click.style(
             f"\n 📝 Get started with tests:  {DocsConfig().DOCS_URL__WRITING_TESTS}"
-            f"\n ⛽ To fill this test, run: `uv run fill {file_path} --until={fork}`",
+            f"\n ⛽ To fill this test, run: `uv run fill {file_path}{fork_option}`",
             fg="cyan",
         )
     )
