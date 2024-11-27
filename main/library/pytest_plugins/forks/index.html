@@ -26082,7 +26082,7 @@ that filters the values.</p>
     <span class="k">if</span> <span class="n">evm_bin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">t8n</span> <span class="o">=</span> <span class="n">TransitionTool</span><span class="o">.</span><span class="n">from_binary_path</span><span class="p">(</span><span class="n">binary_path</span><span class="o">=</span><span class="n">evm_bin</span><span class="p">)</span>
         <span class="n">config</span><span class="o">.</span><span class="n">unsupported_forks</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
-            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="ow">not</span> <span class="n">t8n</span><span class="o">.</span><span class="n">is_fork_supported</span><span class="p">(</span><span class="n">fork</span><span class="p">),</span> <span class="n">fork_set</span><span class="p">)</span>
+            <span class="n">fork</span> <span class="k">for</span> <span class="n">fork</span> <span class="ow">in</span> <span class="n">fork_set</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">t8n</span><span class="o">.</span><span class="n">is_fork_supported</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
