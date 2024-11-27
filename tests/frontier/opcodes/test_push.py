@@ -57,6 +57,6 @@ def test_push(state_test: StateTestFiller, fork: str, push_opcode: Op, pre: Allo
     )
 
     post = {}
-    post[contract] = Account(storage={0: int.from_bytes(excerpt)})
+    post[contract] = Account(storage={0: int.from_bytes(excerpt, byteorder="big")})
 
     state_test(env=env, pre=pre, post=post, tx=tx)
