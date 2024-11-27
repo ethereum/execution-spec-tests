@@ -57,3 +57,6 @@ GeneralStateTests/Cancun/stEIP1153-transientStorage/16_tloadGas.json
 GeneralStateTests/Cancun/stEIP1153-transientStorage/18_tloadAfterStore.json
 
 GeneralStateTests/Cancun/stEIP1153-transientStorage/20_oogUndoesTransientStoreInCall.json
+
+([#975](https://github.com/ethereum/execution-spec-tests/pull/975))
+src/GeneralStateTestsFiller/VMTests/vmTests/pushFiller.yml
