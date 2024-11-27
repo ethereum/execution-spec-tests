@@ -637,7 +637,7 @@ requires-dist = [
 [[package]]
 name = "ethereum-spec-evm-resolver"
 version = "0.0.5"
-source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver#ed7dbce2e64c57812821d96297b6e0efc2967802" }
+source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver#c68756230a27709e10426d5fbe4fa1b142a0b0ee" }
 dependencies = [
     { name = "coincurve" },
     { name = "filelock" },
@@ -645,6 +645,7 @@ dependencies = [
     { name = "platformdirs" },
     { name = "py-ecc" },
     { name = "pycryptodome" },
+    { name = "pydantic" },
     { name = "requests-unixsocket2" },
     { name = "typing-extensions" },
     { name = "urllib3" },

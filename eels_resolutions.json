@@ -13,7 +13,7 @@
     "Byzantium": {
         "same_as": "EELSMaster"
     },
-    "Constantinople": {
+    "ConstantinopleFix": {
         "same_as": "EELSMaster"
     },
     "Istanbul": {
@@ -36,7 +36,7 @@
     },
     "Prague": {
         "git_url": "https://github.com/ethereum/execution-specs.git",
-        "branch": "prague",
-        "commit": "2875a733d6b1e9e751e437c7894d3ebe6ff58ecc"
+        "branch": "forks/prague",
+        "commit": "1ea4a8d30d68bb819e77ff52eeb2095ae3c67f5f"
     }
 }
