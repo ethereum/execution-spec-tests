@@ -33,6 +33,7 @@ class FixedHash(RootModel[str], Generic[T]):
                 f"The hash must be a valid hexadecimal string of "
                 f"{2 * self._length_in_bytes} characters after '0x'."
             )
+        return self
 
 
 class FixedHash32(FixedHash):
