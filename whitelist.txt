@@ -5,6 +5,8 @@ milliether
 milli
 nanoether
 0xaa
+0x0000
+0x0001
 AccessListType
 Account1
 Account2
@@ -49,6 +51,7 @@ blockhash
 blockhashes
 blocknum
 blocktest
+blocknumber
 bls
 bls12
 blueswen
