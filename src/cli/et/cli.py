@@ -5,6 +5,7 @@ Invoke using `uv run et`.
 
 import click
 
+from cli.et.commands import clean
 from cli.et.make.cli import make
 
 
@@ -27,3 +28,4 @@ Register nested commands here. For more information, see Click documentation:
 https://click.palletsprojects.com/en/8.0.x/commands/#nested-handling-and-contexts
 """
 et.add_command(make)
+et.add_command(clean)
