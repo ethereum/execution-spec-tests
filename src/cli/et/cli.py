@@ -1,5 +1,5 @@
 """
-`et` is the dev CLI for EEST. It provides commands to help developers write tests.
+`et` 👽 is a CLI tool that helps with routine tasks.
 Invoke using `uv run et`.
 """
 
@@ -12,7 +12,7 @@ from cli.et.make.cli import make
 @click.group()
 def et():
     """
-    `et` 👽 is the dev CLI for EEST. It provides commands to help developers write tests.
+    `et` 👽 is a CLI tool that helps with routine tasks.
     """
     pass
 
