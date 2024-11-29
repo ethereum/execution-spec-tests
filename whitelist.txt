@@ -116,7 +116,6 @@ docstrings
 doseq
 dunder
 dup
-EEST
 eip
 eip123
 eip3540
@@ -146,6 +145,7 @@ eofparse
 esbenp
 EEST
 EEST's
+et
 eth
 ethash
 ethereum

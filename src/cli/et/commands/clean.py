@@ -17,9 +17,18 @@ import click
 def clean(all: bool, dry_run: bool):
     """
     Remove all generated files and directories from the repository.
-    If --all is specified, the virtual environment and .tox directory will also be removed.
+    If `--all` is specified, the virtual environment and .tox directory will also be removed.
+
+    Args:
+        all (flag): Remove the virtual environment and .tox directory as well.
+        dry_run (bool): Simulate the cleanup without removing files.
 
     Note: The virtual environment and .tox directory are not removed by default.
+
+    Example: Usage
+        ```
+        uv run et clean [--all] [--dry-run]
+        ```
     """
     # List of items to remove can contain files and directories.
     items_to_remove = [

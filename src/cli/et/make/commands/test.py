@@ -34,25 +34,19 @@ def test():
     is created in the appropriate directory with a rendered template.
 
     Prompts:
-    - Choose the type of test to generate (State or Blockchain)
-    - Select the fork to use (Prague or Osaka)
-    - Enter the EIP number
-    - Enter the EIP name
 
-    The generated test file is saved in the following format:
-    `tests/{fork}/eip{eip_number}_{eip_name}/test_{eip_name}.py`
+    * Choose the type of test to generate (State or Blockchain)
+    * Select the fork where this functionality was introduced
+    * Enter the EIP number
+    * Enter the EIP name
 
-    Example:
-    If the user selects "State" as the test type, "Prague" as the fork,
-    enters "1234" as the EIP number,
-    and "Sample EIP" as the EIP name, the generated file will be:
-    `tests/prague/eip1234_sample_eip/test_sample_eip.py`
+    Example: Usage
+        ```
+        uv run et make test
+        ```
+        The generated test file is saved in the following format:
 
-    The function uses Jinja2 templates to render the content of the test file.
-
-    Raises:
-    - FileNotFoundError: If the template file does not exist.
-    - IOError: If there is an error writing the file.
+        `tests/{fork}/eip{eip_number}_{eip_name}/test_{eip_name}.py`
     """
     test_type = input_select(
         "Choose the type of test to generate", choices=["State", "Blockchain"]
