@@ -16,8 +16,7 @@ from .commands import test
 @click.group()
 def make():
     """
-    The `make` command group contains a collection of commands that generates
-    project files for you.
+    Generate project files.
     """
     pass
 

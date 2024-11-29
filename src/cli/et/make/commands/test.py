@@ -26,7 +26,7 @@ template_env = jinja2.Environment(
 @click.command()
 def test():
     """
-    Create a new specification test file for an EIP.
+    Generate a new test file for an EIP.
 
     This function guides the user through a series of prompts to generate a test file
     for Ethereum execution specifications. The user is prompted to select the type of test,
