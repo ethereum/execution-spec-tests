@@ -1,4 +1,4 @@
-## `et` 👽
+# `et` 👽
 
 `et` is a CLI tool that helps with routine tasks. Invoke using `uv run et`.
 
@@ -18,12 +18,15 @@ Options:
 
 ## ⬛ `et clean`
 
-Remove all generated files and directories from the repository.  
-Note: The virtual environment is not removed by default.
+Remove all generated files and directories from the repository. If `--all` is
+specified, the virtual environment and .tox directory will also be removed.
+
+Note: The virtual environment and .tox directory are not removed by default.
 
 Usage: `et clean [OPTIONS]`
 
 Options:
 
 - `--all` Remove the virtual environment as well.
+- `--dry-run` Simulate the cleanup without removing files.
 - `--help` Show help and exit.
