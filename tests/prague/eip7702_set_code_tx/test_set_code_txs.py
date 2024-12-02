@@ -3256,7 +3256,9 @@ def test_delegation_clearing_and_set(
 
     auth_signer = pre.fund_eoa(0, delegation=pre_set_delegation_address)
 
-    reset_code_address = pre.deploy_contract(Op.CALL(address=Spec.RESET_DELEGATION_ADDRESS))
+    reset_code_address = pre.deploy_contract(
+        Op.CALL(address=Spec.RESET_DELEGATION_ADDRESS) + Op.SSTORE(0, 1) + Op.STOP
+    )
 
     sender = pre.fund_eoa()
 
@@ -3287,7 +3289,9 @@ def test_delegation_clearing_and_set(
             auth_signer: Account(
                 nonce=auth_signer.nonce + 2,
                 code=Spec.delegation_designation(reset_code_address),
-                storage={},
+                storage={
+                    0: 1,
+                },
             ),
         },
     )
