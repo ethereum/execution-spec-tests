@@ -686,6 +686,54 @@ def test_set_code_to_self_caller(
     )
 
 
+@pytest.mark.execute(pytest.mark.skip(reason="excessive gas"))
+def test_set_code_max_depth_call_stack(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test re-entry to delegated account until the max call stack depth is reached.
+    """
+    storage = Storage()
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+    set_code = Conditional(
+        condition=Op.ISZERO(Op.TLOAD(0)),
+        if_true=Op.TSTORE(0, 1)
+        + Op.CALL(address=auth_signer)
+        + Op.SSTORE(storage.store_next(1025), Op.TLOAD(0)),
+        if_false=Op.TSTORE(0, Op.ADD(1, Op.TLOAD(0))) + Op.CALL(address=auth_signer),
+    )
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    tx = Transaction(
+        gas_limit=100_000_000_000_000,
+        to=auth_signer,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_to_address,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            set_code_to_address: Account(storage={}),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage=storage,
+                balance=auth_account_start_balance,
+            ),
+        },
+    )
+
+
 @pytest.mark.with_all_call_opcodes
 @pytest.mark.parametrize(
     "value",
