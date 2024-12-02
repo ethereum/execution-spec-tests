@@ -3165,6 +3165,135 @@ def test_delegation_clearing(
 
 
 @pytest.mark.parametrize(
+    "self_sponsored",
+    [
+        pytest.param(False, id="not_self_sponsored"),
+        pytest.param(True, id="self_sponsored"),
+    ],
+)
+@pytest.mark.parametrize(
+    "pre_set_delegation_code",
+    [
+        pytest.param(Op.RETURN(0, 1), id="delegated_account"),
+        pytest.param(None, id="undelegated_account"),
+    ],
+)
+def test_delegation_clearing_tx_to(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    pre_set_delegation_code: Bytecode | None,
+    self_sponsored: bool,
+):
+    """
+    Tests directly calling the account which delegation is being cleared.
+
+    Args:
+        pre_set_delegation_code: The code to set on the account before clearing delegation, or None
+            if the account should not have any code set.
+        self_sponsored: Whether the delegation clearing transaction is self-sponsored.
+    """  # noqa: D417
+    pre_set_delegation_address: Address | None = None
+    if pre_set_delegation_code is not None:
+        pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
+
+    if self_sponsored:
+        auth_signer = pre.fund_eoa(delegation=pre_set_delegation_address)
+    else:
+        auth_signer = pre.fund_eoa(0, delegation=pre_set_delegation_address)
+
+    sender = pre.fund_eoa() if not self_sponsored else auth_signer
+
+    tx = Transaction(
+        gas_limit=200_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=Spec.RESET_DELEGATION_ADDRESS,  # Reset
+                nonce=auth_signer.nonce + (1 if self_sponsored else 0),
+                signer=auth_signer,
+            ),
+        ],
+        sender=sender,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=auth_signer.nonce + 1,
+                code=b"",
+                storage={},
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "pre_set_delegation_code",
+    [
+        pytest.param(Op.RETURN(0, 1), id="delegated_account"),
+        pytest.param(None, id="undelegated_account"),
+    ],
+)
+def test_delegation_clearing_and_set(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    pre_set_delegation_code: Bytecode | None,
+):
+    """
+    Tests clearing and setting the delegation again in the same authorization list.
+
+    Args:
+        pre_set_delegation_code: The code to set on the account before clearing delegation, or None
+            if the account should not have any code set.
+    """  # noqa: D417
+    pre_set_delegation_address: Address | None = None
+    if pre_set_delegation_code is not None:
+        pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
+
+    auth_signer = pre.fund_eoa(0, delegation=pre_set_delegation_address)
+
+    reset_code_address = pre.deploy_contract(Op.CALL(address=Spec.RESET_DELEGATION_ADDRESS))
+
+    sender = pre.fund_eoa()
+
+    tx = Transaction(
+        gas_limit=200_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=Spec.RESET_DELEGATION_ADDRESS,  # Reset
+                nonce=auth_signer.nonce,
+                signer=auth_signer,
+            ),
+            AuthorizationTuple(
+                address=reset_code_address,
+                nonce=auth_signer.nonce + 1,
+                signer=auth_signer,
+            ),
+        ],
+        sender=sender,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            auth_signer: Account(
+                nonce=auth_signer.nonce + 2,
+                code=Spec.delegation_designation(reset_code_address),
+                storage={},
+            ),
+        },
+    )
+
+
+@pytest.mark.parametrize(
     "entry_code",
     [
         pytest.param(Om.OOG + Op.STOP, id="out_of_gas"),
