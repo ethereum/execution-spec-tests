@@ -14,7 +14,8 @@ import click
     "--all", is_flag=True, help="Remove the virtual environment and .tox directory as well."
 )
 @click.option("--dry-run", is_flag=True, help="Simulate the cleanup without removing files.")
-def clean(all: bool, dry_run: bool):
+@click.option("-v", "--verbose", is_flag=True, help="Show verbose output.")
+def clean(all: bool, dry_run: bool, verbose: bool):
     """
     Remove all generated files and directories from the repository.
     If `--all` is specified, the virtual environment and .tox directory will also be removed.
@@ -22,12 +23,13 @@ def clean(all: bool, dry_run: bool):
     Args:
         all (flag): Remove the virtual environment and .tox directory as well.
         dry_run (bool): Simulate the cleanup without removing files.
+        verbose (bool): Show verbose output.
 
     Note: The virtual environment and .tox directory are not removed by default.
 
     Example: Usage
         ```
-        uv run et clean [--all] [--dry-run]
+        uv run et clean [--all] [--dry-run] [-v | --verbose]
         ```
     """
     # List of items to remove can contain files and directories.
@@ -42,7 +44,7 @@ def clean(all: bool, dry_run: bool):
     ]
 
     # glob patterns to remove.
-    patterns_to_remove = ["**/__pycache__"]
+    patterns_to_remove = ["src/**/__pycache__", "tests/**/__pycache__"]
 
     for pattern in patterns_to_remove:
         matching_files = glob.glob(pattern, recursive=True)
@@ -62,9 +64,15 @@ def clean(all: bool, dry_run: bool):
                         shutil.rmtree(item, ignore_errors=False)
                     else:
                         os.remove(item)
+
+                    # Verbose flag: Output the name of the deleted item
+                    if verbose:
+                        click.echo(f"🗑️  Deleted: {item}")
+
                 except PermissionError:
                     click.echo(f"❌ Permission denied to remove {item}.")
                 except Exception as e:
                     click.echo(f"❌ Failed to remove {item}: {e}")
 
-                click.echo("🧹 Cleanup complete!")
+    if not dry_run:
+        click.echo("🧹 Cleanup complete!")
