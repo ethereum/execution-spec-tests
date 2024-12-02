@@ -13,7 +13,9 @@ from ethereum_test_tools import (
     Transaction,
     Alloc,
     Environment,
+    Account,
 )
+from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .common import Blob
 from .spec import Spec, SpecHelpers, ref_spec_4844
@@ -44,19 +46,11 @@ def txs_blobs() -> List[List[Blob]]:
 
 @pytest.fixture
 def txs_wrapped_blobs() -> List[bool]:
-    """
-    Indicates whether the transaction includes wrapped blobs
-    For the purpose of this test, assume no wrapping is needed
-    """
     return [False]
 
 
 @pytest.fixture
-def txs(
-    pre: Alloc,
-    txs_blobs: List[List[Blob]],
-    txs_wrapped_blobs: List[bool],
-) -> List[Transaction]:
+def txs(pre: Alloc, txs_blobs: List[List[Blob]], txs_wrapped_blobs: List[bool]) -> List[Transaction]:
     """
     Generate a list of transactions with blob data
     """
@@ -68,10 +62,10 @@ def txs(
             Transaction(
                 ty=Spec.BLOB_TX_TYPE,
                 sender=sender,
-                to="0x000000000000000000000000000000000000dead",  
-                value=1,  
+                to="0x1234567890abcdef1234567890abcdef12345678",
+                value=1,
                 gas_limit=Spec.MAX_BLOB_GAS_PER_BLOCK,
-                data=b"\x60\x01\x60\x02\x00", # PUSH1 0x01, PUSH1 0x02, STOP
+                data="0x",
                 max_fee_per_gas=7,
                 max_priority_fee_per_gas=0,
                 max_fee_per_blob_gas=1,
@@ -92,9 +86,17 @@ def env() -> Environment:
     Create testing environment with excess blob gas and zero blob gas used
     """
     return Environment(
-        excess_blob_gas=Spec.GAS_PER_BLOB * 10,  
+        excess_blob_gas=Spec.GAS_PER_BLOB * 10,
         blob_gas_used=0,
     )
+
+
+@pytest.fixture
+def contract(pre: Alloc) -> str:
+    """
+    Deploy a contract that executes `STOP` and stores blob data during execution
+    """
+    return pre.deploy_contract(Op.PUSH1 + Op.PUSH2 + Op.STOP)
 
 
 @pytest.fixture
@@ -111,48 +113,21 @@ def test_stop_opcode_with_transaction(
     pre: Alloc,
     env: Environment,
     blocks: List[Block],
-    txs_blobs: List[List[Blob]],
+    contract: str,
 ):
     """
     Test a block containing transactions that execute the STOP opcode
     """
+    # Post-state: Validate contract storage and execution state
+    post = {
+        contract: Account(
+            storage={"0x01": "0x01"}  # Storage slot `0x01` should contain the expected value
+        ),
+    }
+
     blockchain_test(
         pre=pre,  # Pre-state
-        post={},  # Post-state
+        post=post,  # Post-state
         blocks=blocks,  # Blocks to test
         genesis_environment=env,  # Genesis environment
     )
-
-    # Validate transaction blob data and STOP opcode execution
-    for block in blocks:
-        for i, transaction in enumerate(block.txs):
-            # Ensure transaction has blobs
-            assert transaction.blobs, "Transaction must have blobs"
-
-            # Match expected blob data
-            expected_blob_data = Blob.blobs_to_transaction_input(txs_blobs[i])[0][0]
-            assert transaction.blobs[0] == expected_blob_data, "Blob data should match the generated value"
-
-            # Assert STOP opcode is in the transaction data
-            assert b"\x00" in transaction.data, "STOP opcode (0x00) must be in the transaction data"
-
-            # Simulate execution and confirm the transaction can stop
-            executed_data = execute_transaction(transaction.data)
-            assert executed_data == b"", "Transaction with STOP opcode must terminate execution successfully"
-
-
-def execute_transaction(data: bytes) -> bytes:
-    """
-    Simulate transaction execution 
-    """
-    stack = []
-    pc = 0  # Program counter
-    while pc < len(data):
-        opcode = data[pc]
-        pc += 1
-        if opcode == 0x60:  # PUSH1
-            stack.append(data[pc])
-            pc += 1
-        elif opcode == 0x00:  # STOP
-            break
-    return b""  # STOP halts execution and returns no result
