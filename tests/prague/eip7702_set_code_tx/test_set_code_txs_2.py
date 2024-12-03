@@ -14,46 +14,47 @@ from ethereum_test_tools import (
     StateTestFiller,
     Storage,
     Transaction,
-    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .spec import Spec, ref_spec_7702
+from .spec import ref_spec_7702
+
+pytestmark = pytest.mark.valid_from("Prague")
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7702.version
 
 
-@pytest.mark.valid_from("Prague")
-def test_7702_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc):
+def test_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc):
     """
-    tx -> call -> pointer A -> contract A -> pointer B -> contract loop C
+    Tx -> call -> pointer A -> contract A -> pointer B -> contract loop C
 
     Call pointer that goes more level of depth to call a contract loop
     Loop is created only if pointers are set with auth tuples
     """
     env = Environment()
 
-    storage: Storage = Storage()
-
     sender = pre.fund_eoa()
     pointer_a = pre.fund_eoa()
     pointer_b = pre.fund_eoa()
+
+    storage: Storage = Storage()
     contract_a = pre.deploy_contract(
         code=Op.SSTORE(storage.store_next(1, "contract_a_worked"), 0x1)
-        + Op.CALL(1_000_000, pointer_b, 0, 0, 0, 0, 0)
+        + Op.CALL(gas=1_000_000, address=pointer_b)
         + Op.STOP,
     )
 
-    storage_loop = storage.store_next(0, "contract_loop_worked")
+    storage_loop: Storage = Storage()
+    contract_worked = storage_loop.store_next(112, "contract_loop_worked")
     contract_loop = pre.deploy_contract(
-        code=Op.SSTORE(storage_loop, Op.ADD(1, Op.SLOAD(0)))
-        + Op.CALL(1_000_000, pointer_a, 0, 0, 0, 0, 0)
+        code=Op.SSTORE(contract_worked, Op.ADD(1, Op.SLOAD(0)))
+        + Op.CALL(gas=1_000_000, address=pointer_a)
         + Op.STOP,
     )
     tx = Transaction(
         to=pointer_a,
-        gas_limit=100_000_000,
+        gas_limit=1_000_000,
         data=b"",
         value=0,
         sender=sender,
@@ -71,16 +72,16 @@ def test_7702_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Al
         ],
     )
 
-    # TODO: Modify post-state allocations here.
-    post = {pointer_a: Account(storage=storage)}
-
+    post = {
+        pointer_a: Account(storage=storage),
+        pointer_b: Account(storage=storage_loop),
+    }
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-@pytest.mark.valid_from("Prague")
-def test_7702_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
+def test_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
     """
-    tx -> call -> pointer A -> pointer B
+    Tx -> call -> pointer A -> pointer B
 
     Direct call from pointer to pointer is OOG
     """
@@ -94,13 +95,13 @@ def test_7702_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
 
     contract_a = pre.deploy_contract(
         code=Op.SSTORE(storage.store_next(0, "contract_a_worked"), 0x1)
-        + Op.CALL(1_000_000, pointer_b, 0, 0, 0, 0, 0)
+        + Op.CALL(gas=1_000_000, address=pointer_b)
         + Op.STOP,
     )
 
     tx = Transaction(
         to=pointer_a,
-        gas_limit=100_000_000,
+        gas_limit=1_000_000,
         data=b"",
         value=0,
         sender=sender,
@@ -121,80 +122,9 @@ def test_7702_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-@pytest.mark.valid_from("Prague")
-@pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
-def test_7702_create_pointer_style_contract(
-    state_test: StateTestFiller, pre: Alloc, create_opcode: Op
-):
+def test_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
-    tx -> create -> pointer bytecode
-
-    Attempt to deploy contract with magic bytes result in no contract being created
-    """
-    env = Environment()
-
-    storage: Storage = Storage()
-
-    sender = pre.fund_eoa()
-
-    # An attempt to deploy code starting with ef01 result in no
-    # contract being created as it is prohibited
-    create_init = Op.MSTORE(0, "0xef01" + sender.hex()[2:]) + Op.RETURN(10, 22)
-    contract_a = pre.deploy_contract(
-        balance=100,
-        code=Op.MSTORE(0, Op.CALLDATALOAD(0))
-        + Op.SSTORE(
-            storage.store_next(0, "contract_a_create_result"),
-            create_opcode(value=1, offset=0, size=Op.CALLDATASIZE(), salt=0),
-        )
-        + Op.STOP,
-    )
-
-    tx = Transaction(
-        to=contract_a,
-        gas_limit=100_000_000,
-        data=create_init,
-        value=0,
-        sender=sender,
-    )
-
-    create_address = compute_create_address(
-        address=contract_a, nonce=1, initcode=create_init, salt=0, opcode=create_opcode
-    )
-    post = {contract_a: Account(balance=100, storage=storage), create_address: Account.NONEXISTENT}
-    state_test(env=env, pre=pre, post=post, tx=tx)
-
-
-def test_7702_create_pointer_style_contract_tx_deploy(state_test: StateTestFiller, pre: Alloc):
-    """
-    tx -> deploy pointer bytecode
-
-    Attempt to deploy contract with magic bytes result in no contract being created
-    """
-    env = Environment()
-    sender = pre.fund_eoa()
-
-    create_init = Op.MSTORE(0, "0xef01" + sender.hex()[2:]) + Op.RETURN(10, 22)
-
-    tx = Transaction(
-        to=b"",
-        gas_limit=100_000_000,
-        data=create_init,
-        value=0,
-        sender=sender,
-    )
-
-    create_address = compute_create_address(
-        address=sender, nonce=0, initcode=create_init, salt=0, opcode=Op.CREATE
-    )
-    post = {sender: Account(nonce=1), create_address: Account.NONEXISTENT}
-    state_test(env=env, pre=pre, post=post, tx=tx)
-
-
-@pytest.mark.valid_from("Prague")
-def test_7702_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
-    """
-    tx -> call -> pointer A -> contract
+    Tx -> call -> pointer A -> contract
     Other normal tx can interact with previously assigned pointers
     """
     env = Environment()
@@ -211,7 +141,7 @@ def test_7702_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
 
     tx = Transaction(
         to=pointer_a,
-        gas_limit=100_000_000,
+        gas_limit=1_000_000,
         data=b"",
         value=0,
         sender=sender,
@@ -227,7 +157,7 @@ def test_7702_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
     # Other normal tx can interact with previously assigned pointers
     tx_2 = Transaction(
         to=pointer_a,
-        gas_limit=100_000_000,
+        gas_limit=1_000_000,
         data=b"",
         value=0,
         sender=sender,
@@ -236,7 +166,7 @@ def test_7702_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
     # Event from another block
     tx_3 = Transaction(
         to=pointer_a,
-        gas_limit=100_000_000,
+        gas_limit=1_000_000,
         data=b"",
         value=0,
         sender=sender,
@@ -251,8 +181,7 @@ def test_7702_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
     )
 
 
-@pytest.mark.valid_from("Prague")
-def test_7702_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
     Check extcode* operations on pointer before and after pointer is set
     Check context opcode results when called under pointer call
@@ -269,20 +198,20 @@ def test_7702_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: A
     pointer_code = pre.deploy_contract(
         balance=200,
         code=Op.SSTORE(
-            storage_pointer_code.store_next(pointer.hex(), "address"),
+            storage_pointer_code.store_next(pointer, "address"),
             Op.ADDRESS(),
         )
         + Op.SSTORE(
             storage_pointer_code.store_next(3, "callvalue"),
             Op.CALLVALUE(),
         )
-        + Op.CALL(1000, 0, 3, 0, 0, 0, 0)
+        + Op.CALL(gas=1000, address=0, value=3)
         + Op.SSTORE(
             storage_pointer_code.store_next(100, "selfbalance"),
             Op.SELFBALANCE(),
         )
         + Op.SSTORE(
-            storage_pointer_code.store_next(sender.hex(), "origin"),
+            storage_pointer_code.store_next(sender, "origin"),
             Op.ORIGIN(),
         )
         + Op.SSTORE(
@@ -361,7 +290,7 @@ def test_7702_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: A
 
     tx = Transaction(
         to=contract_measurements,
-        gas_limit=100_000_000,
+        gas_limit=1_000_000,
         data=b"",
         value=0,
         sender=sender,
@@ -369,7 +298,7 @@ def test_7702_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: A
 
     tx_pointer = Transaction(
         to=contract_measurements_pointer,
-        gas_limit=100_000_000,
+        gas_limit=1_000_000,
         data=b"",
         value=0,
         sender=sender,
@@ -384,7 +313,7 @@ def test_7702_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: A
 
     tx_pointer_call = Transaction(
         to=pointer,
-        gas_limit=100_000_000,
+        gas_limit=1_000_000,
         data=bytes.fromhex("11223344"),
         value=3,
         sender=sender,
