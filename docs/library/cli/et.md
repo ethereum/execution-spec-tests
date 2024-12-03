@@ -1,4 +1,4 @@
-# `et` 👽
+# The `et` 👽 CLI
 
 ::: mkdocs-click
     :module: cli.et.cli

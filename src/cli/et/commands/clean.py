@@ -44,6 +44,7 @@ def clean(all: bool, dry_run: bool, verbose: bool):
         🗑️  Deleted: src/cli/et/make/__pycache__
         🗑️  Deleted: src/cli/et/make/commands/__pycache__
         ...
+        🧹 Cleanup complete!
     """  # noqa: D417, D301
     # List of items to remove can contain files and directories.
     items_to_remove = [
