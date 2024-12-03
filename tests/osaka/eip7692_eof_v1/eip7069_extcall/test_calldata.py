@@ -456,7 +456,14 @@ def test_calldata_remains_after_subcall(
 
 @pytest.mark.parametrize("operation", [Op.EXTCALL, Op.EXTSTATICCALL, Op.EXTDELEGATECALL])
 @pytest.mark.parametrize(
-    ("offset", "success"),
+    "offset_field",
+    [
+        pytest.param(True, id="offset"),
+        pytest.param(False, id="size"),
+    ],
+)
+@pytest.mark.parametrize(
+    ("test_arg", "success"),
     [
         pytest.param(0, True, id="zero"),
         pytest.param(0xFF, True, id="8-bit"),
@@ -480,7 +487,8 @@ def test_extcalls_input_offset(
     state_test: StateTestFiller,
     pre: Alloc,
     operation: Op,
-    offset: int,
+    offset_field: str,
+    test_arg: int,
     success: bool,
 ):
     """
@@ -504,7 +512,13 @@ def test_extcalls_input_offset(
         Container(
             sections=[
                 Section.Code(
-                    code=operation(address=address_returner, args_offset=offset, args_size=32)
+                    code=(
+                        operation(address=address_returner, args_offset=test_arg, args_size=32)
+                        if offset_field
+                        else operation(
+                            address=address_returner, args_offset=32, args_size=test_arg
+                        )
+                    )
                     + Op.SSTORE(slot_eof_target_returndata, Op.RETURNDATALOAD(0))
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.STOP
