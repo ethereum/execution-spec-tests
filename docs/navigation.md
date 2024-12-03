@@ -35,6 +35,7 @@
     * [Managing Configurations](dev/configurations.md)
     * [Interactive Library Usage](dev/interactive_usage.md)
     * [Generating Documentation](dev/docs.md)
+    * [Documenting CLI Commands](dev/documenting_clis.md)
     * [Coding Style](dev/coding_style.md)
     * [Enabling Precommit Checks](dev/precommit.md)
     * [Running Github Actions Locally](dev/test_actions_locally.md)
