@@ -5117,8 +5117,13 @@ class Opcodes(Opcode, Enum):
 
     """
 
-    RETURNCONTRACT = Opcode(0xEE, popped_stack_items=2, data_portion_length=1, terminating=True,
-                            kwargs=["auxdata_offset", "auxdata_size"])
+    RETURNCONTRACT = Opcode(
+        0xEE,
+        popped_stack_items=2,
+        data_portion_length=1,
+        terminating=True,
+        kwargs=["auxdata_offset", "auxdata_size"],
+    )
     """
     !!! Note: This opcode is under development
 
