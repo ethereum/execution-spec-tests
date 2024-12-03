@@ -48,7 +48,11 @@ def test_zero_blobs_in_blob_tx(
 
 @pytest.mark.parametrize(
     "blobs_per_tx",
-    [Spec.CANCUN_MAX_BLOBS_PER_BLOCK + i for i in range(1, 4)],  # Max +1 to Max +3
+    [
+        (Spec.CANCUN_MAX_BLOBS_PER_BLOCK + 1,),
+        (Spec.CANCUN_MAX_BLOBS_PER_BLOCK + 2,),
+        (Spec.CANCUN_MAX_BLOBS_PER_BLOCK + 3,),
+    ],
 )
 @pytest.mark.valid_from("Prague")
 def test_blobs_above_cancun_max(
@@ -70,7 +74,7 @@ def test_blobs_above_cancun_max(
 
 @pytest.mark.parametrize(
     "blobs_per_tx",
-    [i for i in range(64, 1024, 64)],  # 64, 128, 192, ..., 960, 1024
+    [(i,) for i in range(64, 1024, 64)],
 )
 @pytest.mark.valid_from("Prague")
 def test_large_number_of_blobs_in_tx(
