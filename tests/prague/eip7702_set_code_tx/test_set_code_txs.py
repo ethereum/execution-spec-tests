@@ -2506,14 +2506,18 @@ def test_tx_validity_nonce(
         pre=pre,
         tx=tx,
         post={
-            auth_signer: Account(
-                nonce=(nonce + 1) if (nonce < (2**64 - 1)) else nonce,
-                code=Spec.delegation_designation(set_code_to_address)
-                if valid_authorization
-                else b"",
-            )
-            if nonce < 2**64
-            else Account.NONEXISTENT,
+            auth_signer: (
+                Account(
+                    nonce=(nonce + 1) if (nonce < (2**64 - 1)) else nonce,
+                    code=(
+                        Spec.delegation_designation(set_code_to_address)
+                        if valid_authorization
+                        else b""
+                    ),
+                )
+                if nonce < 2**64
+                else Account.NONEXISTENT
+            ),
             entry_address: Account(
                 storage={
                     success_slot: 1 if transaction_exception is None else 0,
@@ -2856,9 +2860,9 @@ def test_set_code_to_system_contract(
 @pytest.mark.with_all_evm_code_types
 @pytest.mark.with_all_tx_types(
     selector=lambda tx_type: tx_type != 4,
-    marks=lambda tx_type: pytest.mark.execute(pytest.mark.skip("incompatible tx"))
-    if tx_type in [0, 3]
-    else None,
+    marks=lambda tx_type: (
+        pytest.mark.execute(pytest.mark.skip("incompatible tx")) if tx_type in [0, 3] else None
+    ),
 )
 def test_eoa_tx_after_set_code(
     blockchain_test: BlockchainTestFiller,
@@ -3247,6 +3251,50 @@ def test_deploying_delegation_designation_contract(
             tx.created_contract: Account.NONEXISTENT,
         },
     )
+
+
+@pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
+def test_creating_delegation_designation_contract(
+    state_test: StateTestFiller, pre: Alloc, create_opcode: Op
+):
+    """
+    Tx -> create -> pointer bytecode
+
+    Attempt to deploy contract with magic bytes result in no contract being created
+    """
+    env = Environment()
+
+    storage: Storage = Storage()
+
+    sender = pre.fund_eoa()
+
+    # An attempt to deploy code starting with ef01 result in no
+    # contract being created as it is prohibited
+
+    create_init = Initcode(deploy_code=Spec.delegation_designation(sender))
+    contract_a = pre.deploy_contract(
+        balance=100,
+        code=Op.MSTORE(0, Op.CALLDATALOAD(0))
+        + Op.SSTORE(
+            storage.store_next(0, "contract_a_create_result"),
+            create_opcode(value=1, offset=0, size=Op.CALLDATASIZE(), salt=0),
+        )
+        + Op.STOP,
+    )
+
+    tx = Transaction(
+        to=contract_a,
+        gas_limit=1_000_000,
+        data=create_init,
+        value=0,
+        sender=sender,
+    )
+
+    create_address = compute_create_address(
+        address=contract_a, nonce=1, initcode=create_init, salt=0, opcode=create_opcode
+    )
+    post = {contract_a: Account(balance=100, storage=storage), create_address: Account.NONEXISTENT}
+    state_test(env=env, pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize(
