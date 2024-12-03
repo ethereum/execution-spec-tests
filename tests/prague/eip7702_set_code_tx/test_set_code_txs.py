@@ -3,7 +3,6 @@ abstract: Tests use of set-code transactions from [EIP-7702: Set EOA account cod
     Tests use of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
 """  # noqa: E501
 
-from enum import Enum
 from hashlib import sha256
 from itertools import count
 from typing import List
@@ -37,6 +36,7 @@ from ethereum_test_tools import (
     Storage,
     Transaction,
     TransactionException,
+    TransactionTestFiller,
     add_kzg_version,
     call_return_code,
     compute_create_address,
@@ -2040,90 +2040,24 @@ def test_set_code_all_invalid_authorization_tuples(
     )
 
 
-class InvalidityReason(Enum):
-    """
-    Reasons for invalidity of a set-code transaction.
-    """
-
-    NONCE = "nonce"
-    MULTIPLE_NONCE = "multiple_nonce"
-    CHAIN_ID = "chain_id"
-    EMPTY_AUTHORIZATION_LIST = "empty_authorization_list"
-    INVALID_SIGNATURE_S_VALUE = "invalid_signature_s_value"  # TODO: Implement
-
-
-@pytest.mark.parametrize(
-    "invalidity_reason,transaction_exception",
-    [
-        pytest.param(
-            InvalidityReason.NONCE,
-            None,  # Transaction is valid and accepted, but no authorization tuple is processed
-        ),
-        pytest.param(
-            InvalidityReason.MULTIPLE_NONCE,
-            None,
-            marks=pytest.mark.xfail(reason="test issue"),
-        ),
-        pytest.param(
-            InvalidityReason.CHAIN_ID,
-            None,  # Transaction is valid and accepted, but no authorization tuple is processed
-        ),
-        pytest.param(
-            InvalidityReason.EMPTY_AUTHORIZATION_LIST,
-            TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST,
-        ),
-    ],
-)
-def test_set_code_invalid_authorization_tuple(
-    state_test: StateTestFiller,
+def test_invalid_tx_empty_authorization_list(
+    transaction_test: TransactionTestFiller,
     pre: Alloc,
-    invalidity_reason: InvalidityReason,
-    transaction_exception: TransactionException | None,
 ):
     """
-    Test attempting to set the code of an account with invalid authorization tuple.
+    Test sending a transaction with an empty authorization list.
     """
-    auth_signer = pre.fund_eoa(auth_account_start_balance)
-
-    success_slot = 1
-
-    set_code = Op.SSTORE(success_slot, 1) + Op.STOP
-    set_code_to_address = pre.deploy_contract(set_code)
-
-    authorization_list: List[AuthorizationTuple] = []
-
-    if invalidity_reason != InvalidityReason.EMPTY_AUTHORIZATION_LIST:
-        authorization_list = [
-            AuthorizationTuple(
-                address=set_code_to_address,
-                nonce=(
-                    1
-                    if invalidity_reason == InvalidityReason.NONCE
-                    else [0, 1]
-                    if invalidity_reason == InvalidityReason.MULTIPLE_NONCE
-                    else 0
-                ),
-                chain_id=2 if invalidity_reason == InvalidityReason.CHAIN_ID else 0,
-                signer=auth_signer,
-            )
-        ]
-
     tx = Transaction(
-        gas_limit=10_000_000,
-        to=auth_signer,
+        gas_limit=100_000,
+        to=0,
         value=0,
-        authorization_list=authorization_list,
-        error=transaction_exception,
+        authorization_list=[],
+        error=TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST,
         sender=pre.fund_eoa(),
     )
-
-    state_test(
-        env=Environment(),
+    transaction_test(
         pre=pre,
         tx=tx,
-        post={
-            auth_signer: Account.NONEXISTENT,
-        },
     )
 
 
@@ -2237,7 +2171,6 @@ def test_set_code_using_valid_synthetic_signatures(
     )
 
 
-# TODO: invalid RLP in the rest of the authority tuple fields
 @pytest.mark.parametrize(
     "v,r,s",
     [
@@ -2247,35 +2180,38 @@ def test_set_code_using_valid_synthetic_signatures(
         pytest.param(2**8, 2**256, 2**256, id="v=2**8,r=s=2**256"),
     ],
 )
+@pytest.mark.parametrize(
+    "delegate_address",
+    [
+        pytest.param(Spec.RESET_DELEGATION_ADDRESS, id="reset_delegation_address"),
+        pytest.param(Address(1), id="non_zero_address"),
+    ],
+)
 def test_invalid_tx_invalid_auth_signature(
-    state_test: StateTestFiller,
+    transaction_test: TransactionTestFiller,
     pre: Alloc,
     v: int,
     r: int,
     s: int,
+    delegate_address: Address,
 ):
     """
-    Test sending a transaction to set the code of an account using synthetic signatures.
+    Test sending a transaction where one of the signature elements is out of range.
     """
-    success_slot = 1
-
-    callee_code = Op.SSTORE(success_slot, 1) + Op.STOP
-    callee_address = pre.deploy_contract(callee_code)
-
-    authorization_tuple = AuthorizationTuple(
-        address=0,
-        nonce=0,
-        chain_id=1,
-        v=v,
-        r=r,
-        s=s,
-    )
-
     tx = Transaction(
         gas_limit=100_000,
-        to=callee_address,
+        to=0,
         value=0,
-        authorization_list=[authorization_tuple],
+        authorization_list=[
+            AuthorizationTuple(
+                address=delegate_address,
+                nonce=0,
+                chain_id=1,
+                v=v,
+                r=r,
+                s=s,
+            ),
+        ],
         error=[
             TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE,
             TransactionException.TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH,
@@ -2283,15 +2219,9 @@ def test_invalid_tx_invalid_auth_signature(
         sender=pre.fund_eoa(),
     )
 
-    state_test(
-        env=Environment(),
+    transaction_test(
         pre=pre,
         tx=tx,
-        post={
-            callee_address: Account(
-                storage={success_slot: 0},
-            ),
-        },
     )
 
 
@@ -2421,23 +2351,65 @@ def test_signature_s_out_of_range(
 
 
 @pytest.mark.parametrize(
-    "chain_id,transaction_exception",
+    "chain_id",
     [
-        pytest.param(
-            2**64, TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT, id="chain_id=2**64"
-        ),
-        pytest.param(2**64 - 1, None, id="chain_id=2**64-1"),
+        pytest.param(Spec.MAX_CHAIN_ID + 1, id="chain_id=2**64"),
+        pytest.param(2**256, id="chain_id=2**256"),
     ],
 )
-def test_tx_validity_chain_id(
-    state_test: StateTestFiller,
+@pytest.mark.parametrize(
+    "delegate_address",
+    [
+        pytest.param(Spec.RESET_DELEGATION_ADDRESS, id="reset_delegation_address"),
+        pytest.param(Address(1), id="non_zero_address"),
+    ],
+)
+def test_invalid_tx_invalid_chain_id(
+    transaction_test: TransactionTestFiller,
     pre: Alloc,
     chain_id: int,
-    transaction_exception: TransactionException | None,
+    delegate_address: Address,
 ):
     """
     Test sending a transaction where the chain id field of an authorization overflows the
-    maximum value, or almost overflows the maximum value.
+    maximum value.
+    """
+    authorization = AuthorizationTuple(
+        address=delegate_address,
+        nonce=0,
+        chain_id=chain_id,
+        signer=pre.fund_eoa(auth_account_start_balance),
+    )
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=0,
+        value=0,
+        authorization_list=[authorization],
+        error=TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT,
+        sender=pre.fund_eoa(),
+    )
+
+    transaction_test(
+        pre=pre,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    "chain_id",
+    [
+        pytest.param(Spec.MAX_CHAIN_ID, id="chain_id=2**64-1"),
+        pytest.param(2, id="chain_id=2"),
+    ],
+)
+def test_valid_tx_invalid_chain_id(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    chain_id: int,
+):
+    """
+    Test sending a transaction where the chain id field does not match the current chain's id.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -2466,7 +2438,7 @@ def test_tx_validity_chain_id(
         to=entry_address,
         value=0,
         authorization_list=[authorization],
-        error=transaction_exception,
+        error=None,
         sender=pre.fund_eoa(),
     )
 
@@ -2478,7 +2450,7 @@ def test_tx_validity_chain_id(
             auth_signer: Account.NONEXISTENT,
             entry_address: Account(
                 storage={
-                    success_slot: 1 if transaction_exception is None else 0,
+                    success_slot: 1,
                     return_slot: 0,
                 },
             ),
@@ -2487,52 +2459,108 @@ def test_tx_validity_chain_id(
 
 
 @pytest.mark.parametrize(
-    "nonce,transaction_exception",
+    "nonce",
+    [
+        pytest.param(Spec.MAX_NONCE + 1, id="nonce=2**64"),
+        pytest.param(2**256, id="nonce=2**256"),
+        pytest.param([], id="nonce=empty-list"),
+        pytest.param([0], id="nonce=non-empty-list"),
+    ],
+)
+@pytest.mark.parametrize(
+    "delegate_address",
+    [
+        pytest.param(Spec.RESET_DELEGATION_ADDRESS, id="reset_delegation_address"),
+        pytest.param(Address(1), id="non_zero_address"),
+    ],
+)
+def test_invalid_tx_invalid_nonce(
+    transaction_test: TransactionTestFiller,
+    pre: Alloc,
+    nonce: int | List[int],
+    delegate_address: Address,
+):
+    """
+    Test sending a transaction where the nonce field of an authorization overflows the maximum
+    value.
+    """
+    auth_signer = pre.fund_eoa()
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=0,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=delegate_address,
+                nonce=nonce,
+                signer=auth_signer,
+            ),
+        ],
+        error=TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT,
+        sender=pre.fund_eoa(),
+    )
+
+    transaction_test(
+        pre=pre,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    "account_nonce,authorization_nonce",
     [
         pytest.param(
-            2**64, TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT, id="nonce=2**64"
-        ),
-        pytest.param(
-            2**64 - 1,
-            None,
+            Spec.MAX_NONCE,
+            Spec.MAX_NONCE,
             id="nonce=2**64-1",
             marks=pytest.mark.execute(pytest.mark.skip(reason="Impossible account nonce")),
         ),
         pytest.param(
-            2**64 - 2,
-            None,
+            Spec.MAX_NONCE - 1,
+            Spec.MAX_NONCE - 1,
             id="nonce=2**64-2",
             marks=pytest.mark.execute(pytest.mark.skip(reason="Impossible account nonce")),
         ),
+        pytest.param(
+            0,
+            1,
+            id="nonce=1,account_nonce=0",
+        ),
+        pytest.param(
+            1,
+            0,
+            id="nonce=0,account_nonce=1",
+        ),
     ],
 )
-def test_tx_validity_nonce(
+def test_nonce_validity(
     state_test: StateTestFiller,
     pre: Alloc,
-    nonce: int,
-    transaction_exception: TransactionException | None,
+    account_nonce: int,
+    authorization_nonce: int,
 ):
     """
-    Test sending a transaction where the nonce field of an authorization overflows the maximum
-    value, or almost overflows the maximum value.
+    Test sending a transaction where the nonce field of an authorization almost overflows the
+    maximum value.
 
     Also test calling the account of the authorization signer in order to verify that the account
     is not warm.
     """
-    auth_signer = pre.fund_eoa(
-        auth_account_start_balance, nonce=nonce if nonce < 2**64 else None
-    )
+    auth_signer = pre.fund_eoa(auth_account_start_balance, nonce=account_nonce)
 
     success_slot = 1
     return_slot = 2
 
-    valid_authorization = nonce < 2**64 - 1
+    valid_authorization = (
+        authorization_nonce < 2**64 - 1 and account_nonce == authorization_nonce
+    )
     set_code = Op.RETURN(0, 1)
     set_code_to_address = pre.deploy_contract(set_code)
 
     authorization = AuthorizationTuple(
         address=set_code_to_address,
-        nonce=nonce,
+        nonce=authorization_nonce,
         signer=auth_signer,
     )
 
@@ -2548,7 +2576,6 @@ def test_tx_validity_nonce(
         to=entry_address,
         value=0,
         authorization_list=[authorization],
-        error=transaction_exception,
         sender=pre.fund_eoa(),
     )
 
@@ -2558,16 +2585,16 @@ def test_tx_validity_nonce(
         tx=tx,
         post={
             auth_signer: Account(
-                nonce=(nonce + 1) if (nonce < (2**64 - 1)) else nonce,
+                nonce=(account_nonce + 1) if valid_authorization else account_nonce,
                 code=Spec.delegation_designation(set_code_to_address)
                 if valid_authorization
                 else b"",
             )
-            if nonce < 2**64
+            if authorization_nonce < 2**64 and account_nonce > 0
             else Account.NONEXISTENT,
             entry_address: Account(
                 storage={
-                    success_slot: 1 if transaction_exception is None else 0,
+                    success_slot: 1,
                     return_slot: 1 if valid_authorization else 0,
                 },
             ),
