@@ -1336,6 +1336,8 @@
       
         
       
+        
+      
     
     
       
@@ -1431,6 +1433,27 @@
   
   <span class="md-ellipsis">
     Generating Documentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../dev/documenting_clis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Documenting CLI Commands
   </span>
   
 
@@ -24578,20 +24601,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#evm_bytes-hex-string-bytecode" class="md-nav__link">
+  <a href="#evm_bytes" class="md-nav__link">
     <span class="md-ellipsis">
-      evm_bytes hex-string &lt;bytecode&gt;
+      evm_bytes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="evm_bytes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evm_bytes-binary-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      binary-file
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#evm_bytes-binary-file-contractbin" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#evm_bytes-hex-string" class="md-nav__link">
     <span class="md-ellipsis">
-      evm_bytes binary-file &lt;contract.bin&gt;
+      hex-string
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -24614,183 +24652,28 @@
 
 
 <h1 id="the-evm_bytes-cli">The <code>evm_bytes</code> CLI<a class="headerlink" href="#the-evm_bytes-cli" title="Permanent link">&para;</a></h1>
-
-
-<div class="doc doc-object doc-function">
-
-
-
-
-    <div class="doc doc-contents first">
-
-      <p>Convert the given EVM bytes to EEST's python opcodes or assembly string.</p>
+<h2 id="evm_bytes">evm_bytes<a class="headerlink" href="#evm_bytes" title="Permanent link">&para;</a></h2>
+<p>Convert EVM bytecode to EEST's Python Opcodes or an assembly string.</p>
 <p>The input can be either a hex string or a binary file containing EVM bytes.</p>
-
-    </div>
-
-</div><h2 id="evm_bytes-hex-string-bytecode"><code>evm_bytes hex-string &lt;bytecode&gt;</code><a class="headerlink" href="#evm_bytes-hex-string-bytecode" title="Permanent link">&para;</a></h2>
-
-
-<div class="doc doc-object doc-function">
-
-
-
-
-    <div class="doc doc-contents first">
-
-      <p>Process a hex string representing EVM bytes and convert it into EEST's Python opcodes.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td><code>hex_string</code></td>
-            <td>
-                  <code>str</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The hex string representing the EVM bytes.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code>assembly</code></td>
-            <td>
-                  <code>bool</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether to print the output as assembly or Python opcodes.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code>str</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The processed EVM opcodes in Python or assembly format.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Convert a hex string to EEST Python <code>Opcodes</code></summary>
-  <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>evm_bytes<span class="w"> </span>hex-string<span class="w"> </span>604260005260206000F3
+<p><strong>Usage:</strong></p>
+<div class="highlight"><pre><span></span><code>evm_bytes [OPTIONS] COMMAND [ARGS]...
 </code></pre></div>
-<p>Output:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mh">0x42</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mh">0x0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mh">0x20</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mh">0x0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code>  --help  Show this message and exit.
 </code></pre></div>
-</details>
-
-<details class="example" open>
-  <summary>Convert a hex string to assembly</summary>
-  <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>evm_bytes<span class="w"> </span>hex-string<span class="w"> </span>--assembly<span class="w"> </span>604260005260206000F3
+<p><strong>Subcommands</strong></p>
+<ul>
+<li><em><a href="#evm_bytes-binary-file">binary-file</a></em>: Convert a binary file to Python Opcodes or assembly.</li>
+<li><em><a href="#evm_bytes-hex-string">hex-string</a></em>: Convert a hex string to Python Opcodes or assembly.</li>
+</ul>
+<h3 id="evm_bytes-binary-file">evm_bytes binary-file<a class="headerlink" href="#evm_bytes-binary-file" title="Permanent link">&para;</a></h3>
+<p>Convert the BINARY_FILE containing EVM bytes to Python Opcodes or assembly.</p>
+<p>BINARY_FILE is a binary file containing EVM bytes, use <code>-</code> to read from stdin.</p>
+<p>Returns:</p>
+<div class="highlight"><pre><span></span><code>(str): The processed EVM opcodes in Python or assembly format.
 </code></pre></div>
-<p>Output:</p>
-<div class="highlight"><pre><span></span><code>push1 0x42
-push1 0x00
-mstore
-push1 0x20
-push1 0x00
-return
-</code></pre></div>
-</details>
-    </div>
-
-</div><h2 id="evm_bytes-binary-file-contractbin"><code>evm_bytes binary-file &lt;contract.bin&gt;</code><a class="headerlink" href="#evm_bytes-binary-file-contractbin" title="Permanent link">&para;</a></h2>
-
-
-<div class="doc doc-object doc-function">
-
-
-
-
-    <div class="doc doc-contents first">
-
-      <p>Convert the given EVM bytes binary file.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td><code>binary_file_path</code></td>
-            <td>
-                  <code>BinaryIO</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A binary file containing EVM bytes to be processed or use <code>-</code>
-to read from stdin.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code>assembly</code></td>
-            <td>
-                  <code>bool</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether to print the output as assembly or Python opcodes.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Convert the Withdrawal Request contract to assembly</summary>
-  <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>evm_bytes<span class="w"> </span>binary-file<span class="w"> </span>./src/ethereum_test_forks/forks/contracts/withdrawal_request.bin<span class="w"> </span>--assembly
+<p>Example: Convert the Withdrawal Request contract to assembly</p>
+<div class="highlight"><pre><span></span><code>uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/contracts/withdrawal_request.bin --assembly
 </code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code>caller
@@ -24800,10 +24683,43 @@ push1 0x90
 jumpi
 ...
 </code></pre></div>
-</details>
-    </div>
-
-</div>
+<p><strong>Usage:</strong></p>
+<div class="highlight"><pre><span></span><code>evm_bytes binary-file [OPTIONS] BINARY_FILE
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --assembly  Output the code as assembly instead of Python Opcodes.
+  --help          Show this message and exit.
+</code></pre></div>
+<h3 id="evm_bytes-hex-string">evm_bytes hex-string<a class="headerlink" href="#evm_bytes-hex-string" title="Permanent link">&para;</a></h3>
+<p>Convert the HEX_STRING representing EVM bytes to EEST Python Opcodes.</p>
+<p>HEX_STRING is a string containing EVM bytecode.</p>
+<p>Returns:</p>
+<div class="highlight"><pre><span></span><code>(str): The processed EVM opcodes in Python or assembly format.
+</code></pre></div>
+<p>Example 1: Convert a hex string to EEST Python <code>Opcodes</code></p>
+<div class="highlight"><pre><span></span><code>uv run evm_bytes hex-string 604260005260206000F3
+</code></pre></div>
+<p>Output 1:</p>
+<div class="highlight"><pre><span></span><code>Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] + Op.PUSH1[0x0] + Op.RETURN
+</code></pre></div>
+<p>Example 2: Convert a hex string to assembly</p>
+<div class="highlight"><pre><span></span><code>uv run evm_bytes hex-string --assembly 604260005260206000F3
+</code></pre></div>
+<p>Output 2:</p>
+<div class="highlight"><pre><span></span><code>push1 0x42
+push1 0x00
+mstore
+push1 0x20
+push1 0x00
+return
+</code></pre></div>
+<p><strong>Usage:</strong></p>
+<div class="highlight"><pre><span></span><code>evm_bytes hex-string [OPTIONS] HEX_STRING
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code>  -a, --assembly  Output the code as assembly instead of Python Opcodes.
+  --help          Show this message and exit.
+</code></pre></div>
 
 
 
@@ -24824,12 +24740,13 @@ jumpi
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:marioevz@gmail.com">Mario Vega</a>
+        <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
     </nav>
   </span>
 
