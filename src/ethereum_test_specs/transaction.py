@@ -67,7 +67,7 @@ class TransactionTest(BaseTest):
             result={
                 fork.blockchain_test_network_name(): result,
             },
-            transaction=self.tx.rlp,
+            transaction=self.tx.with_signature_and_sender().rlp,
         )
 
     def generate(

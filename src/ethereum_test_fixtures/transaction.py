@@ -7,7 +7,7 @@ from typing import ClassVar, Mapping
 from pydantic import Field
 
 from ethereum_test_base_types import Address, Bytes, Hash, ZeroPaddedHexNumber
-from ethereum_test_exceptions import TransactionException
+from ethereum_test_exceptions import TransactionExceptionInstanceOrList
 from ethereum_test_types.types import CamelModel
 
 from .base import BaseFixture
@@ -21,7 +21,7 @@ class FixtureResult(CamelModel):
     hash: Hash | None = None
     intrinsic_gas: ZeroPaddedHexNumber
     sender: Address | None = None
-    exception: TransactionException | None = None
+    exception: TransactionExceptionInstanceOrList | None = None
 
 
 class Fixture(BaseFixture):
