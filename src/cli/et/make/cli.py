@@ -13,7 +13,7 @@ import click
 from .commands import test
 
 
-@click.group()
+@click.group(short_help="Generate project files.")
 def make():
     """
     Generate project files.

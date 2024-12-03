@@ -9,7 +9,7 @@ import shutil
 import click
 
 
-@click.command()
+@click.command(short_help="Remove all generated files and directories.")
 @click.option(
     "--all", is_flag=True, help="Remove the virtual environment and .tox directory as well."
 )
@@ -21,17 +21,30 @@ def clean(all: bool, dry_run: bool, verbose: bool):
     If `--all` is specified, the virtual environment and .tox directory will also be removed.
 
     Args:
+
         all (flag): Remove the virtual environment and .tox directory as well.
+
         dry_run (bool): Simulate the cleanup without removing files.
+
         verbose (bool): Show verbose output.
 
     Note: The virtual environment and .tox directory are not removed by default.
 
-    Example: Usage
-        ```
-        uv run et clean [--all] [--dry-run] [-v | --verbose]
-        ```
-    """
+    Example: Cleaning all generated files and directories and show the deleted items.
+
+        uv run et clean --all -v
+
+    Output:
+
+        \b
+        🗑️  Deleted: .tox
+        🗑️  Deleted: .venv
+        🗑️  Deleted: src/cli/et/__pycache__
+        🗑️  Deleted: src/cli/et/commands/__pycache__
+        🗑️  Deleted: src/cli/et/make/__pycache__
+        🗑️  Deleted: src/cli/et/make/commands/__pycache__
+        ...
+    """  # noqa: D417, D301
     # List of items to remove can contain files and directories.
     items_to_remove = [
         ".pytest_cache",

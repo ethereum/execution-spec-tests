@@ -23,7 +23,7 @@ template_env = jinja2.Environment(
 )
 
 
-@click.command()
+@click.command(short_help="Generate a new test file for an EIP.")
 def test():
     """
     Generate a new test file for an EIP.
@@ -36,18 +36,24 @@ def test():
     Prompts:
 
     * Choose the type of test to generate (State or Blockchain)
+
     * Select the fork where this functionality was introduced
+
     * Enter the EIP number
+
     * Enter the EIP name
 
-    Example: Usage
-        ```
-        uv run et make test
-        ```
-        The generated test file is saved in the following format:
+    Example:
 
-        `tests/{fork}/eip{eip_number}_{eip_name}/test_{eip_name}.py`
-    """
+    <figure class="video_container">
+        <video controls="true" allowfullscreen="true">
+            <source
+                src="/execution-spec-tests/writing_tests/img/et_make_test.mp4"
+                type="video/mp4"
+            />
+        </video>
+    </figure>
+    """  # noqa: D301
     test_type = input_select(
         "Choose the type of test to generate", choices=["State", "Blockchain"]
     )

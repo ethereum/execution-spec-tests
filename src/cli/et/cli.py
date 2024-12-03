@@ -9,7 +9,7 @@ from cli.et.commands import clean
 from cli.et.make.cli import make
 
 
-@click.group()
+@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
 def et():
     """
     `et` 👽 is a CLI tool that helps with routine tasks.
