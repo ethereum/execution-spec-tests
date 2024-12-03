@@ -18,6 +18,7 @@ from .helpers import (
     slot_calldata_2,
     slot_code_worked,
     slot_delegate_code_worked,
+    slot_eof_target_returndata,
     value_calldata_1,
     value_calldata_2,
     value_code_worked,
@@ -444,6 +445,90 @@ def test_calldata_remains_after_subcall(
     }
 
     tx = Transaction(to=address_caller, gas_limit=4_000_000, sender=sender)
+
+    state_test(
+        env=env,
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize("operation", [Op.EXTCALL, Op.EXTSTATICCALL, Op.EXTDELEGATECALL])
+@pytest.mark.parametrize(
+    ("offset", "success"),
+    [
+        pytest.param(0, True, id="zero"),
+        pytest.param(0xFF, True, id="8-bit"),
+        pytest.param(0x100, True, id="9-bit"),
+        pytest.param(0xFFFF, True, id="16-bit"),
+        pytest.param(0x10000, True, id="17-bit"),
+        pytest.param(0x1FFFF20, False, id="32-bit-mem-cost"),
+        pytest.param(0x2D412E0, False, id="33-bit-mem-cost"),
+        pytest.param(0xFFFFFFFF, False, id="32-bit"),
+        pytest.param(0x100000000, False, id="33-bit"),
+        pytest.param(0x1FFFFFFFF20, False, id="64-bit-mem-cost"),
+        pytest.param(0x2D413CCCF00, False, id="65-bit-mem-cost"),
+        pytest.param(0xFFFFFFFFFFFFFFFF, False, id="64-bit"),
+        pytest.param(0x10000000000000000, False, id="65-bit"),
+        pytest.param(0xFFFFFFFFFFFFFFFF, False, id="128-bit"),
+        pytest.param(0x10000000000000000, False, id="129-bit"),
+        pytest.param(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, False, id="256-bit"),
+    ],
+)
+def test_extcalls_input_offset(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    operation: Op,
+    offset: int,
+    success: bool,
+):
+    """
+    Tests call data into EXT*CALL including multiple offset conditions.
+
+    Returner returns a success value, which caller stores. If memory expansion cost is less than
+    2 billion gas call succeeds. Else whole transaction aborts, leaving canaries in memory.
+    """
+    env = Environment()
+
+    sender = pre.fund_eoa()
+
+    address_returner = pre.deploy_contract(
+        Container(
+            sections=[
+                Section.Code(code=Op.MSTORE(0, value_code_worked) + Op.RETURN(0, 32)),
+            ]
+        ),
+    )
+    address_caller = pre.deploy_contract(
+        Container(
+            sections=[
+                Section.Code(
+                    code=operation(address=address_returner, args_offset=offset, args_size=32)
+                    + Op.SSTORE(slot_eof_target_returndata, Op.RETURNDATALOAD(0))
+                    + Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.STOP
+                )
+            ]
+        ),
+        storage={
+            slot_code_worked: value_exceptional_abort_canary,
+            slot_eof_target_returndata: value_exceptional_abort_canary,
+        },
+    )
+
+    post = {
+        address_caller: Account(
+            storage={
+                slot_eof_target_returndata: value_code_worked
+                if success
+                else value_exceptional_abort_canary,
+                slot_code_worked: value_code_worked if success else value_exceptional_abort_canary,
+            }
+        ),
+    }
+
+    tx = Transaction(to=address_caller, gas_limit=1_000_000_000, sender=sender)
 
     state_test(
         env=env,
