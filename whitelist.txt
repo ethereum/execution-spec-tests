@@ -400,6 +400,7 @@ str
 streetsidesoftware
 subcall
 subclasscheck
+subcommands
 subdir
 subdirectories
 subdirectory

@@ -550,6 +550,7 @@ docs = [
     { name = "cairosvg" },
     { name = "mike" },
     { name = "mkdocs" },
+    { name = "mkdocs-click" },
     { name = "mkdocs-gen-files" },
     { name = "mkdocs-git-authors-plugin" },
     { name = "mkdocs-glightbox" },
@@ -597,6 +598,7 @@ requires-dist = [
     { name = "isort", marker = "extra == 'lint'", specifier = ">=5.8,<6" },
     { name = "mike", marker = "extra == 'docs'", specifier = ">=1.1.2,<2" },
     { name = "mkdocs", marker = "extra == 'docs'", specifier = ">=1.4.3,<2" },
+    { name = "mkdocs-click", marker = "extra == 'docs'", specifier = ">=0.8,<1" },
     { name = "mkdocs-gen-files", marker = "extra == 'docs'", specifier = ">=0.5.0,<1" },
     { name = "mkdocs-git-authors-plugin", marker = "extra == 'docs'", specifier = ">=0.7.1,<1" },
     { name = "mkdocs-glightbox", marker = "extra == 'docs'", specifier = ">=0.3.4,<1" },
@@ -1071,6 +1073,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/47/24/7d09b72b470d5dd33ed0c6722c7038ece494ab7dc5e72adbfeaf945276f6/mkdocs_autorefs-1.1.0.tar.gz", hash = "sha256:f2fd43b11f66284bd014f9b542a05c8ecbfaad4e0d7b30b68584788217b6c656", size = 36989 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/11/84/8e4dd669766f864482d2edcc44c7f07f4f91d73414c9a3e33b230a59f2cf/mkdocs_autorefs-1.1.0-py3-none-any.whl", hash = "sha256:492ac42f50214e81565e968f8cb0df9aba9d981542b9e7121b8f8ae9407fe6eb", size = 14417 },
+]
+
+[[package]]
+name = "mkdocs-click"
+version = "0.8.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "markdown" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/68/61/d6b68573b4c399cd201502e4ea4cbfc12e274333d9ee622668cfbc9940ac/mkdocs_click-0.8.1.tar.gz", hash = "sha256:0a88cce04870c5d70ff63138e2418219c3c4119cc928a59c66b76eb5214edba6", size = 17874 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8e/ce/12158add31617ea579f7975f502812555371d7b8a4410c993a27d7e20727/mkdocs_click-0.8.1-py3-none-any.whl", hash = "sha256:a100ff938be63911f86465a1c21d29a669a7c51932b700fdb3daa90d13b61ee4", size = 14862 },
 ]
 
 [[package]]
