@@ -300,6 +300,8 @@ def tx_error(
     Can be overloaded on test cases where the transactions are expected
     to fail.
     """
+    if not hasattr(request, "param"):
+        return None
     if fork >= Prague and request.param in [
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
