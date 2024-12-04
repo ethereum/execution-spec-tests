@@ -668,7 +668,7 @@ fixture_header_ones = FixtureHeader(
                     excess_blob_gas=18,
                     parent_beacon_block_root=19,
                     requests_hash=20,
-                    target_blobs_per_block=10,
+                    target_blobs_per_block=21,
                 ),
                 transactions=[
                     Transaction(
@@ -730,7 +730,7 @@ fixture_header_ones = FixtureHeader(
                         "blobGasUsed": hex(17),
                         "excessBlobGas": hex(18),
                         "blockHash": (
-                            "0x93bd662d8a80a1f54bffc6d140b83d6cda233209998809f9540be51178b4d0b6"
+                            "0x9f6459fb2eca2b75ee861e97d679ba91457bb446c8484a7ad76d1675a7f78fde"
                         ),
                         "transactions": [
                             Transaction(
@@ -788,6 +788,7 @@ fixture_header_ones = FixtureHeader(
                             ),
                         ).requests_list
                     ],
+                    hex(21),
                 ],
                 "forkchoiceUpdatedVersion": "4",
                 "newPayloadVersion": "4",
@@ -824,6 +825,7 @@ fixture_header_ones = FixtureHeader(
                     excess_blob_gas=18,
                     parent_beacon_block_root=19,
                     requests_hash=20,
+                    target_blobs_per_block=21,
                 ),
                 transactions=[
                     Transaction(
@@ -884,7 +886,7 @@ fixture_header_ones = FixtureHeader(
                         "blobGasUsed": hex(17),
                         "excessBlobGas": hex(18),
                         "blockHash": (
-                            "0x93bd662d8a80a1f54bffc6d140b83d6cda233209998809f9540be51178b4d0b6"
+                            "0x9f6459fb2eca2b75ee861e97d679ba91457bb446c8484a7ad76d1675a7f78fde"
                         ),
                         "transactions": [
                             Transaction(
@@ -942,6 +944,7 @@ fixture_header_ones = FixtureHeader(
                             ),
                         ).requests_list
                     ],
+                    hex(21),
                 ],
                 "newPayloadVersion": "4",
                 "forkchoiceUpdatedVersion": "4",
