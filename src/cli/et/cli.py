@@ -9,7 +9,7 @@ from cli.et.commands import clean
 from cli.et.make.cli import make
 
 
-@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.group(context_settings=dict(help_option_names=["-h", "--help"], max_content_width=120))
 def et():
     """
     `et` 👽 is a CLI tool that helps with routine tasks.
@@ -29,7 +29,3 @@ https://click.palletsprojects.com/en/8.0.x/commands/#nested-handling-and-context
 """
 et.add_command(make)
 et.add_command(clean)
-
-# Prevent wrapping behavior:
-# See: https://click.palletsprojects.com/en/stable/documentation/#preventing-rewrapping
-et(max_content_width=120)
