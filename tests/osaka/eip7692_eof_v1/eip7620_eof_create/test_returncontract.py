@@ -203,7 +203,8 @@ def test_returncontract_memory_expansion(
     success: bool,
 ):
     """
-    Verifies a simple EOFCREATE case
+    Attempts an EOFCREATE with a possibly too-large auxdata.  Create either fails due to gas
+    or contract too large, resulting in address or zero on failure in the create address slot.
     """
     env = Environment()
     sender = pre.fund_eoa(10**27)

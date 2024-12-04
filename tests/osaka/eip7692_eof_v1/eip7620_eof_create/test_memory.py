@@ -64,8 +64,8 @@ def test_eofcreate_memory(
     """
     Tests auxdata sizes in EOFCREATE including multiple offset conditions.
 
-    Returner returns a success value, which caller stores. If memory expansion cost is less than
-    2 billion gas call succeeds. Else whole transaction aborts, leaving canaries in memory.
+    EOFCREATE either succeeds or fails based on memory access cost, resulting in new address
+    or zero in the create address slot.
     """
     env = Environment()
 
