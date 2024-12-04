@@ -62,9 +62,7 @@ def multiple_blocks_with_blobs(
         blob_gas_used = total_blob_count * Spec.GAS_PER_BLOB
         excess_blob_gas = max(
             0,
-            parent_excess_blob_gas
-            + blob_gas_used
-            - Spec.CANCUN_TARGET_BLOB_GAS_PER_BLOCK,
+            parent_excess_blob_gas + blob_gas_used - Spec.CANCUN_TARGET_BLOB_GAS_PER_BLOCK,
         )
         blob_gasprice = Spec.get_blob_gasprice(excess_blob_gas=excess_blob_gas)
         for tx_index in range(tx_count):
@@ -73,10 +71,7 @@ def multiple_blocks_with_blobs(
             nonce += 1
             tx_blob_count = base_blobs_per_tx + (1 if tx_index < remaining_blobs else 0)
             blob_hashes = add_kzg_version(
-                [
-                    Hash(block_index * 10000 + tx_index * 100 + i)
-                    for i in range(tx_blob_count)
-                ],
+                [Hash(block_index * 10000 + tx_index * 100 + i) for i in range(tx_blob_count)],
                 Spec.BLOB_COMMITMENT_VERSION_KZG,
             )
             tx.blob_versioned_hashes = [Hash(b_hash) for b_hash in blob_hashes]
@@ -197,8 +192,6 @@ def test_multi_blocks_incremental_decremental(
     blockchain_test(
         pre=pre,
         post={},
-        blocks=multiple_blocks_with_blobs(
-            txs, blob_counts_per_block, tx_counts_per_block
-        ),
+        blocks=multiple_blocks_with_blobs(txs, blob_counts_per_block, tx_counts_per_block),
         genesis_environment=env,
     )
