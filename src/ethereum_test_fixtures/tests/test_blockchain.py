@@ -16,6 +16,7 @@ from ethereum_test_base_types import (
     Bytes,
     Hash,
     HeaderNonce,
+    HexNumber,
     TestPrivateKey,
     ZeroPaddedHexNumber,
     to_json,
@@ -788,7 +789,7 @@ fixture_header_ones = FixtureHeader(
                             ),
                         ).requests_list
                     ],
-                    hex(21),
+                    HexNumber(21).hex(),
                 ],
                 "forkchoiceUpdatedVersion": "4",
                 "newPayloadVersion": "4",
@@ -944,7 +945,7 @@ fixture_header_ones = FixtureHeader(
                             ),
                         ).requests_list
                     ],
-                    hex(21),
+                    HexNumber(21).hex(),
                 ],
                 "newPayloadVersion": "4",
                 "forkchoiceUpdatedVersion": "4",
@@ -1167,7 +1168,7 @@ EngineNewPayloadParametersAdapter = TypeAdapter(EngineNewPayloadParameters)  # t
             id="fixture_engine_new_payload_parameters_v3",
         ),
         pytest.param(
-            False,
+            True,
             EngineNewPayloadParametersAdapter,
             (
                 FixtureExecutionPayload.from_fixture_header(
@@ -1191,7 +1192,6 @@ EngineNewPayloadParametersAdapter = TypeAdapter(EngineNewPayloadParameters)  # t
                         withdrawals_root=Hash(16),
                         blob_gas_used=17,
                         excess_blob_gas=18,
-                        target_blobs_per_block=10,
                     ),
                     transactions=[
                         Transaction(
@@ -1232,6 +1232,7 @@ EngineNewPayloadParametersAdapter = TypeAdapter(EngineNewPayloadParameters)  # t
                         target_pubkey=BLSPublicKey(2),
                     ),
                 ).requests_list,
+                HexNumber(9),
             ),
             [
                 {
@@ -1249,7 +1250,6 @@ EngineNewPayloadParametersAdapter = TypeAdapter(EngineNewPayloadParameters)  # t
                     "baseFeePerGas": hex(15),
                     "blobGasUsed": hex(17),
                     "excessBlobGas": hex(18),
-                    "targetBlobCount": hex(10),
                     "blockHash": "0xd90115b7fde329f64335763a446af1"
                     "50ab67e639281dccdb07a007d18bb80211",
                     "transactions": [
@@ -1298,6 +1298,7 @@ EngineNewPayloadParametersAdapter = TypeAdapter(EngineNewPayloadParameters)  # t
                         ),
                     ).requests_list
                 ],
+                HexNumber(9).hex(),
             ],
             id="fixture_engine_new_payload_parameters_v4",
         ),
