@@ -23,7 +23,10 @@ template_env = jinja2.Environment(
 )
 
 
-@click.command(short_help="Generate a new test file for an EIP.")
+@click.command(
+    short_help="Generate a new test file for an EIP.",
+    epilog=f"Further help: {DocsConfig().DOCS_URL__WRITING_TESTS}",
+)
 def test():
     """
     Generate a new test file for an EIP.
@@ -45,6 +48,9 @@ def test():
 
     Example:
 
+        uv run et make test
+
+    \f
     <figure class="video_container">
         <video controls="true" allowfullscreen="true">
             <source

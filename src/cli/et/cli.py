@@ -29,3 +29,7 @@ https://click.palletsprojects.com/en/8.0.x/commands/#nested-handling-and-context
 """
 et.add_command(make)
 et.add_command(clean)
+
+# Prevent wrapping behavior:
+# See: https://click.palletsprojects.com/en/stable/documentation/#preventing-rewrapping
+et(max_content_width=120)
