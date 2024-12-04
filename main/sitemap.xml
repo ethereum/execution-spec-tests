@@ -221,12 +221,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/library/cli/env_init/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/library/cli/eest/</loc>
          <lastmod>2024-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/library/cli/et/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/library/cli/env_init/</loc>
          <lastmod>2024-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
