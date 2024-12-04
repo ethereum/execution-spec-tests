@@ -124,7 +124,13 @@ def fixture_type_discriminator(v: Any) -> str | None:
     """
     A discriminator function that returns the model type as a string.
     """
-    return v.get("_info").get("fixture_format")
+    if v is None:
+        return None
+    if isinstance(v, dict):
+        info_dict = v["_info"]
+    elif hasattr(v, "info"):
+        info_dict = v.info
+    return info_dict.get("fixture_format")
 
 
 class Fixtures(BaseFixturesRootModel):
