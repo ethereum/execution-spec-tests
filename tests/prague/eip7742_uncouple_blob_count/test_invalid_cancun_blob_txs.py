@@ -71,6 +71,7 @@ def test_invalid_cancun_block_blob_count(
         post={},
         blocks=[block],
         genesis_environment=env,
+        header_verify=block.header_verify,
     )
 
 
@@ -80,10 +81,10 @@ def test_invalid_cancun_block_blob_count(
         [0],
         [Spec.CANCUN_MAX_BLOBS_PER_BLOCK + 1],
     ],
-    ids=["too_few_blobs", "too_many_blobs"],
+    ids=["zero_blobs", "too_many_blobs"],
 )
-@pytest.mark.valid_until("Cancun")
-def test_invalid_tx_blob_count(
+@pytest.mark.valid_from("Prague")
+def test_invalid_cancun_tx_blob_count(
     state_test: StateTestFiller,
     state_env: Environment,
     pre: Alloc,
