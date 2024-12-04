@@ -217,8 +217,6 @@ class FixtureExecutionPayload(CamelModel):
     blob_gas_used: HexNumber | None = Field(None)
     excess_blob_gas: HexNumber | None = Field(None)
 
-    target_blobs_per_block: HexNumber | None = Field(None)
-
     block_hash: Hash
 
     transactions: List[Bytes]
