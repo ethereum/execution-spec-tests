@@ -3,14 +3,14 @@
 The easiest way to get started is to use the interactive CLI:
 
 ```console
-uv run et make test
+uv run eest make test
 ```
 
 and modify the generated test module to suit your needs.
 
 <figure class="video_container">
   <video controls="true" allowfullscreen="true">
-    <source src="./img/et_make_test.mp4" type="video/mp4">
+    <source src="./img/eest_make_test.mp4" type="video/mp4">
   </video>
 </figure>
 

@@ -55,8 +55,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🔀 `ethereum_test_forks` forks now contain gas-calculating functions, which return the appropriate function to calculate the gas used by a transaction or memory function for the given fork ([#779](https://github.com/ethereum/execution-spec-tests/pull/779)).
 - 🐞 Fix `Bytecode` class `__eq__` method ([#939](https://github.com/ethereum/execution-spec-tests/pull/939)).
 - 🔀 Update `pydantic` from 2.8.2 to 2.9.2 ([#960](https://github.com/ethereum/execution-spec-tests/pull/960)).
-- ✨ Add the `et make test` command, an interactive CLI that helps users create a new test module and function ([#950](https://github.com/ethereum/execution-spec-tests/pull/950)).
-- ✨ Add the `et clean` command that helps delete generated files and directories from the repository ([#980](https://github.com/ethereum/execution-spec-tests/pull/980)).
+- ✨ Add the `eest make test` command, an interactive CLI that helps users create a new test module and function ([#950](https://github.com/ethereum/execution-spec-tests/pull/950)).
+- ✨ Add the `eest clean` command that helps delete generated files and directories from the repository ([#980](https://github.com/ethereum/execution-spec-tests/pull/980)).
 
 ### 🔧 EVM Tools
 

@@ -144,9 +144,9 @@ EOFException
 eofparse
 epilog
 esbenp
+eest
 EEST
 EEST's
-et
 eth
 ethash
 ethereum

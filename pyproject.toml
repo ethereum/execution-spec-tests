@@ -108,7 +108,7 @@ order_fixtures = "cli.order_fixtures:order_fixtures"
 evm_bytes = "cli.evm_bytes:evm_bytes"
 hasher = "cli.hasher:main"
 env_init = "config.env:create_default_config"
-et = "cli.et.cli:et"
+eest = "cli.eest.cli:eest"
 
 [tool.setuptools.packages.find]
 where = ["src"]
