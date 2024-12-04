@@ -40502,9 +40502,7 @@ spec type as filler for the test.</p>
 <span class="normal">715</span>
 <span class="normal">716</span>
 <span class="normal">717</span>
-<span class="normal">718</span>
-<span class="normal">719</span>
-<span class="normal">720</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">718</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -40569,9 +40567,7 @@ spec type as filler for the test.</p>
                 <span class="n">Withdrawal</span><span class="o">.</span><span class="n">list_root</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span> <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>
             <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span><span class="p">,</span>
-            <span class="n">requests_hash</span><span class="o">=</span><span class="n">Requests</span><span class="p">(</span><span class="n">max_request_type</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">max_request_type</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">requests_hash</span><span class="o">=</span><span class="n">Requests</span><span class="p">()</span> <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -41014,9 +41010,7 @@ spec type as filler for the test.</p>
 <span class="normal">366</span>
 <span class="normal">367</span>
 <span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
+<span class="normal">369</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">FixtureBlock</span><span class="p">]:</span>
@@ -41061,9 +41055,7 @@ spec type as filler for the test.</p>
             <span class="n">Withdrawal</span><span class="o">.</span><span class="n">list_root</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span> <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="p">),</span>
         <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span><span class="p">,</span>
-        <span class="n">requests_hash</span><span class="o">=</span><span class="n">Requests</span><span class="p">(</span><span class="n">max_request_type</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">max_request_type</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">requests_hash</span><span class="o">=</span><span class="n">Requests</span><span class="p">()</span> <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -41100,7 +41092,9 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">373</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
 <span class="normal">374</span>
 <span class="normal">375</span>
 <span class="normal">376</span>
@@ -41223,9 +41217,7 @@ spec type as filler for the test.</p>
 <span class="normal">493</span>
 <span class="normal">494</span>
 <span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">496</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -41377,15 +41369,15 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">500</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
 <span class="normal">501</span>
 <span class="normal">502</span>
 <span class="normal">503</span>
 <span class="normal">504</span>
 <span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">506</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns fixture network information for the fork &amp; EIP/s.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -41420,15 +41412,15 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">510</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
 <span class="normal">513</span>
 <span class="normal">514</span>
 <span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
+<span class="normal">516</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verifies the post alloc after all block/s or payload/s are generated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -41463,7 +41455,9 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">520</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
 <span class="normal">523</span>
@@ -41539,9 +41533,7 @@ spec type as filler for the test.</p>
 <span class="normal">593</span>
 <span class="normal">594</span>
 <span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
-<span class="normal">598</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">596</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -41646,7 +41638,9 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">600</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
 <span class="normal">601</span>
 <span class="normal">602</span>
 <span class="normal">603</span>
@@ -41725,9 +41719,7 @@ spec type as filler for the test.</p>
 <span class="normal">676</span>
 <span class="normal">677</span>
 <span class="normal">678</span>
-<span class="normal">679</span>
-<span class="normal">680</span>
-<span class="normal">681</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">679</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -41835,7 +41827,9 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">683</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span>
 <span class="normal">684</span>
 <span class="normal">685</span>
 <span class="normal">686</span>
@@ -41850,9 +41844,7 @@ spec type as filler for the test.</p>
 <span class="normal">695</span>
 <span class="normal">696</span>
 <span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span>
-<span class="normal">700</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">698</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -41896,7 +41888,9 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">702</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span>
 <span class="normal">703</span>
 <span class="normal">704</span>
 <span class="normal">705</span>
@@ -41912,9 +41906,7 @@ spec type as filler for the test.</p>
 <span class="normal">715</span>
 <span class="normal">716</span>
 <span class="normal">717</span>
-<span class="normal">718</span>
-<span class="normal">719</span>
-<span class="normal">720</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">718</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -41973,14 +41965,14 @@ spec type as filler for the test.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">727</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
 <span class="normal">728</span>
 <span class="normal">729</span>
 <span class="normal">730</span>
 <span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTestEngine</span><span class="p">(</span><span class="n">BlockchainTest</span><span class="p">):</span>
+<span class="normal">732</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTestEngine</span><span class="p">(</span><span class="n">BlockchainTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain, only for the Engine API.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

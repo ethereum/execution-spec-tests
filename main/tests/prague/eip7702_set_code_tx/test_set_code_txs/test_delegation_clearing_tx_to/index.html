@@ -24709,7 +24709,7 @@
 
 
 <h1 id="test_delegation_clearing_tx_to"><code>test_delegation_clearing_tx_to()</code><a class="headerlink" href="#test_delegation_clearing_tx_to" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/88c1401c6a79b9f3364fa46b7a0f2af74b7e7313/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3215"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_tx_to@88c1401c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5a401720c8cc98a3493f536668b4fe9635636799/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3213"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_tx_to@5a401720</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_tx_to --fork Prague</span>
@@ -24772,7 +24772,9 @@ if the account should not have any code set.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3215</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3213</span>
+<span class="normal">3214</span>
+<span class="normal">3215</span>
 <span class="normal">3216</span>
 <span class="normal">3217</span>
 <span class="normal">3218</span>
@@ -24834,9 +24836,7 @@ if the account should not have any code set.</p>
 <span class="normal">3274</span>
 <span class="normal">3275</span>
 <span class="normal">3276</span>
-<span class="normal">3277</span>
-<span class="normal">3278</span>
-<span class="normal">3279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;self_sponsored&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;not_self_sponsored&quot;</span><span class="p">),</span>
