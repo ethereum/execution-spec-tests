@@ -270,6 +270,8 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
+        if not isinstance(self.target_blobs_per_block, Removable):
+            new_env_values["target_blobs_per_block"] = self.target_blobs_per_block
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
