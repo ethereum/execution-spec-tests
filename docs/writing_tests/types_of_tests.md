@@ -61,7 +61,7 @@ Test correct transaction rejection/acceptance of a serialized transaction (curre
 ### Use cases
 
 - Verify that a badly formatted transaction is correctly rejected by the client.
-- Verify that a transaction with an invalid value in one of its fields is correctly rejected by the client. 
+- Verify that a transaction with an invalid value in one of its fields is correctly rejected by the client.
 
 !!! info
 
