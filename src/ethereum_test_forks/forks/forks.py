@@ -1245,20 +1245,6 @@ class Prague(Cancun):
         return True
 
     @classmethod
-    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
-        """
-        Blobs are decoupled from EL at Prague, and gets a static target of 6 blobs from the CL.
-        """
-        return 6
-
-    @classmethod
-    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
-        """
-        Blobs are decoupled from EL at Prague, and gets static max of 9 blobs from the CL.
-        """
-        return 9
-
-    @classmethod
     def header_target_blobs_per_block_required(
         cls,
         block_number: int = 0,
