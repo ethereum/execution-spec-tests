@@ -240,6 +240,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return 0
 
     @classmethod
+    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+        """
+        Returns the max number of blobs per block for a given fork.
+        """
+        return 0
+
+    @classmethod
     def header_requests_required(cls, block_number: int, timestamp: int) -> bool:
         """
         At genesis, header must not contain beacon chain requests.
@@ -302,6 +309,24 @@ class Frontier(BaseFork, solc_name="homestead"):
     ) -> bool:
         """
         At genesis, payloads do not have target blobs per block.
+        """
+        return False
+
+    @classmethod
+    def engine_payload_attribute_target_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        At genesis, payload attributes do not include the target blobs per block.
+        """
+        return False
+
+    @classmethod
+    def engine_payload_attribute_max_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        At genesis, payload attributes do not include the max blobs per block.
         """
         return False
 
@@ -979,6 +1004,13 @@ class Cancun(Shanghai):
         return 3
 
     @classmethod
+    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+        """
+        Blobs are enabled starting from Cancun, with a static max of 6 blobs.
+        """
+        return 6
+
+    @classmethod
     def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
         """
         At Cancun, blob type transactions are introduced
@@ -1213,6 +1245,20 @@ class Prague(Cancun):
         return True
 
     @classmethod
+    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+        """
+        Blobs are decoupled from EL at Prague, and gets a static target of 6 blobs from the CL.
+        """
+        return 6
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+        """
+        Blobs are decoupled from EL at Prague, and gets static max of 9 blobs from the CL.
+        """
+        return 9
+
+    @classmethod
     def header_target_blobs_per_block_required(
         cls,
         block_number: int = 0,
@@ -1248,6 +1294,24 @@ class Prague(Cancun):
         Starting at Prague, new payload calls must use version 4
         """
         return 4
+
+    @classmethod
+    def engine_payload_attribute_target_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Starting at Prague, payload attributes include the target blobs per block.
+        """
+        return True
+
+    @classmethod
+    def engine_payload_attribute_max_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Starting at Prague, payload attributes include the max blobs per block.
+        """
+        return True
 
 
 class CancunEIP7692(  # noqa: SC200

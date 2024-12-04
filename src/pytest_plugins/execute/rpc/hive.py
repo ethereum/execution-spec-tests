@@ -656,6 +656,16 @@ class EthRPC(BaseEthRPC):
             suggested_fee_recipient=Address(0),
             withdrawals=[] if self.fork.header_withdrawals_required() else None,
             parent_beacon_block_root=parent_beacon_block_root,
+            target_blobs_per_block=(
+                self.fork.target_blobs_per_block(0, 0)
+                if self.fork.engine_payload_attribute_target_blobs_per_block(0, 0)
+                else None
+            ),
+            max_blobs_per_block=(
+                self.fork.max_blobs_per_block(0, 0)
+                if self.fork.engine_payload_attribute_max_blobs_per_block(0, 0)
+                else None
+            ),
         )
         forkchoice_updated_version = self.fork.engine_forkchoice_updated_version()
         assert (

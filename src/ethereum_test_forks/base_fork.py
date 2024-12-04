@@ -272,6 +272,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
+    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+        """
+        Returns the max blobs per block for a given fork.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
     def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """
         Returns the expected reward amount in wei of a given fork
@@ -381,6 +389,26 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """
         Returns true if the engine api version requires new payload calls to include
         target blobs per block.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_payload_attribute_target_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Returns true if the payload attributes include the target blobs per block.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_payload_attribute_max_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """
+        Returns true if the payload attributes include the max blobs per block.
         """
         pass
 
