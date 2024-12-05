@@ -28,6 +28,7 @@
     * [Blockchain Tests](consuming_tests/blockchain_test.md)
     * [Blockchain Engine Tests](consuming_tests/blockchain_test_engine.md)
     * [EOF Tests](consuming_tests/eof_test.md)
+    * [Transaction Tests](consuming_tests/transaction_test.md)
     * [Common Types](consuming_tests/common_types.md)
     * [Exceptions](consuming_tests/exceptions.md)
   * [Executing Tests](executing_tests/index.md)

@@ -1,9 +1,10 @@
 # Types of tests
 
-There are currently two types of tests that can be produced by a test spec:
+There are currently three types of tests that can be produced by a test spec:
 
 1. State Tests
 2. Blockchain Tests
+3. Transaction Tests
 
 ## State Tests
 
@@ -50,6 +51,21 @@ def test_blob_type_tx_pre_fork(
     Reject blocks with blobs before blobs fork
     """
 ```
+
+## Transaction Tests
+
+### Purpose
+
+Test correct transaction rejection/acceptance of a serialized transaction (currently RLP only).
+
+### Use cases
+
+- Verify that a badly formatted transaction is correctly rejected by the client.
+- Verify that a transaction with an invalid value in one of its fields is correctly rejected by the client.
+
+!!! info
+
+    Using the `execute` command, transaction tests can be sent to clients in a live network using the `eth_sendRawTransaction` endpoint.
 
 ## Deciding on a test type
 
