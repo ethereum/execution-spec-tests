@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Depth Tree</title>
+    <style>
+        .tree ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tree li {
+            margin: 0 0 10px 20px;
+            cursor: pointer;
+        }
+
+        .tree li.collapsible::before {
+            content: "▸";
+            margin-right: 5px;
+        }
+
+        .tree li.expanded::before {
+            content: "▾";
+            margin-right: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .root {
+           cursor: pointer;
+        }
+
+        .root * {
+            cursor: default;
+        }
+
+        p.pushcode {
+            font-size: 12px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>VMTRACE VIEW</h1>
+    <div id="checkboxGroup">
+        <label><input type="checkbox" value="show_push" id="checkbox_showpush"> Show PUSH</label>
+    </div>
+    <div id="tree-container" class="tree"></div>
+    <script>
+        let selectedValues = [];
+        const checkboxes = document.querySelectorAll("#checkboxGroup input[type='checkbox']");
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", (event) => {
+                const value = event.target.value;
+                
+                if (event.target.checked) {
+                    selectedValues.push(value);
+                } else {
+                    selectedValues = selectedValues.filter((item) => item !== value);
+                }
+                const pushcodeParagraphs = document.querySelectorAll("p.pushcode");
+                pushcodeParagraphs.forEach((paragraph) => {
+                    if (paragraph.style.display === "none" || paragraph.style.display === "") {
+                        paragraph.style.display = "block";
+                    } else {
+                        paragraph.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        async function loadJSONLFile(filePath) {
+            const response = await fetch(filePath);
+            const text = await response.text();
+            return text.trim().split("\n").map(line => JSON.parse(line));
+        }
+
+        function readStackInt(stack, pos) {
+            return stack[pos] ? parseInt(stack[pos], 16) : "undefined";
+        }
+
+        function makeCALL(record) {
+            stack = record.stack;
+            const len = stack.length;
+            const gas = readStackInt(stack, len - 1);
+            const addr = stack[len-2] || "undefined";
+            const value = readStackInt(stack, len - 3);
+            const in_pos = readStackInt(stack, len - 4);
+            const in_len = readStackInt(stack, len - 5);
+            const out_pos = readStackInt(stack, len - 6);
+            const out_len = readStackInt(stack, len - 7);
+            return `${record.opName} (${gas}, ${addr}, ${value}, ${in_pos}, ${in_len}, ${out_pos}, ${out_len})`;
+        }
+
+        function makeOpcode(data, record, index, li) {
+            li.textContent = `${record.pc} - `;
+            if (record.opName.startsWith("PUSH"))
+            {
+                const nextIndex = index + 1;
+                const nextRecord = data[nextIndex];
+                li.classList.add('pushcode');
+                op_text = record.opName + " " + nextRecord.stack[nextRecord.stack.length - 1];
+                li.textContent += `${op_text}`;
+                return; 
+            }
+            if (["MSTORE", "SSTORE", "TSTORE"].includes(record.opName)) {
+                const len = record.stack.length;
+                const x = readStackInt(record.stack, len - 1);
+                const y = readStackInt(record.stack, len - 2);
+                op_text = `${record.opName} [${x}] = ${y}`;
+                li.textContent += `${op_text}`;
+                return; 
+            }
+            if (["GAS", "PC", "MLOAD"].includes(record.opName)) {
+                const len = record.stack.length;
+                const x = readStackInt(record.stack, len - 1);
+                op_text = `${record.opName} (${x})`;
+                li.textContent += `${op_text}`;
+                return; 
+            }
+            if (["SUB", "ADD", "MUL", "DIV", "EQ", "RETURN"].includes(record.opName)) {
+                const len = record.stack.length;
+                const x = readStackInt(record.stack, len - 1);
+                const y = readStackInt(record.stack, len - 2);
+                op_text = `${record.opName} (${x}, ${y})`;
+                li.textContent += `${op_text}`;
+                return; 
+            }
+            if (["CALL", "STATICCALL", "DELEGATECALL", "CALLCODE"].includes(record.opName)) {
+                op_text = makeCALL(record);
+                li.textContent += `${op_text}`;
+                return; 
+            }
+            li.textContent += `${record.opName}`;
+        }
+
+        function buildTree(data) {
+            const root = document.createElement('ul');
+            const depthStack = [root];
+            const show_push = selectedValues.includes("show_push");
+            
+
+            data.forEach((record, index) => {
+
+                const nextRecord = data[index + 1];
+                const hasSubtree = nextRecord && nextRecord.depth > record.depth;
+                
+                const li = document.createElement(hasSubtree ? 'li' : 'p');
+                makeOpcode(data, record, index, li);
+                
+
+                while (depthStack.length > record.depth) {
+                    depthStack.pop();
+                }
+                const parent = depthStack[depthStack.length - 1];
+                parent.appendChild(li);
+
+                
+                if (hasSubtree) {
+                    li.classList.add('collapsible', 'root');
+                    li.addEventListener('click', (e) => {
+                        if (e.target === li) {
+                            e.stopPropagation();
+                            if (li.children[0]) {
+                                li.children[0].classList.toggle('hidden');
+                                li.classList.toggle('expanded');
+                            }
+                        }
+                    });
+                    const subtree = document.createElement('ul');
+                    subtree.classList.add('hidden'); // Start hidden by default
+                    li.appendChild(subtree);
+                    depthStack.push(subtree);
+                }
+            });
+
+            return root;
+        }
+
+        async function initialize() {
+            const data = await loadJSONLFile('data.jsonl');
+            const tree = buildTree(data);
+            document.getElementById('tree-container').appendChild(tree);
+        }
+
+        initialize();
+    </script>
+</body>
+</html>
+
