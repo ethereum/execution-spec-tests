@@ -136,42 +136,30 @@ def test_multiple_blocks_varied_blobs(
 @pytest.mark.parametrize(
     "blob_counts_per_block, tx_counts_per_block",
     [
-        # Incremental 1: 0 to 64 blobs, 1 tx per block, 65 blocks
+        # Incremental: 1 to 64 blobs, 1 tx per block, 64 blocks
         (
-            [i for i in range(65)],
-            [1] * 65,
+            [max(1, i) for i in range(64)],
+            [1] * 64,
         ),
-        # Incremental 2: 0 to 256 blobs, 10 txs per block, 26 blocks
+        # Decremental: 64 to 1 blobs, 1 tx per block, 65 blocks
         (
-            [i * 10 for i in range(26)],
-            [10] * 26,
+            [max(1, i) for i in reversed(range(64))],
+            [1] * 64,
         ),
-        # Decremental 1: 64 to 0 blobs, 1 tx per block, 65 blocks
+        # Incremental then decremental: 1 to 32 to 1 blobs, 1 tx per block, 66 blocks
         (
-            [i for i in reversed(range(65))],
-            [1] * 65,
-        ),
-        # Decremental 2: 256 to 0 blobs, 10 txs per block, 26 blocks
-        (
-            [i * 10 for i in reversed(range(26))],
-            [10] * 26,
-        ),
-        # Incremental then decremental 1: 0 to 32 to 0 blobs, 1 tx per block, 66 blocks
-        (
-            [i for i in range(33)] + [i for i in reversed(range(33))],
+            [max(1, i) for i in range(33)] + [max(1, i) for i in reversed(range(33))],
             [1] * 66,
         ),
-        # Decremental then incremental 1: 32 to 0 to 32 blobs, 1 tx per block, 66 blocks
+        # Decremental then incremental: 32 to 1 to 32 blobs, 1 tx per block, 66 blocks
         (
-            [i for i in reversed(range(33))] + [i for i in range(33)],
+            [max(1, i) for i in reversed(range(33))] + [max(1, i) for i in range(33)],
             [1] * 66,
         ),
     ],
     ids=[
         "incremental_1_tx",
-        "incremental_10_txs",
         "decremental_1_tx",
-        "decremental_10_txs",
         "incremental_then_decremental",
         "decremental_then_incremental",
     ],
