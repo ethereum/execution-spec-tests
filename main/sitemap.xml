@@ -151,11 +151,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/overview/</loc>
-         <lastmod>2024-12-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/getting_started/repository_overview/</loc>
          <lastmod>2024-12-05</lastmod>
          <changefreq>daily</changefreq>
