@@ -107,7 +107,6 @@ markdownlintcli2_soft_fail = "cli.tox_helpers:markdownlint"
 order_fixtures = "cli.order_fixtures:order_fixtures"
 evm_bytes = "cli.evm_bytes:evm_bytes"
 hasher = "cli.hasher:main"
-env_init = "config.env:create_default_config"
 eest = "cli.eest.cli:eest"
 
 [tool.setuptools.packages.find]
