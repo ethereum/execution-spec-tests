@@ -304,7 +304,6 @@ class BlockchainTest(BaseTest):
     blocks: List[Block]
     genesis_environment: Environment = Field(default_factory=Environment)
     verify_sync: bool = False
-    chain_id: int = 1
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         BlockchainFixture,
@@ -597,6 +596,7 @@ class BlockchainTest(BaseTest):
         self.verify_post_state(t8n, alloc)
         return Fixture(
             fork=self.network_info(fork, eips),
+            chain_id=self.chain_id,
             genesis=genesis.header,
             genesis_rlp=genesis.rlp,
             blocks=fixture_blocks,
@@ -679,6 +679,7 @@ class BlockchainTest(BaseTest):
 
         return EngineFixture(
             fork=self.network_info(fork, eips),
+            chain_id=self.chain_id,
             genesis=genesis.header,
             payloads=fixture_payloads,
             fcu_version=fcu_version,

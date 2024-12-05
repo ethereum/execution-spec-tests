@@ -109,6 +109,7 @@ class Fixture(BaseFixture):
     fixture_format_name: ClassVar[str] = "state_test"
     description: ClassVar[str] = "Tests that generate a state test fixture."
 
+    chain_id: ZeroPaddedHexNumber = Field(..., alias="chainId")
     env: FixtureEnvironment
     pre: Alloc
     transaction: FixtureTransaction

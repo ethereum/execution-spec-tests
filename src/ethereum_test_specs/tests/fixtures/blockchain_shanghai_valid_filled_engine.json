@@ -1,10 +1,11 @@
 {
     "000/my_blockchain_test/Shanghai": {
         "_info": {
-            "hash": "0x9a25679729dab0fa4d90f56a7458ca2c4b7428853e9ef1e1aea6dae203926368"
+            "hash": "0xdb14f7d22b78241a6e80a1b420759b4dfcf21f5459840609d1c20922baf6b68e"
         },
         "lastblockhash": "0xfc75f11c05ec814a890141bef919bb7c20dd29245e37e9bcea66008dfde98526",
         "network": "Shanghai",
+        "chainId": "0x01",
         "genesisBlockHeader": {
             "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "uncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
