@@ -15,8 +15,6 @@ from ethereum_test_types import Alloc, Transaction
 
 from .base import BaseTest
 
-TARGET_BLOB_GAS_PER_BLOCK = 393216
-
 
 class TransactionTest(BaseTest):
     """
