@@ -9,10 +9,10 @@ from cli.eest.quotes import get_quote
 from config.env import ENV_PATH, Config
 
 
-@click.command(short_help="Generate the default environment file (env.yml).", name="env")
+@click.command(short_help="Generate the default environment file (env.yaml).", name="env")
 def create_default_env():
     """
-    A CLI command to generate the default environment file (env.yml).
+    A CLI command to generate the default environment file (env.yaml).
 
     If an `env.yaml` already exists, this command will NOT override it.
     In that case, it is recommended to manually make changes.
@@ -25,7 +25,7 @@ def create_default_env():
 
     Output:
 
-        🎉 Success! Environment file created at: <path>/env.yml
+        🎉 Success! Environment file created at: <path>/env.yaml
 
         🚀 Well begun is half done. - Aristotle
     """
