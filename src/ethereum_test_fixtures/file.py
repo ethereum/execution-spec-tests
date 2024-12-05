@@ -13,6 +13,7 @@ from .blockchain import EngineFixture as BlockchainEngineFixture
 from .blockchain import Fixture as BlockchainFixture
 from .eof import Fixture as EOFFixture
 from .state import Fixture as StateFixture
+from .verify_format import VerifyFixtureJson
 
 FixtureModel = BlockchainFixture | BlockchainEngineFixture | StateFixture | EOFFixture
 
@@ -64,7 +65,9 @@ class BaseFixturesRootModel(EthereumTestRootModel):
         """
         json_fixtures: Dict[str, Dict[str, Any]] = {}
         for name, fixture in self.items():
-            json_fixtures[name] = fixture.json_dict_with_info()
+            fixture_json = fixture.json_dict_with_info()
+            VerifyFixtureJson(name, fixture_json)
+            json_fixtures[name] = fixture_json
         with open(file_path, "w") as f:
             json.dump(json_fixtures, f, indent=4)
 
