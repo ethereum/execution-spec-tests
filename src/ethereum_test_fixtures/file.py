@@ -120,7 +120,7 @@ class BaseFixturesRootModel(EthereumTestRootModel):
         return model_class(root=json_data)
 
 
-def fixture_type_discriminator(v: Any) -> str | None:
+def fixture_format_discriminator(v: Any) -> str | None:
     """
     A discriminator function that returns the model type as a string.
     """
@@ -145,7 +145,7 @@ class Fixtures(BaseFixturesRootModel):
             | Annotated[BlockchainEngineFixture, Tag(BlockchainEngineFixture.fixture_format_name)]
             | Annotated[StateFixture, Tag(StateFixture.fixture_format_name)]
             | Annotated[TransactionFixture, Tag(TransactionFixture.fixture_format_name)],
-            Discriminator(fixture_type_discriminator),
+            Discriminator(fixture_format_discriminator),
         ],
     ]
 
