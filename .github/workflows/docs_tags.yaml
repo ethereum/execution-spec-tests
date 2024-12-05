@@ -33,4 +33,4 @@ jobs:
           git config --global user.email github-actions[bot]@users.noreply.github.com
       - name: Build and deploy docs to gh-pages
         run: |
-          uv run mike deploy --update-aliases --push --remote origin ${{ github.ref_name }} latest
+          uv run mike deploy --push --remote origin ${{ github.ref_name }}
