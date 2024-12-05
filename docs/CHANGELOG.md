@@ -58,6 +58,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add the `eest make test` command, an interactive CLI that helps users create a new test module and function ([#950](https://github.com/ethereum/execution-spec-tests/pull/950)).
 - ✨ Add the `eest clean` command that helps delete generated files and directories from the repository ([#980](https://github.com/ethereum/execution-spec-tests/pull/980)).
 - ✨ Add framework changes for EIP-7742, required for Prague devnet-5 ([#931](https://github.com/ethereum/execution-spec-tests/pull/931)).
+- ✨ Add a default location for evm logs (`--evm-dump-dir`) when filling tests ([#999](https://github.com/ethereum/execution-spec-tests/pull/999)).
 
 ### 🔧 EVM Tools
 

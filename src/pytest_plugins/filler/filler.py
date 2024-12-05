@@ -20,6 +20,7 @@ from filelock import FileLock
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
+from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
 from ethereum_test_fixtures import BaseFixture, FixtureCollector, TestInfo
@@ -182,8 +183,11 @@ def pytest_addoption(parser: pytest.Parser):
         "--t8n-dump-dir",
         action="store",
         dest="base_dump_dir",
-        default="",
-        help="Path to dump the transition tool debug output.",
+        default=AppConfig().DEFAULT_EVM_LOGS_DIR,
+        help=(
+            "Path to dump the transition tool debug output. "
+            f"(Default: {AppConfig().DEFAULT_EVM_LOGS_DIR})"
+        ),
     )
 
 
