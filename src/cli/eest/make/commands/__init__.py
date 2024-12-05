@@ -4,6 +4,7 @@ modules and exported from this package, then registered under the make command i
 `cli.py`.
 """
 
+from .config import create_default_config
 from .test import test
 
-__all__ = ["test"]
+__all__ = ["test", "create_default_config"]
