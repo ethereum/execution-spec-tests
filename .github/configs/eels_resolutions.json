@@ -1,0 +1,36 @@
+{
+    "EELSMaster": {
+        "git_url": "https://github.com/ethereum/execution-specs.git",
+        "branch": "master"
+    },
+    "Frontier": {
+        "path": "../../execution-specs/src/ethereum/frontier"
+    },
+    "Homestead": {
+        "path": "../../execution-specs/src/ethereum/homestead"
+    },
+    "Byzantium": {
+        "path": "../../execution-specs/src/ethereum/byzantium"
+    },
+    "ConstantinopleFix": {
+        "path": "../../execution-specs/src/ethereum/constantinople"
+    },
+    "Istanbul": {
+        "path": "../../execution-specs/src/ethereum/istanbul"
+    },
+    "Berlin": {
+        "path": "../../execution-specs/src/ethereum/berlin"
+    },
+    "London": {
+        "path": "../../execution-specs/src/ethereum/london"
+    },
+    "Paris": {
+        "path": "../../execution-specs/src/ethereum/paris"
+    },
+    "Shanghai": {
+        "path": "../../execution-specs/src/ethereum/shanghai"
+    },
+    "Cancun": {
+        "path": "../../execution-specs/src/ethereum/cancun"
+    }
+}
