@@ -5,14 +5,26 @@ Test the forks plugin.
 import configparser
 import json
 import os
+import tempfile
 import textwrap
 from datetime import datetime
 from pathlib import Path
 
+import platformdirs
 import pytest
 
 from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
 from pytest_plugins.filler.filler import default_output_directory
+
+
+@pytest.fixture(scope="session")
+def cache_temp_dir():
+    """
+    Return a temporary directory for caching files.
+    """
+    tmpdir = tempfile.TemporaryDirectory()
+    yield tmpdir
+    tmpdir.cleanup()
 
 
 # flake8: noqa
@@ -484,7 +496,12 @@ total_test_count = test_count_paris + test_count_shanghai
     ],
 )
 def test_fixture_output_based_on_command_line_args(
-    testdir, args, expected_fixture_files, expected_fixture_counts, expected_index
+    pytester,
+    args,
+    expected_fixture_files,
+    expected_fixture_counts,
+    expected_index,
+    cache_temp_dir,
 ):
     """
     Test:
@@ -506,20 +523,27 @@ def test_fixture_output_based_on_command_line_args(
         tests/shanghai/test_module_shanghai.py::test_shanghai_two[fork_Shanghai-x=2] PASSED
         tests/shanghai/test_module_shanghai.py::test_shanghai_two[fork_Shanghai-x=3] PASSED
     """
-    tests_dir = testdir.mkdir("tests")
+    tests_dir = pytester.mkdir("tests")
 
-    paris_tests_dir = tests_dir.mkdir("paris")
-    test_module = paris_tests_dir.join("test_module_paris.py")
-    test_module.write(test_module_paris)
+    paris_tests_dir = tests_dir / "paris"
+    paris_tests_dir.mkdir()
+    test_module = paris_tests_dir / "test_module_paris.py"
+    with open(test_module, "w") as f:
+        f.write(test_module_paris)
 
-    shanghai_tests_dir = tests_dir.mkdir("shanghai")
-    test_module = shanghai_tests_dir.join("test_module_shanghai.py")
-    test_module.write(test_module_shanghai)
+    shanghai_tests_dir = tests_dir / "shanghai"
+    shanghai_tests_dir.mkdir()
+    test_module = shanghai_tests_dir / "test_module_shanghai.py"
+    with open(test_module, "w") as f:
+        f.write(test_module_shanghai)
 
-    testdir.copy_example(name="pytest.ini")
+    cache_dir = Path(platformdirs.user_cache_dir())
+    os.symlink(cache_temp_dir.name, cache_dir)
+
+    pytester.copy_example(name="pytest.ini")
     args.append("-v")
     args.append("--no-html")
-    result = testdir.runpytest(*args)
+    result = pytester.runpytest(*args)
     result.assert_outcomes(
         passed=total_test_count * 3,
         failed=0,
