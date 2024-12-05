@@ -48,6 +48,7 @@ class Spec:
     BLOB_COMMITMENT_VERSION_KZG = 1
     POINT_EVALUATION_PRECOMPILE_ADDRESS = 10
     POINT_EVALUATION_PRECOMPILE_GAS = 50_000
+    MAX_BLOB_GAS_PER_BLOCK_PRAGUE = 1179648
     MAX_BLOB_GAS_PER_BLOCK = 786432
     TARGET_BLOB_GAS_PER_BLOCK = 393216
     MIN_BLOB_GASPRICE = 1
@@ -135,11 +136,18 @@ class SpecHelpers:
     BYTES_PER_FIELD_ELEMENT = 32
 
     @classmethod
-    def max_blobs_per_block(cls) -> int:  # MAX_BLOBS_PER_BLOCK =
+    def max_blobs_per_block(cls) -> int:
         """
         Returns the maximum number of blobs per block.
         """
         return Spec.MAX_BLOB_GAS_PER_BLOCK // Spec.GAS_PER_BLOB
+
+    @classmethod
+    def max_blobs_per_block_prague(cls) -> int:
+        """
+        Returns the maximum number of blobs per block.
+        """
+        return Spec.MAX_BLOB_GAS_PER_BLOCK_PRAGUE // Spec.GAS_PER_BLOB
 
     @classmethod
     def target_blobs_per_block(cls) -> int:
