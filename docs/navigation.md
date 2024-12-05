@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD007 MD041 (MD007=ul-indent MD041=first-line-heading) -->
+  * [Home](index.md)
   * Getting Started
-    * [Overview](getting_started/overview.md)
     * [Installation](getting_started/installation.md)
     * [Installation Troubleshooting](getting_started/installation_troubleshooting.md)
     * [VS Code Setup](getting_started/setup_vs_code.md)
