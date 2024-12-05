@@ -24709,7 +24709,7 @@
 
 
 <h1 id="test_invalid_tx_blob_count"><code>test_invalid_tx_blob_count()</code><a class="headerlink" href="#test_invalid_tx_blob_count" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2d361623337f300d36b067f99c418873cec7b4fa/tests/cancun/eip4844_blobs/test_blob_txs.py#L1000"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count@2d361623</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ed433a7bd73c1e8ecdb5bbb5f48faf303c89e0cf/tests/cancun/eip4844_blobs/test_blob_txs.py#L1013"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count@ed433a7b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count --fork Prague</span>
@@ -24732,20 +24732,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1000</span>
-<span class="normal">1001</span>
-<span class="normal">1002</span>
-<span class="normal">1003</span>
-<span class="normal">1004</span>
-<span class="normal">1005</span>
-<span class="normal">1006</span>
-<span class="normal">1007</span>
-<span class="normal">1008</span>
-<span class="normal">1009</span>
-<span class="normal">1010</span>
-<span class="normal">1011</span>
-<span class="normal">1012</span>
-<span class="normal">1013</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1013</span>
 <span class="normal">1014</span>
 <span class="normal">1015</span>
 <span class="normal">1016</span>
@@ -24766,7 +24753,21 @@
 <span class="normal">1031</span>
 <span class="normal">1032</span>
 <span class="normal">1033</span>
-<span class="normal">1034</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1034</span>
+<span class="normal">1035</span>
+<span class="normal">1036</span>
+<span class="normal">1037</span>
+<span class="normal">1038</span>
+<span class="normal">1039</span>
+<span class="normal">1040</span>
+<span class="normal">1041</span>
+<span class="normal">1042</span>
+<span class="normal">1043</span>
+<span class="normal">1044</span>
+<span class="normal">1045</span>
+<span class="normal">1046</span>
+<span class="normal">1047</span>
+<span class="normal">1048</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_ZERO_BLOBS</span><span class="p">),</span>
@@ -24776,6 +24777,7 @@
         <span class="p">),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;too_few_blobs&quot;</span><span class="p">,</span> <span class="s2">&quot;too_many_blobs&quot;</span><span class="p">],</span>
+    <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tx_error&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_tx_blob_count</span><span class="p">(</span>
@@ -24851,8 +24853,8 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>blobs_per_tx</th>
                         <th>tx_error</th>
+                        <th>blobs_per_tx</th>
                     </tr>
     </thead>
     <tbody>
@@ -24863,8 +24865,8 @@
                     ...fork_Cancun-blockchain_test-too_few_blobs
                 </abbr>
             </td>
-                        <td>[0]</td>
                         <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
+                        <td>[0]</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -24873,8 +24875,8 @@
                     ...fork_Cancun-blockchain_test-too_many_blobs
                 </abbr>
             </td>
-                        <td>[7]</td>
                         <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[7]</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -24883,8 +24885,8 @@
                     ...fork_Cancun-state_test-too_few_blobs
                 </abbr>
             </td>
-                        <td>[0]</td>
                         <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
+                        <td>[0]</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -24893,8 +24895,8 @@
                     ...fork_Cancun-state_test-too_many_blobs
                 </abbr>
             </td>
-                        <td>[7]</td>
                         <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[7]</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -24903,8 +24905,8 @@
                     ...fork_Prague-blockchain_test-too_few_blobs
                 </abbr>
             </td>
-                        <td>[0]</td>
                         <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
+                        <td>[0]</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -24913,8 +24915,8 @@
                     ...fork_Prague-blockchain_test-too_many_blobs
                 </abbr>
             </td>
-                        <td>[7]</td>
                         <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[7]</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -24923,8 +24925,8 @@
                     ...fork_Prague-state_test-too_few_blobs
                 </abbr>
             </td>
-                        <td>[0]</td>
                         <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
+                        <td>[0]</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -24933,8 +24935,8 @@
                     ...fork_Prague-state_test-too_many_blobs
                 </abbr>
             </td>
-                        <td>[7]</td>
                         <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[7]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -24943,8 +24945,8 @@
                     ...fork_Osaka-blockchain_test-too_few_blobs
                 </abbr>
             </td>
-                        <td>[0]</td>
                         <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
+                        <td>[0]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -24953,8 +24955,8 @@
                     ...fork_Osaka-blockchain_test-too_many_blobs
                 </abbr>
             </td>
-                        <td>[7]</td>
                         <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[7]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -24963,8 +24965,8 @@
                     ...fork_Osaka-state_test-too_few_blobs
                 </abbr>
             </td>
-                        <td>[0]</td>
                         <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
+                        <td>[0]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -24973,8 +24975,8 @@
                     ...fork_Osaka-state_test-too_many_blobs
                 </abbr>
             </td>
-                        <td>[7]</td>
                         <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[7]</td>
                     </tr>
             </tbody>
 </table>
