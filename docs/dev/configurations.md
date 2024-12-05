@@ -19,17 +19,18 @@ Application-wide [environment configuration](https://www.12factor.net/config), w
 
 This file will not be tracked by git, making it safe for storing local secrets.
 
-To get started, run the command [env_init](../library/cli/env_init.md) cli to initialize your environment configuration.
+To get started, run the command [eest make config](../library/cli/eest.md) cli to initialize your environment configuration.
 
 ### Usage
 
 #### 1. Generate env file
 
-Run the [`env_init`](../library/cli/env_init.md) cli tool.
+Run the [`eest make config`](../library/cli/eest.md) cli tool.
 
 ```console
-➜ uv run env_init
-Env file created:  execution-spec-tests/env.yaml
+➜ uv run eest make 
+
+🎉 Success! Config file created at: <path>/env.yml
 ```
 
 which should generate an `env.yaml` in the project root.
