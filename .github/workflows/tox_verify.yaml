@@ -32,9 +32,17 @@ jobs:
             evm-type: "stable"
             tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@v4
+      - name: Checkout ethereum/execution-specs
+        uses: actions/checkout@v4
         with:
-          submodules: true
+          repository: ethereum/execution-specs
+          ref: 9b95554a88d2a8485f8180254d0f6a493a593fda
+          path: execution-specs
+          sparse-checkout: |
+            src/ethereum
+          fetch-depth: 1
       - uses: ./.github/actions/build-evm-base
         id: evm-builder
         with:
@@ -54,6 +62,8 @@ jobs:
           # Add additional packages on 3.11: https://github.com/ethereum/execution-spec-tests/issues/274
           if [ ${{ matrix.python }} == '3.11' ]; then brew install autoconf automake libtool; fi
       - name: Run Tox (CPython)
+        env:
+          EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
         run: ${{ matrix.tox-cmd }}
       - uses: DavidAnson/markdownlint-cli2-action@v16
         with:
