@@ -24644,6 +24644,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#eest-make-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      env
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#eest-make-test" class="md-nav__link">
     <span class="md-ellipsis">
       test
@@ -24737,8 +24746,28 @@ verbose (bool): Show verbose output.
 </code></pre></div>
 <p><strong>Subcommands</strong></p>
 <ul>
+<li><em><a href="#eest-make-env">env</a></em>: Generate the default environment file (env.yaml).</li>
 <li><em><a href="#eest-make-test">test</a></em>: Generate a new test file for an EIP.</li>
 </ul>
+<h4 id="eest-make-env">eest make env<a class="headerlink" href="#eest-make-env" title="Permanent link">&para;</a></h4>
+<p>A CLI command to generate the default environment file (env.yaml).</p>
+<p>If an <code>env.yaml</code> already exists, this command will NOT override it.
+In that case, it is recommended to manually make changes.</p>
+<p><em>Easter egg: Shows a random quote after creating the environment file.</em></p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>uv run eest make env
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>🎉 Success! Environment file created at: &lt;path&gt;/env.yaml
+
+🚀 Well begun is half done. - Aristotle
+</code></pre></div>
+<p><strong>Usage:</strong></p>
+<div class="highlight"><pre><span></span><code>eest make env [OPTIONS]
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<div class="highlight"><pre><span></span><code>  --help  Show this message and exit.
+</code></pre></div>
 <h4 id="eest-make-test">eest make test<a class="headerlink" href="#eest-make-test" title="Permanent link">&para;</a></h4>
 <p>Generate a new test file for an EIP.</p>
 <p>This function guides the user through a series of prompts to generate a test file

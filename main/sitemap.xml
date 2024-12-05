@@ -221,11 +221,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/library/cli/env_init/</loc>
-         <lastmod>2024-12-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/library/cli/evm_bytes/</loc>
          <lastmod>2024-12-05</lastmod>
          <changefreq>daily</changefreq>

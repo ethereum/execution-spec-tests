@@ -24811,12 +24811,12 @@
 <h2 id="environment-configurations">Environment Configurations<a class="headerlink" href="#environment-configurations" title="Permanent link">&para;</a></h2>
 <p>Application-wide <a href="https://www.12factor.net/config">environment configuration</a>, which varies across staging, production, and development environments are read from <code>env.yaml</code> in the project root.</p>
 <p>This file will not be tracked by git, making it safe for storing local secrets.</p>
-<p>To get started, run the command <a href="../../library/cli/env_init/">env_init</a> cli to initialize your environment configuration.</p>
+<p>To get started, run the command <a href="../../library/cli/eest/">eest make env</a> cli to initialize your environment configuration.</p>
 <h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
 <h4 id="1-generate-env-file">1. Generate env file<a class="headerlink" href="#1-generate-env-file" title="Permanent link">&para;</a></h4>
-<p>Run the <a href="../../library/cli/env_init/"><code>env_init</code></a> cli tool.</p>
-<div class="highlight"><pre><span></span><code><span class="go">➜ uv run env_init</span>
-<span class="go">Env file created:  execution-spec-tests/env.yaml</span>
+<p>Run the <a href="../../library/cli/eest/"><code>eest make env</code></a> cli tool.</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run eest make env</span>
+<span class="go">🎉 Success! Config file created at: &lt;path&gt;/env.yaml</span>
 </code></pre></div>
 <p>which should generate an <code>env.yaml</code> in the project root.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">remote_nodes</span><span class="p">:</span>
