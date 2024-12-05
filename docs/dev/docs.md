@@ -47,16 +47,16 @@ The deployed versions of the docs managed via `mike` are kept in the [gh-pages](
 
 ### Aliases
 
-We currently use two aliases:
+We currently have two aliases (which both point to `main` as of [#998](https://github.com/ethereum/execution-spec-tests/pull/998)):
 
-- [`latest`](https://ethereum.github.io/execution-spec-tests/latest): the latest stable release.
+- [`latest`](https://ethereum.github.io/execution-spec-tests/latest): the current state of the main branch.
 - [`development`](https://ethereum.github.io/execution-spec-tests/development): the current state of the main branch.
 
 These aliases point to specific versions, as configured below. It's possible to share links containing either of these aliases or to specific versions, i.e, the following are all valid links:
 
 - https://ethereum.github.io/execution-spec-tests/ (redirects to latest/main)
 - https://ethereum.github.io/execution-spec-tests/latest (redirects to main)
-- https://ethereum.github.io/execution-spec-tests/development (redirects to tagged version)
+- https://ethereum.github.io/execution-spec-tests/development (redirects main)
 - https://ethereum.github.io/execution-spec-tests/main
 - https://ethereum.github.io/execution-spec-tests/v1.0.0
 
@@ -65,7 +65,7 @@ These aliases point to specific versions, as configured below. It's possible to 
 There are two workflows that automatically deploy updated/new versions of the docs:
 
 | Workflow `yaml` File | What | When |
-|-----------------_____|------|------|
+|----------------------|------|------|
 | `docs_main.yaml`     | Update "main" version of docs | Push to 'main' branch, (e.g., on PR merge) |
 | `docs_tags.yaml`     | Deploy new version of docs; tag is used as version name | Upon creating a tag matching `v*` |
 
@@ -74,7 +74,7 @@ There are two workflows that automatically deploy updated/new versions of the do
 Build a new version and deploy it to remote (this version will then show up in the version selector list):
 
 ```console
-uv run mike deploy --push v1.2.3
+uv run mike deploy -rebase --push v1.2.3
 ```
 
 !!! note "Local deployment"
@@ -85,7 +85,7 @@ uv run mike deploy --push v1.2.3
 Build, deploy and update the version an alias points to with:
 
 ```console
-uv run mike deploy --push --update-aliases v1.2.3 latest
+uv run mike deploy --rebase --push --update-aliases v1.2.3 latest
 ```
 
 where `v1.2.3` indicates the version's name and `development` is the alias. This will overwrite the version if it already exists.  
@@ -94,13 +94,13 @@ where `v1.2.3` indicates the version's name and `development` is the alias. This
     "main" is just a version name (intended to reflect that it is build from the main branch). However, `mike` will build the docs site from the current local repository state (including local modifications). Therefore, make sure you're on the HEAD of the main branch before executing (unless you know what you're doing :wink:)!
 
     ```console
-    uv run mike deploy --push main
+    uv run mike deploy --rebase --push main
     ```
 
     If the alias accidentally go change:
 
     ```console
-    uv run mike deploy --push --update-aliases main development
+    uv run mike deploy --rebase --push --update-aliases main development
     ```
 
 ### Viewing and Deleting Versions
