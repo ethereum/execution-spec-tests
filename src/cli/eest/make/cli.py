@@ -10,7 +10,7 @@ is present, it shows a list of valid subcommands to choose from.
 
 import click
 
-from cli.eest.make.commands import create_default_config
+from cli.eest.make.commands import create_default_env
 
 from .commands import test
 
@@ -34,4 +34,4 @@ Register nested commands here. For more information, see Click documentation:
 https://click.palletsprojects.com/en/8.0.x/commands/#nested-handling-and-contexts
 """
 make.add_command(test)
-make.add_command(create_default_config)
+make.add_command(create_default_env)
