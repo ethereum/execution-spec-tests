@@ -24723,7 +24723,7 @@
 
 
 <h1 id="test_set_code_to_log"><code>test_set_code_to_log()</code><a class="headerlink" href="#test_set_code_to_log" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c1eeddbd43bda5bd85619281f6113c7227a1ad96/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2642"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_log@c1eeddbd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d65e6fbc5316f3f3924808247b0d72448519be1e/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2645"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_log@d65e6fbc</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_log --fork Prague</span>
@@ -24742,10 +24742,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2642</span>
-<span class="normal">2643</span>
-<span class="normal">2644</span>
-<span class="normal">2645</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2645</span>
 <span class="normal">2646</span>
 <span class="normal">2647</span>
 <span class="normal">2648</span>
@@ -24794,7 +24791,10 @@
 <span class="normal">2691</span>
 <span class="normal">2692</span>
 <span class="normal">2693</span>
-<span class="normal">2694</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2694</span>
+<span class="normal">2695</span>
+<span class="normal">2696</span>
+<span class="normal">2697</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;log_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">LOG0</span><span class="p">,</span>

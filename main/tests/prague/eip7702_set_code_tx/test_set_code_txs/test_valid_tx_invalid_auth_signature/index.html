@@ -24723,7 +24723,7 @@
 
 
 <h1 id="test_valid_tx_invalid_auth_signature"><code>test_valid_tx_invalid_auth_signature()</code><a class="headerlink" href="#test_valid_tx_invalid_auth_signature" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c1eeddbd43bda5bd85619281f6113c7227a1ad96/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2295"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature@c1eeddbd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d65e6fbc5316f3f3924808247b0d72448519be1e/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2298"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature@d65e6fbc</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature --fork Prague</span>
@@ -24743,10 +24743,7 @@ the transaction is valid but the authorization should not go through.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2295</span>
-<span class="normal">2296</span>
-<span class="normal">2297</span>
-<span class="normal">2298</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2298</span>
 <span class="normal">2299</span>
 <span class="normal">2300</span>
 <span class="normal">2301</span>
@@ -24815,7 +24812,10 @@ the transaction is valid but the authorization should not go through.</p>
 <span class="normal">2364</span>
 <span class="normal">2365</span>
 <span class="normal">2366</span>
-<span class="normal">2367</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2367</span>
+<span class="normal">2368</span>
+<span class="normal">2369</span>
+<span class="normal">2370</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;v,r,s&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># V</span>

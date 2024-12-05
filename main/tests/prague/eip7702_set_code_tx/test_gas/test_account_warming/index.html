@@ -24723,7 +24723,7 @@
 
 
 <h1 id="test_account_warming"><code>test_account_warming()</code><a class="headerlink" href="#test_account_warming" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c1eeddbd43bda5bd85619281f6113c7227a1ad96/tests/prague/eip7702_set_code_tx/test_gas.py#L782"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming@c1eeddbd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d65e6fbc5316f3f3924808247b0d72448519be1e/tests/prague/eip7702_set_code_tx/test_gas.py#L782"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming@d65e6fbc</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming --fork Prague</span>
@@ -24902,7 +24902,7 @@
 <span class="sd">    Test warming of the authority and authorized accounts for set-code transactions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Overhead cost is the single push operation required for the address to check.</span>
-    <span class="n">OVERHEAD_COST</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">OVERHEAD_COST</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 
     <span class="n">COLD_ACCOUNT_COST</span> <span class="o">=</span> <span class="mi">2600</span>
     <span class="n">WARM_ACCOUNT_COST</span> <span class="o">=</span> <span class="mi">100</span>
@@ -24997,7 +24997,7 @@
     <span class="n">callee_code</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
         <span class="p">(</span>
             <span class="n">CodeGasMeasure</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">check_address</span><span class="p">),</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">check_address</span><span class="p">),</span>
                 <span class="n">overhead_cost</span><span class="o">=</span><span class="n">OVERHEAD_COST</span><span class="p">,</span>
                 <span class="n">extra_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">sstore_key</span><span class="o">=</span><span class="n">callee_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">access_cost</span><span class="p">),</span>

@@ -24721,7 +24721,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c1eeddbd43bda5bd85619281f6113c7227a1ad96/tests/prague/eip7702_set_code_tx/spec.py"><code>tests/prague/eip7702_set_code_tx/spec.py@c1eeddbd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d65e6fbc5316f3f3924808247b0d72448519be1e/tests/prague/eip7702_set_code_tx/spec.py"><code>tests/prague/eip7702_set_code_tx/spec.py@d65e6fbc</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -24785,7 +24785,8 @@
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
-<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-7702 specifications as defined at</span>
@@ -24796,7 +24797,8 @@
     <span class="n">MAGIC</span> <span class="o">=</span> <span class="mh">0x05</span>
     <span class="n">PER_AUTH_BASE_COST</span> <span class="o">=</span> <span class="mi">12_500</span>
     <span class="n">PER_EMPTY_ACCOUNT_COST</span> <span class="o">=</span> <span class="mi">25_000</span>
-    <span class="n">DELEGATION_DESIGNATION</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0100&quot;</span><span class="p">)</span>
+    <span class="n">DELEGATION_DESIGNATION</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;ef0100&quot;</span><span class="p">)</span>
+    <span class="n">DELEGATION_DESIGNATION_READING</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;ef01&quot;</span><span class="p">)</span>
     <span class="n">RESET_DELEGATION_ADDRESS</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
