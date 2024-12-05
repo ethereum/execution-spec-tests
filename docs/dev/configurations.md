@@ -28,8 +28,7 @@ To get started, run the command [eest make config](../library/cli/eest.md) cli t
 Run the [`eest make config`](../library/cli/eest.md) cli tool.
 
 ```console
-➜ uv run eest make 
-
+uv run eest make env
 🎉 Success! Config file created at: <path>/env.yml
 ```
 
