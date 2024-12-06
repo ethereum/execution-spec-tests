@@ -104,7 +104,7 @@ uv sync --all-extras
 uv run solc-select use 0.8.24 --always-install
 ```
 
-See [Installation Troubleshooting](./installation_troubleshooting.md) in the online docs if you encounter issues.
+See [Installation Troubleshooting](https://ethereum.github.io/execution-spec-tests/main/getting_started/installation_troubleshooting/) in the online docs if you encounter issues.
 
 ### Exploring and Filling Test Cases
 
