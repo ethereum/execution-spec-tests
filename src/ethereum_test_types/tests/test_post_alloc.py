@@ -1,6 +1,4 @@
-"""
-Test suite for test spec submodules of the `ethereum_test` module.
-"""
+"""Test suite for test spec submodules of the `ethereum_test` module."""
 
 from typing import Type
 
@@ -12,17 +10,13 @@ from ethereum_test_types import Alloc
 
 @pytest.fixture()
 def post(request: pytest.FixtureRequest) -> Alloc:
-    """
-    The post state: Set from the test's indirectly parametrized `post` parameter.
-    """
+    """Post state: Set from the test's indirectly parametrized `post` parameter."""
     return Alloc.model_validate(request.param)
 
 
 @pytest.fixture()
 def alloc(request: pytest.FixtureRequest) -> Alloc:
-    """
-    The alloc state: Set from the test's indirectly parametrized `alloc` parameter.
-    """
+    """Alloc state: Set from the test's indirectly parametrized `alloc` parameter."""
     return Alloc.model_validate(request.param)
 
 
