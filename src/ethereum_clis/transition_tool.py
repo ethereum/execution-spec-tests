@@ -253,12 +253,12 @@ class TransitionTool(EthereumCLI, FixtureVerifier):
     def _server_post(
         self,
         data: Dict[str, Any],
-        url_args: Dict[str, List[str] | str] = {},
+        url_args: Optional[Dict[str, List[str] | str]] = None,
         retries: int = 5,
     ) -> Response:
-        """
-        Send a POST request to the t8n-server and return the response.
-        """
+        """Send a POST request to the t8n-server and return the response."""
+        if url_args is None:
+            url_args = {}
         post_delay = 0.1
         while True:
             try:
@@ -283,9 +283,7 @@ class TransitionTool(EthereumCLI, FixtureVerifier):
         return response
 
     def _generate_post_args(self, t8n_data: TransitionToolData) -> Dict[str, List[str] | str]:
-        """
-        Generate the arguments for the POST request to the t8n-server.
-        """
+        """Generate the arguments for the POST request to the t8n-server."""
         return {}
 
     def _evaluate_server(
