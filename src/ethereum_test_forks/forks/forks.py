@@ -233,6 +233,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return 0
 
     @classmethod
+    def get_blob_gasprice_update_fraction(cls) -> int:
+        """
+        Returns the BLOB_GASPRICE_UPDATE_FRACTION specific to the fork.
+        """
+        return 0
+
+    @classmethod
     def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
         """
         Returns the target number of blobs per block for a given fork.
@@ -969,6 +976,13 @@ class Cancun(Shanghai):
         return Version.parse("0.8.24")
 
     @classmethod
+    def get_blob_gasprice_update_fraction(cls) -> int:
+        """
+        Returns the BLOB_GASPRICE_UPDATE_FRACTION specific to Cancun.
+        """
+        return 3338477
+
+    @classmethod
     def header_excess_blob_gas_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         Excess blob gas is required starting from Cancun.
@@ -1105,6 +1119,13 @@ class Prague(Cancun):
         Returns the minimum version of solc that supports this fork.
         """
         return Version.parse("1.0.0")  # set a high version; currently unknown
+
+    @classmethod
+    def get_blob_gasprice_update_fraction(cls) -> int:
+        """
+        Returns the BLOB_GASPRICE_UPDATE_FRACTION specific to Prague.
+        """
+        return 5007716
 
     @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:

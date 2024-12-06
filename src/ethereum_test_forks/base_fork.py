@@ -520,6 +520,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         pass
 
     @classmethod
+    @abstractmethod
+    def get_blob_gasprice_update_fraction(cls) -> int:
+        """
+        Returns the BLOB_GASPRICE_UPDATE_FRACTION specific to the fork.
+        """
+        pass
+
+    @classmethod
     def blockchain_test_network_name(cls) -> str:
         """
         Returns the network configuration name to be used in BlockchainTests for this fork.

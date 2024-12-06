@@ -4,6 +4,7 @@ Defines EIP-4844 specification constants and functions.
 from dataclasses import dataclass
 from hashlib import sha256
 from typing import Optional
+from ethereum_test_forks import Fork, Cancun, Prague
 
 from ethereum_test_tools import Transaction
 
@@ -41,7 +42,6 @@ class Spec:
     If the parameter is not currently used within the tests, it is commented
     out.
     """
-
     BLOB_TX_TYPE = 0x03
     FIELD_ELEMENTS_PER_BLOB = 4096
     BLS_MODULUS = 0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001
@@ -51,7 +51,10 @@ class Spec:
     MAX_BLOB_GAS_PER_BLOCK = 786432
     TARGET_BLOB_GAS_PER_BLOCK = 393216
     MIN_BLOB_GASPRICE = 1
-    BLOB_GASPRICE_UPDATE_FRACTION = 3338477
+    BLOB_GASPRICE_UPDATE_FRACTION = (
+        Cancun.get_blob_gasprice_update_fraction() if Fork is Cancun
+        else Prague.get_blob_gasprice_update_fraction()
+    )
     # MAX_VERSIONED_HASHES_LIST_SIZE = 2**24
     # MAX_CALLDATA_SIZE = 2**24
     # MAX_ACCESS_LIST_SIZE = 2**24
@@ -118,6 +121,12 @@ class Spec:
         """
         Calculate the blob gas price from the excess.
         """
+        value = cls.fake_exponential(
+            cls.MIN_BLOB_GASPRICE,
+            excess_blob_gas,
+            cls.BLOB_GASPRICE_UPDATE_FRACTION,
+        )
+        print(value)
         return cls.fake_exponential(
             cls.MIN_BLOB_GASPRICE,
             excess_blob_gas,
