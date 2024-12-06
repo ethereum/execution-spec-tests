@@ -44,7 +44,7 @@ class CalldataGasCalculator(Protocol):
     A protocol to calculate the transaction gas cost of calldata for a given fork.
     """
 
-    def __call__(self, *, data: BytesConvertible) -> int:
+    def __call__(self, *, data: BytesConvertible, floor: bool = False) -> int:
         """
         Returns the transaction gas cost of calldata given its contents.
         """
@@ -63,9 +63,20 @@ class TransactionIntrinsicCostCalculator(Protocol):
         contract_creation: bool = False,
         access_list: List[AccessList] | None = None,
         authorization_list_or_count: Sized | int | None = None,
+        return_cost_deducted_prior_execution: bool = False,
     ) -> int:
         """
         Returns the intrinsic gas cost of a transaction given its properties.
+
+        The `calldata` parameter is the data of the transaction.
+        The `contract_creation` parameter is whether the transaction creates a contract.
+        The `access_list` parameter is the list of access lists for the transaction.
+        The `authorization_list_or_count` parameter is the list of authorizations or the count of
+        authorizations for the transaction.
+        If `return_cost_deducted_prior_execution` parameter if set to False, the returned value
+        is equal to the minimum gas required for the transaction to be valid. If set to True, the
+        returned value is equal to the cost that is deducted from the gas limit before the
+        transaction starts execution.
         """
         pass
 
