@@ -1,6 +1,4 @@
-"""
-Ethereum test execution base types.
-"""
+"""Ethereum test execution base types."""
 from abc import abstractmethod
 from typing import ClassVar, Type
 
@@ -9,9 +7,7 @@ from ethereum_test_rpc import EthRPC
 
 
 class BaseExecute(CamelModel):
-    """
-    Represents a base execution format.
-    """
+    """Represents a base execution format."""
 
     # Execute format properties
     execute_format_name: ClassVar[str] = "unset"
@@ -19,9 +15,7 @@ class BaseExecute(CamelModel):
 
     @abstractmethod
     def execute(self, eth_rpc: EthRPC):
-        """
-        Execute the format.
-        """
+        """Execute the format."""
         pass
 
 
