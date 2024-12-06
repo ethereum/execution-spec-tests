@@ -88,15 +88,8 @@ class RPCRequest:
             timestamp=res["timestamp"],
         )
 
-<<<<<<< HEAD
     def debug_trace_call(self, transaction: RemoteTransaction) -> Dict[str, dict]:
-        """
-        Get pre-state required for transaction
-        """
-=======
-    def debug_trace_call(self, transaction: RemoteTransaction) -> Dict[Address, Account]:
         """Get pre-state required for transaction."""
->>>>>>> 870186fb74 (chore(ruff): changes to `src/cli`.)
         assert transaction.sender is not None
         assert transaction.to is not None
 

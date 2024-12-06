@@ -83,17 +83,9 @@ def check_json(json_file_path: Path):
     expose_value=True,
     help="Stop and raise any exceptions encountered while checking fixtures.",
 )
-<<<<<<< HEAD
 def check_fixtures(input_str: str, quiet_mode: bool, stop_on_error: bool):
-    """
-    Perform some checks on the fixtures contained in the specified directory.
-    """
-    input_path = Path(input_str)
-=======
-def check_fixtures(input_dir: str, quiet_mode: bool, stop_on_error: bool):
     """Perform some checks on the fixtures contained in the specified directory."""
-    input_path = Path(input_dir)
->>>>>>> 870186fb74 (chore(ruff): changes to `src/cli`.)
+    input_path = Path(input_str)
     success = True
     file_count = 0
     filename_display_width = 25
