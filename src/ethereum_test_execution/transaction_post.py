@@ -1,6 +1,4 @@
-"""
-Simple transaction-send then post-check execution format.
-"""
+"""Simple transaction-send then post-check execution format."""
 
 from typing import ClassVar, List
 
@@ -14,9 +12,7 @@ from .base import BaseExecute
 
 
 class TransactionPost(BaseExecute):
-    """
-    Represents a simple transaction-send then post-check execution format.
-    """
+    """Represents a simple transaction-send then post-check execution format."""
 
     transactions: List[Transaction]
     post: Alloc
@@ -27,9 +23,7 @@ class TransactionPost(BaseExecute):
     ] = "Simple transaction sending, then post-check after all transactions are included"
 
     def execute(self, eth_rpc: EthRPC):
-        """
-        Execute the format.
-        """
+        """Execute the format."""
         assert not any(
             tx.ty == 3 for tx in self.transactions
         ), "Transaction type 3 is not supported in execute mode."
