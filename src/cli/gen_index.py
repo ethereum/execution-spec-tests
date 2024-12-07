@@ -159,7 +159,7 @@ def generate_fixtures_index(
         TimeElapsedColumn(),
         expand=False,
         disable=quiet_mode,
-    ) as progress:
+    ) as progress:  # type: Progress
         task_id = progress.add_task("[cyan]Processing files...", total=total_files, filename="...")
 
         test_cases: List[TestCaseIndexFile] = []
