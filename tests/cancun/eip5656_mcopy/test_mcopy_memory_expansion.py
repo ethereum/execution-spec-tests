@@ -4,15 +4,23 @@ abstract: Tests [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethe
     that produce a memory expansion, and potentially an out-of-gas error.
 
 """  # noqa: E501
+
 import itertools
 from typing import Mapping
 
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Account, Address, Alloc, Bytecode, Environment
+from ethereum_test_tools import (
+    Account,
+    Address,
+    Alloc,
+    Bytecode,
+    Environment,
+    StateTestFiller,
+    Transaction,
+)
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import StateTestFiller, Transaction
 
 from .common import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 
@@ -30,9 +38,7 @@ value_code_worked = 0x2015
 
 @pytest.fixture
 def callee_bytecode(dest: int, src: int, length: int) -> Bytecode:
-    """
-    Callee performs a single mcopy operation and then returns.
-    """
+    """Callee performs a single mcopy operation and then returns."""
     bytecode = Bytecode()
 
     # Copy the initial memory
@@ -58,9 +64,7 @@ def call_exact_cost(
     dest: int,
     length: int,
 ) -> int:
-    """
-    Returns the exact cost of the subcall, based on the initial memory and the length of the copy.
-    """
+    """Return exact cost of the subcall, based on the initial memory and the length of the copy."""
     cost_memory_bytes = fork.memory_expansion_gas_calculator()
     gas_costs = fork.gas_costs()
     tx_intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
@@ -204,9 +208,7 @@ def test_mcopy_memory_expansion(
     post: Mapping[str, Account],
     tx: Transaction,
 ):
-    """
-    Perform MCOPY operations that expand the memory, and verify the gas it costs to do so.
-    """
+    """Perform MCOPY operations that expand the memory, and verify the gas it costs to do so."""
     state_test(
         env=env,
         pre=pre,
