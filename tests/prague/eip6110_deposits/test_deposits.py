@@ -699,9 +699,7 @@ def test_deposit(
     pre: Alloc,
     blocks: List[Block],
 ):
-    """
-    Test making a deposit to the beacon chain deposit contract.
-    """
+    """Test making a deposit to the beacon chain deposit contract."""
     blockchain_test(
         genesis_environment=Environment(),
         pre=pre,
