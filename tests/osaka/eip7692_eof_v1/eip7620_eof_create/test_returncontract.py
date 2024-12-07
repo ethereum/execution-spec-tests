@@ -1,6 +1,4 @@
-"""
-Tests for RETURNCONTRACT instruction validation
-"""
+"""Tests for RETURNCONTRACT instruction validation."""
 import pytest
 
 from ethereum_test_tools import EOFException, EOFTestFiller
@@ -18,7 +16,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 def test_returncontract_valid_index_0(
     eof_test: EOFTestFiller,
 ):
-    """Deploy container index 0"""
+    """Deploy container index 0."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
         data=Container(
@@ -35,7 +33,7 @@ def test_returncontract_valid_index_0(
 def test_returncontract_valid_index_1(
     eof_test: EOFTestFiller,
 ):
-    """Deploy container index 1"""
+    """Deploy container index 1."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
         data=Container(
@@ -54,7 +52,7 @@ def test_returncontract_valid_index_1(
 def test_returncontract_valid_index_255(
     eof_test: EOFTestFiller,
 ):
-    """Deploy container index 255"""
+    """Deploy container index 255."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
         data=Container(
@@ -74,7 +72,7 @@ def test_returncontract_valid_index_255(
 def test_returncontract_invalid_truncated_immediate(
     eof_test: EOFTestFiller,
 ):
-    """Truncated immediate"""
+    """Truncated immediate."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
         data=Container(
@@ -91,7 +89,7 @@ def test_returncontract_invalid_truncated_immediate(
 def test_returncontract_invalid_index_0(
     eof_test: EOFTestFiller,
 ):
-    """Referring to non-existent container section index 0"""
+    """Referring to non-existent container section index 0."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
         data=Container(
@@ -108,7 +106,7 @@ def test_returncontract_invalid_index_0(
 def test_returncontract_invalid_index_1(
     eof_test: EOFTestFiller,
 ):
-    """Referring to non-existent container section index 1"""
+    """Referring to non-existent container section index 1."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
         data=Container(
@@ -126,7 +124,7 @@ def test_returncontract_invalid_index_1(
 def test_returncontract_invalid_index_255(
     eof_test: EOFTestFiller,
 ):
-    """Referring to non-existent container section index 255"""
+    """Referring to non-existent container section index 255."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
         data=Container(
@@ -144,7 +142,7 @@ def test_returncontract_invalid_index_255(
 def test_returncontract_terminating(
     eof_test: EOFTestFiller,
 ):
-    """Unreachable code after RETURNCONTRACT"""
+    """Unreachable code after RETURNCONTRACT."""
     eof_test(
         container_kind=ContainerKind.INITCODE,
         data=Container(
