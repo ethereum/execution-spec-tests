@@ -224,7 +224,7 @@ def test_post_balance_value_mismatch(pre: Alloc, post: Alloc, state_test, t8n, f
         (
             {ADDRESS_UNDER_TEST: Account(balance=1)},
             {ADDRESS_UNDER_TEST: Account(balance=1), Address(0x02): Account(balance=1)},
-            Alloc.MissingAccount,
+            Alloc.MissingAccountError,
         ),
         (
             {ADDRESS_UNDER_TEST: Account(balance=1)},
@@ -234,7 +234,7 @@ def test_post_balance_value_mismatch(pre: Alloc, post: Alloc, state_test, t8n, f
         (
             {ADDRESS_UNDER_TEST: Account(balance=1)},
             {ADDRESS_UNDER_TEST: Account.NONEXISTENT},
-            Alloc.UnexpectedAccount,
+            Alloc.UnexpectedAccountError,
         ),
     ],
     indirect=["pre", "post"],

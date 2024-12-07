@@ -34,25 +34,25 @@ def alloc(request: pytest.FixtureRequest) -> Alloc:
                     "storage": {0: 1},
                 }
             },
-            Alloc.UnexpectedAccount,
+            Alloc.UnexpectedAccountError,
         ),
         # Account should not exist but contained in alloc
         (
             {"0x00": Account.NONEXISTENT},
             {"0x0": {"nonce": "1"}},
-            Alloc.UnexpectedAccount,
+            Alloc.UnexpectedAccountError,
         ),
         # Account should not exist but contained in alloc
         (
             {"0x1": Account.NONEXISTENT},
             {"0x01": {"balance": "1"}},
-            Alloc.UnexpectedAccount,
+            Alloc.UnexpectedAccountError,
         ),
         # Account should not exist but contained in alloc
         (
             {"0x0a": Account.NONEXISTENT},
             {"0x0A": {"code": "0x00"}},
-            Alloc.UnexpectedAccount,
+            Alloc.UnexpectedAccountError,
         ),
         # Account should exist but not in alloc
         (
@@ -65,7 +65,7 @@ def alloc(request: pytest.FixtureRequest) -> Alloc:
                     "storage": {0: 1},
                 }
             },
-            Alloc.MissingAccount,
+            Alloc.MissingAccountError,
         ),
         # Account should exist and contained in alloc, but don't care about
         # values

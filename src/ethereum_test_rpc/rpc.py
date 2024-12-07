@@ -45,7 +45,7 @@ class BaseRPC:
 
     namespace: ClassVar[str]
 
-    def __init__(self, url: str, extra_headers: Dict = None):
+    def __init__(self, url: str, extra_headers: Dict | None = None):
         """Initialize BaseRPC class with the given url."""
         if extra_headers is None:
             extra_headers = {}
@@ -60,7 +60,7 @@ class BaseRPC:
             namespace = namespace[:-3]
         cls.namespace = namespace.lower()
 
-    def post_request(self, method: str, *params: Any, extra_headers: Dict = None) -> Any:
+    def post_request(self, method: str, *params: Any, extra_headers: Dict | None = None) -> Any:
         """Send JSON-RPC POST request to the client RPC server at port defined in the url."""
         if extra_headers is None:
             extra_headers = {}
@@ -101,7 +101,7 @@ class EthRPC(BaseRPC):
     BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
 
     def __init__(
-        self, url: str, extra_headers: Dict = None, *, transaction_wait_timeout: int = 60
+        self, url: str, extra_headers: Dict | None = None, *, transaction_wait_timeout: int = 60
     ):
         """Initialize EthRPC class with the given url and transaction wait timeout."""
         if extra_headers is None:
@@ -257,7 +257,7 @@ class EngineRPC(BaseRPC):
     simulators.
     """
 
-    def post_request(self, method: str, *params: Any, extra_headers: Dict = None) -> Any:
+    def post_request(self, method: str, *params: Any, extra_headers: Dict | None = None) -> Any:
         """Send JSON-RPC POST request to the client RPC server at port defined in the url."""
         if extra_headers is None:
             extra_headers = {}

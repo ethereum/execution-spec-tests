@@ -623,25 +623,25 @@ class TestPydanticModelConversion:
     [
         pytest.param(
             {"gas_price": 1, "max_fee_per_gas": 2},
-            Transaction.InvalidFeePayment,
+            Transaction.InvalidFeePaymentError,
             "only one type of fee payment field can be used",
             id="gas-price-and-max-fee-per-gas",
         ),
         pytest.param(
             {"gas_price": 1, "max_priority_fee_per_gas": 2},
-            Transaction.InvalidFeePayment,
+            Transaction.InvalidFeePaymentError,
             "only one type of fee payment field can be used",
             id="gas-price-and-max-priority-fee-per-gas",
         ),
         pytest.param(
             {"gas_price": 1, "max_fee_per_blob_gas": 2},
-            Transaction.InvalidFeePayment,
+            Transaction.InvalidFeePaymentError,
             "only one type of fee payment field can be used",
             id="gas-price-and-max-fee-per-blob-gas",
         ),
         pytest.param(
             {"ty": 0, "v": 1, "secret_key": 2},
-            Transaction.InvalidSignaturePrivateKey,
+            Transaction.InvalidSignaturePrivateKeyError,
             "can't define both 'signature' and 'private_key'",
             id="type0-signature-and-secret-key",
         ),

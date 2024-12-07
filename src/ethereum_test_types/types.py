@@ -245,7 +245,7 @@ class Alloc(BaseAlloc):
             if account is None:
                 # Account must not exist
                 if address in got_alloc.root and got_alloc.root[address] is not None:
-                    raise Alloc.UnexpectedAccount(address, got_alloc.root[address])
+                    raise Alloc.UnexpectedAccountError(address, got_alloc.root[address])
             else:
                 if address in got_alloc.root:
                     got_account = got_alloc.root[address]
@@ -253,13 +253,13 @@ class Alloc(BaseAlloc):
                     assert isinstance(account, Account)
                     account.check_alloc(address, got_account)
                 else:
-                    raise Alloc.MissingAccount(address)
+                    raise Alloc.MissingAccountError(address)
 
     def deploy_contract(
         self,
         code: BytesConvertible,
         *,
-        storage: Storage | StorageRootType = None,
+        storage: Storage | StorageRootType | None = None,
         balance: NumberConvertible = 0,
         nonce: NumberConvertible = 1,
         address: Address | None = None,
@@ -693,7 +693,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
             or self.max_priority_fee_per_gas is not None
             or self.max_fee_per_blob_gas is not None
         ):
-            raise Transaction.InvalidFeePayment()
+            raise Transaction.InvalidFeePaymentError()
 
         if "ty" not in self.model_fields_set:
             # Try to deduce transaction type from included fields
@@ -709,7 +709,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
                 self.ty = 0
 
         if self.v is not None and self.secret_key is not None:
-            raise Transaction.InvalidSignaturePrivateKey()
+            raise Transaction.InvalidSignaturePrivateKeyError()
 
         if self.v is None and self.secret_key is None:
             if self.sender is not None:

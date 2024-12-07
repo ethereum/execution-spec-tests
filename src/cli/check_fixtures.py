@@ -11,7 +11,7 @@ from rich.progress import BarColumn, Progress, TaskProgressColumn, TextColumn, T
 
 from ethereum_test_base_types import to_json
 from ethereum_test_fixtures.file import Fixtures
-from ethereum_test_specs.base import HashMismatchException
+from ethereum_test_specs.base import HashMismatchExceptionError
 
 
 def count_json_files_exclude_index(start_path: Path) -> int:
@@ -42,13 +42,13 @@ def check_json(json_file_path: Path):
     for fixture_name, fixture in fixtures.items():
         new_hash = fixtures_deserialized[fixture_name].hash
         if (original_hash := fixture.hash) != new_hash:
-            raise HashMismatchException(
+            raise HashMismatchExceptionError(
                 original_hash,
                 new_hash,
                 message=f"Fixture hash attributes do not match for {fixture_name}",
             )
         if "hash" in fixture.info and fixture.info["hash"] != original_hash:
-            raise HashMismatchException(
+            raise HashMismatchExceptionError(
                 original_hash,
                 fixture.info["hash"],
                 message=f"Fixture info['hash'] does not match calculated hash for {fixture_name}",

@@ -305,7 +305,7 @@ class EofWrapper:
     def _validate_eof(self, container: Container, metrics: bool = True) -> bool:
         eof_parse = EOFParse()
 
-        result = eof_parse.run(input=to_hex(container))
+        result = eof_parse.run(input_value=to_hex(container))
         actual_message = result.stdout.strip()
         if "OK" not in actual_message:
             if metrics:

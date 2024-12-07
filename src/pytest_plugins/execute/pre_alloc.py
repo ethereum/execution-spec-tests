@@ -142,7 +142,7 @@ class Alloc(BaseAlloc):
         self,
         code: BytesConvertible,
         *,
-        storage: Storage | StorageRootType = None,
+        storage: Storage | StorageRootType | None = None,
         balance: NumberConvertible = 0,
         nonce: NumberConvertible = 1,
         address: Address | None = None,
