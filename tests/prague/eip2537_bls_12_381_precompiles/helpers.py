@@ -1,4 +1,5 @@
 """Helper functions for the EIP-2537 BLS12-381 precompiles tests."""
+
 import os
 from typing import Annotated, List
 

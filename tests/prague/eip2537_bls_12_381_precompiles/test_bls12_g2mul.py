@@ -21,7 +21,7 @@ pytestmark = [
 
 
 @pytest.mark.parametrize(
-    "input_value,expected_output",
+    "input_data,expected_output",
     vectors_from_file("mul_G2_bls.json")
     + [
         pytest.param(
@@ -96,7 +96,7 @@ def test_valid(
 
 
 @pytest.mark.parametrize(
-    "input_value",
+    "input_data",
     vectors_from_file("fail-mul_G2_bls.json")
     + [
         pytest.param(
@@ -190,7 +190,7 @@ def test_invalid(
 
 
 @pytest.mark.parametrize(
-    "input_value,expected_output,precompile_gas_modifier",
+    "input_data,expected_output,precompile_gas_modifier",
     [
         pytest.param(
             Spec.INF_G2 + Scalar(0),
@@ -230,7 +230,7 @@ def test_gas(
     ],
 )
 @pytest.mark.parametrize(
-    "input_value,expected_output",
+    "input_data,expected_output",
     [
         pytest.param(
             Spec.INF_G2 + Scalar(0),

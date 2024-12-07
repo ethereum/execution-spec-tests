@@ -32,7 +32,7 @@ G2_POINT_ZERO_FP = PointG2(
 
 
 @pytest.mark.parametrize(
-    "input_value,expected_output",
+    "input_data,expected_output",
     vectors_from_file("map_fp2_to_G2_bls.json")
     + [
         pytest.param(
@@ -72,7 +72,7 @@ def test_valid(
 
 
 @pytest.mark.parametrize(
-    "input_value",
+    "input_data",
     vectors_from_file("fail-map_fp2_to_G2_bls.json")
     + [
         pytest.param(b"\x80" + bytes(FP2((0, 0)))[1:], id="invalid_encoding"),
@@ -103,7 +103,7 @@ def test_invalid(
 
 
 @pytest.mark.parametrize(
-    "input_value,expected_output,precompile_gas_modifier",
+    "input_data,expected_output,precompile_gas_modifier",
     [
         pytest.param(
             FP2((0, 0)),
@@ -143,7 +143,7 @@ def test_gas(
     ],
 )
 @pytest.mark.parametrize(
-    "input_value,expected_output",
+    "input_data,expected_output",
     [
         pytest.param(
             FP2((0, 0)),

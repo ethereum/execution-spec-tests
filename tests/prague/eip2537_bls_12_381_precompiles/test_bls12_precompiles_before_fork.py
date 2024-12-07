@@ -17,7 +17,7 @@ pytestmark = pytest.mark.valid_at_transition_to("Prague")
 
 
 @pytest.mark.parametrize(
-    "precompile_address,input_value",
+    "precompile_address,input_data",
     [
         pytest.param(
             Spec.G1ADD,

@@ -21,7 +21,7 @@ pytestmark = [
 
 
 @pytest.mark.parametrize(
-    "input_value,expected_output",
+    "input_data,expected_output",
     vectors_from_file("pairing_check_bls.json")
     + [
         pytest.param(
@@ -52,7 +52,7 @@ def test_valid(
 
 
 @pytest.mark.parametrize(
-    "input_value",
+    "input_data",
     vectors_from_file("fail-pairing_check_bls.json")
     + [
         pytest.param(
@@ -127,7 +127,7 @@ def test_invalid(
     ],
 )
 @pytest.mark.parametrize(
-    "input_value,expected_output",
+    "input_data,expected_output",
     [
         pytest.param(
             Spec.INF_G1 + Spec.INF_G2,

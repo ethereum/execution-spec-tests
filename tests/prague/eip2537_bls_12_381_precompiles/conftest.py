@@ -11,9 +11,9 @@ from .spec import GAS_CALCULATION_FUNCTION_MAP
 
 
 @pytest.fixture
-def precompile_gas(precompile_address: int, input_value: bytes) -> int:
+def precompile_gas(precompile_address: int, input_data: bytes) -> int:
     """Gas cost for the precompile."""
-    return GAS_CALCULATION_FUNCTION_MAP[precompile_address](len(input_value))
+    return GAS_CALCULATION_FUNCTION_MAP[precompile_address](len(input_data))
 
 
 @pytest.fixture
