@@ -204,13 +204,11 @@ def test_pre_alloc():  # noqa: D103
 
 
 def test_precompiles():  # noqa: D103
-    assert (
-        Cancun.precompiles() == list(range(11))[1:]
-    ), "Precompiles do not match the expected range"
+    Cancun.precompiles() == list(range(11))[1:]  # noqa: B015
 
 
 def test_tx_types():  # noqa: D103
-    assert Cancun.tx_types() == list(range(4)), "Transaction types do not match the expected range"
+    Cancun.tx_types() == list(range(4))  # noqa: B015
 
 
 def test_solc_versioning():  # noqa: D103
