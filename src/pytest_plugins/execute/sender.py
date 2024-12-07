@@ -5,7 +5,7 @@ from typing import Generator, Iterator
 
 import pytest
 from filelock import FileLock
-from pytest_metadata.plugin import metadata_key  # type: ignore
+from pytest_metadata.plugin import metadata_key
 
 from ethereum_test_base_types import Number, Wei
 from ethereum_test_rpc import EthRPC

@@ -257,7 +257,7 @@ class Section(CopyValidateModel):
 
     @classmethod
     def Code(  # noqa: N802
-        cls, code: BytesConvertible | Bytecode = None, **kwargs
+        cls, code: Optional[BytesConvertible | Bytecode] = None, **kwargs
     ) -> "Section":
         """Create new code section with the specified code."""
         if code is None:
@@ -435,7 +435,7 @@ class Container(CopyValidateModel):
         return c
 
     @classmethod
-    def Code(cls, code: BytesConvertible = None, **kwargs) -> "Container":  # noqa: N802
+    def Code(cls, code: Optional[BytesConvertible] = None, **kwargs) -> "Container":  # noqa: N802
         """Create simple container with a single code section."""
         if code is None:
             code = Bytecode()
@@ -446,7 +446,7 @@ class Container(CopyValidateModel):
     def Init(  # noqa: N802
         cls,
         deploy_container: "Container",
-        initcode_prefix: Bytecode = None,
+        initcode_prefix: Optional[Bytecode] = None,
     ) -> "Container":
         """Create simple init container that deploys the specified container."""
         if initcode_prefix is None:

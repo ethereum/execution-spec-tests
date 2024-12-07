@@ -43,9 +43,9 @@ class Initcode(Bytecode):
     def __new__(
         cls,
         *,
-        deploy_code: SupportsBytes | Bytes = None,
+        deploy_code: SupportsBytes | Bytes | None = None,
         initcode_length: int | None = None,
-        initcode_prefix: Bytecode = None,
+        initcode_prefix: Bytecode | None = None,
         initcode_prefix_execution_gas: int = 0,
         padding_byte: int = 0x00,
         name: str = "",
@@ -195,8 +195,8 @@ class Conditional(Bytecode):
         cls,
         *,
         condition: Bytecode | Op,
-        if_true: Bytecode | Op = None,
-        if_false: Bytecode | Op = None,
+        if_true: Bytecode | Op | None = None,
+        if_false: Bytecode | Op | None = None,
         evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
     ):
         """
