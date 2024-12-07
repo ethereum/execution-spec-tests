@@ -1,6 +1,4 @@
-"""
-Pytest (plugin) definitions local to EIP-4844 tests.
-"""
+"""Pytest (plugin) definitions local to EIP-4844 tests."""
 import pytest
 
 from ethereum_test_tools import Alloc, Block, Hash, Transaction, add_kzg_version
