@@ -225,7 +225,7 @@ class EOFTest(BaseTest):
             args = []
             if vector.container_kind == ContainerKind.INITCODE:
                 args.append("--initcode")
-            result = eof_parse.run(*args, input=str(vector.code))
+            result = eof_parse.run(*args, input_value=str(vector.code))
             self.verify_result(result, expected_result, vector.code)
 
         return fixture

@@ -105,7 +105,7 @@ class Opcode(Bytecode):
         unchecked_stack=False,
         terminating: bool = False,
         kwargs: List[str] | None = None,
-        kwargs_defaults: KW_ARGS_DEFAULTS_TYPE = None,
+        kwargs_defaults: Optional[KW_ARGS_DEFAULTS_TYPE] = None,
     ):
         """Create new opcode instance."""
         if kwargs_defaults is None:
@@ -296,7 +296,7 @@ class Macro(Bytecode):
 
     def __new__(
         cls,
-        macro_or_bytes: "Bytecode | Macro" = None,
+        macro_or_bytes: Optional["Bytecode | Macro"] = None,
         *,
         lambda_operation: Callable[..., Bytecode] | None = None,
     ):
