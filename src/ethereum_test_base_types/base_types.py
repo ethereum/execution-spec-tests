@@ -68,8 +68,8 @@ class Wei(Number):
 
     def __new__(cls, input_number: NumberConvertible | N):
         """Create a new Number object."""
-        if isinstance(input, str):
-            words = input.split()
+        if isinstance(input_number, str):
+            words = input_number.split()
             multiplier = 1
             assert len(words) <= 2
             value_str = words[0]

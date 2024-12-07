@@ -109,7 +109,7 @@ def check_fixtures(input_str: str, quiet_mode: bool, stop_on_error: bool):
         TimeElapsedColumn(),
         expand=True,
         disable=quiet_mode,
-    ) as progress:
+    ) as progress:  # type: Progress
         task_id = progress.add_task("Checking fixtures", total=file_count, filename="...")
         for json_file_path in get_input_files():
             if json_file_path.name == "index.json":
