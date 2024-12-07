@@ -81,7 +81,7 @@ class Yul(Bytecode):
 
         solc_args = ("--evm-version", evm_version) if evm_version else ()
 
-        result = solc.run(*solc_args, *DEFAULT_SOLC_ARGS, input=source)
+        result = solc.run(*solc_args, *DEFAULT_SOLC_ARGS, input_value=source)
 
         if result.returncode:
             stderr_lines = result.stderr.splitlines()
