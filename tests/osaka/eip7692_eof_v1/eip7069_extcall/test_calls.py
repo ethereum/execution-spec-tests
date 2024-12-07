@@ -1,6 +1,5 @@
-"""
-test calls across EOF and Legacy
-"""
+"""test calls across EOF and Legacy."""
+
 import itertools
 
 import pytest
@@ -60,9 +59,7 @@ contract_eof_sstore = Container(
 
 @pytest.fixture
 def sender(pre: Alloc) -> EOA:
-    """
-    The sender of the transaction
-    """
+    """Sender of the transaction."""
     return pre.fund_eoa()
 
 
@@ -81,7 +78,7 @@ def test_legacy_calls_eof_sstore(
     sender: EOA,
     opcode: Op,
 ):
-    """Test legacy contracts calling EOF contracts that use SSTORE"""
+    """Test legacy contracts calling EOF contracts that use SSTORE."""
     env = Environment()
     destination_contract_address = pre.deploy_contract(contract_eof_sstore)
 
@@ -142,7 +139,7 @@ def test_legacy_calls_eof_mstore(
     sender: EOA,
     opcode: Op,
 ):
-    """Test legacy contracts calling EOF contracts that only return data"""
+    """Test legacy contracts calling EOF contracts that only return data."""
     env = Environment()
     destination_contract_code = Container(
         sections=[
@@ -203,7 +200,7 @@ def test_eof_calls_eof_sstore(
     sender: EOA,
     opcode: Op,
 ):
-    """Test EOF contracts calling EOF contracts that use SSTORE"""
+    """Test EOF contracts calling EOF contracts that use SSTORE."""
     env = Environment()
     destination_contract_address = pre.deploy_contract(contract_eof_sstore)
 
@@ -266,7 +263,7 @@ def test_eof_calls_eof_mstore(
     sender: EOA,
     opcode: Op,
 ):
-    """Test EOF contracts calling EOF contracts that return data"""
+    """Test EOF contracts calling EOF contracts that return data."""
     env = Environment()
     destination_contract_code = Container(
         sections=[
@@ -301,8 +298,7 @@ def test_eof_calls_eof_mstore(
         slot_code_worked: value_code_worked,  # type: ignore
         slot_call_result: EXTCALL_SUCCESS,  # type: ignore
         slot_returndatasize: 0x20,  # type: ignore
-        slot_returndata: value_returndata_magic
-        + b"\0" * (0x20 - len(value_returndata_magic)),  # type: ignore
+        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),  # type: ignore
     }
 
     post = {
@@ -343,7 +339,7 @@ def test_eof_calls_precompile(
     precompile: Address,
     expected_result: int,
 ):
-    """Test EOF contracts calling precompiles"""
+    """Test EOF contracts calling precompiles."""
     env = Environment()
 
     caller_contract = Container.Code(
@@ -395,7 +391,7 @@ def test_eof_calls_legacy_sstore(
     sender: EOA,
     opcode: Op,
 ):
-    """Test EOF contracts calling Legacy contracts that use SSTORE"""
+    """Test EOF contracts calling Legacy contracts that use SSTORE."""
     env = Environment()
     destination_contract_code = Op.SSTORE(slot_caller, Op.CALLER()) + Op.STOP
     destination_contract_address = pre.deploy_contract(destination_contract_code)
@@ -458,7 +454,7 @@ def test_eof_calls_legacy_mstore(
     sender: EOA,
     opcode: Op,
 ):
-    """Test EOF contracts calling Legacy contracts that return data"""
+    """Test EOF contracts calling Legacy contracts that return data."""
     env = Environment()
     destination_contract_code = Op.MSTORE8(
         0, int.from_bytes(value_returndata_magic, "big")
@@ -488,8 +484,7 @@ def test_eof_calls_legacy_mstore(
         slot_code_worked: value_code_worked,  # type: ignore
         slot_call_result: EXTCALL_SUCCESS,  # type: ignore
         slot_returndatasize: 0x20,  # type: ignore
-        slot_returndata: value_returndata_magic
-        + b"\0" * (0x20 - len(value_returndata_magic)),  # type: ignore
+        slot_returndata: value_returndata_magic + b"\0" * (0x20 - len(value_returndata_magic)),  # type: ignore
     }
 
     if opcode == Op.EXTDELEGATECALL:
@@ -528,9 +523,7 @@ def test_eof_calls_legacy_mstore(
         pytest.param(Op.RETURNDATACOPY(0, 1, 2), EXTCALL_FAILURE, id="legacy_oob_returndata"),
         pytest.param(Container.Code(Op.REVERT(0, 0)), EXTCALL_REVERT, id="eof_revert"),
         pytest.param(Container.Code(Op.INVALID), EXTCALL_FAILURE, id="eof_invalid"),
-        pytest.param(
-            Container.Code(Op.SHA3(0, 2**255) + Op.STOP), EXTCALL_FAILURE, id="eof_oog"
-        ),
+        pytest.param(Container.Code(Op.SHA3(0, 2**255) + Op.STOP), EXTCALL_FAILURE, id="eof_oog"),
     ],
 )
 def test_callee_fails(
@@ -541,7 +534,7 @@ def test_callee_fails(
     destination_code: Bytecode | Container,
     expected_result: int,
 ):
-    """Test EOF contracts calling contracts that fail for various reasons"""
+    """Test EOF contracts calling contracts that fail for various reasons."""
     env = Environment()
 
     destination_contract_address = pre.deploy_contract(destination_code)
@@ -608,7 +601,7 @@ def test_callee_context(
     expected_result: str | int,
     evm_code_type: EVMCodeType,
 ):
-    """Test EOF calls' callee context instructions"""
+    """Test EOF calls' callee context instructions."""
     env = Environment()
     tx_value = 0x1123
 
@@ -680,7 +673,7 @@ def test_eof_calls_eof_then_fails(
     opcode: Op,
     fail_opcode: Op,
 ):
-    """Test EOF contracts calling EOF contracts and failing after the call"""
+    """Test EOF contracts calling EOF contracts and failing after the call."""
     env = Environment()
     destination_contract_address = pre.deploy_contract(contract_eof_sstore)
 
@@ -739,7 +732,7 @@ def test_eof_calls_clear_return_buffer(
     target_account_type: str,
     value: int,
 ):
-    """Test EOF contracts calling clears returndata buffer"""
+    """Test EOF contracts calling clears returndata buffer."""
     env = Environment()
     filling_contract_code = Container.Code(
         Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big")) + Op.RETURN(0, 32),
@@ -820,7 +813,7 @@ def test_eof_calls_static_flag_with_value(
     sender: EOA,
     opcode: Op,
 ):
-    """Test EOF contracts calls handle static flag and sending value correctly"""
+    """Test EOF contracts calls handle static flag and sending value correctly."""
     env = Environment()
 
     noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))
@@ -971,7 +964,7 @@ def test_eof_calls_with_value(
     balance: int,
     value: int,
 ):
-    """Test EOF contracts calls handle value calls with and without enough balance"""
+    """Test EOF contracts calls handle value calls with and without enough balance."""
     env = Environment()
 
     noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))

@@ -1,6 +1,4 @@
-"""
-Test suite for `ethereum_test_vm` module.
-"""
+"""Test suite for `ethereum_test_vm` module."""
 
 import pytest
 
@@ -331,16 +329,12 @@ from ..opcode import Opcodes as Op
     ],
 )
 def test_opcodes(opcodes: bytes, expected: bytes):
-    """
-    Test that the `opcodes` are transformed into bytecode as expected.
-    """
+    """Test that the `opcodes` are transformed into bytecode as expected."""
     assert bytes(opcodes) == expected
 
 
 def test_opcodes_repr():
-    """
-    Test that the `repr` of an `Op` is the same as its name.
-    """
+    """Test that the `repr` of an `Op` is the same as its name."""
     assert f"{Op.CALL}" == "CALL"
     assert f"{Op.DELEGATECALL}" == "DELEGATECALL"
     assert f"{Om.OOG}" == "OOG"
@@ -350,9 +344,7 @@ def test_opcodes_repr():
 
 
 def test_macros():
-    """
-    Test opcode and macros interaction
-    """
+    """Test opcode and macros interaction."""
     assert (Op.PUSH1(1) + Om.OOG) == (Op.PUSH1(1) + Op.SHA3(0, 100000000000))
     for opcode in Op:
         assert opcode != Om.OOG
@@ -407,9 +399,7 @@ def test_bytecode_properties(
     expected_max_stack_height: int,
     expected_min_stack_height: int,
 ):
-    """
-    Test that the properties of the bytecode are as expected.
-    """
+    """Test that the properties of the bytecode are as expected."""
     assert bytecode.popped_stack_items == expected_popped_items, "Popped stack items mismatch"
     assert bytecode.pushed_stack_items == expected_pushed_items, "Pushed stack items mismatch"
     assert bytecode.max_stack_height == expected_max_stack_height, "Max stack height mismatch"
@@ -417,9 +407,7 @@ def test_bytecode_properties(
 
 
 def test_opcode_comparison():
-    """
-    Test that the opcodes are comparable.
-    """
+    """Test that the opcodes are comparable."""
     assert Op.STOP < Op.ADD
     assert Op.ADD == Op.ADD
     assert Op.ADD != Op.STOP
