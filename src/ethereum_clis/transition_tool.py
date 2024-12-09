@@ -13,8 +13,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Mapping, Optional, Type
 from urllib.parse import urlencode
 
+import requests.exceptions
 from requests import Response
-from requests.exceptions import ConnectionError
 from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_exceptions import ExceptionMapper
@@ -268,7 +268,7 @@ class TransitionTool(EthereumCLI, FixtureVerifier):
                     timeout=20,
                 )
                 break
-            except ConnectionError as e:
+            except requests.exceptions.ConnectionError as e:
                 retries -= 1
                 if retries == 0:
                     raise e
