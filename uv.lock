@@ -592,7 +592,7 @@ requires-dist = [
     { name = "requests", specifier = ">=2.31.0,<3" },
     { name = "requests-unixsocket2", specifier = ">=0.4.0" },
     { name = "rich", specifier = ">=13.7.0,<14" },
-    { name = "ruff", marker = "extra == 'lint'", specifier = ">=0.0.285" },
+    { name = "ruff", marker = "extra == 'lint'", specifier = "==0.8.2" },
     { name = "semver", specifier = ">=3.0.1,<4" },
     { name = "setuptools" },
     { name = "solc-select", specifier = ">=1.0.4,<2" },
