@@ -3,7 +3,6 @@
 import re
 import subprocess
 from pathlib import Path
-from re import compile
 from typing import Optional
 
 from ethereum_test_exceptions import (
@@ -21,7 +20,7 @@ class NimbusTransitionTool(TransitionTool):
     """Nimbus `evm` Transition tool interface wrapper class."""
 
     default_binary = Path("t8n")
-    detect_binary_pattern = compile(r"^Nimbus-t8n\b")
+    detect_binary_pattern = re.compile(r"^Nimbus-t8n\b")
     version_flag: str = "--version"
 
     binary: Path
