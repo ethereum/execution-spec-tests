@@ -1,11 +1,11 @@
 """Go-ethereum Transition tool interface."""
 
 import json
+import re
 import shutil
 import subprocess
 import textwrap
 from pathlib import Path
-from re import compile
 from typing import Optional
 
 from ethereum_test_exceptions import (
@@ -24,7 +24,7 @@ class GethTransitionTool(TransitionTool):
     """Go-ethereum `evm` Transition tool interface wrapper class."""
 
     default_binary = Path("evm")
-    detect_binary_pattern = compile(r"^evm(.exe)? version\b")
+    detect_binary_pattern = re.compile(r"^evm(.exe)? version\b")
     t8n_subcommand: Optional[str] = "t8n"
     statetest_subcommand: Optional[str] = "statetest"
     blocktest_subcommand: Optional[str] = "blocktest"

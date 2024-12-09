@@ -7,7 +7,6 @@ import subprocess
 import tempfile
 import textwrap
 from pathlib import Path
-from re import compile
 from typing import List, Optional
 
 import requests
@@ -29,7 +28,7 @@ class BesuTransitionTool(TransitionTool):
     """Besu EvmTool Transition tool frontend wrapper class."""
 
     default_binary = Path("evm")
-    detect_binary_pattern = compile(r"^Hyperledger Besu evm .*$")
+    detect_binary_pattern = re.compile(r"^Hyperledger Besu evm .*$")
     binary: Path
     cached_version: Optional[str] = None
     trace: bool

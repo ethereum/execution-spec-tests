@@ -1,7 +1,7 @@
 """Evmone Transition tool interface."""
 
+import re
 from pathlib import Path
-from re import compile
 from typing import Optional
 
 from ethereum_test_exceptions import (
@@ -19,7 +19,7 @@ class EvmOneTransitionTool(TransitionTool):
     """Evmone `evmone-t8n` Transition tool interface wrapper class."""
 
     default_binary = Path("evmone-t8n")
-    detect_binary_pattern = compile(r"^evmone-t8n\b")
+    detect_binary_pattern = re.compile(r"^evmone-t8n\b")
     t8n_use_stream = False
 
     binary: Path

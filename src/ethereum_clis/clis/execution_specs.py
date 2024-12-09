@@ -4,10 +4,10 @@ Ethereum Specs EVM Resolver Transition Tool Interface.
 https://github.com/petertdavies/ethereum-spec-evm-resolver
 """
 
+import re
 import subprocess
 import time
 from pathlib import Path
-from re import compile
 from tempfile import TemporaryDirectory
 from typing import Dict, List, Optional
 
@@ -42,7 +42,7 @@ class ExecutionSpecsTransitionTool(TransitionTool):
     """
 
     default_binary = Path("ethereum-spec-evm-resolver")
-    detect_binary_pattern = compile(r"^ethereum-spec-evm-resolver\b")
+    detect_binary_pattern = re.compile(r"^ethereum-spec-evm-resolver\b")
     t8n_use_server: bool = True
     server_dir: Optional[TemporaryDirectory] = None
 
