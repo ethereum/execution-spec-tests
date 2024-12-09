@@ -672,7 +672,12 @@ class TransactionFixtureConverter(CamelModel):
         """
         If the `to` field is an empty string, set the model value to None.
         """
-        if isinstance(data, dict) and "to" in data and data["to"] == "":
+        if (
+            isinstance(data, dict)
+            and "to" in data
+            and isinstance(data["to"], str)
+            and data["to"] == ""
+        ):
             data["to"] = None
         return data
 
