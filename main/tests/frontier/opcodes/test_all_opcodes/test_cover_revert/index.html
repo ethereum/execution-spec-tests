@@ -24856,7 +24856,7 @@
 
 
 <h1 id="test_cover_revert"><code>test_cover_revert()</code><a class="headerlink" href="#test_cover_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3cd05e0c8dfd9e1ba3895a8637ba4bcea3f25e8b/tests/frontier/opcodes/test_all_opcodes.py#L96"><code>tests/frontier/opcodes/test_all_opcodes.py::test_cover_revert@3cd05e0c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dc05b4263a69fbee4b9a62c3b971b34197f98ff3/tests/frontier/opcodes/test_all_opcodes.py#L96"><code>tests/frontier/opcodes/test_all_opcodes.py::test_cover_revert@dc05b426</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_all_opcodes.py::test_cover_revert --fork Prague</span>
@@ -24893,8 +24893,8 @@
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
