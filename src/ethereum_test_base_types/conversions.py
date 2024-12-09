@@ -1,6 +1,7 @@
 """
 Common conversion methods.
 """
+
 from re import sub
 from typing import Any, List, Optional, SupportsBytes, TypeAlias
 
@@ -63,6 +64,8 @@ def to_fixed_size_bytes(input: FixedSizeBytesConvertible, size: int) -> bytes:
     input = to_bytes(input)
     if len(input) > size:
         raise Exception(f"input is too large for fixed size bytes: {len(input)} > {size}")
+    if len(input) < size:
+        raise Exception(f"input is too small for fixed size bytes: {len(input)} < {size}")
     return bytes(input).rjust(size, b"\x00")
 
 
