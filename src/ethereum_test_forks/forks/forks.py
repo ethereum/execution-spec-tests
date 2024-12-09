@@ -18,6 +18,7 @@ from ..base_fork import (
     BaseFork,
     CalldataGasCalculator,
     MemoryExpansionGasCalculator,
+    TransactionDataFloorCostCalculator,
     TransactionIntrinsicCostCalculator,
 )
 from ..gas_costs import GasCosts
@@ -194,6 +195,19 @@ class Frontier(BaseFork, solc_name="homestead"):
                 else:
                     cost += gas_costs.G_TX_DATA_NON_ZERO
             return cost
+
+        return fn
+
+    @classmethod
+    def transaction_data_floor_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionDataFloorCostCalculator:
+        """
+        At frontier, the transaction data floor cost is a constant zero.
+        """
+
+        def fn(*, data: BytesConvertible) -> int:
+            return 0
 
         return fn
 
@@ -1186,6 +1200,21 @@ class Prague(Cancun):
         return fn
 
     @classmethod
+    def transaction_data_floor_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionDataFloorCostCalculator:
+        """
+        Starting in Prague, due to EIP-7623, the transaction data floor cost is introduced.
+        """
+        calldata_gas_calculator = cls.calldata_gas_calculator(block_number, timestamp)
+        gas_costs = cls.gas_costs(block_number, timestamp)
+
+        def fn(*, data: BytesConvertible) -> int:
+            return calldata_gas_calculator(data=data, floor=True) + gas_costs.G_TRANSACTION
+
+        return fn
+
+    @classmethod
     def transaction_intrinsic_cost_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> TransactionIntrinsicCostCalculator:
@@ -1196,6 +1225,9 @@ class Prague(Cancun):
             block_number, timestamp
         )
         gas_costs = cls.gas_costs(block_number, timestamp)
+        transaction_data_floor_cost_calculator = cls.transaction_data_floor_cost_calculator(
+            block_number, timestamp
+        )
 
         def fn(
             *,
@@ -1219,8 +1251,8 @@ class Prague(Cancun):
             if return_cost_deducted_prior_execution:
                 return intrinsic_cost
 
-            floor_data_cost = cls.calldata_gas_calculator()(data=calldata, floor=True)
-            return max(intrinsic_cost, floor_data_cost + gas_costs.G_TRANSACTION)
+            transaction_floor_data_cost = transaction_data_floor_cost_calculator(data=calldata)
+            return max(intrinsic_cost, transaction_floor_data_cost)
 
         return fn
 
