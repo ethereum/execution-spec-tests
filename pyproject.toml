@@ -62,7 +62,7 @@ Changelog = "https://ethereum.github.io/execution-spec-tests/main/CHANGELOG/"
 [project.optional-dependencies]
 test = ["pytest-cov>=4.1.0,<5"]
 lint = [
-    "ruff>=0.0.285",
+    "ruff==0.8.2",
     "mypy==0.991; implementation_name == 'cpython'",
     "types-requests"
 ]
