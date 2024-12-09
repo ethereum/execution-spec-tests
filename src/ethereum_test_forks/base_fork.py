@@ -51,6 +51,18 @@ class CalldataGasCalculator(Protocol):
         pass
 
 
+class TransactionDataFloorCostCalculator(Protocol):
+    """
+    A protocol to calculate the transaction floor cost due to its calldata for a given fork.
+    """
+
+    def __call__(self, *, data: BytesConvertible) -> int:
+        """
+        Returns the transaction gas cost of calldata given its contents.
+        """
+        pass
+
+
 class TransactionIntrinsicCostCalculator(Protocol):
     """
     A protocol to calculate the intrinsic gas cost of a transaction for a given fork.
@@ -244,6 +256,16 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """
         Returns a callable that calculates the transaction gas cost for its calldata
         depending on its contents.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def transaction_data_floor_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionDataFloorCostCalculator:
+        """
+        Returns a callable that calculates the transaction floor cost due to its calldata.
         """
         pass
 
