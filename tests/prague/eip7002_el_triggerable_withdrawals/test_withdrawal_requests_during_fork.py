@@ -1,6 +1,6 @@
 """
 abstract: Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002)
-    Test execution layer triggered exits [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002)
+    Test execution layer triggered exits [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
 
 """  # noqa: E501
 
@@ -88,9 +88,7 @@ def test_withdrawal_requests_during_fork(
     blocks: List[Block],
     pre: Alloc,
 ):
-    """
-    Test making a withdrawal request to the beacon chain at the time of the fork.
-    """
+    """Test making a withdrawal request to the beacon chain at the time of the fork."""
     # We need to delete the deployed contract that comes by default in the pre state.
     pre[Spec.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS] = Account(
         balance=0,
