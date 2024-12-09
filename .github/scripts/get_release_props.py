@@ -5,7 +5,7 @@
 #     "click",
 # ]
 # ///
-
+"""Extract the properties of a configured EEST release from a YAML file."""
 import sys
 
 import click
@@ -17,7 +17,7 @@ RELEASE_PROPS_FILE = './.github/configs/feature.yaml'
 @click.command()
 @click.argument('release', required=True)
 def get_release_props(release):
-    """Extracts a specific property from the YAML file for a given release."""
+    """Extract the properties from the YAML file for a given release."""
     with open(RELEASE_PROPS_FILE) as f:
         data = yaml.safe_load(f)
     if release not in data:
