@@ -1,6 +1,5 @@
 from typing import Dict
 
-
 class HexaryTrie:
     db: Dict
     root_hash: bytes
