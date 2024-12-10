@@ -58,6 +58,7 @@ jobs:
       - name: Setup Tools/Dependencies macOS
         if: runner.os == 'macOS'
         run: |
+          sudo scutil --set HostName $(head -c 65 < /dev/zero | tr '\0' 'a')
           brew install aspell
           # Add additional packages on 3.11: https://github.com/ethereum/execution-spec-tests/issues/274
           if [ ${{ matrix.python }} == '3.11' ]; then brew install autoconf automake libtool; fi
