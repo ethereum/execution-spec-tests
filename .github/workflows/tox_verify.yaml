@@ -28,7 +28,7 @@ jobs:
           #   evm-type: 'eip7692'
           #   tox-cmd: 'tox -e tests-eip7692'
           - os: macos-latest
-            python: "3.11"
+            python: "3.10"
             evm-type: "stable"
             tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
     steps:
