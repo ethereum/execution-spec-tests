@@ -457,9 +457,9 @@ def all_invalid_blob_gas_used_combinations() -> Iterator[Tuple[int, int]]:
     Returns all invalid blob gas used combinations.
     """
     for new_blobs in range(0, SpecHelpers.max_blobs_per_block() + 1):
-        for header_blob_gas_used in range(0, SpecHelpers.max_blobs_per_block() + 1):
-            if new_blobs != header_blob_gas_used:
-                yield (new_blobs, header_blob_gas_used * Spec.GAS_PER_BLOB)
+        for header_blobs in range(0, SpecHelpers.max_blobs_per_block() + 1):
+            if new_blobs != header_blobs:
+                yield (new_blobs, header_blobs * Spec.GAS_PER_BLOB)
         yield (new_blobs, 2**64 - 1)
 
 
