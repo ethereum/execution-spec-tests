@@ -58,7 +58,7 @@ jobs:
       - name: Setup Tools/Dependencies macOS
         if: runner.os == 'macOS'
         run: |
-          sudo scutil --set HostName $(head -c 255 < /dev/zero | tr '\0' 'a')
+          sudo scutil --set HostName .bar-localhost
           hostname
           brew install aspell
           # Add additional packages on 3.11: https://github.com/ethereum/execution-spec-tests/issues/274
