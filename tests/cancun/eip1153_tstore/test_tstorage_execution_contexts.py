@@ -8,7 +8,8 @@ from typing import Dict, Mapping
 
 import pytest
 
-from ethereum_test_tools import Account, Address, Alloc, Bytecode, Environment, Hash
+from ethereum_test_base_types.conversions import left_pad_zeros_up_to_size
+from ethereum_test_tools import Account, Address, Alloc, Bytecode, Environment
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import StateTestFiller, Transaction
 
@@ -301,7 +302,7 @@ def tx(pre: Alloc, caller_address: Address, callee_address: Address) -> Transact
     return Transaction(
         sender=pre.fund_eoa(),
         to=caller_address,
-        data=Hash(callee_address),
+        data=left_pad_zeros_up_to_size(callee_address, 32),
         gas_limit=1_000_000,
     )
 

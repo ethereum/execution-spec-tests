@@ -1,6 +1,7 @@
 """
 Common conversion methods.
 """
+
 from re import sub
 from typing import Any, List, Optional, SupportsBytes, TypeAlias
 
@@ -58,12 +59,32 @@ def to_fixed_size_bytes(input: FixedSizeBytesConvertible, size: int) -> bytes:
     """
     Converts multiple types into fixed-size bytes.
     """
+    isString: bool = False
     if isinstance(input, int):
         return int.to_bytes(input, length=size, byteorder="big", signed=input < 0)
+    if isinstance(input, str):
+        isString = True
     input = to_bytes(input)
     if len(input) > size:
         raise Exception(f"input is too large for fixed size bytes: {len(input)} > {size}")
+    if len(input) < size and not isString:
+        raise Exception(f"input is too small for fixed size bytes: {len(input)} < {size}")
     return bytes(input).rjust(size, b"\x00")
+
+
+def left_pad_zeros_up_to_size(input: bytes, size: int) -> bytes:
+    """
+    Pads the given data to fit into a size-byte bytes. If the data is longer than
+    size bytes, it raises a ValueError. If it is shorter, it left pads with zero bytes.
+
+    :param data: The input data to pad.
+    :return: A Hash object of exactly size bytes.
+    """
+    input = to_bytes(input)
+    if len(input) > size:
+        raise ValueError(f"Data cannot be longer than {size} bytes.")
+    padded_data = bytes(input).rjust(size, b"\x00")
+    return bytes(padded_data)
 
 
 def to_hex(input: BytesConvertible) -> str:
