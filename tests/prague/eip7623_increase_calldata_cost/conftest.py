@@ -2,7 +2,7 @@
 Fixtures for the EIP-7623 tests.
 """
 
-from typing import Callable, List, Sequence
+from typing import List, Sequence
 
 import pytest
 
@@ -20,7 +20,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import Transaction, TransactionException
 
-from .helpers import DataTestType
+from .helpers import DataTestType, floor_cost_find
 
 
 @pytest.fixture
@@ -117,44 +117,6 @@ def contract_creating_tx(to: Address | None) -> bool:
     Whether the transaction creates a contract or not.
     """
     return to is None
-
-
-def floor_cost_find(
-    floor_data_gas_cost_calculator: Callable[[int], int],
-    intrinsic_gas_cost_calculator: Callable[[int], int],
-) -> int:
-    """
-    Find the minimum amount of tokens that will trigger the floor gas cost, by using a binary
-    search and the intrinsic gas cost and floor data calculators.
-    """
-    # Start with 1000 tokens and if the intrinsic gas cost is greater than the floor gas cost,
-    # multiply the number of tokens by 2 until it's not.
-    tokens = 1000
-    while floor_data_gas_cost_calculator(tokens) < intrinsic_gas_cost_calculator(tokens):
-        tokens *= 2
-
-    # Binary search to find the minimum number of tokens that will trigger the floor gas cost.
-    left = 0
-    right = tokens
-    while left < right:
-        tokens = (left + right) // 2
-        if floor_data_gas_cost_calculator(tokens) < intrinsic_gas_cost_calculator(tokens):
-            left = tokens + 1
-        else:
-            right = tokens
-    tokens = left
-
-    if floor_data_gas_cost_calculator(tokens) > intrinsic_gas_cost_calculator(tokens):
-        tokens -= 1
-
-    # Verify that increasing the tokens by one would always trigger the floor gas cost.
-    assert (
-        floor_data_gas_cost_calculator(tokens) <= intrinsic_gas_cost_calculator(tokens)
-    ) and floor_data_gas_cost_calculator(tokens + 1) > intrinsic_gas_cost_calculator(
-        tokens + 1
-    ), "invalid case"
-
-    return tokens
 
 
 @pytest.fixture
