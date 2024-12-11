@@ -3,14 +3,11 @@ Base types for Pydantic json test fixtures
 """
 
 import re
-from typing import Generic, TypeVar
 
 from pydantic import RootModel, model_validator
 
-T = TypeVar("T", bound="FixedHash")
 
-
-class FixedHash(RootModel[str], Generic[T]):
+class FixedHash(RootModel[str]):
     """Base class for fixed-length hashes."""
 
     _length_in_bytes: int

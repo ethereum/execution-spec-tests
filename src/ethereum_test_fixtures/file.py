@@ -14,6 +14,7 @@ from .blockchain import BlockchainEngineFixture, BlockchainFixture
 from .eof import Fixture as EOFFixture
 from .state import Fixture as StateFixture
 from .transaction import Fixture as TransactionFixture
+from .verify_format import VerifyFixtureJson
 
 FixtureModel = (
     BlockchainFixture | BlockchainEngineFixture | StateFixture | EOFFixture | TransactionFixture
