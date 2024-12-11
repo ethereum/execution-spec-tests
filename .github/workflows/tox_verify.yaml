@@ -32,8 +32,6 @@ jobs:
             evm-type: "stable"
             tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
     steps:
-      - name: Checkout ethereum/execution-spec-tests
-        uses: actions/checkout@v4
       - name: Checkout ethereum/execution-specs
         uses: actions/checkout@v4
         with:
