@@ -2380,7 +2380,9 @@ def test_nonce_validity(
     success_slot = 1
     return_slot = 2
 
-    valid_authorization = authorization_nonce < 2**64 - 1 and account_nonce == authorization_nonce
+    valid_authorization = (
+        authorization_nonce < 2**64 - 1 and account_nonce == authorization_nonce
+    )
     set_code = Op.RETURN(0, 1)
     set_code_to_address = pre.deploy_contract(set_code)
 
@@ -2557,7 +2559,13 @@ def test_set_code_to_log(
 @pytest.mark.with_all_call_opcodes(
     selector=(
         lambda opcode: opcode
-        not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+        not in [
+            Op.STATICCALL,
+            Op.CALLCODE,
+            Op.DELEGATECALL,
+            Op.EXTDELEGATECALL,
+            Op.EXTSTATICCALL,
+        ]
     )
 )
 @pytest.mark.with_all_precompiles
@@ -2628,7 +2636,13 @@ def deposit_contract_initial_storage() -> Storage:
 @pytest.mark.with_all_call_opcodes(
     selector=(
         lambda opcode: opcode
-        not in [Op.STATICCALL, Op.CALLCODE, Op.DELEGATECALL, Op.EXTDELEGATECALL, Op.EXTSTATICCALL]
+        not in [
+            Op.STATICCALL,
+            Op.CALLCODE,
+            Op.DELEGATECALL,
+            Op.EXTDELEGATECALL,
+            Op.EXTSTATICCALL,
+        ]
     )
 )
 @pytest.mark.with_all_system_contracts
@@ -3327,7 +3341,10 @@ def test_creating_delegation_designation_contract(
     create_address = compute_create_address(
         address=contract_a, nonce=1, initcode=create_init, salt=0, opcode=create_opcode
     )
-    post = {contract_a: Account(balance=100, storage=storage), create_address: Account.NONEXISTENT}
+    post = {
+        contract_a: Account(balance=100, storage=storage),
+        create_address: Account.NONEXISTENT,
+    }
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
@@ -3398,11 +3415,7 @@ def test_many_delegations(
         sender=pre.fund_eoa(),
     )
 
-    post = {
-        entry_address: Account(
-            storage={success_slot: 1},
-        ),
-    } | {
+    post = {entry_address: Account(storage={success_slot: 1},),} | {
         signer: Account(
             code=Spec.delegation_designation(Address(i + 1)),
         )
