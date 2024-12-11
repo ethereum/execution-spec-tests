@@ -11,6 +11,8 @@ from pathlib import Path
 
 import jinja2
 
+from config import AppConfig
+
 from .test_context_providers import Provider
 
 template_loader = jinja2.PackageLoader("cli.gentest")
@@ -72,12 +74,16 @@ def format_code(code: str) -> str:
             black_path = Path(sys.prefix) / "bin" / "black"
 
         # Call black to format the file
-        config_path = Path(sys.prefix).parent / "pyproject.toml"
+        config_path = AppConfig().ROOT_DIR / "pyproject.toml"
 
-        subprocess.run(
-            [str(black_path), str(input_file_path), "--quiet", "--config", str(config_path)],
-            check=True,
-        )
+        try:
+            subprocess.run(
+                [str(black_path), str(input_file_path), "--quiet", "--config", str(config_path)],
+                check=True,
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Error formatting code with Black: {e}", file=sys.stderr)
+            raise
 
         # Return the formatted source code
         return input_file_path.read_text()
