@@ -534,21 +534,20 @@ def block(
     )
 
 
-def all_valid_blob_combinations() -> List[Tuple[int, ...]]:
+def blob_combinations(max_blob_count: int) -> List[Tuple[int, ...]]:
     """
-    Returns all valid blob tx combinations for a given block,
+    Returns all blob tx combinations for a given max_blob_count,
     assuming the given MAX_BLOBS_PER_BLOCK
     """
     all = [
         seq
         for i in range(
-            SpecHelpers.max_blobs_per_block(), 0, -1
-        )  # We can have from 1 to at most MAX_BLOBS_PER_BLOCK blobs per block
+            max_blob_count, 0, -1
+        )  # We generate combinations have from 1 to at most max_blob_count blobs per block
         for seq in itertools.combinations_with_replacement(
-            range(1, SpecHelpers.max_blobs_per_block() + 1), i
+            range(1, max_blob_count + 1), i
         )  # We iterate through all possible combinations
-        if sum(seq)
-        <= SpecHelpers.max_blobs_per_block()  # And we only keep the ones that are valid
+        if sum(seq) == max_blob_count  # And we only keep the ones that are valid
     ]
     # We also add the reversed version of each combination, only if it's not
     # already in the list. E.g. (2, 1, 1) is added from (1, 1, 2) but not
@@ -557,28 +556,24 @@ def all_valid_blob_combinations() -> List[Tuple[int, ...]]:
     return all
 
 
+def all_valid_blob_combinations() -> List[Tuple[int, ...]]:
+    """
+    Returns all valid blob tx combinations for a given block,
+    assuming the given MAX_BLOBS_PER_BLOCK
+    """
+    return [
+        item
+        for row in [blob_combinations(i) for i in range(1, SpecHelpers.max_blobs_per_block() + 1)]
+        for item in row
+    ]
+
+
 def invalid_blob_combinations() -> List[Tuple[int, ...]]:
     """
     Returns invalid blob tx combinations for a given block that use up to
     MAX_BLOBS_PER_BLOCK+1 blobs
     """
-    all = [
-        seq
-        for i in range(
-            SpecHelpers.max_blobs_per_block() + 1, 0, -1
-        )  # We can have from 1 to at most MAX_BLOBS_PER_BLOCK blobs per block
-        for seq in itertools.combinations_with_replacement(
-            range(1, SpecHelpers.max_blobs_per_block() + 2), i
-        )  # We iterate through all possible combinations
-        if sum(seq)
-        == SpecHelpers.max_blobs_per_block() + 1  # And we only keep the ones that match the
-        # expected invalid blob count
-    ]
-    # We also add the reversed version of each combination, only if it's not
-    # already in the list. E.g. (4, 1) is added from (1, 4) but not
-    # (1, 1, 1, 1, 1) because its reversed version is identical.
-    all += [tuple(reversed(x)) for x in all if tuple(reversed(x)) not in all]
-    return all
+    return blob_combinations(SpecHelpers.max_blobs_per_block() + 1)
 
 
 @pytest.mark.parametrize(
@@ -602,6 +597,40 @@ def test_valid_blob_tx_combinations(
 
     This test is parametrized with all valid blob transaction combinations for a given block, and
     therefore if value of `MAX_BLOBS_PER_BLOCK` changes, this test is automatically updated.
+    """
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=[block],
+        genesis_environment=env,
+    )
+
+
+@pytest.mark.parametrize(
+    "blobs_per_tx",
+    blob_combinations(SpecHelpers.max_blobs_per_block_prague()),
+)
+@pytest.mark.valid_from("Prague")
+def test_valid_blob_tx_combinations_prague(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    env: Environment,
+    block: Block,
+):
+    """
+    Test all valid blob combinations in a single block, assuming a given value of
+    `MAX_BLOBS_PER_BLOCK`, for Prague.
+
+    This assumes a block can include from 1 and up to `MAX_BLOBS_PER_BLOCK` transactions where all
+    transactions contain at least 1 blob, and the sum of all blobs in a block is at
+    most `MAX_BLOBS_PER_BLOCK`.
+
+    This test is parametrized with all valid blob transaction combinations for a given block, and
+    therefore if value of `MAX_BLOBS_PER_BLOCK` changes, this test is automatically updated.
+
+    This test is specifically for Prague, as the blob gas price is different from Cancun,
+    but furthermore, this is not the actual limit of blobs for Prague, since the value is
+    actually dynamically from the beacon chain and the actual limit can be higher.
     """
     blockchain_test(
         pre=pre,
@@ -753,6 +782,39 @@ def test_invalid_normal_gas(
 )
 @pytest.mark.valid_from("Cancun")
 def test_invalid_block_blob_count(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    env: Environment,
+    block: Block,
+):
+    """
+    Test all invalid blob combinations in a single block, where the sum of all blobs in a block is
+    at `MAX_BLOBS_PER_BLOCK + 1`.
+
+    This test is parametrized with all blob transaction combinations exceeding
+    `MAX_BLOBS_PER_BLOCK` by one for a given block, and
+    therefore if value of `MAX_BLOBS_PER_BLOCK` changes, this test is automatically updated.
+    """
+    blockchain_test(
+        pre=pre,
+        post={},
+        blocks=[block],
+        genesis_environment=env,
+    )
+
+
+@pytest.mark.parametrize(
+    "blobs_per_tx",
+    invalid_blob_combinations(),
+)
+@pytest.mark.parametrize(
+    "tx_error",
+    [TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED],
+    ids=[""],
+    indirect=True,
+)
+@pytest.mark.valid_from("Cancun")
+def test_invalid_block_blob_count_above_max(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     env: Environment,
@@ -1013,13 +1075,13 @@ def test_insufficient_balance_blob_tx_combinations(
 @pytest.mark.parametrize(
     "blobs_per_tx,tx_error",
     [
-        ([0], TransactionException.TYPE_3_TX_ZERO_BLOBS),
-        (
+        pytest.param([0], TransactionException.TYPE_3_TX_ZERO_BLOBS, id="too_few_blobs"),
+        pytest.param(
             [SpecHelpers.max_blobs_per_block() + 1],
             TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            id="too_many_blobs",
         ),
     ],
-    ids=["too_few_blobs", "too_many_blobs"],
     indirect=["tx_error"],
 )
 @pytest.mark.valid_from("Cancun")
@@ -1036,6 +1098,68 @@ def test_invalid_tx_blob_count(
 
     - `blob count == 0` in type 3 transaction
     - `blob count > MAX_BLOBS_PER_BLOCK` in type 3 transaction
+    """
+    assert len(txs) == 1
+    state_test(
+        pre=pre,
+        post={},
+        tx=txs[0],
+        env=state_env,
+        blockchain_test_header_verify=header_verify,
+        blockchain_test_rlp_modifier=rlp_modifier,
+    )
+
+
+@pytest.mark.parametrize(
+    "blobs_per_tx,tx_error",
+    [
+        pytest.param(
+            [SpecHelpers.max_blobs_per_block() + 1],
+            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            id="cancun_max_plus_one",
+        ),
+        pytest.param(
+            [SpecHelpers.max_blobs_per_block_prague()],
+            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            id="prague_max",
+        ),
+        pytest.param(
+            [SpecHelpers.max_blobs_per_block_prague() + 1],
+            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            id="prague_max_plus_one",
+        ),
+        pytest.param(
+            [64],
+            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            id="64",
+        ),
+        pytest.param(
+            [128],
+            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            id="128",
+        ),
+        pytest.param(
+            [1024],
+            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            id="1024",
+        ),
+    ],
+    indirect=["tx_error"],
+)
+@pytest.mark.valid_from("Cancun")
+def test_invalid_tx_blob_count_above_max(
+    state_test: StateTestFiller,
+    state_env: Environment,
+    pre: Alloc,
+    txs: List[Transaction],
+    header_verify: Optional[Header],
+    rlp_modifier: Optional[Header],
+):
+    """
+    Reject blocks that include blob transactions with excessive blob counts in Cancun.
+
+    Starting from Prague, all of these transactions are valid because of the assumption
+    that the CL has verified the maximum blob count on its end.
     """
     assert len(txs) == 1
     state_test(
