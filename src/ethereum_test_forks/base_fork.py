@@ -205,6 +205,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """
         pass
 
+    @classmethod
+    @abstractmethod
+    def header_target_blobs_per_block_required(cls, block_number: int, timestamp: int) -> bool:
+        """
+        Returns true if the header must contain target blobs per block.
+        """
+        pass
+
     # Gas related abstract methods
 
     @classmethod
@@ -243,14 +251,6 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     ) -> TransactionIntrinsicCostCalculator:
         """
         Returns a callable that calculates the intrinsic gas cost of a transaction for the fork.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_target_blobs_per_block_required(cls, block_number: int, timestamp: int) -> bool:
-        """
-        Returns true if the header must contain target blobs per block.
         """
         pass
 

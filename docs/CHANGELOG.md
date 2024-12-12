@@ -61,6 +61,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add framework changes for EIP-7742, required for Prague devnet-5 ([#931](https://github.com/ethereum/execution-spec-tests/pull/931)).
 - ✨ Add the `eest make env` command that generates a default env file (`env.yaml`)([#996](https://github.com/ethereum/execution-spec-tests/pull/996)).
 - ✨ Generate Transaction Test type ([#933](https://github.com/ethereum/execution-spec-tests/pull/933)).
+- ✨ Disable EIP-7742 framework changes for Pectra ([#NNN](https://github.com/ethereum/execution-spec-tests/pull/NNN)).
 
 ### 🔧 EVM Tools
 

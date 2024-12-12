@@ -1249,30 +1249,9 @@ class Prague(Cancun):
         return True
 
     @classmethod
-    def header_target_blobs_per_block_required(
-        cls,
-        block_number: int = 0,
-        timestamp: int = 0,
-    ) -> bool:
-        """
-        Prague requires that the execution layer header contains the beacon
-        chain target blobs per block.
-        """
-        return True
-
-    @classmethod
     def engine_new_payload_requests(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         Starting at Prague, new payloads include the requests hash as a parameter.
-        """
-        return True
-
-    @classmethod
-    def engine_new_payload_target_blobs_per_block(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
-        """
-        Starting at Prague, new payloads include the target blobs per block as a parameter.
         """
         return True
 
@@ -1286,22 +1265,13 @@ class Prague(Cancun):
         return 4
 
     @classmethod
-    def engine_payload_attribute_target_blobs_per_block(
+    def engine_forkchoice_updated_version(
         cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
+    ) -> Optional[int]:
         """
-        Starting at Prague, payload attributes include the target blobs per block.
+        At Prague, version number of NewPayload and ForkchoiceUpdated diverge.
         """
-        return True
-
-    @classmethod
-    def engine_payload_attribute_max_blobs_per_block(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
-        """
-        Starting at Prague, payload attributes include the max blobs per block.
-        """
-        return True
+        return 3
 
 
 class CancunEIP7692(  # noqa: SC200
