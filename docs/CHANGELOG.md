@@ -71,6 +71,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Slow tests now have greater timeout when making a request to the T8N server ([#1037](https://github.com/ethereum/execution-spec-tests/pull/1037)).
 - ✨ Introduce [`pytest.mark.parametrize_by_fork`](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#pytestmarkfork_parametrize) helper marker ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019), [#1057](https://github.com/ethereum/execution-spec-tests/pull/1057)).
 - 🐞 fix(consume): allow absolute paths with `--evm-bin` ([#1052](https://github.com/ethereum/execution-spec-tests/pull/1052)).
+- ✨ Disable EIP-7742 framework changes for Pectra ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023)).
 
 ### 🔧 EVM Tools
 

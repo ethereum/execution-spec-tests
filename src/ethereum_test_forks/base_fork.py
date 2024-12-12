@@ -181,6 +181,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """Return true if the header must contain beacon chain requests."""
         pass
 
+    @classmethod
+    @abstractmethod
+    def header_target_blobs_per_block_required(cls, block_number: int, timestamp: int) -> bool:
+        """Return true if the header must contain target blobs per block."""
+        pass
+
     # Gas related abstract methods
 
     @classmethod
@@ -222,12 +228,6 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> TransactionIntrinsicCostCalculator:
         """Return callable that calculates the intrinsic gas cost of a transaction for the fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_target_blobs_per_block_required(cls, block_number: int, timestamp: int) -> bool:
-        """Return true if the header must contain target blobs per block."""
         pass
 
     @classmethod
