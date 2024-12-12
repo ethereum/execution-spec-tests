@@ -63,6 +63,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add the `eest make env` command that generates a default env file (`env.yaml`)([#996](https://github.com/ethereum/execution-spec-tests/pull/996)).
 - ✨ Generate Transaction Test type ([#933](https://github.com/ethereum/execution-spec-tests/pull/933)).
 - ✨ Add a default location for evm logs (`--evm-dump-dir`) when filling tests ([#999](https://github.com/ethereum/execution-spec-tests/pull/999)).
+- ✨ Disable EIP-7742 framework changes for Pectra ([#NNN](https://github.com/ethereum/execution-spec-tests/pull/NNN)).
 
 ### 🔧 EVM Tools
 
