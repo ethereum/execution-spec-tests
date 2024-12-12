@@ -14,6 +14,7 @@ from ethereum_test_tools import (
     AuthorizationTuple,
     Block,
     BlockchainTestFiller,
+    Conditional,
     Environment,
     StateTestFiller,
     Storage,
@@ -568,7 +569,7 @@ def test_gas_diff_pointer_vs_direct_call(
                     20341
                     if access_list_rule == AccessListCall.BOTH
                     or access_list_rule == AccessListCall.NORMAL_ONLY
-                    else 24841
+                    else 24841  # 20000 sstore, 100 sload
                 ),
                 "normal_call_price",
             ),
@@ -818,6 +819,159 @@ def test_pointer_to_eof(state_test: StateTestFiller, pre: Alloc):
     )
 
     post = {pointer_a: Account(storage=storage)}
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+def test_pointer_to_static_reentry(state_test: StateTestFiller, pre: Alloc):
+    """
+    Tx call -> pointer A -> static -> code -> pointer A -> static violation
+    Verify that static context is active when called under pointer
+    """
+    env = Environment()
+    storage: Storage = Storage()
+    sender = pre.fund_eoa()
+    pointer_a = pre.fund_eoa()
+
+    contract_b = pre.deploy_contract(
+        code=Op.MSTORE(0, Op.ADD(1, Op.CALLDATALOAD(0)))
+        + Conditional(
+            condition=Op.EQ(Op.MLOAD(0), 2), if_true=Op.SSTORE(5, 5), if_false=Op.JUMPDEST()
+        )
+        + Op.CALL(gas=100_000, address=pointer_a, args_offset=0, args_size=Op.CALLDATASIZE())
+    )
+    contract_a = pre.deploy_contract(
+        code=Op.MSTORE(0, Op.CALLDATALOAD(0))
+        + Conditional(
+            condition=Op.EQ(Op.MLOAD(0), 0),
+            if_true=Op.SSTORE(
+                storage.store_next(1, "static_call"),
+                Op.STATICCALL(1_000_000, contract_b, 0, Op.CALLDATASIZE(), 1000, 32),
+            )
+            + Op.SSTORE(storage.store_next(1, "call_worked"), 1),
+            if_false=Op.CALL(1_000_000, contract_b, 0, 0, Op.CALLDATASIZE(), 1000, 32),
+        )
+    )
+
+    tx = Transaction(
+        to=pointer_a,
+        gas_limit=3_000_000,
+        data=[0x00] * 32,
+        value=0,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract_a,
+                nonce=0,
+                signer=pointer_a,
+            )
+        ],
+    )
+
+    post = {pointer_a: Account(storage=storage)}
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "call_type",
+    [Op.CALL, Op.DELEGATECALL, Op.CALLCODE],
+)
+def test_contract_storage_to_pointer_with_storage(
+    state_test: StateTestFiller, pre: Alloc, call_type: Op
+):
+    """
+    Tx call -> contract with storage -> pointer A with storage -> storage/tstorage modify
+    Check storage/tstorage modifications when interacting with pointers
+    """
+    env = Environment()
+
+    sender = pre.fund_eoa()
+
+    # Pointer B
+    storage_pointer_b: Storage = Storage()
+    storage_pointer_b.store_next(
+        0 if call_type in [Op.DELEGATECALL, Op.CALLCODE] else 1, "first_slot"
+    )
+    storage_pointer_b.store_next(0, "second_slot")
+    storage_pointer_b.store_next(0, "third_slot")
+    pointer_b = pre.fund_eoa()
+
+    # Contract B
+    storage_b: Storage = Storage()
+    first_slot = storage_b.store_next(10, "first_slot")
+    second_slot = storage_b.store_next(20, "second_slot")
+    third_slot = storage_b.store_next(30, "third_slot")
+    fourth_slot = storage_b.store_next(0, "fourth_slot")
+    contract_b = pre.deploy_contract(
+        code=Op.MSTORE(0, Op.CALLDATALOAD(0))
+        + Conditional(
+            condition=Op.EQ(Op.MLOAD(0), 1),
+            if_true=Op.SSTORE(fourth_slot, Op.TLOAD(third_slot)),
+            if_false=Op.SSTORE(first_slot, Op.ADD(Op.SLOAD(first_slot), 1))
+            + Op.TSTORE(third_slot, Op.ADD(Op.TLOAD(third_slot), 1)),
+        ),
+        storage={
+            # Original contract storage is untouched
+            first_slot: 10,
+            second_slot: 20,
+            third_slot: 30,
+        },
+    )
+
+    # Contract A
+    storage_a: Storage = Storage()
+    contract_a = pre.deploy_contract(
+        code=Op.TSTORE(third_slot, 1)
+        + call_type(address=pointer_b, gas=500_000)
+        + Op.SSTORE(third_slot, Op.TLOAD(third_slot))
+        # Verify tstorage in contract after interacting with pointer, it must be 0
+        + Op.MSTORE(0, 1) + Op.CALL(address=contract_b, gas=500_000, args_offset=0, args_size=32),
+        storage={
+            storage_a.store_next(
+                # caller storage is modified when calling pointer with delegate or callcode
+                6 if call_type in [Op.DELEGATECALL, Op.CALLCODE] else 5,
+                "first_slot",
+            ): 5,
+            storage_a.store_next(2, "second_slot"): 2,
+            storage_a.store_next(
+                # TSTORE is modified when calling pointer with delegate or callcode
+                2 if call_type in [Op.DELEGATECALL, Op.CALLCODE] else 1,
+                "third_slot",
+            ): 3,
+        },
+    )
+
+    tx = Transaction(
+        to=contract_a,
+        gas_limit=3_000_000,
+        data=b"",
+        value=0,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract_b,
+                nonce=0,
+                signer=pointer_b,
+            )
+        ],
+    )
+
+    post = {
+        contract_a: Account(storage=storage_a),
+        contract_b: Account(storage=storage_b),
+        pointer_b: Account(storage=storage_pointer_b),
+    }
     state_test(
         env=env,
         pre=pre,
