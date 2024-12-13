@@ -304,6 +304,8 @@ If the parameters that are being parametrized is only a single parameter, the re
 
 If the parameters that are being parametrized are multiple, the return value of `fn` should be a list of tuples/lists, where each tuple contains the values for each parameter.
 
+The function can also return a list of `pytest.param` objects, which allows for additional markers and test IDs to be added to the test.
+
 ## Fill/Execute Markers
 
 These markers are used to apply different markers to a test depending on whether it is being filled or executed.
