@@ -62,6 +62,7 @@ def genesis_excess_blob_gas(
     parent_excess_blob_gas: int | None,
     parent_blobs: int,
     target_blobs_per_block: int,
+    blob_gas_per_blob: int,
 ) -> int:
     """
     Default excess blob gas for the genesis block.
@@ -71,7 +72,7 @@ def genesis_excess_blob_gas(
         # We increase the excess blob gas of the genesis because
         # we cannot include blobs in the genesis, so the
         # test blobs are actually in block 1.
-        excess_blob_gas += target_blobs_per_block
+        excess_blob_gas += target_blobs_per_block * blob_gas_per_blob
     return excess_blob_gas
 
 
