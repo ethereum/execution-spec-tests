@@ -6,6 +6,7 @@ from enum import Enum
 
 import pytest
 
+from ethereum_test_forks import Fork, GasCosts
 from ethereum_test_tools import (
     AccessList,
     Account,
@@ -505,27 +506,34 @@ class AccessListCall(Enum):
     """Add addresses to access list"""
 
     NONE = 1
-    NORMAL_ONLY = 2
-    POINTER_ONLY = 3
-    BOTH = 4
+    IN_NORMAL_TX_ONLY = 2
+    IN_POINTER_TX_ONLY = 3
+    IN_BOTH_TX = 4
 
 
 class PointerDefinition(Enum):
     """Define pointer in transactions"""
 
     SEPARATE = 1
-    IN_TX1_ONLY = 2
-    IN_TX2_ONLY = 3
+    IN_NORMAL_TX_ONLY = 2
+    IN_POINTER_TX_ONLY = 3
     IN_BOTH_TX = 4
+
+
+class AccessListTo(Enum):
+    """Define access list to"""
+
+    POINTER_ADDRESS = 1
+    CONTRACT_ADDRESS = 2
 
 
 @pytest.mark.parametrize(
     "access_list_rule",
     [
         AccessListCall.NONE,
-        AccessListCall.BOTH,
-        AccessListCall.NORMAL_ONLY,
-        AccessListCall.POINTER_ONLY,
+        AccessListCall.IN_BOTH_TX,
+        AccessListCall.IN_NORMAL_TX_ONLY,
+        AccessListCall.IN_POINTER_TX_ONLY,
     ],
 )
 @pytest.mark.parametrize(
@@ -533,46 +541,111 @@ class PointerDefinition(Enum):
     [
         PointerDefinition.SEPARATE,
         PointerDefinition.IN_BOTH_TX,
-        PointerDefinition.IN_TX1_ONLY,
-        PointerDefinition.IN_TX2_ONLY,
+        PointerDefinition.IN_NORMAL_TX_ONLY,
+        PointerDefinition.IN_POINTER_TX_ONLY,
     ],
+)
+@pytest.mark.parametrize(
+    "access_list_to",
+    [AccessListTo.POINTER_ADDRESS, AccessListTo.CONTRACT_ADDRESS],
 )
 @pytest.mark.valid_from("Prague")
 def test_gas_diff_pointer_vs_direct_call(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
+    fork: Fork,
     access_list_rule: AccessListCall,
     pointer_definition: PointerDefinition,
+    access_list_to: AccessListTo,
 ):
     """
     Check the gas difference when calling the contract directly vs as a pointer
     Combine with AccessList and AuthTuple gas reductions scenarios
-
-    TODO: the test uses direct gas values, which can be replaced with opcode gas price(fork)
-    in the future. direct gas values are not good to use in tests, but sometimes we need it
     """
     env = Environment()
 
     sender = pre.fund_eoa()
     pointer_a = pre.fund_eoa()
     call_worked = 1
+    gas_costs: GasCosts = fork.gas_costs()
+
+    opcodes_price = 42
+    G_CALL_OPCODE: int = 100
+    direct_call_gas: int = (
+        # 20_000 + 2_600 + 2_100 + 100 + 42 = 24842
+        gas_costs.G_STORAGE_SET
+        + (
+            # access account price
+            # If storage and account is declared in access list then discount
+            gas_costs.G_WARM_ACCOUNT_ACCESS + gas_costs.G_WARM_SLOAD
+            if access_list_rule in [AccessListCall.IN_NORMAL_TX_ONLY, AccessListCall.IN_BOTH_TX]
+            else gas_costs.G_COLD_ACCOUNT_ACCESS + gas_costs.G_COLD_SLOAD
+        )
+        + G_CALL_OPCODE
+        + opcodes_price
+    )
+
+    pointer_call_gas: int = (
+        # sstore + addr + addr + sload + call + op
+        # no access list, no pointer, all accesses are hot
+        # 20_000 + 2_600 * 2 + 2_100 + 100 + 42 = 27_442
+        #
+        # access list for pointer, pointer is set
+        # additional 2_600 charged for access of contract
+        # 20_000 + 100 + 2_600 + 100 + 100 + 42 = 22_942
+        #
+        # no access list, pointer is set
+        # pointer access is hot, sload and contract are hot
+        # 20_000 + 100 + 2_600 + 2_100 + 100 + 42 = 24_942
+        #
+        # access list for contract, pointer is set
+        # contract call is hot, pointer call is call because pointer is set
+        # only sload is hot because access list is for contract
+        # 20_000 + 100 + 100 + 2100 + 100  + 42 = 22_442
+        gas_costs.G_STORAGE_SET
+        # pointer address access
+        + (
+            gas_costs.G_WARM_ACCOUNT_ACCESS
+            if (
+                pointer_definition
+                in [PointerDefinition.IN_BOTH_TX, PointerDefinition.IN_POINTER_TX_ONLY]
+                or access_list_rule
+                in [AccessListCall.IN_BOTH_TX, AccessListCall.IN_POINTER_TX_ONLY]
+                and access_list_to == AccessListTo.POINTER_ADDRESS
+            )
+            else gas_costs.G_COLD_ACCOUNT_ACCESS
+        )
+        # storage access
+        + (
+            gas_costs.G_WARM_SLOAD
+            if (
+                access_list_rule in [AccessListCall.IN_BOTH_TX, AccessListCall.IN_POINTER_TX_ONLY]
+                and access_list_to == AccessListTo.POINTER_ADDRESS
+            )
+            else gas_costs.G_COLD_SLOAD
+        )
+        # contract address access
+        + (
+            gas_costs.G_WARM_ACCOUNT_ACCESS
+            if (
+                access_list_rule in [AccessListCall.IN_BOTH_TX, AccessListCall.IN_POINTER_TX_ONLY]
+                and access_list_to == AccessListTo.CONTRACT_ADDRESS
+            )
+            else gas_costs.G_COLD_ACCOUNT_ACCESS
+        )
+        + G_CALL_OPCODE
+        + opcodes_price
+    )
+
     contract = pre.deploy_contract(code=Op.SSTORE(call_worked, Op.ADD(Op.SLOAD(call_worked), 1)))
 
     # Op.CALLDATASIZE() does not work with kwargs
     storage_normal: Storage = Storage()
     contract_test_normal = pre.deploy_contract(
         code=Op.MSTORE(1000, Op.GAS())
-        + Op.CALL(100_000, contract, 0, 0, Op.CALLDATASIZE(), 0, 0)
+        + Op.CALL(gas=100_000, address=contract)
         + Op.SSTORE(
-            storage_normal.store_next(
-                (
-                    20341
-                    if access_list_rule == AccessListCall.BOTH
-                    or access_list_rule == AccessListCall.NORMAL_ONLY
-                    else 24841  # 20000 sstore, 100 sload
-                ),
-                "normal_call_price",
-            ),
+            storage_normal.store_next(direct_call_gas, "normal_call_price"),
             Op.SUB(Op.MLOAD(1000), Op.GAS()),
         )
     )
@@ -580,22 +653,9 @@ def test_gas_diff_pointer_vs_direct_call(
     storage_pointer: Storage = Storage()
     contract_test_pointer = pre.deploy_contract(
         code=Op.MSTORE(1000, Op.GAS())
-        + Op.CALL(100_000, pointer_a, 0, 0, Op.CALLDATASIZE(), 0, 0)
+        + Op.CALL(gas=100_000, address=pointer_a)
         + Op.SSTORE(
-            storage_pointer.store_next(
-                (
-                    22941
-                    if access_list_rule == AccessListCall.BOTH
-                    or access_list_rule == AccessListCall.POINTER_ONLY
-                    else (
-                        24941  # setting pointer once again in each transaction reduces the price
-                        if pointer_definition == PointerDefinition.IN_TX2_ONLY
-                        or pointer_definition == PointerDefinition.IN_BOTH_TX
-                        else 27441
-                    )
-                ),
-                "pointer_call_price",
-            ),
+            storage_pointer.store_next(pointer_call_gas, "pointer_call_price"),
             Op.SUB(Op.MLOAD(1000), Op.GAS()),
         )
     )
@@ -634,7 +694,7 @@ def test_gas_diff_pointer_vs_direct_call(
                 )
             ]
             if pointer_definition == PointerDefinition.IN_BOTH_TX
-            or pointer_definition == PointerDefinition.IN_TX1_ONLY
+            or pointer_definition == PointerDefinition.IN_NORMAL_TX_ONLY
             else None
         ),
         access_list=(
@@ -644,8 +704,8 @@ def test_gas_diff_pointer_vs_direct_call(
                     storage_keys=[call_worked],
                 )
             ]
-            if access_list_rule == AccessListCall.BOTH
-            or access_list_rule == AccessListCall.NORMAL_ONLY
+            if access_list_rule == AccessListCall.IN_BOTH_TX
+            or access_list_rule == AccessListCall.IN_NORMAL_TX_ONLY
             else None
         ),
     )
@@ -664,18 +724,20 @@ def test_gas_diff_pointer_vs_direct_call(
                 )
             ]
             if pointer_definition == PointerDefinition.IN_BOTH_TX
-            or pointer_definition == PointerDefinition.IN_TX2_ONLY
+            or pointer_definition == PointerDefinition.IN_POINTER_TX_ONLY
             else None
         ),
         access_list=(
             [
                 AccessList(
-                    address=pointer_a,
+                    address=(
+                        pointer_a if access_list_to == AccessListTo.POINTER_ADDRESS else contract
+                    ),
                     storage_keys=[call_worked],
                 )
             ]
-            if access_list_rule == AccessListCall.BOTH
-            or access_list_rule == AccessListCall.POINTER_ONLY
+            if access_list_rule == AccessListCall.IN_BOTH_TX
+            or access_list_rule == AccessListCall.IN_POINTER_TX_ONLY
             else None
         ),
     )
@@ -691,6 +753,90 @@ def test_gas_diff_pointer_vs_direct_call(
         pre=pre,
         post=post,
         blocks=[Block(txs=[tx_0]), Block(txs=[tx]), Block(txs=[tx2])],
+    )
+
+
+@pytest.mark.valid_from("Prague")
+def test_pointer_call_followed_by_direct_call(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """
+    If we first call by pointer then direct call, will the call/sload be hot
+    The direct call will warm because pointer access marks it warm
+    But the sload is still cold because storage marked hot from pointer's account in a pointer call
+    """
+    env = Environment()
+
+    sender = pre.fund_eoa()
+    pointer_a = pre.fund_eoa()
+    gas_costs: GasCosts = fork.gas_costs()
+    call_worked = 1
+    G_CALL_OPCODE: int = 100
+    opcodes_price: int = 42
+    pointer_call_gas = (
+        gas_costs.G_STORAGE_SET
+        + gas_costs.G_WARM_ACCOUNT_ACCESS  # pointer is warm
+        + gas_costs.G_COLD_ACCOUNT_ACCESS  # contract is cold
+        + gas_costs.G_COLD_SLOAD  # storage access under pointer call is cold
+        + G_CALL_OPCODE
+        + opcodes_price
+    )
+    direct_call_gas = (
+        gas_costs.G_STORAGE_SET
+        + gas_costs.G_WARM_ACCOUNT_ACCESS  # since previous pointer call, contract is now warm
+        + gas_costs.G_COLD_SLOAD  # but storage is cold, because it's contract's direct
+        + G_CALL_OPCODE
+        + opcodes_price
+        - 2  # because direct call is cheaper?
+    )
+
+    contract = pre.deploy_contract(code=Op.SSTORE(call_worked, Op.ADD(Op.SLOAD(call_worked), 1)))
+
+    storage_test_gas: Storage = Storage()
+    contract_test_gas = pre.deploy_contract(
+        code=Op.MSTORE(1000, Op.GAS())
+        + Op.CALL(gas=100_000, address=pointer_a)
+        + Op.SSTORE(
+            storage_test_gas.store_next(pointer_call_gas, "pointer_call_price"),
+            Op.SUB(Op.MLOAD(1000), Op.GAS()),
+        )
+        + Op.MSTORE(2000, Op.GAS())
+        + Op.CALL(gas=100_000, address=contract)
+        + Op.SSTORE(
+            storage_test_gas.store_next(direct_call_gas, "direct_call_price"),
+            Op.SUB(Op.MLOAD(2000), Op.GAS()),
+        )
+    )
+
+    tx = Transaction(
+        to=contract_test_gas,
+        gas_limit=3_000_000,
+        data=b"",
+        value=0,
+        sender=sender,
+        authorization_list=(
+            [
+                AuthorizationTuple(
+                    address=contract,
+                    nonce=0,
+                    signer=pointer_a,
+                )
+            ]
+        ),
+    )
+
+    post = {
+        contract: Account(storage={call_worked: 1}),
+        pointer_a: Account(storage={call_worked: 1}),
+        contract_test_gas: Account(storage=storage_test_gas),
+    }
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
     )
 
 
