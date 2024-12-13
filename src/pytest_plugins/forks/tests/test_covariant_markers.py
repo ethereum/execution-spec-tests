@@ -290,7 +290,7 @@ import pytest
             """
             import pytest
 
-            from pytest_plugins.forks.forks import fork_covariant_parametrize
+            from pytest_plugins import fork_covariant_parametrize
 
             def covariant_function(fork):
                 return [1, 2] if fork.name() == "Paris" else [3, 4, 5]
@@ -309,7 +309,7 @@ import pytest
             """
             import pytest
 
-            from pytest_plugins.forks.forks import fork_covariant_parametrize
+            from pytest_plugins import fork_covariant_parametrize
 
             def covariant_function(fork):
                 return [[1, 2], [3, 4]] if fork.name() == "Paris" else [[4, 5], [5, 6], [6, 7]]
