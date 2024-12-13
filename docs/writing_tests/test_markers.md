@@ -276,6 +276,7 @@ In this example, the test will be skipped if `tx_type` is equal to 1 by returnin
 Custom fork covariant markers can be created by using the `fork_covariant_parametrize` decorator.
 
 This decorator takes three arguments:
+
 - `parameter_names`: A list of parameter names that will be parametrized using the custom function.
 - `fn`: A function that takes the fork as parameter and returns a list of values that will be used to parametrize the test.
 - `marks`: A marker, list of markers, or a lambda function that can be used to add additional markers to the test.
