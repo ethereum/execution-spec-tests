@@ -62,28 +62,15 @@ def pytest_addoption(parser):
 
 
 @dataclass(kw_only=True)
-class MarkedValue:
-    """
-    A processed value for a covariant parameter.
-
-    Value can be a list for inclusive parameters.
-    """
-
-    value: Any
-    marks: List[pytest.Mark | pytest.MarkDecorator] = field(default_factory=list)
-
-
-@dataclass(kw_only=True)
 class ForkCovariantParameter:
     """
     Value list for a fork covariant parameter in a given fork.
     """
 
     names: List[str]
-    values: List[List[MarkedValue]]
+    values: List[ParameterSet]
 
 
-@dataclass(kw_only=True)
 class ForkParametrizer:
     """
     A parametrizer for a test case that is parametrized by the fork.
@@ -91,14 +78,24 @@ class ForkParametrizer:
 
     fork: Fork
     fork_covariant_parameters: List[ForkCovariantParameter] = field(default_factory=list)
-    marks: List[pytest.MarkDecorator | pytest.Mark] = field(default_factory=list)
+
+    def __init__(
+        self,
+        fork: Fork,
+        marks: List[pytest.MarkDecorator | pytest.Mark] = [],
+        fork_covariant_parameters: List[ForkCovariantParameter] = [],
+    ):
+        self.fork_covariant_parameters = [
+            ForkCovariantParameter(names=["fork"], values=[pytest.param(fork, marks=marks)])
+        ] + fork_covariant_parameters
+        self.fork = fork
 
     @property
     def parameter_names(self) -> List[str]:
         """
         Return the parameter names for the test case.
         """
-        parameter_names = ["fork"]
+        parameter_names = []
         for p in self.fork_covariant_parameters:
             parameter_names.extend(p.names)
         return parameter_names
@@ -108,28 +105,24 @@ class ForkParametrizer:
         """
         Return the parameter values for the test case.
         """
-        param_value_combinations = [
-            # Flatten the list of values for each parameter
-            list(itertools.chain(*params))
-            for params in itertools.product(
-                # Add the fork so it is multiplied by the other parameters.
-                # It's a list of lists because all parameters are, but it will
-                # flattened after the product.
-                [[MarkedValue(value=self.fork)]],
-                # Add the values for each parameter, all of them are lists of at least one element.
-                *[p.values for p in self.fork_covariant_parameters],
-            )
-        ]
+        parameter_set_combinations = itertools.product(
+            # Add the values for each parameter, all of them are lists of at least one element.
+            *[p.values for p in self.fork_covariant_parameters],
+        )
 
         parameter_set_list: List[ParameterSet] = []
-        for marked_params in param_value_combinations:
-            marks = self.marks.copy()
+        for parameter_set_combination in parameter_set_combinations:
             params: List[Any] = []
-            for p in marked_params:
-                params.append(p.value)
+            marks: List[pytest.Mark | pytest.MarkDecorator] = []
+            id: str | None = None
+            for p in parameter_set_combination:
+                assert isinstance(p, ParameterSet)
+                params.extend(p.values)
                 if p.marks:
                     marks.extend(p.marks)
-            parameter_set_list.append(pytest.param(*params, marks=marks))
+                if p.id:
+                    id = p.id
+            parameter_set_list.append(pytest.param(*params, marks=marks, id=id))
 
         return parameter_set_list
 
@@ -168,13 +161,16 @@ class CovariantDescriptor:
 
     def process_value(
         self,
-        parameters_values: Any | List[Any] | Tuple[Any],
-    ) -> List[List[MarkedValue]]:
+        parameters_values: Any | List[Any] | Tuple[Any] | ParameterSet,
+    ) -> ParameterSet | None:
         """
         Process a value for a covariant parameter.
 
         The `selector` is applied to parameters_values in order to filter them.
         """
+        if isinstance(parameters_values, ParameterSet):
+            return parameters_values
+
         if len(self.parameter_names) == 1:
             # Wrap values that are meant for a single parameter in a list
             parameters_values = [parameters_values]
@@ -190,20 +186,22 @@ class CovariantDescriptor:
             elif not isinstance(marks, list):
                 marks = [marks]  # type: ignore
 
-            return [[MarkedValue(value=v, marks=marks) for v in parameters_values]]
+            return pytest.param(*parameters_values, marks=marks)
 
-        return []
+        return None
 
-    def process_values(self, values: List[Any]) -> List[List[MarkedValue]]:
+    def process_values(self, values: List[Any]) -> List[ParameterSet]:
         """
         Filter the values for the covariant parameter.
 
         I.e. if the marker has an argument, the argument is interpreted as a lambda function
         that filters the values.
         """
-        processed_values: List[List[MarkedValue]] = []
+        processed_values: List[ParameterSet] = []
         for value in values:
-            processed_values.extend(self.process_value(value))
+            processed_value = self.process_value(value)
+            if processed_value is not None:
+                processed_values.append(processed_value)
         return processed_values
 
     def add_values(self, fork_parametrizer: ForkParametrizer) -> None:
