@@ -7,7 +7,7 @@ import sys
 import textwrap
 from dataclasses import dataclass, field
 from types import FunctionType
-from typing import Any, Callable, ClassVar, List, Set, Tuple, Type
+from typing import Any, Callable, ClassVar, Iterable, List, Set, Tuple, Type
 
 import pytest
 from _pytest.mark.structures import ParameterSet
@@ -134,7 +134,7 @@ class CovariantDescriptor:
     """
 
     parameter_names: List[str] = []
-    fn: Callable[[Fork], List[Any]] | None = None
+    fn: Callable[[Fork], List[Any] | Iterable[Any]] | None = None
 
     selector: FunctionType | None = None
     marks: None | pytest.Mark | pytest.MarkDecorator | List[
@@ -144,7 +144,7 @@ class CovariantDescriptor:
     def __init__(
         self,
         parameter_names: List[str] | str,
-        fn: Callable[[Fork], List[Any]] | None = None,
+        fn: Callable[[Fork], List[Any] | Iterable[Any]] | None = None,
         selector: FunctionType | None = None,
         marks: None
         | pytest.Mark
@@ -347,7 +347,7 @@ FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE = "fork_covariant_parametrize"
 def fork_covariant_parametrize(
     *,
     parameter_names: List[str] | str,
-    fn: Callable[[Fork], List[Any]],
+    fn: Callable[[Fork], List[Any] | Iterable[Any]],
     marks: None
     | pytest.Mark
     | pytest.MarkDecorator
