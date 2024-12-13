@@ -64,6 +64,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Generate Transaction Test type ([#933](https://github.com/ethereum/execution-spec-tests/pull/933)).
 - ✨ Add a default location for evm logs (`--evm-dump-dir`) when filling tests ([#999](https://github.com/ethereum/execution-spec-tests/pull/999)).
 - ✨ Slow tests now have greater timeout when making a request to the T8N server ([#1037](https://github.com/ethereum/execution-spec-tests/pull/1037)).
+- ✨ Introduce [`fork_covariant_parametrize`](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#custom-fork-covariant-markers) helper function ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019)).
 
 ### 🔧 EVM Tools
 
