@@ -78,16 +78,6 @@ def destination_account(
 
 
 @pytest.fixture
-def tx_value() -> int:
-    """
-    Default value contained by the transactions sent during test.
-
-    Can be overloaded by a test case to provide a custom transaction value.
-    """
-    return 1
-
-
-@pytest.fixture
 def tx_gas(
     fork: Fork,
     tx_calldata: bytes,
@@ -96,70 +86,6 @@ def tx_gas(
     """Default gas allocated to transactions sent during test."""
     tx_intrinsic_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     return tx_intrinsic_cost_calculator(calldata=tx_calldata, access_list=tx_access_list)
-
-
-@pytest.fixture
-def tx_calldata() -> bytes:
-    """Default calldata in transactions sent during test."""
-    return b""
-
-
-@pytest.fixture
-def block_fee_per_gas() -> int:
-    """Default max fee per gas for transactions sent during test."""
-    return 7
-
-
-@pytest.fixture
-def blob_gas_per_blob(fork: Fork) -> int:
-    """Default blob gas cost per blob."""
-    return fork.blob_gas_per_blob()
-
-
-@pytest.fixture
-def excess_blob_gas(
-    fork: Fork,
-    parent_excess_blobs: Optional[int],
-    parent_blobs: Optional[int],
-) -> Optional[int]:
-    """
-    Calculates the excess blob gas of the block under test from the parent block.
-    """
-    if parent_excess_blobs is None or parent_blobs is None:
-        return None
-    excess_blob_gas = fork.excess_blob_gas_calculator()
-    return excess_blob_gas(
-        parent_excess_blobs=parent_excess_blobs,
-        parent_blob_count=parent_blobs,
-    )
-
-
-@pytest.fixture
-def blob_gas_price(
-    fork: Fork,
-    excess_blob_gas: Optional[int],
-) -> Optional[int]:
-    """
-    Blob gas price for the block of the test.
-    """
-    if excess_blob_gas is None:
-        return None
-
-    get_blob_gas_price = fork.blob_gas_price_calculator()
-    return get_blob_gas_price(
-        excess_blob_gas=excess_blob_gas,
-    )
-
-
-@pytest.fixture
-def tx_max_priority_fee_per_gas() -> int:
-    """
-    Default max priority fee per gas for transactions sent during test.
-
-    Can be overloaded by a test case to provide a custom max priority fee per
-    gas.
-    """
-    return 0
 
 
 @pytest.fixture
@@ -218,7 +144,7 @@ def total_account_transactions_fee(  # noqa: D103
     tx_gas: int,
     tx_value: int,
     blob_gas_price: int,
-    block_fee_per_gas: int,
+    block_base_fee_per_gas: int,
     blob_gas_per_blob: int,
     tx_max_fee_per_gas: int,
     tx_max_priority_fee_per_gas: int,
@@ -231,43 +157,12 @@ def total_account_transactions_fee(  # noqa: D103
     for tx_blob_count in [len(x) for x in blob_hashes_per_tx]:
         blob_cost = blob_gas_price * blob_gas_per_blob * tx_blob_count
         block_producer_fee = (
-            tx_max_fee_per_gas - block_fee_per_gas if tx_max_priority_fee_per_gas else 0
+            tx_max_fee_per_gas - block_base_fee_per_gas if tx_max_priority_fee_per_gas else 0
         )
-        total_cost += (tx_gas * (block_fee_per_gas + block_producer_fee)) + tx_value + blob_cost
+        total_cost += (
+            (tx_gas * (block_base_fee_per_gas + block_producer_fee)) + tx_value + blob_cost
+        )
     return total_cost
-
-
-@pytest.fixture(autouse=True)
-def tx_max_fee_per_gas(
-    block_fee_per_gas: int,
-) -> int:
-    """
-    Max fee per gas value used by all transactions sent during test.
-
-    By default the max fee per gas is the same as the block fee per gas.
-
-    Can be overloaded by a test case to test rejection of transactions where
-    the max fee per gas is insufficient.
-    """
-    return block_fee_per_gas
-
-
-@pytest.fixture
-def tx_max_fee_per_blob_gas(  # noqa: D103
-    blob_gas_price: Optional[int],
-) -> int:
-    """
-    Default max fee per blob gas for transactions sent during test.
-
-    By default, it is set to the blob gas price of the block.
-
-    Can be overloaded by a test case to test rejection of transactions where
-    the max fee per blob gas is insufficient.
-    """
-    if blob_gas_price is None:
-        # When fork transitioning, the default blob gas price is 1.
-        return 1
-    return blob_gas_price
 
 
 @pytest.fixture
@@ -1109,7 +1004,7 @@ def opcode(
     request,
     sender: EOA,
     tx_calldata: bytes,
-    block_fee_per_gas: int,
+    block_base_fee_per_gas: int,
     tx_max_fee_per_gas: int,
     tx_max_priority_fee_per_gas: int,
     tx_value: int,
@@ -1148,12 +1043,12 @@ def opcode(
             {0: tx_calldata.ljust(32, b"\x00")},
         )
     elif request.param == Op.GASPRICE:
-        assert tx_max_fee_per_gas >= block_fee_per_gas
+        assert tx_max_fee_per_gas >= block_base_fee_per_gas
         return (
             Op.SSTORE(0, Op.GASPRICE),
             {
-                0: min(tx_max_priority_fee_per_gas, tx_max_fee_per_gas - block_fee_per_gas)
-                + block_fee_per_gas
+                0: min(tx_max_priority_fee_per_gas, tx_max_fee_per_gas - block_base_fee_per_gas)
+                + block_base_fee_per_gas
             },
         )
     raise Exception("Unknown opcode")

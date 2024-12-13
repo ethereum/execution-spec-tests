@@ -35,7 +35,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .common import BlobhashScenario, random_blob_hashes
-from .spec import Spec, SpecHelpers, ref_spec_4844
+from .spec import Spec, ref_spec_4844
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
@@ -62,6 +62,7 @@ def test_blobhash_gas_cost(
     tx_type: int,
     blobhash_index: int,
     state_test: StateTestFiller,
+    target_blobs_per_block: int,
 ):
     """
     Tests `BLOBHASH` opcode gas cost using a variety of indexes.
@@ -90,7 +91,7 @@ def test_blobhash_gas_cost(
         max_fee_per_gas=10 if tx_type >= 2 else None,
         max_priority_fee_per_gas=10 if tx_type >= 2 else None,
         max_fee_per_blob_gas=10 if tx_type == 3 else None,
-        blob_versioned_hashes=random_blob_hashes[0 : SpecHelpers.target_blobs_per_block()]
+        blob_versioned_hashes=random_blob_hashes[0:target_blobs_per_block]
         if tx_type == 3
         else None,
     )
@@ -117,6 +118,7 @@ def test_blobhash_scenarios(
     pre: Alloc,
     scenario: str,
     blockchain_test: BlockchainTestFiller,
+    max_blobs_per_block: int,
 ):
     """
     Tests that the `BLOBHASH` opcode returns the correct versioned hash for
@@ -126,8 +128,12 @@ def test_blobhash_scenarios(
     the valid range `[0, 2**256-1]`.
     """
     TOTAL_BLOCKS = 5
-    b_hashes_list = BlobhashScenario.create_blob_hashes_list(length=TOTAL_BLOCKS)
-    blobhash_calls = BlobhashScenario.generate_blobhash_bytecode(scenario)
+    b_hashes_list = BlobhashScenario.create_blob_hashes_list(
+        length=TOTAL_BLOCKS, max_blobs_per_block=max_blobs_per_block
+    )
+    blobhash_calls = BlobhashScenario.generate_blobhash_bytecode(
+        scenario_name=scenario, max_blobs_per_block=max_blobs_per_block
+    )
     sender = pre.fund_eoa()
 
     blocks: List[Block] = []
@@ -153,10 +159,7 @@ def test_blobhash_scenarios(
             )
         )
         post[address] = Account(
-            storage={
-                index: b_hashes_list[i][index]
-                for index in range(SpecHelpers.max_blobs_per_block())
-            }
+            storage={index: b_hashes_list[i][index] for index in range(max_blobs_per_block)}
         )
     blockchain_test(
         pre=pre,
@@ -174,7 +177,8 @@ def test_blobhash_scenarios(
 def test_blobhash_invalid_blob_index(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
-    scenario,
+    scenario: str,
+    max_blobs_per_block: int,
 ):
     """
     Tests that the `BLOBHASH` opcode returns a zeroed `bytes32` value for invalid
@@ -187,13 +191,15 @@ def test_blobhash_invalid_blob_index(
     It confirms that the returned value is a zeroed `bytes32` for each case.
     """
     TOTAL_BLOCKS = 5
-    blobhash_calls = BlobhashScenario.generate_blobhash_bytecode(scenario)
+    blobhash_calls = BlobhashScenario.generate_blobhash_bytecode(
+        scenario_name=scenario, max_blobs_per_block=max_blobs_per_block
+    )
     sender = pre.fund_eoa()
     blocks: List[Block] = []
     post = {}
     for i in range(TOTAL_BLOCKS):
         address = pre.deploy_contract(blobhash_calls)
-        blob_per_block = (i % SpecHelpers.max_blobs_per_block()) + 1
+        blob_per_block = (i % max_blobs_per_block) + 1
         blobs = [random_blob_hashes[blob] for blob in range(blob_per_block)]
         blocks.append(
             Block(
@@ -218,7 +224,7 @@ def test_blobhash_invalid_blob_index(
                 index: (0 if index < 0 or index >= blob_per_block else blobs[index])
                 for index in range(
                     -TOTAL_BLOCKS,
-                    blob_per_block + (TOTAL_BLOCKS - (i % SpecHelpers.max_blobs_per_block())),
+                    blob_per_block + (TOTAL_BLOCKS - (i % max_blobs_per_block)),
                 )
             }
         )
@@ -232,6 +238,7 @@ def test_blobhash_invalid_blob_index(
 def test_blobhash_multiple_txs_in_block(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
+    max_blobs_per_block: int,
 ):
     """
     Tests that the `BLOBHASH` opcode returns the appropriate values when there
@@ -240,7 +247,9 @@ def test_blobhash_multiple_txs_in_block(
     Scenarios involve tx type 3 followed by tx type 2 running the same code
     within a block, including the opposite.
     """
-    blobhash_bytecode = BlobhashScenario.generate_blobhash_bytecode("single_valid")
+    blobhash_bytecode = BlobhashScenario.generate_blobhash_bytecode(
+        scenario_name="single_valid", max_blobs_per_block=max_blobs_per_block
+    )
     addresses = [pre.deploy_contract(blobhash_bytecode) for _ in range(4)]
     sender = pre.fund_eoa()
 
@@ -256,9 +265,7 @@ def test_blobhash_multiple_txs_in_block(
             max_fee_per_gas=10,
             max_priority_fee_per_gas=10,
             max_fee_per_blob_gas=10 if type >= 3 else None,
-            blob_versioned_hashes=random_blob_hashes[0 : SpecHelpers.max_blobs_per_block()]
-            if type >= 3
-            else None,
+            blob_versioned_hashes=random_blob_hashes[0:max_blobs_per_block] if type >= 3 else None,
         )
 
     blocks = [
@@ -283,10 +290,10 @@ def test_blobhash_multiple_txs_in_block(
     ]
     post = {
         Address(address): Account(
-            storage={i: random_blob_hashes[i] for i in range(SpecHelpers.max_blobs_per_block())}
+            storage={i: random_blob_hashes[i] for i in range(max_blobs_per_block)}
         )
         if address in (addresses[1], addresses[3])
-        else Account(storage={i: 0 for i in range(SpecHelpers.max_blobs_per_block())})
+        else Account(storage={i: 0 for i in range(max_blobs_per_block)})
         for address in addresses
     }
     blockchain_test(
