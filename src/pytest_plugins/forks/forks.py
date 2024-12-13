@@ -190,7 +190,7 @@ class CovariantDescriptor:
 
         return None
 
-    def process_values(self, values: List[Any]) -> List[ParameterSet]:
+    def process_values(self, values: Iterable[Any]) -> List[ParameterSet]:
         """
         Filter the values for the covariant parameter.
 
@@ -212,9 +212,8 @@ class CovariantDescriptor:
             return
         fork = fork_parametrizer.fork
         values = self.fn(fork)
-        assert isinstance(values, list)
-        assert len(values) > 0
         values = self.process_values(values)
+        assert len(values) > 0
         fork_parametrizer.fork_covariant_parameters.append(
             ForkCovariantParameter(names=self.parameter_names, values=values)
         )
