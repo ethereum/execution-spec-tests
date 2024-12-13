@@ -29,7 +29,7 @@ class ForkAttribute(Protocol):
 
 class MemoryExpansionGasCalculator(Protocol):
     """
-    A protocol to calculate the gas cost of memory expansion for a given fork.
+    A protocol to calculate the gas cost of memory expansion at a given fork.
     """
 
     def __call__(self, *, new_bytes: int, previous_bytes: int = 0) -> int:
@@ -41,7 +41,7 @@ class MemoryExpansionGasCalculator(Protocol):
 
 class CalldataGasCalculator(Protocol):
     """
-    A protocol to calculate the transaction gas cost of calldata for a given fork.
+    A protocol to calculate the transaction gas cost of calldata at a given fork.
     """
 
     def __call__(self, *, data: BytesConvertible, floor: bool = False) -> int:
@@ -65,7 +65,7 @@ class TransactionDataFloorCostCalculator(Protocol):
 
 class TransactionIntrinsicCostCalculator(Protocol):
     """
-    A protocol to calculate the intrinsic gas cost of a transaction for a given fork.
+    A protocol to calculate the intrinsic gas cost of a transaction at a given fork.
     """
 
     def __call__(
@@ -93,6 +93,37 @@ class TransactionIntrinsicCostCalculator(Protocol):
 
         Returns:
             Gas cost of a transaction
+        """
+        pass
+
+
+class BlobGasPriceCalculator(Protocol):
+    """
+    A protocol to calculate the blob gas price given the excess blob gas at a given fork.
+    """
+
+    def __call__(self, *, excess_blob_gas: int) -> int:
+        """
+        Returns the blob gas price given the excess blob gas.
+        """
+        pass
+
+
+class ExcessBlobGasCalculator(Protocol):
+    """
+    A protocol to calculate the excess blob gas for a block at a given fork.
+    """
+
+    def __call__(
+        self,
+        *,
+        parent_excess_blob_gas: int | None = None,
+        parent_excess_blobs: int | None = None,
+        parent_blob_gas_used: int | None = None,
+        parent_blob_count: int | None = None,
+    ) -> int:
+        """
+        Returns the excess blob gas given the parent's excess blob gas and blob gas used.
         """
         pass
 
@@ -218,7 +249,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def header_beacon_root_required(cls, block_number: int, timestamp: int) -> bool:
+    def header_beacon_root_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         Returns true if the header must contain parent beacon block root
         """
@@ -226,7 +257,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def header_requests_required(cls, block_number: int, timestamp: int) -> bool:
+    def header_requests_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         Returns true if the header must contain beacon chain requests
         """
@@ -234,7 +265,9 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def header_target_blobs_per_block_required(cls, block_number: int, timestamp: int) -> bool:
+    def header_target_blobs_per_block_required(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
         """
         Returns true if the header must contain target blobs per block.
         """
@@ -293,25 +326,61 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def blob_gas_per_blob(cls, block_number: int, timestamp: int) -> int:
+    def blob_gas_price_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BlobGasPriceCalculator:
         """
-        Returns the amount of blob gas used per blob for a given fork.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
-    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
-        """
-        Returns the target blobs per block for a given fork.
+        Returns a callable that calculates the blob gas price at a given fork.
         """
         pass
 
     @classmethod
     @abstractmethod
-    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+    def excess_blob_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> ExcessBlobGasCalculator:
         """
-        Returns the max blobs per block for a given fork.
+        Returns a callable that calculates the excess blob gas for a block at a given fork.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def min_base_fee_per_blob_gas(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        Returns the minimum base fee per blob gas at a given fork.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def blob_gas_per_blob(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        Returns the amount of blob gas used per blob at a given fork.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        Returns the blob base fee update fraction at a given fork.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        Returns the target blobs per block at a given fork.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        Returns the max blobs per block at a given fork.
         """
         pass
 
