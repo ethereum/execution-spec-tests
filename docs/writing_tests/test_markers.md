@@ -300,6 +300,10 @@ def test_case(state_test_only, test_parameter, test_parameter_2):
 
 In this example, the test will be parametrized with the values `[1, 2]` and `[3, 4]` for the Paris fork, with values `1` and `3` being assigned to `test_parameter` and `2` and `4` being assigned to `test_parameter_2`. For the Shanghai fork, the test will be parametrized with the values `[4, 5]`, `[5, 6]`, and `[6, 7]`. Therefore, more test cases will be generated for the Shanghai fork.
 
+If the parameters that are being parametrized is only a single parameter, the return value of `fn` should be a list of values for that parameter.
+
+If the parameters that are being parametrized are multiple, the return value of `fn` should be a list of tuples/lists, where each tuple contains the values for each parameter.
+
 ## Fill/Execute Markers
 
 These markers are used to apply different markers to a test depending on whether it is being filled or executed.

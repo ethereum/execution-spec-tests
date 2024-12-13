@@ -150,7 +150,7 @@ class CovariantDescriptor:
 
     def __init__(
         self,
-        parameter_names: List[str],
+        parameter_names: List[str] | str,
         fn: Callable[[Fork], List[Any]] | None = None,
         selector: FunctionType | None = None,
         marks: None
@@ -158,39 +158,39 @@ class CovariantDescriptor:
         | pytest.MarkDecorator
         | List[pytest.Mark | pytest.MarkDecorator] = None,
     ):
-        self.parameter_names = parameter_names
+        if isinstance(parameter_names, str):
+            self.parameter_names = parameter_names.split(",")
+        else:
+            self.parameter_names = parameter_names
         self.fn = fn
         self.selector = selector
         self.marks = marks
 
     def process_value(
         self,
-        values: Any | List[Any] | Tuple[Any],
+        parameters_values: Any | List[Any] | Tuple[Any],
     ) -> List[List[MarkedValue]]:
         """
         Process a value for a covariant parameter.
 
-        The `selector` is applied to values in order to filter them.
+        The `selector` is applied to parameters_values in order to filter them.
         """
-        if (
-            len(self.parameter_names) == 1
-            and not isinstance(values, tuple)
-            and not isinstance(values, list)
-        ):
-            values = [values]
+        if len(self.parameter_names) == 1:
+            # Wrap values that are meant for a single parameter in a list
+            parameters_values = [parameters_values]
         marks = self.marks
         if self.selector is None or self.selector(
-            *values[: self.selector.__code__.co_argcount]  # type: ignore
+            *parameters_values[: self.selector.__code__.co_argcount]  # type: ignore
         ):
             if isinstance(marks, FunctionType):
-                marks = marks(*values[: marks.__code__.co_argcount])
+                marks = marks(*parameters_values[: marks.__code__.co_argcount])
             assert not isinstance(marks, FunctionType), "marks must be a list or None"
             if marks is None:
                 marks = []
             elif not isinstance(marks, list):
                 marks = [marks]  # type: ignore
 
-            return [[MarkedValue(value=v, marks=marks) for v in values]]
+            return [[MarkedValue(value=v, marks=marks) for v in parameters_values]]
 
         return []
 
@@ -204,7 +204,6 @@ class CovariantDescriptor:
         processed_values: List[List[MarkedValue]] = []
         for value in values:
             processed_values.extend(self.process_value(value))
-
         return processed_values
 
     def add_values(self, fork_parametrizer: ForkParametrizer) -> None:
@@ -349,7 +348,7 @@ FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE = "fork_covariant_parametrize"
 
 def fork_covariant_parametrize(
     *,
-    parameter_names: List[str],
+    parameter_names: List[str] | str,
     fn: Callable[[Fork], List[Any]],
     marks: None
     | pytest.Mark
@@ -358,6 +357,15 @@ def fork_covariant_parametrize(
 ):
     """
     Decorator to parametrize a test function by covariant parameters.
+
+    The decorated function will be parametrized by the values returned by the `fn` function
+    for each fork.
+
+    If the parameters that are being parametrized is only a single parameter, the return value
+    of `fn` should be a list of values for that parameter.
+
+    If the parameters that are being parametrized are multiple, the return value of `fn` should
+    be a list of tuples/lists, where each tuple contains the values for each parameter.
     """
 
     def decorator(decorated_function: FunctionType) -> FunctionType:
