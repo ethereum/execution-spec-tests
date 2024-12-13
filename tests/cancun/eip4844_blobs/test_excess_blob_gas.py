@@ -26,6 +26,7 @@ from typing import Dict, Iterator, List, Mapping, Optional, Tuple
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     EOA,
     Account,
@@ -60,8 +61,8 @@ def parent_excess_blobs() -> int:  # noqa: D103
 
 
 @pytest.fixture
-def parent_excess_blob_gas(parent_excess_blobs: int) -> int:  # noqa: D103
-    return parent_excess_blobs * Spec.GAS_PER_BLOB
+def parent_excess_blob_gas(fork: Fork, parent_excess_blobs: int) -> int:  # noqa: D103
+    return parent_excess_blobs * fork.blob_gas_per_blob()
 
 
 @pytest.fixture
@@ -108,27 +109,6 @@ def block_fee_per_blob_gas(  # noqa: D103
     correct_excess_blob_gas: int,
 ) -> int:
     return Spec.get_blob_gasprice(excess_blob_gas=correct_excess_blob_gas)
-
-
-@pytest.fixture
-def block_base_fee() -> int:  # noqa: D103
-    return 7
-
-
-@pytest.fixture
-def env(  # noqa: D103
-    parent_excess_blob_gas: int,
-    block_base_fee: int,
-    parent_blobs: int,
-) -> Environment:
-    return Environment(
-        excess_blob_gas=(
-            parent_excess_blob_gas
-            if parent_blobs == 0
-            else parent_excess_blob_gas + Spec.TARGET_BLOB_GAS_PER_BLOCK
-        ),
-        base_fee_per_gas=block_base_fee,
-    )
 
 
 @pytest.fixture
@@ -247,9 +227,10 @@ def header_blob_gas_used() -> Optional[int]:  # noqa: D103
 
 @pytest.fixture
 def correct_blob_gas_used(  # noqa: D103
+    fork: Fork,
     tx: Transaction,
 ) -> int:
-    return Spec.get_total_blob_gas(tx)
+    return Spec.get_total_blob_gas(tx=tx, blob_gas_per_blob=Spec.GAS_PER_BLOB)
 
 
 @pytest.fixture
