@@ -1268,7 +1268,7 @@ def test_blob_tx_attribute_calldata_opcodes(
 
 @pytest.mark.parametrize("tx_max_priority_fee_per_gas", [0, 2])  # always below data fee
 @pytest.mark.parametrize("tx_max_fee_per_blob_gas_delta", [0, 1])  # normal and above priority fee
-@pytest.mark.parametrize("tx_max_fee_per_gas", [100])  # always above priority fee
+@pytest.mark.parametrize("tx_max_fee_per_gas", [100])  # always above priority fee (FOR CANCUN)
 @pytest.mark.parametrize("opcode", [Op.GASPRICE], indirect=True)
 @pytest.mark.parametrize("tx_gas", [500_000])
 @pytest.mark.valid_from("Cancun")
