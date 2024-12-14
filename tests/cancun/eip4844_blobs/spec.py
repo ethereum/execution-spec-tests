@@ -117,7 +117,8 @@ class SpecHelpers:
         gas_per_blob = fork.blob_gas_per_blob()
         return (
             cls.get_min_excess_blob_gas_for_blob_gas_price(
-                fork=fork, blob_gas_price=blob_gas_price,
+                fork=fork,
+                blob_gas_price=blob_gas_price,
             )
             // gas_per_blob
         )

@@ -428,23 +428,58 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
     Returns a list of tests for invalid blob transactions due to insufficient max fee per blob gas
     parametrized for each different fork.
     """
-    return [
+    min_base_fee_per_blob_gas = fork.min_base_fee_per_blob_gas()
+    minimum_excess_blobs_for_first_increment = SpecHelpers.get_min_excess_blobs_for_blob_gas_price(
+        fork=fork,
+        blob_gas_price=min_base_fee_per_blob_gas + 1,
+    )
+    next_base_fee_per_blob_gas = fork.blob_gas_price_calculator()(
+        excess_blob_gas=minimum_excess_blobs_for_first_increment,
+    )
+
+    tests = []
+    tests.append(
         pytest.param(
-            SpecHelpers.get_min_excess_blobs_for_blob_gas_price(fork=fork, blob_gas_price=2)
-            - 1,  # blob gas price is 1
-            fork.target_blobs_per_block() + 1,  # blob gas cost increases to 2
-            1,  # tx max_blob_gas_cost is 1
+            minimum_excess_blobs_for_first_increment - 1,  # blob gas price is 1
+            fork.target_blobs_per_block() + 1,  # blob gas cost increases to above the minimum
+            min_base_fee_per_blob_gas,  # tx max_blob_gas_cost is the minimum
             TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
             id="insufficient_max_fee_per_blob_gas",
-        ),
+        )
+    )
+    if (next_base_fee_per_blob_gas - min_base_fee_per_blob_gas) > 1:
+        tests.append(
+            pytest.param(
+                minimum_excess_blobs_for_first_increment
+                - 1,  # blob gas price is one less than the minimum
+                fork.target_blobs_per_block() + 1,  # blob gas cost increases to above the minimum
+                next_base_fee_per_blob_gas
+                - 1,  # tx max_blob_gas_cost is one less than the minimum
+                TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
+                id="insufficient_max_fee_per_blob_gas_one_less_than_next",
+            )
+        )
+    if min_base_fee_per_blob_gas > 1:
+        tests.append(
+            pytest.param(
+                0,  # blob gas price is the minimum
+                0,  # blob gas cost stays put at 1
+                min_base_fee_per_blob_gas - 1,  # tx max_blob_gas_cost is one less than the minimum
+                TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
+                id="insufficient_max_fee_per_blob_gas_one_less_than_min",
+            )
+        )
+
+    tests.append(
         pytest.param(
-            0,  # blob gas price is 1
+            0,  # blob gas price is the minimum
             0,  # blob gas cost stays put at 1
             0,  # tx max_blob_gas_cost is 0
             TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
             id="invalid_max_fee_per_blob_gas",
-        ),
-    ]
+        )
+    )
+    return tests
 
 
 @fork_covariant_parametrize(
@@ -586,7 +621,7 @@ def test_invalid_block_blob_count(
     [b"", b"\x00", b"\x01"],
     ids=["no_calldata", "single_zero_calldata", "single_one_calldata"],
 )
-@pytest.mark.parametrize("tx_max_fee_per_blob_gas", [1, 100, 10000])
+@pytest.mark.parametrize("tx_max_fee_per_blob_gas_multiplier", [1, 100, 10000])
 @pytest.mark.parametrize("account_balance_modifier", [-1], ids=["exact_balance_minus_1"])
 @pytest.mark.parametrize("tx_error", [TransactionException.INSUFFICIENT_ACCOUNT_FUNDS], ids=[""])
 @pytest.mark.valid_from("Cancun")
@@ -628,7 +663,7 @@ def test_insufficient_balance_blob_tx(
     [b"", b"\x00", b"\x01"],
     ids=["no_calldata", "single_zero_calldata", "single_one_calldata"],
 )
-@pytest.mark.parametrize("tx_max_fee_per_blob_gas", [1, 100, 10000])
+@pytest.mark.parametrize("tx_max_fee_per_blob_gas_multiplier", [1, 100, 10000])
 @pytest.mark.valid_from("Cancun")
 def test_sufficient_balance_blob_tx(
     state_test: StateTestFiller,
@@ -668,7 +703,7 @@ def test_sufficient_balance_blob_tx(
     [b"", b"\x00", b"\x01"],
     ids=["no_calldata", "single_zero_calldata", "single_one_calldata"],
 )
-@pytest.mark.parametrize("tx_max_fee_per_blob_gas", [1, 100, 10000])
+@pytest.mark.parametrize("tx_max_fee_per_blob_gas_multiplier", [1, 100, 10000])
 @pytest.mark.parametrize("sender_initial_balance", [0])
 @pytest.mark.valid_from("Cancun")
 def test_sufficient_balance_blob_tx_pre_fund_tx(
@@ -726,7 +761,7 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
     [b"", b"\x01"],
     ids=["no_calldata", "single_non_zero_byte_calldata"],
 )
-@pytest.mark.parametrize("tx_max_fee_per_blob_gas", [1, 100])
+@pytest.mark.parametrize("tx_max_fee_per_blob_gas_multiplier", [1, 100])
 @pytest.mark.parametrize(
     "tx_gas", [500_000], ids=[""]
 )  # Increase gas to account for contract code
@@ -1232,7 +1267,7 @@ def test_blob_tx_attribute_calldata_opcodes(
 
 
 @pytest.mark.parametrize("tx_max_priority_fee_per_gas", [0, 2])  # always below data fee
-@pytest.mark.parametrize("tx_max_fee_per_blob_gas", [1, 3])  # normal and above priority fee
+@pytest.mark.parametrize("tx_max_fee_per_blob_gas_delta", [0, 1])  # normal and above priority fee
 @pytest.mark.parametrize("tx_max_fee_per_gas", [100])  # always above priority fee
 @pytest.mark.parametrize("opcode", [Op.GASPRICE], indirect=True)
 @pytest.mark.parametrize("tx_gas", [500_000])

@@ -215,8 +215,32 @@ def tx_max_priority_fee_per_gas() -> int:
 
 
 @pytest.fixture
+def tx_max_fee_per_blob_gas_multiplier() -> int:
+    """
+    Default max fee per blob gas multiplier for transactions sent during test.
+
+    Can be overloaded by a test case to provide a custom max fee per blob gas
+    multiplier.
+    """
+    return 1
+
+
+@pytest.fixture
+def tx_max_fee_per_blob_gas_delta() -> int:
+    """
+    Default max fee per blob gas delta for transactions sent during test.
+
+    Can be overloaded by a test case to provide a custom max fee per blob gas
+    delta.
+    """
+    return 0
+
+
+@pytest.fixture
 def tx_max_fee_per_blob_gas(  # noqa: D103
     blob_gas_price: int | None,
+    tx_max_fee_per_blob_gas_multiplier: int,
+    tx_max_fee_per_blob_gas_delta: int,
 ) -> int:
     """
     Default max fee per blob gas for transactions sent during test.
@@ -229,7 +253,7 @@ def tx_max_fee_per_blob_gas(  # noqa: D103
     if blob_gas_price is None:
         # When fork transitioning, the default blob gas price is 1.
         return 1
-    return blob_gas_price
+    return (blob_gas_price * tx_max_fee_per_blob_gas_multiplier) + tx_max_fee_per_blob_gas_delta
 
 
 @pytest.fixture
