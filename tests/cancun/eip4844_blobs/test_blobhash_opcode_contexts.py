@@ -9,6 +9,7 @@ from typing import List
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Block,
@@ -54,6 +55,7 @@ def simple_blob_hashes(
 
 @pytest.fixture()
 def tx_type_3(
+    fork: Fork,
     simple_blob_hashes: List[bytes],
 ) -> Transaction:
     """Blob transaction template."""
@@ -63,7 +65,7 @@ def tx_type_3(
         gas_limit=3000000,
         max_fee_per_gas=10,
         max_priority_fee_per_gas=10,
-        max_fee_per_blob_gas=10,
+        max_fee_per_blob_gas=fork.min_base_fee_per_blob_gas() * 10,
         access_list=[],
         blob_versioned_hashes=simple_blob_hashes,
     )

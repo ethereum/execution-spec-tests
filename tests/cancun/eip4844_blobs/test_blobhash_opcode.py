@@ -20,6 +20,7 @@ from typing import List
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Address,
@@ -59,6 +60,7 @@ blobhash_index_values = [
 @pytest.mark.with_all_tx_types
 def test_blobhash_gas_cost(
     pre: Alloc,
+    fork: Fork,
     tx_type: int,
     blobhash_index: int,
     state_test: StateTestFiller,
@@ -90,7 +92,7 @@ def test_blobhash_gas_cost(
         access_list=[] if tx_type >= 1 else None,
         max_fee_per_gas=10 if tx_type >= 2 else None,
         max_priority_fee_per_gas=10 if tx_type >= 2 else None,
-        max_fee_per_blob_gas=10 if tx_type == 3 else None,
+        max_fee_per_blob_gas=(fork.min_base_fee_per_blob_gas() * 10) if tx_type == 3 else None,
         blob_versioned_hashes=random_blob_hashes[0:target_blobs_per_block]
         if tx_type == 3
         else None,
@@ -116,6 +118,7 @@ def test_blobhash_gas_cost(
 )
 def test_blobhash_scenarios(
     pre: Alloc,
+    fork: Fork,
     scenario: str,
     blockchain_test: BlockchainTestFiller,
     max_blobs_per_block: int,
@@ -152,7 +155,7 @@ def test_blobhash_scenarios(
                         access_list=[],
                         max_fee_per_gas=10,
                         max_priority_fee_per_gas=10,
-                        max_fee_per_blob_gas=10,
+                        max_fee_per_blob_gas=(fork.min_base_fee_per_blob_gas() * 10),
                         blob_versioned_hashes=b_hashes_list[i],
                     )
                 ]
@@ -176,6 +179,7 @@ def test_blobhash_scenarios(
 )
 def test_blobhash_invalid_blob_index(
     pre: Alloc,
+    fork: Fork,
     blockchain_test: BlockchainTestFiller,
     scenario: str,
     max_blobs_per_block: int,
@@ -213,7 +217,7 @@ def test_blobhash_invalid_blob_index(
                         access_list=[],
                         max_fee_per_gas=10,
                         max_priority_fee_per_gas=10,
-                        max_fee_per_blob_gas=10,
+                        max_fee_per_blob_gas=(fork.min_base_fee_per_blob_gas() * 10),
                         blob_versioned_hashes=blobs,
                     )
                 ]
@@ -237,6 +241,7 @@ def test_blobhash_invalid_blob_index(
 
 def test_blobhash_multiple_txs_in_block(
     pre: Alloc,
+    fork: Fork,
     blockchain_test: BlockchainTestFiller,
     max_blobs_per_block: int,
 ):
@@ -264,7 +269,7 @@ def test_blobhash_multiple_txs_in_block(
             access_list=[] if type >= 1 else None,
             max_fee_per_gas=10,
             max_priority_fee_per_gas=10,
-            max_fee_per_blob_gas=10 if type >= 3 else None,
+            max_fee_per_blob_gas=(fork.min_base_fee_per_blob_gas() * 10) if type >= 3 else None,
             blob_versioned_hashes=random_blob_hashes[0:max_blobs_per_block] if type >= 3 else None,
         )
 
