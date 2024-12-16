@@ -5,20 +5,10 @@ from typing import Dict, Iterator, List
 
 import pytest
 
-from ethereum_test_tools import (
-    AccessList,
-    Account,
-    Address,
-    Alloc,
-    Bytecode,
-    Environment,
-    Hash,
-    Storage,
-    Transaction,
-    add_kzg_version,
-    keccak256,
-)
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_forks import Fork
+from ethereum_test_tools import AccessList, Account, Address, Alloc, Bytecode, Environment, Hash
+from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import Storage, Transaction, add_kzg_version, keccak256
 
 from .spec import Spec, SpecHelpers
 
@@ -210,6 +200,7 @@ def tx_type() -> int:
 @pytest.fixture
 def tx(
     pre: Alloc,
+    fork: Fork,
     tx_to_address: Address,
     tx_data: bytes,
     tx_type: int,
@@ -230,7 +221,7 @@ def tx(
         kwargs["access_list"] = access_list
 
     if tx_type == 3:
-        kwargs["max_fee_per_blob_gas"] = 1
+        kwargs["max_fee_per_blob_gas"] = fork.min_base_fee_per_blob_gas()
         kwargs["blob_versioned_hashes"] = add_kzg_version([0], BLOB_COMMITMENT_VERSION_KZG)
 
     if tx_type > 3:
