@@ -28,7 +28,7 @@ class Spec:
     https://eips.ethereum.org/EIPS/eip-7251#execution-layer
     """
 
-    CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS = 0x01ABEA29659E5E97C95107F20BB753CD3E09BBBB
+    CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS = 0x00431F263CE400F4455C2DCF564E53007CA4BBBB
     CONSOLIDATION_REQUEST_PREDEPLOY_SENDER = Address(0x81E9AFA909FE8B57AF2A6FD18862AE9DAE3163F4)
     SYSTEM_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE
 
@@ -44,7 +44,7 @@ class Spec:
         4  # The start memory slot of the in-state consolidation request message queue
     )
     MAX_CONSOLIDATION_REQUESTS_PER_BLOCK = (
-        1  # Maximum number of consolidation requests that can be de-queued into a block
+        2  # Maximum number of consolidation requests that can be de-queued into a block
     )
     TARGET_CONSOLIDATION_REQUESTS_PER_BLOCK = 1
     MIN_CONSOLIDATION_REQUEST_FEE = 1
