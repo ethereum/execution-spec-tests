@@ -276,7 +276,7 @@ class Frontier(BaseFork, solc_name="homestead"):
         """
         Returns the amount of blob gas used per blob at a given fork.
         """
-        raise NotImplementedError("Blob gas per blob is not supported in Frontier")
+        return 0
 
     @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
