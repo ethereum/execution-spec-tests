@@ -24858,7 +24858,7 @@
 
 
 <h1 id="test_data_section_succeed"><code>test_data_section_succeed()</code><a class="headerlink" href="#test_data_section_succeed" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1496c643b895a40be21b0db9ac4a4b971329f06d/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py#L69"><code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed@1496c643</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/92e6b5fad0a29946688dae6ff25f80726a9869cf/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py#L69"><code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed@92e6b5fa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed --fork Osaka</span>
@@ -24928,7 +24928,13 @@
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
-<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;offset&quot;</span><span class="p">,</span> <span class="s2">&quot;datasize&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;empty_zero&quot;</span><span class="p">),</span>
@@ -24943,6 +24949,12 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x5BFE</span><span class="p">,</span> <span class="mh">0x5C00</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;short_23k&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x5BE0</span><span class="p">,</span> <span class="mh">0x5D00</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;exact_23k&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x2345</span><span class="p">,</span> <span class="mh">0x5C00</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;large_23k&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">16</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;u16_max&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;u16_max_plus_1&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;u32_max&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;u32_max_plus_1&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;u64_max&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;u64_max_plus_1&quot;</span><span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_data_section_succeed</span><span class="p">(</span>
@@ -25153,6 +25165,66 @@
                         <td>9029</td>
                         <td>23552</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u16_max]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u16_max]">
+                    ...fork_Osaka-blockchain_test-u16_max
+                </abbr>
+            </td>
+                        <td>65535</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u16_max_plus_1]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u16_max_plus_1]">
+                    ...fork_Osaka-blockchain_test-u16_max_plus_1
+                </abbr>
+            </td>
+                        <td>65536</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u32_max]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u32_max]">
+                    ...fork_Osaka-blockchain_test-u32_max
+                </abbr>
+            </td>
+                        <td>4294967295</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u32_max_plus_1]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u32_max_plus_1]">
+                    ...fork_Osaka-blockchain_test-u32_max_plus_1
+                </abbr>
+            </td>
+                        <td>4294967296</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u64_max]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u64_max]">
+                    ...fork_Osaka-blockchain_test-u64_max
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u64_max_plus_1]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-blockchain_test-u64_max_plus_1]">
+                    ...fork_Osaka-blockchain_test-u64_max_plus_1
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>32</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -25272,6 +25344,66 @@
             </td>
                         <td>9029</td>
                         <td>23552</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u16_max]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u16_max]">
+                    ...fork_Osaka-state_test-u16_max
+                </abbr>
+            </td>
+                        <td>65535</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u16_max_plus_1]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u16_max_plus_1]">
+                    ...fork_Osaka-state_test-u16_max_plus_1
+                </abbr>
+            </td>
+                        <td>65536</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u32_max]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u32_max]">
+                    ...fork_Osaka-state_test-u32_max
+                </abbr>
+            </td>
+                        <td>4294967295</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u32_max_plus_1]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u32_max_plus_1]">
+                    ...fork_Osaka-state_test-u32_max_plus_1
+                </abbr>
+            </td>
+                        <td>4294967296</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u64_max]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u64_max]">
+                    ...fork_Osaka-state_test-u64_max
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>32</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u64_max_plus_1]" title="tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed[fork_Osaka-state_test-u64_max_plus_1]">
+                    ...fork_Osaka-state_test-u64_max_plus_1
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>32</td>
                     </tr>
             </tbody>
 </table>
