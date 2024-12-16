@@ -7,6 +7,7 @@ from typing import List, Mapping
 
 import pytest
 
+from ethereum_test_forks import Cancun, Fork
 from ethereum_test_tools import (
     Account,
     Address,
@@ -56,12 +57,12 @@ def pre_fork_blocks():
 
 
 @pytest.fixture
-def post_fork_block_count() -> int:
+def post_fork_block_count(fork: Fork) -> int:
     """
     Amount of blocks to produce with the post-fork rules.
     """
-    return SpecHelpers.get_min_excess_blobs_for_blob_gas_price(2) // (
-        SpecHelpers.max_blobs_per_block() - SpecHelpers.target_blobs_per_block()
+    return SpecHelpers.get_min_excess_blobs_for_blob_gas_price(fork=fork, blob_gas_price=2) // (
+        fork.max_blobs_per_block() - fork.target_blobs_per_block()
     )
 
 
@@ -225,13 +226,13 @@ def test_invalid_post_fork_block_without_blob_fields(
     "post_fork_block_count,blob_count_per_block",
     [
         (
-            SpecHelpers.get_min_excess_blobs_for_blob_gas_price(2)
-            // (SpecHelpers.max_blobs_per_block() - SpecHelpers.target_blobs_per_block())
+            SpecHelpers.get_min_excess_blobs_for_blob_gas_price(fork=Cancun, blob_gas_price=2)
+            // (Cancun.max_blobs_per_block() - Cancun.target_blobs_per_block())
             + 2,
-            SpecHelpers.max_blobs_per_block(),
+            Cancun.max_blobs_per_block(),
         ),
         (10, 0),
-        (10, SpecHelpers.target_blobs_per_block()),
+        (10, Cancun.target_blobs_per_block()),
     ],
     ids=["max_blobs", "no_blobs", "target_blobs"],
 )
