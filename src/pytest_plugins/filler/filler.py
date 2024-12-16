@@ -189,6 +189,14 @@ def pytest_addoption(parser: pytest.Parser):
             f"(Default: {AppConfig().DEFAULT_EVM_LOGS_DIR})"
         ),
     )
+    debug_group.addoption(
+        "--skip-evm-dump",
+        "--skip-t8n-dump",
+        action="store_true",
+        dest="skip_dump_dir",
+        default=False,
+        help=("Skip dumping the the transition tool debug output."),
+    )
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -462,6 +470,8 @@ def base_dump_dir(request: pytest.FixtureRequest) -> Path | None:
     """
     The base directory to dump the evm debug output.
     """
+    if request.config.getoption("skip_dump_dir"):
+        return None
     base_dump_dir_str = request.config.getoption("base_dump_dir")
     if base_dump_dir_str:
         return Path(base_dump_dir_str)
