@@ -1346,13 +1346,6 @@ class Prague(Cancun):
         return fn
 
     @classmethod
-    def min_base_fee_per_blob_gas(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """
-        Returns the minimum base fee per blob gas for Prague.
-        """
-        return 2**25
-
-    @classmethod
     def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """
         Returns the blob base fee update fraction for Prague.
