@@ -69,3 +69,6 @@ assets
 
 # Environment
 env.yaml
+
+# Framework logs
+logs/

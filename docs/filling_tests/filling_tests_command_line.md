@@ -184,7 +184,7 @@ Arguments defining filler location and output:
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
-                        Path to dump the transition tool debug output.
+                        Path to dump the transition tool debug output.  (Default: <repo>/logs/evm)
 
 Specify the fork range to generate fixtures for:
   --forks               Display forks supported by the test framework and exit.

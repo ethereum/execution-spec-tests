@@ -78,6 +78,7 @@ codecopy
 codesize
 coinbase
 coincurve
+commonpath
 compilable
 config
 conftest
