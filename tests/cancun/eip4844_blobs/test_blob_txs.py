@@ -650,6 +650,13 @@ def test_insufficient_balance_blob_tx(
     )
 
 
+@fork_covariant_parametrize(
+    parameter_names="blobs_per_tx",
+    fn=lambda fork: [
+        pytest.param([1], id="single_blob"),
+        pytest.param([fork.max_blobs_per_block()], id="max_blobs"),
+    ],
+)
 @pytest.mark.parametrize(
     "tx_access_list",
     [[], [AccessList(address=100, storage_keys=[100, 200])]],
@@ -690,6 +697,13 @@ def test_sufficient_balance_blob_tx(
     )
 
 
+@fork_covariant_parametrize(
+    parameter_names="blobs_per_tx",
+    fn=lambda fork: [
+        pytest.param([1], id="single_blob"),
+        pytest.param([fork.max_blobs_per_block()], id="max_blobs"),
+    ],
+)
 @pytest.mark.parametrize(
     "tx_access_list",
     [[], [AccessList(address=100, storage_keys=[100, 200])]],
@@ -748,6 +762,13 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
     )
 
 
+@fork_covariant_parametrize(
+    parameter_names="blobs_per_tx",
+    fn=lambda fork: [
+        pytest.param([1], id="single_blob"),
+        pytest.param([fork.max_blobs_per_block()], id="max_blobs"),
+    ],
+)
 @pytest.mark.parametrize(
     "tx_access_list",
     [[], [AccessList(address=100, storage_keys=[100, 200])]],
