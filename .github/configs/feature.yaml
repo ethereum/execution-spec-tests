@@ -17,5 +17,5 @@ eip7692:
   eofwrap: true
 pectra-devnet-5:
   evm-type: pectra-devnet-5
-  fill-params: --fork=Prague -m "not slow and not eip_version_check" ./tests/prague/
+  fill-params: --fork=Prague -m "not eip_version_check"
   solc: 0.8.21
