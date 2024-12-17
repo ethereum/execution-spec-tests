@@ -2,10 +2,11 @@
 A state test for [EIP-7702 SetCodeTX](https://eips.ethereum.org/EIPS/eip-7702).
 """
 
-from enum import Enum
+from enum import Enum, IntEnum
 
 import pytest
 
+from ethereum_test_base_types.conversions import to_fixed_size_bytes
 from ethereum_test_forks import Fork, GasCosts
 from ethereum_test_tools import (
     AccessList,
@@ -15,10 +16,12 @@ from ethereum_test_tools import (
     AuthorizationTuple,
     Block,
     BlockchainTestFiller,
+    Case,
     Conditional,
     Environment,
     StateTestFiller,
     Storage,
+    Switch,
     Transaction,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
@@ -1118,6 +1121,143 @@ def test_contract_storage_to_pointer_with_storage(
         contract_b: Account(storage=storage_b),
         pointer_b: Account(storage=storage_pointer_b),
     }
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+class ReentryAction(IntEnum):
+    """Reentry logic action"""
+
+    CALL_PROXY = 0
+    MEASURE_VALUES = 1
+    MEASURE_VALUES_CONTRACT = 2
+
+
+def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
+    """
+    Check operations when reenter the pointer again
+    TODO: feel free to extend the code checks under given scenarios in switch case
+    """
+    env = Environment()
+    arg_contract = 0
+    arg_action = 32
+
+    storage_b = Storage()
+    storage_b.store_next(1, "contract_calls")
+    storage_b.store_next(1, "tstore_slot")
+    slot_reentry_address = storage_b.store_next(1, "address")
+
+    storage_pointer_b = Storage()
+    slot_calls = storage_pointer_b.store_next(2, "pointer_calls")
+    slot_tstore = storage_pointer_b.store_next(2, "tstore_slot")
+
+    sender = pre.fund_eoa()
+    pointer_b = pre.fund_eoa(amount=1000)
+    proxy = pre.deploy_contract(
+        code=Op.MSTORE(arg_contract, Op.CALLDATALOAD(arg_contract))
+        + Op.MSTORE(arg_action, Op.CALLDATALOAD(arg_action))
+        + Op.CALL(gas=400_000, address=pointer_b, args_offset=0, args_size=32 * 2)
+    )
+    contract_b = pre.deploy_contract(
+        balance=100,
+        code=Op.MSTORE(arg_contract, Op.CALLDATALOAD(arg_contract))
+        + Op.MSTORE(arg_action, Op.CALLDATALOAD(arg_action))
+        + Op.SSTORE(slot_calls, Op.ADD(Op.SLOAD(slot_calls), 1))
+        + Op.TSTORE(slot_tstore, Op.ADD(Op.TLOAD(slot_tstore), 1))
+        + Op.SSTORE(slot_tstore, Op.TLOAD(slot_tstore))
+        + Switch(
+            cases=[
+                Case(
+                    condition=Op.EQ(Op.MLOAD(arg_action), ReentryAction.CALL_PROXY),
+                    action=Op.MSTORE(arg_action, ReentryAction.MEASURE_VALUES)
+                    + Op.CALL(gas=500_000, address=proxy, args_offset=0, args_size=32 * 2)
+                    + Op.STOP(),
+                ),
+                Case(
+                    # This code is executed under pointer -> proxy -> pointer context
+                    condition=Op.EQ(Op.MLOAD(arg_action), ReentryAction.MEASURE_VALUES),
+                    action=Op.SSTORE(storage_pointer_b.store_next(sender, "origin"), Op.ORIGIN())
+                    + Op.SSTORE(storage_pointer_b.store_next(pointer_b, "address"), Op.ADDRESS())
+                    + Op.SSTORE(
+                        storage_pointer_b.store_next(1000, "selfbalance"), Op.SELFBALANCE()
+                    )
+                    + Op.SSTORE(storage_pointer_b.store_next(proxy, "caller"), Op.CALLER())
+                    # now call contract which is pointer dest directly
+                    + Op.MSTORE(arg_action, ReentryAction.MEASURE_VALUES_CONTRACT)
+                    + Op.CALL(
+                        gas=500_000,
+                        address=Op.MLOAD(arg_contract),
+                        args_offset=0,
+                        args_size=32 * 2,
+                    ),
+                ),
+                Case(
+                    # This code is executed under
+                    # pointer -> proxy -> pointer -> contract
+                    # so pointer calling the code of it's dest after reentry to itself
+                    condition=Op.EQ(Op.MLOAD(arg_action), ReentryAction.MEASURE_VALUES_CONTRACT),
+                    action=Op.SSTORE(storage_b.store_next(sender, "origin"), Op.ORIGIN())
+                    + Op.SSTORE(slot_reentry_address, Op.ADDRESS())
+                    + Op.SSTORE(storage_b.store_next(100, "selfbalance"), Op.SELFBALANCE())
+                    + Op.SSTORE(storage_b.store_next(pointer_b, "caller"), Op.CALLER()),
+                ),
+            ],
+            default_action=None,
+        ),
+    )
+
+    storage_b[slot_reentry_address] = contract_b
+
+    tx = Transaction(
+        to=pointer_b,
+        gas_limit=2_000_000,
+        data=to_fixed_size_bytes(contract_b, 32)
+        + to_fixed_size_bytes(ReentryAction.CALL_PROXY, 32),
+        value=0,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract_b,
+                nonce=0,
+                signer=pointer_b,
+            )
+        ],
+    )
+    post = {
+        contract_b: Account(storage=storage_b),
+        pointer_b: Account(storage=storage_pointer_b),
+    }
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+def test_eof_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
+    """
+    It was agreed before that senders don't have code
+    And there were issues with tests sending transactions from account's with code
+    With EIP7702 it is again possible, let's check the test runners are ok
+    """
+    env = Environment()
+    storage = Storage()
+    contract = pre.deploy_contract(code=Op.SSTORE(storage.store_next(1, "code_worked"), 1))
+    sender = pre.fund_eoa(delegation=contract)
+
+    tx = Transaction(
+        to=sender,
+        gas_limit=200_000,
+        data=b"",
+        value=0,
+        sender=sender,
+    )
+    post = {sender: Account(storage=storage)}
     state_test(
         env=env,
         pre=pre,
