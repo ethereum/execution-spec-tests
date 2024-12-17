@@ -104,8 +104,7 @@ def test_invalid_auth_signature(
 @pytest.mark.parametrize(
     "chain_id",
     [
-        pytest.param(Spec.MAX_CHAIN_ID + 1, id="chain_id=2**64"),
-        pytest.param(2**256, id="chain_id=2**256"),
+        pytest.param(Spec.MAX_CHAIN_ID + 1, id="chain_id=2**256"),
     ],
 )
 @pytest.mark.parametrize(
