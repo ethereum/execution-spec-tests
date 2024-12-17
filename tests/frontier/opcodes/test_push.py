@@ -14,41 +14,7 @@ from ethereum_test_tools import StateTestFiller, Storage, Transaction
 
 @pytest.mark.parametrize(
     "push_opcode",
-    [
-        Op.PUSH0,
-        Op.PUSH1,
-        Op.PUSH2,
-        Op.PUSH3,
-        Op.PUSH4,
-        Op.PUSH5,
-        Op.PUSH6,
-        Op.PUSH7,
-        Op.PUSH8,
-        Op.PUSH9,
-        Op.PUSH10,
-        Op.PUSH11,
-        Op.PUSH12,
-        Op.PUSH13,
-        Op.PUSH14,
-        Op.PUSH15,
-        Op.PUSH16,
-        Op.PUSH17,
-        Op.PUSH18,
-        Op.PUSH19,
-        Op.PUSH20,
-        Op.PUSH21,
-        Op.PUSH22,
-        Op.PUSH23,
-        Op.PUSH24,
-        Op.PUSH25,
-        Op.PUSH26,
-        Op.PUSH27,
-        Op.PUSH28,
-        Op.PUSH29,
-        Op.PUSH30,
-        Op.PUSH31,
-        Op.PUSH32,
-    ],
+    [getattr(Op, f"PUSH{i}") for i in range(0, 33)],
     ids=lambda op: str(op),
 )
 @pytest.mark.with_all_evm_code_types
@@ -57,6 +23,7 @@ def test_push(
     fork: str,
     push_opcode: Op,
     pre: Alloc,
+    get_number_list,
 ):
     """
     Test the PUSH0-PUSH32 opcodes.
@@ -65,6 +32,8 @@ def test_push(
     env = Environment()
     sender = pre.fund_eoa()
     post = {}
+
+    values = get_number_list
 
     # 0x5F is PUSH0, so from the current opcode's int we can derive which iteration we are in
     #    PUSH0  = iteration 0
@@ -119,6 +88,7 @@ def get_largest_value_that_requires_at_least_x_bytes(bytes_required):
         return (2 ** (8 * bytes_required)) - 1
 
 
-# in global scope so that it doesn't get re-created every iteration
-# generate list of values that require x bytes, x+1 bytes, etc. to store
-values = [0] + [get_largest_value_that_requires_at_least_x_bytes(i) for i in range(1, 33)]
+@pytest.fixture(scope="module")
+def get_number_list():
+    """Returns a list consisting of values that take an increasing amount of bytes to be stored"""
+    return [0] + [get_largest_value_that_requires_at_least_x_bytes(i) for i in range(1, 33)]
