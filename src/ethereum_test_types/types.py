@@ -351,7 +351,7 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     parent_gas_limit: NumberBoundTypeVar | None = Field(None)
 
 
-class Environment(EnvironmentGeneric[Number]):
+class Environment(EnvironmentGeneric[HexNumber]):
     """
     Structure used to keep track of the context in which a block
     must be executed.
