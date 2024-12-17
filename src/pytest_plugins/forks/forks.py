@@ -86,7 +86,16 @@ class ForkParametrizer:
         fork_covariant_parameters: List[ForkCovariantParameter] = [],
     ):
         self.fork_covariant_parameters = [
-            ForkCovariantParameter(names=["fork"], values=[pytest.param(fork, marks=marks)])
+            ForkCovariantParameter(
+                names=["fork"],
+                values=[
+                    pytest.param(
+                        fork,
+                        marks=marks,
+                        id=f"fork_{fork.name()}",
+                    )
+                ],
+            )
         ] + fork_covariant_parameters
         self.fork = fork
 
@@ -121,7 +130,10 @@ class ForkParametrizer:
                 if p.marks:
                     marks.extend(p.marks)
                 if p.id:
-                    id = p.id
+                    if id is None:
+                        id = p.id
+                    else:
+                        id = f"{id}-{p.id}"
             parameter_set_list.append(pytest.param(*params, marks=marks, id=id))
 
         return parameter_set_list
