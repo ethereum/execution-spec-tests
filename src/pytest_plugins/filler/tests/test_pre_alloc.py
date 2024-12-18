@@ -11,6 +11,7 @@ from ethereum_test_vm import Opcodes as Op
 from ..pre_alloc import (
     CONTRACT_ADDRESS_INCREMENTS_DEFAULT,
     CONTRACT_START_ADDRESS_DEFAULT,
+    SET_CODE_DELEGATION_DESIGNATION,
     Alloc,
     AllocMode,
     contract_address_iterator,
@@ -27,23 +28,30 @@ pytestmark = [
     pytest.mark.parametrize("contract_start_address", [CONTRACT_START_ADDRESS_DEFAULT]),
     pytest.mark.parametrize("contract_address_increments", [CONTRACT_ADDRESS_INCREMENTS_DEFAULT]),
     pytest.mark.parametrize("evm_code_type", [EVMCodeType.LEGACY, EVMCodeType.EOF_V1]),
+    pytest.mark.parametrize("eip_7702_feature", [False, True]),
 ]
 
 
-def test_alloc_deploy_contract(pre: Alloc, evm_code_type: EVMCodeType):
+def test_alloc_deploy_contract(pre: Alloc, evm_code_type: EVMCodeType, eip_7702_feature: bool):
     """
     Test `Alloc.deploy_contract` functionallity.
     """
     contract_1 = pre.deploy_contract(Op.SSTORE(0, 1) + Op.STOP)
     contract_2 = pre.deploy_contract(Op.SSTORE(0, 2) + Op.STOP)
-    assert contract_1 == Address(CONTRACT_START_ADDRESS_DEFAULT)
-    assert contract_2 == Address(
-        CONTRACT_START_ADDRESS_DEFAULT + CONTRACT_ADDRESS_INCREMENTS_DEFAULT
-    )
+    if eip_7702_feature:
+        assert contract_1 == TestAddress
+        assert contract_2 == TestAddress2
+    else:
+        assert contract_1 == Address(CONTRACT_START_ADDRESS_DEFAULT)
+        assert contract_2 == Address(
+            CONTRACT_START_ADDRESS_DEFAULT + CONTRACT_ADDRESS_INCREMENTS_DEFAULT
+        )
     assert contract_1 in pre
     assert contract_2 in pre
-    pre_contract_1_account = pre[contract_1]
-    pre_contract_2_account = pre[contract_2]
+    pre_contract_1_account = pre[Address(CONTRACT_START_ADDRESS_DEFAULT)]
+    pre_contract_2_account = pre[
+        Address(CONTRACT_START_ADDRESS_DEFAULT + CONTRACT_ADDRESS_INCREMENTS_DEFAULT)
+    ]
     assert pre_contract_1_account is not None
     assert pre_contract_2_account is not None
     if evm_code_type == EVMCodeType.LEGACY:
@@ -57,6 +65,17 @@ def test_alloc_deploy_contract(pre: Alloc, evm_code_type: EVMCodeType):
         assert pre_contract_2_account.code == (
             b"\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x04\x00\x00\x00\x00\x80\x00"
             + b"\x02`\x02`\x00U\x00"
+        )
+    if eip_7702_feature:
+        eoa_set_code_1 = pre[contract_1]
+        eoa_set_code_2 = pre[contract_2]
+        assert eoa_set_code_1 is not None
+        assert eoa_set_code_2 is not None
+        assert eoa_set_code_1.code == SET_CODE_DELEGATION_DESIGNATION + Address(
+            CONTRACT_START_ADDRESS_DEFAULT
+        )
+        assert eoa_set_code_2.code == SET_CODE_DELEGATION_DESIGNATION + Address(
+            CONTRACT_START_ADDRESS_DEFAULT + CONTRACT_ADDRESS_INCREMENTS_DEFAULT
         )
 
 

@@ -53,3 +53,5 @@
     * [Ethereum Test VM Package](library/ethereum_test_vm.md)
     * [Ethereum CLIs Package](library/ethereum_clis.md)
     * [Pytest Plugins](library/pytest_plugins/index.md)
+      * [Filler Plugin](library/pytest_plugins/filler.md)
+      * [Features Plugin](library/pytest_plugins/features.md)
