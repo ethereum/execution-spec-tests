@@ -18,6 +18,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) many delegations test ([#923](https://github.com/ethereum/execution-spec-tests/pull/923))
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) set code of non-empty-storage account test ([#948](https://github.com/ethereum/execution-spec-tests/pull/948))
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) Remove delegation behavior of EXTCODE* ([#984](https://github.com/ethereum/execution-spec-tests/pull/984))
+- ✨ [EIP-7623](https://eips.ethereum.org/EIPS/eip-7623) Increase calldata cost ([#1004](https://github.com/ethereum/execution-spec-tests/pull/1004))
 
 ### 🛠️ Framework
 
