@@ -23,9 +23,11 @@ from ethereum_test_tools import (
     Storage,
     Switch,
     Transaction,
+    compute_create_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Macros
 
 from .spec import ref_spec_7702
 
@@ -1137,6 +1139,7 @@ class ReentryAction(IntEnum):
     MEASURE_VALUES_CONTRACT = 2
 
 
+@pytest.mark.valid_from("Prague")
 def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
     """
     Check operations when reenter the pointer again
@@ -1239,6 +1242,7 @@ def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
     )
 
 
+@pytest.mark.valid_from("Prague")
 def test_eof_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
     """
     It was agreed before that senders don't have code
@@ -1260,6 +1264,198 @@ def test_eof_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
     post = {sender: Account(storage=storage)}
     state_test(
         env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Macros.OOG])
+def test_call_pointer_to_created_from_create_after_oog_call_again(
+    state_test: StateTestFiller, pre: Alloc, call_return: Op
+):
+    """
+    Set pointer to account that we are about to create
+
+    Pointer is set to create address that is yet not in the state
+    During the call, address is created. pointer is called from init code to do nothing
+    Then after account is created it is called again to run created code
+
+    Then revert / no revert
+
+    Call pointer again from the upper level to ensure it does not call reverted code
+    """
+    env = Environment()
+
+    storage_pointer = Storage()
+    pointer = pre.fund_eoa()
+    sender = pre.fund_eoa()
+
+    storage_contract = Storage()
+    slot_create_res = storage_contract.store_next(1, "create_result")
+    contract = pre.deploy_contract(
+        code=Op.MSTORE(0, Op.CALLDATALOAD(0))
+        + Op.MSTORE(32, Op.CALLDATALOAD(32))
+        + Op.SSTORE(slot_create_res, Op.CREATE(0, 0, Op.CALLDATASIZE()))
+        + Op.CALL(address=pointer)
+        + call_return(0, 32)
+    )
+    contract_main = pre.deploy_contract(
+        code=Op.MSTORE(0, Op.CALLDATALOAD(0))
+        + Op.MSTORE(32, Op.CALLDATALOAD(32))
+        + Op.CALL(address=contract, args_size=Op.CALLDATASIZE())
+        + Op.CALL(address=pointer)
+    )
+    contract_create = compute_create_address(address=contract, nonce=1)
+    storage_contract[slot_create_res] = contract_create if call_return == Op.RETURN else 0
+
+    slot_pointer_calls = storage_pointer.store_next(
+        1 + 1 if call_return == Op.RETURN else 0, "pointer_calls"
+    )
+    deploy_code = Op.SSTORE(
+        slot_pointer_calls,
+        Op.ADD(1, Op.SLOAD(slot_pointer_calls)),
+    )
+    storage_create = Storage()
+    tx = Transaction(
+        to=contract_main,
+        gas_limit=800_000,
+        data=Op.SSTORE(storage_create.store_next(1, "create_init_code"), 1)
+        + Op.SSTORE(
+            storage_create.store_next(1, "call_pointer_from_init"), Op.CALL(address=pointer)
+        )
+        + Op.MSTORE(0, deploy_code.hex())
+        + Op.RETURN(32 - len(deploy_code), len(deploy_code)),
+        value=0,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract_create,
+                nonce=0,
+                signer=pointer,
+            )
+        ],
+    )
+    post = {
+        contract_create: Account(storage=storage_create) if call_return == Op.RETURN else None,
+        contract: Account(storage=storage_contract),
+        pointer: Account(storage=storage_pointer),
+    }
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+# Pointer Revert Contract Revert
+# pointer set its storage, contract set its storage
+# pointer set its storage, (contract set its storage, revert)
+# (pointer set its storage, revert), contract set its storage
+# (pointer set its storage, revert), (contract set its storage revert)
+# contract set its storage, pointer set its storage
+# contract set its storage, (pointer set its storage, revert)
+# (contract set its storage, revert), pointer set its storage
+# (contract set its storage, revert), (pointer set its storage revert)
+# (pointer set its storage, contract set its storage), revert
+# (contract set its storage, pointer set its storage), revert
+class CallOrder(Enum):
+    """Add addresses to access list"""
+
+    POINTER_CONTRACT = 1
+    CONTRACT_POINTER = 2
+
+
+valid_combinations = [
+    (True, True, False),
+    (True, False, False),
+    (False, True, False),
+    (False, False, False),
+    (False, False, True),
+]
+
+
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("first_revert, second_revert, final_revert", valid_combinations)
+@pytest.mark.parametrize("call_order", [CallOrder.CONTRACT_POINTER, CallOrder.POINTER_CONTRACT])
+def test_pointer_reverts(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    first_revert: bool,
+    second_revert: bool,
+    final_revert: bool,
+    call_order: CallOrder,
+):
+    """Pointer do operations then revert"""
+    sender = pre.fund_eoa()
+    pointer = pre.fund_eoa()
+
+    contract_storage = Storage()
+    contract_calls = (
+        0
+        if (call_order == CallOrder.CONTRACT_POINTER and first_revert)
+        or (call_order == CallOrder.POINTER_CONTRACT and second_revert)
+        or final_revert
+        else 1
+    )
+    slot_storage = contract_storage.store_next(contract_calls, "storage")
+    slot_tstorage = contract_storage.store_next(contract_calls, "tstorage")
+
+    pointer_storage = Storage()
+    pointer_calls = (
+        0
+        if (call_order == CallOrder.POINTER_CONTRACT and first_revert)
+        or (call_order == CallOrder.CONTRACT_POINTER and second_revert)
+        or final_revert
+        else 1
+    )
+    pointer_storage.store_next(pointer_calls, "storage")
+    pointer_storage.store_next(pointer_calls, "tstorage")
+
+    contract = pre.deploy_contract(
+        code=Op.SSTORE(slot_storage, Op.ADD(1, Op.SLOAD(slot_storage)))
+        + Op.TSTORE(0, Op.ADD(1, Op.TLOAD(0)))
+        + Op.SSTORE(slot_tstorage, Op.TLOAD(0))
+        + Conditional(
+            condition=Op.EQ(Op.CALLDATALOAD(0), 1),
+            if_true=Op.REVERT(0, 32),
+            if_false=Op.RETURN(0, 32),
+        )
+    )
+    contract_main = pre.deploy_contract(
+        code=Op.MSTORE(0, 1 if first_revert else 0)
+        + Op.CALL(
+            address=pointer if call_order == CallOrder.POINTER_CONTRACT else contract, args_size=32
+        )
+        + Op.MSTORE(0, 1 if second_revert else 0)
+        + Op.CALL(
+            address=pointer if call_order == CallOrder.CONTRACT_POINTER else contract, args_size=32
+        )
+        + Conditional(
+            condition=Op.EQ(1, int(final_revert)),
+            if_true=Op.REVERT(0, 32),
+            if_false=Op.RETURN(0, 32),
+        )
+    )
+    tx = Transaction(
+        to=contract_main,
+        gas_limit=800_000,
+        data=b"",
+        value=0,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract,
+                nonce=0,
+                signer=pointer,
+            )
+        ],
+    )
+    post = {pointer: Account(storage=pointer_storage), contract: Account(storage=contract_storage)}
+    state_test(
+        env=Environment(),
         pre=pre,
         post=post,
         tx=tx,
