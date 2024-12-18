@@ -18,7 +18,7 @@ class ReferenceSpec:
     version: str
 
 
-ref_spec_7002 = ReferenceSpec("EIPS/eip-7002.md", "9fe721f56f45bd5cf2d2958c0e6867aa81f82ebc")
+ref_spec_7002 = ReferenceSpec("EIPS/eip-7002.md", "25cca6506df8370157513e4e864fd174cafd3562")
 
 
 # Constants
