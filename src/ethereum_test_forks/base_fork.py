@@ -84,8 +84,12 @@ class TransactionIntrinsicCostCalculator(Protocol):
             calldata: The data of the transaction.
             contract_creation: Whether the transaction creates a contract.
             access_list: The list of access lists for the transaction.
-            authorization_list_or_count: The list of authorizations or the count of authorizations for the transaction.
-            return_cost_deducted_prior_execution: If set to False, the returned value is equal to the minimum gas required for the transaction to be valid. If set to True, the returned value is equal to the cost that is deducted from the gas limit before the transaction starts execution.
+            authorization_list_or_count: The list of authorizations or the count of authorizations
+                for the transaction.
+            return_cost_deducted_prior_execution: If set to False, the returned value is equal to
+                the minimum gas required for the transaction to be valid. If set to True, the
+                returned value is equal to the cost that is deducted from the gas limit before
+                the transaction starts execution.
 
         Returns:
             Gas cost of a transaction
