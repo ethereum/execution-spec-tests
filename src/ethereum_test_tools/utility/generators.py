@@ -3,26 +3,39 @@ Test generator decorators.
 """
 
 from enum import Enum
-from typing import Dict, List, Protocol
+from typing import Dict, Generator, List, Protocol, Tuple
 
 import pytest
 
 from ethereum_test_base_types import Account, Address
 from ethereum_test_forks import Fork
 from ethereum_test_specs import BlockchainTestFiller
-from ethereum_test_specs.blockchain import Block
+from ethereum_test_specs.blockchain import Block, Header
 from ethereum_test_types import Alloc, Transaction
 
 
-class SystemContractTestDecoratedFunction(Protocol):
+class SystemContractDeployTestFunction(Protocol):
+    """
+    Represents a function to be decorated with the `generate_system_contract_deploy_test`
+    decorator.
+    """
+
     def __call__(
         self,
-        pre: Alloc,
-        beacon_root: bytes,
-        timestamp: int,
-        post: Dict,
+        *,
         fork: Fork,
-    ) -> None:
+        pre: Alloc,
+    ) -> Generator[Tuple[Transaction | None, Header | None], None, None]:
+        """
+        Args:
+            fork (Fork): The fork to test.
+            pre (Alloc): The pre state of the blockchain.
+
+        Yields:
+            Tuple[Transaction | None, Header | None]: Once per block to add after the contract is
+                deployed, with a single transaction to execute and the header object used to
+                verify the block.
+        """
         ...
 
 
@@ -36,7 +49,6 @@ def generate_system_contract_deploy_test(
     tx_s: int,
     expected_deploy_address: Address,
     expected_system_contract_storage: Dict | None,
-    test_transaction_data: bytes,
 ):
     """
     Decorator to generate a test that verifies the correct deployment of a system contract.
@@ -59,8 +71,11 @@ def generate_system_contract_deploy_test(
             contract deployment.
             Will be executed at the fork block if the deployment is before the fork, or at the
             next block if the deployment is after the fork.
+        test_transaction_value (int): Value included in the transaction to test the system
+            contract.
+        test_transaction_block_header_verify (Header): The block header fields to verify on the
+            block that includes the test transaction.
     """
-
     DeploymentTestType = Enum(
         "DeploymentTestType",
         [
@@ -69,7 +84,7 @@ def generate_system_contract_deploy_test(
         ],
     )
 
-    def decorator(test_fn):
+    def decorator(func: SystemContractDeployTestFunction):
         @pytest.mark.parametrize(
             "test_type",
             [
@@ -105,20 +120,14 @@ def generate_system_contract_deploy_test(
             assert deploy_tx.created_contract == expected_deploy_address
             blocks: List[Block] = []
 
-            test_transaction = Transaction(
-                data=test_transaction_data,
-                to=expected_deploy_address,
-                sender=pre.fund_eoa(),
-            )
-
             if test_type == DeploymentTestType.DEPLOY_BEFORE_FORK:
                 blocks = [
                     Block(  # Deployment block
                         txs=[deploy_tx],
                         timestamp=14_999,
                     ),
-                    Block(  # Contract already deployed
-                        txs=[test_transaction],
+                    Block(  # Empty block on fork
+                        txs=[],
                         timestamp=15_000,
                     ),
                 ]
@@ -132,11 +141,19 @@ def generate_system_contract_deploy_test(
                         txs=[deploy_tx],
                         timestamp=15_001,
                     ),
-                    Block(  # Contract already deployed
-                        txs=[test_transaction],
-                        timestamp=15_002,
-                    ),
                 ]
+
+            for tx_header_verify in func(fork=fork, pre=pre):
+                txs = []
+                if tx_header_verify[0] is not None:
+                    txs.append(tx_header_verify[0])
+                header_verify = tx_header_verify[1]
+                blocks.append(
+                    Block(
+                        txs=txs,
+                        header_verify=header_verify,
+                    )
+                )
 
             pre[expected_deploy_address] = Account(
                 code=b"",  # Remove the code that is automatically allocated on the fork
