@@ -2,7 +2,9 @@
 Test generator decorators.
 """
 
+import json
 from enum import Enum
+from pathlib import Path
 from typing import Dict, Generator, List, Protocol, Tuple
 
 import pytest
@@ -41,12 +43,7 @@ class SystemContractDeployTestFunction(Protocol):
 
 def generate_system_contract_deploy_test(
     fork: Fork,
-    tx_gas_limit: int,
-    tx_gas_price: int,
-    tx_init_code: bytes,
-    tx_v: int,
-    tx_r: int,
-    tx_s: int,
+    tx_json_path: Path,
     expected_deploy_address: Address,
     expected_system_contract_storage: Dict | None,
 ):
@@ -59,12 +56,9 @@ def generate_system_contract_deploy_test(
 
     Args:
         fork (Fork): The fork to test.
-        tx_gas_limit (int): The gas limit for the deployment transaction.
-        tx_gas_price (int): The gas price for the deployment transaction.
-        tx_init_code (bytes): The init code for the deployment transaction.
-        tx_v (int): The v value for the deployment transaction.
-        tx_r (int): The r value for the deployment transaction.
-        tx_s (int): The s value for the deployment transaction.
+        tx_json_path (Path): Path to the JSON file with the transaction to deploy the system
+            contract.
+            Providing a JSON file is useful to copy-paste the transaction from the EIP.
         expected_deploy_address (Address): The expected address of the deployed contract.
         expected_system_contract_storage (Dict): The expected storage of the system contract.
         test_transaction_data (bytes): Data included in the transaction to test the system
@@ -84,6 +78,19 @@ def generate_system_contract_deploy_test(
         ],
     )
 
+    with open(tx_json_path, mode="r") as f:
+        tx_json = json.loads(f.read())
+    if "gasLimit" not in tx_json and "gas" in tx_json:
+        tx_json["gasLimit"] = tx_json["gas"]
+        del tx_json["gas"]
+    if "protected" not in tx_json:
+        tx_json["protected"] = False
+    deploy_tx = Transaction.model_validate(tx_json).with_signature_and_sender()
+    gas_price = deploy_tx.gas_price
+    assert gas_price is not None
+    deployer_required_balance = deploy_tx.gas_limit * gas_price
+    deployer_address = deploy_tx.sender
+
     def decorator(func: SystemContractDeployTestFunction):
         @pytest.mark.parametrize(
             "test_type",
@@ -101,21 +108,7 @@ def generate_system_contract_deploy_test(
             test_type: DeploymentTestType,
             fork: Fork,
         ):
-            deployer_required_balance = tx_gas_limit * tx_gas_price
-            deploy_tx = Transaction(
-                ty=0,
-                nonce=0,
-                to=None,
-                gas_limit=tx_gas_limit,
-                gas_price=tx_gas_price,
-                value=0,
-                data=tx_init_code,
-                v=tx_v,
-                r=tx_r,
-                s=tx_s,
-                protected=False,
-            ).with_signature_and_sender()
-            deployer_address = deploy_tx.sender
+
             assert deployer_address is not None
             assert deploy_tx.created_contract == expected_deploy_address
             blocks: List[Block] = []
