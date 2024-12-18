@@ -17,17 +17,18 @@ REFERENCE_SPEC_VERSION = ref_spec_2935.version
     tx_gas_limit=0x3D090,
     tx_gas_price=0xE8D4A51000,
     tx_init_code=bytes.fromhex(
-        "60538060095f395ff33373fffffffffffffffffffffffffffffffffffffffe14604657602036036042575f35600143038111604257611fff81430311604257611fff9006545f5260205ff35b5f5ffd5b5f35611fff60014303065500"
+        "60538060095f395ff33373fffffffffffffffffffffffffffffffffffffffe14604657602036036042575f35"
+        "600143038111604257611fff81430311604257611fff9006545f5260205ff35b5f5ffd5b5f35611fff600143"
+        "03065500"
     ),
     tx_v=0x1B,
     tx_r=0x539,
     tx_s=0xBAEFE09F0109759,
     expected_deploy_address=Address(Spec.HISTORY_STORAGE_ADDRESS),
     expected_system_contract_storage=None,
-    test_transaction_data=bytes(),
 )
-def test_system_contract_deployment():
+def test_system_contract_deployment(*args, **kwargs):
     """
     Verify deployment of the block hashes system contract.
     """
-    pass
+    yield from []
