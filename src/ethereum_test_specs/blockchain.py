@@ -58,6 +58,7 @@ def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
         parent_base_fee_per_gas=parent.base_fee_per_gas,
         parent_blob_gas_used=parent.blob_gas_used,
         parent_excess_blob_gas=parent.excess_blob_gas,
+        parent_target_blobs_per_block=parent.target_blobs_per_block,
         parent_gas_used=parent.gas_used,
         parent_gas_limit=parent.gas_limit,
         parent_ommers_hash=parent.ommers_hash,
@@ -75,6 +76,7 @@ def apply_new_parent(env: Environment, new_parent: FixtureHeader) -> "Environmen
     updated["parent_base_fee_per_gas"] = new_parent.base_fee_per_gas
     updated["parent_blob_gas_used"] = new_parent.blob_gas_used
     updated["parent_excess_blob_gas"] = new_parent.excess_blob_gas
+    updated["parent_target_blobs_per_block"] = new_parent.target_blobs_per_block
     updated["parent_gas_used"] = new_parent.gas_used
     updated["parent_gas_limit"] = new_parent.gas_limit
     updated["parent_ommers_hash"] = new_parent.ommers_hash
@@ -362,6 +364,9 @@ class BlockchainTest(BaseTest):
             requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
             target_blobs_per_block=(
                 fork.target_blobs_per_block(0, 0)
+                if fork.header_target_blobs_per_block_required(0, 0)
+                and env.target_blobs_per_block is None
+                else env.target_blobs_per_block
                 if fork.header_target_blobs_per_block_required(0, 0)
                 else None
             ),

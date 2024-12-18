@@ -394,6 +394,7 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
         None,
         alias="currentTargetBlobsPerBlock",
     )
+    parent_target_blobs_per_block: NumberBoundTypeVar | None = Field(None)
 
     parent_difficulty: NumberBoundTypeVar | None = Field(None)
     parent_timestamp: NumberBoundTypeVar | None = Field(None)
