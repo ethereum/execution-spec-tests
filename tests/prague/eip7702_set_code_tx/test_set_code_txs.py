@@ -2276,7 +2276,7 @@ def test_signature_s_out_of_range(
 @pytest.mark.parametrize(
     "chain_id",
     [
-        pytest.param(Spec.MAX_CHAIN_ID, id="chain_id=2**256-1"),
+        pytest.param(Spec.MAX_AUTH_CHAIN_ID, id="chain_id=2**256-1"),
         pytest.param(2, id="chain_id=2"),
     ],
 )
