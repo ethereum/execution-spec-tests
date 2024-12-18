@@ -169,6 +169,7 @@ filelock
 filesystem
 fillvalue
 firstlineno
+fmt
 fn
 fname
 forkchoice
@@ -371,6 +372,7 @@ rpc
 ruleset
 runtestloop
 runtime
+S12
 sandboxed
 secp256k1
 secp256k1n
