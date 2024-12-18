@@ -15,7 +15,7 @@ class DataTestType(Enum):
     FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS = auto()
 
 
-def floor_cost_find(
+def find_floor_cost_threshold(
     floor_data_gas_cost_calculator: Callable[[int], int],
     intrinsic_gas_cost_calculator: Callable[[int], int],
 ) -> int:

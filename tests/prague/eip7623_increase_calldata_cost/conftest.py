@@ -20,7 +20,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import Transaction, TransactionException
 
-from .helpers import DataTestType, floor_cost_find
+from .helpers import DataTestType, find_floor_cost_threshold
 
 
 @pytest.fixture
@@ -209,7 +209,7 @@ def tx_data(
         else:
             return Bytes(b"\0")
 
-    tokens = floor_cost_find(
+    tokens = find_floor_cost_threshold(
         floor_data_gas_cost_calculator=transaction_data_floor_cost_calculator,
         intrinsic_gas_cost_calculator=transaction_intrinsic_cost_calculator,
     )
