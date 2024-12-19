@@ -18,8 +18,8 @@ from ..state import FixtureForkPost
         pytest.param(
             True,
             FixtureForkPost(
-                state_root="0x00",
-                logs_hash="0x01",
+                state_root=0,
+                logs_hash=1,
                 tx_bytes="0x02",
             ),
             {
@@ -33,8 +33,8 @@ from ..state import FixtureForkPost
         pytest.param(
             True,
             FixtureForkPost(
-                state_root="0x00",
-                logs_hash="0x01",
+                state_root=0,
+                logs_hash=1,
                 tx_bytes="0x02",
                 expect_exception=TransactionException.INITCODE_SIZE_EXCEEDED,
             ),
@@ -51,8 +51,8 @@ from ..state import FixtureForkPost
             False,  # Can not be deserialized: A single expect_exception str will not be
             # deserialized as a list and therefore will not match the model_instance definition.
             FixtureForkPost(
-                state_root="0x00",
-                logs_hash="0x01",
+                state_root=0,
+                logs_hash=1,
                 tx_bytes="0x02",
                 expect_exception=[TransactionException.INITCODE_SIZE_EXCEEDED],
             ),
@@ -68,8 +68,8 @@ from ..state import FixtureForkPost
         pytest.param(
             True,
             FixtureForkPost(
-                state_root="0x00",
-                logs_hash="0x01",
+                state_root=0,
+                logs_hash=1,
                 tx_bytes="0x02",
                 expect_exception=[
                     TransactionException.INITCODE_SIZE_EXCEEDED,
