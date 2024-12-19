@@ -39,6 +39,8 @@ def gas_test(
     subject_balance: int = 0,
     oog_difference: int = 1,
     out_of_gas_testing: bool = True,
+    *,
+    prelude_code: Bytecode = Bytecode(None),
 ):
     """
     Creates a State Test to check the gas cost of a sequence of EOF code.
@@ -74,6 +76,8 @@ def gas_test(
         code=(
             # warm subject and baseline without executing
             (Op.BALANCE(address_subject) + Op.POP + Op.BALANCE(address_baseline) + Op.POP)
+            # run any "prelude" code that may have universal side effects
+            + prelude_code
             # Baseline gas run
             + (
                 Op.GAS

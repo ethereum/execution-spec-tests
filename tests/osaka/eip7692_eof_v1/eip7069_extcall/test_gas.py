@@ -10,7 +10,6 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import Alloc, Environment, StateTestFiller
 from ethereum_test_tools.eof.v1 import Container
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_vm import Bytecode
 
 from .. import EOF_FORK_NAME
 from ..gas_test import gas_test
@@ -201,21 +200,20 @@ def test_late_account_create(
     """
     empty_address = Address(0xDECAFC0DE)
 
-    push_gas = (opcode.popped_stack_items + Op.EXTCALL.popped_stack_items) * 3
-
     gas_test(
         state_test,
         state_env,
         pre,
-        setup_code=Bytecode(None),
-        subject_code=opcode(address=empty_address) + Op.EXTCALL(address=empty_address, value=1),
+        prelude_code=Op.BALANCE(address=empty_address),
+        setup_code=opcode(address=empty_address)
+        + Op.PUSH1(1)
+        + Op.PUSH0
+        + Op.PUSH0
+        + Op.PUSH20(empty_address),
+        subject_code=Op.EXTCALL,
         subject_balance=5,
         tear_down_code=Op.STOP,
-        cold_gas=ACCOUNT_CREATION_GAS
-        + COLD_ACCOUNT_ACCESS_GAS
-        + WARM_ACCOUNT_ACCESS_GAS
-        + CALL_WITH_VALUE_GAS
-        + push_gas,
-        warm_gas=2 * WARM_ACCOUNT_ACCESS_GAS + CALL_WITH_VALUE_GAS + push_gas,
+        cold_gas=WARM_ACCOUNT_ACCESS_GAS + CALL_WITH_VALUE_GAS + ACCOUNT_CREATION_GAS,
+        warm_gas=WARM_ACCOUNT_ACCESS_GAS + CALL_WITH_VALUE_GAS,
         out_of_gas_testing=False,
     )
