@@ -29,7 +29,7 @@ from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_vm import Macros
 
-from .spec import ref_spec_7702
+from .spec import Spec, ref_spec_7702
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7702.version
@@ -1243,7 +1243,7 @@ def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("Prague")
-def test_eof_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
+def test_eoa_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
     """
     It was agreed before that senders don't have code
     And there were issues with tests sending transactions from account's with code
@@ -1459,4 +1459,265 @@ def test_pointer_reverts(
         pre=pre,
         post=post,
         tx=tx,
+    )
+
+
+class DelegationTo(Enum):
+    """Add addresses to access list"""
+
+    CONTRACT_A = 1
+    CONTRACT_B = 2
+    RESET = 3
+
+
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize(
+    "first_delegation", [DelegationTo.CONTRACT_A, DelegationTo.CONTRACT_B, DelegationTo.RESET]
+)
+@pytest.mark.parametrize(
+    "second_delegation", [DelegationTo.CONTRACT_A, DelegationTo.CONTRACT_B, DelegationTo.RESET]
+)
+def test_double_auth(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    first_delegation: DelegationTo,
+    second_delegation: DelegationTo,
+):
+    """
+    Only the last auth works, but first auth still charges the gas
+    """
+    env = Environment()
+    sender = pre.fund_eoa()
+    pointer = pre.fund_eoa()
+
+    storage = Storage()
+    contract_a = pre.deploy_contract(
+        code=Op.SSTORE(
+            storage.store_next(
+                1 if second_delegation == DelegationTo.CONTRACT_A else 0, "code_a_worked"
+            ),
+            1,
+        )
+    )
+    contract_b = pre.deploy_contract(
+        code=Op.SSTORE(
+            storage.store_next(
+                2 if second_delegation == DelegationTo.CONTRACT_B else 0, "code_b_worked"
+            ),
+            2,
+        )
+    )
+
+    main_storage = Storage()
+    contract_main = pre.deploy_contract(code=Op.CALL(address=pointer))
+
+    tx = Transaction(
+        to=contract_main,
+        gas_limit=200_000,
+        data=b"",
+        value=0,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=(
+                    contract_a
+                    if first_delegation == DelegationTo.CONTRACT_A
+                    else contract_b
+                    if first_delegation == DelegationTo.CONTRACT_B
+                    else 0
+                ),
+                nonce=0,
+                signer=pointer,
+            ),
+            AuthorizationTuple(
+                address=(
+                    contract_a
+                    if second_delegation == DelegationTo.CONTRACT_A
+                    else contract_b
+                    if second_delegation == DelegationTo.CONTRACT_B
+                    else 0
+                ),
+                nonce=1,
+                signer=pointer,
+            ),
+        ],
+    )
+    post = {
+        pointer: (
+            Account(
+                storage=storage,
+                code=(
+                    Spec.delegation_designation(contract_a)
+                    if second_delegation == DelegationTo.CONTRACT_A
+                    else (
+                        Spec.delegation_designation(contract_b)
+                        if second_delegation == DelegationTo.CONTRACT_B
+                        else bytes()
+                    )
+                ),
+            )
+        ),
+        contract_main: Account(storage=main_storage),
+    }
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+def test_pointer_resets_an_empty_code_account_with_storage(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+):
+    """
+    This one is a little messy, because ideas were flowing
+    So in Block1 we create a sender with empty code, but non empty storage using pointers
+    In Block2 we create account that perform suicide, then we check that when calling
+    a pointer, that points to newly created account and runs suicide,
+    is not deleted as well as its storage
+    """
+    sender = pre.fund_eoa()
+    pointer = pre.fund_eoa(amount=0)
+    pointer_storage = Storage()
+    sender_storage = Storage()
+    sender_storage.store_next(1, "slot1")
+    sender_storage.store_next(2, "slot2")
+    contract_1 = pre.deploy_contract(
+        code=Op.SSTORE(pointer_storage.store_next(1, "slot1"), 1)
+        + Op.SSTORE(pointer_storage.store_next(2, "slot2"), 2)
+    )
+
+    tx_set_pointer_storage = Transaction(
+        to=pointer,
+        gas_limit=200_000,
+        data=b"",
+        value=0,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract_1,
+                nonce=0,
+                signer=pointer,
+            ),
+        ],
+    )
+    tx_set_sender_storage = Transaction(
+        to=sender,
+        gas_limit=200_000,
+        data=b"",
+        value=0,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract_1,
+                nonce=2,
+                signer=sender,
+            ),
+        ],
+    )
+
+    tx_reset_code = Transaction(
+        to=pointer,
+        gas_limit=200_000,
+        data=b"",
+        value=0,
+        nonce=3,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=0,
+                nonce=1,
+                signer=pointer,
+            ),
+            AuthorizationTuple(
+                address=0,
+                nonce=4,
+                signer=sender,
+            ),
+        ],
+    )
+
+    contract_2 = pre.deploy_contract(code=Op.SSTORE(1, 1))
+    tx_send_from_empty_code_with_storage = Transaction(
+        to=contract_2,
+        gas_limit=200_000,
+        data=b"",
+        value=0,
+        nonce=5,
+        sender=sender,
+    )
+
+    # Block 2
+    # Sender with storage and pointer code calling selfdestruct on itself
+    # But it points to a newly created account, check that pointer storage is not deleted
+    suicide_dest = pre.fund_eoa(amount=0)
+    deploy_code = Op.SSTORE(5, 5) + Op.SELFDESTRUCT(suicide_dest)
+    sender_storage[5] = 5
+
+    another_pointer = pre.fund_eoa()
+
+    contract_create = pre.deploy_contract(
+        code=Op.MSTORE(0, Op.CALLDATALOAD(0))
+        + Op.MSTORE(32, Op.CALLDATALOAD(32))
+        + Op.SSTORE(1, Op.CREATE(0, 0, Op.CALLDATASIZE()))
+        + Op.CALL(address=sender)  # run suicide from pointer
+        + Op.CALL(address=Op.SLOAD(1))  # run suicide directly
+        + Op.CALL(address=another_pointer)  # run suicide from pointer that is not sender
+    )
+    newly_created_address = compute_create_address(address=contract_create, nonce=1)
+
+    tx_create_suicide_from_pointer = Transaction(
+        to=contract_create,
+        gas_limit=800_000,
+        data=Op.SSTORE(6, 6)
+        + Op.MSTORE(0, deploy_code.hex())
+        + Op.RETURN(32 - len(deploy_code), len(deploy_code)),
+        value=1000,
+        nonce=6,
+        sender=sender,
+        authorization_list=[
+            AuthorizationTuple(
+                address=newly_created_address,
+                nonce=7,
+                signer=sender,
+            ),
+            AuthorizationTuple(
+                address=newly_created_address,
+                nonce=0,
+                signer=another_pointer,
+            ),
+        ],
+    )
+
+    post = {
+        pointer: Account(nonce=2, balance=0, storage=pointer_storage, code=bytes()),
+        sender: Account(
+            storage=sender_storage, code=Spec.delegation_designation(newly_created_address)
+        ),
+        newly_created_address: Account.NONEXISTENT,
+        contract_create: Account(storage={1: newly_created_address}),
+        another_pointer: Account(balance=0, storage={5: 5}),
+    }
+    blockchain_test(
+        genesis_environment=Environment(),
+        pre=pre,
+        post=post,
+        blocks=[
+            # post = {
+            #    pointer: Account(nonce=2, balance=0, storage=pointer_storage, code=bytes()),
+            #    sender: Account(storage=pointer_storage, code=bytes()),
+            # }
+            Block(
+                txs=[
+                    tx_set_pointer_storage,
+                    tx_set_sender_storage,
+                    tx_reset_code,
+                    tx_send_from_empty_code_with_storage,
+                ]
+            ),
+            Block(txs=[tx_create_suicide_from_pointer]),
+        ],
     )
