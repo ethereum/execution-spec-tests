@@ -85,7 +85,7 @@ def generate_system_contract_deploy_test(
         del tx_json["gas"]
     if "protected" not in tx_json:
         tx_json["protected"] = False
-    deploy_tx = Transaction.model_validate(tx_json).with_signature_and_sender()
+    deploy_tx = Transaction.model_validate(tx_json).with_signature_and_sender()  # type: ignore
     gas_price = deploy_tx.gas_price
     assert gas_price is not None
     deployer_required_balance = deploy_tx.gas_limit * gas_price
