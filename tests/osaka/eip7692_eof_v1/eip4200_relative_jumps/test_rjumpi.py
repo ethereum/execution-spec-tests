@@ -50,19 +50,15 @@ def test_rjumpi_condition_forwards(
     env = Environment()
     sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.PUSH1(0)
-                    + Op.CALLDATALOAD
-                    + Op.RJUMPI[6]
-                    + Op.SSTORE(slot_conditional_result, value_calldata_false)
-                    + Op.STOP
-                    + Op.SSTORE(slot_conditional_result, value_calldata_true)
-                    + Op.STOP,
-                )
-            ]
-        ),
+        code=Container.Code(
+            Op.PUSH1(0)
+            + Op.CALLDATALOAD
+            + Op.RJUMPI[6]
+            + Op.SSTORE(slot_conditional_result, value_calldata_false)
+            + Op.STOP
+            + Op.SSTORE(slot_conditional_result, value_calldata_true)
+            + Op.STOP,
+        )
     )
     tx = Transaction(
         to=contract_address,
@@ -95,20 +91,16 @@ def test_rjumpi_condition_backwards(
     env = Environment()
     sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.PUSH1(1)
-                    + Op.RJUMPI[6]
-                    + Op.SSTORE(slot_conditional_result, value_calldata_true)
-                    + Op.STOP
-                    + Op.PUSH0
-                    + Op.CALLDATALOAD
-                    + Op.RJUMPI[-11]
-                    + Op.SSTORE(slot_conditional_result, value_calldata_false)
-                    + Op.STOP,
-                )
-            ]
+        code=Container.Code(
+            Op.PUSH1(1)
+            + Op.RJUMPI[6]
+            + Op.SSTORE(slot_conditional_result, value_calldata_true)
+            + Op.STOP
+            + Op.PUSH0
+            + Op.CALLDATALOAD
+            + Op.RJUMPI[-11]
+            + Op.SSTORE(slot_conditional_result, value_calldata_false)
+            + Op.STOP,
         )
     )
     tx = Transaction(
