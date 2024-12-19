@@ -1250,15 +1250,16 @@ class Requests:
         Initializes the requests object.
 
         If `requests_lists` is given as argument, assumes they are sorted by request type
-        ascending, starting from 0.
+        ascending, starting from 0 and contiguous - including empty entries.
         """
         if requests_lists is not None:
             assert len(requests) == 0, "requests must be empty if list is provided"
             self.requests_list = []
             for type, requests_list in enumerate(requests_lists):
-                self.requests_list.append(
-                    Bytes(bytes([type]) + requests_list_to_bytes(requests_list))
-                )
+                if requests_list:
+                    self.requests_list.append(
+                        Bytes(bytes([type]) + requests_list_to_bytes(requests_list))
+                    )
             return
         else:
             lists: Dict[int, List[RequestBase]] = defaultdict(list)
