@@ -40,7 +40,7 @@ def test_precompile_absence(
             continue
         call_code += Op.SSTORE(
             address,
-            Op.CALL(address=address, args_size=calldata_size),
+            Op.CALL(gas=0, address=address, args_size=calldata_size),
         )
         storage[address] = 1
         if Op.RETURNDATASIZE in fork.valid_opcodes():
