@@ -66,6 +66,7 @@ cached_downloads/
 # pytest report
 assets
 *.html
+*dump*/
 
 # Environment
 env.yaml
