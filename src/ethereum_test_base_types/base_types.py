@@ -211,6 +211,12 @@ class Bytes(bytes, ToStringSchema):
         """
         return Hash(sha256(self).digest())
 
+    def int(self) -> int:
+        """
+        Returns the integer representation of the bytes.
+        """
+        return int.from_bytes(self, "big")
+
 
 S = TypeVar("S", bound="FixedSizeHexNumber")
 
