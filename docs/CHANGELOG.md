@@ -63,6 +63,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add the `eest make env` command that generates a default env file (`env.yaml`)([#996](https://github.com/ethereum/execution-spec-tests/pull/996)).
 - ✨ Generate Transaction Test type ([#933](https://github.com/ethereum/execution-spec-tests/pull/933)).
 - ✨ Add a default location for evm logs (`--evm-dump-dir`) when filling tests ([#999](https://github.com/ethereum/execution-spec-tests/pull/999)).
+- ✨ Added `--feature` flag to the `fill` command, which allows the user to enable features for all tests during filling (features currently supported: `eip_7702`, `eof_v1`) ([#781](https://github.com/ethereum/execution-spec-tests/pull/781)).
 
 ### 🔧 EVM Tools
 
