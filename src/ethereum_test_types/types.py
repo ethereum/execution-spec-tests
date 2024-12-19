@@ -357,10 +357,10 @@ class Environment(EnvironmentGeneric[HexNumber]):
     must be executed.
     """
 
-    blob_gas_used: Number | None = Field(None, alias="currentBlobGasUsed")
+    blob_gas_used: HexNumber | None = Field(None, alias="currentBlobGasUsed")
     parent_ommers_hash: Hash = Field(Hash(EmptyOmmersRoot), alias="parentUncleHash")
-    parent_blob_gas_used: Number | None = Field(None)
-    parent_excess_blob_gas: Number | None = Field(None)
+    parent_blob_gas_used: HexNumber | None = Field(None)
+    parent_excess_blob_gas: HexNumber | None = Field(None)
     parent_beacon_block_root: Hash | None = Field(None)
 
     block_hashes: Dict[Number, Hash] = Field(default_factory=dict)
