@@ -18,6 +18,7 @@ RETURNDATASIZE_OFFSET = 0x10000000000000000  # Must be greater than UPPER_BOUND
     "calldata_size",
     [
         pytest.param(0, id="empty_calldata"),
+        pytest.param(31, id="31_bytes"),
         pytest.param(32, id="32_bytes"),
     ],
 )
