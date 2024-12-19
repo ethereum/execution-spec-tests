@@ -92,7 +92,6 @@ class ForkParametrizer:
                     pytest.param(
                         fork,
                         marks=marks,
-                        id=f"fork_{fork.name()}",
                     )
                 ],
             )
@@ -131,7 +130,7 @@ class ForkParametrizer:
                     marks.extend(p.marks)
                 if p.id:
                     if id is None:
-                        id = p.id
+                        id = f"fork_{self.fork.name()}-{p.id}"
                     else:
                         id = f"{id}-{p.id}"
             parameter_set_list.append(pytest.param(*params, marks=marks, id=id))
