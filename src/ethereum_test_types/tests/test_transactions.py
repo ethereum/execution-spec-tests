@@ -6,7 +6,7 @@ from typing import Tuple
 
 import pytest
 
-from ..types import AccessList, Transaction
+from ..types import AccessList, Hash, Transaction
 
 
 @pytest.mark.parametrize(
@@ -107,7 +107,12 @@ from ..types import AccessList, Transaction
                 ty=1,
                 nonce=0,
                 gas_price=1000000000,
-                access_list=[AccessList(address="0x123", storage_keys=["0x456", "0x789"])],
+                access_list=[
+                    AccessList(
+                        address="0x0000000000000000000000000000000000000123",
+                        storage_keys=[0x456, 0x789],
+                    )
+                ],
             ),
             (
                 0,
@@ -127,7 +132,7 @@ from ..types import AccessList, Transaction
                 nonce=0,
                 gas_price=1000000000,
                 to=None,
-                access_list=[AccessList(address="0x123", storage_keys=["0x456", "0x789"])],
+                access_list=[AccessList(address=0x123, storage_keys=[0x456, 0x789])],
             ),
             (
                 0,
@@ -145,7 +150,7 @@ from ..types import AccessList, Transaction
             Transaction(
                 ty=2,
                 nonce=0,
-                access_list=[AccessList(address="0x123", storage_keys=["0x456", "0x789"])],
+                access_list=[AccessList(address=0x123, storage_keys=[0x456, 0x789])],
                 max_fee_per_gas=10,
                 max_priority_fee_per_gas=5,
             ),
@@ -166,7 +171,7 @@ from ..types import AccessList, Transaction
                 ty=2,
                 nonce=0,
                 to=None,
-                access_list=[AccessList(address="0x123", storage_keys=["0x456", "0x789"])],
+                access_list=[AccessList(address=0x123, storage_keys=[0x456, 0x789])],
                 max_fee_per_gas=10,
                 max_priority_fee_per_gas=5,
             ),
@@ -186,7 +191,7 @@ from ..types import AccessList, Transaction
             Transaction(
                 ty=3,
                 nonce=0,
-                access_list=[AccessList(address="0x123", storage_keys=["0x456", "0x789"])],
+                access_list=[AccessList(address=0x123, storage_keys=[0x456, 0x789])],
                 max_fee_per_gas=10,
                 max_priority_fee_per_gas=5,
                 max_fee_per_blob_gas=100,
@@ -208,11 +213,11 @@ from ..types import AccessList, Transaction
             Transaction(
                 ty=3,
                 nonce=0,
-                access_list=[AccessList(address="0x123", storage_keys=["0x456", "0x789"])],
+                access_list=[AccessList(address=0x123, storage_keys=[0x456, 0x789])],
                 max_fee_per_gas=10,
                 max_priority_fee_per_gas=5,
                 max_fee_per_blob_gas=100,
-                blob_versioned_hashes=[bytes(), bytes([0x01])],
+                blob_versioned_hashes=[Hash(0), Hash(0x01)],
             ),
             (
                 1,
