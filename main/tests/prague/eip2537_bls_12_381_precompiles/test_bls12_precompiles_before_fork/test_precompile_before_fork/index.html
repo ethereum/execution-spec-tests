@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_precompile_before_fork"><code>test_precompile_before_fork()</code><a class="headerlink" href="#test_precompile_before_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7bb9588757f30bfd266c84d89c2152697621e2ed/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py#L19"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork@7bb95887</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py#L19"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork@49c766fb</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork --fork Prague</span>
@@ -25311,17 +25311,7 @@
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;precompile_address,input&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -25335,11 +25325,6 @@
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;G1MSM&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">G1MUL</span><span class="p">,</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;G1MUL&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">G2ADD</span><span class="p">,</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;G2ADD&quot;</span><span class="p">,</span>
@@ -25348,11 +25333,6 @@
             <span class="n">Spec</span><span class="o">.</span><span class="n">G2MSM</span><span class="p">,</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;G2MSM&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">G2MUL</span><span class="p">,</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;G2MUL&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">PAIRING</span><span class="p">,</span>
@@ -25465,18 +25445,6 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>13</td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                    </tr>
-                <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork[fork_CancunToPragueAtTime15k-blockchain_test--G1MUL]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork[fork_CancunToPragueAtTime15k-blockchain_test--G1MUL]">
-                    ...fork_CancunToPragueAtTime15k-blockchain_test--G1MUL
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>True</td>
                         <td>12</td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
@@ -25489,7 +25457,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>14</td>
+                        <td>13</td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
@@ -25501,19 +25469,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>16</td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                    </tr>
-                <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork[fork_CancunToPragueAtTime15k-blockchain_test--G2MUL]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork[fork_CancunToPragueAtTime15k-blockchain_test--G2MUL]">
-                    ...fork_CancunToPragueAtTime15k-blockchain_test--G2MUL
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>True</td>
-                        <td>15</td>
+                        <td>14</td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
@@ -25525,7 +25481,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>17</td>
+                        <td>15</td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
@@ -25537,7 +25493,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>18</td>
+                        <td>16</td>
                         <td>FP(x=0)</td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
@@ -25549,7 +25505,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>19</td>
+                        <td>17</td>
                         <td>FP2(x=(0, 0))</td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="state_test">
@@ -25573,18 +25529,6 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>13</td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                    </tr>
-                <tr data-fork="CancunToPragueAtTime15k" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork[fork_CancunToPragueAtTime15k-state_test--G1MUL]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork[fork_CancunToPragueAtTime15k-state_test--G1MUL]">
-                    ...fork_CancunToPragueAtTime15k-state_test--G1MUL
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>True</td>
                         <td>12</td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
@@ -25597,7 +25541,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>14</td>
+                        <td>13</td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="state_test">
@@ -25609,19 +25553,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>16</td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                    </tr>
-                <tr data-fork="CancunToPragueAtTime15k" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork[fork_CancunToPragueAtTime15k-state_test--G2MUL]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_precompiles_before_fork.py::test_precompile_before_fork[fork_CancunToPragueAtTime15k-state_test--G2MUL]">
-                    ...fork_CancunToPragueAtTime15k-state_test--G2MUL
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>True</td>
-                        <td>15</td>
+                        <td>14</td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="state_test">
@@ -25633,7 +25565,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>17</td>
+                        <td>15</td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="state_test">
@@ -25645,7 +25577,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>18</td>
+                        <td>16</td>
                         <td>FP(x=0)</td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="state_test">
@@ -25657,7 +25589,7 @@
             </td>
                         <td></td>
                         <td>True</td>
-                        <td>19</td>
+                        <td>17</td>
                         <td>FP2(x=(0, 0))</td>
                     </tr>
             </tbody>
