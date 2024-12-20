@@ -10,8 +10,18 @@ GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.jso
 EOFTests/EIP3540/validInvalid.json
 
 EOFTests/EIP3670/validInvalid.json
+EOFTests/EIP4200/validInvalid.json
 EOFTests/efValidation/EOF1_embedded_container_.json
 EOFTests/efValidation/EOF1_eofcreate_valid_.json
+EOFTests/efValidation/EOF1_valid_rjump_.json
+EOFTests/efValidation/EOF1_valid_rjumpi_.json
+EOFTests/efValidation/EOF1_valid_rjumpv_.json
+EOFTests/efValidation/EOF1_rjump_truncated_.json
+EOFTests/efValidation/EOF1_rjumpi_truncated_.json
+EOFTests/efValidation/EOF1_rjumpv_truncated_.json
+EOFTests/efValidation/EOF1_rjump_invalid_destination_.json
+EOFTests/efValidation/EOF1_rjumpi_invalid_destination_.json
+EOFTests/efValidation/EOF1_rjumpv_invalid_destination_.json
 EOFTests/efValidation/EOF1_section_order_.json
 EOFTests/efValidation/EOF1_truncated_section_.json
 EOFTests/efValidation/EOF1_undefined_opcodes_.json
