@@ -32,7 +32,15 @@ def monkeypatch_path_for_entry_points(monkeypatch):
     monkeypatch.setenv("PATH", f"{bin_dir}:{os.environ['PATH']}")
 
 
-@pytest.mark.parametrize("t8n", [ExecutionSpecsTransitionTool()])
+@pytest.fixture
+def t8n(request):
+    """
+    Instantiate the TransitionTool subclass under test.
+    """
+    return request.param()
+
+
+@pytest.mark.parametrize("t8n", [ExecutionSpecsTransitionTool], indirect=True)
 @pytest.mark.parametrize("fork", [London, Istanbul])
 @pytest.mark.parametrize(
     "alloc,base_fee,hash",
@@ -142,7 +150,7 @@ def env(test_dir: str) -> Environment:  # noqa: D103
         return Environment.model_validate_json(f.read())
 
 
-@pytest.mark.parametrize("t8n", [ExecutionSpecsTransitionTool()])
+@pytest.mark.parametrize("t8n", [ExecutionSpecsTransitionTool], indirect=True)
 @pytest.mark.parametrize("test_dir", os.listdir(path=FIXTURES_ROOT))
 def test_evm_t8n(  # noqa: D103
     t8n: TransitionTool,
