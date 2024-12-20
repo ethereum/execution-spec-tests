@@ -1,6 +1,5 @@
 """
 abstract: Test Calling Precompile Range (close to zero)
-
 """
 
 import pytest
