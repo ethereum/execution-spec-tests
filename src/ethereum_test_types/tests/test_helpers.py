@@ -13,11 +13,17 @@ def test_address():
     """
     Test `ethereum_test.base_types.Address`.
     """
-    assert Address("0x0") == "0x0000000000000000000000000000000000000000"
+    assert (
+        Address("0x0000000000000000000000000000000000000000")
+        == "0x0000000000000000000000000000000000000000"
+    )
     assert Address(0) == "0x0000000000000000000000000000000000000000"
     assert Address(1) == "0x0000000000000000000000000000000000000001"
     assert Address(10) == "0x000000000000000000000000000000000000000a"
-    assert Address("0x10") == "0x0000000000000000000000000000000000000010"
+    assert (
+        Address("0x0000000000000000000000000000000000000010")
+        == "0x0000000000000000000000000000000000000010"
+    )
     assert Address(2 ** (20 * 8) - 1) == "0xffffffffffffffffffffffffffffffffffffffff"
     assert Address(0) == Address(0)
     assert Address(0) != Address(1)
