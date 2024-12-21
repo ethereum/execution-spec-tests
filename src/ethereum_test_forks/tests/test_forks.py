@@ -125,6 +125,8 @@ def test_forks():
     assert cast(Fork, ParisToShanghaiAtTime15k).header_withdrawals_required(0, 15_000) is True
     assert cast(Fork, ParisToShanghaiAtTime15k).header_withdrawals_required() is True
 
+
+def test_fork_comparison():  # noqa: D103
     # Test fork comparison
     assert Paris > Berlin
     assert not Berlin > Paris
@@ -157,6 +159,15 @@ def test_forks():
     assert not fork > Berlin
     assert not fork < Berlin
     assert fork == Berlin
+
+
+def test_fork_parents():  # noqa: D103
+    assert London.parent() == Berlin
+    assert Paris.parent() == London
+
+    assert London.parents()[-1] == Berlin
+    assert London.parents()[0] == Frontier
+    assert len(London.parents()) == 7
 
 
 def test_get_forks():  # noqa: D103
