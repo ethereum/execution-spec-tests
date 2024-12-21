@@ -20,7 +20,7 @@ from ethereum_test_fixtures import (
     StateFixture,
 )
 from ethereum_test_fixtures.blockchain import FixtureCommon
-from ethereum_test_forks import Berlin, Fork, Istanbul, London, Paris, Shanghai
+from ethereum_test_forks import Berlin, Cancun, Fork, Istanbul, London, Paris, Shanghai
 from ethereum_test_types import Alloc, Environment, Transaction
 from ethereum_test_vm import Opcodes as Op
 
@@ -30,14 +30,17 @@ from .helpers import remove_info_metadata
 
 
 @pytest.fixture()
-def hash(request: pytest.FixtureRequest):
+def hash(fork: Fork) -> bytes:
     """
     Set the hash based on the fork and solc version.
     """
-    if request.node.funcargs["fork"] == Berlin:
+    if fork == Berlin:
         return bytes.fromhex("e57ad774ca")
-    elif request.node.funcargs["fork"] == London:
+    elif fork == London:
         return bytes.fromhex("3714102a4c")
+    elif fork == Cancun:
+        return bytes.fromhex("2885c707e3")
+    raise ValueError(f"Unexpected fork: {fork}")
 
 
 def test_check_helper_fixtures():
@@ -61,12 +64,12 @@ def test_check_helper_fixtures():
 
 @pytest.mark.run_in_serial
 @pytest.mark.parametrize(
-    "fork,hash",
+    "fork",
     [
-        (Berlin, "set using indirect & hash fixture"),
-        (London, "set using indirect & hash fixture"),
+        Berlin,
+        London,
+        Cancun,
     ],
-    indirect=["hash"],
 )
 def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
     env = Environment()
@@ -108,8 +111,10 @@ def test_make_genesis(fork: Fork, hash: bytes):  # noqa: D103
     [
         (Istanbul, BlockchainFixture),
         (London, BlockchainFixture),
+        (Cancun, BlockchainFixture),
         (Paris, BlockchainEngineFixture),
         (Shanghai, BlockchainEngineFixture),
+        (Cancun, BlockchainEngineFixture),
         (Paris, StateFixture),
         (Shanghai, StateFixture),
     ],

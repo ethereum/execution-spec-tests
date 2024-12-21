@@ -108,6 +108,27 @@ class BaseForkMeta(ABCMeta):
         """
         return ""
 
+    def parent(cls) -> Type["BaseFork"] | None:
+        """
+        Returns the parent of the fork.
+        """
+        base_class = cls.__bases__[0]
+        assert issubclass(base_class, BaseFork)
+        if base_class == BaseFork:
+            return None
+        return base_class
+
+    def parents(cls) -> List[Type["BaseFork"]]:
+        """
+        To be implemented by the fork base class.
+        """
+        parents: List[Type["BaseFork"]] = []
+        parent = cls.parent()
+        while parent is not None:
+            parents.insert(0, parent)
+            parent = parent.parent()
+        return parents
+
     def __repr__(cls) -> str:
         """
         Used to properly print the name of the fork, instead of the class.
@@ -285,14 +306,6 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def header_target_blobs_per_block_required(cls, block_number: int, timestamp: int) -> bool:
-        """
-        Returns true if the header must contain target blobs per block.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
     def blob_gas_per_blob(cls, block_number: int, timestamp: int) -> int:
         """
         Returns the amount of blob gas used per blob for a given fork.
@@ -301,7 +314,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int | None:
         """
         Returns the target blobs per block for a given fork.
         """
@@ -309,7 +322,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int | None:
         """
         Returns the max blobs per block for a given fork.
         """
@@ -531,6 +544,13 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         Useful only for transition forks, and it's a no-op for normal forks.
         """
         return cls
+
+    @classmethod
+    def is_transition_fork(cls) -> bool:
+        """
+        Returns whether the fork is a transition fork or not.
+        """
+        return False
 
     @classmethod
     @abstractmethod

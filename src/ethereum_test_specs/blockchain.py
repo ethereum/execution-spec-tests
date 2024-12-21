@@ -3,7 +3,7 @@ Ethereum blockchain test spec definition and filler.
 """
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Tuple, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Mapping, Optional, Tuple, Type
 
 import pytest
 from pydantic import ConfigDict, Field, field_validator
@@ -35,12 +35,13 @@ from ethereum_test_fixtures.blockchain import (
     FixtureBlock,
     FixtureBlockBase,
     FixtureEngineNewPayload,
+    FixtureForkBlobSchedule,
     FixtureHeader,
     FixtureTransaction,
     FixtureWithdrawal,
     InvalidFixtureBlock,
 )
-from ethereum_test_forks import Fork
+from ethereum_test_forks import Fork, TransitionFork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
 
 from .base import BaseTest, verify_result
@@ -119,7 +120,6 @@ class Header(CamelModel):
     excess_blob_gas: Removable | HexNumber | None = None
     parent_beacon_block_root: Removable | Hash | None = None
     requests_hash: Removable | Hash | None = None
-    target_blobs_per_block: Removable | HexNumber | None = None
 
     REMOVE_FIELD: ClassVar[Removable] = Removable()
     """
@@ -270,8 +270,6 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
-        if not isinstance(self.target_blobs_per_block, Removable):
-            new_env_values["target_blobs_per_block"] = self.target_blobs_per_block
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
@@ -515,6 +513,36 @@ class BlockchainTest(BaseTest):
             else fork.blockchain_test_network_name()
         )
 
+    def blob_schedule(
+        self, fork: Fork | TransitionFork, eips: Optional[List[int]] = None
+    ) -> Mapping[str, FixtureForkBlobSchedule] | None:
+        """
+        Returns the blob schedule for the given fork and EIPs.
+        """
+        if fork.is_transition_fork():
+            fork: Fork = fork.transitions_to()  # type: ignore
+        blob_schedule: Dict[str, FixtureForkBlobSchedule] = {}
+        last_fork_blob_schedule: FixtureForkBlobSchedule | None = None
+        for fork in fork.parents() + [fork]:
+            if fork.target_blobs_per_block(0, 0) is None or fork.max_blobs_per_block(0, 0) is None:
+                continue
+            current_fork_blob_schedule = FixtureForkBlobSchedule(
+                target_blobs_per_block=fork.target_blobs_per_block(0, 0),
+                max_blobs_per_block=fork.max_blobs_per_block(0, 0),
+            )
+            if (
+                last_fork_blob_schedule is None
+                or current_fork_blob_schedule != last_fork_blob_schedule
+            ):
+                blob_schedule[fork.name()] = current_fork_blob_schedule
+
+            last_fork_blob_schedule = current_fork_blob_schedule
+
+        if not blob_schedule:
+            return None
+
+        return blob_schedule
+
     def verify_post_state(self, t8n, alloc: Alloc):
         """
         Verifies the post alloc after all block/s or payload/s are generated.
@@ -607,6 +635,7 @@ class BlockchainTest(BaseTest):
             last_block_hash=head,
             pre=pre,
             post_state=alloc,
+            blob_schedule=self.blob_schedule(fork, eips),
         )
 
     def make_hive_fixture(
@@ -697,6 +726,7 @@ class BlockchainTest(BaseTest):
             post_state=alloc,
             sync_payload=sync_payload,
             last_block_hash=head_hash,
+            blob_schedule=self.blob_schedule(fork, eips),
         )
 
     def generate(

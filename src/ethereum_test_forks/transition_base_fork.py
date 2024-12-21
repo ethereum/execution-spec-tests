@@ -30,6 +30,13 @@ class TransitionBaseClass:
         """
         raise Exception("Not implemented")
 
+    @classmethod
+    def is_transition_fork(cls) -> bool:
+        """
+        Returns whether the fork is a transition fork or not.
+        """
+        return True
+
 
 def base_fork_abstract_methods() -> List[str]:
     """
@@ -109,3 +116,15 @@ def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
         return NewTransitionClass
 
     return decorator
+
+
+class TransitionForkCombinedBase(TransitionBaseClass, BaseFork):
+    """
+    Combined base class
+    """
+
+    pass
+
+
+# Transition Fork Type
+TransitionFork = Type[TransitionForkCombinedBase]

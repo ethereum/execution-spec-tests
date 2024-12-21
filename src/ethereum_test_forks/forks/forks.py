@@ -252,18 +252,18 @@ class Frontier(BaseFork, solc_name="homestead"):
         return 0
 
     @classmethod
-    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int | None:
         """
         Returns the target number of blobs per block for a given fork.
         """
-        return 0
+        return None
 
     @classmethod
-    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int | None:
         """
         Returns the max number of blobs per block for a given fork.
         """
-        return 0
+        return None
 
     @classmethod
     def header_requests_required(cls, block_number: int, timestamp: int) -> bool:
@@ -285,17 +285,6 @@ class Frontier(BaseFork, solc_name="homestead"):
     def header_beacon_root_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         At genesis, header must not contain parent beacon block root
-        """
-        return False
-
-    @classmethod
-    def header_target_blobs_per_block_required(
-        cls,
-        block_number: int = 0,
-        timestamp: int = 0,
-    ) -> bool:
-        """
-        At genesis, header must not contain target blobs per block.
         """
         return False
 
@@ -1018,14 +1007,14 @@ class Cancun(Shanghai):
         return 2**17
 
     @classmethod
-    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+    def target_blobs_per_block(cls, block_number: int, timestamp: int) -> int | None:
         """
         Blobs are enabled starting from Cancun, with a static target of 3 blobs.
         """
         return 3
 
     @classmethod
-    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int:
+    def max_blobs_per_block(cls, block_number: int, timestamp: int) -> int | None:
         """
         Blobs are enabled starting from Cancun, with a static max of 6 blobs.
         """
@@ -1321,18 +1310,6 @@ class Prague(Cancun):
         """
         Prague requires that the execution layer header contains the beacon
         chain requests hash.
-        """
-        return True
-
-    @classmethod
-    def header_target_blobs_per_block_required(
-        cls,
-        block_number: int = 0,
-        timestamp: int = 0,
-    ) -> bool:
-        """
-        Prague requires that the execution layer header contains the beacon
-        chain target blobs per block.
         """
         return True
 

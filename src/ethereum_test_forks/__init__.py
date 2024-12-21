@@ -23,6 +23,7 @@ from .forks.forks import (
 )
 from .forks.transition import (
     BerlinToLondonAt5,
+    CancunToPragueAtTime15k,
     ParisToShanghaiAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
@@ -44,10 +45,12 @@ from .helpers import (
     transition_fork_from_to,
     transition_fork_to,
 )
+from .transition_base_fork import TransitionFork
 
 __all__ = [
     "Fork",
     "ForkAttribute",
+    "TransitionFork",
     "ArrowGlacier",
     "Berlin",
     "BerlinToLondonAt5",
@@ -66,6 +69,7 @@ __all__ = [
     "Shanghai",
     "ShanghaiToCancunAtTime15k",
     "Cancun",
+    "CancunToPragueAtTime15k",
     "Prague",
     "Osaka",
     "get_transition_forks",
