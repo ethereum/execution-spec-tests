@@ -61,14 +61,6 @@ def generate_system_contract_deploy_test(
             Providing a JSON file is useful to copy-paste the transaction from the EIP.
         expected_deploy_address (Address): The expected address of the deployed contract.
         expected_system_contract_storage (Dict): The expected storage of the system contract.
-        test_transaction_data (bytes): Data included in the transaction to test the system
-            contract deployment.
-            Will be executed at the fork block if the deployment is before the fork, or at the
-            next block if the deployment is after the fork.
-        test_transaction_value (int): Value included in the transaction to test the system
-            contract.
-        test_transaction_block_header_verify (Header): The block header fields to verify on the
-            block that includes the test transaction.
     """
     DeploymentTestType = Enum(
         "DeploymentTestType",
@@ -180,6 +172,9 @@ def generate_system_contract_deploy_test(
                 blocks=blocks,
                 post=post,
             )
+
+        wrapper.__name__ = func.__name__  # type: ignore
+        wrapper.__doc__ = func.__doc__  # type: ignore
 
         return wrapper
 
