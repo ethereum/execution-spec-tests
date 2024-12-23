@@ -1253,9 +1253,9 @@ class Prague(Cancun):
         """
         return [
             Address(0x00000000219AB540356CBB839CBE05303D7705FA),
-            Address(0x09FC772D0857550724B07B850A4323F39112AAAA),
-            Address(0x01ABEA29659E5E97C95107F20BB753CD3E09BBBB),
-            Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E),
+            Address(0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA),
+            Address(0x00431F263CE400F4455C2DCF564E53007CA4BBBB),
+            Address(0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC),
         ] + super(Prague, cls).system_contracts(block_number, timestamp)
 
     @classmethod
@@ -1397,7 +1397,7 @@ class Prague(Cancun):
         with open(CURRENT_FOLDER / "contracts" / "withdrawal_request.bin", mode="rb") as f:
             new_allocation.update(
                 {
-                    0x09FC772D0857550724B07B850A4323F39112AAAA: {
+                    0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA: {
                         "nonce": 1,
                         "code": f.read(),
                     },
@@ -1408,7 +1408,7 @@ class Prague(Cancun):
         with open(CURRENT_FOLDER / "contracts" / "consolidation_request.bin", mode="rb") as f:
             new_allocation.update(
                 {
-                    0x01ABEA29659E5E97C95107F20BB753CD3E09BBBB: {
+                    0x00431F263CE400F4455C2DCF564E53007CA4BBBB: {
                         "nonce": 1,
                         "code": f.read(),
                     },
@@ -1419,7 +1419,7 @@ class Prague(Cancun):
         with open(CURRENT_FOLDER / "contracts" / "history_contract.bin", mode="rb") as f:
             new_allocation.update(
                 {
-                    0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E: {
+                    0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC: {
                         "nonce": 1,
                         "code": f.read(),
                     }
