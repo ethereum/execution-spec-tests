@@ -68,7 +68,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Introduce [`fork_covariant_parametrize`](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#custom-fork-covariant-markers) helper function ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019)).
 - 🔀 Update EIP-7251 according to [spec updates](https://github.com/ethereum/EIPs/pull/9127) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024))
 - 🔀 Update EIP-7002 according to [spec updates](https://github.com/ethereum/EIPs/pull/9119) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024))
-- ✨ Disable EIP-7742 framework changes for Pectra ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023)).
+- ✨ Disable EIP-7742 framework changes for Prague ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023)).
 
 ### 🔧 EVM Tools
 
