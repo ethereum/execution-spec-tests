@@ -230,7 +230,7 @@ class EthRPC(BaseRPC):
         self, transactions: List[Transaction]
     ) -> List[TransactionByHashResponse]:
         """
-        Uses `eth_getTransactionByHash` to wait unitl all transactions in list are included in a
+        Uses `eth_getTransactionByHash` to wait until all transactions in list are included in a
         block.
         """
         tx_hashes = [tx.hash for tx in transactions]
