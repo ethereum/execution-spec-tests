@@ -20,11 +20,7 @@ from ethereum_test_base_types import (
     HexNumber,
     Number,
 )
-from ethereum_test_exceptions import (
-    BlockException,
-    EngineAPIError,
-    TransactionException,
-)
+from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
@@ -785,7 +781,7 @@ class BlockchainTest(BaseTest):
         vkt: Optional[VerkleTree] = None
 
         # Filling for verkle genesis tests
-        if fork is Verkle:
+        if fork >= Verkle:
             env.verkle_conversion_ended = True
             # convert alloc to vkt
             vkt = t8n.from_mpt_to_vkt(alloc)
@@ -807,16 +803,22 @@ class BlockchainTest(BaseTest):
                 # This is the most common case, the RLP needs to be constructed
                 # based on the transactions to be included in the block.
                 # Set the environment according to the block to execute.
-                new_env, header, txs, new_alloc, requests, new_vkt, witness = (
-                    self.generate_block_data(
-                        t8n=t8n,
-                        fork=fork,
-                        block=block,
-                        previous_env=env,
-                        previous_alloc=alloc,
-                        previous_vkt=vkt,
-                        eips=eips,
-                    )
+                (
+                    new_env,
+                    header,
+                    txs,
+                    new_alloc,
+                    requests,
+                    new_vkt,
+                    witness,
+                ) = self.generate_block_data(
+                    t8n=t8n,
+                    fork=fork,
+                    block=block,
+                    previous_env=env,
+                    previous_alloc=alloc,
+                    previous_vkt=vkt,
+                    eips=eips,
                 )
                 fixture_block = FixtureBlockBase(
                     header=header,
@@ -911,6 +913,12 @@ class BlockchainTest(BaseTest):
         env = environment_from_parent_header(genesis.header)
         head_hash = genesis.header.block_hash
         vkt: Optional[VerkleTree] = None
+
+        # Filling for verkle genesis tests
+        if fork >= Verkle:
+            env.verkle_conversion_ended = True
+            # convert alloc to vkt
+            vkt = t8n.from_mpt_to_vkt(alloc)
 
         # Hack for filling naive verkle transition tests
         if fork is EIP6800Transition:
