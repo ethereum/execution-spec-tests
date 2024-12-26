@@ -204,7 +204,7 @@ def get_release_information() -> List[ReleaseInformation]:
     """
     if CACHED_RELEASE_INFORMATION_FILE.exists():
         last_modified = CACHED_RELEASE_INFORMATION_FILE.stat().st_mtime
-        if (datetime.now().timestamp() - last_modified) < 4 * 60 * 60 or is_docker_or_ci():
+        if (datetime.now().timestamp() - last_modified) < 10 * 60 or is_docker_or_ci():
             return parse_release_information_from_file(CACHED_RELEASE_INFORMATION_FILE)
         CACHED_RELEASE_INFORMATION_FILE.unlink()
     if not CACHED_RELEASE_INFORMATION_FILE.exists():
