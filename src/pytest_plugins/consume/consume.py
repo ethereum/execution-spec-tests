@@ -3,6 +3,7 @@
 import os
 import sys
 import tarfile
+from io import BytesIO
 from pathlib import Path
 from typing import List, Literal, Union
 from urllib.parse import urlparse
@@ -62,11 +63,7 @@ def download_and_extract(url: str, base_directory: Path) -> Path:
     response = requests.get(url)
     response.raise_for_status()
 
-    archive_path = extract_to / filename
-    with open(archive_path, "wb") as file:
-        file.write(response.content)
-
-    with tarfile.open(archive_path, "r:gz") as tar:
+    with tarfile.open(fileobj=BytesIO(response.content), mode="r:gz") as tar:  # noqa: SC200
         tar.extractall(path=extract_to)
 
     return extract_to / "fixtures"
@@ -119,6 +116,16 @@ def pytest_addoption(parser):  # noqa: D103
         ),
     )
     consume_group.addoption(
+        "--cache-folder",
+        action="store",
+        dest="fixture_cache_folder",
+        default=CACHED_DOWNLOADS_DIRECTORY,
+        help=(
+            "Specify the path where the downloaded fixtures should be cached. "
+            f"Defaults to the following directory: '{CACHED_DOWNLOADS_DIRECTORY}'."
+        ),
+    )
+    consume_group.addoption(
         "--cache-only",
         action="store_true",
         dest="cache_only",
@@ -139,6 +146,7 @@ def pytest_configure(config):  # noqa: D103
     """
     input_source = config.getoption("fixture_source")
     release_source = config.getoption("fixture_release")
+    cached_downloads_directory = Path(config.getoption("fixture_cache_folder"))
 
     if input_source is not None and input_source == "stdin":
         config.fixture_source_flags = ["--input=stdin"]
@@ -156,8 +164,8 @@ def pytest_configure(config):  # noqa: D103
         input_source = default_input_directory()
 
     if is_url(input_source):
-        CACHED_DOWNLOADS_DIRECTORY.mkdir(parents=True, exist_ok=True)
-        input_source = download_and_extract(input_source, CACHED_DOWNLOADS_DIRECTORY)
+        cached_downloads_directory.mkdir(parents=True, exist_ok=True)
+        input_source = download_and_extract(input_source, cached_downloads_directory)
 
     input_source = Path(input_source)
     config.input_source = input_source
