@@ -153,7 +153,7 @@ def parse_release_information(release_information: dict) -> List[ReleaseInformat
     """
     Parse the release information from the Github API.
     """
-    return Releases.model_validate(release_information).root
+    return Releases.model_validate(release_information).root  # type: ignore
 
 
 def download_release_information(destination_file: Path | None) -> List[ReleaseInformation]:
