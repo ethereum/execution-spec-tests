@@ -331,6 +331,7 @@ perf
 permalink
 petersburg
 pformat
+platformdirs
 pluginmanager
 png
 Pomerantz

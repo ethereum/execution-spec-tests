@@ -4,9 +4,10 @@ import os
 import sys
 import tarfile
 from pathlib import Path
-from typing import Literal, Union
+from typing import List, Literal, Union
 from urllib.parse import urlparse
 
+import platformdirs
 import pytest
 import requests
 import rich
@@ -15,7 +16,11 @@ from cli.gen_index import generate_fixtures_index
 from ethereum_test_fixtures.consume import TestCases
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
-cached_downloads_directory = Path("./cached_downloads")
+from .releases import get_release_url
+
+CACHED_DOWNLOADS_DIRECTORY = (
+    Path(platformdirs.user_cache_dir("ethereum-execution-spec-tests")) / "cached_downloads"
+)
 
 JsonSource = Union[Path, Literal["stdin"]]
 
@@ -75,12 +80,25 @@ def pytest_addoption(parser):  # noqa: D103
         "--input",
         action="store",
         dest="fixture_source",
-        default=default_input_directory(),
+        default=None,
         help=(
             "Specify the JSON test fixtures source. Can be a local directory, a URL pointing to a "
             " fixtures.tar.gz archive, or one of the special keywords: 'stdin', "
             "'latest-stable', 'latest-develop'. "
             f"Defaults to the following local directory: '{default_input_directory()}'."
+        ),
+    )
+    consume_group.addoption(
+        "--release",
+        action="store",
+        dest="fixture_release",
+        default=None,
+        help=(
+            "Specify the name and, optionally, the version of the release to use as JSON test"
+            " fixtures source."
+            "If a specific version is not provided (e.g. RELEASE_NAME@v1.2.3), the latest release"
+            " will be used."
+            "Release names `stable` and `develop` are supported, as well as devnet-named releases."
         ),
     )
     consume_group.addoption(
@@ -100,6 +118,13 @@ def pytest_addoption(parser):  # noqa: D103
             "The --html flag can be used to specify a different path."
         ),
     )
+    consume_group.addoption(
+        "--cache-only",
+        action="store_true",
+        dest="cache_only",
+        default=False,
+        help=("Do not run any tests, only cache the fixtures. "),
+    )
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -112,25 +137,30 @@ def pytest_configure(config):  # noqa: D103
     called before the pytest-html plugin's pytest_configure to ensure that
     it uses the modified `htmlpath` option.
     """
-    input_flag = any(arg.startswith("--input") for arg in config.invocation_params.args)
     input_source = config.getoption("fixture_source")
+    release_source = config.getoption("fixture_release")
 
-    if input_flag and input_source == "stdin":
+    if input_source is not None and input_source == "stdin":
+        config.fixture_source_flags = ["--input=stdin"]
         config.test_cases = TestCases.from_stream(sys.stdin)
+        config.input_source = "stdin"
         return
 
-    latest_base_url = "https://github.com/ethereum/execution-spec-tests/releases/latest/download"
-    if input_source == "latest-stable-release" or input_source == "latest-stable":
-        input_source = f"{latest_base_url}/fixtures_stable.tar.gz"
-    if input_source == "latest-develop-release" or input_source == "latest-develop":
-        input_source = f"{latest_base_url}/fixtures_develop.tar.gz"
+    if release_source is not None:
+        config.fixture_source_flags = ["--release", release_source]
+        input_source = get_release_url(release_source)
+    elif input_source is not None:
+        config.fixture_source_flags = ["--input", input_source]
+    else:
+        config.fixture_source_flags = []
+        input_source = default_input_directory()
 
     if is_url(input_source):
-        cached_downloads_directory.mkdir(parents=True, exist_ok=True)
-        input_source = download_and_extract(input_source, cached_downloads_directory)
-        config.option.fixture_source = input_source
+        CACHED_DOWNLOADS_DIRECTORY.mkdir(parents=True, exist_ok=True)
+        input_source = download_and_extract(input_source, CACHED_DOWNLOADS_DIRECTORY)
 
     input_source = Path(input_source)
+    config.input_source = input_source
     if not input_source.exists():
         pytest.exit(f"Specified fixture directory '{input_source}' does not exist.")
     if not any(input_source.glob("**/*.json")):
@@ -151,9 +181,7 @@ def pytest_configure(config):  # noqa: D103
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
-        config.option.htmlpath = os.path.join(
-            config.getoption("fixture_source"), default_html_report_file_path()
-        )
+        config.option.htmlpath = os.path.join(input_source, default_html_report_file_path())
 
 
 def pytest_html_report_title(report):
@@ -163,13 +191,21 @@ def pytest_html_report_title(report):
 
 def pytest_report_header(config):  # noqa: D103
     consume_version = f"consume commit: {get_current_commit_hash_or_tag()}"
-    input_source = f"fixtures: {config.getoption('fixture_source')}"
+    input_source = f"fixtures: {config.input_source}"
     return [consume_version, input_source]
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
+def fixture_source_flags(request) -> List[str]:
+    """
+    Returns the input flags used to specify the JSON test fixtures source.
+    """
+    return request.config.fixture_source_flags
+
+
+@pytest.fixture(scope="session")
 def fixture_source(request) -> JsonSource:  # noqa: D103
-    return request.config.getoption("fixture_source")
+    return request.config.input_source
 
 
 def pytest_generate_tests(metafunc):
@@ -177,6 +213,9 @@ def pytest_generate_tests(metafunc):
     Generate test cases for every test fixture in all the JSON fixture files
     within the specified fixtures directory, or read from stdin if the directory is 'stdin'.
     """
+    if metafunc.config.getoption("cache_only"):
+        return
+
     fork = metafunc.config.getoption("single_fork")
     metafunc.parametrize(
         "test_case",
