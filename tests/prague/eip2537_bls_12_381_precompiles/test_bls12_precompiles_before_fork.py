@@ -1,7 +1,7 @@
 """
 abstract: Tests BLS12 precompiles of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
     Tests BLS12 precompiles of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    before the Prague hard fork is active
+    before the Prague hard fork is active.
 """  # noqa: E501
 
 import pytest
@@ -17,7 +17,7 @@ pytestmark = pytest.mark.valid_at_transition_to("Prague")
 
 
 @pytest.mark.parametrize(
-    "precompile_address,input",
+    "precompile_address,input_data",
     [
         pytest.param(
             Spec.G1ADD,
@@ -30,11 +30,6 @@ pytestmark = pytest.mark.valid_at_transition_to("Prague")
             id="G1MSM",
         ),
         pytest.param(
-            Spec.G1MUL,
-            Spec.INF_G1 + Scalar(0),
-            id="G1MUL",
-        ),
-        pytest.param(
             Spec.G2ADD,
             Spec.INF_G2 + Spec.INF_G2,
             id="G2ADD",
@@ -43,11 +38,6 @@ pytestmark = pytest.mark.valid_at_transition_to("Prague")
             Spec.G2MSM,
             Spec.INF_G2 + Scalar(0),
             id="G2MSM",
-        ),
-        pytest.param(
-            Spec.G2MUL,
-            Spec.INF_G2 + Scalar(0),
-            id="G2MUL",
         ),
         pytest.param(
             Spec.PAIRING,

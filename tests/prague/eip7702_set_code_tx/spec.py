@@ -1,6 +1,5 @@
-"""
-Defines EIP-7702 specification constants and functions.
-"""
+"""Defines EIP-7702 specification constants and functions."""
+
 from dataclasses import dataclass
 
 from ethereum_test_base_types import Address, Bytes
@@ -8,9 +7,7 @@ from ethereum_test_base_types import Address, Bytes
 
 @dataclass(frozen=True)
 class ReferenceSpec:
-    """
-    Defines the reference spec version and git path.
-    """
+    """Defines the reference spec version and git path."""
 
     git_path: str
     version: str
@@ -23,7 +20,7 @@ ref_spec_7702 = ReferenceSpec("EIPS/eip-7702.md", "4334df83395693dc3f629bb43c183
 class Spec:
     """
     Parameters from the EIP-7702 specifications as defined at
-    https://eips.ethereum.org/EIPS/eip-7702
+    https://eips.ethereum.org/EIPS/eip-7702.
     """
 
     SET_CODE_TX_TYPE = 0x04
@@ -34,12 +31,10 @@ class Spec:
     DELEGATION_DESIGNATION_READING = Bytes("ef01")
     RESET_DELEGATION_ADDRESS = Address(0)
 
-    MAX_CHAIN_ID = 2**64 - 1
+    MAX_AUTH_CHAIN_ID = 2**256 - 1
     MAX_NONCE = 2**64 - 1
 
     @staticmethod
     def delegation_designation(address: Address) -> Bytes:
-        """
-        Returns the delegation designation for the given address.
-        """
+        """Return delegation designation for the given address."""
         return Bytes(Spec.DELEGATION_DESIGNATION + bytes(address))

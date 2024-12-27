@@ -1,3 +1,9 @@
+femtoether
+Picoether
+microether
+milliether
+milli
+nanoether
 0xaa
 AccessListType
 Account1
@@ -27,6 +33,7 @@ basename
 bb
 besu
 bidict
+pyspecs
 big0
 big1
 bigint
@@ -169,6 +176,7 @@ filelock
 filesystem
 fillvalue
 firstlineno
+fmt
 fn
 fname
 forkchoice
@@ -371,6 +379,7 @@ rpc
 ruleset
 runtestloop
 runtime
+S12
 sandboxed
 secp256k1
 secp256k1n
@@ -423,7 +432,6 @@ TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 testrun
 textwrap
-tf
 ThreeHrSleep
 time15k
 timestamp
@@ -556,7 +564,6 @@ subcommand
 subcontainer
 substring
 substrings
-tf
 teardown
 tempdir
 testdir
