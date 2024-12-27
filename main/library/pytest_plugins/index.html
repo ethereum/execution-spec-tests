@@ -1952,6 +1952,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.fork_covariant_parametrize" class="md-nav__link">
+    <span class="md-ellipsis">
+      fork_covariant_parametrize
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -25125,6 +25134,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#pytest_plugins.fork_covariant_parametrize" class="md-nav__link">
+    <span class="md-ellipsis">
+      fork_covariant_parametrize
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -25195,6 +25213,186 @@
 
 
 
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="pytest_plugins.fork_covariant_parametrize" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">fork_covariant_parametrize</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">parameter_names</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#pytest_plugins.fork_covariant_parametrize" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Decorate a test function by fork-covariant parameters.</p>
+<p>The decorated function will be parametrized by the values returned by the <code>fn</code> function
+for each fork.</p>
+<p>If the parameters that are being parametrized is only a single parameter, the return value
+of <code>fn</code> should be a list of values for that parameter.</p>
+<p>If the parameters that are being parametrized are multiple, the return value of <code>fn</code> should
+be a list of tuples/lists, where each tuple contains the values for each parameter.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code>parameter_names</code></td>
+            <td>
+                  <code><span title="typing.List">List</span>[str] | str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Names of the parameters to be parametrized and that are covariant with
+the fork.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>fn</code></td>
+            <td>
+                  <code><span title="typing.Callable">Callable</span>[[<span title="ethereum_test_forks.Fork">Fork</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>] | <span title="typing.Iterable">Iterable</span>[<span title="typing.Any">Any</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Function that takes the fork as the single parameter and returns the values for
+the parameter for each fork.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>marks</code></td>
+            <td>
+                  <code>None | <span title="pytest.Mark">Mark</span> | <span title="pytest.MarkDecorator">MarkDecorator</span> | <span title="typing.List">List</span>[<span title="pytest.Mark">Mark</span> | <span title="pytest.MarkDecorator">MarkDecorator</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of pytest marks to apply to all test cases parametrized.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fork_covariant_parametrize</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">parameter_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Fork</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
+    <span class="n">marks</span><span class="p">:</span> <span class="kc">None</span>
+    <span class="o">|</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span>
+    <span class="o">|</span> <span class="n">pytest</span><span class="o">.</span><span class="n">MarkDecorator</span>
+    <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span> <span class="o">|</span> <span class="n">pytest</span><span class="o">.</span><span class="n">MarkDecorator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorate a test function by fork-covariant parameters.</span>
+
+<span class="sd">    The decorated function will be parametrized by the values returned by the `fn` function</span>
+<span class="sd">    for each fork.</span>
+
+<span class="sd">    If the parameters that are being parametrized is only a single parameter, the return value</span>
+<span class="sd">    of `fn` should be a list of values for that parameter.</span>
+
+<span class="sd">    If the parameters that are being parametrized are multiple, the return value of `fn` should</span>
+<span class="sd">    be a list of tuples/lists, where each tuple contains the values for each parameter.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parameter_names: Names of the parameters to be parametrized and that are covariant with</span>
+<span class="sd">            the fork.</span>
+<span class="sd">        fn: Function that takes the fork as the single parameter and returns the values for</span>
+<span class="sd">            the parameter for each fork.</span>
+<span class="sd">        marks: List of pytest marks to apply to all test cases parametrized.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">decorated_function</span><span class="p">:</span> <span class="n">FunctionType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FunctionType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decorate a test function by covariant parameters.&quot;&quot;&quot;</span>
+        <span class="n">covariant_descriptor</span> <span class="o">=</span> <span class="n">CovariantDescriptor</span><span class="p">(</span>
+            <span class="n">parameter_names</span><span class="o">=</span><span class="n">parameter_names</span><span class="p">,</span>
+            <span class="n">fn</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="n">marks</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">covariant_descriptors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CovariantDescriptor</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="n">decorated_function</span><span class="p">,</span> <span class="n">FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE</span><span class="p">,</span> <span class="p">[]</span>
+        <span class="p">)</span>
+        <span class="n">covariant_descriptors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">covariant_descriptor</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">decorated_function</span><span class="p">,</span> <span class="n">FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE</span><span class="p">,</span> <span class="n">covariant_descriptors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">decorated_function</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 

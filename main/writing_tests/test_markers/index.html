@@ -991,6 +991,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#custom-fork-covariant-markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Fork Covariant Markers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fillexecute-markers" class="md-nav__link">
     <span class="md-ellipsis">
       Fill/Execute Markers
@@ -25498,6 +25507,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#custom-fork-covariant-markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Fork Covariant Markers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fillexecute-markers" class="md-nav__link">
     <span class="md-ellipsis">
       Fill/Execute Markers
@@ -25799,6 +25817,33 @@
     <span class="o">...</span>
 </code></pre></div>
 <p>In this example, the test will be skipped if <code>tx_type</code> is equal to 1 by returning a <code>pytest.mark.skip</code> marker, and return <code>None</code> otherwise.</p>
+<h2 id="custom-fork-covariant-markers">Custom Fork Covariant Markers<a class="headerlink" href="#custom-fork-covariant-markers" title="Permanent link">&para;</a></h2>
+<p>Custom fork covariant markers can be created by using the <code>fork_covariant_parametrize</code> decorator.</p>
+<p>This decorator takes three arguments:</p>
+<ul>
+<li><code>parameter_names</code>: A list of parameter names that will be parametrized using the custom function.</li>
+<li><code>fn</code>: A function that takes the fork as parameter and returns a list of values that will be used to parametrize the test.</li>
+<li><code>marks</code>: A marker, list of markers, or a lambda function that can be used to add additional markers to the test.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">pytest_plugins</span> <span class="kn">import</span> <span class="n">fork_covariant_parametrize</span>
+
+<span class="k">def</span> <span class="nf">covariant_function</span><span class="p">(</span><span class="n">fork</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span> <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Paris&quot;</span> <span class="k">else</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]]</span>
+
+<span class="nd">@fork_covariant_parametrize</span><span class="p">(</span><span class="n">parameter_names</span><span class="o">=</span><span class="p">[</span>
+    <span class="s2">&quot;test_parameter&quot;</span><span class="p">,</span> <span class="s2">&quot;test_parameter_2&quot;</span>
+<span class="p">],</span> <span class="n">fn</span><span class="o">=</span><span class="n">covariant_function</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_until</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_case</span><span class="p">(</span><span class="n">state_test_only</span><span class="p">,</span> <span class="n">test_parameter</span><span class="p">,</span> <span class="n">test_parameter_2</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+<p>In this example, the test will be parametrized with the values <code>[1, 2]</code> and <code>[3, 4]</code> for the Paris fork, with values <code>1</code> and <code>3</code> being assigned to <code>test_parameter</code> and <code>2</code> and <code>4</code> being assigned to <code>test_parameter_2</code>. For the Shanghai fork, the test will be parametrized with the values <code>[4, 5]</code>, <code>[5, 6]</code>, and <code>[6, 7]</code>. Therefore, more test cases will be generated for the Shanghai fork.</p>
+<p>If the parameters that are being parametrized is only a single parameter, the return value of <code>fn</code> should be a list of values for that parameter.</p>
+<p>If the parameters that are being parametrized are multiple, the return value of <code>fn</code> should be a list of tuples/lists, where each tuple contains the values for each parameter.</p>
+<p>The function can also return a list of <code>pytest.param</code> objects, which allows for additional markers and test IDs to be added to the test.</p>
 <h2 id="fillexecute-markers">Fill/Execute Markers<a class="headerlink" href="#fillexecute-markers" title="Permanent link">&para;</a></h2>
 <p>These markers are used to apply different markers to a test depending on whether it is being filled or executed.</p>
 <h3 id="pytestmarkfill"><code>@pytest.mark.fill</code><a class="headerlink" href="#pytestmarkfill" title="Permanent link">&para;</a></h3>
