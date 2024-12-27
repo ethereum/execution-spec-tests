@@ -5962,12 +5962,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
     
     
       
@@ -6168,69 +6162,6 @@
   
   <span class="md-ellipsis">
     <code>test_rjumpv_full_table</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_rjumpv/test_rjumpv_full_table_mid/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_mid</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_rjumpv/test_rjumpv_full_table_end/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_end</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_rjumpv/test_rjumpv_full_table_last/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_last</code>
   </span>
   
 
@@ -25236,7 +25167,7 @@
 
 
 <h1 id="test_tangled_rjumpi"><code>test_tangled_rjumpi()</code><a class="headerlink" href="#test_tangled_rjumpi" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/419be32bfa3ccdc5de703d69da8e4a6c7109dc0c/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L864"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_tangled_rjumpi@419be32b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca912404cf7d8e95c7b06c3a5adcac4d37d7fbce/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L850"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_tangled_rjumpi@ca912404</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_tangled_rjumpi --fork Osaka</span>
@@ -25255,28 +25186,28 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">864</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">850</span>
+<span class="normal">851</span>
+<span class="normal">852</span>
+<span class="normal">853</span>
+<span class="normal">854</span>
+<span class="normal">855</span>
+<span class="normal">856</span>
+<span class="normal">857</span>
+<span class="normal">858</span>
+<span class="normal">859</span>
+<span class="normal">860</span>
+<span class="normal">861</span>
+<span class="normal">862</span>
+<span class="normal">863</span>
+<span class="normal">864</span>
 <span class="normal">865</span>
 <span class="normal">866</span>
 <span class="normal">867</span>
 <span class="normal">868</span>
 <span class="normal">869</span>
 <span class="normal">870</span>
-<span class="normal">871</span>
-<span class="normal">872</span>
-<span class="normal">873</span>
-<span class="normal">874</span>
-<span class="normal">875</span>
-<span class="normal">876</span>
-<span class="normal">877</span>
-<span class="normal">878</span>
-<span class="normal">879</span>
-<span class="normal">880</span>
-<span class="normal">881</span>
-<span class="normal">882</span>
-<span class="normal">883</span>
-<span class="normal">884</span>
-<span class="normal">885</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tangled_rjumpi</span><span class="p">(</span>
+<span class="normal">871</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tangled_rjumpi</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing tangled RJUMPI paths.&quot;&quot;&quot;</span>

@@ -5904,12 +5904,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
     
     
       
@@ -6110,69 +6104,6 @@
   
   <span class="md-ellipsis">
     <code>test_rjumpv_full_table</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../test_rjumpv_full_table_mid/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_mid</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../test_rjumpv_full_table_end/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_end</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../test_rjumpv_full_table_last/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_last</code>
   </span>
   
 
@@ -25236,7 +25167,7 @@
 
 
 <h1 id="test_rjumpv_into_eofcreate"><code>test_rjumpv_into_eofcreate()</code><a class="headerlink" href="#test_rjumpv_into_eofcreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/419be32bfa3ccdc5de703d69da8e4a6c7109dc0c/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1041"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_eofcreate@419be32b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca912404cf7d8e95c7b06c3a5adcac4d37d7fbce/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L988"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_eofcreate@ca912404</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_eofcreate --fork Osaka</span>
@@ -25251,56 +25182,49 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpv.test_rjumpv_into_eofcreate"></a>
     <div class="doc doc-contents first">
 
-      <p>EOF code containing RJUMP with target EOFCREATE immediate.</p>
+      <p>EOF code containing RJUMPV with target EOFCREATE immediate.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1041</span>
-<span class="normal">1042</span>
-<span class="normal">1043</span>
-<span class="normal">1044</span>
-<span class="normal">1045</span>
-<span class="normal">1046</span>
-<span class="normal">1047</span>
-<span class="normal">1048</span>
-<span class="normal">1049</span>
-<span class="normal">1050</span>
-<span class="normal">1051</span>
-<span class="normal">1052</span>
-<span class="normal">1053</span>
-<span class="normal">1054</span>
-<span class="normal">1055</span>
-<span class="normal">1056</span>
-<span class="normal">1057</span>
-<span class="normal">1058</span>
-<span class="normal">1059</span>
-<span class="normal">1060</span>
-<span class="normal">1061</span>
-<span class="normal">1062</span>
-<span class="normal">1063</span>
-<span class="normal">1064</span>
-<span class="normal">1065</span>
-<span class="normal">1066</span>
-<span class="normal">1067</span>
-<span class="normal">1068</span>
-<span class="normal">1069</span>
-<span class="normal">1070</span>
-<span class="normal">1071</span>
-<span class="normal">1072</span>
-<span class="normal">1073</span>
-<span class="normal">1074</span>
-<span class="normal">1075</span>
-<span class="normal">1076</span>
-<span class="normal">1077</span>
-<span class="normal">1078</span>
-<span class="normal">1079</span>
-<span class="normal">1080</span>
-<span class="normal">1081</span>
-<span class="normal">1082</span>
-<span class="normal">1083</span>
-<span class="normal">1084</span>
-<span class="normal">1085</span>
-<span class="normal">1086</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 988</span>
+<span class="normal"> 989</span>
+<span class="normal"> 990</span>
+<span class="normal"> 991</span>
+<span class="normal"> 992</span>
+<span class="normal"> 993</span>
+<span class="normal"> 994</span>
+<span class="normal"> 995</span>
+<span class="normal"> 996</span>
+<span class="normal"> 997</span>
+<span class="normal"> 998</span>
+<span class="normal"> 999</span>
+<span class="normal">1000</span>
+<span class="normal">1001</span>
+<span class="normal">1002</span>
+<span class="normal">1003</span>
+<span class="normal">1004</span>
+<span class="normal">1005</span>
+<span class="normal">1006</span>
+<span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span>
+<span class="normal">1014</span>
+<span class="normal">1015</span>
+<span class="normal">1016</span>
+<span class="normal">1017</span>
+<span class="normal">1018</span>
+<span class="normal">1019</span>
+<span class="normal">1020</span>
+<span class="normal">1021</span>
+<span class="normal">1022</span>
+<span class="normal">1023</span>
+<span class="normal">1024</span>
+<span class="normal">1025</span>
+<span class="normal">1026</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;table_size,invalid_index&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;t1i0&quot;</span><span class="p">),</span>
@@ -25313,18 +25237,15 @@
     <span class="n">table_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">invalid_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing RJUMP with target EOFCREATE immediate.&quot;&quot;&quot;</span>
-    <span class="n">invalid_destination</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing RJUMPV with target EOFCREATE immediate.&quot;&quot;&quot;</span>
+    <span class="n">invalid_destination</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">jump_table</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">)]</span>
     <span class="n">jump_table</span><span class="p">[</span><span class="n">invalid_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">invalid_destination</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="n">jump_table</span><span class="p">]</span>
-                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="n">jump_table</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span>
                     <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
@@ -25333,11 +25254,7 @@
                                 <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURNCONTRACT</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
                             <span class="p">),</span>
                             <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span>
-                                <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
-                                    <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                                        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-                                    <span class="p">]</span>
-                                <span class="p">)</span>
+                                <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
                             <span class="p">),</span>
                         <span class="p">]</span>
                     <span class="p">)</span>

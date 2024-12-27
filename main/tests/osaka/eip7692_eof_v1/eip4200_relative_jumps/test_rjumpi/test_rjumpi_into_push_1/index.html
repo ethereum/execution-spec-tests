@@ -5962,12 +5962,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
     
     
       
@@ -6168,69 +6162,6 @@
   
   <span class="md-ellipsis">
     <code>test_rjumpv_full_table</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_rjumpv/test_rjumpv_full_table_mid/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_mid</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_rjumpv/test_rjumpv_full_table_end/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_end</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_rjumpv/test_rjumpv_full_table_last/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_last</code>
   </span>
   
 
@@ -25236,7 +25167,7 @@
 
 
 <h1 id="test_rjumpi_into_push_1"><code>test_rjumpi_into_push_1()</code><a class="headerlink" href="#test_rjumpi_into_push_1" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/419be32bfa3ccdc5de703d69da8e4a6c7109dc0c/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L535"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_push_1@419be32b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca912404cf7d8e95c7b06c3a5adcac4d37d7fbce/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L529"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_push_1@ca912404</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_push_1 --fork Osaka</span>
@@ -25255,7 +25186,13 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">535</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
 <span class="normal">536</span>
 <span class="normal">537</span>
 <span class="normal">538</span>
@@ -25267,13 +25204,7 @@
 <span class="normal">544</span>
 <span class="normal">545</span>
 <span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;jump&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">JumpDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span> <span class="n">JumpDirection</span><span class="o">.</span><span class="n">BACKWARD</span><span class="p">])</span>
+<span class="normal">547</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;jump&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">JumpDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span> <span class="n">JumpDirection</span><span class="o">.</span><span class="n">BACKWARD</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_rjumpi_into_push_1</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">jump</span><span class="p">:</span> <span class="n">JumpDirection</span><span class="p">,</span>

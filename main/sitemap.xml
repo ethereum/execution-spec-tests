@@ -1891,21 +1891,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv/test_rjumpv_full_table_end/</loc>
-         <lastmod>2024-12-27</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv/test_rjumpv_full_table_last/</loc>
-         <lastmod>2024-12-27</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv/test_rjumpv_full_table_mid/</loc>
-         <lastmod>2024-12-27</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv/test_rjumpv_into_callf/</loc>
          <lastmod>2024-12-27</lastmod>
          <changefreq>daily</changefreq>

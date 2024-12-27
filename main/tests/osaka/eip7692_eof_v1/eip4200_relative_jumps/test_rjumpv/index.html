@@ -5904,12 +5904,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
     
     
       
@@ -6110,69 +6104,6 @@
   
   <span class="md-ellipsis">
     <code>test_rjumpv_full_table</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="test_rjumpv_full_table_mid/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_mid</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="test_rjumpv_full_table_end/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_end</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="test_rjumpv_full_table_last/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_rjumpv_full_table_last</code>
   </span>
   
 
@@ -25178,7 +25109,7 @@
 
 
 <h1 id="test-rjumpv">Test RJUMPV<a class="headerlink" href="#test-rjumpv" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/419be32bfa3ccdc5de703d69da8e4a6c7109dc0c/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L20"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py@419be32b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ca912404cf7d8e95c7b06c3a5adcac4d37d7fbce/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L20"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py@ca912404</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py --fork Osaka</span>
@@ -25264,25 +25195,7 @@
 <td><a href="test_rjumpv_full_table/"><code>test_rjumpv_full_table</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF1V4200_0012 (Valid) EOF with RJUMPV table size 256 (Target 0).</td>
-</tr>
-<tr>
-<td><a href="test_rjumpv_full_table_mid/"><code>test_rjumpv_full_table_mid</code></a></td>
-<td>eof_state_test</td>
-<td>0</td>
-<td>EOF1V4200_0013 (Valid) EOF with RJUMPV table size 256 (Target 100).</td>
-</tr>
-<tr>
-<td><a href="test_rjumpv_full_table_end/"><code>test_rjumpv_full_table_end</code></a></td>
-<td>eof_state_test</td>
-<td>0</td>
-<td>EOF1V4200_0014 (Valid) EOF with RJUMPV table size 256 (Target 254).</td>
-</tr>
-<tr>
-<td><a href="test_rjumpv_full_table_last/"><code>test_rjumpv_full_table_last</code></a></td>
-<td>eof_state_test</td>
-<td>0</td>
-<td>EOF1V4200_0015 (Valid) EOF with RJUMPV table size 256 (Target 256).</td>
+<td>EOF1V4200_0012/13/14/15 (Valid) EOF with RJUMPV table size 256 (target parameterized).</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_max_forwards/"><code>test_rjumpv_max_forwards</code></a></td>
@@ -25300,7 +25213,7 @@
 <td><a href="test_rjumpv_truncated/"><code>test_rjumpv_truncated</code></a></td>
 <td>eof_test</td>
 <td>6</td>
-<td>EOF1I4200_0028/29/30/31 (Invalid) EOF code containing truncated RJUMPV.</td>
+<td>EOF1I4200_0028/29/30 (Invalid) EOF code containing truncated RJUMPV.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_into_header/"><code>test_rjumpv_into_header</code></a></td>
@@ -25311,7 +25224,7 @@
 <tr>
 <td><a href="test_rjumpv_before_container/"><code>test_rjumpv_before_container</code></a></td>
 <td>eof_test</td>
-<td>3</td>
+<td>6</td>
 <td>EOF1I4200_0032 (Invalid) EOF code containing RJUMPV with target outside code bounds</td>
 </tr>
 <tr>
@@ -25420,13 +25333,13 @@
 <td><a href="test_rjumpv_into_eofcreate/"><code>test_rjumpv_into_eofcreate</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>EOF code containing RJUMP with target EOFCREATE immediate.</td>
+<td>EOF code containing RJUMPV with target EOFCREATE immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_into_returncontract/"><code>test_rjumpv_into_returncontract</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>EOF code containing RJUMP with target RETURNCONTRACT immediate.</td>
+<td>EOF code containing RJUMPV with target RETURNCONTRACT immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_backwards_reference_only/"><code>test_rjumpv_backwards_reference_only</code></a></td>
