@@ -1,6 +1,5 @@
 """Test interactions between CREATE, CREATE2, and EOFCREATE."""
 
-
 import pytest
 
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction

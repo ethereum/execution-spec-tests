@@ -1,4 +1,5 @@
 """EOF Container: check how every opcode behaves in the middle of the valid eof container code."""
+
 import itertools
 from typing import Any, Dict, Generator, List, Tuple
 

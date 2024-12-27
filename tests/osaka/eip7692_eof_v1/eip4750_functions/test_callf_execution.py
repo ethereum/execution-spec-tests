@@ -1,4 +1,5 @@
 """EOF CALLF execution tests."""
+
 import math
 
 import pytest
@@ -221,9 +222,11 @@ def test_callf(eof_state_test: EOFStateTestFiller, container: Container):
                     max_stack_height=1023,
                 ),
                 Section.Code(
-                    Op.CALLF[2] +
+                    Op.CALLF[2]
+                    +
                     # stack has 1024 items
-                    Op.POP + Op.RETF,
+                    Op.POP
+                    + Op.RETF,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=1,
@@ -248,17 +251,22 @@ def test_callf(eof_state_test: EOFStateTestFiller, container: Container):
                     max_stack_height=1022,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # stack has 1023 items
-                    Op.CALLF[2] + Op.POP + Op.RETF,
+                    Op.CALLF[2]
+                    + Op.POP
+                    + Op.RETF,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=1,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # stack has 1024 items
-                    Op.POP + Op.RETF,
+                    Op.POP
+                    + Op.RETF,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=1,
@@ -277,17 +285,22 @@ def test_callf(eof_state_test: EOFStateTestFiller, container: Container):
                     max_stack_height=1022,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # Stack has 1023 items
-                    Op.CALLF[2] + Op.POP + Op.RETF,
+                    Op.CALLF[2]
+                    + Op.POP
+                    + Op.RETF,
                     code_inputs=3,
                     code_outputs=3,
                     max_stack_height=4,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # Stack has 1024 items
-                    Op.POP + Op.RETF,
+                    Op.POP
+                    + Op.RETF,
                     code_inputs=3,
                     code_outputs=3,
                     max_stack_height=4,
@@ -366,17 +379,22 @@ def test_callf_operand_stack_size_max(eof_state_test: EOFStateTestFiller, contai
                     max_stack_height=1023,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # Stack has 1024 items
-                    Op.CALLF[2] + Op.POP + Op.RETF,
+                    Op.CALLF[2]
+                    + Op.POP
+                    + Op.RETF,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=1,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # Runtime stack overflow
-                    Op.POP + Op.RETF,
+                    Op.POP
+                    + Op.RETF,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=1,
@@ -395,17 +413,22 @@ def test_callf_operand_stack_size_max(eof_state_test: EOFStateTestFiller, contai
                     max_stack_height=1023,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # Stack has 1024 items
-                    Op.CALLF[2] + Op.POP + Op.RETF,
+                    Op.CALLF[2]
+                    + Op.POP
+                    + Op.RETF,
                     code_inputs=3,
                     code_outputs=3,
                     max_stack_height=4,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # Runtime stackoverflow
-                    Op.POP + Op.RETF,
+                    Op.POP
+                    + Op.RETF,
                     code_inputs=3,
                     code_outputs=3,
                     max_stack_height=4,

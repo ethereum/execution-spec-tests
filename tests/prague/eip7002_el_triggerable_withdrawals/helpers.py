@@ -1,4 +1,5 @@
 """Helpers for the EIP-7002 deposit tests."""
+
 from dataclasses import dataclass, field
 from functools import cached_property
 from itertools import count

@@ -1,4 +1,5 @@
 """EOF RJump tests helpers."""
+
 import itertools
 from enum import Enum
 

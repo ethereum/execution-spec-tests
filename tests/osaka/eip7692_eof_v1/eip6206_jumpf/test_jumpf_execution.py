@@ -220,9 +220,11 @@ def test_jumpf_stack_size_1024_at_push(
                     max_stack_height=0,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # stack has 1024 items
-                    Op.POP + Op.RETF,
+                    Op.POP
+                    + Op.RETF,
                     code_inputs=0,
                     code_outputs=0,
                     max_stack_height=1,
@@ -319,9 +321,11 @@ def test_jumpf_with_inputs_stack_size_1024_at_push(
                     max_stack_height=3,
                 ),
                 Section.Code(
-                    Op.PUSH0 +
+                    Op.PUSH0
+                    +
                     # Stack has 1024 items
-                    Op.POP + Op.RETF,
+                    Op.POP
+                    + Op.RETF,
                     code_inputs=3,
                     code_outputs=3,
                     max_stack_height=4,
@@ -355,9 +359,13 @@ def test_jumpf_with_inputs_stack_overflow(
                     max_stack_height=3,
                 ),
                 Section.Code(
-                    Op.PUSH0 + Op.PUSH0 +
+                    Op.PUSH0
+                    + Op.PUSH0
+                    +
                     # Runtime stackoverflow
-                    Op.POP + Op.POP + Op.RETF,
+                    Op.POP
+                    + Op.POP
+                    + Op.RETF,
                     code_inputs=3,
                     code_outputs=3,
                     max_stack_height=5,

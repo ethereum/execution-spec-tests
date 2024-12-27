@@ -1,4 +1,5 @@
 """Defines EIP-1014 specification constants and functions."""
+
 from dataclasses import dataclass
 
 

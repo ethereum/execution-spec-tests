@@ -1,4 +1,5 @@
 """Tests all EOF-only opcodes in legacy contracts and expects failure."""
+
 import pytest
 
 from ethereum_test_base_types import Account

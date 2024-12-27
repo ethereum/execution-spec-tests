@@ -1,4 +1,5 @@
 """Defines EIP-6110 specification constants and functions."""
+
 from dataclasses import dataclass
 
 

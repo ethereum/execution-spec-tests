@@ -1,4 +1,5 @@
 """Test the request types that can be included in a block by the given fork."""
+
 from typing import List
 
 import pytest

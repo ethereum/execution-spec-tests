@@ -1,4 +1,5 @@
 """EOF JumpF tests helpers."""
+
 import itertools
 
 """Storage addresses for common testing fields"""

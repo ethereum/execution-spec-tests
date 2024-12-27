@@ -1,4 +1,5 @@
 """Tests the "Address Space Extension" aspect of EXT*CALL."""
+
 import itertools
 
 import pytest

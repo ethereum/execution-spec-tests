@@ -1,6 +1,5 @@
 """EOF validation tests for EIP-3540 container format."""
 
-
 import pytest
 
 from ethereum_test_tools import EOFException, EOFTestFiller
