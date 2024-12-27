@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_eofcreate_then_call"><code>test_eofcreate_then_call()</code><a class="headerlink" href="#test_eofcreate_then_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L83"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_then_call@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L79"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_then_call@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_then_call --fork Osaka</span>
@@ -25251,11 +25251,15 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7620_eof_create.test_eofcreate.test_eofcreate_then_call"></a>
     <div class="doc doc-contents first">
 
-      <p>Verifies a simple EOFCREATE case, and then calls the deployed contract</p>
+      <p>Verifies a simple EOFCREATE case, and then calls the deployed contract.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
 <span class="normal"> 84</span>
 <span class="normal"> 85</span>
 <span class="normal"> 86</span>
@@ -25306,19 +25310,11 @@
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_then_call</span><span class="p">(</span>
+<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_then_call</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Verifies a simple EOFCREATE case, and then calls the deployed contract</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verifies a simple EOFCREATE case, and then calls the deployed contract.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">callable_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>

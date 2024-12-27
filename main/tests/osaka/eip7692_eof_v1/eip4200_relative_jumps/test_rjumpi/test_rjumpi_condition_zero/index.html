@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjumpi_condition_zero"><code>test_rjumpi_condition_zero()</code><a class="headerlink" href="#test_rjumpi_condition_zero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L132"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_zero@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L130"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_zero@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_condition_zero --fork Osaka</span>
@@ -25251,11 +25251,13 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_condition_zero"></a>
     <div class="doc doc-contents first">
 
-      <p>Test RJUMPI contract switching based on external input</p>
+      <p>Test RJUMPI contract switching based on external input.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
@@ -25285,9 +25287,7 @@
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;calldata&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;False&quot;</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x01</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)],</span>
 <span class="p">)</span>
@@ -25296,7 +25296,7 @@
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">calldata</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test RJUMPI contract switching based on external input&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test RJUMPI contract switching based on external input.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">)</span>
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>

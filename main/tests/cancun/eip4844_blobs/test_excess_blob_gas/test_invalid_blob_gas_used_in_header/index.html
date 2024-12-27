@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_invalid_blob_gas_used_in_header"><code>test_invalid_blob_gas_used_in_header()</code><a class="headerlink" href="#test_invalid_blob_gas_used_in_header" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L466"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_blob_gas_used_in_header@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L459"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_blob_gas_used_in_header@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_blob_gas_used_in_header --fork Prague</span>
@@ -25249,7 +25249,7 @@
 <a id="tests.cancun.eip4844_blobs.test_excess_blob_gas.test_invalid_blob_gas_used_in_header"></a>
     <div class="doc doc-contents first">
 
-      <p>Test rejection of blocks where the <code>blobGasUsed</code> in the header is invalid:</p>
+      <p>Test rejection of blocks where the <code>blobGasUsed</code> in the header is invalid.</p>
 <ul>
 <li><code>blobGasUsed</code> is not equal to the number of data blobs in the block</li>
 <li><code>blobGasUsed</code> is the max uint64 value</li>
@@ -25257,7 +25257,14 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">466</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
 <span class="normal">467</span>
 <span class="normal">468</span>
 <span class="normal">469</span>
@@ -25282,14 +25289,7 @@
 <span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">491</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;new_blobs,header_blob_gas_used&quot;</span><span class="p">,</span>
     <span class="n">all_invalid_blob_gas_used_combinations</span><span class="p">(),</span>
 <span class="p">)</span>
@@ -25303,7 +25303,7 @@
     <span class="n">header_blob_gas_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test rejection of blocks where the `blobGasUsed` in the header is invalid:</span>
+<span class="sd">    Test rejection of blocks where the `blobGasUsed` in the header is invalid.</span>
 
 <span class="sd">    - `blobGasUsed` is not equal to the number of data blobs in the block</span>
 <span class="sd">    - `blobGasUsed` is the max uint64 value</span>

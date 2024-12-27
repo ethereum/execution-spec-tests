@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_nonce_overflow_after_first_authorization"><code>test_nonce_overflow_after_first_authorization()</code><a class="headerlink" href="#test_nonce_overflow_after_first_authorization" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2433"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_overflow_after_first_authorization@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2395"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_overflow_after_first_authorization@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_overflow_after_first_authorization --fork Prague</span>
@@ -25254,7 +25254,45 @@ to 2**64-1 and the second would result in overflow.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2433</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2395</span>
+<span class="normal">2396</span>
+<span class="normal">2397</span>
+<span class="normal">2398</span>
+<span class="normal">2399</span>
+<span class="normal">2400</span>
+<span class="normal">2401</span>
+<span class="normal">2402</span>
+<span class="normal">2403</span>
+<span class="normal">2404</span>
+<span class="normal">2405</span>
+<span class="normal">2406</span>
+<span class="normal">2407</span>
+<span class="normal">2408</span>
+<span class="normal">2409</span>
+<span class="normal">2410</span>
+<span class="normal">2411</span>
+<span class="normal">2412</span>
+<span class="normal">2413</span>
+<span class="normal">2414</span>
+<span class="normal">2415</span>
+<span class="normal">2416</span>
+<span class="normal">2417</span>
+<span class="normal">2418</span>
+<span class="normal">2419</span>
+<span class="normal">2420</span>
+<span class="normal">2421</span>
+<span class="normal">2422</span>
+<span class="normal">2423</span>
+<span class="normal">2424</span>
+<span class="normal">2425</span>
+<span class="normal">2426</span>
+<span class="normal">2427</span>
+<span class="normal">2428</span>
+<span class="normal">2429</span>
+<span class="normal">2430</span>
+<span class="normal">2431</span>
+<span class="normal">2432</span>
+<span class="normal">2433</span>
 <span class="normal">2434</span>
 <span class="normal">2435</span>
 <span class="normal">2436</span>
@@ -25280,45 +25318,7 @@ to 2**64-1 and the second would result in overflow.</p>
 <span class="normal">2456</span>
 <span class="normal">2457</span>
 <span class="normal">2458</span>
-<span class="normal">2459</span>
-<span class="normal">2460</span>
-<span class="normal">2461</span>
-<span class="normal">2462</span>
-<span class="normal">2463</span>
-<span class="normal">2464</span>
-<span class="normal">2465</span>
-<span class="normal">2466</span>
-<span class="normal">2467</span>
-<span class="normal">2468</span>
-<span class="normal">2469</span>
-<span class="normal">2470</span>
-<span class="normal">2471</span>
-<span class="normal">2472</span>
-<span class="normal">2473</span>
-<span class="normal">2474</span>
-<span class="normal">2475</span>
-<span class="normal">2476</span>
-<span class="normal">2477</span>
-<span class="normal">2478</span>
-<span class="normal">2479</span>
-<span class="normal">2480</span>
-<span class="normal">2481</span>
-<span class="normal">2482</span>
-<span class="normal">2483</span>
-<span class="normal">2484</span>
-<span class="normal">2485</span>
-<span class="normal">2486</span>
-<span class="normal">2487</span>
-<span class="normal">2488</span>
-<span class="normal">2489</span>
-<span class="normal">2490</span>
-<span class="normal">2491</span>
-<span class="normal">2492</span>
-<span class="normal">2493</span>
-<span class="normal">2494</span>
-<span class="normal">2495</span>
-<span class="normal">2496</span>
-<span class="normal">2497</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Impossible account nonce&quot;</span><span class="p">))</span>
+<span class="normal">2459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Impossible account nonce&quot;</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">test_nonce_overflow_after_first_authorization</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

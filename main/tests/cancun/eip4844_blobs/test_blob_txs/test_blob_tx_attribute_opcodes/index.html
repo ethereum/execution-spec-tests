@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_blob_tx_attribute_opcodes"><code>test_blob_tx_attribute_opcodes()</code><a class="headerlink" href="#test_blob_tx_attribute_opcodes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blob_txs.py#L1246"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_opcodes@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blob_txs.py#L1220"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_opcodes@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_opcodes --fork Prague</span>
@@ -25249,7 +25249,7 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs.test_blob_tx_attribute_opcodes"></a>
     <div class="doc doc-contents first">
 
-      <p>Test opcodes that read transaction attributes work properly for blob type transactions:</p>
+      <p>Test opcodes that read transaction attributes work properly for blob type transactions.</p>
 <ul>
 <li>ORIGIN</li>
 <li>CALLER</li>
@@ -25257,7 +25257,33 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1246</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1220</span>
+<span class="normal">1221</span>
+<span class="normal">1222</span>
+<span class="normal">1223</span>
+<span class="normal">1224</span>
+<span class="normal">1225</span>
+<span class="normal">1226</span>
+<span class="normal">1227</span>
+<span class="normal">1228</span>
+<span class="normal">1229</span>
+<span class="normal">1230</span>
+<span class="normal">1231</span>
+<span class="normal">1232</span>
+<span class="normal">1233</span>
+<span class="normal">1234</span>
+<span class="normal">1235</span>
+<span class="normal">1236</span>
+<span class="normal">1237</span>
+<span class="normal">1238</span>
+<span class="normal">1239</span>
+<span class="normal">1240</span>
+<span class="normal">1241</span>
+<span class="normal">1242</span>
+<span class="normal">1243</span>
+<span class="normal">1244</span>
+<span class="normal">1245</span>
+<span class="normal">1246</span>
 <span class="normal">1247</span>
 <span class="normal">1248</span>
 <span class="normal">1249</span>
@@ -25284,33 +25310,7 @@
 <span class="normal">1270</span>
 <span class="normal">1271</span>
 <span class="normal">1272</span>
-<span class="normal">1273</span>
-<span class="normal">1274</span>
-<span class="normal">1275</span>
-<span class="normal">1276</span>
-<span class="normal">1277</span>
-<span class="normal">1278</span>
-<span class="normal">1279</span>
-<span class="normal">1280</span>
-<span class="normal">1281</span>
-<span class="normal">1282</span>
-<span class="normal">1283</span>
-<span class="normal">1284</span>
-<span class="normal">1285</span>
-<span class="normal">1286</span>
-<span class="normal">1287</span>
-<span class="normal">1288</span>
-<span class="normal">1289</span>
-<span class="normal">1290</span>
-<span class="normal">1291</span>
-<span class="normal">1292</span>
-<span class="normal">1293</span>
-<span class="normal">1294</span>
-<span class="normal">1295</span>
-<span class="normal">1296</span>
-<span class="normal">1297</span>
-<span class="normal">1298</span>
-<span class="normal">1299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">],</span>
     <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">],</span>
@@ -25333,7 +25333,7 @@
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test opcodes that read transaction attributes work properly for blob type transactions:</span>
+<span class="sd">    Test opcodes that read transaction attributes work properly for blob type transactions.</span>
 
 <span class="sd">    - ORIGIN</span>
 <span class="sd">    - CALLER</span>

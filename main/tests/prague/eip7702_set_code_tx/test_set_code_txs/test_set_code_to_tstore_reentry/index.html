@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_set_code_to_tstore_reentry"><code>test_set_code_to_tstore_reentry()</code><a class="headerlink" href="#test_set_code_to_tstore_reentry" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L344"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_tstore_reentry@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L336"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_tstore_reentry@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_tstore_reentry --fork Prague</span>
@@ -25254,7 +25254,15 @@ re-entry to TLOAD the value.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">344</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
 <span class="normal">345</span>
 <span class="normal">346</span>
 <span class="normal">347</span>
@@ -25304,15 +25312,7 @@ re-entry to TLOAD the value.</p>
 <span class="normal">391</span>
 <span class="normal">392</span>
 <span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;return_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span>

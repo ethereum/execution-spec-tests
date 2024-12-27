@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_return_data_cleared"><code>test_return_data_cleared()</code><a class="headerlink" href="#test_return_data_cleared" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L393"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_return_data_cleared@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L379"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_return_data_cleared@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_return_data_cleared --fork Osaka</span>
@@ -25251,11 +25251,25 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7620_eof_create.test_eofcreate.test_return_data_cleared"></a>
     <div class="doc doc-contents first">
 
-      <p>Verifies the return data is not re-used from a extcall but is cleared upon eofcreate</p>
+      <p>Verifies the return data is not re-used from a extcall but is cleared upon eofcreate.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">393</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
 <span class="normal">394</span>
 <span class="normal">395</span>
 <span class="normal">396</span>
@@ -25303,29 +25317,11 @@
 <span class="normal">438</span>
 <span class="normal">439</span>
 <span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_return_data_cleared</span><span class="p">(</span>
+<span class="normal">441</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_return_data_cleared</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Verifies the return data is not re-used from a extcall but is cleared upon eofcreate</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verifies the return data is not re-used from a extcall but is cleared upon eofcreate.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">value_return_canary</span> <span class="o">=</span> <span class="mh">0x4158675309</span>
     <span class="n">value_return_canary_size</span> <span class="o">=</span> <span class="mi">5</span>

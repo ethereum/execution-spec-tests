@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_truncated_data_portion_opcodes"><code>test_truncated_data_portion_opcodes()</code><a class="headerlink" href="#test_truncated_data_portion_opcodes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py#L462"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_truncated_data_portion_opcodes@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py#L446"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_truncated_data_portion_opcodes@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_truncated_data_portion_opcodes --fork Osaka</span>
@@ -25256,7 +25256,23 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">462</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
 <span class="normal">465</span>
@@ -25276,23 +25292,7 @@
 <span class="normal">479</span>
 <span class="normal">480</span>
 <span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">482</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;compute_max_stack_height, truncate_all, opcode&quot;</span><span class="p">,</span>
     <span class="n">valid_opcode_combinations</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data_portion_opcodes</span><span class="p">)),</span>
 <span class="p">)</span>

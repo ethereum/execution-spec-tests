@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_tload_after_tstore_is_zero"><code>test_tload_after_tstore_is_zero()</code><a class="headerlink" href="#test_tload_after_tstore_is_zero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip1153_tstore/test_tstorage.py#L135"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_tload_after_tstore_is_zero@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip1153_tstore/test_tstorage.py#L142"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_tload_after_tstore_is_zero@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage.py::test_tload_after_tstore_is_zero --fork Prague</span>
@@ -25250,18 +25250,11 @@
     <div class="doc doc-contents first">
 
       <p>Test that tload returns zero after tstore is called with zero.</p>
-<p>Based on <a href="https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/03_tloadAfterStoreIs0Filler.yml">ethereum/tests/.../03_tloadAfterStoreIs0Filler.yml</a>",  # noqa: E501</p>
+<p>Based on <a href="https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/03_tloadAfterStoreIs0Filler.yml">ethereum/tests/.../03_tloadAfterStoreIs0Filler.yml</a>",</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
@@ -25292,12 +25285,19 @@
 <span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
-<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tload_after_tstore_is_zero</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_tload_after_tstore_is_zero</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that tload returns zero after tstore is called with zero.</span>
 
-<span class="sd">    Based on [ethereum/tests/.../03_tloadAfterStoreIs0Filler.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/03_tloadAfterStoreIs0Filler.yml)&quot;,  # noqa: E501</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Based on [ethereum/tests/.../03_tloadAfterStoreIs0Filler.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/03_tloadAfterStoreIs0Filler.yml)&quot;,</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="n">slots_to_write</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">128</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>

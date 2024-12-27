@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_version_validation"><code>test_version_validation()</code><a class="headerlink" href="#test_version_validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1098"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1093"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation --fork Osaka</span>
@@ -25251,11 +25251,16 @@
 <a id="tests.osaka.eip7692_eof_v1.eip3540_eof_v1.test_container_validation.test_version_validation"></a>
     <div class="doc doc-contents first">
 
-      <p>Verify EOF container version</p>
+      <p>Verify EOF container version.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1098</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1093</span>
+<span class="normal">1094</span>
+<span class="normal">1095</span>
+<span class="normal">1096</span>
+<span class="normal">1097</span>
+<span class="normal">1098</span>
 <span class="normal">1099</span>
 <span class="normal">1100</span>
 <span class="normal">1101</span>
@@ -25263,21 +25268,12 @@
 <span class="normal">1103</span>
 <span class="normal">1104</span>
 <span class="normal">1105</span>
-<span class="normal">1106</span>
-<span class="normal">1107</span>
-<span class="normal">1108</span>
-<span class="normal">1109</span>
-<span class="normal">1110</span>
-<span class="normal">1111</span>
-<span class="normal">1112</span>
-<span class="normal">1113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
+<span class="normal">1106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_version_validation</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Verify EOF container version</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify EOF container version.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Valid version&quot;</span><span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">VALID_CONTAINER</span><span class="p">))</span>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_dynamic_create2_selfdestruct_collision_multi_tx"><code>test_dynamic_create2_selfdestruct_collision_multi_tx()</code><a class="headerlink" href="#test_dynamic_create2_selfdestruct_collision_multi_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py#L477"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py#L479"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx --fork Prague</span>
@@ -25249,7 +25249,7 @@
 <a id="tests.cancun.eip6780_selfdestruct.test_dynamic_create2_selfdestruct_collision.test_dynamic_create2_selfdestruct_collision_multi_tx"></a>
     <div class="doc doc-contents first">
 
-      <p>Dynamic Create2-&gt;Suicide-&gt;Create2 collision scenario over multiple transactions:</p>
+      <p>Dynamic Create2-&gt;Suicide-&gt;Create2 collision scenario over multiple transactions.</p>
 <p>Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
 then on a different call, in the same or different tx but same block, perform a self-destruct.
 Then:
@@ -25265,9 +25265,7 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">479</span>
 <span class="normal">480</span>
 <span class="normal">481</span>
 <span class="normal">482</span>
@@ -25500,7 +25498,10 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 <span class="normal">709</span>
 <span class="normal">710</span>
 <span class="normal">711</span>
-<span class="normal">712</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;selfdestruct_on_first_tx,recreate_on_first_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -25515,7 +25516,8 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
     <span class="n">recreate_on_first_tx</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dynamic Create2-&gt;Suicide-&gt;Create2 collision scenario over multiple transactions:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dynamic Create2-&gt;Suicide-&gt;Create2 collision scenario over multiple transactions.</span>
 
 <span class="sd">    Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,</span>
 <span class="sd">    then on a different call, in the same or different tx but same block, perform a self-destruct.</span>

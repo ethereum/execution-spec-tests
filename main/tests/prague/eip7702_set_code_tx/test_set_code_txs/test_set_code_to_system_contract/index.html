@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_set_code_to_system_contract"><code>test_set_code_to_system_contract()</code><a class="headerlink" href="#test_set_code_to_system_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2626"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2582"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract --fork Prague</span>
@@ -25253,7 +25253,51 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2626</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2582</span>
+<span class="normal">2583</span>
+<span class="normal">2584</span>
+<span class="normal">2585</span>
+<span class="normal">2586</span>
+<span class="normal">2587</span>
+<span class="normal">2588</span>
+<span class="normal">2589</span>
+<span class="normal">2590</span>
+<span class="normal">2591</span>
+<span class="normal">2592</span>
+<span class="normal">2593</span>
+<span class="normal">2594</span>
+<span class="normal">2595</span>
+<span class="normal">2596</span>
+<span class="normal">2597</span>
+<span class="normal">2598</span>
+<span class="normal">2599</span>
+<span class="normal">2600</span>
+<span class="normal">2601</span>
+<span class="normal">2602</span>
+<span class="normal">2603</span>
+<span class="normal">2604</span>
+<span class="normal">2605</span>
+<span class="normal">2606</span>
+<span class="normal">2607</span>
+<span class="normal">2608</span>
+<span class="normal">2609</span>
+<span class="normal">2610</span>
+<span class="normal">2611</span>
+<span class="normal">2612</span>
+<span class="normal">2613</span>
+<span class="normal">2614</span>
+<span class="normal">2615</span>
+<span class="normal">2616</span>
+<span class="normal">2617</span>
+<span class="normal">2618</span>
+<span class="normal">2619</span>
+<span class="normal">2620</span>
+<span class="normal">2621</span>
+<span class="normal">2622</span>
+<span class="normal">2623</span>
+<span class="normal">2624</span>
+<span class="normal">2625</span>
+<span class="normal">2626</span>
 <span class="normal">2627</span>
 <span class="normal">2628</span>
 <span class="normal">2629</span>
@@ -25338,53 +25382,7 @@
 <span class="normal">2708</span>
 <span class="normal">2709</span>
 <span class="normal">2710</span>
-<span class="normal">2711</span>
-<span class="normal">2712</span>
-<span class="normal">2713</span>
-<span class="normal">2714</span>
-<span class="normal">2715</span>
-<span class="normal">2716</span>
-<span class="normal">2717</span>
-<span class="normal">2718</span>
-<span class="normal">2719</span>
-<span class="normal">2720</span>
-<span class="normal">2721</span>
-<span class="normal">2722</span>
-<span class="normal">2723</span>
-<span class="normal">2724</span>
-<span class="normal">2725</span>
-<span class="normal">2726</span>
-<span class="normal">2727</span>
-<span class="normal">2728</span>
-<span class="normal">2729</span>
-<span class="normal">2730</span>
-<span class="normal">2731</span>
-<span class="normal">2732</span>
-<span class="normal">2733</span>
-<span class="normal">2734</span>
-<span class="normal">2735</span>
-<span class="normal">2736</span>
-<span class="normal">2737</span>
-<span class="normal">2738</span>
-<span class="normal">2739</span>
-<span class="normal">2740</span>
-<span class="normal">2741</span>
-<span class="normal">2742</span>
-<span class="normal">2743</span>
-<span class="normal">2744</span>
-<span class="normal">2745</span>
-<span class="normal">2746</span>
-<span class="normal">2747</span>
-<span class="normal">2748</span>
-<span class="normal">2749</span>
-<span class="normal">2750</span>
-<span class="normal">2751</span>
-<span class="normal">2752</span>
-<span class="normal">2753</span>
-<span class="normal">2754</span>
-<span class="normal">2755</span>
-<span class="normal">2756</span>
-<span class="normal">2757</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
+<span class="normal">2711</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
     <span class="n">selector</span><span class="o">=</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">opcode</span>
         <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">]</span>
@@ -25398,9 +25396,7 @@
     <span class="n">system_contract</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test setting the code of an account to a pre-compile address.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test setting the code of an account to a pre-compile address.&quot;&quot;&quot;</span>
     <span class="n">caller_code_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
     <span class="n">call_return_code_slot</span> <span class="o">=</span> <span class="n">caller_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span>
         <span class="n">call_return_code</span><span class="p">(</span>

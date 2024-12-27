@@ -16037,11 +16037,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25178,7 +25178,7 @@
 
 
 <h1 id="test-calls">Test Calls<a class="headerlink" href="#test-calls" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L69"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L66"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py --fork Osaka</span>
@@ -25193,7 +25193,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7069_extcall.test_calls"></a>
     <div class="doc doc-contents first">
 
-      <p>test calls across EOF and Legacy</p>
+      <p>test calls across EOF and Legacy.</p>
 
 
 
@@ -25222,73 +25222,73 @@
 <td><a href="test_legacy_calls_eof_sstore/"><code>test_legacy_calls_eof_sstore</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test legacy contracts calling EOF contracts that use SSTORE</td>
+<td>Test legacy contracts calling EOF contracts that use SSTORE.</td>
 </tr>
 <tr>
 <td><a href="test_legacy_calls_eof_mstore/"><code>test_legacy_calls_eof_mstore</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test legacy contracts calling EOF contracts that only return data</td>
+<td>Test legacy contracts calling EOF contracts that only return data.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_eof_sstore/"><code>test_eof_calls_eof_sstore</code></a></td>
 <td>state_test</td>
 <td>3</td>
-<td>Test EOF contracts calling EOF contracts that use SSTORE</td>
+<td>Test EOF contracts calling EOF contracts that use SSTORE.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_eof_mstore/"><code>test_eof_calls_eof_mstore</code></a></td>
 <td>state_test</td>
 <td>3</td>
-<td>Test EOF contracts calling EOF contracts that return data</td>
+<td>Test EOF contracts calling EOF contracts that return data.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_precompile/"><code>test_eof_calls_precompile</code></a></td>
 <td>state_test</td>
 <td>9</td>
-<td>Test EOF contracts calling precompiles</td>
+<td>Test EOF contracts calling precompiles.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_legacy_sstore/"><code>test_eof_calls_legacy_sstore</code></a></td>
 <td>state_test</td>
 <td>3</td>
-<td>Test EOF contracts calling Legacy contracts that use SSTORE</td>
+<td>Test EOF contracts calling Legacy contracts that use SSTORE.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_legacy_mstore/"><code>test_eof_calls_legacy_mstore</code></a></td>
 <td>state_test</td>
 <td>3</td>
-<td>Test EOF contracts calling Legacy contracts that return data</td>
+<td>Test EOF contracts calling Legacy contracts that return data.</td>
 </tr>
 <tr>
 <td><a href="test_callee_fails/"><code>test_callee_fails</code></a></td>
 <td>state_test</td>
 <td>21</td>
-<td>Test EOF contracts calling contracts that fail for various reasons</td>
+<td>Test EOF contracts calling contracts that fail for various reasons.</td>
 </tr>
 <tr>
 <td><a href="test_callee_context/"><code>test_callee_context</code></a></td>
 <td>state_test</td>
 <td>24</td>
-<td>Test EOF calls' callee context instructions</td>
+<td>Test EOF calls' callee context instructions.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_eof_then_fails/"><code>test_eof_calls_eof_then_fails</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test EOF contracts calling EOF contracts and failing after the call</td>
+<td>Test EOF contracts calling EOF contracts and failing after the call.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_clear_return_buffer/"><code>test_eof_calls_clear_return_buffer</code></a></td>
 <td>state_test</td>
 <td>36</td>
-<td>Test EOF contracts calling clears returndata buffer</td>
+<td>Test EOF contracts calling clears returndata buffer.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_static_flag_with_value/"><code>test_eof_calls_static_flag_with_value</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test EOF contracts calls handle static flag and sending value correctly</td>
+<td>Test EOF contracts calls handle static flag and sending value correctly.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_min_callee_gas/"><code>test_eof_calls_min_callee_gas</code></a></td>
@@ -25300,7 +25300,7 @@
 <td><a href="test_eof_calls_with_value/"><code>test_eof_calls_with_value</code></a></td>
 <td>state_test</td>
 <td>16</td>
-<td>Test EOF contracts calls handle value calls with and without enough balance</td>
+<td>Test EOF contracts calls handle value calls with and without enough balance.</td>
 </tr>
 <tr>
 <td><a href="test_eof_calls_msg_depth/"><code>test_eof_calls_msg_depth</code></a></td>

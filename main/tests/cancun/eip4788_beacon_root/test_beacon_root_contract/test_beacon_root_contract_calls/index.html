@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_beacon_root_contract_calls"><code>test_beacon_root_contract_calls()</code><a class="headerlink" href="#test_beacon_root_contract_calls" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L46"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L46"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_calls --fork Prague</span>
@@ -25257,7 +25257,7 @@
 for different call gas amounts:
 - exact gas (valid call)
 - extra gas (valid call)
-- insufficient gas (invalid call)</p>
+- insufficient gas (invalid call).</p>
 <p>The expected result is that the contract call will be executed if the gas amount is met
 and return the correct<code>parent_beacon_block_root</code>. Otherwise the call will be invalid, and not
 be executed. This is highlighted within storage by storing the return value of each call
@@ -25346,7 +25346,7 @@ context.</p>
 <span class="sd">    for different call gas amounts:</span>
 <span class="sd">    - exact gas (valid call)</span>
 <span class="sd">    - extra gas (valid call)</span>
-<span class="sd">    - insufficient gas (invalid call)</span>
+<span class="sd">    - insufficient gas (invalid call).</span>
 
 <span class="sd">    The expected result is that the contract call will be executed if the gas amount is met</span>
 <span class="sd">    and return the correct`parent_beacon_block_root`. Otherwise the call will be invalid, and not</span>

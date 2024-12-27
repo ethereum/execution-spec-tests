@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25252,7 +25252,7 @@
 
 
 <h1 id="test_contract_creation"><code>test_contract_creation()</code><a class="headerlink" href="#test_contract_creation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py#L179"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py#L187"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation --fork Prague</span>
@@ -25268,26 +25268,15 @@
     <div class="doc doc-contents first">
 
 
-      <p>Test transient storage in contract creation contexts:</p>
-<ul>
-<li>TSTORE/TLOAD in initcode should not be able to access the creator's transient storage.</li>
-<li>TSTORE/TLOAD in initcode should be able to access the created contract's transient
-    storage.</li>
-<li>TSTORE/TLOAD in creator contract should be able to use its own transient storage.</li>
-</ul>
+      <p>Test transient storage in contract creation contexts.
+- TSTORE/TLOAD in initcode should not be able to access the creator's transient storage.
+- TSTORE/TLOAD in initcode should be able to access the created contract's transient
+    storage.
+- TSTORE/TLOAD in creator contract should be able to use its own transient storage.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
@@ -25382,12 +25371,17 @@
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="nd">@InitcodeTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">class</span> <span class="nc">TestTransientStorageInContractCreation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test transient storage in contract creation contexts:</span>
-
+<span class="sd">    Test transient storage in contract creation contexts.</span>
 <span class="sd">    - TSTORE/TLOAD in initcode should not be able to access the creator&#39;s transient storage.</span>
 <span class="sd">    - TSTORE/TLOAD in initcode should be able to access the created contract&#39;s transient</span>
 <span class="sd">        storage.</span>
@@ -25427,7 +25421,7 @@
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">creator_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">creator_contract_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The address that creates the contract with create/create2&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Address that creates the contract with create/create2.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">creator_contract_code</span><span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
@@ -25457,9 +25451,7 @@
         <span class="n">expected_creator_storage</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">expected_storage</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Test transient storage in contract creation contexts.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test transient storage in contract creation contexts.&quot;&quot;&quot;</span>
         <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
         <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
@@ -25515,15 +25507,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
@@ -25555,7 +25539,13 @@
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
-<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -25566,9 +25556,7 @@
     <span class="n">expected_creator_storage</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">expected_storage</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test transient storage in contract creation contexts.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test transient storage in contract creation contexts.&quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

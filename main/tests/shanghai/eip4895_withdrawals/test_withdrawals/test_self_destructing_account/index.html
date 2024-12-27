@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_self_destructing_account"><code>test_self_destructing_account()</code><a class="headerlink" href="#test_self_destructing_account" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L360"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_self_destructing_account@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L352"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_self_destructing_account@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_self_destructing_account --fork Prague</span>
@@ -25255,7 +25255,15 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">360</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
 <span class="normal">361</span>
 <span class="normal">362</span>
 <span class="normal">363</span>
@@ -25297,15 +25305,7 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
 <span class="normal">399</span>
 <span class="normal">400</span>
 <span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
-<span class="normal">404</span>
-<span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
-<span class="normal">410</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_self_destructing_account</span><span class="p">(</span>
+<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_self_destructing_account</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>

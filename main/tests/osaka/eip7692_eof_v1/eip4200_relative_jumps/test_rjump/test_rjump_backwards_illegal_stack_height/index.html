@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjump_backwards_illegal_stack_height"><code>test_rjump_backwards_illegal_stack_height()</code><a class="headerlink" href="#test_rjump_backwards_illegal_stack_height" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L696"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_backwards_illegal_stack_height@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L690"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_backwards_illegal_stack_height@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_backwards_illegal_stack_height --fork Osaka</span>
@@ -25251,11 +25251,17 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjump.test_rjump_backwards_illegal_stack_height"></a>
     <div class="doc doc-contents first">
 
-      <p>Invalid backward jump, found via fuzzing coverage</p>
+      <p>Invalid backward jump, found via fuzzing coverage.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">696</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">690</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
 <span class="normal">697</span>
 <span class="normal">698</span>
 <span class="normal">699</span>
@@ -25266,20 +25272,10 @@
 <span class="normal">704</span>
 <span class="normal">705</span>
 <span class="normal">706</span>
-<span class="normal">707</span>
-<span class="normal">708</span>
-<span class="normal">709</span>
-<span class="normal">710</span>
-<span class="normal">711</span>
-<span class="normal">712</span>
-<span class="normal">713</span>
-<span class="normal">714</span>
-<span class="normal">715</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_backwards_illegal_stack_height</span><span class="p">(</span>
+<span class="normal">707</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_backwards_illegal_stack_height</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Invalid backward jump, found via fuzzing coverage</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Invalid backward jump, found via fuzzing coverage.&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
             <span class="n">code</span><span class="o">=</span><span class="p">(</span>

@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce"><code>test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce()</code><a class="headerlink" href="#test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1860"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1827"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce --fork Prague</span>
@@ -25254,7 +25254,40 @@ and each authorization tuple has an increasing nonce, therefore the last tuple i
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1860</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1827</span>
+<span class="normal">1828</span>
+<span class="normal">1829</span>
+<span class="normal">1830</span>
+<span class="normal">1831</span>
+<span class="normal">1832</span>
+<span class="normal">1833</span>
+<span class="normal">1834</span>
+<span class="normal">1835</span>
+<span class="normal">1836</span>
+<span class="normal">1837</span>
+<span class="normal">1838</span>
+<span class="normal">1839</span>
+<span class="normal">1840</span>
+<span class="normal">1841</span>
+<span class="normal">1842</span>
+<span class="normal">1843</span>
+<span class="normal">1844</span>
+<span class="normal">1845</span>
+<span class="normal">1846</span>
+<span class="normal">1847</span>
+<span class="normal">1848</span>
+<span class="normal">1849</span>
+<span class="normal">1850</span>
+<span class="normal">1851</span>
+<span class="normal">1852</span>
+<span class="normal">1853</span>
+<span class="normal">1854</span>
+<span class="normal">1855</span>
+<span class="normal">1856</span>
+<span class="normal">1857</span>
+<span class="normal">1858</span>
+<span class="normal">1859</span>
+<span class="normal">1860</span>
 <span class="normal">1861</span>
 <span class="normal">1862</span>
 <span class="normal">1863</span>
@@ -25265,40 +25298,7 @@ and each authorization tuple has an increasing nonce, therefore the last tuple i
 <span class="normal">1868</span>
 <span class="normal">1869</span>
 <span class="normal">1870</span>
-<span class="normal">1871</span>
-<span class="normal">1872</span>
-<span class="normal">1873</span>
-<span class="normal">1874</span>
-<span class="normal">1875</span>
-<span class="normal">1876</span>
-<span class="normal">1877</span>
-<span class="normal">1878</span>
-<span class="normal">1879</span>
-<span class="normal">1880</span>
-<span class="normal">1881</span>
-<span class="normal">1882</span>
-<span class="normal">1883</span>
-<span class="normal">1884</span>
-<span class="normal">1885</span>
-<span class="normal">1886</span>
-<span class="normal">1887</span>
-<span class="normal">1888</span>
-<span class="normal">1889</span>
-<span class="normal">1890</span>
-<span class="normal">1891</span>
-<span class="normal">1892</span>
-<span class="normal">1893</span>
-<span class="normal">1894</span>
-<span class="normal">1895</span>
-<span class="normal">1896</span>
-<span class="normal">1897</span>
-<span class="normal">1898</span>
-<span class="normal">1899</span>
-<span class="normal">1900</span>
-<span class="normal">1901</span>
-<span class="normal">1902</span>
-<span class="normal">1903</span>
-<span class="normal">1904</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce</span><span class="p">(</span>
+<span class="normal">1871</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_set_code_multiple_valid_authorization_tuples_same_signer_increasing_nonce</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>

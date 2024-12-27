@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_valid_tx_invalid_auth_signature"><code>test_valid_tx_invalid_auth_signature()</code><a class="headerlink" href="#test_valid_tx_invalid_auth_signature" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2151"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2114"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature --fork Prague</span>
@@ -25254,7 +25254,44 @@ the transaction is valid but the authorization should not go through.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2151</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2114</span>
+<span class="normal">2115</span>
+<span class="normal">2116</span>
+<span class="normal">2117</span>
+<span class="normal">2118</span>
+<span class="normal">2119</span>
+<span class="normal">2120</span>
+<span class="normal">2121</span>
+<span class="normal">2122</span>
+<span class="normal">2123</span>
+<span class="normal">2124</span>
+<span class="normal">2125</span>
+<span class="normal">2126</span>
+<span class="normal">2127</span>
+<span class="normal">2128</span>
+<span class="normal">2129</span>
+<span class="normal">2130</span>
+<span class="normal">2131</span>
+<span class="normal">2132</span>
+<span class="normal">2133</span>
+<span class="normal">2134</span>
+<span class="normal">2135</span>
+<span class="normal">2136</span>
+<span class="normal">2137</span>
+<span class="normal">2138</span>
+<span class="normal">2139</span>
+<span class="normal">2140</span>
+<span class="normal">2141</span>
+<span class="normal">2142</span>
+<span class="normal">2143</span>
+<span class="normal">2144</span>
+<span class="normal">2145</span>
+<span class="normal">2146</span>
+<span class="normal">2147</span>
+<span class="normal">2148</span>
+<span class="normal">2149</span>
+<span class="normal">2150</span>
+<span class="normal">2151</span>
 <span class="normal">2152</span>
 <span class="normal">2153</span>
 <span class="normal">2154</span>
@@ -25289,44 +25326,7 @@ the transaction is valid but the authorization should not go through.</p>
 <span class="normal">2183</span>
 <span class="normal">2184</span>
 <span class="normal">2185</span>
-<span class="normal">2186</span>
-<span class="normal">2187</span>
-<span class="normal">2188</span>
-<span class="normal">2189</span>
-<span class="normal">2190</span>
-<span class="normal">2191</span>
-<span class="normal">2192</span>
-<span class="normal">2193</span>
-<span class="normal">2194</span>
-<span class="normal">2195</span>
-<span class="normal">2196</span>
-<span class="normal">2197</span>
-<span class="normal">2198</span>
-<span class="normal">2199</span>
-<span class="normal">2200</span>
-<span class="normal">2201</span>
-<span class="normal">2202</span>
-<span class="normal">2203</span>
-<span class="normal">2204</span>
-<span class="normal">2205</span>
-<span class="normal">2206</span>
-<span class="normal">2207</span>
-<span class="normal">2208</span>
-<span class="normal">2209</span>
-<span class="normal">2210</span>
-<span class="normal">2211</span>
-<span class="normal">2212</span>
-<span class="normal">2213</span>
-<span class="normal">2214</span>
-<span class="normal">2215</span>
-<span class="normal">2216</span>
-<span class="normal">2217</span>
-<span class="normal">2218</span>
-<span class="normal">2219</span>
-<span class="normal">2220</span>
-<span class="normal">2221</span>
-<span class="normal">2222</span>
-<span class="normal">2223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;v,r,s&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># V</span>

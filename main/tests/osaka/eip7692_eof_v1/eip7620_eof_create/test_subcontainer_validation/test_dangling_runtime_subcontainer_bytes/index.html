@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_dangling_runtime_subcontainer_bytes"><code>test_dangling_runtime_subcontainer_bytes()</code><a class="headerlink" href="#test_dangling_runtime_subcontainer_bytes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L814"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_runtime_subcontainer_bytes@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L810"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_runtime_subcontainer_bytes@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_runtime_subcontainer_bytes --fork Osaka</span>
@@ -25255,7 +25255,11 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">814</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span>
 <span class="normal">815</span>
 <span class="normal">816</span>
 <span class="normal">817</span>
@@ -25267,11 +25271,7 @@
 <span class="normal">823</span>
 <span class="normal">824</span>
 <span class="normal">825</span>
-<span class="normal">826</span>
-<span class="normal">827</span>
-<span class="normal">828</span>
-<span class="normal">829</span>
-<span class="normal">830</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dangling_runtime_subcontainer_bytes</span><span class="p">(</span>
+<span class="normal">826</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dangling_runtime_subcontainer_bytes</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Runtime mode EOF Subcontainer test with subcontainer containing dangling bytes.&quot;&quot;&quot;</span>

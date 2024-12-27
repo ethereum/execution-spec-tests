@@ -16039,11 +16039,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25169,56 +25169,38 @@
 <tbody>
 <tr>
 <td>1</td>
-<td><code>fname8 tests</code></td>
-<td>Spell check passes using the <code>./whitelist.txt</code> dictionary file.</td>
+<td><code>ruff check tests</code></td>
+<td>Python lint, format and imports check.</td>
 </tr>
 <tr>
 <td>2</td>
-<td><code>isort tests --check --diff</code></td>
-<td>Python imports ordered and arranged according to isort's standards.</td>
-</tr>
-<tr>
-<td>3</td>
-<td><code>black tests --check --diff</code></td>
-<td>Python source must be black-formatted.</td>
-</tr>
-<tr>
-<td>4</td>
-<td><code>flake8 tests</code></td>
-<td>Python lint and spell-checked.</td>
-</tr>
-<tr>
-<td>5</td>
 <td><code>mypy tests</code></td>
 <td>Objects that provide typehints pass type-checking via mypy.</td>
 </tr>
 <tr>
-<td>6</td>
+<td>3</td>
 <td><code>fill</code></td>
 <td>All tests must execute correctly.</td>
 </tr>
 <tr>
-<td>7</td>
+<td>4</td>
 <td><code>mkdocs build --strict</code></td>
 <td>Documentation generated without warnings.</td>
 </tr>
 <tr>
-<td>8</td>
+<td>5</td>
 <td><code>pyspelling</code></td>
 <td>Markdown spell-check.</td>
 </tr>
 <tr>
-<td>9</td>
+<td>6</td>
 <td><code>markdownlint-cli2</code></td>
 <td>Markdown lint check.</td>
 </tr>
 </tbody>
 </table>
-<p>While this seems like a long list, a correctly configured editor (see <a href="../../getting_started/setup_vs_code/">VS Code Setup</a>) essentially assures:</p>
-<ol>
-<li>Points 2 and 3 are automatically covered.</li>
-<li>Points 1, 4, 5, 8 &amp; 9 are mostly covered. Additionally, if you skip type hints, they won't be checked; we can help you add these in the PR.</li>
-</ol>
+<p>While this seems like a long list, a correctly configured editor (see <a href="../../getting_started/setup_vs_code/">VS Code Setup</a>) essentially assures that all points are mostly covered.</p>
+<p>Additionally, if you skip type hints, they won't be checked; we can help you add these in the PR.</p>
 <p>These checks must pass in order for the execution-spec-tests Github Actions to pass upon pushing to remote.</p>
 <div class="admonition info">
 <p class="admonition-title">Running the checks with tox</p>
@@ -25251,7 +25233,8 @@
     <nav>
       
         <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
-        <a href="mailto:165581775+redistay@users.noreply.github.com">redistay</a>
+        <a href="mailto:165581775+redistay@users.noreply.github.com">redistay</a>, 
+        <a href="mailto:spencer.taylor-brown@ethereum.org">spencer</a>
     </nav>
   </span>
 

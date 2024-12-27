@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_correct_decreasing_blob_gas_costs"><code>test_correct_decreasing_blob_gas_costs()</code><a class="headerlink" href="#test_correct_decreasing_blob_gas_costs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L390"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_decreasing_blob_gas_costs@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L385"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_decreasing_blob_gas_costs@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_correct_decreasing_blob_gas_costs --fork Prague</span>
@@ -25255,7 +25255,12 @@ value points where the cost decreases to interesting amounts.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">390</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
 <span class="normal">391</span>
 <span class="normal">392</span>
 <span class="normal">393</span>
@@ -25276,14 +25281,9 @@ value points where the cost decreases to interesting amounts.</p>
 <span class="normal">408</span>
 <span class="normal">409</span>
 <span class="normal">410</span>
-<span class="normal">411</span>
-<span class="normal">412</span>
-<span class="normal">413</span>
-<span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">411</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
-    <span class="p">[</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">BLOB_GAS_COST_INCREASES</span><span class="p">],</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">BLOB_GAS_COST_INCREASES</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;parent_blobs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;new_blobs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>

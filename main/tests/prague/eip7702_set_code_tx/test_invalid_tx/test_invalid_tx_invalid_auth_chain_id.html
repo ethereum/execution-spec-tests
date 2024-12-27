@@ -1,7 +1,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test_invalid_tx_invalid_chain_id()</title>
+    <title>test_invalid_tx_invalid_auth_chain_id()</title>
     <link rel="icon" href="/execution-spec-tests/main/img/ETH-logo-icon.svg" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="/execution-spec-tests/main/stylesheets/custom.css">
 </head>
 <div class="stand_alone_container">
-        <h1>Test Function: <code>test_invalid_tx_invalid_chain_id()</code></h1>
+        <h1>Test Function: <code>test_invalid_tx_invalid_auth_chain_id()</code></h1>
         <p>Test sending a transaction where the chain id field of an authorization overflows the</p>
-    <p><a href="./test_invalid_tx_invalid_chain_id/">Back to <code>test_invalid_tx_invalid_chain_id()</code></a>.</p>
+    <p><a href="./test_invalid_tx_invalid_auth_chain_id/">Back to <code>test_invalid_tx_invalid_auth_chain_id()</code></a>.</p>
         <h2>Parametrized Test Cases</h2>
     <div class="control_panel">
     <div class="panel_row filters">
@@ -57,25 +57,15 @@
         <tr>
             <th>Test ID (Abbreviated)</th>
                         <th>delegate_address</th>
-                        <th>chain_id</th>
+                        <th>auth_chain_id</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Prague" data-fixture="transaction_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Prague-transaction_test-reset_delegation_address-chain_id=2**64]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Prague-transaction_test-reset_delegation_address-chain_id=2**64]">
-                    ...fork_Prague-transaction_test-reset_delegation_address-chain_id=2**64
-                </abbr>
-            </td>
-                        <td><code>0x000000000000000000000000000000</code> <code>0000000000</code></td>
-                        <td>18446744073709551616</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="transaction_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Prague-transaction_test-reset_delegation_address-chain_id=2**256]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Prague-transaction_test-reset_delegation_address-chain_id=2**256]">
-                    ...fork_Prague-transaction_test-reset_delegation_address-chain_id=2**256
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_auth_chain_id[fork_Prague-transaction_test-reset_delegation_address-auth_chain_id=2**256]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_auth_chain_id[fork_Prague-transaction_test-reset_delegation_address-auth_chain_id=2**256]">
+                    ...fork_Prague-transaction_test-reset_delegation_address-auth_chain_id=2**256
                 </abbr>
             </td>
                         <td><code>0x000000000000000000000000000000</code> <code>0000000000</code></td>
@@ -84,18 +74,8 @@
                 <tr data-fork="Prague" data-fixture="transaction_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Prague-transaction_test-non_zero_address-chain_id=2**64]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Prague-transaction_test-non_zero_address-chain_id=2**64]">
-                    ...fork_Prague-transaction_test-non_zero_address-chain_id=2**64
-                </abbr>
-            </td>
-                        <td><code>0x000000000000000000000000000000</code> <code>0000000001</code></td>
-                        <td>18446744073709551616</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="transaction_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Prague-transaction_test-non_zero_address-chain_id=2**256]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Prague-transaction_test-non_zero_address-chain_id=2**256]">
-                    ...fork_Prague-transaction_test-non_zero_address-chain_id=2**256
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_auth_chain_id[fork_Prague-transaction_test-non_zero_address-auth_chain_id=2**256]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_auth_chain_id[fork_Prague-transaction_test-non_zero_address-auth_chain_id=2**256]">
+                    ...fork_Prague-transaction_test-non_zero_address-auth_chain_id=2**256
                 </abbr>
             </td>
                         <td><code>0x000000000000000000000000000000</code> <code>0000000001</code></td>
@@ -104,18 +84,8 @@
                 <tr data-fork="Osaka" data-fixture="transaction_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Osaka-transaction_test-reset_delegation_address-chain_id=2**64]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Osaka-transaction_test-reset_delegation_address-chain_id=2**64]">
-                    ...fork_Osaka-transaction_test-reset_delegation_address-chain_id=2**64
-                </abbr>
-            </td>
-                        <td><code>0x000000000000000000000000000000</code> <code>0000000000</code></td>
-                        <td>18446744073709551616</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="transaction_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Osaka-transaction_test-reset_delegation_address-chain_id=2**256]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Osaka-transaction_test-reset_delegation_address-chain_id=2**256]">
-                    ...fork_Osaka-transaction_test-reset_delegation_address-chain_id=2**256
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_auth_chain_id[fork_Osaka-transaction_test-reset_delegation_address-auth_chain_id=2**256]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_auth_chain_id[fork_Osaka-transaction_test-reset_delegation_address-auth_chain_id=2**256]">
+                    ...fork_Osaka-transaction_test-reset_delegation_address-auth_chain_id=2**256
                 </abbr>
             </td>
                         <td><code>0x000000000000000000000000000000</code> <code>0000000000</code></td>
@@ -124,18 +94,8 @@
                 <tr data-fork="Osaka" data-fixture="transaction_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Osaka-transaction_test-non_zero_address-chain_id=2**64]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Osaka-transaction_test-non_zero_address-chain_id=2**64]">
-                    ...fork_Osaka-transaction_test-non_zero_address-chain_id=2**64
-                </abbr>
-            </td>
-                        <td><code>0x000000000000000000000000000000</code> <code>0000000001</code></td>
-                        <td>18446744073709551616</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="transaction_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Osaka-transaction_test-non_zero_address-chain_id=2**256]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_chain_id[fork_Osaka-transaction_test-non_zero_address-chain_id=2**256]">
-                    ...fork_Osaka-transaction_test-non_zero_address-chain_id=2**256
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_auth_chain_id[fork_Osaka-transaction_test-non_zero_address-auth_chain_id=2**256]" title="tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_auth_chain_id[fork_Osaka-transaction_test-non_zero_address-auth_chain_id=2**256]">
+                    ...fork_Osaka-transaction_test-non_zero_address-auth_chain_id=2**256
                 </abbr>
             </td>
                         <td><code>0x000000000000000000000000000000</code> <code>0000000001</code></td>

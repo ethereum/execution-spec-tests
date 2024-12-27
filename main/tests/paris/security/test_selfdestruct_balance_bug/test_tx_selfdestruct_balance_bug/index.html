@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_tx_selfdestruct_balance_bug"><code>test_tx_selfdestruct_balance_bug()</code><a class="headerlink" href="#test_tx_selfdestruct_balance_bug" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/paris/security/test_selfdestruct_balance_bug.py#L29"><code>tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/paris/security/test_selfdestruct_balance_bug.py#L29"><code>tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/paris/security/test_selfdestruct_balance_bug.py::test_tx_selfdestruct_balance_bug --fork Prague</span>
@@ -25250,7 +25250,7 @@
     <div class="doc doc-contents first">
 
       <p>Test that the vulnerability is not present by checking the balance of the
-<code>0xaa</code> contract after executing specific transactions:</p>
+<code>0xaa</code> contract after executing specific transactions.</p>
 <ol>
 <li>
 <p>Start with contract <code>0xaa</code> which has initial balance of 3 wei.
@@ -25401,7 +25401,7 @@
 <span class="k">def</span> <span class="nf">test_tx_selfdestruct_balance_bug</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that the vulnerability is not present by checking the balance of the</span>
-<span class="sd">    `0xaa` contract after executing specific transactions:</span>
+<span class="sd">    `0xaa` contract after executing specific transactions.</span>
 
 <span class="sd">    1. Start with contract `0xaa` which has initial balance of 3 wei.</span>
 <span class="sd">        `0xaa` contract code simply performs a self-destruct to itself.</span>

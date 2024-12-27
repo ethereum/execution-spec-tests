@@ -16093,11 +16093,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_block_hashes_history"><code>test_block_hashes_history()</code><a class="headerlink" href="#test_block_hashes_history" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py#L190"><code>tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py::test_block_hashes_history@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py#L199"><code>tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py::test_block_hashes_history@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py::test_block_hashes_history --fork Prague</span>
@@ -25256,16 +25256,7 @@ new one.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
@@ -25365,7 +25356,16 @@ new one.</p>
 <span class="normal">296</span>
 <span class="normal">297</span>
 <span class="normal">298</span>
-<span class="normal">299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;block_count,check_contract_first&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;single_block_check_blockhash_first&quot;</span><span class="p">),</span>

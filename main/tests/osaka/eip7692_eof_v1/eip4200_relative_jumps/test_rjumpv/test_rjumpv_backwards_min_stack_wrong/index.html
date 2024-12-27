@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjumpv_backwards_min_stack_wrong"><code>test_rjumpv_backwards_min_stack_wrong()</code><a class="headerlink" href="#test_rjumpv_backwards_min_stack_wrong" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1183"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_backwards_min_stack_wrong@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1175"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_backwards_min_stack_wrong@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_backwards_min_stack_wrong --fork Osaka</span>
@@ -25251,11 +25251,19 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpv.test_rjumpv_backwards_min_stack_wrong"></a>
     <div class="doc doc-contents first">
 
-      <p>Backwards rjumpv where min_stack does not match</p>
+      <p>Backwards rjumpv where min_stack does not match.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1183</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1175</span>
+<span class="normal">1176</span>
+<span class="normal">1177</span>
+<span class="normal">1178</span>
+<span class="normal">1179</span>
+<span class="normal">1180</span>
+<span class="normal">1181</span>
+<span class="normal">1182</span>
+<span class="normal">1183</span>
 <span class="normal">1184</span>
 <span class="normal">1185</span>
 <span class="normal">1186</span>
@@ -25266,22 +25274,10 @@
 <span class="normal">1191</span>
 <span class="normal">1192</span>
 <span class="normal">1193</span>
-<span class="normal">1194</span>
-<span class="normal">1195</span>
-<span class="normal">1196</span>
-<span class="normal">1197</span>
-<span class="normal">1198</span>
-<span class="normal">1199</span>
-<span class="normal">1200</span>
-<span class="normal">1201</span>
-<span class="normal">1202</span>
-<span class="normal">1203</span>
-<span class="normal">1204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpv_backwards_min_stack_wrong</span><span class="p">(</span>
+<span class="normal">1194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpv_backwards_min_stack_wrong</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Backwards rjumpv where min_stack does not match</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards rjumpv where min_stack does not match.&quot;&quot;&quot;</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (0, 0)</span>

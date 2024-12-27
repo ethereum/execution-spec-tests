@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_delegation_clearing"><code>test_delegation_clearing()</code><a class="headerlink" href="#test_delegation_clearing" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2980"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2931"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing --fork Prague</span>
@@ -25250,54 +25250,64 @@
     <div class="doc doc-contents first">
 
       <p>Test clearing the delegation of an account under a variety of circumstances.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td><code>pre_set_delegation_code</code></td>
-            <td>
-                  <code><a class="autorefs autorefs-internal" title="ethereum_test_tools.Bytecode" href="../../../../../library/ethereum_test_vm/#ethereum_test_vm.Bytecode">Bytecode</a> | None</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The code to set on the account before clearing delegation, or None
-if the account should not have any code set.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code>self_sponsored</code></td>
-            <td>
-                  <code>bool</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether the delegation clearing transaction is self-sponsored.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+<ul>
+<li>pre_set_delegation_code: The code to set on the account before clearing delegation, or None
+    if the account should not have any code set.</li>
+<li>self_sponsored: Whether the delegation clearing transaction is self-sponsored.</li>
+</ul>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2980</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2931</span>
+<span class="normal">2932</span>
+<span class="normal">2933</span>
+<span class="normal">2934</span>
+<span class="normal">2935</span>
+<span class="normal">2936</span>
+<span class="normal">2937</span>
+<span class="normal">2938</span>
+<span class="normal">2939</span>
+<span class="normal">2940</span>
+<span class="normal">2941</span>
+<span class="normal">2942</span>
+<span class="normal">2943</span>
+<span class="normal">2944</span>
+<span class="normal">2945</span>
+<span class="normal">2946</span>
+<span class="normal">2947</span>
+<span class="normal">2948</span>
+<span class="normal">2949</span>
+<span class="normal">2950</span>
+<span class="normal">2951</span>
+<span class="normal">2952</span>
+<span class="normal">2953</span>
+<span class="normal">2954</span>
+<span class="normal">2955</span>
+<span class="normal">2956</span>
+<span class="normal">2957</span>
+<span class="normal">2958</span>
+<span class="normal">2959</span>
+<span class="normal">2960</span>
+<span class="normal">2961</span>
+<span class="normal">2962</span>
+<span class="normal">2963</span>
+<span class="normal">2964</span>
+<span class="normal">2965</span>
+<span class="normal">2966</span>
+<span class="normal">2967</span>
+<span class="normal">2968</span>
+<span class="normal">2969</span>
+<span class="normal">2970</span>
+<span class="normal">2971</span>
+<span class="normal">2972</span>
+<span class="normal">2973</span>
+<span class="normal">2974</span>
+<span class="normal">2975</span>
+<span class="normal">2976</span>
+<span class="normal">2977</span>
+<span class="normal">2978</span>
+<span class="normal">2979</span>
+<span class="normal">2980</span>
 <span class="normal">2981</span>
 <span class="normal">2982</span>
 <span class="normal">2983</span>
@@ -25336,56 +25346,7 @@ if the account should not have any code set.</p>
 <span class="normal">3016</span>
 <span class="normal">3017</span>
 <span class="normal">3018</span>
-<span class="normal">3019</span>
-<span class="normal">3020</span>
-<span class="normal">3021</span>
-<span class="normal">3022</span>
-<span class="normal">3023</span>
-<span class="normal">3024</span>
-<span class="normal">3025</span>
-<span class="normal">3026</span>
-<span class="normal">3027</span>
-<span class="normal">3028</span>
-<span class="normal">3029</span>
-<span class="normal">3030</span>
-<span class="normal">3031</span>
-<span class="normal">3032</span>
-<span class="normal">3033</span>
-<span class="normal">3034</span>
-<span class="normal">3035</span>
-<span class="normal">3036</span>
-<span class="normal">3037</span>
-<span class="normal">3038</span>
-<span class="normal">3039</span>
-<span class="normal">3040</span>
-<span class="normal">3041</span>
-<span class="normal">3042</span>
-<span class="normal">3043</span>
-<span class="normal">3044</span>
-<span class="normal">3045</span>
-<span class="normal">3046</span>
-<span class="normal">3047</span>
-<span class="normal">3048</span>
-<span class="normal">3049</span>
-<span class="normal">3050</span>
-<span class="normal">3051</span>
-<span class="normal">3052</span>
-<span class="normal">3053</span>
-<span class="normal">3054</span>
-<span class="normal">3055</span>
-<span class="normal">3056</span>
-<span class="normal">3057</span>
-<span class="normal">3058</span>
-<span class="normal">3059</span>
-<span class="normal">3060</span>
-<span class="normal">3061</span>
-<span class="normal">3062</span>
-<span class="normal">3063</span>
-<span class="normal">3064</span>
-<span class="normal">3065</span>
-<span class="normal">3066</span>
-<span class="normal">3067</span>
-<span class="normal">3068</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3019</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;self_sponsored&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;not_self_sponsored&quot;</span><span class="p">),</span>
@@ -25408,10 +25369,10 @@ if the account should not have any code set.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test clearing the delegation of an account under a variety of circumstances.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        pre_set_delegation_code: The code to set on the account before clearing delegation, or None</span>
-<span class="sd">            if the account should not have any code set.</span>
-<span class="sd">        self_sponsored: Whether the delegation clearing transaction is self-sponsored.</span>
+<span class="sd">    - pre_set_delegation_code: The code to set on the account before clearing delegation, or None</span>
+<span class="sd">        if the account should not have any code set.</span>
+<span class="sd">    - self_sponsored: Whether the delegation clearing transaction is self-sponsored.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D417</span>
     <span class="n">pre_set_delegation_address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">pre_set_delegation_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

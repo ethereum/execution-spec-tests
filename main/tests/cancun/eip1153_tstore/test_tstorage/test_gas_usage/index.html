@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_gas_usage"><code>test_gas_usage()</code><a class="headerlink" href="#test_gas_usage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip1153_tstore/test_tstorage.py#L212"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_gas_usage@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip1153_tstore/test_tstorage.py#L217"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_gas_usage@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage.py::test_gas_usage --fork Prague</span>
@@ -25253,12 +25253,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
@@ -25279,7 +25274,10 @@
 <span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
-<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@GasMeasureTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@GasMeasureTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -25288,9 +25286,7 @@
     <span class="n">overhead_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">extra_stack_items</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that tstore and tload consume the expected gas.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that tstore and tload consume the expected gas.&quot;&quot;&quot;</span>
     <span class="n">gas_measure_bytecode</span> <span class="o">=</span> <span class="n">CodeGasMeasure</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">bytecode</span><span class="p">,</span> <span class="n">overhead_cost</span><span class="o">=</span><span class="n">overhead_cost</span><span class="p">,</span> <span class="n">extra_stack_items</span><span class="o">=</span><span class="n">extra_stack_items</span>
     <span class="p">)</span>

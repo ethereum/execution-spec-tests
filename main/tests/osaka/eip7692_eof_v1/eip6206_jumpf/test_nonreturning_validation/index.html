@@ -16037,11 +16037,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25178,7 +25178,7 @@
 
 
 <h1 id="test-nonreturning-validation">Test Nonreturning Validation<a class="headerlink" href="#test-nonreturning-validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L21"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L19"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py --fork Osaka</span>
@@ -25228,7 +25228,7 @@
 <td><a href="test_returning_section_not_returning/"><code>test_returning_section_not_returning</code></a></td>
 <td>eof_test</td>
 <td>10</td>
-<td>Test EOF validation failing because a returning section has no RETF or JUMPF-to-returning.</td>
+<td>Test EOF validation failing due to returning section with no RETF or JUMPF-to-returning.</td>
 </tr>
 <tr>
 <td><a href="test_returning_section_returncontract/"><code>test_returning_section_returncontract</code></a></td>
@@ -25240,13 +25240,13 @@
 <td><a href="test_retf_in_nonreturning/"><code>test_retf_in_nonreturning</code></a></td>
 <td>eof_test</td>
 <td>6</td>
-<td>Test EOF validation failing because a non-returning section contains the RETF instruction.</td>
+<td>Test EOF validation failing due to non-returning section with the RETF instruction.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_in_nonreturning/"><code>test_jumpf_in_nonreturning</code></a></td>
 <td>eof_test</td>
 <td>6</td>
-<td>Test EOF validation failing because a non-returning section contains the JUMPF instruction.</td>
+<td>Test EOF validation failing due to non-returning section with the JUMPF instruction.</td>
 </tr>
 </tbody>
 </table>

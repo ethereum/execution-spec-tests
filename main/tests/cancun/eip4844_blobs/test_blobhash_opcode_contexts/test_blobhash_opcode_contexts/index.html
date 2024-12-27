@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_blobhash_opcode_contexts"><code>test_blobhash_opcode_contexts()</code><a class="headerlink" href="#test_blobhash_opcode_contexts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py#L290"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py#L291"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts --fork Prague</span>
@@ -25249,8 +25249,7 @@
 <a id="tests.cancun.eip4844_blobs.test_blobhash_opcode_contexts.test_blobhash_opcode_contexts"></a>
     <div class="doc doc-contents first">
 
-      <p>Tests that the <code>BLOBHASH</code> opcode functions correctly when called in different
-contexts including:</p>
+      <p>Tests that the <code>BLOBHASH</code> opcode functions correctly when called in different contexts.</p>
 <ul>
 <li><code>BLOBHASH</code> opcode on the top level of the call stack.</li>
 <li><code>BLOBHASH</code> opcode on the max value.</li>
@@ -25262,8 +25261,7 @@ contexts including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">290</span>
-<span class="normal">291</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">291</span>
 <span class="normal">292</span>
 <span class="normal">293</span>
 <span class="normal">294</span>
@@ -25282,8 +25280,7 @@ contexts including:</p>
 <span class="normal">307</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">compile_yul_with</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blobhash_opcode_contexts</span><span class="p">(</span><span class="n">opcode_context</span><span class="p">,</span> <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests that the `BLOBHASH` opcode functions correctly when called in different</span>
-<span class="sd">    contexts including:</span>
+<span class="sd">    Tests that the `BLOBHASH` opcode functions correctly when called in different contexts.</span>
 
 <span class="sd">    - `BLOBHASH` opcode on the top level of the call stack.</span>
 <span class="sd">    - `BLOBHASH` opcode on the max value.</span>

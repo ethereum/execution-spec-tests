@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_invalid_excess_blob_gas_change"><code>test_invalid_excess_blob_gas_change()</code><a class="headerlink" href="#test_invalid_excess_blob_gas_change" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L664"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_change@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L657"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_change@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_change --fork Prague</span>
@@ -25257,7 +25257,14 @@ from the correct value.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">664</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
 <span class="normal">665</span>
 <span class="normal">666</span>
 <span class="normal">667</span>
@@ -25299,14 +25306,7 @@ from the correct value.</p>
 <span class="normal">703</span>
 <span class="normal">704</span>
 <span class="normal">705</span>
-<span class="normal">706</span>
-<span class="normal">707</span>
-<span class="normal">708</span>
-<span class="normal">709</span>
-<span class="normal">710</span>
-<span class="normal">711</span>
-<span class="normal">712</span>
-<span class="normal">713</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">706</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;parent_blobs,header_excess_blobs_delta&quot;</span><span class="p">,</span>
     <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span>
         <span class="c1"># parent_blobs</span>

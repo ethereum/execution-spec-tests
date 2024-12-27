@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjumpi_stack_validation"><code>test_rjumpi_stack_validation()</code><a class="headerlink" href="#test_rjumpi_stack_validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L832"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_stack_validation@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L830"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_stack_validation@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_stack_validation --fork Osaka</span>
@@ -25253,11 +25253,13 @@
 
       <p>Check that you can get to the same opcode with two different stack heights
 Spec now allows this:
-4.b in <a href="https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation">https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation</a></p>
+4.b in <a href="https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation">https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation</a>.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">832</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
 <span class="normal">833</span>
 <span class="normal">834</span>
 <span class="normal">835</span>
@@ -25267,15 +25269,13 @@ Spec now allows this:
 <span class="normal">839</span>
 <span class="normal">840</span>
 <span class="normal">841</span>
-<span class="normal">842</span>
-<span class="normal">843</span>
-<span class="normal">844</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_stack_validation</span><span class="p">(</span>
+<span class="normal">842</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_stack_validation</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check that you can get to the same opcode with two different stack heights</span>
 <span class="sd">    Spec now allows this:</span>
-<span class="sd">    4.b in https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation</span>
+<span class="sd">    4.b in https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
     <span class="n">eof_test</span><span class="p">(</span>

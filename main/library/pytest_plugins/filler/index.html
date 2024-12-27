@@ -16018,11 +16018,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25752,7 +25752,7 @@ writes the generated fixtures to file.</p>
 
     <div class="doc doc-contents ">
 
-      <p>The default directory to store the generated test fixtures. Defined as a
+      <p>Directory (default) to store the generated test fixtures. Defined as a
 function to allow for easier testing.</p>
 
             <details class="quote">
@@ -25764,7 +25764,7 @@ function to allow for easier testing.</p>
 <span class="normal">40</span>
 <span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default_output_directory</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The default directory to store the generated test fixtures. Defined as a</span>
+<span class="sd">    Directory (default) to store the generated test fixtures. Defined as a</span>
 <span class="sd">    function to allow for easier testing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;./fixtures&quot;</span>
@@ -25790,7 +25790,7 @@ function to allow for easier testing.</p>
 
     <div class="doc doc-contents ">
 
-      <p>The default file path to store the generated HTML test report. Defined as a
+      <p>File path (default) to store the generated HTML test report. Defined as a
 function to allow for easier testing.</p>
 
             <details class="quote">
@@ -25802,7 +25802,7 @@ function to allow for easier testing.</p>
 <span class="normal">48</span>
 <span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">default_html_report_file_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The default file path to store the generated HTML test report. Defined as a</span>
+<span class="sd">    File path (default) to store the generated HTML test report. Defined as a</span>
 <span class="sd">    function to allow for easier testing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;.meta/report_fill.html&quot;</span>
@@ -25836,12 +25836,8 @@ function to allow for easier testing.</p>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">strip_output_tarball_suffix</span><span class="p">(</span><span class="n">output</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Strip the &#39;.tar.gz&#39; suffix from the output path.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">strip_output_tarball_suffix</span><span class="p">(</span><span class="n">output</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Strip the &#39;.tar.gz&#39; suffix from the output path.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tar.gz&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span>
@@ -25867,18 +25863,14 @@ function to allow for easier testing.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns True if the fixture output is configured to be stdout.</p>
+      <p>Return True if the fixture output is configured to be stdout.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_output_stdout</span><span class="p">(</span><span class="n">output</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns True if the fixture output is configured to be stdout.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_output_stdout</span><span class="p">(</span><span class="n">output</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the fixture output is configured to be stdout.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">strip_output_tarball_suffix</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;stdout&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -25902,11 +25894,15 @@ function to allow for easier testing.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Adds command-line options to pytest.</p>
+      <p>Add command-line options to pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
 <span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
@@ -26031,16 +26027,8 @@ function to allow for easier testing.</p>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adds command-line options to pytest.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add command-line options to pytest.&quot;&quot;&quot;</span>
     <span class="n">evm_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">getgroup</span><span class="p">(</span><span class="s2">&quot;evm&quot;</span><span class="p">,</span> <span class="s2">&quot;Arguments defining evm executable behavior&quot;</span><span class="p">)</span>
     <span class="n">evm_group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
         <span class="s2">&quot;--evm-bin&quot;</span><span class="p">,</span>
@@ -26206,7 +26194,13 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
@@ -26251,13 +26245,7 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 <span class="normal">244</span>
 <span class="normal">245</span>
 <span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook called after command line options have been parsed and before</span>
@@ -26331,19 +26319,19 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 
     <div class="doc doc-contents ">
 
-      <p>Add lines to pytest's console output header</p>
+      <p>Add lines to pytest's console output header.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_report_header</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add lines to pytest&#39;s console output header&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add lines to pytest&#39;s console output header.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">option</span><span class="o">.</span><span class="n">collectonly</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="n">t8n_version</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">stash</span><span class="p">[</span><span class="n">metadata_key</span><span class="p">][</span><span class="s2">&quot;Tools&quot;</span><span class="p">][</span><span class="s2">&quot;t8n&quot;</span><span class="p">]</span>
@@ -26370,7 +26358,7 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 
     <div class="doc doc-contents ">
 
-      <p>This hook modifies the test results in pytest's terminal output.</p>
+      <p>Modify test results in pytest's terminal output.</p>
 <p>We use this:</p>
 <ol>
 <li>To disable test session progress report if we're writing the JSON
@@ -26382,7 +26370,13 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
@@ -26390,15 +26384,9 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 <span class="normal">270</span>
 <span class="normal">271</span>
 <span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_report_teststatus</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
+<span class="normal">273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_report_teststatus</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This hook modifies the test results in pytest&#39;s terminal output.</span>
+<span class="sd">    Modify test results in pytest&#39;s terminal output.</span>
 
 <span class="sd">    We use this:</span>
 
@@ -26439,7 +26427,13 @@ actually run the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">282</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
 <span class="normal">283</span>
 <span class="normal">284</span>
 <span class="normal">285</span>
@@ -26456,13 +26450,7 @@ actually run the tests.</p>
 <span class="normal">296</span>
 <span class="normal">297</span>
 <span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_terminal_summary</span><span class="p">(</span>
     <span class="n">terminalreporter</span><span class="p">:</span> <span class="n">TerminalReporter</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span>
 <span class="p">):</span>
@@ -26512,14 +26500,10 @@ actually run the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Add or remove metadata to/from the pytest report.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add or remove metadata to/from the pytest report.&quot;&quot;&quot;</span>
     <span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;JAVA_HOME&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -26547,16 +26531,12 @@ actually run the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_results_table_header</span><span class="p">(</span><span class="n">cells</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Customize the table headers of the HTML report table.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_results_table_header</span><span class="p">(</span><span class="n">cells</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Customize the table headers of the HTML report table.&quot;&quot;&quot;</span>
     <span class="n">cells</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;&lt;th class=&quot;sortable&quot; data-column-type=&quot;fixturePath&quot;&gt;JSON Fixture File&lt;/th&gt;&#39;</span><span class="p">)</span>
     <span class="n">cells</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;&lt;th class=&quot;sortable&quot; data-column-type=&quot;evmDumpDir&quot;&gt;EVM Dump Dir&lt;/th&gt;&#39;</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">cells</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Remove the &quot;Links&quot; column</span>
@@ -26586,7 +26566,17 @@ actually run the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">324</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
 <span class="normal">325</span>
 <span class="normal">326</span>
 <span class="normal">327</span>
@@ -26605,22 +26595,8 @@ actually run the tests.</p>
 <span class="normal">340</span>
 <span class="normal">341</span>
 <span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
-<span class="normal">349</span>
-<span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_results_table_row</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">cells</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Customize the table rows of the HTML report table.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">343</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_results_table_row</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">cells</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Customize the table rows of the HTML report table.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="s2">&quot;user_properties&quot;</span><span class="p">):</span>
         <span class="n">user_props</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">user_properties</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span>
@@ -26671,13 +26647,25 @@ actually run the tests.</p>
 
     <div class="doc doc-contents ">
 
-      <p>This hook is called when each test is run and a report is being made.</p>
-<p>Make each test's fixture json path available to the test report via
+      <p>Make each test's fixture json path available to the test report via
 user_properties.</p>
+<p>This hook is called when each test is run and a report is being made.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">358</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
 <span class="normal">359</span>
 <span class="normal">360</span>
 <span class="normal">361</span>
@@ -26694,25 +26682,13 @@ user_properties.</p>
 <span class="normal">372</span>
 <span class="normal">373</span>
 <span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">375</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_runtest_makereport</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">call</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This hook is called when each test is run and a report is being made.</span>
-
 <span class="sd">    Make each test&#39;s fixture json path available to the test report via</span>
 <span class="sd">    user_properties.</span>
+
+<span class="sd">    This hook is called when each test is run and a report is being made.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">outcome</span> <span class="o">=</span> <span class="k">yield</span>
     <span class="n">report</span> <span class="o">=</span> <span class="n">outcome</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
@@ -26762,14 +26738,10 @@ user_properties.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_report_title</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Set the HTML report title (pytest-html plugin).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_report_title</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the HTML report title (pytest-html plugin).&quot;&quot;&quot;</span>
     <span class="n">report</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Fill Test Report&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -26793,20 +26765,16 @@ user_properties.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the configured evm tool binary path used to run t8n.</p>
+      <p>Return configured evm tool binary path used to run t8n.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">evm_bin</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the configured evm tool binary path used to run t8n.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return configured evm tool binary path used to run t8n.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;evm_bin&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -26830,21 +26798,21 @@ user_properties.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the configured evm tool binary path used to run statetest or
+      <p>Return configured evm tool binary path used to run statetest or
 blocktest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">405</span>
-<span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span>
-<span class="normal">410</span>
-<span class="normal">411</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">verify_fixtures_bin</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the configured evm tool binary path used to run statetest or</span>
+<span class="sd">    Return configured evm tool binary path used to run statetest or</span>
 <span class="sd">    blocktest.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;verify_fixtures_bin&quot;</span><span class="p">)</span>
@@ -26870,24 +26838,20 @@ blocktest.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the configured transition tool.</p>
+      <p>Return configured transition tool.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">t8n</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">evm_bin</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">TransitionTool</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the configured transition tool.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return configured transition tool.&quot;&quot;&quot;</span>
     <span class="n">t8n</span> <span class="o">=</span> <span class="n">TransitionTool</span><span class="o">.</span><span class="n">from_binary_path</span><span class="p">(</span>
         <span class="n">binary_path</span><span class="o">=</span><span class="n">evm_bin</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;evm_collect_traces&quot;</span><span class="p">)</span>
     <span class="p">)</span>
@@ -26915,30 +26879,30 @@ blocktest.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns True if evm statetest or evm blocktest should be ran on the
+      <p>Return True if evm statetest or evm blocktest should be ran on the
 generated fixture JSON files.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">do_fixture_verification</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">verify_fixtures_bin</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns True if evm statetest or evm blocktest should be ran on the</span>
+<span class="sd">    Return True if evm statetest or evm blocktest should be ran on the</span>
 <span class="sd">    generated fixture JSON files.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">do_fixture_verification</span> <span class="o">=</span> <span class="kc">False</span>
@@ -26969,42 +26933,42 @@ generated fixture JSON files.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the configured evm binary for executing statetest and blocktest
+      <p>Return configured evm binary for executing statetest and blocktest
 commands used to verify generated JSON fixtures.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">442</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
 <span class="normal">443</span>
 <span class="normal">444</span>
 <span class="normal">445</span>
 <span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="normal">447</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">evm_fixture_verification</span><span class="p">(</span>
     <span class="n">do_fixture_verification</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">evm_bin</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">verify_fixtures_bin</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">TransitionTool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the configured evm binary for executing statetest and blocktest</span>
+<span class="sd">    Return configured evm binary for executing statetest and blocktest</span>
 <span class="sd">    commands used to verify generated JSON fixtures.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">do_fixture_verification</span><span class="p">:</span>
@@ -27043,25 +27007,21 @@ commands used to verify generated JSON fixtures.</p>
 
     <div class="doc doc-contents ">
 
-      <p>The base directory to dump the evm debug output.</p>
+      <p>Path to base directory to dump the evm debug output.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">base_dump_dir</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The base directory to dump the evm debug output.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Path to base directory to dump the evm debug output.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;skip_dump_dir&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">base_dump_dir_str</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;base_dump_dir&quot;</span><span class="p">)</span>
@@ -27090,23 +27050,19 @@ commands used to verify generated JSON fixtures.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns True if the output directory is a tarball.</p>
+      <p>Return True if the output directory is a tarball.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">is_output_tarball</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns True if the output directory is a tarball.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the output directory is a tarball.&quot;&quot;&quot;</span>
     <span class="n">output</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.gz&quot;</span> <span class="ow">and</span> <span class="n">output</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.tar&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -27133,23 +27089,19 @@ commands used to verify generated JSON fixtures.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the directory to store the generated test fixtures.</p>
+      <p>Return directory to store the generated test fixtures.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">output_dir</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">is_output_tarball</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the directory to store the generated test fixtures.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return directory to store the generated test fixtures.&quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">is_output_tarball</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">strip_output_tarball_suffix</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
@@ -27176,20 +27128,16 @@ commands used to verify generated JSON fixtures.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the metadata directory to store fixture meta files.</p>
+      <p>Return metadata directory to store fixture meta files.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">output_metadata_dir</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the metadata directory to store fixture meta files.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return metadata directory to store fixture meta files.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;.meta&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -27213,12 +27161,38 @@ commands used to verify generated JSON fixtures.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Creates an ini file with fixture build properties in the fixture output
+      <p>Create ini file with fixture build properties in the fixture output
 directory.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">511</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
 <span class="normal">512</span>
 <span class="normal">513</span>
 <span class="normal">514</span>
@@ -27239,36 +27213,12 @@ directory.</p>
 <span class="normal">529</span>
 <span class="normal">530</span>
 <span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">532</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">create_properties_file</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">output_metadata_dir</span><span class="p">:</span> <span class="n">Path</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates an ini file with fixture build properties in the fixture output</span>
+<span class="sd">    Create ini file with fixture build properties in the fixture output</span>
 <span class="sd">    directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">is_output_stdout</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)):</span>
@@ -27302,7 +27252,9 @@ directory.</p>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">config</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fixtures ini file: Skipping metadata key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> with value </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Fixtures ini file: Skipping metadata key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> with value </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span>
+            <span class="p">)</span>
     <span class="n">config</span><span class="p">[</span><span class="s2">&quot;environment&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">environment_properties</span>
 
     <span class="n">ini_filename</span> <span class="o">=</span> <span class="n">output_metadata_dir</span> <span class="o">/</span> <span class="s2">&quot;fixtures.ini&quot;</span>
@@ -27337,25 +27289,25 @@ output ends with '.tar.gz'.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">create_tarball</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">is_output_tarball</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
@@ -27396,40 +27348,40 @@ output ends with '.tar.gz'.</p>
 
     <div class="doc doc-contents ">
 
-      <p>The directory to dump evm transition tool debug output on a test parameter
+      <p>Directory to dump evm transition tool debug output on a test parameter
 level.</p>
 <p>Example with --evm-dump-dir=/tmp/evm:
 -&gt; /tmp/evm/shanghai__eip3855_push0__test_push0__test_push0_key_sstore/fork_shanghai/</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span>
-<span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">dump_dir_parameter_level</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">base_dump_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The directory to dump evm transition tool debug output on a test parameter</span>
+<span class="sd">    Directory to dump evm transition tool debug output on a test parameter</span>
 <span class="sd">    level.</span>
 
 <span class="sd">    Example with --evm-dump-dir=/tmp/evm:</span>
@@ -27473,17 +27425,17 @@ level.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_fixture_collection_scope</span><span class="p">(</span><span class="n">fixture_name</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_fixture_collection_scope</span><span class="p">(</span><span class="n">fixture_name</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the appropriate scope to write fixture JSON files.</span>
 
@@ -27516,12 +27468,36 @@ level.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the configured fixture collector instance used for all tests
+      <p>Return configured fixture collector instance used for all tests
 in one test module.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">622</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
 <span class="normal">623</span>
 <span class="normal">624</span>
 <span class="normal">625</span>
@@ -27551,31 +27527,7 @@ in one test module.</p>
 <span class="normal">649</span>
 <span class="normal">650</span>
 <span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
-<span class="normal">673</span>
-<span class="normal">674</span>
-<span class="normal">675</span>
-<span class="normal">676</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="n">get_fixture_collection_scope</span><span class="p">)</span>
+<span class="normal">652</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="n">get_fixture_collection_scope</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fixture_collector</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
     <span class="n">do_fixture_verification</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -27587,7 +27539,7 @@ in one test module.</p>
     <span class="n">generate_index</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">FixtureCollector</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the configured fixture collector instance used for all tests</span>
+<span class="sd">    Return configured fixture collector instance used for all tests</span>
 <span class="sd">    in one test module.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">session_temp_folder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -27652,20 +27604,16 @@ in one test module.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the directory containing the tests to execute.</p>
+      <p>Return directory containing the tests to execute.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">679</span>
-<span class="normal">680</span>
-<span class="normal">681</span>
-<span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">filler_path</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the directory containing the tests to execute.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return directory containing the tests to execute.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;filler_path&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -27689,23 +27637,19 @@ in one test module.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the test info of the current node item.</p>
+      <p>Return test info of the current node item.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">node_to_test_info</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TestInfo</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the test info of the current node item.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">node_to_test_info</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TestInfo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return test info of the current node item.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">TestInfo</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
         <span class="nb">id</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span><span class="p">,</span>
@@ -27734,26 +27678,22 @@ in one test module.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the URL to the fixture source.</p>
+      <p>Return URL to the fixture source.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span>
-<span class="normal">706</span>
-<span class="normal">707</span>
-<span class="normal">708</span>
-<span class="normal">709</span>
-<span class="normal">710</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">671</span>
+<span class="normal">672</span>
+<span class="normal">673</span>
+<span class="normal">674</span>
+<span class="normal">675</span>
+<span class="normal">676</span>
+<span class="normal">677</span>
+<span class="normal">678</span>
+<span class="normal">679</span>
+<span class="normal">680</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fixture_source_url</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the URL to the fixture source.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return URL to the fixture source.&quot;&quot;&quot;</span>
     <span class="n">function_line_number</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_firstlineno</span>
     <span class="n">module_relative_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
     <span class="n">hash_or_tag</span> <span class="o">=</span> <span class="n">get_current_commit_hash_or_tag</span><span class="p">()</span>
@@ -27783,13 +27723,43 @@ in one test module.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Generates a pytest.fixture for a given BaseTest subclass.</p>
+      <p>Generate pytest.fixture for a given BaseTest subclass.</p>
 <p>Implementation detail: All spec fixtures must be scoped on test function level to avoid
 leakage between tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">713</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">683</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span>
+<span class="normal">689</span>
+<span class="normal">690</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span>
+<span class="normal">703</span>
+<span class="normal">704</span>
+<span class="normal">705</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
 <span class="normal">714</span>
 <span class="normal">715</span>
 <span class="normal">716</span>
@@ -27831,39 +27801,9 @@ leakage between tests.</p>
 <span class="normal">752</span>
 <span class="normal">753</span>
 <span class="normal">754</span>
-<span class="normal">755</span>
-<span class="normal">756</span>
-<span class="normal">757</span>
-<span class="normal">758</span>
-<span class="normal">759</span>
-<span class="normal">760</span>
-<span class="normal">761</span>
-<span class="normal">762</span>
-<span class="normal">763</span>
-<span class="normal">764</span>
-<span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span>
-<span class="normal">768</span>
-<span class="normal">769</span>
-<span class="normal">770</span>
-<span class="normal">771</span>
-<span class="normal">772</span>
-<span class="normal">773</span>
-<span class="normal">774</span>
-<span class="normal">775</span>
-<span class="normal">776</span>
-<span class="normal">777</span>
-<span class="normal">778</span>
-<span class="normal">779</span>
-<span class="normal">780</span>
-<span class="normal">781</span>
-<span class="normal">782</span>
-<span class="normal">783</span>
-<span class="normal">784</span>
-<span class="normal">785</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">base_test_parametrizer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseTest</span><span class="p">]):</span>
+<span class="normal">755</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">base_test_parametrizer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseTest</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates a pytest.fixture for a given BaseTest subclass.</span>
+<span class="sd">    Generate pytest.fixture for a given BaseTest subclass.</span>
 
 <span class="sd">    Implementation detail: All spec fixtures must be scoped on test function level to avoid</span>
 <span class="sd">    leakage between tests.</span>
@@ -27961,26 +27901,26 @@ test spec supports.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span>
-<span class="normal">802</span>
-<span class="normal">803</span>
-<span class="normal">804</span>
-<span class="normal">805</span>
-<span class="normal">806</span>
-<span class="normal">807</span>
-<span class="normal">808</span>
-<span class="normal">809</span>
-<span class="normal">810</span>
-<span class="normal">811</span>
-<span class="normal">812</span>
-<span class="normal">813</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook used to dynamically generate test cases for each fixture format a given</span>
 <span class="sd">    test spec supports.</span>
@@ -28029,32 +27969,32 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">816</span>
-<span class="normal">817</span>
-<span class="normal">818</span>
-<span class="normal">819</span>
-<span class="normal">820</span>
-<span class="normal">821</span>
-<span class="normal">822</span>
-<span class="normal">823</span>
-<span class="normal">824</span>
-<span class="normal">825</span>
-<span class="normal">826</span>
-<span class="normal">827</span>
-<span class="normal">828</span>
-<span class="normal">829</span>
-<span class="normal">830</span>
-<span class="normal">831</span>
-<span class="normal">832</span>
-<span class="normal">833</span>
-<span class="normal">834</span>
-<span class="normal">835</span>
-<span class="normal">836</span>
-<span class="normal">837</span>
-<span class="normal">838</span>
-<span class="normal">839</span>
-<span class="normal">840</span>
-<span class="normal">841</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">]):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">786</span>
+<span class="normal">787</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove pre-Paris tests parametrized to generate hive type fixtures; these</span>
 <span class="sd">    can&#39;t be used in the Hive Pyspec Simulator.</span>
@@ -28169,11 +28109,13 @@ parametrization occurs in the forks plugin.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Adds command-line options to pytest.</p>
+      <p>Add command-line options to pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
@@ -28210,14 +28152,8 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adds command-line options to pytest.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add command-line options to pytest.&quot;&quot;&quot;</span>
     <span class="n">pre_alloc_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">getgroup</span><span class="p">(</span>
         <span class="s2">&quot;pre_alloc&quot;</span><span class="p">,</span> <span class="s2">&quot;Arguments defining pre-allocation behavior during test filling.&quot;</span>
     <span class="p">)</span>
@@ -28287,16 +28223,12 @@ parametrization occurs in the forks plugin.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AllocMode</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Allocation mode for the state.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AllocMode</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allocation mode for the state.&quot;&quot;&quot;</span>
 
     <span class="n">PERMISSIVE</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">STRICT</span> <span class="o">=</span> <span class="mi">1</span>
@@ -28342,7 +28274,13 @@ parametrization occurs in the forks plugin.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
 <span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
@@ -28499,22 +28437,8 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Alloc</span><span class="p">(</span><span class="n">BaseAlloc</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Allocation of accounts in the state, pre and post test execution.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">251</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Alloc</span><span class="p">(</span><span class="n">BaseAlloc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allocation of accounts in the state, pre and post test execution.&quot;&quot;&quot;</span>
 
     <span class="n">_alloc_mode</span><span class="p">:</span> <span class="n">AllocMode</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
     <span class="n">_contract_address_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -28530,9 +28454,7 @@ parametrization occurs in the forks plugin.</p>
         <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the allocation with the given properties.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize allocation with the given properties.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_alloc_mode</span> <span class="o">=</span> <span class="n">alloc_mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_contract_address_iterator</span> <span class="o">=</span> <span class="n">contract_address_iterator</span>
@@ -28540,9 +28462,7 @@ parametrization occurs in the forks plugin.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_evm_code_type</span> <span class="o">=</span> <span class="n">evm_code_type</span>
 
     <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the account associated with an address.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set account associated with an address.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alloc_mode</span> <span class="o">==</span> <span class="n">AllocMode</span><span class="o">.</span><span class="n">STRICT</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot set items in strict mode&quot;</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">account</span><span class="p">)</span>
@@ -28550,9 +28470,7 @@ parametrization occurs in the forks plugin.</p>
     <span class="k">def</span> <span class="nf">code_pre_processor</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BytesConvertible</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Pre-processes the code before setting it.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pre-processes the code before setting it.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">evm_code_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">evm_code_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evm_code_type</span>
         <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
@@ -28566,7 +28484,7 @@ parametrization occurs in the forks plugin.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">storage</span><span class="p">:</span> <span class="n">Storage</span> <span class="o">|</span> <span class="n">StorageRootType</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">storage</span><span class="p">:</span> <span class="n">Storage</span> <span class="o">|</span> <span class="n">StorageRootType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">balance</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">nonce</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -28579,6 +28497,8 @@ parametrization occurs in the forks plugin.</p>
 <span class="sd">        Warning: `address` parameter is a temporary solution to allow tests to hard-code the</span>
 <span class="sd">        contract address. Do NOT use in new tests as it will be removed in the future!</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">address</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alloc_mode</span> <span class="o">==</span> <span class="n">AllocMode</span><span class="o">.</span><span class="n">PERMISSIVE</span><span class="p">,</span> <span class="s2">&quot;address parameter is not supported&quot;</span>
             <span class="k">assert</span> <span class="n">address</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;address </span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s2"> already in allocation&quot;</span>
@@ -28705,27 +28625,25 @@ parametrization occurs in the forks plugin.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Initializes the allocation with the given properties.</p>
+      <p>Initialize allocation with the given properties.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="n">args</span><span class="p">,</span>
     <span class="n">alloc_mode</span><span class="p">:</span> <span class="n">AllocMode</span><span class="p">,</span>
@@ -28734,9 +28652,7 @@ parametrization occurs in the forks plugin.</p>
     <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Initializes the allocation with the given properties.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize allocation with the given properties.&quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_alloc_mode</span> <span class="o">=</span> <span class="n">alloc_mode</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_contract_address_iterator</span> <span class="o">=</span> <span class="n">contract_address_iterator</span>
@@ -28764,20 +28680,16 @@ parametrization occurs in the forks plugin.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Sets the account associated with an address.</p>
+      <p>Set account associated with an address.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sets the account associated with an address.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set account associated with an address.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alloc_mode</span> <span class="o">==</span> <span class="n">AllocMode</span><span class="o">.</span><span class="n">STRICT</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot set items in strict mode&quot;</span><span class="p">)</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">account</span><span class="p">)</span>
@@ -28807,25 +28719,21 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">code_pre_processor</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">code_pre_processor</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BytesConvertible</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Pre-processes the code before setting it.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pre-processes the code before setting it.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">evm_code_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">evm_code_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evm_code_type</span>
     <span class="k">if</span> <span class="n">evm_code_type</span> <span class="o">==</span> <span class="n">EVMCodeType</span><span class="o">.</span><span class="n">EOF_V1</span><span class="p">:</span>
@@ -28849,7 +28757,7 @@ parametrization occurs in the forks plugin.</p>
 
 
 <h3 id="pytest_plugins.filler.pre_alloc.Alloc.deploy_contract" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{},</span> <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.filler.pre_alloc.Alloc.deploy_contract" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -28862,7 +28770,21 @@ contract address. Do NOT use in new tests as it will be removed in the future!</
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
@@ -28899,23 +28821,11 @@ contract address. Do NOT use in new tests as it will be removed in the future!</
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deploy_contract</span><span class="p">(</span>
+<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deploy_contract</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">storage</span><span class="p">:</span> <span class="n">Storage</span> <span class="o">|</span> <span class="n">StorageRootType</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">storage</span><span class="p">:</span> <span class="n">Storage</span> <span class="o">|</span> <span class="n">StorageRootType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">balance</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">nonce</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -28928,6 +28838,8 @@ contract address. Do NOT use in new tests as it will be removed in the future!</
 <span class="sd">    Warning: `address` parameter is a temporary solution to allow tests to hard-code the</span>
 <span class="sd">    contract address. Do NOT use in new tests as it will be removed in the future!</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">address</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alloc_mode</span> <span class="o">==</span> <span class="n">AllocMode</span><span class="o">.</span><span class="n">PERMISSIVE</span><span class="p">,</span> <span class="s2">&quot;address parameter is not supported&quot;</span>
         <span class="k">assert</span> <span class="n">address</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;address </span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s2"> already in allocation&quot;</span>
@@ -28989,7 +28901,19 @@ returned.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
@@ -29029,19 +28953,7 @@ returned.</p>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_eoa</span><span class="p">(</span>
+<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_eoa</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -29122,20 +29034,20 @@ added to its existing balance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fund_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">NumberConvertible</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fund an address with a given amount.</span>
 
@@ -29180,22 +29092,18 @@ added to its existing balance.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the allocation mode for the tests.</p>
+      <p>Return allocation mode for the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">alloc_mode</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AllocMode</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the allocation mode for the tests.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return allocation mode for the tests.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;strict_alloc&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">AllocMode</span><span class="o">.</span><span class="n">STRICT</span>
     <span class="k">return</span> <span class="n">AllocMode</span><span class="o">.</span><span class="n">PERMISSIVE</span>
@@ -29221,20 +29129,16 @@ added to its existing balance.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the starting address for contract deployment.</p>
+      <p>Return starting address for contract deployment.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">contract_start_address</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the starting address for contract deployment.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return starting address for contract deployment.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;test_contract_start_address&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29258,20 +29162,16 @@ added to its existing balance.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the address increment for contract deployment.</p>
+      <p>Return address increment for contract deployment.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">contract_address_increments</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the address increment for contract deployment.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return address increment for contract deployment.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;test_contract_address_increments&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29295,28 +29195,24 @@ added to its existing balance.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns an iterator over contract addresses.</p>
+      <p>Return iterator over contract addresses.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">contract_address_iterator</span><span class="p">(</span>
     <span class="n">contract_start_address</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">contract_address_increments</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns an iterator over contract addresses.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return iterator over contract addresses.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span>
         <span class="n">Address</span><span class="p">(</span><span class="n">contract_start_address</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">contract_address_increments</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">count</span><span class="p">()</span>
     <span class="p">)</span>
@@ -29346,20 +29242,16 @@ added to its existing balance.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns an EOA by index.</p>
+      <p>Return EOA by index.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>
 <span class="k">def</span> <span class="nf">eoa_by_index</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOA</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns an EOA by index.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return EOA by index.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">EOA</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">TestPrivateKey</span> <span class="o">+</span> <span class="n">i</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">TestPrivateKey2</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29383,20 +29275,16 @@ added to its existing balance.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns an iterator over EOAs copies.</p>
+      <p>Return iterator over EOAs copies.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">eoa_iterator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns an iterator over EOAs copies.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return iterator over EOAs copies.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">eoa_by_index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">count</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29420,24 +29308,20 @@ added to its existing balance.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the default EVM code type for all tests (LEGACY).</p>
+      <p>Return default EVM code type for all tests (LEGACY).</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">evm_code_type</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EVMCodeType</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the default EVM code type for all tests (LEGACY).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return default EVM code type for all tests (LEGACY).&quot;&quot;&quot;</span>
     <span class="n">parameter_evm_code_type</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;evm_code_type&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">parameter_evm_code_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">parameter_evm_code_type</span><span class="p">)</span> <span class="ow">is</span> <span class="n">EVMCodeType</span><span class="p">,</span> <span class="s2">&quot;Invalid EVM code type&quot;</span>
@@ -29465,35 +29349,31 @@ added to its existing balance.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the default pre allocation for all tests (Empty alloc).</p>
+      <p>Return default pre allocation for all tests (Empty alloc).</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/pre_alloc.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pre</span><span class="p">(</span>
     <span class="n">alloc_mode</span><span class="p">:</span> <span class="n">AllocMode</span><span class="p">,</span>
     <span class="n">contract_address_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">],</span>
     <span class="n">eoa_iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">],</span>
     <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Alloc</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the default pre allocation for all tests (Empty alloc).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return default pre allocation for all tests (Empty alloc).&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Alloc</span><span class="p">(</span>
         <span class="n">alloc_mode</span><span class="o">=</span><span class="n">alloc_mode</span><span class="p">,</span>
         <span class="n">contract_address_iterator</span><span class="o">=</span><span class="n">contract_address_iterator</span><span class="p">,</span>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_invalid_excess_blob_gas_target_blobs_increase_from_zero"><code>test_invalid_excess_blob_gas_target_blobs_increase_from_zero()</code><a class="headerlink" href="#test_invalid_excess_blob_gas_target_blobs_increase_from_zero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L585"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_target_blobs_increase_from_zero@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L578"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_target_blobs_increase_from_zero@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_target_blobs_increase_from_zero --fork Prague</span>
@@ -25255,7 +25255,14 @@ even when the included blobs are on or below target.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">585</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
 <span class="normal">586</span>
 <span class="normal">587</span>
 <span class="normal">588</span>
@@ -25283,14 +25290,7 @@ even when the included blobs are on or below target.</p>
 <span class="normal">610</span>
 <span class="normal">611</span>
 <span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span>
-<span class="normal">620</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;header_excess_blobs_delta&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()))</span>
+<span class="normal">613</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;header_excess_blobs_delta&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()))</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;parent_blobs&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Start at 0</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;new_blobs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>

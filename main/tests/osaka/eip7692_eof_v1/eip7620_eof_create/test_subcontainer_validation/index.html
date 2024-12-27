@@ -16037,11 +16037,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25178,7 +25178,7 @@
 
 
 <h1 id="test-subcontainer-validation">Test Subcontainer Validation<a class="headerlink" href="#test-subcontainer-validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L45"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L43"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py --fork Osaka</span>
@@ -25222,109 +25222,109 @@
 <td><a href="test_simple_create_from_deployed/"><code>test_simple_create_from_deployed</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Simple EOF creation from a deployed EOF container</td>
+<td>Simple EOF creation from a deployed EOF container.</td>
 </tr>
 <tr>
 <td><a href="test_simple_create_from_creation/"><code>test_simple_create_from_creation</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Simple EOF creation from a create transaction container</td>
+<td>Simple EOF creation from a create transaction container.</td>
 </tr>
 <tr>
 <td><a href="test_reverting_container/"><code>test_reverting_container</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test revert containers</td>
+<td>Test revert containers.</td>
 </tr>
 <tr>
 <td><a href="test_orphan_container/"><code>test_orphan_container</code></a></td>
 <td>eof_test</td>
 <td>6</td>
-<td>Test orphaned containers</td>
+<td>Test orphaned containers.</td>
 </tr>
 <tr>
 <td><a href="test_container_combos_valid/"><code>test_container_combos_valid</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test valid subcontainer reference / opcode combos</td>
+<td>Test valid subcontainer reference / opcode combos.</td>
 </tr>
 <tr>
 <td><a href="test_container_combos_invalid/"><code>test_container_combos_invalid</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>Test invalid subcontainer reference / opcode combos</td>
+<td>Test invalid subcontainer reference / opcode combos.</td>
 </tr>
 <tr>
 <td><a href="test_container_combos_deeply_nested_valid/"><code>test_container_combos_deeply_nested_valid</code></a></td>
 <td>eof_test</td>
 <td>5</td>
-<td>Test valid subcontainer reference / opcode combos on a deep container nesting level</td>
+<td>Test valid subcontainer reference / opcode combos on a deep container nesting level.</td>
 </tr>
 <tr>
 <td><a href="test_container_combos_deeply_nested_invalid/"><code>test_container_combos_deeply_nested_invalid</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>Test invalid subcontainer reference / opcode combos on a deep container nesting level</td>
+<td>Test invalid subcontainer reference / opcode combos on a deep container nesting level.</td>
 </tr>
 <tr>
 <td><a href="test_container_combos_non_first_code_sections_valid/"><code>test_container_combos_non_first_code_sections_valid</code></a></td>
 <td>eof_test</td>
 <td>5</td>
-<td>Test valid subcontainer reference / opcode combos in a non-first code section</td>
+<td>Test valid subcontainer reference / opcode combos in a non-first code section.</td>
 </tr>
 <tr>
 <td><a href="test_container_combos_non_first_code_sections_invalid/"><code>test_container_combos_non_first_code_sections_invalid</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>Test invalid subcontainer reference / opcode combos in a non-first code section</td>
+<td>Test invalid subcontainer reference / opcode combos in a non-first code section.</td>
 </tr>
 <tr>
 <td><a href="test_container_both_kinds_same_sub/"><code>test_container_both_kinds_same_sub</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Test subcontainer conflicts (both EOFCREATE and RETURNCONTRACT Reference)</td>
+<td>Test subcontainer conflicts (both EOFCREATE and RETURNCONTRACT Reference).</td>
 </tr>
 <tr>
 <td><a href="test_container_both_kinds_different_sub/"><code>test_container_both_kinds_different_sub</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Test multiple kinds of subcontainer at the same level</td>
+<td>Test multiple kinds of subcontainer at the same level.</td>
 </tr>
 <tr>
 <td><a href="test_container_multiple_eofcreate_references/"><code>test_container_multiple_eofcreate_references</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Test multiple references to the same subcontainer from an EOFCREATE operation</td>
+<td>Test multiple references to the same subcontainer from an EOFCREATE operation.</td>
 </tr>
 <tr>
 <td><a href="test_container_multiple_returncontract_references/"><code>test_container_multiple_returncontract_references</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Test multiple references to the same subcontainer from a RETURNCONTACT operation</td>
+<td>Test multiple references to the same subcontainer from a RETURNCONTACT operation.</td>
 </tr>
 <tr>
 <td><a href="test_subcontainer_wrong_eof_version/"><code>test_subcontainer_wrong_eof_version</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>Test a subcontainer with the incorrect EOF version</td>
+<td>Test a subcontainer with the incorrect EOF version.</td>
 </tr>
 <tr>
 <td><a href="test_subcontainer_wrong_size/"><code>test_subcontainer_wrong_size</code></a></td>
 <td>eof_test</td>
 <td>4</td>
-<td>Test a subcontainer with the incorrect size in the parent's header</td>
+<td>Test a subcontainer with the incorrect size in the parent's header.</td>
 </tr>
 <tr>
 <td><a href="test_deep_container/"><code>test_deep_container</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>Test a very deeply nested container</td>
+<td>Test a very deeply nested container.</td>
 </tr>
 <tr>
 <td><a href="test_wide_container/"><code>test_wide_container</code></a></td>
 <td>eof_test</td>
 <td>4</td>
-<td>Test a container with the maximum number of sub-containers</td>
+<td>Test a container with the maximum number of sub-containers.</td>
 </tr>
 <tr>
 <td><a href="test_migrated_eofcreate/"><code>test_migrated_eofcreate</code></a></td>

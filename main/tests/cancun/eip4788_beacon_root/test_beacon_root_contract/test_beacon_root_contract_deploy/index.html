@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_beacon_root_contract_deploy"><code>test_beacon_root_contract_deploy()</code><a class="headerlink" href="#test_beacon_root_contract_deploy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L644"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L645"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy --fork Prague</span>
@@ -25254,8 +25254,7 @@ code deployed and its functionality after Cancun.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">644</span>
-<span class="normal">645</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">645</span>
 <span class="normal">646</span>
 <span class="normal">647</span>
 <span class="normal">648</span>
@@ -25396,7 +25395,8 @@ code deployed and its functionality after Cancun.</p>
 <span class="normal">783</span>
 <span class="normal">784</span>
 <span class="normal">785</span>
-<span class="normal">786</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">786</span>
+<span class="normal">787</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">15_000</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deploy_on_shanghai&quot;</span><span class="p">),</span>
@@ -25499,14 +25499,14 @@ code deployed and its functionality after Cancun.</p>
                     <span class="p">],</span>
                 <span class="p">),</span>
             <span class="p">)</span>
-            <span class="n">beacon_root_contract_storage</span><span class="p">[</span>
-                <span class="n">current_timestamp</span> <span class="o">%</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="n">current_timestamp</span>
+            <span class="n">beacon_root_contract_storage</span><span class="p">[</span><span class="n">current_timestamp</span> <span class="o">%</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">current_timestamp</span>
+            <span class="p">)</span>
             <span class="n">beacon_root_contract_storage</span><span class="p">[</span>
                 <span class="p">(</span><span class="n">current_timestamp</span> <span class="o">%</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span>
             <span class="p">]</span> <span class="o">=</span> <span class="n">beacon_root</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;This test should only have two blocks&quot;</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;This test should only have two blocks&quot;</span><span class="p">)</span>
 
     <span class="n">expected_code</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()[</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">][</span><span class="s2">&quot;code&quot;</span><span class="p">]</span>
     <span class="n">pre</span><span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">BEACON_ROOTS_ADDRESS</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>

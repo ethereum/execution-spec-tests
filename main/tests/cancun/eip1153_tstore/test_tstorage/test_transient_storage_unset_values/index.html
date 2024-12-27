@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_transient_storage_unset_values"><code>test_transient_storage_unset_values()</code><a class="headerlink" href="#test_transient_storage_unset_values" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip1153_tstore/test_tstorage.py#L27"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_transient_storage_unset_values@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip1153_tstore/test_tstorage.py#L34"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_transient_storage_unset_values@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage.py::test_transient_storage_unset_values --fork Prague</span>
@@ -25251,18 +25251,11 @@
 
       <p>Test that tload returns zero for unset values. Loading an arbitrary value is
 0 at beginning of transaction: TLOAD(x) is 0.</p>
-<p>Based on <a href="https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml">ethereum/tests/.../01_tloadBeginningTxnFiller.yml</a>",  # noqa: E501</p>
+<p>Based on <a href="https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml">ethereum/tests/.../01_tloadBeginningTxnFiller.yml</a>",</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
@@ -25285,13 +25278,20 @@
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_transient_storage_unset_values</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_transient_storage_unset_values</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that tload returns zero for unset values. Loading an arbitrary value is</span>
 <span class="sd">    0 at beginning of transaction: TLOAD(x) is 0.</span>
 
-<span class="sd">    Based on [ethereum/tests/.../01_tloadBeginningTxnFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml)&quot;,  # noqa: E501</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Based on [ethereum/tests/.../01_tloadBeginningTxnFiller.yml](https://github.com/ethereum/tests/blob/9b00b68593f5869eb51a6659e1cc983e875e616b/src/EIPTestsFiller/StateTests/stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml)&quot;,</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="n">slots_under_test</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">128</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>

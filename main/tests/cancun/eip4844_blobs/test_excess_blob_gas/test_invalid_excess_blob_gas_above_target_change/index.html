@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_invalid_excess_blob_gas_above_target_change"><code>test_invalid_excess_blob_gas_above_target_change()</code><a class="headerlink" href="#test_invalid_excess_blob_gas_above_target_change" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L501"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L494"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change --fork Prague</span>
@@ -25249,7 +25249,7 @@
 <a id="tests.cancun.eip4844_blobs.test_excess_blob_gas.test_invalid_excess_blob_gas_above_target_change"></a>
     <div class="doc doc-contents first">
 
-      <p>Test rejection of blocks where the <code>excessBlobGas</code></p>
+      <p>Test rejection of blocks where the <code>excessBlobGas</code>.</p>
 <ul>
 <li>decreases more than <code>TARGET_BLOB_GAS_PER_BLOCK</code> in a single block with zero blobs</li>
 <li>increases more than <code>TARGET_BLOB_GAS_PER_BLOCK</code> in a single block with max blobs</li>
@@ -25257,7 +25257,14 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">501</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
 <span class="normal">502</span>
 <span class="normal">503</span>
 <span class="normal">504</span>
@@ -25290,14 +25297,7 @@
 <span class="normal">531</span>
 <span class="normal">532</span>
 <span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">534</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;header_excess_blobs_delta,parent_blobs&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
@@ -25315,7 +25315,7 @@
     <span class="n">header_excess_blob_gas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test rejection of blocks where the `excessBlobGas`</span>
+<span class="sd">    Test rejection of blocks where the `excessBlobGas`.</span>
 
 <span class="sd">    - decreases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with zero blobs</span>
 <span class="sd">    - increases more than `TARGET_BLOB_GAS_PER_BLOCK` in a single block with max blobs</span>

@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjumpv_backwards_reference_only"><code>test_rjumpv_backwards_reference_only()</code><a class="headerlink" href="#test_rjumpv_backwards_reference_only" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1142"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_backwards_reference_only@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1136"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_backwards_reference_only@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_backwards_reference_only --fork Osaka</span>
@@ -25251,11 +25251,17 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpv.test_rjumpv_backwards_reference_only"></a>
     <div class="doc doc-contents first">
 
-      <p>EOF code containing instructions only reachable by backwards RJUMPV</p>
+      <p>EOF code containing instructions only reachable by backwards RJUMPV.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1142</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1136</span>
+<span class="normal">1137</span>
+<span class="normal">1138</span>
+<span class="normal">1139</span>
+<span class="normal">1140</span>
+<span class="normal">1141</span>
+<span class="normal">1142</span>
 <span class="normal">1143</span>
 <span class="normal">1144</span>
 <span class="normal">1145</span>
@@ -25266,27 +25272,17 @@
 <span class="normal">1150</span>
 <span class="normal">1151</span>
 <span class="normal">1152</span>
-<span class="normal">1153</span>
-<span class="normal">1154</span>
-<span class="normal">1155</span>
-<span class="normal">1156</span>
-<span class="normal">1157</span>
-<span class="normal">1158</span>
-<span class="normal">1159</span>
-<span class="normal">1160</span>
-<span class="normal">1161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpv_backwards_reference_only</span><span class="p">(</span>
+<span class="normal">1153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpv_backwards_reference_only</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EOF code containing instructions only reachable by backwards RJUMPV</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">RJUMPV_LEN</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing instructions only reachable by backwards RJUMPV.&quot;&quot;&quot;</span>
+    <span class="n">rjumpv_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">RJUMP_LEN</span><span class="p">]</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">RJUMPV_LEN</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">)]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="n">rjumpv_len</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">)]</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="o">-</span><span class="p">(</span><span class="n">RJUMP_LEN</span> <span class="o">+</span> <span class="n">RJUMPV_LEN</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">))]</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="o">-</span><span class="p">(</span><span class="n">RJUMP_LEN</span> <span class="o">+</span> <span class="n">rjumpv_len</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">))]</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
         <span class="p">)</span>
     <span class="p">)</span>

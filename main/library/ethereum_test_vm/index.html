@@ -17932,11 +17932,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -28990,7 +28990,8 @@ consideration.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  9</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  8</span>
+<span class="normal">  9</span>
 <span class="normal"> 10</span>
 <span class="normal"> 11</span>
 <span class="normal"> 12</span>
@@ -29193,26 +29194,7 @@ consideration.</p>
 <span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Bytecode</span><span class="p">:</span>
+<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Bytecode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class to represent EVM bytecode.</span>
 
@@ -29226,6 +29208,7 @@ consideration.</p>
 <span class="sd">    - pushed_stack_items: number of items the bytecode pushes to the stack</span>
 <span class="sd">    - min_stack_height: minimum stack height required by the bytecode</span>
 <span class="sd">    - max_stack_height: maximum stack height reached by the bytecode</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_name_</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -29249,9 +29232,7 @@ consideration.</p>
         <span class="n">terminating</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a new opcode instance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create new opcode instance.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">bytes_or_byte_code_base</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">_bytes_</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
@@ -29298,30 +29279,25 @@ consideration.</p>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Bytecode constructor &#39;__new__&#39; didn&#39;t return an instance!&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the opcode byte representation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the opcode byte representation.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bytes_</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the length of the opcode byte representation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the length of the opcode byte representation.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bytes_</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the name of the opcode, assigned at Enum creation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the name of the opcode, assigned at Enum creation.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Allows comparison between Bytecode instances and bytes objects.</span>
+<span class="sd">        Allow comparison between Bytecode instances and bytes objects.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">        - NotImplementedError: if the comparison is not between an Bytecode</span>
 <span class="sd">            or a bytes object.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">(</span>
@@ -29336,9 +29312,7 @@ consideration.</p>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported type for comparison: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the hash of the bytecode representation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the hash of the bytecode representation.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span>
             <span class="p">(</span>
                 <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
@@ -29350,9 +29324,7 @@ consideration.</p>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Concatenate the bytecode representation with another bytecode object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate the bytecode representation with another bytecode object.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
             <span class="c1"># Edge case for sum() function</span>
             <span class="k">return</span> <span class="bp">self</span>
@@ -29402,9 +29374,7 @@ consideration.</p>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Concatenate the opcode byte representation with another bytes object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate the opcode byte representation with another bytes object.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
             <span class="c1"># Edge case for sum() function</span>
             <span class="k">return</span> <span class="bp">self</span>
@@ -29412,9 +29382,7 @@ consideration.</p>
         <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Concatenate another bytes object with the opcode byte representation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate another bytes object with the opcode byte representation.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">other</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot multiply by a negative number&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -29425,15 +29393,11 @@ consideration.</p>
         <span class="k">return</span> <span class="n">output</span>
 
     <span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the hexadecimal representation of the opcode byte representation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the hexadecimal representation of the opcode byte representation.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hash</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the keccak256 hash of the opcode byte representation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the keccak256 hash of the opcode byte representation.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bytes_</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -29459,7 +29423,7 @@ consideration.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Creates a new opcode instance.</p>
+      <p>Create new opcode instance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
@@ -29518,9 +29482,7 @@ consideration.</p>
 <span class="normal">87</span>
 <span class="normal">88</span>
 <span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">bytes_or_byte_code_base</span><span class="p">:</span> <span class="s2">&quot;bytes | Bytecode | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -29531,9 +29493,7 @@ consideration.</p>
     <span class="n">terminating</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates a new opcode instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create new opcode instance.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">bytes_or_byte_code_base</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">_bytes_</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
@@ -29604,14 +29564,10 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span>
-<span class="normal">97</span>
-<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the opcode byte representation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the opcode byte representation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bytes_</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29639,14 +29595,10 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the length of the opcode byte representation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the length of the opcode byte representation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bytes_</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29674,14 +29626,10 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the name of the opcode, assigned at Enum creation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the opcode, assigned at Enum creation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -29705,7 +29653,7 @@ consideration.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Allows comparison between Bytecode instances and bytes objects.</p>
+      <p>Allow comparison between Bytecode instances and bytes objects.</p>
       <ul>
 <li>NotImplementedError: if the comparison is not between an Bytecode
     or a bytes object.</li>
@@ -29713,7 +29661,15 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
@@ -29724,20 +29680,14 @@ consideration.</p>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Allows comparison between Bytecode instances and bytes objects.</span>
+<span class="sd">    Allow comparison between Bytecode instances and bytes objects.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">    - NotImplementedError: if the comparison is not between an Bytecode</span>
 <span class="sd">        or a bytes object.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -29776,22 +29726,18 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the hash of the bytecode representation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the hash of the bytecode representation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span>
         <span class="p">(</span>
             <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
@@ -29827,7 +29773,16 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
@@ -29866,21 +29821,8 @@ consideration.</p>
 <span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Concatenate the bytecode representation with another bytecode object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate the bytecode representation with another bytecode object.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
         <span class="c1"># Edge case for sum() function</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -29954,18 +29896,14 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Concatenate the opcode byte representation with another bytes object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Bytecode | int | None&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate the opcode byte representation with another bytes object.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
         <span class="c1"># Edge case for sum() function</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -29997,21 +29935,17 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Concatenate another bytes object with the opcode byte representation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Bytecode&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate another bytes object with the opcode byte representation.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">other</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot multiply by a negative number&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -30046,14 +29980,10 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the hexadecimal representation of the opcode byte representation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the hexadecimal representation of the opcode byte representation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -30081,14 +30011,10 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hash</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the keccak256 hash of the opcode byte representation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">keccak256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hash</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the keccak256 hash of the opcode byte representation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bytes_</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -30130,30 +30056,22 @@ consideration.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/evm_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
 <span class="normal">10</span>
 <span class="normal">11</span>
 <span class="normal">12</span>
 <span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EVMCodeType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Enum representing the type of EVM code that is supported in a given fork.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EVMCodeType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum representing the type of EVM code that is supported in a given fork.&quot;&quot;&quot;</span>
 
     <span class="n">LEGACY</span> <span class="o">=</span> <span class="s2">&quot;legacy&quot;</span>
     <span class="n">EOF_V1</span> <span class="o">=</span> <span class="s2">&quot;eof_v1&quot;</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the name of the EVM code type.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the name of the EVM code type.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -30183,14 +30101,10 @@ consideration.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/evm_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the name of the EVM code type.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the EVM code type.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -30223,11 +30137,13 @@ consideration.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the return code for a CALL operation.</p>
+      <p>Return return code for a CALL operation.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span>
 <span class="normal">11</span>
@@ -30235,14 +30151,8 @@ consideration.</p>
 <span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">call_return_code</span><span class="p">(</span><span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">revert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the return code for a CALL operation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">call_return_code</span><span class="p">(</span><span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">revert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return return code for a CALL operation.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">opcode</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">opcode</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">]:</span>
@@ -30279,11 +30189,23 @@ consideration.</p>
               Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_vm.bytecode.Bytecode" href="#ethereum_test_vm.Bytecode">Bytecode</a></code></p>
 
 
-      <p>Represents opcode macro replacement, basically holds bytes</p>
+      <p>Represents opcode macro replacement, basically holds bytes.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">304</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
 <span class="normal">305</span>
 <span class="normal">306</span>
 <span class="normal">307</span>
@@ -30302,39 +30224,20 @@ consideration.</p>
 <span class="normal">320</span>
 <span class="normal">321</span>
 <span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macro</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents opcode macro replacement, basically holds bytes</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">323</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macro</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents opcode macro replacement, basically holds bytes.&quot;&quot;&quot;</span>
 
     <span class="n">lambda_operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">macro_or_bytes</span><span class="p">:</span> <span class="s2">&quot;Bytecode | Macro&quot;</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">(),</span>
+        <span class="n">macro_or_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Bytecode | Macro&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">lambda_operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a new opcode macro instance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create new opcode macro instance.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">macro_or_bytes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">macro_or_bytes</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">macro_or_bytes</span><span class="p">,</span> <span class="n">Macro</span><span class="p">):</span>
             <span class="c1"># Required because Enum class calls the base class with the instantiated object as</span>
             <span class="c1"># parameter.</span>
@@ -30345,10 +30248,7 @@ consideration.</p>
             <span class="k">return</span> <span class="n">instance</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args_t</span><span class="p">:</span> <span class="n">OpcodeCallArg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Performs the macro operation if any.</span>
-<span class="sd">        Otherwise is a no-op.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform macro operation if any. Otherwise is a no-op.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_operation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_operation</span><span class="p">(</span><span class="o">*</span><span class="n">args_t</span><span class="p">)</span>
 
@@ -30373,42 +30273,42 @@ consideration.</p>
 
 
 <h3 id="ethereum_test_vm.Macro.__new__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">macro_or_bytes</span><span class="o">=</span><span class="n">Bytecode</span><span class="p">(),</span> <span class="o">*</span><span class="p">,</span> <span class="n">lambda_operation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">macro_or_bytes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lambda_operation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_vm.Macro.__new__" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-      <p>Creates a new opcode macro instance.</p>
+      <p>Create new opcode macro instance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">311</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
 <span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">313</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
-    <span class="n">macro_or_bytes</span><span class="p">:</span> <span class="s2">&quot;Bytecode | Macro&quot;</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">(),</span>
+    <span class="n">macro_or_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Bytecode | Macro&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">lambda_operation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Bytecode</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates a new opcode macro instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create new opcode macro instance.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">macro_or_bytes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">macro_or_bytes</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">macro_or_bytes</span><span class="p">,</span> <span class="n">Macro</span><span class="p">):</span>
         <span class="c1"># Required because Enum class calls the base class with the instantiated object as</span>
         <span class="c1"># parameter.</span>
@@ -30439,27 +30339,20 @@ consideration.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Performs the macro operation if any.
-Otherwise is a no-op.</p>
+      <p>Perform macro operation if any. Otherwise is a no-op.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args_t</span><span class="p">:</span> <span class="n">OpcodeCallArg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Performs the macro operation if any.</span>
-<span class="sd">    Otherwise is a no-op.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args_t</span><span class="p">:</span> <span class="n">OpcodeCallArg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform macro operation if any. Otherwise is a no-op.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_operation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_operation</span><span class="p">(</span><span class="o">*</span><span class="n">args_t</span><span class="p">)</span>
 
@@ -30507,7 +30400,26 @@ Otherwise is a no-op.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5743</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5724</span>
+<span class="normal">5725</span>
+<span class="normal">5726</span>
+<span class="normal">5727</span>
+<span class="normal">5728</span>
+<span class="normal">5729</span>
+<span class="normal">5730</span>
+<span class="normal">5731</span>
+<span class="normal">5732</span>
+<span class="normal">5733</span>
+<span class="normal">5734</span>
+<span class="normal">5735</span>
+<span class="normal">5736</span>
+<span class="normal">5737</span>
+<span class="normal">5738</span>
+<span class="normal">5739</span>
+<span class="normal">5740</span>
+<span class="normal">5741</span>
+<span class="normal">5742</span>
+<span class="normal">5743</span>
 <span class="normal">5744</span>
 <span class="normal">5745</span>
 <span class="normal">5746</span>
@@ -30540,31 +30452,8 @@ Otherwise is a no-op.</p>
 <span class="normal">5773</span>
 <span class="normal">5774</span>
 <span class="normal">5775</span>
-<span class="normal">5776</span>
-<span class="normal">5777</span>
-<span class="normal">5778</span>
-<span class="normal">5779</span>
-<span class="normal">5780</span>
-<span class="normal">5781</span>
-<span class="normal">5782</span>
-<span class="normal">5783</span>
-<span class="normal">5784</span>
-<span class="normal">5785</span>
-<span class="normal">5786</span>
-<span class="normal">5787</span>
-<span class="normal">5788</span>
-<span class="normal">5789</span>
-<span class="normal">5790</span>
-<span class="normal">5791</span>
-<span class="normal">5792</span>
-<span class="normal">5793</span>
-<span class="normal">5794</span>
-<span class="normal">5795</span>
-<span class="normal">5796</span>
-<span class="normal">5797</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macros</span><span class="p">(</span><span class="n">Macro</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Enum containing all macros.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">5776</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Macros</span><span class="p">(</span><span class="n">Macro</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum containing all macros.&quot;&quot;&quot;</span>
 
     <span class="n">OOG</span> <span class="o">=</span> <span class="n">Macro</span><span class="p">(</span><span class="n">Opcodes</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100000000000</span><span class="p">))</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -30755,7 +30644,11 @@ tests.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
 <span class="normal"> 73</span>
 <span class="normal"> 74</span>
 <span class="normal"> 75</span>
@@ -30969,19 +30862,7 @@ tests.</p>
 <span class="normal">283</span>
 <span class="normal">284</span>
 <span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcode</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcode</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a single Opcode instruction in the EVM, with extra metadata useful to parametrize</span>
 <span class="sd">    tests.</span>
@@ -30997,6 +30878,7 @@ tests.</p>
 <span class="sd">        meant to be placed in the stack</span>
 <span class="sd">    - kwargs_defaults: default values for the keyword arguments if any, otherwise 0</span>
 <span class="sd">    - unchecked_stack: whether the bytecode should ignore stack checks when being called</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data_portion_length</span><span class="p">:</span> <span class="nb">int</span>
@@ -31020,17 +30902,16 @@ tests.</p>
         <span class="n">unchecked_stack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">terminating</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">kwargs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">kwargs_defaults</span><span class="p">:</span> <span class="n">KW_ARGS_DEFAULTS_TYPE</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">kwargs_defaults</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KW_ARGS_DEFAULTS_TYPE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a new opcode instance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create new opcode instance.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs_defaults</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs_defaults</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Opcode</span><span class="p">:</span>
             <span class="c1"># Required because Enum class calls the base class with the instantiated object as</span>
             <span class="c1"># parameter.</span>
             <span class="k">return</span> <span class="n">opcode_or_byte</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
-
             <span class="n">obj_bytes</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="nb">bytes</span><span class="p">([</span><span class="n">opcode_or_byte</span><span class="p">])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">opcode_or_byte</span>
             <span class="p">)</span>
@@ -31135,7 +31016,7 @@ tests.</p>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;int | bytes | str | Opcode | Bytecode&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Makes all opcode instances callable to return formatted bytecode, which constitutes a data</span>
+<span class="sd">        Make all opcode instances callable to return formatted bytecode, which constitutes a data</span>
 <span class="sd">        portion, that is located after the opcode byte, and pre-opcode bytecode, which is normally</span>
 <span class="sd">        used to set up the stack.</span>
 
@@ -31186,27 +31067,19 @@ tests.</p>
         <span class="k">return</span> <span class="n">pre_opcode_bytecode</span> <span class="o">+</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Opcode&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compares two opcodes by their integer value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare two opcodes by their integer value.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">int</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Opcode&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compares two opcodes by their integer value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare two opcodes by their integer value.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">int</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">int</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the integer representation of the opcode.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return integer representation of the opcode.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">has_data_portion</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns whether the opcode has a data portion.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether the opcode has a data portion.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_portion_length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_portion_formatter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -31225,18 +31098,21 @@ tests.</p>
 
 
 <h3 id="ethereum_test_vm.Opcode.__new__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_stack_height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_stack_height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_portion_length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_portion_formatter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stack_properties_modifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unchecked_stack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">terminating</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs_defaults</span><span class="o">=</span><span class="p">{})</span></code>
+            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">popped_stack_items</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pushed_stack_items</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_stack_height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_stack_height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_portion_length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_portion_formatter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stack_properties_modifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unchecked_stack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">terminating</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs_defaults</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_vm.Opcode.__new__" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-      <p>Creates a new opcode instance.</p>
+      <p>Create new opcode instance.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
@@ -31282,11 +31158,7 @@ tests.</p>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">opcode_or_byte</span><span class="p">:</span> <span class="s2">&quot;int | bytes | Opcode&quot;</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -31300,17 +31172,16 @@ tests.</p>
     <span class="n">unchecked_stack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">terminating</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">kwargs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">kwargs_defaults</span><span class="p">:</span> <span class="n">KW_ARGS_DEFAULTS_TYPE</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">kwargs_defaults</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KW_ARGS_DEFAULTS_TYPE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates a new opcode instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create new opcode instance.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">kwargs_defaults</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs_defaults</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Opcode</span><span class="p">:</span>
         <span class="c1"># Required because Enum class calls the base class with the instantiated object as</span>
         <span class="c1"># parameter.</span>
         <span class="k">return</span> <span class="n">opcode_or_byte</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
-
         <span class="n">obj_bytes</span> <span class="o">=</span> <span class="p">(</span>
             <span class="nb">bytes</span><span class="p">([</span><span class="n">opcode_or_byte</span><span class="p">])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opcode_or_byte</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">opcode_or_byte</span>
         <span class="p">)</span>
@@ -31364,7 +31235,11 @@ the data portion variables to avoid reusing them.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
@@ -31428,11 +31303,7 @@ the data portion variables to avoid reusing them.</p>
 <span class="normal">210</span>
 <span class="normal">211</span>
 <span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="s2">&quot;int | bytes | str | Iterable[int]&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Opcode&quot;</span><span class="p">:</span>
+<span class="normal">213</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="s2">&quot;int | bytes | str | Iterable[int]&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Opcode&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize a new instance of the opcode with the data portion set, and also clear</span>
 <span class="sd">    the data portion variables to avoid reusing them.</span>
@@ -31523,7 +31394,7 @@ the data portion variables to avoid reusing them.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Makes all opcode instances callable to return formatted bytecode, which constitutes a data
+      <p>Make all opcode instances callable to return formatted bytecode, which constitutes a data
 portion, that is located after the opcode byte, and pre-opcode bytecode, which is normally
 used to set up the stack.</p>
 <p>This useful to automatically format, e.g., call opcodes and their stack arguments as
@@ -31542,7 +31413,11 @@ to PUSH operations, and negative numbers always use a PUSH32 operation.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
@@ -31593,18 +31468,14 @@ to PUSH operations, and negative numbers always use a PUSH32 operation.</p>
 <span class="normal">267</span>
 <span class="normal">268</span>
 <span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="n">args_t</span><span class="p">:</span> <span class="s2">&quot;int | bytes | str | Opcode | Bytecode | Iterable[int]&quot;</span><span class="p">,</span>
     <span class="n">unchecked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;int | bytes | str | Opcode | Bytecode&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bytecode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Makes all opcode instances callable to return formatted bytecode, which constitutes a data</span>
+<span class="sd">    Make all opcode instances callable to return formatted bytecode, which constitutes a data</span>
 <span class="sd">    portion, that is located after the opcode byte, and pre-opcode bytecode, which is normally</span>
 <span class="sd">    used to set up the stack.</span>
 
@@ -31675,18 +31546,14 @@ to PUSH operations, and negative numbers always use a PUSH32 operation.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Compares two opcodes by their integer value.</p>
+      <p>Compare two opcodes by their integer value.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Opcode&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compares two opcodes by their integer value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Opcode&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compare two opcodes by their integer value.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">int</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -31710,18 +31577,14 @@ to PUSH operations, and negative numbers always use a PUSH32 operation.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Compares two opcodes by their integer value.</p>
+      <p>Compare two opcodes by their integer value.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Opcode&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compares two opcodes by their integer value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Opcode&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compare two opcodes by their integer value.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">int</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -31745,18 +31608,14 @@ to PUSH operations, and negative numbers always use a PUSH32 operation.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns the integer representation of the opcode.</p>
+      <p>Return integer representation of the opcode.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">int</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the integer representation of the opcode.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">int</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return integer representation of the opcode.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -31780,18 +31639,14 @@ to PUSH operations, and negative numbers always use a PUSH32 operation.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Returns whether the opcode has a data portion.</p>
+      <p>Return whether the opcode has a data portion.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">has_data_portion</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns whether the opcode has a data portion.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">has_data_portion</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether the opcode has a data portion.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_portion_length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_portion_formatter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -31837,7 +31692,24 @@ cherry-picked opcodes from this Enum within the test if iteration is needed.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 420</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 403</span>
+<span class="normal"> 404</span>
+<span class="normal"> 405</span>
+<span class="normal"> 406</span>
+<span class="normal"> 407</span>
+<span class="normal"> 408</span>
+<span class="normal"> 409</span>
+<span class="normal"> 410</span>
+<span class="normal"> 411</span>
+<span class="normal"> 412</span>
+<span class="normal"> 413</span>
+<span class="normal"> 414</span>
+<span class="normal"> 415</span>
+<span class="normal"> 416</span>
+<span class="normal"> 417</span>
+<span class="normal"> 418</span>
+<span class="normal"> 419</span>
+<span class="normal"> 420</span>
 <span class="normal"> 421</span>
 <span class="normal"> 422</span>
 <span class="normal"> 423</span>
@@ -37075,24 +36947,7 @@ cherry-picked opcodes from this Enum within the test if iteration is needed.</p>
 <span class="normal">5655</span>
 <span class="normal">5656</span>
 <span class="normal">5657</span>
-<span class="normal">5658</span>
-<span class="normal">5659</span>
-<span class="normal">5660</span>
-<span class="normal">5661</span>
-<span class="normal">5662</span>
-<span class="normal">5663</span>
-<span class="normal">5664</span>
-<span class="normal">5665</span>
-<span class="normal">5666</span>
-<span class="normal">5667</span>
-<span class="normal">5668</span>
-<span class="normal">5669</span>
-<span class="normal">5670</span>
-<span class="normal">5671</span>
-<span class="normal">5672</span>
-<span class="normal">5673</span>
-<span class="normal">5674</span>
-<span class="normal">5675</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="normal">5658</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Opcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum containing all known opcodes.</span>
 
@@ -49896,7 +49751,28 @@ dynamic_gas = memory_expansion_cost</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_vm/opcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5800</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">5779</span>
+<span class="normal">5780</span>
+<span class="normal">5781</span>
+<span class="normal">5782</span>
+<span class="normal">5783</span>
+<span class="normal">5784</span>
+<span class="normal">5785</span>
+<span class="normal">5786</span>
+<span class="normal">5787</span>
+<span class="normal">5788</span>
+<span class="normal">5789</span>
+<span class="normal">5790</span>
+<span class="normal">5791</span>
+<span class="normal">5792</span>
+<span class="normal">5793</span>
+<span class="normal">5794</span>
+<span class="normal">5795</span>
+<span class="normal">5796</span>
+<span class="normal">5797</span>
+<span class="normal">5798</span>
+<span class="normal">5799</span>
+<span class="normal">5800</span>
 <span class="normal">5801</span>
 <span class="normal">5802</span>
 <span class="normal">5803</span>
@@ -49965,33 +49841,8 @@ dynamic_gas = memory_expansion_cost</p>
 <span class="normal">5866</span>
 <span class="normal">5867</span>
 <span class="normal">5868</span>
-<span class="normal">5869</span>
-<span class="normal">5870</span>
-<span class="normal">5871</span>
-<span class="normal">5872</span>
-<span class="normal">5873</span>
-<span class="normal">5874</span>
-<span class="normal">5875</span>
-<span class="normal">5876</span>
-<span class="normal">5877</span>
-<span class="normal">5878</span>
-<span class="normal">5879</span>
-<span class="normal">5880</span>
-<span class="normal">5881</span>
-<span class="normal">5882</span>
-<span class="normal">5883</span>
-<span class="normal">5884</span>
-<span class="normal">5885</span>
-<span class="normal">5886</span>
-<span class="normal">5887</span>
-<span class="normal">5888</span>
-<span class="normal">5889</span>
-<span class="normal">5890</span>
-<span class="normal">5891</span>
-<span class="normal">5892</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UndefinedOpcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Enum containing all unknown opcodes (88 at the moment).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">5869</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UndefinedOpcodes</span><span class="p">(</span><span class="n">Opcode</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enum containing all unknown opcodes (88 at the moment).&quot;&quot;&quot;</span>
 
     <span class="n">OPCODE_0C</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0x0C</span><span class="p">)</span>
     <span class="n">OPCODE_0D</span> <span class="o">=</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0x0D</span><span class="p">)</span>

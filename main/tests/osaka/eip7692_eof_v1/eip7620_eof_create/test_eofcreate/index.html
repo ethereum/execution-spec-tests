@@ -16037,11 +16037,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25178,7 +25178,7 @@
 
 
 <h1 id="test-eofcreate">Test EOFCREATE<a class="headerlink" href="#test-eofcreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L44"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L42"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py --fork Osaka</span>
@@ -25193,7 +25193,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7620_eof_create.test_eofcreate"></a>
     <div class="doc doc-contents first">
 
-      <p>Test good and bad EOFCREATE cases</p>
+      <p>Test good and bad EOFCREATE cases.</p>
 
 
 
@@ -25222,67 +25222,67 @@
 <td><a href="test_simple_eofcreate/"><code>test_simple_eofcreate</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Verifies a simple EOFCREATE case</td>
+<td>Verifies a simple EOFCREATE case.</td>
 </tr>
 <tr>
 <td><a href="test_eofcreate_then_call/"><code>test_eofcreate_then_call</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Verifies a simple EOFCREATE case, and then calls the deployed contract</td>
+<td>Verifies a simple EOFCREATE case, and then calls the deployed contract.</td>
 </tr>
 <tr>
 <td><a href="test_auxdata_variations/"><code>test_auxdata_variations</code></a></td>
 <td>state_test</td>
 <td>6</td>
-<td>Verifies that auxdata bytes are correctly handled in RETURNCONTRACT</td>
+<td>Verifies that auxdata bytes are correctly handled in RETURNCONTRACT.</td>
 </tr>
 <tr>
 <td><a href="test_calldata/"><code>test_calldata</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Verifies CALLDATA passing through EOFCREATE</td>
+<td>Verifies CALLDATA passing through EOFCREATE.</td>
 </tr>
 <tr>
 <td><a href="test_eofcreate_in_initcode/"><code>test_eofcreate_in_initcode</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Verifies an EOFCREATE occuring within initcode creates that contract</td>
+<td>Verifies an EOFCREATE occuring within initcode creates that contract.</td>
 </tr>
 <tr>
 <td><a href="test_eofcreate_in_initcode_reverts/"><code>test_eofcreate_in_initcode_reverts</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Verifies an EOFCREATE occuring in an initcode is rolled back when the initcode reverts</td>
+<td>Verifies an EOFCREATE occuring in an initcode is rolled back when the initcode reverts.</td>
 </tr>
 <tr>
 <td><a href="test_return_data_cleared/"><code>test_return_data_cleared</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Verifies the return data is not re-used from a extcall but is cleared upon eofcreate</td>
+<td>Verifies the return data is not re-used from a extcall but is cleared upon eofcreate.</td>
 </tr>
 <tr>
 <td><a href="test_address_collision/"><code>test_address_collision</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Verifies a simple EOFCREATE case</td>
+<td>Verifies a simple EOFCREATE case.</td>
 </tr>
 <tr>
 <td><a href="test_eofcreate_revert_eof_returndata/"><code>test_eofcreate_revert_eof_returndata</code></a></td>
 <td>state_test</td>
 <td>1</td>
-<td>Verifies the return data is not being deployed, even if happens to be valid EOF</td>
+<td>Verifies the return data is not being deployed, even if happens to be valid EOF.</td>
 </tr>
 <tr>
 <td><a href="test_eofcreate_invalid_index/"><code>test_eofcreate_invalid_index</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>Referring to non-existent container section index</td>
+<td>Referring to non-existent container section index.</td>
 </tr>
 <tr>
 <td><a href="test_eofcreate_context/"><code>test_eofcreate_context</code></a></td>
 <td>state_test</td>
 <td>4</td>
-<td>Test EOFCREATE's initcode context instructions</td>
+<td>Test EOFCREATE's initcode context instructions.</td>
 </tr>
 </tbody>
 </table>

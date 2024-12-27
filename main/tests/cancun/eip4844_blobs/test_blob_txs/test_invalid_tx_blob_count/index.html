@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_invalid_tx_blob_count"><code>test_invalid_tx_blob_count()</code><a class="headerlink" href="#test_invalid_tx_blob_count" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blob_txs.py#L1013"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blob_txs.py#L991"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count --fork Prague</span>
@@ -25249,7 +25249,7 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_blob_count"></a>
     <div class="doc doc-contents first">
 
-      <p>Reject blocks that include blob transactions with invalid blob counts:</p>
+      <p>Reject blocks that include blob transactions with invalid blob counts.</p>
 <ul>
 <li><code>blob count == 0</code> in type 3 transaction</li>
 <li><code>blob count &gt; MAX_BLOBS_PER_BLOCK</code> in type 3 transaction</li>
@@ -25257,7 +25257,29 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1013</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 991</span>
+<span class="normal"> 992</span>
+<span class="normal"> 993</span>
+<span class="normal"> 994</span>
+<span class="normal"> 995</span>
+<span class="normal"> 996</span>
+<span class="normal"> 997</span>
+<span class="normal"> 998</span>
+<span class="normal"> 999</span>
+<span class="normal">1000</span>
+<span class="normal">1001</span>
+<span class="normal">1002</span>
+<span class="normal">1003</span>
+<span class="normal">1004</span>
+<span class="normal">1005</span>
+<span class="normal">1006</span>
+<span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span>
 <span class="normal">1014</span>
 <span class="normal">1015</span>
 <span class="normal">1016</span>
@@ -25270,29 +25292,7 @@
 <span class="normal">1023</span>
 <span class="normal">1024</span>
 <span class="normal">1025</span>
-<span class="normal">1026</span>
-<span class="normal">1027</span>
-<span class="normal">1028</span>
-<span class="normal">1029</span>
-<span class="normal">1030</span>
-<span class="normal">1031</span>
-<span class="normal">1032</span>
-<span class="normal">1033</span>
-<span class="normal">1034</span>
-<span class="normal">1035</span>
-<span class="normal">1036</span>
-<span class="normal">1037</span>
-<span class="normal">1038</span>
-<span class="normal">1039</span>
-<span class="normal">1040</span>
-<span class="normal">1041</span>
-<span class="normal">1042</span>
-<span class="normal">1043</span>
-<span class="normal">1044</span>
-<span class="normal">1045</span>
-<span class="normal">1046</span>
-<span class="normal">1047</span>
-<span class="normal">1048</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1026</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blobs_per_tx,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_ZERO_BLOBS</span><span class="p">),</span>
@@ -25314,7 +25314,7 @@
     <span class="n">rlp_modifier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Reject blocks that include blob transactions with invalid blob counts:</span>
+<span class="sd">    Reject blocks that include blob transactions with invalid blob counts.</span>
 
 <span class="sd">    - `blob count == 0` in type 3 transaction</span>
 <span class="sd">    - `blob count &gt; MAX_BLOBS_PER_BLOCK` in type 3 transaction</span>

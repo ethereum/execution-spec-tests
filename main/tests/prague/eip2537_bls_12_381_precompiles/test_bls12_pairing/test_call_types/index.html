@@ -16093,11 +16093,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_call_types"><code>test_call_types()</code><a class="headerlink" href="#test_call_types" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py#L126"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_call_types@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py#L121"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_call_types@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_call_types --fork Prague</span>
@@ -25253,7 +25253,12 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
@@ -25278,14 +25283,7 @@
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span>
@@ -25294,7 +25292,7 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;input,expected_output&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;input_data,expected_output&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
@@ -25309,9 +25307,7 @@
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test the BLS12_PAIRING precompile using different call types.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the BLS12_PAIRING precompile using different call types.&quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
@@ -25367,7 +25363,7 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>input</th>
+                        <th>input_data</th>
                         <th>expected_output</th>
                         <th>call_opcode</th>
                         <th>precompile_address</th>

@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjump_into_swapn"><code>test_rjump_into_swapn()</code><a class="headerlink" href="#test_rjump_into_swapn" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L561"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_swapn@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L559"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_swapn@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_swapn --fork Osaka</span>
@@ -25251,11 +25251,13 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjump.test_rjump_into_swapn"></a>
     <div class="doc doc-contents first">
 
-      <p>EOF code containing RJUMP with target SWAPN immediate</p>
+      <p>EOF code containing RJUMP with target SWAPN immediate.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">561</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
 <span class="normal">562</span>
 <span class="normal">563</span>
 <span class="normal">564</span>
@@ -25271,12 +25273,10 @@
 <span class="normal">574</span>
 <span class="normal">575</span>
 <span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_into_swapn</span><span class="p">(</span>
+<span class="normal">577</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_into_swapn</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing RJUMP with target SWAPN immediate&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing RJUMP with target SWAPN immediate.&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>

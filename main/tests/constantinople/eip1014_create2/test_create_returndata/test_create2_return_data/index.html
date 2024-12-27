@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_create2_return_data"><code>test_create2_return_data()</code><a class="headerlink" href="#test_create2_return_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/constantinople/eip1014_create2/test_create_returndata.py#L19"><code>tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/constantinople/eip1014_create2/test_create_returndata.py#L25"><code>tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data --fork Prague</span>
@@ -25249,17 +25249,11 @@
 <a id="tests.constantinople.eip1014_create2.test_create_returndata.test_create2_return_data"></a>
     <div class="doc doc-contents first">
 
-      <p>Validate that create2 return data does not interfere with previously existing memory</p>
+      <p>Validate that create2 return data does not interfere with previously existing memory.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/constantinople/eip1014_create2/test_create_returndata.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 19</span>
-<span class="normal"> 20</span>
-<span class="normal"> 21</span>
-<span class="normal"> 22</span>
-<span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 25</span>
 <span class="normal"> 26</span>
 <span class="normal"> 27</span>
 <span class="normal"> 28</span>
@@ -25371,7 +25365,10 @@
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
-<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_return_size&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;return_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">])</span>
@@ -25384,9 +25381,7 @@
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Validate that create2 return data does not interfere with previously existing memory</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate that create2 return data does not interfere with previously existing memory.&quot;&quot;&quot;</span>
     <span class="c1"># Storage vars</span>
     <span class="n">slot_returndatasize_before_create</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">slot_returndatasize_after_create</span> <span class="o">=</span> <span class="mi">1</span>
@@ -25444,7 +25439,6 @@
             <span class="n">slot_return_data_hash_after_create</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
             <span class="n">slot_returndatacopy_before_create</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
             <span class="n">slot_returndatacopy_before_create_2</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
-            <span class="n">slot_begin_memory_after_create</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
             <span class="n">slot_begin_memory_after_create</span><span class="p">:</span> <span class="mh">0xFF</span><span class="p">,</span>
         <span class="p">},</span>
     <span class="p">)</span>

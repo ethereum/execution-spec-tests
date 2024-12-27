@@ -16225,11 +16225,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25758,7 +25758,7 @@ values using the <code>with_all_*</code> markers listed in the
 <a id="ethereum_test_tools.utility.pytest.extend_with_defaults"></a>
     <div class="doc doc-contents first">
 
-      <p>Extends test cases with default parameter values.</p>
+      <p>Extend test cases with default parameter values.</p>
 <p>This utility function extends test case parameters by adding default values
 from the <code>defaults</code> dictionary to each case in the <code>cases</code> list. If a case
 already specifies a value for a parameter, its default is ignored.</p>
@@ -25921,7 +25921,8 @@ function and are passed through unchanged.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/utility/pytest.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 21</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 20</span>
+<span class="normal"> 21</span>
 <span class="normal"> 22</span>
 <span class="normal"> 23</span>
 <span class="normal"> 24</span>
@@ -26031,7 +26032,7 @@ function and are passed through unchanged.</p>
     <span class="n">defaults</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ParameterSet</span><span class="p">],</span> <span class="o">**</span><span class="n">parametrize_kwargs</span><span class="p">:</span> <span class="n">Any</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extends test cases with default parameter values.</span>
+<span class="sd">    Extend test cases with default parameter values.</span>
 
 <span class="sd">    This utility function extends test case parameters by adding default values</span>
 <span class="sd">    from the `defaults` dictionary to each case in the `cases` list. If a case</span>
@@ -26121,6 +26122,7 @@ function and are passed through unchanged.</p>
 <span class="sd">          of parameter values.</span>
 <span class="sd">        - The function performs an in-place update of the `cases` list, so the</span>
 <span class="sd">          original `cases` list is modified.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">case</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cases</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">case</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)):</span>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_blob_gas_subtraction_tx"><code>test_blob_gas_subtraction_tx()</code><a class="headerlink" href="#test_blob_gas_subtraction_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blob_txs.py#L917"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_gas_subtraction_tx@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blob_txs.py#L895"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_gas_subtraction_tx@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_gas_subtraction_tx --fork Prague</span>
@@ -25250,7 +25250,7 @@
     <div class="doc doc-contents first">
 
       <p>Check that the blob gas fee for a transaction is subtracted from the sender balance before the
-transaction is executed, including:</p>
+transaction is executed.</p>
 <ul>
 <li>Transactions with max fee equal or higher than current block base fee</li>
 <li>Transactions with and without value</li>
@@ -25261,7 +25261,29 @@ transaction is executed, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">917</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">895</span>
+<span class="normal">896</span>
+<span class="normal">897</span>
+<span class="normal">898</span>
+<span class="normal">899</span>
+<span class="normal">900</span>
+<span class="normal">901</span>
+<span class="normal">902</span>
+<span class="normal">903</span>
+<span class="normal">904</span>
+<span class="normal">905</span>
+<span class="normal">906</span>
+<span class="normal">907</span>
+<span class="normal">908</span>
+<span class="normal">909</span>
+<span class="normal">910</span>
+<span class="normal">911</span>
+<span class="normal">912</span>
+<span class="normal">913</span>
+<span class="normal">914</span>
+<span class="normal">915</span>
+<span class="normal">916</span>
+<span class="normal">917</span>
 <span class="normal">918</span>
 <span class="normal">919</span>
 <span class="normal">920</span>
@@ -25305,29 +25327,7 @@ transaction is executed, including:</p>
 <span class="normal">958</span>
 <span class="normal">959</span>
 <span class="normal">960</span>
-<span class="normal">961</span>
-<span class="normal">962</span>
-<span class="normal">963</span>
-<span class="normal">964</span>
-<span class="normal">965</span>
-<span class="normal">966</span>
-<span class="normal">967</span>
-<span class="normal">968</span>
-<span class="normal">969</span>
-<span class="normal">970</span>
-<span class="normal">971</span>
-<span class="normal">972</span>
-<span class="normal">973</span>
-<span class="normal">974</span>
-<span class="normal">975</span>
-<span class="normal">976</span>
-<span class="normal">977</span>
-<span class="normal">978</span>
-<span class="normal">979</span>
-<span class="normal">980</span>
-<span class="normal">981</span>
-<span class="normal">982</span>
-<span class="normal">983</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">961</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_access_list&quot;</span><span class="p">,</span>
     <span class="p">[[],</span> <span class="p">[</span><span class="n">AccessList</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">])]],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_access_list&quot;</span><span class="p">,</span> <span class="s2">&quot;access_list&quot;</span><span class="p">],</span>
@@ -25369,7 +25369,7 @@ transaction is executed, including:</p>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check that the blob gas fee for a transaction is subtracted from the sender balance before the</span>
-<span class="sd">    transaction is executed, including:</span>
+<span class="sd">    transaction is executed.</span>
 
 <span class="sd">    - Transactions with max fee equal or higher than current block base fee</span>
 <span class="sd">    - Transactions with and without value</span>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_blobhash_multiple_txs_in_block"><code>test_blobhash_multiple_txs_in_block()</code><a class="headerlink" href="#test_blobhash_multiple_txs_in_block" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L232"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_multiple_txs_in_block@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L233"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_multiple_txs_in_block@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_multiple_txs_in_block --fork Prague</span>
@@ -25256,8 +25256,7 @@ within a block, including the opposite.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">232</span>
-<span class="normal">233</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
 <span class="normal">236</span>
@@ -25320,7 +25319,8 @@ within a block, including the opposite.</p>
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
-<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_blobhash_multiple_txs_in_block</span><span class="p">(</span>
+<span class="normal">296</span>
+<span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_blobhash_multiple_txs_in_block</span><span class="p">(</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
@@ -25335,40 +25335,40 @@ within a block, including the opposite.</p>
     <span class="n">addresses</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">blobhash_bytecode</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">tx_type</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">ty</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span>
+            <span class="n">ty</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
             <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">to</span><span class="o">=</span><span class="n">address</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">gas_limit</span><span class="o">=</span><span class="mi">3_000_000</span><span class="p">,</span>
-            <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="nb">type</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">access_list</span><span class="o">=</span><span class="p">[]</span> <span class="k">if</span> <span class="nb">type</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">access_list</span><span class="o">=</span><span class="p">[]</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
             <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-            <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="nb">type</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">random_blob_hashes</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()]</span>
-            <span class="k">if</span> <span class="nb">type</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+            <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">3</span>
             <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tx_type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tx_type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">),</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tx_type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tx_type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">),</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">tx_type</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">blob_tx</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">addresses</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">tx_type</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
     <span class="p">]</span>

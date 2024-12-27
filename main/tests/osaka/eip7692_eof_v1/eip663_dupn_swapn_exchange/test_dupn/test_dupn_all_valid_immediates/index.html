@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_dupn_all_valid_immediates"><code>test_dupn_all_valid_immediates()</code><a class="headerlink" href="#test_dupn_all_valid_immediates" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_dupn.py#L20"><code>tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_dupn.py::test_dupn_all_valid_immediates@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_dupn.py#L20"><code>tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_dupn.py::test_dupn_all_valid_immediates@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_dupn.py::test_dupn_all_valid_immediates --fork Osaka</span>
@@ -25277,13 +25277,9 @@
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="n">EOF_FORK_NAME</span><span class="p">)</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="n">EOF_FORK_NAME</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_dupn_all_valid_immediates</span><span class="p">(</span><span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test case for all valid DUPN immediates.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case for all valid DUPN immediates.&quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">8</span>
     <span class="n">values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0xD00</span><span class="p">,</span> <span class="mh">0xD00</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span>
 
@@ -25297,7 +25293,7 @@
         <span class="p">],</span>
     <span class="p">)</span>
 
-    <span class="n">post</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">values</span><span class="p">))))</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
 
     <span class="n">eof_state_test</span><span class="p">(</span>
         <span class="n">tx_sender_funding_amount</span><span class="o">=</span><span class="mi">1_000_000_000</span><span class="p">,</span>

@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_ext_calls_gas"><code>test_ext_calls_gas()</code><a class="headerlink" href="#test_ext_calls_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py#L41"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py#L41"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas --fork Osaka</span>
@@ -25251,7 +25251,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7069_extcall.test_gas.test_ext_calls_gas"></a>
     <div class="doc doc-contents first">
 
-      <p>Tests variations of EXT*CALL gas, both warm and cold, without and with mem expansions</p>
+      <p>Tests variations of EXT*CALL gas, both warm and cold, without and with mem expansions.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py</code></summary>
@@ -25442,7 +25442,7 @@
     <span class="n">new_account</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">mem_expansion_bytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests variations of EXT*CALL gas, both warm and cold, without and with mem expansions&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests variations of EXT*CALL gas, both warm and cold, without and with mem expansions.&quot;&quot;&quot;</span>
     <span class="n">address_target</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">new_account</span> <span class="k">else</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">))</span>
     <span class="p">)</span>

@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_eofcreate_in_initcode_reverts"><code>test_eofcreate_in_initcode_reverts()</code><a class="headerlink" href="#test_eofcreate_in_initcode_reverts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L337"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_in_initcode_reverts@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L325"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_in_initcode_reverts@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_in_initcode_reverts --fork Osaka</span>
@@ -25251,11 +25251,23 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7620_eof_create.test_eofcreate.test_eofcreate_in_initcode_reverts"></a>
     <div class="doc doc-contents first">
 
-      <p>Verifies an EOFCREATE occuring in an initcode is rolled back when the initcode reverts</p>
+      <p>Verifies an EOFCREATE occuring in an initcode is rolled back when the initcode reverts.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">337</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
 <span class="normal">338</span>
 <span class="normal">339</span>
 <span class="normal">340</span>
@@ -25294,27 +25306,11 @@
 <span class="normal">373</span>
 <span class="normal">374</span>
 <span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_in_initcode_reverts</span><span class="p">(</span>
+<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_in_initcode_reverts</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Verifies an EOFCREATE occuring in an initcode is rolled back when the initcode reverts</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verifies an EOFCREATE occuring in an initcode is rolled back when the initcode reverts.&quot;&quot;&quot;</span>
     <span class="n">nested_initcode_subcontainer</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>

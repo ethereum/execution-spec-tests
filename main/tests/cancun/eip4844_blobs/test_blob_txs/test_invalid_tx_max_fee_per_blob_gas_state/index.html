@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_invalid_tx_max_fee_per_blob_gas_state"><code>test_invalid_tx_max_fee_per_blob_gas_state()</code><a class="headerlink" href="#test_invalid_tx_max_fee_per_blob_gas_state" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blob_txs.py#L665"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas_state@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blob_txs.py#L643"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas_state@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas_state --fork Prague</span>
@@ -25249,7 +25249,7 @@
 <a id="tests.cancun.eip4844_blobs.test_blob_txs.test_invalid_tx_max_fee_per_blob_gas_state"></a>
     <div class="doc doc-contents first">
 
-      <p>Reject an invalid blob transaction due to:</p>
+      <p>Reject an invalid blob transaction.</p>
 <ul>
 <li>tx max_fee_per_blob_gas is barely not enough</li>
 <li>tx max_fee_per_blob_gas is zero</li>
@@ -25257,7 +25257,29 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">665</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
 <span class="normal">666</span>
 <span class="normal">667</span>
 <span class="normal">668</span>
@@ -25275,29 +25297,7 @@
 <span class="normal">680</span>
 <span class="normal">681</span>
 <span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">683</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># tx max_blob_gas_cost of the transaction is not enough</span>
@@ -25326,7 +25326,7 @@
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Reject an invalid blob transaction due to:</span>
+<span class="sd">    Reject an invalid blob transaction.</span>
 
 <span class="sd">    - tx max_fee_per_blob_gas is barely not enough</span>
 <span class="sd">    - tx max_fee_per_blob_gas is zero</span>

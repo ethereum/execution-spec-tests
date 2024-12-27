@@ -16018,11 +16018,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25217,10 +25217,9 @@
 <h3 id="eest-clean">eest clean<a class="headerlink" href="#eest-clean" title="Permanent link">&para;</a></h3>
 <p>Remove all generated files and directories from the repository.
 If <code>--all</code> is specified, the virtual environment and .tox directory will also be removed.</p>
-<p>Args:</p>
-<div class="highlight"><pre><span></span><code>all (flag): Remove the virtual environment and .tox directory as well.
-
-dry_run (bool): Simulate the cleanup without removing files.
+<p>Args:
+    all_files (bool): Remove the virtual environment and .tox directory as well.</p>
+<div class="highlight"><pre><span></span><code>dry_run (bool): Simulate the cleanup without removing files.
 
 verbose (bool): Show verbose output.
 </code></pre></div>
@@ -25261,13 +25260,12 @@ verbose (bool): Show verbose output.
 <li><em><a href="#eest-make-test">test</a></em>: Generate a new test file for an EIP.</li>
 </ul>
 <h4 id="eest-make-env">eest make env<a class="headerlink" href="#eest-make-env" title="Permanent link">&para;</a></h4>
-<p>A CLI command to generate the default environment file (env.yaml).</p>
+<p>CLI command to generate the default environment file (env.yaml).</p>
 <p>If an <code>env.yaml</code> already exists, this command will NOT override it.
 In that case, it is recommended to manually make changes.</p>
 <p><em>Easter egg: Shows a random quote after creating the environment file.</em></p>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code>uv run eest make env
-</code></pre></div>
+<p>Example:
+    uv run eest make env</p>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code>🎉 Success! Environment file created at: &lt;path&gt;/env.yaml
 
@@ -25300,9 +25298,8 @@ is created in the appropriate directory with a rendered template.</p>
 <p>Enter the EIP name</p>
 </li>
 </ul>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code>uv run eest make test
-</code></pre></div>
+<p>Example:
+    uv run eest make test</p>
 <figure class="video_container">
     <video controls="true" allowfullscreen="true">
         <source

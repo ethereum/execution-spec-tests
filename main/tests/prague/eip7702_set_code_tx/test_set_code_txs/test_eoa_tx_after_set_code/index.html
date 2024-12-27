@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_eoa_tx_after_set_code"><code>test_eoa_tx_after_set_code()</code><a class="headerlink" href="#test_eoa_tx_after_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2760"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2714"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code --fork Prague</span>
@@ -25253,7 +25253,53 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2760</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2714</span>
+<span class="normal">2715</span>
+<span class="normal">2716</span>
+<span class="normal">2717</span>
+<span class="normal">2718</span>
+<span class="normal">2719</span>
+<span class="normal">2720</span>
+<span class="normal">2721</span>
+<span class="normal">2722</span>
+<span class="normal">2723</span>
+<span class="normal">2724</span>
+<span class="normal">2725</span>
+<span class="normal">2726</span>
+<span class="normal">2727</span>
+<span class="normal">2728</span>
+<span class="normal">2729</span>
+<span class="normal">2730</span>
+<span class="normal">2731</span>
+<span class="normal">2732</span>
+<span class="normal">2733</span>
+<span class="normal">2734</span>
+<span class="normal">2735</span>
+<span class="normal">2736</span>
+<span class="normal">2737</span>
+<span class="normal">2738</span>
+<span class="normal">2739</span>
+<span class="normal">2740</span>
+<span class="normal">2741</span>
+<span class="normal">2742</span>
+<span class="normal">2743</span>
+<span class="normal">2744</span>
+<span class="normal">2745</span>
+<span class="normal">2746</span>
+<span class="normal">2747</span>
+<span class="normal">2748</span>
+<span class="normal">2749</span>
+<span class="normal">2750</span>
+<span class="normal">2751</span>
+<span class="normal">2752</span>
+<span class="normal">2753</span>
+<span class="normal">2754</span>
+<span class="normal">2755</span>
+<span class="normal">2756</span>
+<span class="normal">2757</span>
+<span class="normal">2758</span>
+<span class="normal">2759</span>
+<span class="normal">2760</span>
 <span class="normal">2761</span>
 <span class="normal">2762</span>
 <span class="normal">2763</span>
@@ -25323,55 +25369,7 @@
 <span class="normal">2827</span>
 <span class="normal">2828</span>
 <span class="normal">2829</span>
-<span class="normal">2830</span>
-<span class="normal">2831</span>
-<span class="normal">2832</span>
-<span class="normal">2833</span>
-<span class="normal">2834</span>
-<span class="normal">2835</span>
-<span class="normal">2836</span>
-<span class="normal">2837</span>
-<span class="normal">2838</span>
-<span class="normal">2839</span>
-<span class="normal">2840</span>
-<span class="normal">2841</span>
-<span class="normal">2842</span>
-<span class="normal">2843</span>
-<span class="normal">2844</span>
-<span class="normal">2845</span>
-<span class="normal">2846</span>
-<span class="normal">2847</span>
-<span class="normal">2848</span>
-<span class="normal">2849</span>
-<span class="normal">2850</span>
-<span class="normal">2851</span>
-<span class="normal">2852</span>
-<span class="normal">2853</span>
-<span class="normal">2854</span>
-<span class="normal">2855</span>
-<span class="normal">2856</span>
-<span class="normal">2857</span>
-<span class="normal">2858</span>
-<span class="normal">2859</span>
-<span class="normal">2860</span>
-<span class="normal">2861</span>
-<span class="normal">2862</span>
-<span class="normal">2863</span>
-<span class="normal">2864</span>
-<span class="normal">2865</span>
-<span class="normal">2866</span>
-<span class="normal">2867</span>
-<span class="normal">2868</span>
-<span class="normal">2869</span>
-<span class="normal">2870</span>
-<span class="normal">2871</span>
-<span class="normal">2872</span>
-<span class="normal">2873</span>
-<span class="normal">2874</span>
-<span class="normal">2875</span>
-<span class="normal">2876</span>
-<span class="normal">2877</span>
-<span class="normal">2878</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">2830</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span>
     <span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="n">marks</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;incompatible tx&quot;</span><span class="p">))</span>
@@ -25384,9 +25382,7 @@
     <span class="n">tx_type</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending a transaction from an EOA after code has been set to the account.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test sending a transaction from an EOA after code has been set to the account.&quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
     <span class="n">set_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>

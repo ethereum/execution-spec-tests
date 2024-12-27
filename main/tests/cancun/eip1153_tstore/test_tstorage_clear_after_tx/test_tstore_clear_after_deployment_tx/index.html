@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_tstore_clear_after_deployment_tx"><code>test_tstore_clear_after_deployment_tx()</code><a class="headerlink" href="#test_tstore_clear_after_deployment_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py#L29"><code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_deployment_tx@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py#L29"><code>tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_deployment_tx@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_clear_after_tx.py::test_tstore_clear_after_deployment_tx --fork Prague</span>
@@ -25249,7 +25249,7 @@
 <a id="tests.cancun.eip1153_tstore.test_tstorage_clear_after_tx.test_tstore_clear_after_deployment_tx"></a>
     <div class="doc doc-contents first">
 
-      <p>This test first creates a contract, which TSTOREs a value 1 in slot 1.
+      <p>First creates a contract, which TSTOREs a value 1 in slot 1.
 After creating the contract, a new tx will call this contract, storing TLOAD(1) into slot 1.
 The transient storage should be cleared after creating the contract (at tx-level), so
 the storage should stay empty.</p>
@@ -25309,7 +25309,7 @@ the storage should stay empty.</p>
     <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This test first creates a contract, which TSTOREs a value 1 in slot 1.</span>
+<span class="sd">    First creates a contract, which TSTOREs a value 1 in slot 1.</span>
 <span class="sd">    After creating the contract, a new tx will call this contract, storing TLOAD(1) into slot 1.</span>
 <span class="sd">    The transient storage should be cleared after creating the contract (at tx-level), so</span>
 <span class="sd">    the storage should stay empty.</span>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25250,7 +25250,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py@7e00240e</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -25291,13 +25291,18 @@
 
 
       <p>Parameters from the EIP-4844 specifications as defined at
-<a href="https://eips.ethereum.org/EIPS/eip-4844#parameters">https://eips.ethereum.org/EIPS/eip-4844#parameters</a></p>
+<a href="https://eips.ethereum.org/EIPS/eip-4844#parameters">https://eips.ethereum.org/EIPS/eip-4844#parameters</a>.</p>
 <p>If the parameter is not currently used within the tests, it is commented
 out.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
 <span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
@@ -25374,24 +25379,11 @@ out.</p>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-4844 specifications as defined at</span>
-<span class="sd">    https://eips.ethereum.org/EIPS/eip-4844#parameters</span>
+<span class="sd">    https://eips.ethereum.org/EIPS/eip-4844#parameters.</span>
 
 <span class="sd">    If the parameter is not currently used within the tests, it is commented</span>
 <span class="sd">    out.</span>
@@ -25423,9 +25415,7 @@ out.</p>
         <span class="n">kzg_commitment</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>  <span class="c1"># 48 bytes</span>
         <span class="n">blob_commitment_version_kzg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bytes</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the versioned hash for a given KZG commitment.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate versioned hash for a given KZG commitment.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">blob_commitment_version_kzg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">blob_commitment_version_kzg</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kzg_commitment</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
@@ -25436,9 +25426,7 @@ out.</p>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">fake_exponential</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">numerator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denominator</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Used to calculate the blob gas cost.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the blob gas cost.&quot;&quot;&quot;</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">output</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">numerator_accumulator</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">denominator</span>
@@ -25461,18 +25449,14 @@ out.</p>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_total_blob_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the total blob gas for a transaction.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the total blob gas for a transaction.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">tx</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_blob_gasprice</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the blob gas price from the excess.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the blob gas price from the excess.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fake_exponential</span><span class="p">(</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">MIN_BLOB_GASPRICE</span><span class="p">,</span>
             <span class="n">excess_blob_gas</span><span class="p">,</span>
@@ -25523,7 +25507,20 @@ spec but not strictly part of it.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
@@ -25557,28 +25554,7 @@ spec but not strictly part of it.</p>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">SpecHelpers</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define parameters and helper functions that are tightly coupled to the 4844</span>
@@ -25589,16 +25565,12 @@ spec but not strictly part of it.</p>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># MAX_BLOBS_PER_BLOCK =</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the maximum number of blobs per block.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return maximum number of blobs per block.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_BLOB_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the target number of blobs per block.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return target number of blobs per block.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
 
     <span class="nd">@classmethod</span>
@@ -25616,9 +25588,7 @@ spec but not strictly part of it.</p>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_min_excess_blob_gas_for_blob_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">blob_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the minimum required excess blob gas value to get a given blob gas cost in a block</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get minimum required excess blob gas value to get a given blob gas cost in a block.&quot;&quot;&quot;</span>
         <span class="n">current_excess_blob_gas</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">current_blob_gas_price</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">while</span> <span class="n">current_blob_gas_price</span> <span class="o">&lt;</span> <span class="n">blob_gas_price</span><span class="p">:</span>
@@ -25630,9 +25600,7 @@ spec but not strictly part of it.</p>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">blob_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the minimum required excess blobs to get a given blob gas cost in a block</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get minimum required excess blobs to get a given blob gas cost in a block.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_min_excess_blob_gas_for_blob_gas_price</span><span class="p">(</span><span class="n">blob_gas_price</span><span class="p">)</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
 </code></pre></div></td></tr></table></div>
               </details>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_sufficient_balance_blob_tx_pre_fund_tx"><code>test_sufficient_balance_blob_tx_pre_fund_tx()</code><a class="headerlink" href="#test_sufficient_balance_blob_tx_pre_fund_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blob_txs.py#L859"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blob_txs.py#L837"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx_pre_fund_tx --fork Prague</span>
@@ -25251,7 +25251,7 @@
 
       <p>Check that transaction is accepted when user can exactly afford the blob gas specified (and
 max_fee_per_gas would be enough for current block) because a funding transaction is
-prepended in the same block, including:</p>
+prepended in the same block.</p>
 <ul>
 <li>Transactions with max fee equal or higher than current block base fee</li>
 <li>Transactions with and without priority fee</li>
@@ -25262,7 +25262,29 @@ prepended in the same block, including:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">859</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span>
+<span class="normal">842</span>
+<span class="normal">843</span>
+<span class="normal">844</span>
+<span class="normal">845</span>
+<span class="normal">846</span>
+<span class="normal">847</span>
+<span class="normal">848</span>
+<span class="normal">849</span>
+<span class="normal">850</span>
+<span class="normal">851</span>
+<span class="normal">852</span>
+<span class="normal">853</span>
+<span class="normal">854</span>
+<span class="normal">855</span>
+<span class="normal">856</span>
+<span class="normal">857</span>
+<span class="normal">858</span>
+<span class="normal">859</span>
 <span class="normal">860</span>
 <span class="normal">861</span>
 <span class="normal">862</span>
@@ -25295,29 +25317,7 @@ prepended in the same block, including:</p>
 <span class="normal">889</span>
 <span class="normal">890</span>
 <span class="normal">891</span>
-<span class="normal">892</span>
-<span class="normal">893</span>
-<span class="normal">894</span>
-<span class="normal">895</span>
-<span class="normal">896</span>
-<span class="normal">897</span>
-<span class="normal">898</span>
-<span class="normal">899</span>
-<span class="normal">900</span>
-<span class="normal">901</span>
-<span class="normal">902</span>
-<span class="normal">903</span>
-<span class="normal">904</span>
-<span class="normal">905</span>
-<span class="normal">906</span>
-<span class="normal">907</span>
-<span class="normal">908</span>
-<span class="normal">909</span>
-<span class="normal">910</span>
-<span class="normal">911</span>
-<span class="normal">912</span>
-<span class="normal">913</span>
-<span class="normal">914</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">892</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_access_list&quot;</span><span class="p">,</span>
     <span class="p">[[],</span> <span class="p">[</span><span class="n">AccessList</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">])]],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_access_list&quot;</span><span class="p">,</span> <span class="s2">&quot;access_list&quot;</span><span class="p">],</span>
@@ -25345,7 +25345,7 @@ prepended in the same block, including:</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check that transaction is accepted when user can exactly afford the blob gas specified (and</span>
 <span class="sd">    max_fee_per_gas would be enough for current block) because a funding transaction is</span>
-<span class="sd">    prepended in the same block, including:</span>
+<span class="sd">    prepended in the same block.</span>
 
 <span class="sd">    - Transactions with max fee equal or higher than current block base fee</span>
 <span class="sd">    - Transactions with and without priority fee</span>

@@ -16037,11 +16037,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25178,7 +25178,7 @@
 
 
 <h1 id="test-rjumpi">Test RJUMPI<a class="headerlink" href="#test-rjumpi" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L40"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L38"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py --fork Osaka</span>
@@ -25222,49 +25222,49 @@
 <td><a href="test_rjumpi_condition_forwards/"><code>test_rjumpi_condition_forwards</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test RJUMPI contract switching based on external input</td>
+<td>Test RJUMPI contract switching based on external input.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_condition_backwards/"><code>test_rjumpi_condition_backwards</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test RJUMPI contract switching based on external input</td>
+<td>Test RJUMPI contract switching based on external input.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_condition_zero/"><code>test_rjumpi_condition_zero</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test RJUMPI contract switching based on external input</td>
+<td>Test RJUMPI contract switching based on external input.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_forwards/"><code>test_rjumpi_forwards</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF1V4200_0004 (Valid) EOF code containing RJUMPI (Positive)</td>
+<td>EOF1V4200_0004 (Valid) EOF code containing RJUMPI (Positive).</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_backwards/"><code>test_rjumpi_backwards</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF1V4200_0005 (Valid) EOF code containing RJUMPI (Negative)</td>
+<td>EOF1V4200_0005 (Valid) EOF code containing RJUMPI (Negative).</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_zero/"><code>test_rjumpi_zero</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF1V4200_0006 (Valid) EOF code containing RJUMPI (Zero)</td>
+<td>EOF1V4200_0006 (Valid) EOF code containing RJUMPI (Zero).</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_max_forward/"><code>test_rjumpi_max_forward</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF1V4200_0007 (Valid) EOF with RJUMPI containing the maximum offset (32767)</td>
+<td>EOF1V4200_0007 (Valid) EOF with RJUMPI containing the maximum offset (32767).</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_max_backward/"><code>test_rjumpi_max_backward</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF with RJUMPI containing the maximum negative offset (-32768)</td>
+<td>EOF with RJUMPI containing the maximum negative offset (-32768).</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_max_bytecode_size/"><code>test_rjumpi_max_bytecode_size</code></a></td>
@@ -25276,13 +25276,13 @@
 <td><a href="test_rjumpi_truncated/"><code>test_rjumpi_truncated</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0014 (Invalid) EOF code containing truncated RJUMPI</td>
+<td>EOF1I4200_0014 (Invalid) EOF code containing truncated RJUMPI.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_truncated_2/"><code>test_rjumpi_truncated_2</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0015 (Invalid) EOF code containing truncated RJUMPI</td>
+<td>EOF1I4200_0015 (Invalid) EOF code containing truncated RJUMPI.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_header/"><code>test_rjumpi_into_header</code></a></td>
@@ -25318,103 +25318,103 @@
 <td><a href="test_rjumpi_into_self_data_portion/"><code>test_rjumpi_into_self_data_portion</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate</td>
+<td>EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_self/"><code>test_rjumpi_into_self</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate</td>
+<td>EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_stack_height_diff/"><code>test_rjumpi_into_stack_height_diff</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMPI with target instruction that causes stack height difference</td>
+<td>EOF code containing RJUMPI with target instruction that causes stack height difference.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_stack_underflow/"><code>test_rjumpi_into_stack_underflow</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMPI with target instruction that cause stack underflow</td>
+<td>EOF code containing RJUMPI with target instruction that cause stack underflow.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_skips_stack_underflow/"><code>test_rjumpi_skips_stack_underflow</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMPI where the default path produces a stack underflow</td>
+<td>EOF code containing RJUMPI where the default path produces a stack underflow.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_rjump/"><code>test_rjumpi_into_rjump</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0023 (Invalid) EOF code containing RJUMPI with target RJUMP immediate</td>
+<td>EOF1I4200_0023 (Invalid) EOF code containing RJUMPI with target RJUMP immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_rjumpi/"><code>test_rjumpi_into_rjumpi</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0022 (Invalid) EOF code containing RJUMPI with target other RJUMPI immediate</td>
+<td>EOF1I4200_0022 (Invalid) EOF code containing RJUMPI with target other RJUMPI immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_push_1/"><code>test_rjumpi_into_push_1</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH1 immediate</td>
+<td>EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH1 immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_push_n/"><code>test_rjumpi_into_push_n</code></a></td>
 <td>eof_test</td>
 <td>124</td>
-<td>EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate</td>
+<td>EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_rjumpv/"><code>test_rjumpi_into_rjumpv</code></a></td>
 <td>eof_test</td>
 <td>4</td>
-<td>EOF1I4200_0025 (Invalid) EOF code containing RJUMPI with target RJUMPV immediate</td>
+<td>EOF1I4200_0025 (Invalid) EOF code containing RJUMPI with target RJUMPV immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_callf/"><code>test_rjumpi_into_callf</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>EOF1I4200_0026 (Invalid) EOF code containing RJUMPI with target CALLF immediate</td>
+<td>EOF1I4200_0026 (Invalid) EOF code containing RJUMPI with target CALLF immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_dupn/"><code>test_rjumpi_into_dupn</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target DUPN immediate</td>
+<td>EOF code containing RJUMP with target DUPN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_swapn/"><code>test_rjumpi_into_swapn</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target SWAPN immediate</td>
+<td>EOF code containing RJUMP with target SWAPN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_exchange/"><code>test_rjumpi_into_exchange</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target EXCHANGE immediate</td>
+<td>EOF code containing RJUMP with target EXCHANGE immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_eofcreate/"><code>test_rjumpi_into_eofcreate</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target EOFCREATE immediate</td>
+<td>EOF code containing RJUMP with target EOFCREATE immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_returncontract/"><code>test_rjumpi_into_returncontract</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target RETURNCONTRACT immediate</td>
+<td>EOF code containing RJUMP with target RETURNCONTRACT immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_backwards_reference_only/"><code>test_rjumpi_backwards_reference_only</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing instructions only reachable by backwards RJUMPI</td>
+<td>EOF code containing instructions only reachable by backwards RJUMPI.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_stack_validation/"><code>test_rjumpi_stack_validation</code></a></td>
@@ -25432,25 +25432,25 @@
 <td><a href="test_tangled_rjumpi/"><code>test_tangled_rjumpi</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing tangled RJUMPI paths</td>
+<td>EOF code containing tangled RJUMPI paths.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_backwards_onto_dup/"><code>test_rjumpi_backwards_onto_dup</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Backwards jumpi onto a dup</td>
+<td>Backwards jumpi onto a dup.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_backwards_min_stack_wrong/"><code>test_rjumpi_backwards_min_stack_wrong</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Backwards rjumpi where min_stack does not match</td>
+<td>Backwards rjumpi where min_stack does not match.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_rjumpv_backwards_min_stack_wrong/"><code>test_rjumpi_rjumpv_backwards_min_stack_wrong</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Backwards rjumpv where min_stack does not match</td>
+<td>Backwards rjumpv where min_stack does not match.</td>
 </tr>
 <tr>
 <td><a href="test_double_rjumpi_stack_underflow/"><code>test_double_rjumpi_stack_underflow</code></a></td>

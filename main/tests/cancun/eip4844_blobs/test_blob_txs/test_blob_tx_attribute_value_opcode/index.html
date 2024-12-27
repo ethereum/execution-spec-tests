@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_blob_tx_attribute_value_opcode"><code>test_blob_tx_attribute_value_opcode()</code><a class="headerlink" href="#test_blob_tx_attribute_value_opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blob_txs.py#L1302"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_value_opcode@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blob_txs.py#L1276"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_value_opcode@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_tx_attribute_value_opcode --fork Prague</span>
@@ -25253,7 +25253,33 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1302</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1276</span>
+<span class="normal">1277</span>
+<span class="normal">1278</span>
+<span class="normal">1279</span>
+<span class="normal">1280</span>
+<span class="normal">1281</span>
+<span class="normal">1282</span>
+<span class="normal">1283</span>
+<span class="normal">1284</span>
+<span class="normal">1285</span>
+<span class="normal">1286</span>
+<span class="normal">1287</span>
+<span class="normal">1288</span>
+<span class="normal">1289</span>
+<span class="normal">1290</span>
+<span class="normal">1291</span>
+<span class="normal">1292</span>
+<span class="normal">1293</span>
+<span class="normal">1294</span>
+<span class="normal">1295</span>
+<span class="normal">1296</span>
+<span class="normal">1297</span>
+<span class="normal">1298</span>
+<span class="normal">1299</span>
+<span class="normal">1300</span>
+<span class="normal">1301</span>
+<span class="normal">1302</span>
 <span class="normal">1303</span>
 <span class="normal">1304</span>
 <span class="normal">1305</span>
@@ -25273,35 +25299,7 @@
 <span class="normal">1319</span>
 <span class="normal">1320</span>
 <span class="normal">1321</span>
-<span class="normal">1322</span>
-<span class="normal">1323</span>
-<span class="normal">1324</span>
-<span class="normal">1325</span>
-<span class="normal">1326</span>
-<span class="normal">1327</span>
-<span class="normal">1328</span>
-<span class="normal">1329</span>
-<span class="normal">1330</span>
-<span class="normal">1331</span>
-<span class="normal">1332</span>
-<span class="normal">1333</span>
-<span class="normal">1334</span>
-<span class="normal">1335</span>
-<span class="normal">1336</span>
-<span class="normal">1337</span>
-<span class="normal">1338</span>
-<span class="normal">1339</span>
-<span class="normal">1340</span>
-<span class="normal">1341</span>
-<span class="normal">1342</span>
-<span class="normal">1343</span>
-<span class="normal">1344</span>
-<span class="normal">1345</span>
-<span class="normal">1346</span>
-<span class="normal">1347</span>
-<span class="normal">1348</span>
-<span class="normal">1349</span>
-<span class="normal">1350</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">])</span>
+<span class="normal">1322</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e18</span><span class="p">)])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
@@ -25320,9 +25318,7 @@
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Bytecode</span><span class="p">,</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span><span class="p">],</span>
     <span class="n">state_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test the VALUE opcode with different blob type transaction value amounts.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the VALUE opcode with different blob type transaction value amounts.&quot;&quot;&quot;</span>
     <span class="n">code</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">opcode</span>
     <span class="n">destination_account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjumpi_into_push_n"><code>test_rjumpi_into_push_n()</code><a class="headerlink" href="#test_rjumpi_into_push_n" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L556"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_push_n@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L556"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_push_n@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_push_n --fork Osaka</span>
@@ -25251,7 +25251,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_into_push_n"></a>
     <div class="doc doc-contents first">
 
-      <p>EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate</p>
+      <p>EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
@@ -25366,7 +25366,7 @@
     <span class="n">jump</span><span class="p">:</span> <span class="n">JumpDirection</span><span class="p">,</span>
     <span class="n">data_portion_end</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF1I4200_0024 (Invalid) EOF code containing RJUMPI with target PUSH2+ immediate.&quot;&quot;&quot;</span>
     <span class="n">data_portion_length</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">opcode</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="mh">0x5F</span>
     <span class="k">if</span> <span class="n">jump</span> <span class="o">==</span> <span class="n">JumpDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">:</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">data_portion_length</span> <span class="k">if</span> <span class="n">data_portion_end</span> <span class="k">else</span> <span class="mi">1</span>

@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjump_into_push_1"><code>test_rjump_into_push_1()</code><a class="headerlink" href="#test_rjump_into_push_1" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L401"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_push_1@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L399"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_push_1@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_push_1 --fork Osaka</span>
@@ -25251,11 +25251,13 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjump.test_rjump_into_push_1"></a>
     <div class="doc doc-contents first">
 
-      <p>EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1 immediate</p>
+      <p>EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1 immediate.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">401</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
 <span class="normal">402</span>
 <span class="normal">403</span>
 <span class="normal">404</span>
@@ -25266,11 +25268,9 @@
 <span class="normal">409</span>
 <span class="normal">410</span>
 <span class="normal">411</span>
-<span class="normal">412</span>
-<span class="normal">413</span>
-<span class="normal">414</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;jump&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">JumpDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span> <span class="n">JumpDirection</span><span class="o">.</span><span class="n">BACKWARD</span><span class="p">])</span>
+<span class="normal">412</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;jump&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">JumpDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span> <span class="n">JumpDirection</span><span class="o">.</span><span class="n">BACKWARD</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_rjump_into_push_1</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">jump</span><span class="p">:</span> <span class="n">JumpDirection</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1 immediate&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1 immediate.&quot;&quot;&quot;</span>
     <span class="n">code</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">jump</span> <span class="o">==</span> <span class="n">JumpDirection</span><span class="o">.</span><span class="n">BACKWARD</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>

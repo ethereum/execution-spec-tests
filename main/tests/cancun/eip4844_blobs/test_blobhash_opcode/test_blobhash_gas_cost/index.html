@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_blobhash_gas_cost"><code>test_blobhash_gas_cost()</code><a class="headerlink" href="#test_blobhash_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L58"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L59"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost --fork Prague</span>
@@ -25256,8 +25256,7 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 58</span>
-<span class="normal"> 59</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 59</span>
 <span class="normal"> 60</span>
 <span class="normal"> 61</span>
 <span class="normal"> 62</span>
@@ -25302,7 +25301,8 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;blobhash_index&quot;</span><span class="p">,</span> <span class="n">blobhash_index_values</span><span class="p">)</span>
+<span class="normal">104</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;blobhash_index&quot;</span><span class="p">,</span> <span class="n">blobhash_index_values</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span>
 <span class="k">def</span> <span class="nf">test_blobhash_gas_cost</span><span class="p">(</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

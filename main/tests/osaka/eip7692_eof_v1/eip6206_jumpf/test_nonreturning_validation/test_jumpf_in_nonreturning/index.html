@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_jumpf_in_nonreturning"><code>test_jumpf_in_nonreturning()</code><a class="headerlink" href="#test_jumpf_in_nonreturning" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L128"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_jumpf_in_nonreturning@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L122"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_jumpf_in_nonreturning@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_jumpf_in_nonreturning --fork Osaka</span>
@@ -25251,11 +25251,17 @@
 <a id="tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_nonreturning_validation.test_jumpf_in_nonreturning"></a>
     <div class="doc doc-contents first">
 
-      <p>Test EOF validation failing because a non-returning section contains the JUMPF instruction.</p>
+      <p>Test EOF validation failing due to non-returning section with the JUMPF instruction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
@@ -25267,20 +25273,10 @@
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@first</span>
+<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@first</span>
 <span class="nd">@code_prefix</span>
 <span class="k">def</span> <span class="nf">test_jumpf_in_nonreturning</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">code_prefix</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test EOF validation failing because a non-returning section contains the JUMPF instruction.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF validation failing due to non-returning section with the JUMPF instruction.&quot;&quot;&quot;</span>
     <span class="n">invalid_section</span> <span class="o">=</span> <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
         <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">first</span> <span class="k">else</span> <span class="mi">2</span><span class="p">],</span>
         <span class="n">code_outputs</span><span class="o">=</span><span class="n">NON_RETURNING_SECTION</span><span class="p">,</span>

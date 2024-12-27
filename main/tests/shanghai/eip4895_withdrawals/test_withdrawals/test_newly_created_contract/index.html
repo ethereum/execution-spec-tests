@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_newly_created_contract"><code>test_newly_created_contract()</code><a class="headerlink" href="#test_newly_created_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L413"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_newly_created_contract@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L405"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_newly_created_contract@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_newly_created_contract --fork Prague</span>
@@ -25253,7 +25253,15 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">413</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
 <span class="normal">414</span>
 <span class="normal">415</span>
 <span class="normal">416</span>
@@ -25293,17 +25301,7 @@
 <span class="normal">450</span>
 <span class="normal">451</span>
 <span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;include_value_in_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;without_tx_value&quot;</span><span class="p">,</span> <span class="s2">&quot;with_tx_value&quot;</span><span class="p">],</span>
@@ -25314,9 +25312,7 @@
     <span class="n">include_value_in_tx</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">request</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test Withdrawing to a newly created contract.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test Withdrawing to a newly created contract.&quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
     <span class="n">initcode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

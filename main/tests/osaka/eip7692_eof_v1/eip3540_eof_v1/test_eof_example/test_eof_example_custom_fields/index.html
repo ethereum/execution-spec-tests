@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_eof_example_custom_fields"><code>test_eof_example_custom_fields()</code><a class="headerlink" href="#test_eof_example_custom_fields" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py#L72"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example_custom_fields@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py#L68"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example_custom_fields@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example_custom_fields --fork Osaka</span>
@@ -25251,11 +25251,15 @@
 <a id="tests.osaka.eip7692_eof_v1.eip3540_eof_v1.test_eof_example.test_eof_example_custom_fields"></a>
     <div class="doc doc-contents first">
 
-      <p>Example of python EOF container class tuning</p>
+      <p>Example of python EOF container class tuning.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
 <span class="normal"> 73</span>
 <span class="normal"> 74</span>
 <span class="normal"> 75</span>
@@ -25298,16 +25302,8 @@
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example_custom_fields</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Example of python EOF container class tuning</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example_custom_fields</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Example of python EOF container class tuning.&quot;&quot;&quot;</span>
     <span class="c1"># if you need to overwrite certain structure bytes, you can use customization</span>
     <span class="c1"># this is useful for unit testing the eof structure format, you can reorganize sections</span>
     <span class="c1"># and overwrite the header bytes for testing purposes</span>

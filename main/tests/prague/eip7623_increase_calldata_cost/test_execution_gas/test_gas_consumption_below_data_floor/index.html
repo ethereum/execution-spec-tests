@@ -16102,11 +16102,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25252,7 +25252,7 @@
 
 
 <h1 id="test_gas_consumption_below_data_floor"><code>test_gas_consumption_below_data_floor()</code><a class="headerlink" href="#test_gas_consumption_below_data_floor" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L243"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumptionBelowDataFloor::test_gas_consumption_below_data_floor@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L235"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumptionBelowDataFloor::test_gas_consumption_below_data_floor@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumptionBelowDataFloor::test_gas_consumption_below_data_floor --fork Prague</span>
@@ -25272,7 +25272,12 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">201</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
@@ -25362,26 +25367,12 @@
 <span class="normal">288</span>
 <span class="normal">289</span>
 <span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumptionBelowDataFloor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test gas consumption barely below the floor data cost (1 gas below).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumptionBelowDataFloor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test gas consumption barely below the floor data cost (1 gas below).&quot;&quot;&quot;</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span> <span class="nf">contract_creating_tx</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Use a constant in order to avoid circular fixture dependencies.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Use a constant in order to avoid circular fixture dependencies.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -25394,7 +25385,8 @@
         <span class="n">authorization_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorizationTuple</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a contract that consumes almost all the gas before reaching the floor data cost.</span>
+<span class="sd">        Return a contract that consumes almost all the gas before reaching the</span>
+<span class="sd">        floor data cost.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">intrinsic_gas_cost_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
         <span class="n">data_floor</span> <span class="o">=</span> <span class="n">intrinsic_gas_cost_calculator</span><span class="p">(</span>
@@ -25465,9 +25457,7 @@
         <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Test executing a transaction that almost consumes the floor data cost.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test executing a transaction that almost consumes the floor data cost.&quot;&quot;&quot;</span>
         <span class="n">state_test</span><span class="p">(</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
@@ -25501,7 +25491,15 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
 <span class="normal">244</span>
 <span class="normal">245</span>
 <span class="normal">246</span>
@@ -25549,17 +25547,7 @@
 <span class="normal">288</span>
 <span class="normal">289</span>
 <span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;ty,protected,blob_versioned_hashes,authorization_list,authorization_existing_authority&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
@@ -25610,9 +25598,7 @@
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test executing a transaction that almost consumes the floor data cost.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test executing a transaction that almost consumes the floor data cost.&quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>

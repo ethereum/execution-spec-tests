@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_coverage"><code>test_coverage()</code><a class="headerlink" href="#test_coverage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/homestead/coverage/test_coverage.py#L15"><code>tests/homestead/coverage/test_coverage.py::test_coverage@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/homestead/coverage/test_coverage.py#L13"><code>tests/homestead/coverage/test_coverage.py::test_coverage@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/homestead/coverage/test_coverage.py::test_coverage --fork Prague</span>
@@ -25249,7 +25249,7 @@
 <a id="tests.homestead.coverage.test_coverage.test_coverage"></a>
     <div class="doc doc-contents first">
 
-      <p>This test covers gaps that result from transforming Yul code into
+      <p>Cover gaps that result from transforming Yul code into
 <code>ethereum_test_tools.vm.opcode.Opcodes</code> bytecode.</p>
 <p>E.g. Yul tends to optimize stack items by using <code>SWAP1</code> and <code>DUP1</code> opcodes, which are not
 regularly used in python code.</p>
@@ -25257,7 +25257,9 @@ regularly used in python code.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/homestead/coverage/test_coverage.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
 <span class="normal">18</span>
@@ -25318,16 +25320,14 @@ regularly used in python code.</p>
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Homestead&quot;</span><span class="p">)</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Homestead&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_coverage</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This test covers gaps that result from transforming Yul code into</span>
+<span class="sd">    Cover gaps that result from transforming Yul code into</span>
 <span class="sd">    `ethereum_test_tools.vm.opcode.Opcodes` bytecode.</span>
 
 <span class="sd">    E.g. Yul tends to optimize stack items by using `SWAP1` and `DUP1` opcodes, which are not</span>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_reentrant_selfdestructing_call"><code>test_reentrant_selfdestructing_call()</code><a class="headerlink" href="#test_reentrant_selfdestructing_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py#L210"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py#L219"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call --fork Prague</span>
@@ -25253,16 +25253,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
@@ -25293,7 +25284,14 @@
 <span class="normal">247</span>
 <span class="normal">248</span>
 <span class="normal">249</span>
-<span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@SelfDestructCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@SelfDestructCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_reentrant_selfdestructing_call</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -25302,9 +25300,7 @@
     <span class="n">callee_bytecode</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
     <span class="n">expected_storage</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test transient storage in different reentrancy contexts after selfdestructing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test transient storage in different reentrancy contexts after selfdestructing.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="n">caller_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">caller_bytecode</span><span class="p">)</span>

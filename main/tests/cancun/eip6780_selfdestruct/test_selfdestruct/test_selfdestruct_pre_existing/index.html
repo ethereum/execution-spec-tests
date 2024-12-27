@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_selfdestruct_pre_existing"><code>test_selfdestruct_pre_existing()</code><a class="headerlink" href="#test_selfdestruct_pre_existing" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L621"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L621"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing --fork Prague</span>
@@ -25523,7 +25523,7 @@ the behavior before the EIP, but the account is not deleted.</p>
 
     <span class="c1"># Create a dict to record the expected final balances</span>
     <span class="n">sendall_final_balances</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="nb">zip</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">))</span>
+        <span class="nb">zip</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">),</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">selfdestruct_contract_current_balance</span> <span class="o">=</span> <span class="n">selfdestruct_contract_initial_balance</span>
 

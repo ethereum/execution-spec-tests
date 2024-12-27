@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_deploying_delegation_designation_contract"><code>test_deploying_delegation_designation_contract()</code><a class="headerlink" href="#test_deploying_delegation_designation_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3255"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_deploying_delegation_designation_contract@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3204"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_deploying_delegation_designation_contract@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_deploying_delegation_designation_contract --fork Prague</span>
@@ -25249,47 +25249,50 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_deploying_delegation_designation_contract"></a>
     <div class="doc doc-contents first">
 
-      <p>Test attempting to deploy a contract that has the same format as a delegation designation.</p>
+      <p>Test attempting to deploy a contract that has the same format as a
+delegation designation.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3255</span>
-<span class="normal">3256</span>
-<span class="normal">3257</span>
-<span class="normal">3258</span>
-<span class="normal">3259</span>
-<span class="normal">3260</span>
-<span class="normal">3261</span>
-<span class="normal">3262</span>
-<span class="normal">3263</span>
-<span class="normal">3264</span>
-<span class="normal">3265</span>
-<span class="normal">3266</span>
-<span class="normal">3267</span>
-<span class="normal">3268</span>
-<span class="normal">3269</span>
-<span class="normal">3270</span>
-<span class="normal">3271</span>
-<span class="normal">3272</span>
-<span class="normal">3273</span>
-<span class="normal">3274</span>
-<span class="normal">3275</span>
-<span class="normal">3276</span>
-<span class="normal">3277</span>
-<span class="normal">3278</span>
-<span class="normal">3279</span>
-<span class="normal">3280</span>
-<span class="normal">3281</span>
-<span class="normal">3282</span>
-<span class="normal">3283</span>
-<span class="normal">3284</span>
-<span class="normal">3285</span>
-<span class="normal">3286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_deploying_delegation_designation_contract</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3204</span>
+<span class="normal">3205</span>
+<span class="normal">3206</span>
+<span class="normal">3207</span>
+<span class="normal">3208</span>
+<span class="normal">3209</span>
+<span class="normal">3210</span>
+<span class="normal">3211</span>
+<span class="normal">3212</span>
+<span class="normal">3213</span>
+<span class="normal">3214</span>
+<span class="normal">3215</span>
+<span class="normal">3216</span>
+<span class="normal">3217</span>
+<span class="normal">3218</span>
+<span class="normal">3219</span>
+<span class="normal">3220</span>
+<span class="normal">3221</span>
+<span class="normal">3222</span>
+<span class="normal">3223</span>
+<span class="normal">3224</span>
+<span class="normal">3225</span>
+<span class="normal">3226</span>
+<span class="normal">3227</span>
+<span class="normal">3228</span>
+<span class="normal">3229</span>
+<span class="normal">3230</span>
+<span class="normal">3231</span>
+<span class="normal">3232</span>
+<span class="normal">3233</span>
+<span class="normal">3234</span>
+<span class="normal">3235</span>
+<span class="normal">3236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_deploying_delegation_designation_contract</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test attempting to deploy a contract that has the same format as a delegation designation.</span>
+<span class="sd">    Test attempting to deploy a contract that has the same format as a</span>
+<span class="sd">    delegation designation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 

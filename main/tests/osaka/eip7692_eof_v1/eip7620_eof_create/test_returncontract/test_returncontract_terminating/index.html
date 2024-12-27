@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_returncontract_terminating"><code>test_returncontract_terminating()</code><a class="headerlink" href="#test_returncontract_terminating" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py#L144"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_terminating@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py#L143"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_terminating@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_terminating --fork Osaka</span>
@@ -25251,11 +25251,12 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7620_eof_create.test_returncontract.test_returncontract_terminating"></a>
     <div class="doc doc-contents first">
 
-      <p>Unreachable code after RETURNCONTRACT</p>
+      <p>Unreachable code after RETURNCONTRACT.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">144</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
+<span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
@@ -25269,11 +25270,10 @@
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_returncontract_terminating</span><span class="p">(</span>
+<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_returncontract_terminating</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unreachable code after RETURNCONTRACT&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unreachable code after RETURNCONTRACT.&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">container_kind</span><span class="o">=</span><span class="n">ContainerKind</span><span class="o">.</span><span class="n">INITCODE</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>

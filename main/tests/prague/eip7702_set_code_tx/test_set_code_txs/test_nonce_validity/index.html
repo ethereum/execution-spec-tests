@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_nonce_validity"><code>test_nonce_validity()</code><a class="headerlink" href="#test_nonce_validity" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2338"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_validity@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2302"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_validity@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_validity --fork Prague</span>
@@ -25256,7 +25256,43 @@ is not warm.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2338</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2302</span>
+<span class="normal">2303</span>
+<span class="normal">2304</span>
+<span class="normal">2305</span>
+<span class="normal">2306</span>
+<span class="normal">2307</span>
+<span class="normal">2308</span>
+<span class="normal">2309</span>
+<span class="normal">2310</span>
+<span class="normal">2311</span>
+<span class="normal">2312</span>
+<span class="normal">2313</span>
+<span class="normal">2314</span>
+<span class="normal">2315</span>
+<span class="normal">2316</span>
+<span class="normal">2317</span>
+<span class="normal">2318</span>
+<span class="normal">2319</span>
+<span class="normal">2320</span>
+<span class="normal">2321</span>
+<span class="normal">2322</span>
+<span class="normal">2323</span>
+<span class="normal">2324</span>
+<span class="normal">2325</span>
+<span class="normal">2326</span>
+<span class="normal">2327</span>
+<span class="normal">2328</span>
+<span class="normal">2329</span>
+<span class="normal">2330</span>
+<span class="normal">2331</span>
+<span class="normal">2332</span>
+<span class="normal">2333</span>
+<span class="normal">2334</span>
+<span class="normal">2335</span>
+<span class="normal">2336</span>
+<span class="normal">2337</span>
+<span class="normal">2338</span>
 <span class="normal">2339</span>
 <span class="normal">2340</span>
 <span class="normal">2341</span>
@@ -25310,45 +25346,7 @@ is not warm.</p>
 <span class="normal">2389</span>
 <span class="normal">2390</span>
 <span class="normal">2391</span>
-<span class="normal">2392</span>
-<span class="normal">2393</span>
-<span class="normal">2394</span>
-<span class="normal">2395</span>
-<span class="normal">2396</span>
-<span class="normal">2397</span>
-<span class="normal">2398</span>
-<span class="normal">2399</span>
-<span class="normal">2400</span>
-<span class="normal">2401</span>
-<span class="normal">2402</span>
-<span class="normal">2403</span>
-<span class="normal">2404</span>
-<span class="normal">2405</span>
-<span class="normal">2406</span>
-<span class="normal">2407</span>
-<span class="normal">2408</span>
-<span class="normal">2409</span>
-<span class="normal">2410</span>
-<span class="normal">2411</span>
-<span class="normal">2412</span>
-<span class="normal">2413</span>
-<span class="normal">2414</span>
-<span class="normal">2415</span>
-<span class="normal">2416</span>
-<span class="normal">2417</span>
-<span class="normal">2418</span>
-<span class="normal">2419</span>
-<span class="normal">2420</span>
-<span class="normal">2421</span>
-<span class="normal">2422</span>
-<span class="normal">2423</span>
-<span class="normal">2424</span>
-<span class="normal">2425</span>
-<span class="normal">2426</span>
-<span class="normal">2427</span>
-<span class="normal">2428</span>
-<span class="normal">2429</span>
-<span class="normal">2430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2392</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;account_nonce,authorization_nonce&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -25393,9 +25391,7 @@ is not warm.</p>
     <span class="n">success_slot</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">return_slot</span> <span class="o">=</span> <span class="mi">2</span>
 
-    <span class="n">valid_authorization</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">authorization_nonce</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">account_nonce</span> <span class="o">==</span> <span class="n">authorization_nonce</span>
-    <span class="p">)</span>
+    <span class="n">valid_authorization</span> <span class="o">=</span> <span class="n">authorization_nonce</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">account_nonce</span> <span class="o">==</span> <span class="n">authorization_nonce</span>
     <span class="n">set_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">set_code_to_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">set_code</span><span class="p">)</span>
 

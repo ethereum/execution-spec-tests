@@ -16102,11 +16102,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25252,7 +25252,7 @@
 
 
 <h1 id="test_full_gas_consumption"><code>test_full_gas_consumption()</code><a class="headerlink" href="#test_full_gas_consumption" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L149"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L146"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption --fork Prague</span>
@@ -25272,10 +25272,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
@@ -25338,21 +25335,12 @@
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumption</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test gas consumption with EIP-7623 active.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumption</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test gas consumption with EIP-7623 active.&quot;&quot;&quot;</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span> <span class="nf">intrinsic_gas_data_floor_minimum_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Force a minimum delta in order to have some gas to execute the invalid opcode.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Force a minimum delta in order to have some gas to execute the invalid opcode.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mi">50_000</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -25360,9 +25348,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a contract that consumes all gas when executed by calling an invalid opcode.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a contract that consumes all gas when executed by calling an invalid opcode.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
@@ -25407,9 +25393,7 @@
         <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Test executing a transaction that fully consumes its execution gas allocation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test executing a transaction that fully consumes its execution gas allocation.&quot;&quot;&quot;</span>
         <span class="n">state_test</span><span class="p">(</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
@@ -25443,7 +25427,10 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
@@ -25487,12 +25474,7 @@
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;ty,protected,blob_versioned_hashes,authorization_list&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
@@ -25534,9 +25516,7 @@
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test executing a transaction that fully consumes its execution gas allocation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test executing a transaction that fully consumes its execution gas allocation.&quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>

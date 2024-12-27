@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_many_withdrawals"><code>test_many_withdrawals()</code><a class="headerlink" href="#test_many_withdrawals" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L323"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_many_withdrawals@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L315"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_many_withdrawals@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_many_withdrawals --fork Prague</span>
@@ -25254,7 +25254,15 @@ N is a high number not expected to be seen in mainnet.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">323</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
 <span class="normal">324</span>
 <span class="normal">325</span>
 <span class="normal">326</span>
@@ -25280,15 +25288,7 @@ N is a high number not expected to be seen in mainnet.</p>
 <span class="normal">346</span>
 <span class="normal">347</span>
 <span class="normal">348</span>
-<span class="normal">349</span>
-<span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_many_withdrawals</span><span class="p">(</span>
+<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_many_withdrawals</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -25296,10 +25296,10 @@ N is a high number not expected to be seen in mainnet.</p>
 <span class="sd">    Test Withdrawals with a count of N withdrawals in a single block where</span>
 <span class="sd">    N is a high number not expected to be seen in mainnet.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="mi">400</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">400</span>
     <span class="n">withdrawals</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="n">addr</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">amount</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">1</span>
         <span class="n">withdrawals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>

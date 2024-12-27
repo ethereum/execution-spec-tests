@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjump_max_bytecode_size"><code>test_rjump_max_bytecode_size()</code><a class="headerlink" href="#test_rjump_max_bytecode_size" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L101"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_max_bytecode_size@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L99"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_max_bytecode_size@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_max_bytecode_size --fork Osaka</span>
@@ -25252,11 +25252,13 @@
     <div class="doc doc-contents first">
 
       <p>EOF1V4200_0003 EOF with RJUMP containing the maximum offset that does not exceed the maximum
-bytecode size</p>
+bytecode size.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
@@ -25270,20 +25272,18 @@ bytecode size</p>
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_max_bytecode_size</span><span class="p">(</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_max_bytecode_size</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF1V4200_0003 EOF with RJUMP containing the maximum offset that does not exceed the maximum</span>
-<span class="sd">    bytecode size</span>
+<span class="sd">    bytecode size.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">NOOP_COUNT</span> <span class="o">=</span> <span class="n">MAX_BYTECODE_SIZE</span> <span class="o">-</span> <span class="mi">27</span>
+    <span class="n">noop_count</span> <span class="o">=</span> <span class="n">MAX_BYTECODE_SIZE</span> <span class="o">-</span> <span class="mi">27</span>
     <span class="n">code</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="n">RJUMP_LEN</span><span class="p">](</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">)</span>  <span class="c1"># The jumpi is to allow the NOOPs to be forward referenced</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span><span class="p">)</span> <span class="o">*</span> <span class="n">NOOP_COUNT</span><span class="p">]</span>
-        <span class="o">+</span> <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span> <span class="o">*</span> <span class="n">NOOP_COUNT</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span><span class="p">)</span> <span class="o">*</span> <span class="n">noop_count</span><span class="p">]</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NOOP</span> <span class="o">*</span> <span class="n">noop_count</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
     <span class="p">)</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>

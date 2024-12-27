@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_beacon_root_transition"><code>test_beacon_root_transition()</code><a class="headerlink" href="#test_beacon_root_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L459"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_transition@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L458"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_transition@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_transition --fork Prague</span>
@@ -25254,7 +25254,8 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">459</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">458</span>
+<span class="normal">459</span>
 <span class="normal">460</span>
 <span class="normal">461</span>
 <span class="normal">462</span>
@@ -25370,7 +25371,8 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 <span class="normal">572</span>
 <span class="normal">573</span>
 <span class="normal">574</span>
-<span class="normal">575</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">575</span>
+<span class="normal">576</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamps&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fork_transition&quot;</span><span class="p">)],</span>
 <span class="p">)</span>
@@ -25401,7 +25403,9 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
-    <span class="k">for</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">beacon_root</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">beacon_roots</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">block_count</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">beacon_root</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+        <span class="n">timestamps</span><span class="p">,</span> <span class="n">beacon_roots</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">block_count</span><span class="p">),</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
         <span class="n">timestamp_index</span> <span class="o">=</span> <span class="n">timestamp</span> <span class="o">%</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span>
 
         <span class="n">transitioned</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_beacon_root_required</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>

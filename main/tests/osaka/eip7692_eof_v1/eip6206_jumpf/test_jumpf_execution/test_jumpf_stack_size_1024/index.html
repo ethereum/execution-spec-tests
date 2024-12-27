@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_jumpf_stack_size_1024"><code>test_jumpf_stack_size_1024()</code><a class="headerlink" href="#test_jumpf_stack_size_1024" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L156"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_size_1024@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L154"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_size_1024@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_stack_size_1024 --fork Osaka</span>
@@ -25251,11 +25251,13 @@
 <a id="tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_execution.test_jumpf_stack_size_1024"></a>
     <div class="doc doc-contents first">
 
-      <p>Test stack reaching 1024 items in target function of JUMPF</p>
+      <p>Test stack reaching 1024 items in target function of JUMPF.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
@@ -25273,12 +25275,10 @@
 <span class="normal">171</span>
 <span class="normal">172</span>
 <span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_jumpf_stack_size_1024</span><span class="p">(</span>
+<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_jumpf_stack_size_1024</span><span class="p">(</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test stack reaching 1024 items in target function of JUMPF&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test stack reaching 1024 items in target function of JUMPF.&quot;&quot;&quot;</span>
     <span class="n">eof_state_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>

@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjumpv_into_exchange"><code>test_rjumpv_into_exchange()</code><a class="headerlink" href="#test_rjumpv_into_exchange" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1011"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_exchange@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1005"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_exchange@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_exchange --fork Osaka</span>
@@ -25251,11 +25251,17 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpv.test_rjumpv_into_exchange"></a>
     <div class="doc doc-contents first">
 
-      <p>EOF code containing RJUMP with target EXCHANGE immediate</p>
+      <p>EOF code containing RJUMP with target EXCHANGE immediate.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1011</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1005</span>
+<span class="normal">1006</span>
+<span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
 <span class="normal">1012</span>
 <span class="normal">1013</span>
 <span class="normal">1014</span>
@@ -25282,13 +25288,7 @@
 <span class="normal">1035</span>
 <span class="normal">1036</span>
 <span class="normal">1037</span>
-<span class="normal">1038</span>
-<span class="normal">1039</span>
-<span class="normal">1040</span>
-<span class="normal">1041</span>
-<span class="normal">1042</span>
-<span class="normal">1043</span>
-<span class="normal">1044</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1038</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;table_size,invalid_index&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;t1i0&quot;</span><span class="p">),</span>
@@ -25301,7 +25301,7 @@
     <span class="n">table_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">invalid_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing RJUMP with target EXCHANGE immediate&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing RJUMP with target EXCHANGE immediate.&quot;&quot;&quot;</span>
     <span class="n">invalid_destination</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">jump_table</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">)]</span>
     <span class="n">jump_table</span><span class="p">[</span><span class="n">invalid_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">invalid_destination</span>

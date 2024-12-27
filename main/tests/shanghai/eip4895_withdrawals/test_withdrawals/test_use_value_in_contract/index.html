@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_use_value_in_contract"><code>test_use_value_in_contract()</code><a class="headerlink" href="#test_use_value_in_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L135"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_use_value_in_contract@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L129"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_use_value_in_contract@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_use_value_in_contract --fork Prague</span>
@@ -25249,11 +25249,17 @@
 <a id="tests.shanghai.eip4895_withdrawals.test_withdrawals.test_use_value_in_contract"></a>
     <div class="doc doc-contents first">
 
-      <p>Test sending value from contract that has not received a withdrawal</p>
+      <p>Test sending value from contract that has not received a withdrawal.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
@@ -25299,21 +25305,11 @@
 <span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_use_value_in_contract</span><span class="p">(</span>
+<span class="normal">181</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_use_value_in_contract</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending value from contract that has not received a withdrawal</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test sending value from contract that has not received a withdrawal.&quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
     <span class="n">recipient</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 

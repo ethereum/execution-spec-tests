@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_set_code_to_log"><code>test_set_code_to_log()</code><a class="headerlink" href="#test_set_code_to_log" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2500"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_log@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2462"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_log@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_log --fork Prague</span>
@@ -25253,7 +25253,45 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2500</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2462</span>
+<span class="normal">2463</span>
+<span class="normal">2464</span>
+<span class="normal">2465</span>
+<span class="normal">2466</span>
+<span class="normal">2467</span>
+<span class="normal">2468</span>
+<span class="normal">2469</span>
+<span class="normal">2470</span>
+<span class="normal">2471</span>
+<span class="normal">2472</span>
+<span class="normal">2473</span>
+<span class="normal">2474</span>
+<span class="normal">2475</span>
+<span class="normal">2476</span>
+<span class="normal">2477</span>
+<span class="normal">2478</span>
+<span class="normal">2479</span>
+<span class="normal">2480</span>
+<span class="normal">2481</span>
+<span class="normal">2482</span>
+<span class="normal">2483</span>
+<span class="normal">2484</span>
+<span class="normal">2485</span>
+<span class="normal">2486</span>
+<span class="normal">2487</span>
+<span class="normal">2488</span>
+<span class="normal">2489</span>
+<span class="normal">2490</span>
+<span class="normal">2491</span>
+<span class="normal">2492</span>
+<span class="normal">2493</span>
+<span class="normal">2494</span>
+<span class="normal">2495</span>
+<span class="normal">2496</span>
+<span class="normal">2497</span>
+<span class="normal">2498</span>
+<span class="normal">2499</span>
+<span class="normal">2500</span>
 <span class="normal">2501</span>
 <span class="normal">2502</span>
 <span class="normal">2503</span>
@@ -25265,47 +25303,7 @@
 <span class="normal">2509</span>
 <span class="normal">2510</span>
 <span class="normal">2511</span>
-<span class="normal">2512</span>
-<span class="normal">2513</span>
-<span class="normal">2514</span>
-<span class="normal">2515</span>
-<span class="normal">2516</span>
-<span class="normal">2517</span>
-<span class="normal">2518</span>
-<span class="normal">2519</span>
-<span class="normal">2520</span>
-<span class="normal">2521</span>
-<span class="normal">2522</span>
-<span class="normal">2523</span>
-<span class="normal">2524</span>
-<span class="normal">2525</span>
-<span class="normal">2526</span>
-<span class="normal">2527</span>
-<span class="normal">2528</span>
-<span class="normal">2529</span>
-<span class="normal">2530</span>
-<span class="normal">2531</span>
-<span class="normal">2532</span>
-<span class="normal">2533</span>
-<span class="normal">2534</span>
-<span class="normal">2535</span>
-<span class="normal">2536</span>
-<span class="normal">2537</span>
-<span class="normal">2538</span>
-<span class="normal">2539</span>
-<span class="normal">2540</span>
-<span class="normal">2541</span>
-<span class="normal">2542</span>
-<span class="normal">2543</span>
-<span class="normal">2544</span>
-<span class="normal">2545</span>
-<span class="normal">2546</span>
-<span class="normal">2547</span>
-<span class="normal">2548</span>
-<span class="normal">2549</span>
-<span class="normal">2550</span>
-<span class="normal">2551</span>
-<span class="normal">2552</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2512</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;log_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">LOG0</span><span class="p">,</span>
@@ -25321,9 +25319,7 @@
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">log_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test setting the code of an account to a contract that performs the log operation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test setting the code of an account to a contract that performs the log operation.&quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
     <span class="n">set_to_code</span> <span class="o">=</span> <span class="p">(</span>

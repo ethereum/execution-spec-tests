@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjumpi_backwards_onto_dup"><code>test_rjumpi_backwards_onto_dup()</code><a class="headerlink" href="#test_rjumpi_backwards_onto_dup" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L892"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_backwards_onto_dup@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L888"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_backwards_onto_dup@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_backwards_onto_dup --fork Osaka</span>
@@ -25251,28 +25251,24 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_backwards_onto_dup"></a>
     <div class="doc doc-contents first">
 
-      <p>Backwards jumpi onto a dup</p>
+      <p>Backwards jumpi onto a dup.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">892</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">888</span>
+<span class="normal">889</span>
+<span class="normal">890</span>
+<span class="normal">891</span>
+<span class="normal">892</span>
 <span class="normal">893</span>
 <span class="normal">894</span>
 <span class="normal">895</span>
 <span class="normal">896</span>
 <span class="normal">897</span>
-<span class="normal">898</span>
-<span class="normal">899</span>
-<span class="normal">900</span>
-<span class="normal">901</span>
-<span class="normal">902</span>
-<span class="normal">903</span>
-<span class="normal">904</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_backwards_onto_dup</span><span class="p">(</span>
+<span class="normal">898</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_backwards_onto_dup</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Backwards jumpi onto a dup</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards jumpi onto a dup.&quot;&quot;&quot;</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
         <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>

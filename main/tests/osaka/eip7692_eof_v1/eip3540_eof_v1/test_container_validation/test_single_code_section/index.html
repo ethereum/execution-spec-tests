@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_single_code_section"><code>test_single_code_section()</code><a class="headerlink" href="#test_single_code_section" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1116"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_single_code_section@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1109"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_single_code_section@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_single_code_section --fork Osaka</span>
@@ -25251,11 +25251,18 @@
 <a id="tests.osaka.eip7692_eof_v1.eip3540_eof_v1.test_container_validation.test_single_code_section"></a>
     <div class="doc doc-contents first">
 
-      <p>Verify EOF container maximum number of code sections</p>
+      <p>Verify EOF container maximum number of code sections.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1116</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1109</span>
+<span class="normal">1110</span>
+<span class="normal">1111</span>
+<span class="normal">1112</span>
+<span class="normal">1113</span>
+<span class="normal">1114</span>
+<span class="normal">1115</span>
+<span class="normal">1116</span>
 <span class="normal">1117</span>
 <span class="normal">1118</span>
 <span class="normal">1119</span>
@@ -25276,25 +25283,14 @@
 <span class="normal">1134</span>
 <span class="normal">1135</span>
 <span class="normal">1136</span>
-<span class="normal">1137</span>
-<span class="normal">1138</span>
-<span class="normal">1139</span>
-<span class="normal">1140</span>
-<span class="normal">1141</span>
-<span class="normal">1142</span>
-<span class="normal">1143</span>
-<span class="normal">1144</span>
-<span class="normal">1145</span>
-<span class="normal">1146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="normal">1137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_container&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_single_code_section</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">plus_data</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">plus_container</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Verify EOF container maximum number of code sections</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify EOF container maximum number of code sections.&quot;&quot;&quot;</span>
     <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURNCONTRACT</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">plus_container</span> <span class="k">else</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)]</span>
     <span class="k">if</span> <span class="n">plus_container</span><span class="p">:</span>
         <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>

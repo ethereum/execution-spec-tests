@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25252,7 +25252,7 @@
 
 
 <h1 id="test_gas_usage"><code>test_gas_usage()</code><a class="headerlink" href="#test_gas_usage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/shanghai/eip3860_initcode/test_initcode.py#L325"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestContractCreationGasUsage::test_gas_usage@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/shanghai/eip3860_initcode/test_initcode.py#L321"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestContractCreationGasUsage::test_gas_usage@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py::TestContractCreationGasUsage::test_gas_usage --fork Prague</span>
@@ -25269,7 +25269,7 @@
 
 
       <p>Tests the following cases that verify the gas cost behavior of a
-contract creating transaction:</p>
+contract creating transaction.</p>
 <ol>
 <li>Test with exact intrinsic gas minus one, contract create fails
     and tx is invalid.</li>
@@ -25461,11 +25461,7 @@ contract creating transaction:</p>
 <span class="normal">348</span>
 <span class="normal">349</span>
 <span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">351</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -25492,7 +25488,7 @@ contract creating transaction:</p>
 <span class="k">class</span> <span class="nc">TestContractCreationGasUsage</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tests the following cases that verify the gas cost behavior of a</span>
-<span class="sd">    contract creating transaction:</span>
+<span class="sd">    contract creating transaction.</span>
 
 <span class="sd">    1. Test with exact intrinsic gas minus one, contract create fails</span>
 <span class="sd">        and tx is invalid.</span>
@@ -25508,7 +25504,7 @@ contract creating transaction:</p>
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span> <span class="nf">tx_access_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessList</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Starting from EIP-7623, we need to use an access list to raise the intrinsic gas cost to</span>
+<span class="sd">        On EIP-7623, we need to use an access list to raise the intrinsic gas cost to</span>
 <span class="sd">        be above the floor data cost.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">AccessList</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">storage_keys</span><span class="o">=</span><span class="p">[])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">478</span><span class="p">)]</span>
@@ -25517,9 +25513,7 @@ contract creating transaction:</p>
     <span class="k">def</span> <span class="nf">exact_intrinsic_gas</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">,</span> <span class="n">tx_access_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessList</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the intrinsic tx gas cost.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the intrinsic tx gas cost.&quot;&quot;&quot;</span>
         <span class="n">tx_intrinsic_gas_cost_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">tx_intrinsic_gas_cost_calculator</span><span class="p">(</span>
             <span class="n">calldata</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
@@ -25539,9 +25533,7 @@ contract creating transaction:</p>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span> <span class="nf">exact_execution_gas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exact_intrinsic_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">initcode</span><span class="p">:</span> <span class="n">Initcode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the total execution gas cost.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate total execution gas cost.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">exact_intrinsic_gas</span> <span class="o">+</span> <span class="n">initcode</span><span class="o">.</span><span class="n">deployment_gas</span> <span class="o">+</span> <span class="n">initcode</span><span class="o">.</span><span class="n">execution_gas</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -25677,7 +25669,11 @@ limits.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">325</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
 <span class="normal">326</span>
 <span class="normal">327</span>
 <span class="normal">328</span>
@@ -25703,11 +25699,7 @@ limits.</p>
 <span class="normal">348</span>
 <span class="normal">349</span>
 <span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
+<span class="normal">351</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_gas_usage</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>

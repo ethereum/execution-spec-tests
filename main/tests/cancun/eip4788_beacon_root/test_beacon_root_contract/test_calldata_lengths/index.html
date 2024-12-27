@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_calldata_lengths"><code>test_calldata_lengths()</code><a class="headerlink" href="#test_calldata_lengths" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L141"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_calldata_lengths@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L141"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_calldata_lengths@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_calldata_lengths --fork Prague</span>
@@ -25279,9 +25279,7 @@
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_data&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;empty_calldata&quot;</span><span class="p">),</span>
@@ -25302,9 +25300,7 @@
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests the beacon root contract call using multiple invalid input lengths.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests the beacon root contract call using multiple invalid input lengths.&quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">parent_beacon_block_root</span><span class="o">=</span><span class="n">beacon_root</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)],</span>

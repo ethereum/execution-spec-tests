@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_dup"><code>test_dup()</code><a class="headerlink" href="#test_dup" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/frontier/opcodes/test_dup.py#L15"><code>tests/frontier/opcodes/test_dup.py::test_dup@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/frontier/opcodes/test_dup.py#L14"><code>tests/frontier/opcodes/test_dup.py::test_dup@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_dup.py::test_dup --fork Prague</span>
@@ -25258,7 +25258,8 @@
 </details>
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_dup.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 15</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 14</span>
+<span class="normal"> 15</span>
 <span class="normal"> 16</span>
 <span class="normal"> 17</span>
 <span class="normal"> 18</span>
@@ -25347,8 +25348,7 @@
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;dup_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">,</span>
@@ -25433,7 +25433,7 @@
 <span class="sd">    DUP1 copies the first element of the stack (0x10).</span>
 <span class="sd">    DUP16 copies the 16th element of the stack (0x01).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">s</span><span class="p">:</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">s</span><span class="p">:</span> <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
     <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">-</span> <span class="p">(</span><span class="n">dup_opcode</span><span class="o">.</span><span class="n">int</span><span class="p">()</span> <span class="o">-</span> <span class="mh">0x80</span><span class="p">)</span>
 
     <span class="n">post</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25252,7 +25252,7 @@
 
 
 <h1 id="test_use_value_in_tx"><code>test_use_value_in_tx()</code><a class="headerlink" href="#test_use_value_in_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L122"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::TestUseValueInTx::test_use_value_in_tx@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L118"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::TestUseValueInTx::test_use_value_in_tx@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::TestUseValueInTx::test_use_value_in_tx --fork Prague</span>
@@ -25268,7 +25268,7 @@
     <div class="doc doc-contents first">
 
 
-      <p>Test that the value from a withdrawal can be used in a transaction:</p>
+      <p>Test that the value from a withdrawal can be used in a transaction.</p>
 <ol>
 <li>
 <p><code>tx_in_withdrawals_block</code>: Test that the withdrawal value can not be used by a transaction
@@ -25370,20 +25370,14 @@
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;test_case&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="s2">&quot;tx_in_withdrawals_block&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_after_withdrawals_block&quot;</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">class</span> <span class="nc">TestUseValueInTx</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test that the value from a withdrawal can be used in a transaction:</span>
+<span class="sd">    Test that the value from a withdrawal can be used in a transaction.</span>
 
 <span class="sd">    1. `tx_in_withdrawals_block`: Test that the withdrawal value can not be used by a transaction</span>
 <span class="sd">        in the same block as the withdrawal.</span>
@@ -25394,16 +25388,12 @@
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span> <span class="nf">sender</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOA</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Funded EOA used for sending transactions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Funded EOA used for sending transactions.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
     <span class="k">def</span> <span class="nf">recipient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOA</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Funded EOA used for sending transactions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Funded EOA used for sending transactions.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -25467,9 +25457,7 @@
         <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Test sending withdrawal value in a transaction.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test sending withdrawal value in a transaction.&quot;&quot;&quot;</span>
         <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -25499,26 +25487,22 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_use_value_in_tx</span><span class="p">(</span>
+<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_use_value_in_tx</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending withdrawal value in a transaction.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test sending withdrawal value in a transaction.&quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

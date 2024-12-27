@@ -16037,11 +16037,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25178,7 +25178,7 @@
 
 
 <h1 id="test-rjump">Test RJUMP<a class="headerlink" href="#test-rjump" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L23"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L21"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py --fork Osaka</span>
@@ -25222,25 +25222,25 @@
 <td><a href="test_rjump_negative/"><code>test_rjump_negative</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test for a forward RJUMPI and backward RJUMP</td>
+<td>Test for a forward RJUMPI and backward RJUMP.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_positive_negative/"><code>test_rjump_positive_negative</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF1V4200_0001 (Valid) EOF code containing RJUMP (Positive, Negative)</td>
+<td>EOF1V4200_0001 (Valid) EOF code containing RJUMP (Positive, Negative).</td>
 </tr>
 <tr>
 <td><a href="test_rjump_zero/"><code>test_rjump_zero</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF1V4200_0002 (Valid) EOF code containing RJUMP (Zero)</td>
+<td>EOF1V4200_0002 (Valid) EOF code containing RJUMP (Zero).</td>
 </tr>
 <tr>
 <td><a href="test_rjump_maxes/"><code>test_rjump_maxes</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>EOF1V4200_0003 EOF with RJUMP containing the maximum positive and negative offset (32767)</td>
+<td>EOF1V4200_0003 EOF with RJUMP containing the max positive and negative offset (32767).</td>
 </tr>
 <tr>
 <td><a href="test_rjump_max_bytecode_size/"><code>test_rjump_max_bytecode_size</code></a></td>
@@ -25252,13 +25252,13 @@
 <td><a href="test_rjump_truncated_rjump/"><code>test_rjump_truncated_rjump</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0001 (Invalid) EOF code containing truncated RJUMP</td>
+<td>EOF1I4200_0001 (Invalid) EOF code containing truncated RJUMP.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_truncated_rjump_2/"><code>test_rjump_truncated_rjump_2</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0002 (Invalid) EOF code containing truncated RJUMP</td>
+<td>EOF1I4200_0002 (Invalid) EOF code containing truncated RJUMP.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_header/"><code>test_rjump_into_header</code></a></td>
@@ -25282,13 +25282,13 @@
 <td><a href="test_rjump_outside_other_section_before/"><code>test_rjump_outside_other_section_before</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target outside code bounds (prior code section)</td>
+<td>EOF code containing RJUMP with target outside code bounds (prior code section).</td>
 </tr>
 <tr>
 <td><a href="test_rjump_outside_other_section_after/"><code>test_rjump_outside_other_section_after</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target outside code bounds (Subsequent code section)</td>
+<td>EOF code containing RJUMP with target outside code bounds (Subsequent code section).</td>
 </tr>
 <tr>
 <td><a href="test_rjump_after_container/"><code>test_rjump_after_container</code></a></td>
@@ -25306,7 +25306,7 @@
 <td><a href="test_rjump_into_self_data_portion/"><code>test_rjump_into_self_data_portion</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>EOF1I4200_0008 (Invalid) EOF code containing RJUMP with target self RJUMP immediate</td>
+<td>EOF1I4200_0008 (Invalid) EOF code containing RJUMP with target self RJUMP immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_self_remaining_code/"><code>test_rjump_into_self_remaining_code</code></a></td>
@@ -25318,121 +25318,121 @@
 <td><a href="test_rjump_into_self/"><code>test_rjump_into_self</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target self RJUMP</td>
+<td>EOF code containing RJUMP with target self RJUMP.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_self_pre_code/"><code>test_rjump_into_self_pre_code</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target self RJUMP with non-zero stack before RJUMP</td>
+<td>EOF code containing RJUMP with target self RJUMP with non-zero stack before RJUMP.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_stack_height_diff/"><code>test_rjump_into_stack_height_diff</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target instruction that causes stack height difference</td>
+<td>EOF code containing RJUMP with target instruction that causes stack height difference.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_stack_height_diff_2/"><code>test_rjump_into_stack_height_diff_2</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target instruction that cause stack height difference</td>
+<td>EOF code containing RJUMP with target instruction that cause stack height difference.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_stack_underflow/"><code>test_rjump_into_stack_underflow</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target instruction that cause stack underflow</td>
+<td>EOF code containing RJUMP with target instruction that cause stack underflow.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_rjump/"><code>test_rjump_into_rjump</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0009 (Invalid) EOF code containing RJUMP with target other RJUMP immediate</td>
+<td>EOF1I4200_0009 (Invalid) EOF code containing RJUMP with target other RJUMP immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_rjumpi/"><code>test_rjump_into_rjumpi</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF1I4200_0010 (Invalid) EOF code containing RJUMP with target RJUMPI immediate</td>
+<td>EOF1I4200_0010 (Invalid) EOF code containing RJUMP with target RJUMPI immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_push_1/"><code>test_rjump_into_push_1</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1 immediate</td>
+<td>EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH1 immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_push_n/"><code>test_rjump_into_push_n</code></a></td>
 <td>eof_test</td>
 <td>124</td>
-<td>EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH2+ immediate</td>
+<td>EOF1I4200_0011 (Invalid) EOF code containing RJUMP with target PUSH2+ immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_rjumpv/"><code>test_rjump_into_rjumpv</code></a></td>
 <td>eof_test</td>
 <td>4</td>
-<td>EOF1I4200_0012 (Invalid) EOF code containing RJUMP with target RJUMPV immediate</td>
+<td>EOF1I4200_0012 (Invalid) EOF code containing RJUMP with target RJUMPV immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_callf/"><code>test_rjump_into_callf</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>EOF1I4200_0013 (Invalid) EOF code containing RJUMP with target CALLF immediate</td>
+<td>EOF1I4200_0013 (Invalid) EOF code containing RJUMP with target CALLF immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_dupn/"><code>test_rjump_into_dupn</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target DUPN immediate</td>
+<td>EOF code containing RJUMP with target DUPN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_swapn/"><code>test_rjump_into_swapn</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target SWAPN immediate</td>
+<td>EOF code containing RJUMP with target SWAPN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_exchange/"><code>test_rjump_into_exchange</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target EXCHANGE immediate</td>
+<td>EOF code containing RJUMP with target EXCHANGE immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_eofcreate/"><code>test_rjump_into_eofcreate</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target EOFCREATE immediate</td>
+<td>EOF code containing RJUMP with target EOFCREATE immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_into_returncontract/"><code>test_rjump_into_returncontract</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target RETURNCONTRACT immediate</td>
+<td>EOF code containing RJUMP with target RETURNCONTRACT immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_unreachable_code/"><code>test_rjump_unreachable_code</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing instructions skipped by RJUMP</td>
+<td>EOF code containing instructions skipped by RJUMP.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_backwards_reference_only/"><code>test_rjump_backwards_reference_only</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing instructions only reachable by backwards RJUMP</td>
+<td>EOF code containing instructions only reachable by backwards RJUMP.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_backwards_illegal_stack_height/"><code>test_rjump_backwards_illegal_stack_height</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Invalid backward jump, found via fuzzing coverage</td>
+<td>Invalid backward jump, found via fuzzing coverage.</td>
 </tr>
 <tr>
 <td><a href="test_rjump_backwards_infinite_loop/"><code>test_rjump_backwards_infinite_loop</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Validate that a backwards RJUMP as terminal operation is valid</td>
+<td>Validate that a backwards RJUMP as terminal operation is valid.</td>
 </tr>
 </tbody>
 </table>

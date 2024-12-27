@@ -16018,11 +16018,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25194,20 +25194,17 @@
 <h3 id="evm_bytes-binary-file">evm_bytes binary-file<a class="headerlink" href="#evm_bytes-binary-file" title="Permanent link">&para;</a></h3>
 <p>Convert the BINARY_FILE containing EVM bytes to Python Opcodes or assembly.</p>
 <p>BINARY_FILE is a binary file containing EVM bytes, use <code>-</code> to read from stdin.</p>
-<p>Returns:</p>
-<div class="highlight"><pre><span></span><code>(str): The processed EVM opcodes in Python or assembly format.
-</code></pre></div>
-<p>Example: Convert the Withdrawal Request contract to assembly</p>
-<div class="highlight"><pre><span></span><code>uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/contracts/withdrawal_request.bin --assembly
-</code></pre></div>
-<p>Output:</p>
-<div class="highlight"><pre><span></span><code>caller
-push20 0xfffffffffffffffffffffffffffffffffffffffe
-eq
-push1 0x90
-jumpi
-...
-</code></pre></div>
+<p>Returns:
+    (str): The processed EVM opcodes in Python or assembly format.</p>
+<p>Example: Convert the Withdrawal Request contract to assembly
+    uv run evm_bytes binary-file ./src/ethereum_test_forks/forks/contracts/withdrawal_request.bin --assembly</p>
+<p>Output:
+    caller
+    push20 0xfffffffffffffffffffffffffffffffffffffffe
+    eq
+    push1 0x90
+    jumpi
+    ...</p>
 <p><strong>Usage:</strong></p>
 <div class="highlight"><pre><span></span><code>evm_bytes binary-file [OPTIONS] BINARY_FILE
 </code></pre></div>
@@ -25218,26 +25215,21 @@ jumpi
 <h3 id="evm_bytes-hex-string">evm_bytes hex-string<a class="headerlink" href="#evm_bytes-hex-string" title="Permanent link">&para;</a></h3>
 <p>Convert the HEX_STRING representing EVM bytes to EEST Python Opcodes.</p>
 <p>HEX_STRING is a string containing EVM bytecode.</p>
-<p>Returns:</p>
-<div class="highlight"><pre><span></span><code>(str): The processed EVM opcodes in Python or assembly format.
-</code></pre></div>
-<p>Example 1: Convert a hex string to EEST Python <code>Opcodes</code></p>
-<div class="highlight"><pre><span></span><code>uv run evm_bytes hex-string 604260005260206000F3
-</code></pre></div>
-<p>Output 1:</p>
-<div class="highlight"><pre><span></span><code>Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] + Op.PUSH1[0x0] + Op.RETURN
-</code></pre></div>
-<p>Example 2: Convert a hex string to assembly</p>
-<div class="highlight"><pre><span></span><code>uv run evm_bytes hex-string --assembly 604260005260206000F3
-</code></pre></div>
-<p>Output 2:</p>
-<div class="highlight"><pre><span></span><code>push1 0x42
-push1 0x00
-mstore
-push1 0x20
-push1 0x00
-return
-</code></pre></div>
+<p>Returns:
+    (str): The processed EVM opcodes in Python or assembly format.</p>
+<p>Example 1: Convert a hex string to EEST Python <code>Opcodes</code>
+    uv run evm_bytes hex-string 604260005260206000F3</p>
+<p>Output 1:
+    Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] + Op.PUSH1[0x0] + Op.RETURN</p>
+<p>Example 2: Convert a hex string to assembly
+    uv run evm_bytes hex-string --assembly 604260005260206000F3</p>
+<p>Output 2:
+    push1 0x42
+    push1 0x00
+    mstore
+    push1 0x20
+    push1 0x00
+    return</p>
 <p><strong>Usage:</strong></p>
 <div class="highlight"><pre><span></span><code>evm_bytes hex-string [OPTIONS] HEX_STRING
 </code></pre></div>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_zero_amount"><code>test_zero_amount()</code><a class="headerlink" href="#test_zero_amount" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L552"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_zero_amount@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L540"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_zero_amount@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_zero_amount --fork Prague</span>
@@ -25250,7 +25250,7 @@
     <div class="doc doc-contents first">
 
       <p>Test withdrawals with zero amount for the following cases, all withdrawals
-are included in one block:</p>
+are included in one block.</p>
 <ol>
 <li>Two withdrawals of zero amount to two different addresses; one to an
    untouched account, one to an account with a balance.</li>
@@ -25262,7 +25262,19 @@ are included in one block:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">552</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
 <span class="normal">553</span>
 <span class="normal">554</span>
 <span class="normal">555</span>
@@ -25355,21 +25367,9 @@ are included in one block:</p>
 <span class="normal">642</span>
 <span class="normal">643</span>
 <span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">645</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;test_case&quot;</span><span class="p">,</span>
-    <span class="p">[</span><span class="n">case</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">ZeroAmountTestCases</span><span class="p">],</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">ZeroAmountTestCases</span><span class="p">),</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="n">case</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">ZeroAmountTestCases</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_zero_amount</span><span class="p">(</span>
@@ -25379,7 +25379,7 @@ are included in one block:</p>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test withdrawals with zero amount for the following cases, all withdrawals</span>
-<span class="sd">    are included in one block:</span>
+<span class="sd">    are included in one block.</span>
 
 <span class="sd">    1. Two withdrawals of zero amount to two different addresses; one to an</span>
 <span class="sd">       untouched account, one to an account with a balance.</span>

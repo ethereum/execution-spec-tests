@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_invalid_non_multiple_excess_blob_gas"><code>test_invalid_non_multiple_excess_blob_gas()</code><a class="headerlink" href="#test_invalid_non_multiple_excess_blob_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L758"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_non_multiple_excess_blob_gas@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L751"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_non_multiple_excess_blob_gas@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_non_multiple_excess_blob_gas --fork Prague</span>
@@ -25250,7 +25250,7 @@
     <div class="doc doc-contents first">
 
       <p>Test rejection of blocks where the <code>excessBlobGas</code> changes to a value that
-is not a multiple of Spec.GAS_PER_BLOB`:</p>
+is not a multiple of Spec.GAS_PER_BLOB`.</p>
 <ul>
 <li>Parent block contains <code>TARGET_BLOBS_PER_BLOCK + 1</code> blobs, but <code>excessBlobGas</code> is off by &plusmn;1</li>
 <li>Parent block contains <code>TARGET_BLOBS_PER_BLOCK - 1</code> blobs, but <code>excessBlobGas</code> is off by &plusmn;1</li>
@@ -25258,7 +25258,14 @@ is not a multiple of Spec.GAS_PER_BLOB`:</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">758</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span>
+<span class="normal">758</span>
 <span class="normal">759</span>
 <span class="normal">760</span>
 <span class="normal">761</span>
@@ -25294,14 +25301,7 @@ is not a multiple of Spec.GAS_PER_BLOB`:</p>
 <span class="normal">791</span>
 <span class="normal">792</span>
 <span class="normal">793</span>
-<span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">794</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;parent_blobs,header_excess_blob_gas_delta&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -25322,7 +25322,7 @@ is not a multiple of Spec.GAS_PER_BLOB`:</p>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test rejection of blocks where the `excessBlobGas` changes to a value that</span>
-<span class="sd">    is not a multiple of Spec.GAS_PER_BLOB`:</span>
+<span class="sd">    is not a multiple of Spec.GAS_PER_BLOB`.</span>
 
 <span class="sd">    - Parent block contains `TARGET_BLOBS_PER_BLOCK + 1` blobs, but `excessBlobGas` is off by +/-1</span>
 <span class="sd">    - Parent block contains `TARGET_BLOBS_PER_BLOCK - 1` blobs, but `excessBlobGas` is off by +/-1</span>

@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25250,7 +25250,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip4788_beacon_root/spec.py"><code>tests/cancun/eip4788_beacon_root/spec.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip4788_beacon_root/spec.py"><code>tests/cancun/eip4788_beacon_root/spec.py@7e00240e</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -25291,11 +25291,14 @@
 
 
       <p>Parameters from the EIP-4788 specifications as defined at
-<a href="https://eips.ethereum.org/EIPS/eip-4788#specification">https://eips.ethereum.org/EIPS/eip-4788#specification</a></p>
+<a href="https://eips.ethereum.org/EIPS/eip-4788#specification">https://eips.ethereum.org/EIPS/eip-4788#specification</a>.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip4788_beacon_root/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
@@ -25304,14 +25307,11 @@
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-4788 specifications as defined at</span>
-<span class="sd">    https://eips.ethereum.org/EIPS/eip-4788#specification</span>
+<span class="sd">    https://eips.ethereum.org/EIPS/eip-4788#specification.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">BEACON_ROOTS_ADDRESS</span> <span class="o">=</span> <span class="mh">0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02</span>
@@ -25364,7 +25364,10 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip4788_beacon_root/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">38</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
@@ -25395,31 +25398,16 @@
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">SpecHelpers</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper functions closely related to the EIP-4788 specification.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper functions closely related to the EIP-4788 specification.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">timestamp_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Derive the timestamp index into the timestamp ring buffer.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Derive the timestamp index into the timestamp ring buffer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">timestamp</span> <span class="o">%</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span>
 
     <span class="k">def</span> <span class="nf">root_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Derive the root index into the root ring buffer.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Derive the root index into the root ring buffer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestamp_index</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_BUFFER_LENGTH</span>
 
     <span class="nd">@staticmethod</span>
@@ -25430,10 +25418,10 @@
         <span class="n">valid_input</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Storage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Derives the expected storage for a given beacon root contract call</span>
+<span class="sd">        Derive expected storage for a given beacon root contract call</span>
 <span class="sd">        dependent on:</span>
 <span class="sd">        - success or failure of the call</span>
-<span class="sd">        - validity of the timestamp input used within the call</span>
+<span class="sd">        - validity of the timestamp input used within the call.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># By default assume the call is unsuccessful and all keys are zero</span>
         <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)})</span>  <span class="c1"># type: ignore</span>

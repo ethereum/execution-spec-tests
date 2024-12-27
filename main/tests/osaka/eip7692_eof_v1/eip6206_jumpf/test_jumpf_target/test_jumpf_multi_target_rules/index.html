@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_jumpf_multi_target_rules"><code>test_jumpf_multi_target_rules()</code><a class="headerlink" href="#test_jumpf_multi_target_rules" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py#L116"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py::test_jumpf_multi_target_rules@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py#L114"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py::test_jumpf_multi_target_rules@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py::test_jumpf_multi_target_rules --fork Osaka</span>
@@ -25256,15 +25256,15 @@ Test a section that contains multiple JUMPF to different targets with different 
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_target.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Not implemented&quot;</span><span class="p">)</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Not implemented&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_jumpf_multi_target_rules</span><span class="p">(</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>

@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_valid_tx_invalid_chain_id"><code>test_valid_tx_invalid_chain_id()</code><a class="headerlink" href="#test_valid_tx_invalid_chain_id" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2276"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2239"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id --fork Prague</span>
@@ -25249,11 +25249,49 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_valid_tx_invalid_chain_id"></a>
     <div class="doc doc-contents first">
 
-      <p>Test sending a transaction where the chain id field does not match the current chain's id.</p>
+      <p>Test sending a transaction where the chain id field does not match
+the current chain's id.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2276</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2239</span>
+<span class="normal">2240</span>
+<span class="normal">2241</span>
+<span class="normal">2242</span>
+<span class="normal">2243</span>
+<span class="normal">2244</span>
+<span class="normal">2245</span>
+<span class="normal">2246</span>
+<span class="normal">2247</span>
+<span class="normal">2248</span>
+<span class="normal">2249</span>
+<span class="normal">2250</span>
+<span class="normal">2251</span>
+<span class="normal">2252</span>
+<span class="normal">2253</span>
+<span class="normal">2254</span>
+<span class="normal">2255</span>
+<span class="normal">2256</span>
+<span class="normal">2257</span>
+<span class="normal">2258</span>
+<span class="normal">2259</span>
+<span class="normal">2260</span>
+<span class="normal">2261</span>
+<span class="normal">2262</span>
+<span class="normal">2263</span>
+<span class="normal">2264</span>
+<span class="normal">2265</span>
+<span class="normal">2266</span>
+<span class="normal">2267</span>
+<span class="normal">2268</span>
+<span class="normal">2269</span>
+<span class="normal">2270</span>
+<span class="normal">2271</span>
+<span class="normal">2272</span>
+<span class="normal">2273</span>
+<span class="normal">2274</span>
+<span class="normal">2275</span>
+<span class="normal">2276</span>
 <span class="normal">2277</span>
 <span class="normal">2278</span>
 <span class="normal">2279</span>
@@ -25276,56 +25314,21 @@
 <span class="normal">2296</span>
 <span class="normal">2297</span>
 <span class="normal">2298</span>
-<span class="normal">2299</span>
-<span class="normal">2300</span>
-<span class="normal">2301</span>
-<span class="normal">2302</span>
-<span class="normal">2303</span>
-<span class="normal">2304</span>
-<span class="normal">2305</span>
-<span class="normal">2306</span>
-<span class="normal">2307</span>
-<span class="normal">2308</span>
-<span class="normal">2309</span>
-<span class="normal">2310</span>
-<span class="normal">2311</span>
-<span class="normal">2312</span>
-<span class="normal">2313</span>
-<span class="normal">2314</span>
-<span class="normal">2315</span>
-<span class="normal">2316</span>
-<span class="normal">2317</span>
-<span class="normal">2318</span>
-<span class="normal">2319</span>
-<span class="normal">2320</span>
-<span class="normal">2321</span>
-<span class="normal">2322</span>
-<span class="normal">2323</span>
-<span class="normal">2324</span>
-<span class="normal">2325</span>
-<span class="normal">2326</span>
-<span class="normal">2327</span>
-<span class="normal">2328</span>
-<span class="normal">2329</span>
-<span class="normal">2330</span>
-<span class="normal">2331</span>
-<span class="normal">2332</span>
-<span class="normal">2333</span>
-<span class="normal">2334</span>
-<span class="normal">2335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;chain_id&quot;</span><span class="p">,</span>
+<span class="normal">2299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;auth_chain_id&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_CHAIN_ID</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;chain_id=2**64-1&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">MAX_AUTH_CHAIN_ID</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;auth_chain_id=2**256-1&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;chain_id=2&quot;</span><span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_valid_tx_invalid_chain_id</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">auth_chain_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending a transaction where the chain id field does not match the current chain&#39;s id.</span>
+<span class="sd">    Test sending a transaction where the chain id field does not match</span>
+<span class="sd">    the current chain&#39;s id.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">auth_account_start_balance</span><span class="p">)</span>
 
@@ -25338,7 +25341,7 @@
     <span class="n">authorization</span> <span class="o">=</span> <span class="n">AuthorizationTuple</span><span class="p">(</span>
         <span class="n">address</span><span class="o">=</span><span class="n">set_code_to_address</span><span class="p">,</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
+        <span class="n">chain_id</span><span class="o">=</span><span class="n">auth_chain_id</span><span class="p">,</span>
         <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -25421,18 +25424,18 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>chain_id</th>
+                        <th>auth_chain_id</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Prague-blockchain_test-chain_id=2**64-1]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Prague-blockchain_test-chain_id=2**64-1]">
-                    ...fork_Prague-blockchain_test-chain_id=2**64-1
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Prague-blockchain_test-auth_chain_id=2**256-1]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Prague-blockchain_test-auth_chain_id=2**256-1]">
+                    ...fork_Prague-blockchain_test-auth_chain_id=2**256-1
                 </abbr>
             </td>
-                        <td>18446744073709551615</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -25446,11 +25449,11 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Prague-state_test-chain_id=2**64-1]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Prague-state_test-chain_id=2**64-1]">
-                    ...fork_Prague-state_test-chain_id=2**64-1
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Prague-state_test-auth_chain_id=2**256-1]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Prague-state_test-auth_chain_id=2**256-1]">
+                    ...fork_Prague-state_test-auth_chain_id=2**256-1
                 </abbr>
             </td>
-                        <td>18446744073709551615</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -25464,11 +25467,11 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Osaka-blockchain_test-chain_id=2**64-1]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Osaka-blockchain_test-chain_id=2**64-1]">
-                    ...fork_Osaka-blockchain_test-chain_id=2**64-1
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Osaka-blockchain_test-auth_chain_id=2**256-1]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Osaka-blockchain_test-auth_chain_id=2**256-1]">
+                    ...fork_Osaka-blockchain_test-auth_chain_id=2**256-1
                 </abbr>
             </td>
-                        <td>18446744073709551615</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -25482,11 +25485,11 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Osaka-state_test-chain_id=2**64-1]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Osaka-state_test-chain_id=2**64-1]">
-                    ...fork_Osaka-state_test-chain_id=2**64-1
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Osaka-state_test-auth_chain_id=2**256-1]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_chain_id[fork_Osaka-state_test-auth_chain_id=2**256-1]">
+                    ...fork_Osaka-state_test-auth_chain_id=2**256-1
                 </abbr>
             </td>
-                        <td>18446744073709551615</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 

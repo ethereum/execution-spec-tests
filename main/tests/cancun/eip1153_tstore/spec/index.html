@@ -16029,11 +16029,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25232,7 +25232,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/cancun/eip1153_tstore/spec.py"><code>tests/cancun/eip1153_tstore/spec.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/cancun/eip1153_tstore/spec.py"><code>tests/cancun/eip1153_tstore/spec.py@7e00240e</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -25273,25 +25273,25 @@
 
 
       <p>Parameters from the EIP-1153 specifications as defined at
-<a href="https://eips.ethereum.org/EIPS/eip-1153">https://eips.ethereum.org/EIPS/eip-1153</a></p>
+<a href="https://eips.ethereum.org/EIPS/eip-1153">https://eips.ethereum.org/EIPS/eip-1153</a>.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip1153_tstore/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-1153 specifications as defined at</span>
-<span class="sd">    https://eips.ethereum.org/EIPS/eip-1153</span>
+<span class="sd">    https://eips.ethereum.org/EIPS/eip-1153.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">TLOAD_OPCODE_BYTE</span> <span class="o">=</span> <span class="mh">0x5C</span>

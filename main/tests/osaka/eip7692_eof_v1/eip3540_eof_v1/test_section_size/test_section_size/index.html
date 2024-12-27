@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_section_size"><code>test_section_size()</code><a class="headerlink" href="#test_section_size" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py#L41"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py::test_section_size@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py#L35"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py::test_section_size@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py::test_section_size --fork Osaka</span>
@@ -25251,11 +25251,17 @@
 <a id="tests.osaka.eip7692_eof_v1.eip3540_eof_v1.test_section_size.test_section_size"></a>
     <div class="doc doc-contents first">
 
-      <p>Test custom_size is auto, more or less then the actual size of the section</p>
+      <p>Test custom_size is auto, more or less then the actual size of the section.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 41</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
 <span class="normal"> 42</span>
 <span class="normal"> 43</span>
 <span class="normal"> 44</span>
@@ -25382,15 +25388,7 @@
 <span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;section_kind, section_size, exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">DATA</span><span class="p">,</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
@@ -25466,9 +25464,7 @@
     <span class="n">section_kind</span><span class="p">:</span> <span class="n">SectionKind</span><span class="p">,</span>
     <span class="n">exception</span><span class="p">:</span> <span class="n">EOFExceptionInstanceOrList</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test custom_size is auto, more or less then the actual size of the section</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test custom_size is auto, more or less then the actual size of the section.&quot;&quot;&quot;</span>
     <span class="n">eof_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">section_size</span> <span class="o">!=</span> <span class="n">SectionSize</span><span class="o">.</span><span class="n">NORMAL</span> <span class="ow">and</span> <span class="n">section_kind</span> <span class="o">==</span> <span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span>

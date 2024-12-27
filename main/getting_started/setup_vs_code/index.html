@@ -16105,11 +16105,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25269,7 +25269,7 @@
 <h1 id="vs-code-setup">VS Code Setup<a class="headerlink" href="#vs-code-setup" title="Permanent link">&para;</a></h1>
 <p>VS Code setup is optional, but does offer the following advantages:</p>
 <ul>
-<li>Auto-format your Python code to conform to the repository's <a href="../../writing_tests/code_standards/">code standards</a> (<a href="https://black.readthedocs.io/en/stable/">black</a>).</li>
+<li>Auto-format your Python code to conform to the repository's <a href="../../writing_tests/code_standards/">code standards</a> (<a href="https://docs.astral.sh/ruff/">ruff</a>).</li>
 <li>Inline linting and auto-completion (thanks to Python type hints).</li>
 <li>Spell-check your code and docs.</li>
 <li>Graphical exploration of test cases and easy test execution/debug.</li>
@@ -25280,23 +25280,23 @@
 <p>The <a href="https://github.com/ethereum/execution-spec-tests">ethereum/execution-spec-tests</a> repo includes configuration files for VS Code in the <code>.vscode/</code> sub-directory:</p>
 <div class="highlight"><pre><span></span><code>📁 execution-test-specs/
 └──📁 .vscode/
-    ├── 📄 settings.recommended.json
+    ├── 📄 settings.json
+    ├── 📄 settings.local.recommended.json
     ├── 📄 extensions.json
     └── 📄 launch.recommended.json
 </code></pre></div>
-<p>To enable the recommended settings, copy the settings file to the expected location:</p>
-<div class="highlight"><pre><span></span><code><span class="go">cp .vscode/settings.recommended.json .vscode/settings.json</span>
-</code></pre></div>
-<p>To additionally enable the recommended launch configurations:</p>
+<p>By default the repository settings are applied via <code>.vscode/settings.json</code>, if you want to add your own settings please edit <code>.vscode/settings.local.recommended.json</code>.</p>
+<p>To enable the recommended launch configurations:</p>
 <div class="highlight"><pre><span></span><code><span class="go">cp .vscode/launch.recommended.json .vscode/launch.json</span>
+</code></pre></div>
+<p>To additionally use and add local settings please run the following first:</p>
+<div class="highlight"><pre><span></span><code><span class="go">cp .vscode/settings.local.recommended.json .vscode/settings.local.json</span>
 </code></pre></div>
 <h2 id="additional-vs-code-extensions">Additional VS Code Extensions<a class="headerlink" href="#additional-vs-code-extensions" title="Permanent link">&para;</a></h2>
 <p>Open the folder in VS Code where execution-spec-tests is cloned: VS Code should prompt to install the repository's required extensions from <code>.vscode/extensions.json</code>:</p>
 <ul>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python"><code>ms-python.python</code></a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.isort"><code>ms-python.isort</code></a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.flake8"><code>ms-python.flake8</code></a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter"><code>ms-python.black-formatter</code></a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff"><code>charliermarsh.ruff</code></a></li>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"><code>esbenp.prettier-vscode</code></a></li>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker"><code>streetsidesoftware.code-spell-checker</code></a></li>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml"><code>tamasfe.even-better-toml</code></a></li>
@@ -25305,6 +25305,13 @@
 <p class="admonition-title">Workspace Trust</p>
 </div>
 <p>Trust the <code>execution-specs-test</code> repository when opening in VS Code to be prompted to install the plugins recommended via the <code>extensions.json</code> file.</p>
+<p>The <code>.vscode/extensions.json</code> additionally contains a list of extensions that should be disabled:</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.isort"><code>ms-python.isort</code></a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.flake8"><code>ms-python.flake8</code></a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter"><code>ms-python.black-formatter</code></a></li>
+</ul>
+<p>Please ensure that these are disabled for the repo if they are installed as part of your VS Code extensions.</p>
 <h2 id="configuration-for-testing-evm-features-under-active-development">Configuration for Testing EVM Features Under Active Development<a class="headerlink" href="#configuration-for-testing-evm-features-under-active-development" title="Permanent link">&para;</a></h2>
 <p>An additional step is required to enable fixture generations for features from forks that are under active development and have not been deployed to mainnet, see <a href="../../filling_tests/filling_tests_dev_fork/#vs-code-setup">Filling Tests for Features under Development</a>.</p>
 
@@ -25327,12 +25334,13 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:spencer.taylor-brown@ethereum.org">spencer</a>
     </nav>
   </span>
 

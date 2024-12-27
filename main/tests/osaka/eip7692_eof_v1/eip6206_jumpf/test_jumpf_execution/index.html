@@ -16037,11 +16037,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25178,7 +25178,7 @@
 
 
 <h1 id="test-jumpf-execution">Test JUMPF Execution<a class="headerlink" href="#test-jumpf-execution" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L21"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L19"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py --fork Osaka</span>
@@ -25222,61 +25222,61 @@
 <td><a href="test_jumpf_forward/"><code>test_jumpf_forward</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test JUMPF jumping forward</td>
+<td>Test JUMPF jumping forward.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_backward/"><code>test_jumpf_backward</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Tests JUMPF jumping backward</td>
+<td>Tests JUMPF jumping backward.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_to_self/"><code>test_jumpf_to_self</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Tests JUMPF jumping to self</td>
+<td>Tests JUMPF jumping to self.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_too_large/"><code>test_jumpf_too_large</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Tests JUMPF jumping to a section outside the max section range</td>
+<td>Tests JUMPF jumping to a section outside the max section range.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_way_too_large/"><code>test_jumpf_way_too_large</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Tests JUMPF jumping to uint64.MAX</td>
+<td>Tests JUMPF jumping to uint64.MAX.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_to_nonexistent_section/"><code>test_jumpf_to_nonexistent_section</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Tests JUMPF jumping to valid section number but where the section does not exist</td>
+<td>Tests JUMPF jumping to valid section number but where the section does not exist.</td>
 </tr>
 <tr>
 <td><a href="test_callf_to_non_returning_section/"><code>test_callf_to_non_returning_section</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Tests CALLF into a non-returning section</td>
+<td>Tests CALLF into a non-returning section.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_stack_size_1024/"><code>test_jumpf_stack_size_1024</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test stack reaching 1024 items in target function of JUMPF</td>
+<td>Test stack reaching 1024 items in target function of JUMPF.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_with_inputs_stack_size_1024/"><code>test_jumpf_with_inputs_stack_size_1024</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test stack reaching 1024 items in target function of JUMPF with inputs</td>
+<td>Test stack reaching 1024 items in target function of JUMPF with inputs.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_stack_size_1024_at_push/"><code>test_jumpf_stack_size_1024_at_push</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test stack reaching 1024 items in JUMPF target function at PUSH0 instruction</td>
+<td>Test stack reaching 1024 items in JUMPF target function at PUSH0 instruction.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_stack_overflow/"><code>test_jumpf_stack_overflow</code></a></td>
@@ -25288,13 +25288,13 @@
 <td><a href="test_jumpf_with_inputs_stack_size_1024_at_push/"><code>test_jumpf_with_inputs_stack_size_1024_at_push</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test stack reaching 1024 items in JUMPF target function with inputs at PUSH0 instruction</td>
+<td>Test stack reaching 1024 items in JUMPF target function with inputs at PUSH0 instruction.</td>
 </tr>
 <tr>
 <td><a href="test_jumpf_with_inputs_stack_overflow/"><code>test_jumpf_with_inputs_stack_overflow</code></a></td>
 <td>eof_state_test</td>
 <td>0</td>
-<td>Test stack overflowing 1024 items in JUMPF target function with inputs</td>
+<td>Test stack overflowing 1024 items in JUMPF target function with inputs.</td>
 </tr>
 </tbody>
 </table>

@@ -16093,11 +16093,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_invalid"><code>test_invalid()</code><a class="headerlink" href="#test_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py#L66"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_invalid@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py#L62"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_invalid@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_invalid --fork Prague</span>
@@ -25253,7 +25253,11 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
@@ -25275,14 +25279,8 @@
 <span class="normal">85</span>
 <span class="normal">86</span>
 <span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;input&quot;</span><span class="p">,</span>
+<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;fail-map_fp_to_G1_bls.json&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x80</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">FP</span><span class="p">(</span><span class="mi">0</span><span class="p">))[</span><span class="mi">1</span><span class="p">:],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_encoding&quot;</span><span class="p">),</span>
@@ -25301,9 +25299,7 @@
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Negative tests for the BLS12_MAP_FP_TO_G1 precompile.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Negative tests for the BLS12_MAP_FP_TO_G1 precompile.&quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
@@ -25360,7 +25356,7 @@
         <tr>
             <th>Test ID (Abbreviated)</th>
                         <th>expected_output</th>
-                        <th>input</th>
+                        <th>input_data</th>
                         <th>precompile_address</th>
                     </tr>
     </thead>

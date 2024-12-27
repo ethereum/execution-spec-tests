@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_eof_calls_legacy_sstore"><code>test_eof_calls_legacy_sstore()</code><a class="headerlink" href="#test_eof_calls_legacy_sstore" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L393"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L389"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore --fork Osaka</span>
@@ -25251,11 +25251,15 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7069_extcall.test_calls.test_eof_calls_legacy_sstore"></a>
     <div class="doc doc-contents first">
 
-      <p>Test EOF contracts calling Legacy contracts that use SSTORE</p>
+      <p>Test EOF contracts calling Legacy contracts that use SSTORE.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">393</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
 <span class="normal">394</span>
 <span class="normal">395</span>
 <span class="normal">396</span>
@@ -25311,11 +25315,7 @@
 <span class="normal">446</span>
 <span class="normal">447</span>
 <span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">449</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span>
@@ -25329,7 +25329,7 @@
     <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF contracts calling Legacy contracts that use SSTORE&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF contracts calling Legacy contracts that use SSTORE.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">destination_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_caller</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
     <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">destination_contract_code</span><span class="p">)</span>

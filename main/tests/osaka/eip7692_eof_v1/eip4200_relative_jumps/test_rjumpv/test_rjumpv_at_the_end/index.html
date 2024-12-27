@@ -16095,11 +16095,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25236,7 +25236,7 @@
 
 
 <h1 id="test_rjumpv_at_the_end"><code>test_rjumpv_at_the_end()</code><a class="headerlink" href="#test_rjumpv_at_the_end" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1164"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_at_the_end@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1156"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_at_the_end@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_at_the_end --fork Osaka</span>
@@ -25252,11 +25252,19 @@
     <div class="doc doc-contents first">
 
       <p><a href="https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation">https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation</a> 4.i:
-This implies that the last instruction may be a terminating instruction or RJUMP</p>
+This implies that the last instruction may be a terminating instruction or RJUMP.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1164</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1156</span>
+<span class="normal">1157</span>
+<span class="normal">1158</span>
+<span class="normal">1159</span>
+<span class="normal">1160</span>
+<span class="normal">1161</span>
+<span class="normal">1162</span>
+<span class="normal">1163</span>
+<span class="normal">1164</span>
 <span class="normal">1165</span>
 <span class="normal">1166</span>
 <span class="normal">1167</span>
@@ -25264,20 +25272,12 @@ This implies that the last instruction may be a terminating instruction or RJUMP
 <span class="normal">1169</span>
 <span class="normal">1170</span>
 <span class="normal">1171</span>
-<span class="normal">1172</span>
-<span class="normal">1173</span>
-<span class="normal">1174</span>
-<span class="normal">1175</span>
-<span class="normal">1176</span>
-<span class="normal">1177</span>
-<span class="normal">1178</span>
-<span class="normal">1179</span>
-<span class="normal">1180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpv_at_the_end</span><span class="p">(</span>
+<span class="normal">1172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpv_at_the_end</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation 4.i:</span>
-<span class="sd">    This implies that the last instruction may be a terminating instruction or RJUMP</span>
+<span class="sd">    This implies that the last instruction may be a terminating instruction or RJUMP.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>

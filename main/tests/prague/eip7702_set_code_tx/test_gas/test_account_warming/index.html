@@ -16093,11 +16093,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_account_warming"><code>test_account_warming()</code><a class="headerlink" href="#test_account_warming" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_gas.py#L782"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_gas.py#L752"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming --fork Prague</span>
@@ -25253,7 +25253,37 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">782</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span>
+<span class="normal">758</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
 <span class="normal">783</span>
 <span class="normal">784</span>
 <span class="normal">785</span>
@@ -25363,40 +25393,7 @@
 <span class="normal">889</span>
 <span class="normal">890</span>
 <span class="normal">891</span>
-<span class="normal">892</span>
-<span class="normal">893</span>
-<span class="normal">894</span>
-<span class="normal">895</span>
-<span class="normal">896</span>
-<span class="normal">897</span>
-<span class="normal">898</span>
-<span class="normal">899</span>
-<span class="normal">900</span>
-<span class="normal">901</span>
-<span class="normal">902</span>
-<span class="normal">903</span>
-<span class="normal">904</span>
-<span class="normal">905</span>
-<span class="normal">906</span>
-<span class="normal">907</span>
-<span class="normal">908</span>
-<span class="normal">909</span>
-<span class="normal">910</span>
-<span class="normal">911</span>
-<span class="normal">912</span>
-<span class="normal">913</span>
-<span class="normal">914</span>
-<span class="normal">915</span>
-<span class="normal">916</span>
-<span class="normal">917</span>
-<span class="normal">918</span>
-<span class="normal">919</span>
-<span class="normal">920</span>
-<span class="normal">921</span>
-<span class="normal">922</span>
-<span class="normal">923</span>
-<span class="normal">924</span>
-<span class="normal">925</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;check_delegated_account_first&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="normal">892</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;check_delegated_account_first&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="o">**</span><span class="n">gas_test_parameter_args</span><span class="p">(</span><span class="n">include_many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_data</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">test_account_warming</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -25409,14 +25406,12 @@
     <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">check_delegated_account_first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test warming of the authority and authorized accounts for set-code transactions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test warming of the authority and authorized accounts for set-code transactions.&quot;&quot;&quot;</span>
     <span class="c1"># Overhead cost is the single push operation required for the address to check.</span>
-    <span class="n">OVERHEAD_COST</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="n">overhead_cost</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 
-    <span class="n">COLD_ACCOUNT_COST</span> <span class="o">=</span> <span class="mi">2600</span>
-    <span class="n">WARM_ACCOUNT_COST</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">cold_account_cost</span> <span class="o">=</span> <span class="mi">2600</span>
+    <span class="n">warm_account_cost</span> <span class="o">=</span> <span class="mi">100</span>
 
     <span class="c1"># Dictionary to keep track of the addresses to check for warming, and the expected cost of</span>
     <span class="c1"># accessing such account.</span>
@@ -25430,9 +25425,9 @@
         <span class="k">if</span> <span class="n">check_delegated_account_first</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">delegated_account</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">addresses_to_check</span><span class="p">:</span>
                 <span class="n">addresses_to_check</span><span class="p">[</span><span class="n">delegated_account</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">WARM_ACCOUNT_COST</span>
+                    <span class="n">warm_account_cost</span>
                     <span class="k">if</span> <span class="n">access_list_case</span><span class="o">.</span><span class="n">contains_set_code_address</span><span class="p">()</span>
-                    <span class="k">else</span> <span class="n">COLD_ACCOUNT_COST</span>
+                    <span class="k">else</span> <span class="n">cold_account_cost</span>
                 <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">authority</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">addresses_to_check</span><span class="p">:</span>
@@ -25445,28 +25440,28 @@
                         <span class="p">)</span>
                         <span class="ow">or</span> <span class="n">access_list_case</span><span class="o">.</span><span class="n">contains_authority</span><span class="p">()</span>
                     <span class="p">):</span>
-                        <span class="n">access_cost</span> <span class="o">=</span> <span class="n">WARM_ACCOUNT_COST</span>
+                        <span class="n">access_cost</span> <span class="o">=</span> <span class="n">warm_account_cost</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">access_cost</span> <span class="o">=</span> <span class="n">COLD_ACCOUNT_COST</span>
+                        <span class="n">access_cost</span> <span class="o">=</span> <span class="n">cold_account_cost</span>
                     <span class="k">if</span> <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">invalidity_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">access_cost</span> <span class="o">+=</span> <span class="n">WARM_ACCOUNT_COST</span>
+                        <span class="n">access_cost</span> <span class="o">+=</span> <span class="n">warm_account_cost</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">access_cost</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="n">COLD_ACCOUNT_COST</span>
+                        <span class="n">cold_account_cost</span>
                         <span class="k">if</span> <span class="n">Address</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span> <span class="o">!=</span> <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">tuple</span><span class="o">.</span><span class="n">signer</span>
-                        <span class="k">else</span> <span class="n">WARM_ACCOUNT_COST</span>
+                        <span class="k">else</span> <span class="n">warm_account_cost</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">invalidity_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">access_cost</span> <span class="o">+=</span> <span class="n">WARM_ACCOUNT_COST</span>
+                        <span class="n">access_cost</span> <span class="o">+=</span> <span class="n">warm_account_cost</span>
 
                 <span class="n">addresses_to_check</span><span class="p">[</span><span class="n">authority</span><span class="p">]</span> <span class="o">=</span> <span class="n">access_cost</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">authority</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">addresses_to_check</span><span class="p">:</span>
                 <span class="n">access_cost</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">COLD_ACCOUNT_COST</span>
+                    <span class="n">cold_account_cost</span>
                     <span class="k">if</span> <span class="n">Address</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span> <span class="o">!=</span> <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">tuple</span><span class="o">.</span><span class="n">signer</span>
-                    <span class="k">else</span> <span class="n">WARM_ACCOUNT_COST</span>
+                    <span class="k">else</span> <span class="n">warm_account_cost</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">skip</span> <span class="ow">and</span> <span class="p">(</span>
                     <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">invalidity_type</span> <span class="ow">is</span> <span class="kc">None</span>
@@ -25476,21 +25471,20 @@
                     <span class="p">)</span>
                     <span class="ow">or</span> <span class="n">access_list_case</span><span class="o">.</span><span class="n">contains_authority</span><span class="p">()</span>
                 <span class="p">):</span>
-                    <span class="n">access_cost</span> <span class="o">=</span> <span class="n">WARM_ACCOUNT_COST</span>
+                    <span class="n">access_cost</span> <span class="o">=</span> <span class="n">warm_account_cost</span>
 
                 <span class="k">if</span> <span class="p">(</span>
                     <span class="c1"># We can only charge the delegated account access cost if the authorization</span>
                     <span class="c1"># went through</span>
-                    <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">invalidity_type</span>
-                    <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">invalidity_type</span> <span class="ow">is</span> <span class="kc">None</span>
                 <span class="p">):</span>
                     <span class="k">if</span> <span class="p">(</span>
                         <span class="n">delegated_account</span> <span class="ow">in</span> <span class="n">addresses_to_check</span>
                         <span class="ow">or</span> <span class="n">access_list_case</span><span class="o">.</span><span class="n">contains_set_code_address</span><span class="p">()</span>
                     <span class="p">):</span>
-                        <span class="n">access_cost</span> <span class="o">+=</span> <span class="n">WARM_ACCOUNT_COST</span>
+                        <span class="n">access_cost</span> <span class="o">+=</span> <span class="n">warm_account_cost</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">access_cost</span> <span class="o">+=</span> <span class="n">COLD_ACCOUNT_COST</span>
+                        <span class="n">access_cost</span> <span class="o">+=</span> <span class="n">cold_account_cost</span>
 
                 <span class="n">addresses_to_check</span><span class="p">[</span><span class="n">authority</span><span class="p">]</span> <span class="o">=</span> <span class="n">access_cost</span>
 
@@ -25499,9 +25493,9 @@
                     <span class="n">authorization_with_properties</span><span class="o">.</span><span class="n">invalidity_type</span> <span class="ow">is</span> <span class="kc">None</span>
                     <span class="ow">or</span> <span class="n">access_list_case</span><span class="o">.</span><span class="n">contains_set_code_address</span><span class="p">()</span>
                 <span class="p">):</span>
-                    <span class="n">access_cost</span> <span class="o">=</span> <span class="n">WARM_ACCOUNT_COST</span>
+                    <span class="n">access_cost</span> <span class="o">=</span> <span class="n">warm_account_cost</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">access_cost</span> <span class="o">=</span> <span class="n">COLD_ACCOUNT_COST</span>
+                    <span class="n">access_cost</span> <span class="o">=</span> <span class="n">cold_account_cost</span>
                 <span class="n">addresses_to_check</span><span class="p">[</span><span class="n">delegated_account</span><span class="p">]</span> <span class="o">=</span> <span class="n">access_cost</span>
 
     <span class="n">callee_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
@@ -25509,7 +25503,7 @@
         <span class="p">(</span>
             <span class="n">CodeGasMeasure</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">check_address</span><span class="p">),</span>
-                <span class="n">overhead_cost</span><span class="o">=</span><span class="n">OVERHEAD_COST</span><span class="p">,</span>
+                <span class="n">overhead_cost</span><span class="o">=</span><span class="n">overhead_cost</span><span class="p">,</span>
                 <span class="n">extra_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">sstore_key</span><span class="o">=</span><span class="n">callee_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span><span class="n">access_cost</span><span class="p">),</span>
                 <span class="n">stop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>

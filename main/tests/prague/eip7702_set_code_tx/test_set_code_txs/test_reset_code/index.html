@@ -16033,11 +16033,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_invalid_tx/test_invalid_tx_invalid_chain_id/" class="md-nav__link">
+      <a href="../../test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_tx_invalid_chain_id</code>
+    <code>test_invalid_tx_invalid_auth_chain_id</code>
   </span>
   
 
@@ -25234,7 +25234,7 @@
 
 
 <h1 id="test_reset_code"><code>test_reset_code()</code><a class="headerlink" href="#test_reset_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49c766fb69a4d381bbae049bb7a15adbf7c4797d/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2881"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_reset_code@49c766fb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7e00240ee6cc25a2db69ed12b195706fb25a49d3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2833"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_reset_code@7e00240e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_reset_code --fork Prague</span>
@@ -25249,11 +25249,60 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_reset_code"></a>
     <div class="doc doc-contents first">
 
-      <p>Test sending type-4 tx to reset the code of an account after code has been set to the account.</p>
+      <p>Test sending type-4 tx to reset the code of an account after code has been
+set to the account.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2881</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2833</span>
+<span class="normal">2834</span>
+<span class="normal">2835</span>
+<span class="normal">2836</span>
+<span class="normal">2837</span>
+<span class="normal">2838</span>
+<span class="normal">2839</span>
+<span class="normal">2840</span>
+<span class="normal">2841</span>
+<span class="normal">2842</span>
+<span class="normal">2843</span>
+<span class="normal">2844</span>
+<span class="normal">2845</span>
+<span class="normal">2846</span>
+<span class="normal">2847</span>
+<span class="normal">2848</span>
+<span class="normal">2849</span>
+<span class="normal">2850</span>
+<span class="normal">2851</span>
+<span class="normal">2852</span>
+<span class="normal">2853</span>
+<span class="normal">2854</span>
+<span class="normal">2855</span>
+<span class="normal">2856</span>
+<span class="normal">2857</span>
+<span class="normal">2858</span>
+<span class="normal">2859</span>
+<span class="normal">2860</span>
+<span class="normal">2861</span>
+<span class="normal">2862</span>
+<span class="normal">2863</span>
+<span class="normal">2864</span>
+<span class="normal">2865</span>
+<span class="normal">2866</span>
+<span class="normal">2867</span>
+<span class="normal">2868</span>
+<span class="normal">2869</span>
+<span class="normal">2870</span>
+<span class="normal">2871</span>
+<span class="normal">2872</span>
+<span class="normal">2873</span>
+<span class="normal">2874</span>
+<span class="normal">2875</span>
+<span class="normal">2876</span>
+<span class="normal">2877</span>
+<span class="normal">2878</span>
+<span class="normal">2879</span>
+<span class="normal">2880</span>
+<span class="normal">2881</span>
 <span class="normal">2882</span>
 <span class="normal">2883</span>
 <span class="normal">2884</span>
@@ -25278,54 +25327,7 @@
 <span class="normal">2903</span>
 <span class="normal">2904</span>
 <span class="normal">2905</span>
-<span class="normal">2906</span>
-<span class="normal">2907</span>
-<span class="normal">2908</span>
-<span class="normal">2909</span>
-<span class="normal">2910</span>
-<span class="normal">2911</span>
-<span class="normal">2912</span>
-<span class="normal">2913</span>
-<span class="normal">2914</span>
-<span class="normal">2915</span>
-<span class="normal">2916</span>
-<span class="normal">2917</span>
-<span class="normal">2918</span>
-<span class="normal">2919</span>
-<span class="normal">2920</span>
-<span class="normal">2921</span>
-<span class="normal">2922</span>
-<span class="normal">2923</span>
-<span class="normal">2924</span>
-<span class="normal">2925</span>
-<span class="normal">2926</span>
-<span class="normal">2927</span>
-<span class="normal">2928</span>
-<span class="normal">2929</span>
-<span class="normal">2930</span>
-<span class="normal">2931</span>
-<span class="normal">2932</span>
-<span class="normal">2933</span>
-<span class="normal">2934</span>
-<span class="normal">2935</span>
-<span class="normal">2936</span>
-<span class="normal">2937</span>
-<span class="normal">2938</span>
-<span class="normal">2939</span>
-<span class="normal">2940</span>
-<span class="normal">2941</span>
-<span class="normal">2942</span>
-<span class="normal">2943</span>
-<span class="normal">2944</span>
-<span class="normal">2945</span>
-<span class="normal">2946</span>
-<span class="normal">2947</span>
-<span class="normal">2948</span>
-<span class="normal">2949</span>
-<span class="normal">2950</span>
-<span class="normal">2951</span>
-<span class="normal">2952</span>
-<span class="normal">2953</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2906</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;self_sponsored&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;not_self_sponsored&quot;</span><span class="p">),</span>
@@ -25338,7 +25340,8 @@
     <span class="n">self_sponsored</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test sending type-4 tx to reset the code of an account after code has been set to the account.</span>
+<span class="sd">    Test sending type-4 tx to reset the code of an account after code has been</span>
+<span class="sd">    set to the account.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
