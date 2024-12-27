@@ -1,14 +1,18 @@
-"""
-abstract: Test Calling Precompile Range (close to zero)
-
-"""
+"""abstract: Test Calling Precompile Range (close to zero)."""
 
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Account, Address, Alloc, Bytecode
+from ethereum_test_tools import (
+    Account,
+    Address,
+    Alloc,
+    Bytecode,
+    StateTestFiller,
+    Storage,
+    Transaction,
+)
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import StateTestFiller, Storage, Transaction
 
 UPPER_BOUND = 0x101
 RETURNDATASIZE_OFFSET = 0x10000000000000000  # Must be greater than UPPER_BOUND
@@ -29,9 +33,7 @@ def test_precompile_absence(
     fork: Fork,
     calldata_size: int,
 ):
-    """
-    Test that addresses close to zero are not precompiles unless active in the fork.
-    """
+    """Test that addresses close to zero are not precompiles unless active in the fork."""
     active_precompiles = fork.precompiles()
     storage = Storage()
     call_code = Bytecode()
