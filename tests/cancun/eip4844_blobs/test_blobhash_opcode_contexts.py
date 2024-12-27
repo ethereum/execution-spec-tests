@@ -43,7 +43,7 @@ def create_opcode_context(pre, tx, post):
 def simple_blob_hashes(
     max_blobs_per_block: int,
 ) -> List[bytes]:
-    """Simple list of blob versioned hashes ranging from bytes32(1 to 4)"""
+    """Return a simple list of blob versioned hashes ranging from bytes32(1 to 4)."""
     return add_kzg_version(
         [(1 << x) for x in range(max_blobs_per_block)],
         Spec.BLOB_COMMITMENT_VERSION_KZG,
