@@ -40,7 +40,7 @@ def gas_test(
     oog_difference: int = 1,
     out_of_gas_testing: bool = True,
     *,
-    prelude_code: Bytecode = Bytecode(None),
+    prelude_code: Bytecode | None = None,
 ):
     """
     Creates a State Test to check the gas cost of a sequence of EOF code.

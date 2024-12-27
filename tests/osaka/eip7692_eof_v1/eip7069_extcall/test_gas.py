@@ -196,7 +196,8 @@ def test_late_account_create(
     opcode: Op,
 ):
     """
-    Test EXTCALL to a non-existent account after another EXT*CALL has called it and not created it.
+    Test EXTCALL to a non-existent account after another EXT*CALL has called it and not
+    created it.
     """
     empty_address = Address(0xDECAFC0DE)
 
