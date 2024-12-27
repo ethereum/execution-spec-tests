@@ -8,6 +8,7 @@ Simulators using this plugin must define two pytest fixtures:
 
 These fixtures are used when creating the hive test suite.
 """
+
 import json
 import os
 from dataclasses import asdict

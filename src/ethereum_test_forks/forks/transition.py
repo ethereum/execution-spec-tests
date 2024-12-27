@@ -1,4 +1,5 @@
 """List of all transition fork definitions."""
+
 from ..transition_base_fork import transition_fork
 from .forks import Berlin, Cancun, London, Paris, Prague, Shanghai
 

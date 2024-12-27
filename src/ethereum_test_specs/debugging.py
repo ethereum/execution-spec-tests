@@ -1,4 +1,5 @@
 """Test spec debugging tools."""
+
 import pprint
 from typing import Dict, List
 

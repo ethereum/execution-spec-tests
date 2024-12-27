@@ -1,6 +1,5 @@
 """EVM types definitions."""
 
-
 from enum import Enum
 
 

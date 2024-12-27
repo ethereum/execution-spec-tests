@@ -1,4 +1,5 @@
 """Test suite for the transaction spec test generation."""
+
 import json
 import os
 

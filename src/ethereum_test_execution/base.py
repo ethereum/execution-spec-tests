@@ -1,4 +1,5 @@
 """Ethereum test execution base types."""
+
 from abc import abstractmethod
 from typing import ClassVar, Type
 
