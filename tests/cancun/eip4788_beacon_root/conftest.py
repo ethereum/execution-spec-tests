@@ -6,9 +6,20 @@ from typing import Dict, Iterator, List
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import AccessList, Account, Address, Alloc, Bytecode, Environment, Hash
+from ethereum_test_tools import (
+    AccessList,
+    Account,
+    Address,
+    Alloc,
+    Bytecode,
+    Environment,
+    Hash,
+    Storage,
+    Transaction,
+    add_kzg_version,
+    keccak256,
+)
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import Storage, Transaction, add_kzg_version, keccak256
 
 from .spec import Spec, SpecHelpers
 

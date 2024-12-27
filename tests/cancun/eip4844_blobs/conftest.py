@@ -10,36 +10,32 @@ from .spec import Spec
 
 @pytest.fixture
 def block_base_fee_per_gas() -> int:
-    """Default max fee per gas for transactions sent during test."""
+    """Return default max fee per gas for transactions sent during test."""
     return 7
 
 
 @pytest.fixture
 def target_blobs_per_block(fork: Fork) -> int:
-    """
-    Default number of blobs to be included in the block.
-    """
+    """Return default number of blobs to be included in the block."""
     return fork.target_blobs_per_block()
 
 
 @pytest.fixture
 def max_blobs_per_block(fork: Fork) -> int:
-    """
-    Default number of blobs to be included in the block.
-    """
+    """Return default number of blobs to be included in the block."""
     return fork.max_blobs_per_block()
 
 
 @pytest.fixture
 def blob_gas_per_blob(fork: Fork) -> int:
-    """Default blob gas cost per blob."""
+    """Return default blob gas cost per blob."""
     return fork.blob_gas_per_blob()
 
 
 @pytest.fixture(autouse=True)
 def parent_excess_blobs() -> int | None:
     """
-    Default excess blobs of the parent block.
+    Return default excess blobs of the parent block.
 
     Can be overloaded by a test case to provide a custom parent excess blob
     count.
@@ -50,7 +46,7 @@ def parent_excess_blobs() -> int | None:
 @pytest.fixture(autouse=True)
 def parent_blobs() -> int | None:
     """
-    Default data blobs of the parent blob.
+    Return default data blobs of the parent blob.
 
     Can be overloaded by a test case to provide a custom parent blob count.
     """
@@ -62,9 +58,7 @@ def parent_excess_blob_gas(
     parent_excess_blobs: int | None,
     blob_gas_per_blob: int,
 ) -> int | None:
-    """
-    Calculates the excess blob gas of the parent block from the excess blobs.
-    """
+    """Calculate the excess blob gas of the parent block from the excess blobs."""
     if parent_excess_blobs is None:
         return None
     assert parent_excess_blobs >= 0
@@ -78,7 +72,7 @@ def excess_blob_gas(
     parent_blobs: int | None,
 ) -> int | None:
     """
-    Calculates the excess blob gas of the block under test from the parent block.
+    Calculate the excess blob gas of the block under test from the parent block.
 
     Value can be overloaded by a test case to provide a custom excess blob gas.
     """
@@ -98,7 +92,7 @@ def correct_excess_blob_gas(
     parent_blobs: int | None,
 ) -> int:
     """
-    Calculates the correct excess blob gas of the block under test from the parent block.
+    Calculate the correct excess blob gas of the block under test from the parent block.
 
     Should not be overloaded by a test case.
     """
@@ -125,9 +119,7 @@ def blob_gas_price(
     fork: Fork,
     excess_blob_gas: int | None,
 ) -> int | None:
-    """
-    Blob gas price for the block of the test.
-    """
+    """Return blob gas price for the block of the test."""
     if excess_blob_gas is None:
         return None
 
@@ -144,9 +136,7 @@ def genesis_excess_blob_gas(
     target_blobs_per_block: int,
     blob_gas_per_blob: int,
 ) -> int:
-    """
-    Default excess blob gas for the genesis block.
-    """
+    """Return default excess blob gas for the genesis block."""
     excess_blob_gas = parent_excess_blob_gas if parent_excess_blob_gas else 0
     if parent_blobs:
         # We increase the excess blob gas of the genesis because
@@ -161,9 +151,7 @@ def env(
     block_base_fee_per_gas: int,
     genesis_excess_blob_gas: int,
 ) -> Environment:
-    """
-    Prepare the environment of the genesis block for all blockchain tests.
-    """
+    """Prepare the environment of the genesis block for all blockchain tests."""
     return Environment(
         excess_blob_gas=genesis_excess_blob_gas,
         blob_gas_used=0,
@@ -174,7 +162,7 @@ def env(
 @pytest.fixture
 def tx_value() -> int:
     """
-    Default value contained by the transactions sent during test.
+    Return default value contained by the transactions sent during test.
 
     Can be overloaded by a test case to provide a custom transaction value.
     """
@@ -183,7 +171,7 @@ def tx_value() -> int:
 
 @pytest.fixture
 def tx_calldata() -> bytes:
-    """Default calldata in transactions sent during test."""
+    """Return default calldata in transactions sent during test."""
     return b""
 
 
@@ -205,7 +193,7 @@ def tx_max_fee_per_gas(
 @pytest.fixture
 def tx_max_priority_fee_per_gas() -> int:
     """
-    Default max priority fee per gas for transactions sent during test.
+    Return default max priority fee per gas for transactions sent during test.
 
     Can be overloaded by a test case to provide a custom max priority fee per
     gas.
@@ -216,7 +204,7 @@ def tx_max_priority_fee_per_gas() -> int:
 @pytest.fixture
 def tx_max_fee_per_blob_gas_multiplier() -> int:
     """
-    Default max fee per blob gas multiplier for transactions sent during test.
+    Return default max fee per blob gas multiplier for transactions sent during test.
 
     Can be overloaded by a test case to provide a custom max fee per blob gas
     multiplier.
@@ -227,7 +215,7 @@ def tx_max_fee_per_blob_gas_multiplier() -> int:
 @pytest.fixture
 def tx_max_fee_per_blob_gas_delta() -> int:
     """
-    Default max fee per blob gas delta for transactions sent during test.
+    Return default max fee per blob gas delta for transactions sent during test.
 
     Can be overloaded by a test case to provide a custom max fee per blob gas
     delta.
@@ -242,7 +230,7 @@ def tx_max_fee_per_blob_gas(  # noqa: D103
     tx_max_fee_per_blob_gas_delta: int,
 ) -> int:
     """
-    Default max fee per blob gas for transactions sent during test.
+    Return default max fee per blob gas for transactions sent during test.
 
     By default, it is set to the blob gas price of the block.
 
