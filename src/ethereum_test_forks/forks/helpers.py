@@ -1,20 +1,16 @@
-"""
-Helpers used to return fork-specific values.
-"""
+"""Helpers used to return fork-specific values."""
 
 
 def ceiling_division(a: int, b: int) -> int:
     """
-    Calculates the ceil without using floating point.
-    Used by many of the EVM's formulas
+    Calculate the ceil without using floating point.
+    Used by many of the EVM's formulas.
     """
     return -(a // -b)
 
 
 def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
-    """
-    Used to calculate the blob gas cost.
-    """
+    """Calculate the blob gas cost."""
     i = 1
     output = 0
     numerator_accumulator = factor * denominator
