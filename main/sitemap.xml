@@ -3231,6 +3231,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7002_el_triggerable_withdrawals/test_contract_deployment/</loc>
+         <lastmod>2024-12-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7002_el_triggerable_withdrawals/test_contract_deployment/test_system_contract_deployment/</loc>
+         <lastmod>2024-12-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests/</loc>
          <lastmod>2024-12-30</lastmod>
          <changefreq>daily</changefreq>
@@ -3287,6 +3297,16 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7251_consolidations/test_consolidations_during_fork/test_consolidation_requests_during_fork/</loc>
+         <lastmod>2024-12-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7251_consolidations/test_contract_deployment/</loc>
+         <lastmod>2024-12-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7251_consolidations/test_contract_deployment/test_system_contract_deployment/</loc>
          <lastmod>2024-12-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
