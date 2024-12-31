@@ -205,6 +205,16 @@ def test_returncontract_memory_expansion(
     """
     Attempts an EOFCREATE with a possibly too-large auxdata.  Create either fails due to gas
     or contract too large, resulting in address or zero on failure in the create address slot.
+
+    The name id of `*-mem-cost` refers to the bit-length of the result of the calculated memory
+    expansion cost. Their length choice is designed to cause problems on shorter bit-length
+    representations with native integers.
+
+    The `offset_field` param indicates what part of the input data arguments are being tested,
+    either the offset of the data in memory or the size of the data in memory.
+
+    The `test_arg` param is the value passed into the field being tested (offset or size), intending
+    to trigger integer size bugs for that particular field.
     """
     env = Environment()
     sender = pre.fund_eoa(10**27)
