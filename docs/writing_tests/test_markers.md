@@ -271,6 +271,41 @@ def test_something_with_all_tx_types_but_skip_type_1(state_test_only, tx_type):
 
 In this example, the test will be skipped if `tx_type` is equal to 1 by returning a `pytest.mark.skip` marker, and return `None` otherwise.
 
+## Custom Fork Covariant Markers
+
+Custom fork covariant markers can be created by using the `fork_covariant_parametrize` decorator.
+
+This decorator takes three arguments:
+
+- `parameter_names`: A list of parameter names that will be parametrized using the custom function.
+- `fn`: A function that takes the fork as parameter and returns a list of values that will be used to parametrize the test.
+- `marks`: A marker, list of markers, or a lambda function that can be used to add additional markers to the test.
+
+```python
+import pytest
+
+from pytest_plugins import fork_covariant_parametrize
+
+def covariant_function(fork):
+    return [[1, 2], [3, 4]] if fork.name() == "Paris" else [[4, 5], [5, 6], [6, 7]]
+
+@fork_covariant_parametrize(parameter_names=[
+    "test_parameter", "test_parameter_2"
+], fn=covariant_function)
+@pytest.mark.valid_from("Paris")
+@pytest.mark.valid_until("Shanghai")
+def test_case(state_test_only, test_parameter, test_parameter_2):
+    pass
+```
+
+In this example, the test will be parametrized with the values `[1, 2]` and `[3, 4]` for the Paris fork, with values `1` and `3` being assigned to `test_parameter` and `2` and `4` being assigned to `test_parameter_2`. For the Shanghai fork, the test will be parametrized with the values `[4, 5]`, `[5, 6]`, and `[6, 7]`. Therefore, more test cases will be generated for the Shanghai fork.
+
+If the parameters that are being parametrized is only a single parameter, the return value of `fn` should be a list of values for that parameter.
+
+If the parameters that are being parametrized are multiple, the return value of `fn` should be a list of tuples/lists, where each tuple contains the values for each parameter.
+
+The function can also return a list of `pytest.param` objects, which allows for additional markers and test IDs to be added to the test.
+
 ## Fill/Execute Markers
 
 These markers are used to apply different markers to a test depending on whether it is being filled or executed.

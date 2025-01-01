@@ -1,3 +1,9 @@
+femtoether
+Picoether
+microether
+milliether
+milli
+nanoether
 0xaa
 AccessListType
 Account1
@@ -27,6 +33,7 @@ basename
 bb
 besu
 bidict
+pyspecs
 big0
 big1
 bigint
@@ -425,7 +432,6 @@ TestContractCreationGasUsage
 TestMultipleWithdrawalsSameAddress
 testrun
 textwrap
-tf
 ThreeHrSleep
 time15k
 timestamp
@@ -558,7 +564,6 @@ subcommand
 subcontainer
 substring
 substrings
-tf
 teardown
 tempdir
 testdir
