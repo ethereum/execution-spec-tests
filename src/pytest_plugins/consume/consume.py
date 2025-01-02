@@ -205,9 +205,7 @@ def pytest_report_header(config):  # noqa: D103
 
 @pytest.fixture(scope="session")
 def fixture_source_flags(request) -> List[str]:
-    """
-    Returns the input flags used to specify the JSON test fixtures source.
-    """
+    """Return the input flags used to specify the JSON test fixtures source."""
     return request.config.fixture_source_flags
 
 

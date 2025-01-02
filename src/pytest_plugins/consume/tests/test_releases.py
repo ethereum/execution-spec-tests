@@ -1,6 +1,4 @@
-"""
-Test release parsing given the github repository release JSON data.
-"""
+"""Test release parsing given the github repository release JSON data."""
 
 from os.path import realpath
 from pathlib import Path
@@ -20,9 +18,7 @@ CURRENT_FOLDER = CURRENT_FILE.parent
 
 @pytest.fixture(scope="session")
 def release_information() -> List[ReleaseInformation]:
-    """
-    Return the release information from a file.
-    """
+    """Return the release information from a file."""
     return parse_release_information_from_file(CURRENT_FOLDER / "release_information.json")
 
 
@@ -56,9 +52,7 @@ def test_release_parsing(
     expected_release_download_url: str,
     release_information: List[ReleaseInformation],
 ):
-    """
-    Test release parsing.
-    """
+    """Test release parsing."""
     assert (
         "https://github.com/ethereum/execution-spec-tests/releases/download/"
         + expected_release_download_url
