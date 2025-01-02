@@ -450,6 +450,24 @@ def invalid_requests_block_combinations(fork: Fork) -> List[Any]:
             ),
         )
 
+    # - Extra invalid request tests
+    combinations.append(
+        pytest.param(
+            correct_order_transactions,
+            correct_order + [b""],
+            BlockException.INVALID_REQUESTS,
+            id="extra_empty_request",
+        ),
+    )
+    combinations.append(
+        pytest.param(
+            correct_order_transactions,
+            correct_order + [bytes([fork.max_request_type() + 1])],
+            BlockException.INVALID_REQUESTS,
+            id="extra_invalid_type_request",
+        ),
+    )
+
     return combinations
 
 
