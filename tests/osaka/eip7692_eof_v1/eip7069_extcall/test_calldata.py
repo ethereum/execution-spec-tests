@@ -504,8 +504,8 @@ def test_extcalls_input_offset(
     The `offset_field` param indicates what part of the input data arguments are being tested,
     either the offset of the data in memory or the size of the data in memory.
 
-    The `test_arg` param is the value passed into the field being tested (offset or size), intending
-    to trigger integer size bugs for that particular field.
+    The `test_arg` param is the value passed into the field being tested (offset or size),
+    intending to trigger integer size bugs for that particular field.
     """
     env = Environment()
 

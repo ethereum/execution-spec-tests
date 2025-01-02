@@ -1,6 +1,4 @@
-"""
-Test good and bad EOFCREATE cases
-"""
+"""Test good and bad EOFCREATE cases."""
 
 import pytest
 
@@ -74,8 +72,8 @@ def test_eofcreate_memory(
     The `offset_field` param indicates what part of the input data arguments are being tested,
     either the offset of the data in memory or the size of the data in memory.
 
-    The `test_arg` param is the value passed into the field being tested (offset or size), intending
-    to trigger integer size bugs for that particular field.
+    The `test_arg` param is the value passed into the field being tested (offset or size),
+    intending to trigger integer size bugs for that particular field.
     """
     env = Environment()
 
@@ -83,8 +81,8 @@ def test_eofcreate_memory(
 
     initial_storage = Storage(
         {
-            slot_create_address: value_canary_to_be_overwritten,
-            slot_code_worked: value_canary_to_be_overwritten,
+            slot_create_address: value_canary_to_be_overwritten,  # type: ignore
+            slot_code_worked: value_canary_to_be_overwritten,  # type: ignore
         }
     )
     calling_contract_address = pre.deploy_contract(
