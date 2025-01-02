@@ -176,6 +176,8 @@ If you encounter issues during the installation process, please refer to the [In
 
 Contributions and feedback are welcome. Please see the [online documentation](https://ethereum.github.io/execution-spec-tests/writing_tests/) for this repository's coding standards and help on implementing new tests.
 
+Pull requests containing only typo fixes will not be merged and must be accompanied by documentation, test or framework improvements.
+
 Care is required when adding PRs or issues for functionality that is live on Ethereum mainnet, please refer to the [Security Policy](SECURITY.md) for more information about reporting vulnerabilities and eligibility for the [bug bounty program](https://bounty.ethereum.org).
 
 ## License
