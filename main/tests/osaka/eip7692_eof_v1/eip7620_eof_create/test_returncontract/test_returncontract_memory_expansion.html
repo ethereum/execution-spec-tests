@@ -1,0 +1,778 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_returncontract_memory_expansion()</title>
+    <link rel="icon" href="/execution-spec-tests/main/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/main/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_returncontract_memory_expansion()</code></h1>
+        <p>Attempts an EOFCREATE with a possibly too-large auxdata.  Create either fails due to gas</p>
+    <p><a href="./test_returncontract_memory_expansion/">Back to <code>test_returncontract_memory_expansion()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="Osaka" selected>Osaka</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                <option value="state_test" >state_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>test_arg</th>
+                        <th>success</th>
+                        <th>offset_field</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-zero-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-zero-offset]">
+                    ...fork_Osaka-blockchain_test-zero-offset
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-zero-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-zero-size]">
+                    ...fork_Osaka-blockchain_test-zero-size
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-8-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-8-bit-offset]">
+                    ...fork_Osaka-blockchain_test-8-bit-offset
+                </abbr>
+            </td>
+                        <td>255</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-8-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-8-bit-size]">
+                    ...fork_Osaka-blockchain_test-8-bit-size
+                </abbr>
+            </td>
+                        <td>255</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-9-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-9-bit-offset]">
+                    ...fork_Osaka-blockchain_test-9-bit-offset
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-9-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-9-bit-size]">
+                    ...fork_Osaka-blockchain_test-9-bit-size
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-16-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-16-bit-offset]">
+                    ...fork_Osaka-blockchain_test-16-bit-offset
+                </abbr>
+            </td>
+                        <td>65535</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-16-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-16-bit-size]">
+                    ...fork_Osaka-blockchain_test-16-bit-size
+                </abbr>
+            </td>
+                        <td>65535</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-17-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-17-bit-offset]">
+                    ...fork_Osaka-blockchain_test-17-bit-offset
+                </abbr>
+            </td>
+                        <td>65536</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-17-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-17-bit-size]">
+                    ...fork_Osaka-blockchain_test-17-bit-size
+                </abbr>
+            </td>
+                        <td>65536</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-32-bit-mem-cost-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-32-bit-mem-cost-offset]">
+                    ...fork_Osaka-blockchain_test-32-bit-mem-cost-offset
+                </abbr>
+            </td>
+                        <td>33554208</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-32-bit-mem-cost-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-32-bit-mem-cost-size]">
+                    ...fork_Osaka-blockchain_test-32-bit-mem-cost-size
+                </abbr>
+            </td>
+                        <td>33554208</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-33-bit-mem-cost-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-33-bit-mem-cost-offset]">
+                    ...fork_Osaka-blockchain_test-33-bit-mem-cost-offset
+                </abbr>
+            </td>
+                        <td>47452896</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-33-bit-mem-cost-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-33-bit-mem-cost-size]">
+                    ...fork_Osaka-blockchain_test-33-bit-mem-cost-size
+                </abbr>
+            </td>
+                        <td>47452896</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-32-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-32-bit-offset]">
+                    ...fork_Osaka-blockchain_test-32-bit-offset
+                </abbr>
+            </td>
+                        <td>4294967295</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-32-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-32-bit-size]">
+                    ...fork_Osaka-blockchain_test-32-bit-size
+                </abbr>
+            </td>
+                        <td>4294967295</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-33-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-33-bit-offset]">
+                    ...fork_Osaka-blockchain_test-33-bit-offset
+                </abbr>
+            </td>
+                        <td>4294967296</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-33-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-33-bit-size]">
+                    ...fork_Osaka-blockchain_test-33-bit-size
+                </abbr>
+            </td>
+                        <td>4294967296</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-64-bit-mem-cost-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-64-bit-mem-cost-offset]">
+                    ...fork_Osaka-blockchain_test-64-bit-mem-cost-offset
+                </abbr>
+            </td>
+                        <td>2199023255328</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-64-bit-mem-cost-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-64-bit-mem-cost-size]">
+                    ...fork_Osaka-blockchain_test-64-bit-mem-cost-size
+                </abbr>
+            </td>
+                        <td>2199023255328</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-65-bit-mem-cost-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-65-bit-mem-cost-offset]">
+                    ...fork_Osaka-blockchain_test-65-bit-mem-cost-offset
+                </abbr>
+            </td>
+                        <td>3109888511744</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-65-bit-mem-cost-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-65-bit-mem-cost-size]">
+                    ...fork_Osaka-blockchain_test-65-bit-mem-cost-size
+                </abbr>
+            </td>
+                        <td>3109888511744</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-64-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-64-bit-offset]">
+                    ...fork_Osaka-blockchain_test-64-bit-offset
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-64-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-64-bit-size]">
+                    ...fork_Osaka-blockchain_test-64-bit-size
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-65-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-65-bit-offset]">
+                    ...fork_Osaka-blockchain_test-65-bit-offset
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-65-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-65-bit-size]">
+                    ...fork_Osaka-blockchain_test-65-bit-size
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-128-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-128-bit-offset]">
+                    ...fork_Osaka-blockchain_test-128-bit-offset
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-128-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-128-bit-size]">
+                    ...fork_Osaka-blockchain_test-128-bit-size
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-129-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-129-bit-offset]">
+                    ...fork_Osaka-blockchain_test-129-bit-offset
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-129-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-129-bit-size]">
+                    ...fork_Osaka-blockchain_test-129-bit-size
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-256-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-256-bit-offset]">
+                    ...fork_Osaka-blockchain_test-256-bit-offset
+                </abbr>
+            </td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-256-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-blockchain_test-256-bit-size]">
+                    ...fork_Osaka-blockchain_test-256-bit-size
+                </abbr>
+            </td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-zero-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-zero-offset]">
+                    ...fork_Osaka-state_test-zero-offset
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-zero-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-zero-size]">
+                    ...fork_Osaka-state_test-zero-size
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-8-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-8-bit-offset]">
+                    ...fork_Osaka-state_test-8-bit-offset
+                </abbr>
+            </td>
+                        <td>255</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-8-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-8-bit-size]">
+                    ...fork_Osaka-state_test-8-bit-size
+                </abbr>
+            </td>
+                        <td>255</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-9-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-9-bit-offset]">
+                    ...fork_Osaka-state_test-9-bit-offset
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-9-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-9-bit-size]">
+                    ...fork_Osaka-state_test-9-bit-size
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-16-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-16-bit-offset]">
+                    ...fork_Osaka-state_test-16-bit-offset
+                </abbr>
+            </td>
+                        <td>65535</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-16-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-16-bit-size]">
+                    ...fork_Osaka-state_test-16-bit-size
+                </abbr>
+            </td>
+                        <td>65535</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-17-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-17-bit-offset]">
+                    ...fork_Osaka-state_test-17-bit-offset
+                </abbr>
+            </td>
+                        <td>65536</td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-17-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-17-bit-size]">
+                    ...fork_Osaka-state_test-17-bit-size
+                </abbr>
+            </td>
+                        <td>65536</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-32-bit-mem-cost-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-32-bit-mem-cost-offset]">
+                    ...fork_Osaka-state_test-32-bit-mem-cost-offset
+                </abbr>
+            </td>
+                        <td>33554208</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-32-bit-mem-cost-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-32-bit-mem-cost-size]">
+                    ...fork_Osaka-state_test-32-bit-mem-cost-size
+                </abbr>
+            </td>
+                        <td>33554208</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-33-bit-mem-cost-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-33-bit-mem-cost-offset]">
+                    ...fork_Osaka-state_test-33-bit-mem-cost-offset
+                </abbr>
+            </td>
+                        <td>47452896</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-33-bit-mem-cost-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-33-bit-mem-cost-size]">
+                    ...fork_Osaka-state_test-33-bit-mem-cost-size
+                </abbr>
+            </td>
+                        <td>47452896</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-32-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-32-bit-offset]">
+                    ...fork_Osaka-state_test-32-bit-offset
+                </abbr>
+            </td>
+                        <td>4294967295</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-32-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-32-bit-size]">
+                    ...fork_Osaka-state_test-32-bit-size
+                </abbr>
+            </td>
+                        <td>4294967295</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-33-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-33-bit-offset]">
+                    ...fork_Osaka-state_test-33-bit-offset
+                </abbr>
+            </td>
+                        <td>4294967296</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-33-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-33-bit-size]">
+                    ...fork_Osaka-state_test-33-bit-size
+                </abbr>
+            </td>
+                        <td>4294967296</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-64-bit-mem-cost-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-64-bit-mem-cost-offset]">
+                    ...fork_Osaka-state_test-64-bit-mem-cost-offset
+                </abbr>
+            </td>
+                        <td>2199023255328</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-64-bit-mem-cost-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-64-bit-mem-cost-size]">
+                    ...fork_Osaka-state_test-64-bit-mem-cost-size
+                </abbr>
+            </td>
+                        <td>2199023255328</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-65-bit-mem-cost-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-65-bit-mem-cost-offset]">
+                    ...fork_Osaka-state_test-65-bit-mem-cost-offset
+                </abbr>
+            </td>
+                        <td>3109888511744</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-65-bit-mem-cost-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-65-bit-mem-cost-size]">
+                    ...fork_Osaka-state_test-65-bit-mem-cost-size
+                </abbr>
+            </td>
+                        <td>3109888511744</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-64-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-64-bit-offset]">
+                    ...fork_Osaka-state_test-64-bit-offset
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-64-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-64-bit-size]">
+                    ...fork_Osaka-state_test-64-bit-size
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-65-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-65-bit-offset]">
+                    ...fork_Osaka-state_test-65-bit-offset
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-65-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-65-bit-size]">
+                    ...fork_Osaka-state_test-65-bit-size
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-128-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-128-bit-offset]">
+                    ...fork_Osaka-state_test-128-bit-offset
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-128-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-128-bit-size]">
+                    ...fork_Osaka-state_test-128-bit-size
+                </abbr>
+            </td>
+                        <td>18446744073709551615</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-129-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-129-bit-offset]">
+                    ...fork_Osaka-state_test-129-bit-offset
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-129-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-129-bit-size]">
+                    ...fork_Osaka-state_test-129-bit-size
+                </abbr>
+            </td>
+                        <td>18446744073709551616</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-256-bit-offset]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-256-bit-offset]">
+                    ...fork_Osaka-state_test-256-bit-offset
+                </abbr>
+            </td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>False</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-256-bit-size]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_memory_expansion[fork_Osaka-state_test-256-bit-size]">
+                    ...fork_Osaka-state_test-256-bit-size
+                </abbr>
+            </td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/main/javascripts/site.js"></script>
