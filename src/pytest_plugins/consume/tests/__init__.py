@@ -1,3 +1,1 @@
-"""
-Tests for the consume plugin.
-"""
+"""Tests for the consume plugin."""

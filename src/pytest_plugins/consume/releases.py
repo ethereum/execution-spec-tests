@@ -1,6 +1,4 @@
-"""
-Procedures to consume fixtures from Github releases.
-"""
+"""Procedures to consume fixtures from Github releases."""
 
 import json
 import os
@@ -20,33 +18,34 @@ CACHED_RELEASE_INFORMATION_FILE = (
 )
 
 
-class NoSuchRelease(Exception):
-    """
-    Raised when a release does not exist.
-    """
+class NoSuchReleaseError(Exception):
+    """Raised when a release does not exist."""
 
     def __init__(self, release_source: str):
+        """Initialize the exception."""
         super().__init__(f"Unknown release source: {release_source}")
 
 
-class AssetNotFound(Exception):
-    """
-    Raised when a release has no assets.
-    """
+class AssetNotFoundError(Exception):
+    """Raised when a release has no assets."""
 
     def __init__(self, release_source: str):
+        """Initialize the exception."""
         super().__init__(f"Asset not found: {release_source}")
 
 
 class ReleaseDescriptor:
-    """
-    A descriptor for a release.
-    """
+    """A descriptor for a release."""
 
     tag_name: str
     version: str | None
 
     def __init__(self, release_source: str):
+        """
+        Initialize the release descriptor.
+
+        The release source can be in the format `tag_name@version` or just `tag_name`.
+        """
         if "@" in release_source:
             self.tag_name, self.version = release_source.split("@")
             if self.version == "" or self.version == "latest":
@@ -68,16 +67,12 @@ class ReleaseDescriptor:
 
     @property
     def asset_name(self) -> str:
-        """
-        Get the asset name.
-        """
+        """Get the asset name."""
         return f"fixtures_{self.tag_name}.tar.gz"
 
 
 class Asset(BaseModel):
-    """
-    Information about a release asset.
-    """
+    """Information about a release asset."""
 
     url: str = Field(..., alias="browser_download_url")
     id: int
@@ -87,23 +82,17 @@ class Asset(BaseModel):
 
 
 class Assets(RootModel[List[Asset]]):
-    """
-    A list of assets and their information.
-    """
+    """A list of assets and their information."""
 
     root: List[Asset]
 
     def __contains__(self, release_descriptor: ReleaseDescriptor) -> bool:
-        """
-        Check if the assets contain the release descriptor.
-        """
+        """Check if the assets contain the release descriptor."""
         return any(release_descriptor.asset_name == asset.name for asset in self.root)
 
 
 class ReleaseInformation(BaseModel):
-    """
-    Information about a release.
-    """
+    """Information about a release."""
 
     url: str = Field(..., alias="html_url")
     id: int
@@ -114,9 +103,7 @@ class ReleaseInformation(BaseModel):
     assets: Assets
 
     def __contains__(self, release_descriptor: ReleaseDescriptor) -> bool:
-        """
-        Check if the release information contains the release descriptor.
-        """
+        """Check if the release information contains the release descriptor."""
         if release_descriptor.version is not None:
             return release_descriptor == self.tag_name
         for asset in self.assets.root:
@@ -125,41 +112,31 @@ class ReleaseInformation(BaseModel):
         return False
 
     def get_asset(self, release_descriptor: ReleaseDescriptor) -> Asset:
-        """
-        Get the asset URL.
-        """
+        """Get the asset URL."""
         for asset in self.assets.root:
             if asset.name == release_descriptor.asset_name:
                 return asset
-        raise AssetNotFound(release_descriptor.tag_name)
+        raise AssetNotFoundError(release_descriptor.tag_name)
 
 
 class Releases(RootModel[List[ReleaseInformation]]):
-    """
-    A list of releases and their information.
-    """
+    """A list of releases and their information."""
 
     root: List[ReleaseInformation]
 
 
 def is_docker_or_ci() -> bool:
-    """
-    Check if the code is running inside a Docker container or a CI environment.
-    """
+    """Check if the code is running inside a Docker container or a CI environment."""
     return "GITHUB_ACTIONS" in os.environ or Path("/.dockerenv").exists()
 
 
 def parse_release_information(release_information: dict) -> List[ReleaseInformation]:
-    """
-    Parse the release information from the Github API.
-    """
+    """Parse the release information from the Github API."""
     return Releases.model_validate(release_information).root  # type: ignore
 
 
 def download_release_information(destination_file: Path | None) -> List[ReleaseInformation]:
-    """
-    Download the latest stable and develop releases and optionally save them to a file.
-    """
+    """Download the latest stable and develop releases and optionally save them to a file."""
     response = requests.get(RELEASE_INFORMATION_URL)
     response.raise_for_status()
     release_information = response.json()
@@ -173,9 +150,7 @@ def download_release_information(destination_file: Path | None) -> List[ReleaseI
 def parse_release_information_from_file(
     release_information_file: Path,
 ) -> List[ReleaseInformation]:
-    """
-    Parse the release information from a file.
-    """
+    """Parse the release information from a file."""
     with open(release_information_file, "r") as file:
         release_information = json.load(file)
     return parse_release_information(release_information)
@@ -184,14 +159,12 @@ def parse_release_information_from_file(
 def get_release_url_from_release_information(
     release_source: str, release_information: List[ReleaseInformation]
 ) -> str:
-    """
-    Get the URL for a specific release.
-    """
+    """Get the URL for a specific release."""
     release_descriptor = ReleaseDescriptor(release_source)
     for release in release_information:
         if release_descriptor in release:
             return release.get_asset(release_descriptor).url
-    raise NoSuchRelease(release_source)
+    raise NoSuchReleaseError(release_source)
 
 
 def get_release_information() -> List[ReleaseInformation]:
@@ -213,8 +186,6 @@ def get_release_information() -> List[ReleaseInformation]:
 
 
 def get_release_url(release_source: str) -> str:
-    """
-    Get the URL for a specific release.
-    """
+    """Get the URL for a specific release."""
     release_information = get_release_information()
     return get_release_url_from_release_information(release_source, release_information)
