@@ -60,7 +60,7 @@ class ReleaseTag:
         return cls(tag_name=tag_name, version=version)
 
     @staticmethod
-    def is_release_string(cls, release_string: str) -> bool:
+    def is_release_string(release_string: str) -> bool:
         """Check if the release string is in the correct format."""
         return "@" in release_string
 
