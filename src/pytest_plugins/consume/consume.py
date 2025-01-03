@@ -39,7 +39,7 @@ def default_html_report_file_path() -> str:
     Filepath (default) to store the generated HTML test report. Defined as a
     function to allow for easier testing.
     """
-    return ".meta/report_consume.html"
+    return "./report_consume.html"
 
 
 def is_url(string: str) -> bool:
@@ -174,7 +174,7 @@ def pytest_configure(config):  # noqa: D103
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
-        config.option.htmlpath = os.path.join(fixtures_source, default_html_report_file_path())
+        config.option.htmlpath = Path(default_html_report_file_path())
 
 
 def pytest_html_report_title(report):

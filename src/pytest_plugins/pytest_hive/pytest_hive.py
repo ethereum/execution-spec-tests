@@ -72,12 +72,38 @@ def pytest_addoption(parser: pytest.Parser):  # noqa: D103
     )
 
 
+def get_hive_info(simulator: Simulation) -> HiveInfo | None:
+    """Fetch and return the Hive instance information."""
+    try:
+        hive_info = simulator.hive_instance()
+        return HiveInfo(**hive_info)
+    except Exception as e:
+        warnings.warn(
+            f"Error fetching hive information: {str(e)}\n\n"
+            "Hive might need to be updated to a newer version.",
+            stacklevel=2,
+        )
+    return None
+
+
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header."""
     if config.option.collectonly:
         return
-    return [f"hive simulator: {config.hive_simulator_url}"]
+    header_lines = [f"hive simulator: {config.hive_simulator_url}"]
+    if hive_info := get_hive_info(config.hive_simulator):
+        hive_command = " ".join(hive_info.command)
+        header_lines += [
+            f"hive command: {hive_command}",
+            f"hive commit: {hive_info.commit}",
+            f"hive date: {hive_info.date}",
+        ]
+        for client in hive_info.client_file:
+            header_lines += [
+                f"hive client ({client.client}): {client.model_dump_json(exclude_none=True)}",
+            ]
+    return header_lines
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -107,16 +133,7 @@ def simulator(request) -> Simulation:
 @pytest.fixture(scope="session")
 def hive_info(simulator: Simulation):
     """Fetch and return the Hive instance information."""
-    try:
-        hive_info = simulator.hive_instance()
-        return HiveInfo(**hive_info)
-    except Exception as e:
-        warnings.warn(
-            f"Error fetching hive information: {str(e)}\n\n"
-            "Hive might need to be updated to a newer version.",
-            stacklevel=2,
-        )
-    return None
+    return get_hive_info(simulator)
 
 
 @pytest.fixture(scope="session")
