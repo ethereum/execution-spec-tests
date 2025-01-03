@@ -2,6 +2,7 @@
 
 import json
 import os
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import List
@@ -21,42 +22,51 @@ CACHED_RELEASE_INFORMATION_FILE = (
 class NoSuchReleaseError(Exception):
     """Raised when a release does not exist."""
 
-    def __init__(self, release_source: str):
+    def __init__(self, release_string: str):
         """Initialize the exception."""
-        super().__init__(f"Unknown release source: {release_source}")
+        super().__init__(f"Unknown release source: {release_string}")
 
 
 class AssetNotFoundError(Exception):
     """Raised when a release has no assets."""
 
-    def __init__(self, release_source: str):
+    def __init__(self, release_string: str):
         """Initialize the exception."""
-        super().__init__(f"Asset not found: {release_source}")
+        super().__init__(f"Asset not found: {release_string}")
 
 
-class ReleaseDescriptor:
+@dataclass(kw_only=True)
+class ReleaseTag:
     """A descriptor for a release."""
 
     tag_name: str
     version: str | None
 
-    def __init__(self, release_source: str):
+    @classmethod
+    def from_string(cls, release_string: str) -> "ReleaseTag":
         """
-        Initialize the release descriptor.
+        Create a release descriptor from a string.
 
         The release source can be in the format `tag_name@version` or just `tag_name`.
         """
-        if "@" in release_source:
-            self.tag_name, self.version = release_source.split("@")
-            if self.version == "" or self.version == "latest":
-                self.version = None
+        version: str | None
+        if "@" in release_string:
+            tag_name, version = release_string.split("@")
+            if version == "" or version.lower() == "latest":
+                version = None
         else:
-            self.tag_name = release_source
-            self.version = None
+            tag_name = release_string
+            version = None
+        return cls(tag_name=tag_name, version=version)
+
+    @staticmethod
+    def is_release_string(cls, release_string: str) -> bool:
+        """Check if the release string is in the correct format."""
+        return "@" in release_string
 
     def __eq__(self, value) -> bool:
         """
-        Check if the release descriptor matches the value.
+        Check if the release descriptor matches the string value.
 
         Returns True if the value is the same as the tag name or the tag name and version.
         """
@@ -86,7 +96,7 @@ class Assets(RootModel[List[Asset]]):
 
     root: List[Asset]
 
-    def __contains__(self, release_descriptor: ReleaseDescriptor) -> bool:
+    def __contains__(self, release_descriptor: ReleaseTag) -> bool:
         """Check if the assets contain the release descriptor."""
         return any(release_descriptor.asset_name == asset.name for asset in self.root)
 
@@ -102,7 +112,7 @@ class ReleaseInformation(BaseModel):
     published_at: datetime
     assets: Assets
 
-    def __contains__(self, release_descriptor: ReleaseDescriptor) -> bool:
+    def __contains__(self, release_descriptor: ReleaseTag) -> bool:
         """Check if the release information contains the release descriptor."""
         if release_descriptor.version is not None:
             return release_descriptor == self.tag_name
@@ -111,7 +121,7 @@ class ReleaseInformation(BaseModel):
                 return True
         return False
 
-    def get_asset(self, release_descriptor: ReleaseDescriptor) -> Asset:
+    def get_asset(self, release_descriptor: ReleaseTag) -> Asset:
         """Get the asset URL."""
         for asset in self.assets.root:
             if asset.name == release_descriptor.asset_name:
@@ -157,14 +167,14 @@ def parse_release_information_from_file(
 
 
 def get_release_url_from_release_information(
-    release_source: str, release_information: List[ReleaseInformation]
+    release_string: str, release_information: List[ReleaseInformation]
 ) -> str:
     """Get the URL for a specific release."""
-    release_descriptor = ReleaseDescriptor(release_source)
+    release_descriptor = ReleaseTag.from_string(release_string)
     for release in release_information:
         if release_descriptor in release:
             return release.get_asset(release_descriptor).url
-    raise NoSuchReleaseError(release_source)
+    raise NoSuchReleaseError(release_string)
 
 
 def get_release_information() -> List[ReleaseInformation]:
@@ -185,7 +195,7 @@ def get_release_information() -> List[ReleaseInformation]:
     return parse_release_information_from_file(CACHED_RELEASE_INFORMATION_FILE)
 
 
-def get_release_url(release_source: str) -> str:
+def get_release_url(release_string: str) -> str:
     """Get the URL for a specific release."""
     release_information = get_release_information()
-    return get_release_url_from_release_information(release_source, release_information)
+    return get_release_url_from_release_information(release_string, release_information)

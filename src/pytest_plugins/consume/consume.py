@@ -17,13 +17,13 @@ from cli.gen_index import generate_fixtures_index
 from ethereum_test_fixtures.consume import TestCases
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
-from .releases import get_release_url
+from .releases import ReleaseTag, get_release_url
 
 CACHED_DOWNLOADS_DIRECTORY = (
     Path(platformdirs.user_cache_dir("ethereum-execution-spec-tests")) / "cached_downloads"
 )
 
-JsonSource = Union[Path, Literal["stdin"]]
+FixturesSource = Union[Path, Literal["stdin"]]
 
 
 def default_input_directory() -> str:
@@ -76,26 +76,14 @@ def pytest_addoption(parser):  # noqa: D103
     consume_group.addoption(
         "--input",
         action="store",
-        dest="fixture_source",
+        dest="fixtures_source",
         default=None,
         help=(
             "Specify the JSON test fixtures source. Can be a local directory, a URL pointing to a "
-            " fixtures.tar.gz archive, or one of the special keywords: 'stdin', "
-            "'latest-stable', 'latest-develop'. "
+            " fixtures.tar.gz archive, a release name and version in the form of `NAME@v1.2.3` "
+            "(`stable` and `develop` are valid release names, and `latest` is a valid version), "
+            "or the special keyword 'stdin'. "
             f"Defaults to the following local directory: '{default_input_directory()}'."
-        ),
-    )
-    consume_group.addoption(
-        "--release",
-        action="store",
-        dest="fixture_release",
-        default=None,
-        help=(
-            "Specify the name and, optionally, the version of the release to use as JSON test"
-            " fixtures source."
-            "If a specific version is not provided (e.g. RELEASE_NAME@v1.2.3), the latest release"
-            " will be used."
-            "Release names `stable` and `develop` are supported, as well as devnet-named releases."
         ),
     )
     consume_group.addoption(
@@ -144,44 +132,41 @@ def pytest_configure(config):  # noqa: D103
     called before the pytest-html plugin's pytest_configure to ensure that
     it uses the modified `htmlpath` option.
     """
-    input_source = config.getoption("fixture_source")
-    release_source = config.getoption("fixture_release")
-    cached_downloads_directory = Path(config.getoption("fixture_cache_folder"))
+    fixtures_source = config.getoption("fixtures_source")
+    config.fixture_source_flags = ["--input", fixtures_source]
 
-    if input_source is not None and input_source == "stdin":
-        config.fixture_source_flags = ["--input=stdin"]
-        config.test_cases = TestCases.from_stream(sys.stdin)
-        config.input_source = "stdin"
-        return
-
-    if release_source is not None:
-        config.fixture_source_flags = ["--release", release_source]
-        input_source = get_release_url(release_source)
-    elif input_source is not None:
-        config.fixture_source_flags = ["--input", input_source]
-    else:
+    if fixtures_source is None:
         config.fixture_source_flags = []
-        input_source = default_input_directory()
+        fixtures_source = default_input_directory()
+    elif fixtures_source == "stdin":
+        config.test_cases = TestCases.from_stream(sys.stdin)
+        config.fixtures_real_source = "stdin"
+        config.fixtures_source = "stdin"
+        return
+    elif ReleaseTag.is_release_string(fixtures_source):
+        fixtures_source = get_release_url(fixtures_source)
 
-    if is_url(input_source):
+    config.fixtures_real_source = fixtures_source
+    if is_url(fixtures_source):
+        cached_downloads_directory = Path(config.getoption("fixture_cache_folder"))
         cached_downloads_directory.mkdir(parents=True, exist_ok=True)
-        input_source = download_and_extract(input_source, cached_downloads_directory)
+        fixtures_source = download_and_extract(fixtures_source, cached_downloads_directory)
 
-    input_source = Path(input_source)
-    config.input_source = input_source
-    if not input_source.exists():
-        pytest.exit(f"Specified fixture directory '{input_source}' does not exist.")
-    if not any(input_source.glob("**/*.json")):
+    fixtures_source = Path(fixtures_source)
+    config.fixtures_source = fixtures_source
+    if not fixtures_source.exists():
+        pytest.exit(f"Specified fixture directory '{fixtures_source}' does not exist.")
+    if not any(fixtures_source.glob("**/*.json")):
         pytest.exit(
-            f"Specified fixture directory '{input_source}' does not contain any JSON files."
+            f"Specified fixture directory '{fixtures_source}' does not contain any JSON files."
         )
 
-    index_file = input_source / ".meta" / "index.json"
+    index_file = fixtures_source / ".meta" / "index.json"
     index_file.parent.mkdir(parents=True, exist_ok=True)
     if not index_file.exists():
         rich.print(f"Generating index file [bold cyan]{index_file}[/]...")
         generate_fixtures_index(
-            input_source, quiet_mode=False, force_flag=False, disable_infer_format=False
+            fixtures_source, quiet_mode=False, force_flag=False, disable_infer_format=False
         )
     config.test_cases = TestCases.from_index_file(index_file)
 
@@ -189,7 +174,7 @@ def pytest_configure(config):  # noqa: D103
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
-        config.option.htmlpath = os.path.join(input_source, default_html_report_file_path())
+        config.option.htmlpath = os.path.join(fixtures_source, default_html_report_file_path())
 
 
 def pytest_html_report_title(report):
@@ -199,8 +184,8 @@ def pytest_html_report_title(report):
 
 def pytest_report_header(config):  # noqa: D103
     consume_version = f"consume commit: {get_current_commit_hash_or_tag()}"
-    input_source = f"fixtures: {config.input_source}"
-    return [consume_version, input_source]
+    fixtures_real_source = f"fixtures: {config.fixtures_real_source}"
+    return [consume_version, fixtures_real_source]
 
 
 @pytest.fixture(scope="session")
@@ -210,8 +195,8 @@ def fixture_source_flags(request) -> List[str]:
 
 
 @pytest.fixture(scope="session")
-def fixture_source(request) -> JsonSource:  # noqa: D103
-    return request.config.input_source
+def fixtures_source(request) -> FixturesSource:  # noqa: D103
+    return request.config.fixtures_source
 
 
 def pytest_generate_tests(metafunc):

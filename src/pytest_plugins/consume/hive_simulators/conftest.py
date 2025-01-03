@@ -14,6 +14,7 @@ from ethereum_test_fixtures import BlockchainFixtureCommon
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_rpc import EthRPC
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
+from pytest_plugins.pytest_hive.hive_info import ClientInfo
 
 from .timing import TimingData
 
@@ -38,11 +39,15 @@ def eth_rpc(client: Client) -> EthRPC:
     return EthRPC(f"http://{client.ip}:8545")
 
 
-@pytest.fixture(scope="session")
-def hive_client_config_file() -> str | None:
+@pytest.fixture(scope="function")
+def hive_client_config_file_parameter(
+    client_type: ClientType, client_file: List[ClientInfo]
+) -> List[str]:
     """Return the hive client config file that is currently being used to configure tests."""
-    # TODO: We need a hive endpoint from which we can fetch this information
-    return "configs/prague.yaml"
+    for client in client_file:
+        if client_type.name.startswith(client.client):
+            return ["--client-file", f"<('{client.model_dump_json()}')"]
+    return []
 
 
 @pytest.fixture(scope="function")
@@ -50,12 +55,12 @@ def hive_consume_command(
     test_suite_name: str,
     client_type: ClientType,
     test_case: TestCaseIndexFile | TestCaseStream,
-    hive_client_config_file: str | None,
+    hive_client_config_file_parameter: List[str],
 ) -> List[str]:
     """Command to run the test within hive."""
     command = ["./hive", "--sim", f"ethereum/{test_suite_name}"]
-    if hive_client_config_file:
-        command += ["--client-file", hive_client_config_file]
+    if hive_client_config_file_parameter:
+        command += hive_client_config_file_parameter
     command += ["--client", client_type.name, "--sim.limit", f'"{test_case.id}"']
     return command
 
@@ -63,12 +68,12 @@ def hive_consume_command(
 @pytest.fixture(scope="function")
 def hive_dev_command(
     client_type: ClientType,
-    hive_client_config_file: str | None,
+    hive_client_config_file_parameter: List[str],
 ) -> List[str]:
     """Return the command used to instantiate hive alongside the `consume` command."""
     hive_dev = ["./hive", "--dev"]
-    if hive_client_config_file:
-        hive_dev += ["--client-file", hive_client_config_file]
+    if hive_client_config_file_parameter:
+        hive_dev += hive_client_config_file_parameter
     hive_dev += ["--client", client_type.name]
     return hive_dev
 
