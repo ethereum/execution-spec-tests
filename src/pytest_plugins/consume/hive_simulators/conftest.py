@@ -46,7 +46,7 @@ def hive_client_config_file_parameter(
     """Return the hive client config file that is currently being used to configure tests."""
     for client in client_file:
         if client_type.name.startswith(client.client):
-            return ["--client-file", f"<('{client.model_dump_json()}')"]
+            return ["--client-file", f"<('{client.model_dump_json(exclude_none=True)}')"]
     return []
 
 
