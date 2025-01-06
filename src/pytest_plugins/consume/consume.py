@@ -1,6 +1,5 @@
 """A pytest plugin providing common functionality for consuming test fixtures."""
 
-import os
 import sys
 import tarfile
 from io import BytesIO
