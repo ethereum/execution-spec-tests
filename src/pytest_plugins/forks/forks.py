@@ -380,56 +380,6 @@ fork_covariant_decorators: List[Type[CovariantDecorator]] = [
 ]
 
 
-FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE = "fork_covariant_parametrize"
-
-
-def fork_covariant_parametrize(
-    *,
-    parameter_names: List[str] | str,
-    fn: Callable[[Fork], List[Any] | Iterable[Any]],
-    marks: None
-    | pytest.Mark
-    | pytest.MarkDecorator
-    | List[pytest.Mark | pytest.MarkDecorator] = None,
-):
-    """
-    Decorate a test function by fork-covariant parameters.
-
-    The decorated function will be parametrized by the values returned by the `fn` function
-    for each fork.
-
-    If the parameters that are being parametrized is only a single parameter, the return value
-    of `fn` should be a list of values for that parameter.
-
-    If the parameters that are being parametrized are multiple, the return value of `fn` should
-    be a list of tuples/lists, where each tuple contains the values for each parameter.
-
-    Args:
-        parameter_names: Names of the parameters to be parametrized and that are covariant with
-            the fork.
-        fn: Function that takes the fork as the single parameter and returns the values for
-            the parameter for each fork.
-        marks: List of pytest marks to apply to all test cases parametrized.
-
-    """
-
-    def decorator(decorated_function: FunctionType) -> FunctionType:
-        """Decorate a test function by covariant parameters."""
-        covariant_descriptor = CovariantDescriptor(
-            parameter_names=parameter_names,
-            fn=fn,
-            marks=marks,
-        )
-        covariant_descriptors: List[CovariantDescriptor] = getattr(
-            decorated_function, FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE, []
-        )
-        covariant_descriptors.append(covariant_descriptor)
-        setattr(decorated_function, FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE, covariant_descriptors)
-        return decorated_function
-
-    return decorator
-
-
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config: pytest.Config):
     """
@@ -749,11 +699,11 @@ def add_fork_covariant_parameters(
         for fork_parametrizer in fork_parametrizers:
             covariant_descriptor(metafunc=metafunc).add_values(fork_parametrizer=fork_parametrizer)
 
-    if hasattr(metafunc.function, FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE):
-        covariant_descriptors: List[CovariantDescriptor] = getattr(
-            metafunc.function, FORK_COVARIANT_PARAMETRIZE_ATTRIBUTE
-        )
-        for descriptor in covariant_descriptors:
+    for marker in metafunc.definition.iter_markers():
+        if marker.name == "fork_parametrize":
+            descriptor = CovariantDescriptor(
+                **marker.kwargs,
+            )
             for fork_parametrizer in fork_parametrizers:
                 descriptor.add_values(fork_parametrizer=fork_parametrizer)
 

@@ -288,12 +288,13 @@ import pytest
             """
             import pytest
 
-            from pytest_plugins import fork_covariant_parametrize
-
             def covariant_function(fork):
                 return [1, 2] if fork.name() == "Paris" else [3, 4, 5]
 
-            @fork_covariant_parametrize(parameter_names=["test_parameter"], fn=covariant_function)
+            @pytest.mark.fork_parametrize(
+                parameter_names=["test_parameter"],
+                fn=covariant_function,
+            )
             @pytest.mark.valid_from("Paris")
             @pytest.mark.valid_until("Shanghai")
             def test_case(state_test_only, test_parameter):
@@ -307,12 +308,10 @@ import pytest
             """
             import pytest
 
-            from pytest_plugins import fork_covariant_parametrize
-
             def covariant_function(fork):
                 return [[1, 2], [3, 4]] if fork.name() == "Paris" else [[4, 5], [5, 6], [6, 7]]
 
-            @fork_covariant_parametrize(parameter_names=[
+            @pytest.mark.fork_parametrize(parameter_names=[
                 "test_parameter", "test_parameter_2"
             ], fn=covariant_function)
             @pytest.mark.valid_from("Paris")
@@ -328,8 +327,6 @@ import pytest
             """
             import pytest
 
-            from pytest_plugins import fork_covariant_parametrize
-
             def covariant_function(fork):
                 return [
                     pytest.param(1, id="first_value"),
@@ -340,7 +337,10 @@ import pytest
                     5,
                 ]
 
-            @fork_covariant_parametrize(parameter_names=["test_parameter"], fn=covariant_function)
+            @pytest.mark.fork_parametrize(
+                parameter_names=["test_parameter"],
+                fn=covariant_function,
+            )
             @pytest.mark.valid_from("Paris")
             @pytest.mark.valid_until("Shanghai")
             def test_case(state_test_only, test_parameter):
@@ -354,8 +354,6 @@ import pytest
             """
             import pytest
 
-            from pytest_plugins import fork_covariant_parametrize
-
             def covariant_function(fork):
                 return [
                     pytest.param(1, 2, id="first_test"),
@@ -366,7 +364,7 @@ import pytest
                     pytest.param(6, 7, id="sixth_test"),
                 ]
 
-            @fork_covariant_parametrize(parameter_names=[
+            @pytest.mark.fork_parametrize(parameter_names=[
                 "test_parameter", "test_parameter_2"
             ], fn=covariant_function)
             @pytest.mark.valid_from("Paris")
