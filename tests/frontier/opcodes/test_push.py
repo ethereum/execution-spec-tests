@@ -60,3 +60,49 @@ def test_push(state_test: StateTestFiller, fork: str, push_opcode: Op, pre: Allo
     post[contract] = Account(storage={0: int.from_bytes(excerpt, byteorder="big")})
 
     state_test(env=env, pre=pre, post=post, tx=tx)
+
+@pytest.mark.parametrize("stack_height", range(1024, 1026))
+@pytest.mark.valid_from("Frontier")
+def test_stack_overflow(state_test: StateTestFiller, fork: str, pre: Alloc, stack_height: int):
+    """
+    A test to ensure that the stack overflows when the stack limit of 1024 is exceeded.
+    """
+    env = Environment()
+
+    msg = b"hello"
+
+    """
+    Essentially write a 5 byte message to storage by pushing [1024,1025] times to stack. This
+    simulates a "jump" over the stack limit of 1024.
+
+    The message is UTF-8 encoding of "hello" i.e 0x48656c6c6f. Within the stack limit, the message
+    is written to the to the storage at the same offset (0x48656c6c6f).
+    The last iteration will overflow the stack and the storage slot will be empty.
+
+        **               Bytecode explanation              **
+        +---------------------------------------------------+
+        | Bytecode      | Stack        | Storage            |
+        |---------------------------------------------------|
+        | PUSH4 "msg"   | msg          |                    |
+        | SSTORE        |              | [msg]: msg         |
+        +---------------------------------------------------+
+    """
+    contract_code = Op.PUSH5(msg) * stack_height + Op.SSTORE
+    contract = pre.deploy_contract(contract_code)
+
+    tx = Transaction(
+        sender=pre.fund_eoa(),
+        to=contract,
+        gas_limit=500_000,
+        protected=False if fork in [Frontier, Homestead] else True,
+    )
+
+    post = {}
+    key = int.from_bytes(msg, "big")
+
+    # Storage should ONLY have the message if stack does not overflow.
+    value = key if stack_height <= 1024 else 0
+
+    post[contract] = Account(storage={key: value})
+
+    state_test(env=env, pre=pre, post=post, tx=tx)
