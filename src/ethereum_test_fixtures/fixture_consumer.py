@@ -1,6 +1,4 @@
-"""
-Ethereum test fixture consumer abstract class.
-"""
+"""Ethereum test fixture consumer abstract class."""
 
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -13,9 +11,7 @@ from .state import Fixture as StateFixture
 
 
 class FixtureConsumer(ABC):
-    """
-    Abstract class for verifying Ethereum test fixtures.
-    """
+    """Abstract class for verifying Ethereum test fixtures."""
 
     def __init__(
         self,
@@ -23,6 +19,7 @@ class FixtureConsumer(ABC):
         blocktest_binary: Optional[Path] = None,
         eoftest_binary: Optional[Path] = None,
     ):
+        """Initialize the fixture consumer."""
         self.statetest_binary = statetest_binary
         self.blocktest_binary = blocktest_binary
         self.eoftest_binary = eoftest_binary
@@ -31,9 +28,7 @@ class FixtureConsumer(ABC):
         self,
         fixture_format: FixtureFormat,
     ) -> bool:
-        """
-        Returns whether the fixture format is verifiable by this verifier.
-        """
+        """Return whether the fixture format is verifiable by this verifier."""
         if fixture_format == StateFixture:
             return self.statetest_binary is not None
         elif fixture_format == BlockchainFixture:
@@ -50,9 +45,7 @@ class FixtureConsumer(ABC):
         fixture_name: str | None = None,
         debug_output_path: Path | None = None,
     ):
-        """
-        Test the client with the specified fixture using its direct consumer interface.
-        """
+        """Test the client with the specified fixture using its direct consumer interface."""
         raise NotImplementedError(
             "The `consume_fixture()` function is not supported by this tool."
         )
