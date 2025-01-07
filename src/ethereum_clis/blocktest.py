@@ -1,6 +1,4 @@
-"""
-Abstract base class for `evm blocktest` subcommands.
-"""
+"""Abstract base class for `evm blocktest` subcommands."""
 
 from abc import abstractmethod
 from pathlib import Path
@@ -12,9 +10,7 @@ from .ethereum_cli import EthereumCLI
 
 
 class Blocktest(EthereumCLI):
-    """
-    Abstract base class for `evm blocktest` subcommands.
-    """
+    """Abstract base class for `evm blocktest` subcommands."""
 
     registered_tools: List[Type["Blocktest"]] = []
     default_tool: Optional[Type["Blocktest"]] = None
@@ -31,9 +27,7 @@ class Blocktest(EthereumCLI):
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
-        """
-        Abstract initialization method that all subclasses must implement.
-        """
+        """Abstract initialization method that all subclasses must implement."""
         self.exception_mapper = exception_mapper
         super().__init__(binary=binary)
         self.trace = trace
