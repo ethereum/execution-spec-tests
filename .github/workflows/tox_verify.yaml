@@ -72,7 +72,7 @@ jobs:
         run: uvx --with=tox-uv tox -e mkdocs
 
   pytest_framework:
-    name: Run framework tests, ${{ matrix.os }}, ${{ matrix.python }}
+    name: Run unit tests, ${{ matrix.os }}, ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
