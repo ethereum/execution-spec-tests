@@ -110,8 +110,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            python: "3.10"
+          # Still getting requests.exceptions.ReadTimeout: UnixHTTPConnectionPool() in CI, even with local EELS
+          # - os: ubuntu-latest
+          #  python: "3.10"
           - os: ubuntu-latest
             python: "3.11"
           - os: macos-latest
