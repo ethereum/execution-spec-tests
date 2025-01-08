@@ -3,13 +3,13 @@ repos:
     hooks:
       - id: tox
         name: tox
-        entry: tox run-parallel
+        entry: uvx --with=tox-uv tox --parallel -e lint
         language: system
         types: [python]
         pass_filenames: false
       - id: tox-docs
         name: tox-docs
-        entry: tox -e docs
+        entry: uvx --with=tox-uv tox --parallel -e spellcheck,markdownlint,mkdocs
         language: system
         files: \.md$
         pass_filenames: false
