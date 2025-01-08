@@ -1,5 +1,6 @@
 """Test ACL Transaction Source Code Examples."""
 
+import time
 import pytest
 
 from ethereum_test_tools import (
@@ -25,15 +26,14 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
         Op.PC + Op.SLOAD + Op.POP + Op.PC + Op.SLOAD,
         balance=0x03,
     )
-    sender = pre.fund_eoa(0x300000)
+
+    sender = pre.fund_eoa(10000000000000001)
 
     tx = Transaction(
         ty=1,
-        chain_id=0x01,
         to=contract_address,
         value=1,
-        gas_limit=323328,
-        gas_price=7,
+        gas_limit=1_000_000,
         access_list=[
             AccessList(
                 address="0x0000000000000000000000000000000000000000",
@@ -42,7 +42,6 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
                 ],
             )
         ],
-        secret_key="0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
         protected=True,
         sender=sender,
     )
@@ -54,7 +53,7 @@ def test_access_list(state_test: StateTestFiller, pre: Alloc):
             nonce=1,
         ),
         sender: Account(
-            balance=0x2CD931,
+            balance=9970494000000000,
             nonce=1,
         ),
     }
