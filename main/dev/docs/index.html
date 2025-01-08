@@ -1531,13 +1531,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-the-documentation" class="md-nav__link">
+  <a href="#build-and-verify-the-documentation" class="md-nav__link">
     <span class="md-ellipsis">
-      Build the Documentation
+      Build and Verify the Documentation
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Build the Documentation">
+    <nav class="md-nav" aria-label="Build and Verify the Documentation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -25610,13 +25610,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-the-documentation" class="md-nav__link">
+  <a href="#build-and-verify-the-documentation" class="md-nav__link">
     <span class="md-ellipsis">
-      Build the Documentation
+      Build and Verify the Documentation
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Build the Documentation">
+    <nav class="md-nav" aria-label="Build and Verify the Documentation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -25809,13 +25809,12 @@
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="go">uv sync --all-extras</span>
 </code></pre></div>
-<h2 id="build-the-documentation">Build the Documentation<a class="headerlink" href="#build-the-documentation" title="Permanent link">&para;</a></h2>
-<p>One time build:</p>
-<div class="highlight"><pre><span></span><code><span class="go">uv run mkdocs build</span>
+<h2 id="build-and-verify-the-documentation">Build and Verify the Documentation<a class="headerlink" href="#build-and-verify-the-documentation" title="Permanent link">&para;</a></h2>
+<p>One time build in strict mode:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run mkdocs build --strict</span>
 </code></pre></div>
-<p>Do a pre-commit check: One time build and lint/type checking:</p>
-<div class="highlight"><pre><span></span><code><span class="go">pip install tox-uv</span>
-<span class="go">tox -e docs</span>
+<p>Perform all docs related checks via <code>tox</code> in parallel:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e spellcheck,markdownlint,mkdocs --parallel</span>
 </code></pre></div>
 <h3 id="local-deployment-and-test">Local Deployment and Test<a class="headerlink" href="#local-deployment-and-test" title="Permanent link">&para;</a></h3>
 <p>This runs continually: Deploys the site locally and re-generates the site upon modifications to <code>docs/**/*.md</code> or <code>tests/**/*.py</code>:</p>

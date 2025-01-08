@@ -880,19 +880,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#executing-tox" class="md-nav__link">
+  <a href="#running-tox" class="md-nav__link">
     <span class="md-ellipsis">
-      Executing tox
+      Running tox
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Executing tox">
+    <nav class="md-nav" aria-label="Running tox">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#execution" class="md-nav__link">
     <span class="md-ellipsis">
       Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listing-the-available-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing the Available Environments
     </span>
   </a>
   
@@ -914,27 +923,36 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#test-case-verification-tests" class="md-nav__link">
+  <a href="#environments-required-for-test-case-changes-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      Test Case Verification: tests
+      Environments required for test case changes (./tests/)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#framework-verification-framework" class="md-nav__link">
+  <a href="#environments-required-for-test-framework-and-library-changes-src" class="md-nav__link">
     <span class="md-ellipsis">
-      Framework Verification: framework
+      Environments required for test framework and library changes (./src/)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#documentation-verification-docs" class="md-nav__link">
+  <a href="#environment-required-for-documentation-changes-docs" class="md-nav__link">
     <span class="md-ellipsis">
-      Documentation Verification: docs
+      Environment required for documentation changes (./docs/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-required-dependencies-for-spellcheck-and-markdownlint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Required Dependencies for spellcheck and markdownlint
     </span>
   </a>
   
@@ -25490,19 +25508,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#executing-tox" class="md-nav__link">
+  <a href="#running-tox" class="md-nav__link">
     <span class="md-ellipsis">
-      Executing tox
+      Running tox
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Executing tox">
+    <nav class="md-nav" aria-label="Running tox">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#execution" class="md-nav__link">
     <span class="md-ellipsis">
       Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listing-the-available-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing the Available Environments
     </span>
   </a>
   
@@ -25524,27 +25551,36 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#test-case-verification-tests" class="md-nav__link">
+  <a href="#environments-required-for-test-case-changes-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      Test Case Verification: tests
+      Environments required for test case changes (./tests/)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#framework-verification-framework" class="md-nav__link">
+  <a href="#environments-required-for-test-framework-and-library-changes-src" class="md-nav__link">
     <span class="md-ellipsis">
-      Framework Verification: framework
+      Environments required for test framework and library changes (./src/)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#documentation-verification-docs" class="md-nav__link">
+  <a href="#environment-required-for-documentation-changes-docs" class="md-nav__link">
     <span class="md-ellipsis">
-      Documentation Verification: docs
+      Environment required for documentation changes (./docs/)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-required-dependencies-for-spellcheck-and-markdownlint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Required Dependencies for spellcheck and markdownlint
     </span>
   </a>
   
@@ -25583,43 +25619,43 @@
 
 
 <h1 id="verifying-changes">Verifying Changes<a class="headerlink" href="#verifying-changes" title="Permanent link">&para;</a></h1>
-<p>The <code>tox</code> tool can be executed locally to check that local changes won't cause Github Actions Checks to fail.</p>
+<p>The <code>tox</code> tool is used by execution-spec-tests to perform various checks on the codebase such as linting, type checking and spell-checking. The <code>tox</code> command can be executed locally to ensure that Github CI checks pass upon pushing to the repository.</p>
 <div class="admonition note">
-<p class="admonition-title">Pre-commit</p>
-<p>Tox can be ran as a git pre-commit hook, see <a href="../../dev/precommit/">Enabling Pre-Commit Checks</a>.</p>
+<p class="admonition-title">Using automatic pre-commit checks</p>
+<p>Some <code>tox</code> environments can be ran as a git pre-commit hook, see <a href="../../dev/precommit/">Enabling Pre-Commit Checks</a>.</p>
 </div>
-<h2 id="executing-tox">Executing <code>tox</code><a class="headerlink" href="#executing-tox" title="Permanent link">&para;</a></h2>
+<h2 id="running-tox">Running <code>tox</code><a class="headerlink" href="#running-tox" title="Permanent link">&para;</a></h2>
 <h3 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h3>
-<p>Run <code>tox</code> and execute the defined environments (see <code>tox.ini</code>) in parallel with:</p>
+<p>Run all <code>tox</code> environments in parallel with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox run-parallel</span>
 </code></pre></div>
 <p>or, with sequential test environment execution and verbose output as:</p>
 <div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox</span>
 </code></pre></div>
-<p>This executes all the environments described in the next section.</p>
+<p>As some environments are rather slow, the next section describes how to run them individually.</p>
 <div class="admonition note">
 <p class="admonition-title">Tox Virtual Environment</p>
 <p>The checks performed by <code>tox</code> are sandboxed in their own virtual environments (which are created automatically in the <code>.tox/</code> subdirectory). These can be used to debug errors encountered during <code>tox</code> execution.</p>
-<p>Whilst we create a virtual environment in the code snippet above, it's only to install the tox tool itself.</p>
 </div>
+<h3 id="listing-the-available-environments">Listing the Available Environments<a class="headerlink" href="#listing-the-available-environments" title="Permanent link">&para;</a></h3>
+<p>Get a list of all the available <code>tox</code> environments:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -av</span>
+</code></pre></div>
 <h2 id="executing-tox-environments-individually">Executing <code>tox</code> Environments Individually<a class="headerlink" href="#executing-tox-environments-individually" title="Permanent link">&para;</a></h2>
-<p>There are three tox environments available:</p>
-<ol>
-<li><code>framework</code>: Lint and test framework and libraries related code in <code>src/</code>.</li>
-<li><code>tests</code>: Lint and test the test cases in <code>tests/</code> (runs <code>fill</code> on all forks deployed to mainnet).</li>
-<li><code>docs</code>: Lint and spell-check markdown in <code>docs/</code>; build docs.</li>
-</ol>
-<p>For targeted tox runs locally, each environment can be ran separately as described below.</p>
-<h3 id="test-case-verification-tests">Test Case Verification: <code>tests</code><a class="headerlink" href="#test-case-verification-tests" title="Permanent link">&para;</a></h3>
-<p>Verify:</p>
-<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e tests</span>
+<p>A selection of preferred environments may be executed via the <code>-e</code> flag:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e lint,typecheck,spellcheck</span>
 </code></pre></div>
-<h3 id="framework-verification-framework">Framework Verification: <code>framework</code><a class="headerlink" href="#framework-verification-framework" title="Permanent link">&para;</a></h3>
-<p>Verify:</p>
-<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e framework</span>
+<h3 id="environments-required-for-test-case-changes-tests">Environments required for test case changes (<code>./tests/</code>)<a class="headerlink" href="#environments-required-for-test-case-changes-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e lint,typecheck,spellcheck,tests-deployed</span>
 </code></pre></div>
-<h3 id="documentation-verification-docs">Documentation Verification: <code>docs</code><a class="headerlink" href="#documentation-verification-docs" title="Permanent link">&para;</a></h3>
-<p>This environment runs <code>pyspelling</code> and <code>markdownlint-cli2</code> in a "soft fail" mode because they require external (non-python) packages. This allows developers who aren't working on documentation to execute tox locally without additional overhead. These commands are, however, ran as part of the checks in Github Actions.</p>
+<h3 id="environments-required-for-test-framework-and-library-changes-src">Environments required for test framework and library changes (<code>./src/</code>)<a class="headerlink" href="#environments-required-for-test-framework-and-library-changes-src" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e lint,typecheck,spellcheck,pytest</span>
+</code></pre></div>
+<h3 id="environment-required-for-documentation-changes-docs">Environment required for documentation changes (<code>./docs/</code>)<a class="headerlink" href="#environment-required-for-documentation-changes-docs" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e spellcheck,markdownlint,mkdocs</span>
+</code></pre></div>
+<h3 id="additional-required-dependencies-for-spellcheck-and-markdownlint">Additional Required Dependencies for <code>spellcheck</code> and <code>markdownlint</code><a class="headerlink" href="#additional-required-dependencies-for-spellcheck-and-markdownlint" title="Permanent link">&para;</a></h3>
+<p>The <code>spellcheck</code> and <code>markdownlint</code> environments require external (non-python) packages. To avoid disruption to external contributors, these environments run in a "soft fail" mode if these dependencies are not available.</p>
 <p>Additional, optional prerequisites:</p>
 <ol>
 <li>
@@ -25635,9 +25671,6 @@
 <p>Or use a specific node version using <code>nvm</code>, for example.</p>
 </li>
 </ol>
-<p>Verify:</p>
-<div class="highlight"><pre><span></span><code><span class="go">uvx --with=tox-uv tox -e docs</span>
-</code></pre></div>
 <h3 id="verifying-fixture-changes">Verifying Fixture Changes<a class="headerlink" href="#verifying-fixture-changes" title="Permanent link">&para;</a></h3>
 <p>When writing a PR that modifies either the framework or test cases, it is important to verify that the changes do not cause any issues with the existing test cases.</p>
 <p>All filled fixtures contain a <code>hash</code> field in the <code>_info</code> object, which is the hash of the json string of the fixture. This hash can be used to verify that the fixture has not changed.</p>

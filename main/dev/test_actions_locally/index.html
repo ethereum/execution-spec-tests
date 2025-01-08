@@ -1625,9 +1625,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#running-workflows-locally-that-use-a-matrix-strategy" class="md-nav__link">
+  <a href="#running-workflows-that-require-github-vars" class="md-nav__link">
     <span class="md-ellipsis">
-      Running Workflows Locally that use a Matrix Strategy
+      Running Workflows that require Github Vars
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-workflows-that-use-a-matrix-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Workflows that use a Matrix Strategy
     </span>
   </a>
   
@@ -25485,9 +25494,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#running-workflows-locally-that-use-a-matrix-strategy" class="md-nav__link">
+  <a href="#running-workflows-that-require-github-vars" class="md-nav__link">
     <span class="md-ellipsis">
-      Running Workflows Locally that use a Matrix Strategy
+      Running Workflows that require Github Vars
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-workflows-that-use-a-matrix-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Workflows that use a Matrix Strategy
     </span>
   </a>
   
@@ -25569,22 +25587,37 @@
 <div class="highlight"><pre><span></span><code>gh<span class="w"> </span>act<span class="w"> </span>--list
 </code></pre></div>
 <p>will output something similar to:</p>
-<div class="highlight"><pre><span></span><code>INFO<span class="o">[</span><span class="m">0000</span><span class="o">]</span><span class="w"> </span>Using<span class="w"> </span>docker<span class="w"> </span>host<span class="w"> </span><span class="s1">&#39;unix:///var/run/docker.sock&#39;</span>,<span class="w"> </span>and<span class="w"> </span>daemon<span class="w"> </span>socket<span class="w"> </span><span class="s1">&#39;unix:///var/run/docker.sock&#39;</span><span class="w"> </span>
-Stage<span class="w">  </span>Job<span class="w"> </span>ID<span class="w">                </span>Job<span class="w"> </span>name<span class="w">              </span>Workflow<span class="w"> </span>name<span class="w">                             </span>Workflow<span class="w"> </span>file<span class="w">          </span>Events<span class="w">                             </span>
-<span class="m">0</span><span class="w">      </span>evmone-coverage-diff<span class="w">  </span>evmone-coverage-diff<span class="w">  </span>Evmone<span class="w"> </span>Coverage<span class="w"> </span>Report<span class="w">                    </span>coverage.yaml<span class="w">          </span>pull_request<span class="w">                       </span>
-<span class="m">0</span><span class="w">      </span>deploy<span class="w">                </span>deploy<span class="w">                </span>Deploy<span class="w"> </span>Docs<span class="w"> </span>Main<span class="w">                          </span>docs_main.yaml<span class="w">         </span>push<span class="w">                               </span>
-<span class="m">0</span><span class="w">      </span>deploy<span class="w">                </span>deploy<span class="w">                </span>Deploy<span class="w"> </span>Docs<span class="w"> </span>Tags<span class="w">                          </span>docs_tags.yaml<span class="w">         </span>push<span class="w">                               </span>
-<span class="m">0</span><span class="w">      </span>features<span class="w">              </span>features<span class="w">              </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w">                </span>fixtures.yaml<span class="w">          </span>push,workflow_dispatch<span class="w">             </span>
-<span class="m">0</span><span class="w">      </span>feature-names<span class="w">         </span>feature-names<span class="w">         </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>feature<span class="w">  </span>fixtures_feature.yaml<span class="w">  </span>push,workflow_dispatch<span class="w">             </span>
-<span class="m">0</span><span class="w">      </span>build<span class="w">                 </span>build<span class="w">                 </span>Run<span class="w"> </span>Tox<span class="w"> </span>Verifications<span class="w">                     </span>tox_verify.yaml<span class="w">        </span>push,pull_request,workflow_dispatch
-<span class="m">1</span><span class="w">      </span>build<span class="w">                 </span>build<span class="w">                 </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w">                </span>fixtures.yaml<span class="w">          </span>push,workflow_dispatch<span class="w">             </span>
-<span class="m">1</span><span class="w">      </span>build<span class="w">                 </span>build<span class="w">                 </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>feature<span class="w">  </span>fixtures_feature.yaml<span class="w">  </span>push,workflow_dispatch<span class="w">             </span>
-<span class="m">2</span><span class="w">      </span>release<span class="w">               </span>release<span class="w">               </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w">                </span>fixtures.yaml<span class="w">          </span>push,workflow_dispatch<span class="w">             </span>
-<span class="m">2</span><span class="w">      </span>release<span class="w">               </span>release<span class="w">               </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>feature<span class="w">  </span>fixtures_feature.yaml<span class="w">  </span>push,workflow_dispatch
+<div class="highlight"><pre><span></span><code>INFO<span class="o">[</span><span class="m">0000</span><span class="o">]</span><span class="w"> </span>Using<span class="w"> </span>docker<span class="w"> </span>host<span class="w"> </span><span class="s1">&#39;unix:///var/run/docker.sock&#39;</span>,<span class="w"> </span>and<span class="w"> </span>daemon<span class="w"> </span>socket<span class="w"> </span><span class="s1">&#39;unix:///var/run/docker.sock&#39;</span>
+Stage<span class="w">  </span>Job<span class="w"> </span>ID<span class="w">                </span>Job<span class="w"> </span>name<span class="w">                                                      </span>Workflow<span class="w"> </span>name<span class="w">                             </span>Workflow<span class="w"> </span>file<span class="w">          </span>Events<span class="w">                             </span>
+<span class="m">0</span><span class="w">      </span>evmone-coverage-diff<span class="w">  </span>evmone-coverage-diff<span class="w">                                          </span>Evmone<span class="w"> </span>Coverage<span class="w"> </span>Report<span class="w">                    </span>coverage.yaml<span class="w">          </span>pull_request<span class="w">                       </span>
+<span class="m">0</span><span class="w">      </span>deploy<span class="w">                </span>deploy<span class="w">                                                        </span>Deploy<span class="w"> </span>Docs<span class="w"> </span>Main<span class="w">                          </span>docs_main.yaml<span class="w">         </span>push<span class="w">                               </span>
+<span class="m">0</span><span class="w">      </span>deploy<span class="w">                </span>deploy<span class="w">                                                        </span>Deploy<span class="w"> </span>Docs<span class="w"> </span>Tags<span class="w">                          </span>docs_tags.yaml<span class="w">         </span>push<span class="w">                               </span>
+<span class="m">0</span><span class="w">      </span>features<span class="w">              </span>features<span class="w">                                                      </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w">                </span>fixtures.yaml<span class="w">          </span>push,workflow_dispatch<span class="w">             </span>
+<span class="m">0</span><span class="w">      </span>feature-names<span class="w">         </span>feature-names<span class="w">                                                 </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>feature<span class="w">  </span>fixtures_feature.yaml<span class="w">  </span>push,workflow_dispatch<span class="w">             </span>
+<span class="m">0</span><span class="w">      </span>lint<span class="w">                  </span>Lint<span class="w"> </span>python<span class="w"> </span>sources<span class="w"> </span>with<span class="w"> </span>ruff<span class="w">                                 </span>Tox<span class="w">                                       </span>tox_verify.yaml<span class="w">        </span>push,pull_request,workflow_dispatch
+<span class="m">0</span><span class="w">      </span>typecheck<span class="w">             </span>Typecheck<span class="w"> </span>python<span class="w"> </span>sources<span class="w"> </span>with<span class="w"> </span>mypy<span class="w">                            </span>Tox<span class="w">                                       </span>tox_verify.yaml<span class="w">        </span>push,pull_request,workflow_dispatch
+<span class="m">0</span><span class="w">      </span>spellcheck<span class="w">            </span>Spellcheck<span class="w"> </span>sources<span class="w"> </span>with<span class="w"> </span>pyspelling<span class="w">                            </span>Tox<span class="w">                                       </span>tox_verify.yaml<span class="w">        </span>push,pull_request,workflow_dispatch
+<span class="m">0</span><span class="w">      </span>markdownlint<span class="w">          </span>Lint<span class="w"> </span>markdown<span class="w"> </span>files<span class="w"> </span>with<span class="w"> </span>markdownlint<span class="w">                         </span>Tox<span class="w">                                       </span>tox_verify.yaml<span class="w">        </span>push,pull_request,workflow_dispatch
+<span class="m">0</span><span class="w">      </span>mkdocs<span class="w">                </span>Build<span class="w"> </span>html<span class="w"> </span>documentation<span class="w"> </span>with<span class="w"> </span>mkdocs<span class="w">                          </span>Tox<span class="w">                                       </span>tox_verify.yaml<span class="w">        </span>push,pull_request,workflow_dispatch
+<span class="m">0</span><span class="w">      </span>pytest_framework<span class="w">      </span>Run<span class="w"> </span>unit<span class="w"> </span>tests,<span class="w"> </span><span class="si">${</span><span class="p">{ matrix.os </span><span class="si">}</span><span class="o">}</span>,<span class="w"> </span><span class="si">${</span><span class="p">{ matrix.python </span><span class="si">}</span><span class="o">}</span><span class="w">        </span>Tox<span class="w">                                       </span>tox_verify.yaml<span class="w">        </span>push,pull_request,workflow_dispatch
+<span class="m">0</span><span class="w">      </span>tests_deployed<span class="w">        </span>Fill<span class="w"> </span>tests,<span class="w"> </span>deployed,<span class="w"> </span><span class="si">${</span><span class="p">{ matrix.os </span><span class="si">}</span><span class="o">}</span>,<span class="w"> </span><span class="si">${</span><span class="p">{ matrix.python </span><span class="si">}</span><span class="o">}</span><span class="w">  </span>Tox<span class="w">                                       </span>tox_verify.yaml<span class="w">        </span>push,pull_request,workflow_dispatch
+<span class="m">1</span><span class="w">      </span>build<span class="w">                 </span>build<span class="w">                                                         </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w">                </span>fixtures.yaml<span class="w">          </span>push,workflow_dispatch<span class="w">             </span>
+<span class="m">1</span><span class="w">      </span>build<span class="w">                 </span>build<span class="w">                                                         </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>feature<span class="w">  </span>fixtures_feature.yaml<span class="w">  </span>push,workflow_dispatch<span class="w">             </span>
+<span class="m">2</span><span class="w">      </span>release<span class="w">               </span>release<span class="w">                                                       </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w">                </span>fixtures.yaml<span class="w">          </span>push,workflow_dispatch<span class="w">             </span>
+<span class="m">2</span><span class="w">      </span>release<span class="w">               </span>release<span class="w">                                                       </span>Build<span class="w"> </span>and<span class="w"> </span>Package<span class="w"> </span>Fixtures<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>feature<span class="w">  </span>fixtures_feature.yaml<span class="w">  </span>push,workflow_dispatch
 </code></pre></div>
 <p>The <code>Job ID</code> is required to run a specific workflow and is provided to the <code>-j</code> option of <code>gh act</code>.</p>
-<h3 id="running-workflows-locally-that-use-a-matrix-strategy">Running Workflows Locally that use a Matrix Strategy<a class="headerlink" href="#running-workflows-locally-that-use-a-matrix-strategy" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>gh<span class="w"> </span>act<span class="w"> </span>-j<span class="w"> </span>build<span class="w"> </span>--workflows<span class="w"> </span>.github/workflows/tox_verify.yaml<span class="w"> </span>-s<span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>gh<span class="w"> </span>auth<span class="w"> </span>token<span class="k">)</span><span class="w"> </span>--matrix<span class="w"> </span>python:3.12
+<h3 id="running-workflows-that-require-github-vars">Running Workflows that require Github Vars<a class="headerlink" href="#running-workflows-that-require-github-vars" title="Permanent link">&para;</a></h3>
+<p>Create a text file containing the required variables and variables, e.g., <code>.act_github_vars</code> (this is in <code>.gitignore</code>):</p>
+<div class="highlight"><pre><span></span><code>UV_VERSION=0.5.15
+DEFAULT_PYTHON_VERSION=3.12
+</code></pre></div>
+<p>and use the <code>--var-file</code> option to specify the file:</p>
+<div class="highlight"><pre><span></span><code>gh<span class="w"> </span>act<span class="w"> </span>--workflows<span class="w"> </span>.github/workflows/tox_verify.yaml<span class="w"> </span>-s<span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>gh<span class="w"> </span>auth<span class="w"> </span>token<span class="k">)</span><span class="w"> </span>--var-file<span class="o">=</span>gh_vars.txt<span class="w"> </span>-j<span class="w"> </span>lint<span class="w"> </span>
+</code></pre></div>
+<h3 id="running-workflows-that-use-a-matrix-strategy">Running Workflows that use a Matrix Strategy<a class="headerlink" href="#running-workflows-that-use-a-matrix-strategy" title="Permanent link">&para;</a></h3>
+<p>This is optional, recent versions will automatically detect the matrix strategy and run supported values. To run a specific matrix value, use the <code>--matrix</code> option:</p>
+<div class="highlight"><pre><span></span><code>gh<span class="w"> </span>act<span class="w"> </span>--workflows<span class="w"> </span>.github/workflows/tox_verify.yaml<span class="w"> </span>-s<span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>gh<span class="w"> </span>auth<span class="w"> </span>token<span class="k">)</span><span class="w"> </span>--matrix<span class="w"> </span>python:3.12<span class="w"> </span>-j<span class="w"> </span>pytest_framework
 </code></pre></div>
 <h3 id="running-release-workflows">Running Release Workflows<a class="headerlink" href="#running-release-workflows" title="Permanent link">&para;</a></h3>
 <p>Release builds require the <code>ref</code> input to be specified. To test a release build locally:</p>
