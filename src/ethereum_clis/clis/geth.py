@@ -263,13 +263,22 @@ class GethFixtureConsumer(
         specific fixture from the fixture file when executing.
         """
         subcommand = "blocktest"
-        command = [str(self.binary)]
+        global_options = []
+        subcommand_options = []
         if debug_output_path:
-            command += ["--debug", "--json", "--verbosity", "100"]
-        command.append(subcommand)
+            global_options += ["--verbosity", "100"]
+            subcommand_options += ["--trace"]
+
         if fixture_name:
-            command += ["--run", re.escape(fixture_name)]
-        command.append(str(fixture_path))
+            subcommand_options += ["--run", re.escape(fixture_name)]
+
+        command = (
+            [str(self.binary)]
+            + global_options
+            + [subcommand]
+            + subcommand_options
+            + [str(fixture_path)]
+        )
 
         result = self._run_command(command)
 
@@ -292,15 +301,23 @@ class GethFixtureConsumer(
 
         The `evm statetest` will always execute all the tests contained in a file without the
         possibility of selecting a single test, so this function is cached in order to only call
-        the command once and `consume_single_state_test` can simply select the result that
+        the command once and `consume_state_test` can simply select the result that
         was requested.
         """
         subcommand = "statetest"
-        command = [str(self.binary)]
+        global_options: List[str] = []
+        subcommand_options: List[str] = []
         if debug_output_path:
-            command += ["--debug", "--json", "--verbosity", "100"]
-        command += [subcommand, str(fixture_path)]
+            global_options += ["--verbosity", "100"]
+            subcommand_options += ["--trace"]
 
+        command = (
+            [str(self.binary)]
+            + global_options
+            + [subcommand]
+            + subcommand_options
+            + [str(fixture_path)]
+        )
         result = self._run_command(command)
 
         if debug_output_path:
@@ -316,7 +333,7 @@ class GethFixtureConsumer(
             raise Exception(f"Unexpected result from evm statetest: {result_json}")
         return result_json
 
-    def consume_single_state_test(
+    def consume_state_test(
         self,
         fixture_path: Path,
         fixture_name: Optional[str] = None,
@@ -332,12 +349,21 @@ class GethFixtureConsumer(
             fixture_path=fixture_path,
             debug_output_path=debug_output_path,
         )
-        test_result = [
-            test_result for test_result in file_results if test_result["name"] == fixture_name
-        ]
-        assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
-        assert len(test_result) == 1, f"Test result for {fixture_name} missing"
-        assert test_result[0]["pass"], f"State test failed: {test_result[0]['error']}"
+        if fixture_name:
+            test_result = [
+                test_result for test_result in file_results if test_result["name"] == fixture_name
+            ]
+            assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
+            assert len(test_result) == 1, f"Test result for {fixture_name} missing"
+            assert test_result[0]["pass"], f"State test failed: {test_result[0]['error']}"
+        else:
+            if any(not test_result["pass"] for test_result in file_results):
+                exception_text = "State test failed: \n" + "\n".join(
+                    f"{test_result['name']}: " + test_result["error"]
+                    for test_result in file_results
+                    if not test_result["pass"]
+                )
+                raise Exception(exception_text)
 
     def consume_fixture(
         self,
@@ -354,7 +380,7 @@ class GethFixtureConsumer(
                 debug_output_path=debug_output_path,
             )
         elif fixture_format == StateFixture:
-            self.consume_single_state_test(
+            self.consume_state_test(
                 fixture_path=fixture_path,
                 fixture_name=fixture_name,
                 debug_output_path=debug_output_path,
