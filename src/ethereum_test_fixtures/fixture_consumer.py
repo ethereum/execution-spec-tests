@@ -19,17 +19,6 @@ class FixtureConsumer(ABC):
         """Return whether the fixture format is consumable by this consumer."""
         return fixture_format in self.fixture_formats
 
-    def can_run_single_test(
-        self,
-        fixture_format: FixtureFormat | None = None,
-    ) -> bool:
-        """
-        Return whether the fixture format can run a single test.
-
-        By default True and should be overriden by the implementation.
-        """
-        return True
-
     @abstractmethod
     def consume_fixture(
         self,

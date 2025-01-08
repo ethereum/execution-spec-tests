@@ -7,7 +7,7 @@ import subprocess
 import textwrap
 from functools import cache
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from ethereum_test_exceptions import (
     EOFException,
@@ -243,44 +243,32 @@ class GethTransitionTool(GethEvm, TransitionTool):
         return fork.transition_tool_name() in self.help_string
 
 
-GethConsumeSubcommands: Dict[FixtureFormat, str] = {
-    StateFixture: "statetest",
-    BlockchainFixture: "blocktest",
-}
-
-
 class GethFixtureConsumer(
     GethEvm,
     FixtureConsumerTool,
-    fixture_formats=list(GethConsumeSubcommands.keys()),
+    fixture_formats=[StateFixture, BlockchainFixture],
 ):
     """Geth's implementation of the fixture consumer."""
 
-    def can_run_single_test(
+    def consume_blockchain_test(
         self,
-        fixture_format: FixtureFormat | None = None,
-    ) -> bool:
-        """Return whether the fixture format can run a single test."""
-        return "--run" in self.help("blocktest")
-
-    def consume_fixture(
-        self,
-        fixture_format: FixtureFormat,
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
     ):
-        """Execute the appropriate geth fixture consumer for the fixture at `fixture_path`."""
-        assert (
-            fixture_format in GethConsumeSubcommands
-        ), f"Fixture format {fixture_format.fixture_format_name} not supported"
-        subcommand = GethConsumeSubcommands[fixture_format]
+        """
+        Consume a single blockchain test.
+
+        The `evm blocktest` command takes the `--run` argument which can be used to select a
+        specific fixture from the fixture file when executing.
+        """
+        subcommand = "blocktest"
         command = [str(self.binary)]
         if debug_output_path:
             command += ["--debug", "--json", "--verbosity", "100"]
         command.append(subcommand)
-        if fixture_name and fixture_format == BlockchainFixture:
-            command += ["--run", fixture_name]
+        if fixture_name:
+            command += ["--run", re.escape(fixture_name)]
         command.append(str(fixture_path))
 
         result = self._run_command(command)
@@ -293,10 +281,83 @@ class GethFixtureConsumer(
                 f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
             )
 
-        if fixture_format != StateFixture:
-            return []
+    @cache  # noqa
+    def consume_state_test_file(
+        self,
+        fixture_path: Path,
+        debug_output_path: Optional[Path] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        Consume an entire state test file.
+
+        The `evm statetest` will always execute all the tests contained in a file without the
+        possibility of selecting a single test, so this function is cached in order to only call
+        the command once and `consume_single_state_test` can simply select the result that
+        was requested.
+        """
+        subcommand = "statetest"
+        command = [str(self.binary)]
+        if debug_output_path:
+            command += ["--debug", "--json", "--verbosity", "100"]
+        command += [subcommand, str(fixture_path)]
+
+        result = self._run_command(command)
+
+        if debug_output_path:
+            self._consume_debug_dump(command, result, fixture_path, debug_output_path)
+
+        if result.returncode != 0:
+            raise Exception(
+                f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
+            )
 
         result_json = json.loads(result.stdout)
         if not isinstance(result_json, list):
             raise Exception(f"Unexpected result from evm statetest: {result_json}")
         return result_json
+
+    def consume_single_state_test(
+        self,
+        fixture_path: Path,
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
+    ):
+        """
+        Consume a single state test.
+
+        Uses the cached result from `consume_state_test_file` in order to not call the command
+        every time an select a single result from there.
+        """
+        file_results = self.consume_state_test_file(
+            fixture_path=fixture_path,
+            debug_output_path=debug_output_path,
+        )
+        test_result = [
+            test_result for test_result in file_results if test_result["name"] == fixture_name
+        ]
+        assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
+        assert len(test_result) == 1, f"Test result for {fixture_name} missing"
+        assert test_result[0]["pass"], f"State test failed: {test_result[0]['error']}"
+
+    def consume_fixture(
+        self,
+        fixture_format: FixtureFormat,
+        fixture_path: Path,
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
+    ):
+        """Execute the appropriate geth fixture consumer for the fixture at `fixture_path`."""
+        if fixture_format == BlockchainFixture:
+            self.consume_blockchain_test(
+                fixture_path=fixture_path,
+                fixture_name=fixture_name,
+                debug_output_path=debug_output_path,
+            )
+        elif fixture_format == StateFixture:
+            self.consume_single_state_test(
+                fixture_path=fixture_path,
+                fixture_name=fixture_name,
+                debug_output_path=debug_output_path,
+            )
+        else:
+            raise Exception(f"Fixture format {fixture_format.fixture_format_name} not supported")
