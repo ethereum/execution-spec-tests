@@ -72,3 +72,6 @@ env.yaml
 
 # Framework logs
 logs/
+
+# Running github actions locally with act
+.act_github_vars
