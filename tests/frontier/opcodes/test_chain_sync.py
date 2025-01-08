@@ -50,7 +50,7 @@ def test_blockhash(
         ),
     }
 
-    blockhash_transaction = Transaction(
+    tx = Transaction(
         ty=0x0,
         nonce=0,
         to=account,
