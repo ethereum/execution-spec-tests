@@ -30,7 +30,7 @@ def test_blocktest(  # noqa: D103
     if run_single_test:
         fixture_name = re.escape(test_case.id)
     fixture_consumer.consume_fixture(
-        test_case.format,
+        fixture_format,
         fixture_path,
         fixture_name=fixture_name,
         debug_output_path=test_dump_dir,
@@ -43,13 +43,14 @@ def run_statetest(
     fixture_consumer: FixtureConsumer,
     fixture_path: Path,
     test_dump_dir: Path | None,
+    fixture_format: FixtureFormat,
 ):
     """Run statetest on the json fixture file if the test result is not already cached."""
     # TODO: Check if all required results have been tested and delete test result data if so.
     # TODO: Can we group the tests appropriately so that this works more efficiently with xdist?
     if fixture_path not in statetest_results:
         json_result = fixture_consumer.consume_fixture(
-            test_case.format,
+            fixture_format,
             fixture_path,
             fixture_name=None,
             debug_output_path=test_dump_dir,
