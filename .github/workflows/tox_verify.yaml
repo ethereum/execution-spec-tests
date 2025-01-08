@@ -10,11 +10,14 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Install uv
-        uses: ./.github/actions/setup-uv
-      - name: Install python
-        run: uv python install 3.12
-      - name: Run tox - run ruff linter
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Run ruff linter via tox
         run: uvx --with=tox-uv tox -e lint
 
   typecheck:
@@ -23,11 +26,14 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Install uv
-        uses: ./.github/actions/setup-uv
-      - name: Install python
-        run: uv python install 3.12
-      - name: Run tox - run mypy typechecker
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Run mypy typechecker via tox
         run: uvx --with=tox-uv tox -e typecheck
 
   spellcheck:
@@ -36,14 +42,17 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Install uv
-        uses: ./.github/actions/setup-uv
-      - name: Install python
-        run: uv python install 3.12
-      - name: Setup Dependencies
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Install dependencies (aspell, aspell-en)
         run: |
           sudo apt-get update && sudo apt-get install -y aspell aspell-en
-      - name: Run tox - run spellcheck with pyspelling
+      - name: Run spellcheck with pyspelling via tox
         run: uvx --with=tox-uv tox -e spellcheck
 
   markdownlint:
@@ -64,11 +73,14 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Install uv
-        uses: ./.github/actions/setup-uv
-      - name: Install python 
-        run: uv python install 3.12
-      - name: Run tox - build html documentation with mkdocs
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Build html documentation with mkdocs via tox
         run: uvx --with=tox-uv tox -e mkdocs
 
   pytest_framework:
@@ -95,17 +107,20 @@ jobs:
           sparse-checkout: |
             src/ethereum
           fetch-depth: 1
-      - name: Install uv
-        uses: ./.github/actions/setup-uv
-      - name: Install python ${{ matrix.python }}
-        run: uv python install ${{ matrix.python }}
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ matrix.python }}
       - name: Run tox - run framework unit tests with pytest
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
         run: uvx --with=tox-uv tox -e pytest
 
   tests_deployed:
-    name: Fill tests deployed, ${{ matrix.os }}, ${{ matrix.python }}    
+    name: Fill tests, deployed, ${{ matrix.os }}, ${{ matrix.python }}    
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -129,10 +144,13 @@ jobs:
           sparse-checkout: |
             src/ethereum
           fetch-depth: 1
-      - name: Install uv
-        uses: ./.github/actions/setup-uv
-      - name: Install Python ${{ matrix.python }} 
-        run: uv python install ${{ matrix.python }}
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ matrix.python }}
       - name: Run tox - fill tests for deployed forks
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
