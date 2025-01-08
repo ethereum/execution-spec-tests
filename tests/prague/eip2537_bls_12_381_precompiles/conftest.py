@@ -135,7 +135,7 @@ def call_contract_address(pre: Alloc, call_contract_code: Bytecode) -> Address:
 @pytest.fixture
 def sender(pre: Alloc) -> EOA:
     """Sender of the transaction."""
-    return pre.fund_eoa(20_000_000_000_000_000)
+    return pre.fund_eoa(1_000_000_000_000_000_000)
 
 
 @pytest.fixture
@@ -151,7 +151,7 @@ def post(call_contract_address: Address, call_contract_post_storage: Storage):
 @pytest.fixture
 def tx_gas_limit(precompile_gas: int) -> int:
     """Transaction gas limit used for the test (Can be overridden in the test)."""
-    return 200_000 + precompile_gas
+    return 10_000_000 + precompile_gas
 
 
 @pytest.fixture
