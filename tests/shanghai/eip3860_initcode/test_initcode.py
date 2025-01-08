@@ -83,18 +83,18 @@ INITCODE_ZEROS_33_BYTES = Initcode(
     name="33_bytes",
 )
 
-INITCODE_ZEROS_49120_BYTES = Initcode(
+INITCODE_ZEROS_65506_BYTES = Initcode(
     deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=49120,
+    initcode_length=65506,
     padding_byte=0x00,
-    name="49120_bytes",
+    name="65506_bytes",
 )
 
-INITCODE_ZEROS_49121_BYTES = Initcode(
+INITCODE_ZEROS_65505_BYTES = Initcode(
     deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=49121,
+    initcode_length=65505,
     padding_byte=0x00,
-    name="49121_bytes",
+    name="65505_bytes",
 )
 
 EMPTY_INITCODE = Initcode(
@@ -178,8 +178,8 @@ def test_contract_creating_tx(
         SINGLE_BYTE_INITCODE,
         INITCODE_ZEROS_32_BYTES,
         INITCODE_ZEROS_33_BYTES,
-        INITCODE_ZEROS_49120_BYTES,
-        INITCODE_ZEROS_49121_BYTES,
+        INITCODE_ZEROS_65505_BYTES,
+        INITCODE_ZEROS_65506_BYTES,
     ],
     ids=get_initcode_name,
 )
@@ -360,8 +360,8 @@ class TestContractCreationGasUsage:
         SINGLE_BYTE_INITCODE,
         INITCODE_ZEROS_32_BYTES,
         INITCODE_ZEROS_33_BYTES,
-        INITCODE_ZEROS_49120_BYTES,
-        INITCODE_ZEROS_49121_BYTES,
+        INITCODE_ZEROS_65505_BYTES,
+        INITCODE_ZEROS_65506_BYTES,
     ],
     ids=get_initcode_name,
 )
