@@ -8,19 +8,18 @@ The `execution-spec-tests` documentation is generated via [`mkdocs`](https://www
 uv sync --all-extras
 ```
 
-## Build the Documentation
+## Build and Verify the Documentation
 
-One time build:
+One time build in strict mode:
 
 ```console
-uv run mkdocs build
+uv run mkdocs build --strict
 ```
 
-Do a pre-commit check: One time build and lint/type checking:
+Perform all docs related checks via `tox` in parallel:
 
 ```console
-pip install tox-uv
-tox -e docs
+uvx --with=tox-uv tox -e spellcheck,markdownlint,mkdocs --parallel
 ```
 
 ### Local Deployment and Test
