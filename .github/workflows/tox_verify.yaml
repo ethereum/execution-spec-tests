@@ -10,11 +10,11 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Set up uv
+      - name: Install uv
         uses: ./.github/actions/setup-uv
-      - name: Set up Python 
+      - name: Install python
         run: uv python install 3.12
-      - name: Run Tox (CPython)
+      - name: Run tox - run ruff linter
         run: uvx --with=tox-uv tox -e lint
 
   typecheck:
@@ -23,11 +23,11 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Set up uv
+      - name: Install uv
         uses: ./.github/actions/setup-uv
-      - name: Set up Python 
+      - name: Install python
         run: uv python install 3.12
-      - name: Run Tox (CPython)
+      - name: Run tox - run mypy typechecker
         run: uvx --with=tox-uv tox -e typecheck
 
   spellcheck:
@@ -36,14 +36,14 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Set up uv
+      - name: Install uv
         uses: ./.github/actions/setup-uv
-      - name: Set up Python
+      - name: Install python
         run: uv python install 3.12
       - name: Setup Dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y aspell aspell-en
-      - name: Run Tox (CPython)
+      - name: Run tox - run spellcheck with pyspelling
         run: uvx --with=tox-uv tox -e spellcheck
 
   markdownlint:
@@ -64,15 +64,15 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Set up uv
+      - name: Install uv
         uses: ./.github/actions/setup-uv
-      - name: Set up Python 
+      - name: Install python 
         run: uv python install 3.12
-      - name: Run Tox (CPython)
+      - name: Run tox - build html documentation with mkdocs
         run: uvx --with=tox-uv tox -e mkdocs
 
   pytest_framework:
-    name: Run framework unit tests with pytest on ${{ matrix.os }} with ${{ matrix.python }}
+    name: Run framework tests, ${{ matrix.os }}, ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -95,17 +95,17 @@ jobs:
           sparse-checkout: |
             src/ethereum
           fetch-depth: 1
-      - name: Set up uv
+      - name: Install uv
         uses: ./.github/actions/setup-uv
-      - name: Set up Python 
+      - name: Install python ${{ matrix.python }}
         run: uv python install ${{ matrix.python }}
-      - name: Run Tox (CPython)
+      - name: Run tox - run framework unit tests with pytest
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
         run: uvx --with=tox-uv tox -e pytest
 
   tests_deployed:
-    name: Fill tests for deployed forks on ${{ matrix.os }} with ${{ matrix.python }}    
+    name: Fill tests deployed, ${{ matrix.os }}, ${{ matrix.python }}    
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -128,11 +128,11 @@ jobs:
           sparse-checkout: |
             src/ethereum
           fetch-depth: 1
-      - name: Set up uv
+      - name: Install uv
         uses: ./.github/actions/setup-uv
-      - name: Set up Python 
+      - name: Install Python ${{ matrix.python }} 
         run: uv python install ${{ matrix.python }}
-      - name: Run Tox (CPython)
+      - name: Run tox - fill tests for deployed forks
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
         run: uvx --with=tox-uv tox -e tests-deployed
