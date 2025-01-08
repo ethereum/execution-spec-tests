@@ -22,7 +22,7 @@ from pytest_metadata.plugin import metadata_key  # type: ignore
 from cli.gen_index import generate_fixtures_index
 from config import AppConfig
 from ethereum_clis import TransitionTool
-from ethereum_clis.clis.geth import GethFixtureConsumer
+from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
 from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureConsumer, TestInfo
 from ethereum_test_forks import Fork
@@ -436,20 +436,32 @@ def evm_fixture_verification(
     if not do_fixture_verification:
         yield None
         return
+    reused_evm_bin = False
     if not verify_fixtures_bin and evm_bin:
         verify_fixtures_bin = evm_bin
+        reused_evm_bin = True
     if not verify_fixtures_bin:
         return
     try:
-        evm_fixture_verification = GethFixtureConsumer(
-            binary=Path(verify_fixtures_bin), trace=request.config.getoption("evm_collect_traces")
+        evm_fixture_verification = FixtureConsumerTool.from_binary_path(
+            binary_path=Path(verify_fixtures_bin),
+            trace=request.config.getoption("evm_collect_traces"),
         )
     except Exception:
-        pytest.exit(
-            "Only geth's evm tool is currently supported to verify fixtures: "
-            "Either remove --verify-fixtures or set --verify-fixtures-bin to a Geth evm binary.",
-            returncode=pytest.ExitCode.USAGE_ERROR,
-        )
+        if reused_evm_bin:
+            pytest.exit(
+                "The binary specified in --evm-bin could not be recognized as a known "
+                "FixtureConsumerTool. Either remove --verify-fixtures or set "
+                "--verify-fixtures-bin to a known fixture consumer binary.",
+                returncode=pytest.ExitCode.USAGE_ERROR,
+            )
+        else:
+            pytest.exit(
+                "Specified binary in --verify-fixtures-bin could not be recognized as a known "
+                "FixtureConsumerTool. Please see `GethFixtureConsumer` for an example "
+                "of how a new fixture consumer can be defined.",
+                returncode=pytest.ExitCode.USAGE_ERROR,
+            )
     yield evm_fixture_verification
 
 
