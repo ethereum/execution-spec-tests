@@ -84,7 +84,7 @@ def test_push0_contracts(
 ):
     """Tests PUSH0 within various deployed contracts."""
     push0_contract = pre.deploy_contract(contract_code)
-    tx = Transaction(to=push0_contract, gas_limit=100_000, sender=sender)
+    tx = Transaction(to=push0_contract, gas_limit=2_000_000, sender=sender)
     post[push0_contract] = expected_storage
     state_test(env=env, pre=pre, post=post, tx=tx)
 
@@ -113,7 +113,7 @@ class TestPush0CallContext:
         returning its address.
         """
         call_code = (
-            Op.SSTORE(0, call_opcode(gas=100_000, address=push0_contract_callee))
+            Op.SSTORE(0, call_opcode(gas=2_000_000, address=push0_contract_callee))
             + Op.SSTORE(0, 1)
             + Op.RETURNDATACOPY(0x1F, 0, 1)
             + Op.SSTORE(1, Op.MLOAD(0))
@@ -140,6 +140,6 @@ class TestPush0CallContext:
         push0_contract_caller: Address,
     ):
         """Test PUSH0 during various call contexts."""
-        tx = Transaction(to=push0_contract_caller, gas_limit=100_000, sender=sender)
+        tx = Transaction(to=push0_contract_caller, gas_limit=2_000_000, sender=sender)
         post[push0_contract_caller] = Account(storage={0x00: 0x01, 0x01: 0xFF})
         state_test(env=env, pre=pre, post=post, tx=tx)
