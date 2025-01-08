@@ -1,14 +1,13 @@
 """
 A State test for the set of `PUSH*` opcodes.
-Ported from: https://github.com/ethereum/tests/blob/4f65a0a7cbecf4442415c226c65e089acaaf6a8b/src/GeneralStateTestsFiller/VMTests/vmTests/pushFiller.yml # noqa: E501
-"""
+Ported from: https://github.com/ethereum/tests/blob/4f65a0a7cbecf4442415c226c65e089acaaf6a8b/src/GeneralStateTestsFiller/VMTests/vmTests/pushFiller.yml.
+"""  # noqa: E501
 
 import pytest
 
 from ethereum_test_forks import Frontier, Homestead
-from ethereum_test_tools import Account, Alloc, Environment
+from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import StateTestFiller, Transaction
 
 
 @pytest.mark.parametrize(
@@ -61,12 +60,11 @@ def test_push(state_test: StateTestFiller, fork: str, push_opcode: Op, pre: Allo
 
     state_test(env=env, pre=pre, post=post, tx=tx)
 
+
 @pytest.mark.parametrize("stack_height", range(1024, 1026))
 @pytest.mark.valid_from("Frontier")
 def test_stack_overflow(state_test: StateTestFiller, fork: str, pre: Alloc, stack_height: int):
-    """
-    A test to ensure that the stack overflows when the stack limit of 1024 is exceeded.
-    """
+    """A test to ensure that the stack overflows when the stack limit of 1024 is exceeded."""
     env = Environment()
 
     msg = b"hello"
