@@ -9,13 +9,13 @@ from typing import Dict
 
 import pytest
 
+from ethereum_test_base_types.conversions import left_pad_zeros_up_to_size
 from ethereum_test_tools import (
     Account,
     Alloc,
     Bytecode,
     CalldataCase,
     Environment,
-    Hash,
     Initcode,
     StateTestFiller,
     Switch,

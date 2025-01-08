@@ -60,18 +60,18 @@ def to_fixed_size_bytes(input_bytes: FixedSizeBytesConvertible, size: int) -> by
     return bytes(input_bytes).rjust(size, b"\x00")
 
 
-def left_pad_zeros_up_to_size(input: bytes, size: int) -> bytes:
+def left_pad_zeros_up_to_size(input_bytes: bytes, size: int) -> bytes:
     """
-    Pads the given data to fit into a size-byte bytes. If the data is longer than
+    Pad the given data to fit into a size-byte bytes. If the data is longer than
     size bytes, it raises a ValueError. If it is shorter, it left pads with zero bytes.
 
     :param data: The input data to pad.
     :return: A Hash object of exactly size bytes.
     """
-    input = to_bytes(input)
-    if len(input) > size:
+    input_bytes = to_bytes(input_bytes)
+    if len(input_bytes) > size:
         raise ValueError(f"Data cannot be longer than {size} bytes.")
-    padded_data = bytes(input).rjust(size, b"\x00")
+    padded_data = bytes(input_bytes).rjust(size, b"\x00")
     return bytes(padded_data)
 
 

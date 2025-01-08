@@ -8,13 +8,13 @@ from typing import Dict, Mapping
 
 import pytest
 
+from ethereum_test_base_types.conversions import left_pad_zeros_up_to_size
 from ethereum_test_tools import (
     Account,
     Address,
     Alloc,
     Bytecode,
     Environment,
-    Hash,
     StateTestFiller,
     Transaction,
 )
