@@ -19,7 +19,7 @@ from ethereum_test_fixtures import BlockchainFixture, FixtureFormat, StateFixtur
 from ethereum_test_forks import Fork
 
 from ..ethereum_cli import EthereumCLI
-from ..fixture_consumer import FixtureConsumerTool
+from ..fixture_consumer_tool import FixtureConsumerTool
 from ..transition_tool import TransitionTool, dump_files_to_directory
 
 
