@@ -5,8 +5,9 @@ import re
 import shutil
 import subprocess
 import textwrap
+from functools import cache
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from ethereum_test_exceptions import (
     EOFException,
@@ -14,12 +15,11 @@ from ethereum_test_exceptions import (
     ExceptionMessage,
     TransactionException,
 )
-from ethereum_test_fixtures import BlockchainFixture, FixtureConsumer, FixtureFormat, StateFixture
+from ethereum_test_fixtures import BlockchainFixture, FixtureFormat, StateFixture
 from ethereum_test_forks import Fork
 
-from ..blocktest import Blocktest
 from ..ethereum_cli import EthereumCLI
-from ..statetest import Statetest
+from ..fixture_consumer import FixtureConsumerTool
 from ..transition_tool import TransitionTool, dump_files_to_directory
 
 
@@ -155,39 +155,11 @@ class GethExceptionMapper(ExceptionMapper):
         ]
 
 
-class GethFixtureConsumer(FixtureConsumer):
-    """A helper class."""
-
-    def __init__(self, binary: Path, trace: bool):
-        """Initialize the GethFixtureConsumer."""
-        super().__init__(statetest_binary=binary, blocktest_binary=binary)
-        self.statetest = GethStatetest(binary=binary, trace=trace)
-        self.blocktest = GethBlocktest(binary=binary, trace=trace)
-
-    def consume_fixture(
-        self,
-        fixture_format: FixtureFormat,
-        fixture_path: Path,
-        fixture_name: Optional[str] = None,
-        debug_output_path: Optional[Path] = None,
-    ):
-        """Execute the appropriate geth fixture consumer with the fixture at `fixture_path`."""
-        if fixture_format == StateFixture:
-            return self.statetest.consume(fixture_path, debug_output_path)
-        elif fixture_format == BlockchainFixture:
-            return self.blocktest.consume(fixture_path, fixture_name, debug_output_path)
-        else:
-            raise NotImplementedError(
-                f"Geth can not verify fixture format of type `{fixture_format}`"
-            )
-
-
 class GethEvm(EthereumCLI):
     """go-ethereum `evm` base class."""
 
     default_binary = Path("evm")
     detect_binary_pattern = re.compile(r"^evm(.exe)? version\b")
-    binary: Path
     cached_version: Optional[str] = None
 
     def __init__(
@@ -238,6 +210,15 @@ class GethEvm(EthereumCLI):
         )
         shutil.copyfile(fixture_path, debug_fixture_path)
 
+    @cache  # noqa
+    def help(self, subcommand: str | None = None) -> str:
+        """Return the help string, optionally for a subcommand."""
+        help_command = [str(self.binary)]
+        if subcommand:
+            help_command.append(subcommand)
+        help_command.append("--help")
+        return self._run_command(help_command).stdout
+
 
 class GethTransitionTool(GethEvm, TransitionTool):
     """go-ethereum `evm` Transition tool interface wrapper class."""
@@ -262,34 +243,43 @@ class GethTransitionTool(GethEvm, TransitionTool):
         return fork.transition_tool_name() in self.help_string
 
 
-class GethBlocktest(GethEvm, Blocktest):
-    """Geth `evm blocktest` interface wrapper class."""
+GethConsumeSubcommands: Dict[FixtureFormat, str] = {
+    StateFixture: "statetest",
+    BlockchainFixture: "blocktest",
+}
 
-    blocktest_subcommand: str = "blocktest"
 
-    def __init__(self, binary: Path, trace: bool):
-        """Initialize the GethBlocktest class."""
-        super().__init__(binary=binary, trace=trace)
-        help_command = [str(self.binary), str(self.blocktest_subcommand), "--help"]
-        result = self._run_command(help_command)
-        self.help_string = result.stdout
+class GethFixtureConsumer(
+    GethEvm,
+    FixtureConsumerTool,
+    fixture_formats=list(GethConsumeSubcommands.keys()),
+):
+    """Geth's implementation of the fixture consumer."""
 
-    def help(self) -> str:
-        """Return the help string for the blocktest subcommand."""
-        return self.help_string
-
-    def consume(
+    def can_run_single_test(
         self,
+        fixture_format: FixtureFormat | None = None,
+    ) -> bool:
+        """Return whether the fixture format can run a single test."""
+        return "--run" in self.help("blocktest")
+
+    def consume_fixture(
+        self,
+        fixture_format: FixtureFormat,
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
     ):
-        """Run the blocktest subcommand to consume a blocktest fixture."""
+        """Execute the appropriate geth fixture consumer for the fixture at `fixture_path`."""
+        assert (
+            fixture_format in GethConsumeSubcommands
+        ), f"Fixture format {fixture_format.fixture_format_name} not supported"
+        subcommand = GethConsumeSubcommands[fixture_format]
         command = [str(self.binary)]
         if debug_output_path:
             command += ["--debug", "--json", "--verbosity", "100"]
-        command += [self.blocktest_subcommand]
-        if fixture_name:
+        command.append(subcommand)
+        if fixture_name and fixture_format == BlockchainFixture:
             command += ["--run", fixture_name]
         command.append(str(fixture_path))
 
@@ -303,45 +293,8 @@ class GethBlocktest(GethEvm, Blocktest):
                 f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
             )
 
-        return []  # There is no parseable format for blocktest output
-
-
-class GethStatetest(GethEvm, Statetest):
-    """Geth `evm statetest` interface wrapper class."""
-
-    statetest_subcommand: str = "statetest"
-
-    def __init__(self, binary: Path, trace: bool):
-        """Initialize the GethStatetest class."""
-        super().__init__(binary=binary, trace=trace)
-        help_command = [str(self.binary), str(self.statetest_subcommand), "--help"]
-        result = self._run_command(help_command)
-        self.help_string = result.stdout
-
-    def help(self) -> str:
-        """Return the help string for the statetest subcommand."""
-        return self.help_string
-
-    def consume(
-        self,
-        fixture_path: Path,
-        debug_output_path: Optional[Path] = None,
-    ):
-        """Run the statetest command to consume a state test fixture."""
-        command = [str(self.binary)]
-        if debug_output_path:
-            command += ["--debug", "--json", "--verbosity", "100"]
-        command += [self.statetest_subcommand, str(fixture_path)]
-
-        result = self._run_command(command)
-
-        if debug_output_path:
-            self._consume_debug_dump(command, result, fixture_path, debug_output_path)
-
-        if result.returncode != 0:
-            raise Exception(
-                f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
-            )
+        if fixture_format != StateFixture:
+            return []
 
         result_json = json.loads(result.stdout)
         if not isinstance(result_json, list):

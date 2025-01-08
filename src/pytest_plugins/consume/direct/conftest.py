@@ -57,7 +57,7 @@ def pytest_configure(config):  # noqa: D103
     fixture_consumer = GethFixtureConsumer(
         binary=config.getoption("evm_bin"), trace=config.getoption("evm_collect_traces")
     )
-    config.run_single_test = "--run" in fixture_consumer.blocktest.help()
+    config.run_single_test = fixture_consumer.can_run_single_test()
     config.fixture_consumer = fixture_consumer
 
 
