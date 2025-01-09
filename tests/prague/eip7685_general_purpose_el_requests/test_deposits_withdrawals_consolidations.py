@@ -27,7 +27,6 @@ from ethereum_test_tools import (
     Transaction,
 )
 from ethereum_test_tools import Opcodes as Op
-from pytest_plugins import fork_covariant_parametrize
 
 from ..eip6110_deposits.helpers import DepositContract, DepositRequest, DepositTransaction
 from ..eip6110_deposits.spec import Spec as Spec_EIP6110
@@ -471,9 +470,9 @@ def invalid_requests_block_combinations(fork: Fork) -> List[Any]:
     return combinations
 
 
-@fork_covariant_parametrize(
-    parameter_names="requests,block_body_override_requests,exception",
-    fn=invalid_requests_block_combinations,
+@pytest.mark.parametrize_by_fork(
+    "requests,block_body_override_requests,exception",
+    invalid_requests_block_combinations,
 )
 def test_invalid_deposit_withdrawal_consolidation_requests(
     blockchain_test: BlockchainTestFiller,
@@ -496,9 +495,9 @@ def test_invalid_deposit_withdrawal_consolidation_requests(
     )
 
 
-@fork_covariant_parametrize(
-    parameter_names="requests,block_body_override_requests,exception",
-    fn=invalid_requests_block_combinations,
+@pytest.mark.parametrize_by_fork(
+    "requests,block_body_override_requests,exception",
+    invalid_requests_block_combinations,
 )
 @pytest.mark.parametrize("correct_requests_hash_in_header", [True])
 def test_invalid_deposit_withdrawal_consolidation_requests_engine(
