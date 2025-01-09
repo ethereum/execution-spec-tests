@@ -279,7 +279,7 @@ This marker takes three arguments:
 
 - `parameter_names`: A list of parameter names that will be parametrized using the custom function.
 - `fn`: A function that takes the fork as parameter and returns a list of values that will be used to parametrize the test.
-- `marks`: A marker, list of markers, or a lambda function that can be used to add additional markers to the generated tests.
+- `marks` (optional): A marker, list of markers, or a lambda function that can be used to add additional markers to the generated tests.
 
 The marked test function will be parametrized by the values returned by the `fn` function for each fork.
 
