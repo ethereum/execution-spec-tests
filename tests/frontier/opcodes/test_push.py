@@ -10,6 +10,17 @@ from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Tr
 from ethereum_test_tools import Opcodes as Op
 
 
+def get_input_for_push_opcode(opcode: Op) -> bytes:
+    """
+    Get a sample input for the `PUSH*` opcode.
+
+    The input is a portion of an excerpt from the Ethereum yellow paper.
+    """
+    ethereum_state_machine = b"Ethereum is a transaction-based state machine."
+    input_size = opcode.data_portion_length
+    return ethereum_state_machine[0:input_size]
+
+
 @pytest.mark.parametrize(
     "push_opcode",
     [getattr(Op, f"PUSH{i}") for i in range(1, 33)],  # Dynamically parametrize PUSH opcodes
@@ -25,12 +36,7 @@ def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: 
     storage.
     """
     # Input used to test the `PUSH*` opcode.
-    ethereum_state_machine = b"Ethereum is as a transaction-based state machine."
-
-    # Determine the size of the data to be pushed by the `PUSH*` opcode,
-    # and trim the input to an appropriate excerpt.
-    input_size = push_opcode.data_portion_length
-    excerpt = ethereum_state_machine[0:input_size]
+    excerpt = get_input_for_push_opcode(push_opcode)
 
     env = Environment()
 
@@ -75,12 +81,7 @@ def test_stack_overflow(
     env = Environment()
 
     # Input used to test the `PUSH*` opcode.
-    ethereum_state_machine = b"Ethereum is as a transaction-based state machine."
-
-    # Determine the size of the data to be pushed by the `PUSH*` opcode,
-    # and trim the input to an appropriate excerpt.
-    input_size = push_opcode.data_portion_length
-    excerpt = ethereum_state_machine[0:input_size]
+    excerpt = get_input_for_push_opcode(push_opcode)
 
     """
     Essentially write a n-byte message to storage by pushing [1024,1025] times to stack. This
