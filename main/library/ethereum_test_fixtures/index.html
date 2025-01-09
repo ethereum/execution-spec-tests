@@ -27734,8 +27734,7 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/state.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
-<span class="normal"> 89</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
@@ -27749,7 +27748,8 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Fixture</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
+<span class="normal">103</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Fixture</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture for a single StateTest.&quot;&quot;&quot;</span>
 
     <span class="n">fixture_format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;state_test&quot;</span>
@@ -27793,11 +27793,11 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
-<span class="normal">100</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">103</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fork of the fixture as a string.&quot;&quot;&quot;</span>
     <span class="n">forks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">forks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Expected state test fixture with single fork&quot;</span>
