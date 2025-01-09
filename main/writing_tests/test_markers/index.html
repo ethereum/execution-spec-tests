@@ -991,9 +991,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#custom-fork-covariant-markers" class="md-nav__link">
+  <a href="#pytestmarkparametrize_by_fork" class="md-nav__link">
     <span class="md-ellipsis">
-      Custom Fork Covariant Markers
+      @pytest.mark.parametrize_by_fork
     </span>
   </a>
   
@@ -25814,9 +25814,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#custom-fork-covariant-markers" class="md-nav__link">
+  <a href="#pytestmarkparametrize_by_fork" class="md-nav__link">
     <span class="md-ellipsis">
-      Custom Fork Covariant Markers
+      @pytest.mark.parametrize_by_fork
     </span>
   </a>
   
@@ -26124,24 +26124,26 @@
     <span class="o">...</span>
 </code></pre></div>
 <p>In this example, the test will be skipped if <code>tx_type</code> is equal to 1 by returning a <code>pytest.mark.skip</code> marker, and return <code>None</code> otherwise.</p>
-<h2 id="custom-fork-covariant-markers">Custom Fork Covariant Markers<a class="headerlink" href="#custom-fork-covariant-markers" title="Permanent link">&para;</a></h2>
-<p>Custom fork covariant markers can be created by using the <code>fork_covariant_parametrize</code> decorator.</p>
-<p>This decorator takes three arguments:</p>
+<h2 id="pytestmarkparametrize_by_fork"><code>@pytest.mark.parametrize_by_fork</code><a class="headerlink" href="#pytestmarkparametrize_by_fork" title="Permanent link">&para;</a></h2>
+<p>A test can be dynamically parametrized based on the fork using the <code>parametrize_by_fork</code> marker.</p>
+<p>This marker takes two positional arguments:</p>
 <ul>
-<li><code>parameter_names</code>: A list of parameter names that will be parametrized using the custom function.</li>
-<li><code>fn</code>: A function that takes the fork as parameter and returns a list of values that will be used to parametrize the test.</li>
-<li><code>marks</code>: A marker, list of markers, or a lambda function that can be used to add additional markers to the test.</li>
+<li><code>argnames</code>: A list of parameter names that will be parametrized using the custom function.</li>
+<li><code>fn</code>: A function that takes the fork as parameter and returns a list of values that will be used to parametrize the test at that specific fork.</li>
 </ul>
+<p>And one keyword argument:</p>
+<ul>
+<li><code>marks</code> (optional): A marker, list of markers, or a lambda function that can be used to add additional markers to the generated tests.</li>
+</ul>
+<p>The marked test function will be parametrized by the values returned by the <code>fn</code> function for each fork.</p>
+<p>If the parameters that are being parametrized is only a single parameter, the return value of <code>fn</code> should be a list of values for that parameter.</p>
+<p>If the parameters that are being parametrized are multiple, the return value of <code>fn</code> should be a list of tuples/lists, where each tuple contains the values for each parameter.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
-
-<span class="kn">from</span> <span class="nn">pytest_plugins</span> <span class="kn">import</span> <span class="n">fork_covariant_parametrize</span>
 
 <span class="k">def</span> <span class="nf">covariant_function</span><span class="p">(</span><span class="n">fork</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span> <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Paris&quot;</span> <span class="k">else</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]]</span>
 
-<span class="nd">@fork_covariant_parametrize</span><span class="p">(</span><span class="n">parameter_names</span><span class="o">=</span><span class="p">[</span>
-    <span class="s2">&quot;test_parameter&quot;</span><span class="p">,</span> <span class="s2">&quot;test_parameter_2&quot;</span>
-<span class="p">],</span> <span class="n">fn</span><span class="o">=</span><span class="n">covariant_function</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span><span class="s2">&quot;test_parameter,test_parameter_2&quot;</span><span class="p">,</span> <span class="n">covariant_function</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_until</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_case</span><span class="p">(</span><span class="n">state_test_only</span><span class="p">,</span> <span class="n">test_parameter</span><span class="p">,</span> <span class="n">test_parameter_2</span><span class="p">):</span>
