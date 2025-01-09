@@ -87,6 +87,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ A new application-wide configuration manager provides access to environment and application configurations. ([#892](https://github.com/ethereum/execution-spec-tests/pull/892)).
 - 🐞 Use a local version of ethereum/execution-specs (EELS) when running the framework tests in CI ([#997](https://github.com/ethereum/execution-spec-tests/pull/997)).
 - ✨ Use self-hosted runners for fixture building in CI ([#1051](https://github.com/ethereum/execution-spec-tests/pull/1051)).
+- ✨ `StateTest` fixture format now contains `state` field in each network post result, containing the decoded post allocation that results from the transaction execution ([#1064](https://github.com/ethereum/execution-spec-tests/pull/1064)).
 
 ### 💥 Breaking Change
 
