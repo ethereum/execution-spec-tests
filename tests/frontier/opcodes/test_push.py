@@ -5,7 +5,7 @@ Ported from: https://github.com/ethereum/tests/blob/4f65a0a7cbecf4442415c226c65e
 
 import pytest
 
-from ethereum_test_forks import Frontier, Homestead
+from ethereum_test_forks import Fork, Frontier, Homestead
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools import Opcodes as Op
 
@@ -16,7 +16,7 @@ from ethereum_test_tools import Opcodes as Op
     ids=lambda op: str(op),
 )
 @pytest.mark.valid_from("Frontier")
-def test_push(state_test: StateTestFiller, fork: str, push_opcode: Op, pre: Alloc):
+def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: Op):
     """
     The set of `PUSH*` opcodes pushes data onto the stack.
 
@@ -29,7 +29,7 @@ def test_push(state_test: StateTestFiller, fork: str, push_opcode: Op, pre: Allo
 
     # Determine the size of the data to be pushed by the `PUSH*` opcode,
     # and trim the input to an appropriate excerpt.
-    input_size = int(str(push_opcode)[4:])
+    input_size = push_opcode.data_portion_length
     excerpt = ethereum_state_machine[0:input_size]
 
     env = Environment()
@@ -61,31 +61,45 @@ def test_push(state_test: StateTestFiller, fork: str, push_opcode: Op, pre: Allo
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.parametrize(
+    "push_opcode",
+    [getattr(Op, f"PUSH{i}") for i in range(1, 33)],
+    ids=lambda op: str(op),
+)
 @pytest.mark.parametrize("stack_height", range(1024, 1026))
 @pytest.mark.valid_from("Frontier")
-def test_stack_overflow(state_test: StateTestFiller, fork: str, pre: Alloc, stack_height: int):
+def test_stack_overflow(
+    state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: Op, stack_height: int
+):
     """A test to ensure that the stack overflows when the stack limit of 1024 is exceeded."""
     env = Environment()
 
-    msg = b"hello"
+    # Input used to test the `PUSH*` opcode.
+    ethereum_state_machine = b"Ethereum is as a transaction-based state machine."
+
+    # Determine the size of the data to be pushed by the `PUSH*` opcode,
+    # and trim the input to an appropriate excerpt.
+    input_size = push_opcode.data_portion_length
+    excerpt = ethereum_state_machine[0:input_size]
 
     """
-    Essentially write a 5 byte message to storage by pushing [1024,1025] times to stack. This
+    Essentially write a n-byte message to storage by pushing [1024,1025] times to stack. This
     simulates a "jump" over the stack limit of 1024.
 
-    The message is UTF-8 encoding of "hello" i.e 0x48656c6c6f. Within the stack limit, the message
-    is written to the to the storage at the same offset (0x48656c6c6f).
+    The message is UTF-8 encoding of excerpt (say 0x45 for PUSH1). Within the stack limit,
+    the message is written to the to the storage at the same offset (0x45 for PUSH1).
     The last iteration will overflow the stack and the storage slot will be empty.
 
-        **               Bytecode explanation              **
-        +---------------------------------------------------+
-        | Bytecode      | Stack        | Storage            |
-        |---------------------------------------------------|
-        | PUSH4 "msg"   | msg          |                    |
-        | SSTORE        |              | [msg]: msg         |
-        +---------------------------------------------------+
+     **               Bytecode explanation              **
+     +---------------------------------------------------+
+     | Bytecode      | Stack        | Storage            |
+     |---------------------------------------------------|
+     | PUSH* excerpt | excerpt      |                    |
+     | PUSH1 0       | 0 excerpt    |                    |
+     | SSTORE        |              | [0]: excerpt       |
+     +---------------------------------------------------+
     """
-    contract_code = Op.PUSH5(msg) * stack_height + Op.SSTORE
+    contract_code = push_opcode(excerpt) * stack_height + Op.SSTORE
     contract = pre.deploy_contract(contract_code)
 
     tx = Transaction(
@@ -96,7 +110,7 @@ def test_stack_overflow(state_test: StateTestFiller, fork: str, pre: Alloc, stac
     )
 
     post = {}
-    key = int.from_bytes(msg, "big")
+    key = int.from_bytes(excerpt, "big")
 
     # Storage should ONLY have the message if stack does not overflow.
     value = key if stack_height <= 1024 else 0
