@@ -64,7 +64,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Generate Transaction Test type ([#933](https://github.com/ethereum/execution-spec-tests/pull/933)).
 - ✨ Add a default location for evm logs (`--evm-dump-dir`) when filling tests ([#999](https://github.com/ethereum/execution-spec-tests/pull/999)).
 - ✨ Slow tests now have greater timeout when making a request to the T8N server ([#1037](https://github.com/ethereum/execution-spec-tests/pull/1037)).
-- ✨ Introduce [`fork_covariant_parametrize`](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#custom-fork-covariant-markers) helper function ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019)).
+- ✨ Introduce [`pytest.mark.parametrize_by_fork`](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#pytestmarkfork_parametrize) helper marker ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019), [#1057](https://github.com/ethereum/execution-spec-tests/pull/1057)).
 - 🔀 Update EIP-7251 according to [spec updates](https://github.com/ethereum/EIPs/pull/9127) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
 - 🔀 Update EIP-7002 according to [spec updates](https://github.com/ethereum/EIPs/pull/9119) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
 - 🐞 fix(consume): allow absolute paths with `--evm-bin` ([#1052](https://github.com/ethereum/execution-spec-tests/pull/1052)).
