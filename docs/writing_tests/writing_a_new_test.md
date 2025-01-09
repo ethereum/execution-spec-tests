@@ -132,7 +132,7 @@ storage to be able to verify them in the post-state.
 ## Test Transactions
 
 Transactions can be crafted by sending them with specific `data` or to a
-specific account, which contains the code to be executed
+specific account, which contains the code to be executed.
 
 Transactions can also create more accounts, by setting the `to` field to an
 empty string.
@@ -140,6 +140,9 @@ empty string.
 Transactions can be designed to fail, and a verification must be made that the
 transaction fails with the specific error that matches what is expected by the
 test.
+
+They can also contain a `TransactionReceipt` object in field `expected_receipt`
+which allows checking for an exact `gas_used` value.
 
 ## Writing code for the accounts in the test
 
