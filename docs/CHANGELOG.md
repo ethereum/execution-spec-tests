@@ -31,6 +31,7 @@ Release tarball changes:
 - 🔀 Update EIP-2935 according to [spec updates](https://github.com/ethereum/EIPs/pull/9144) ([#1046](https://github.com/ethereum/execution-spec-tests/pull/1046))
 - ✨ [EIP-7691](https://eips.ethereum.org/EIPS/eip-7691) Blob throughput increase tests by parametrization of existing EIP-4844 tests ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023), [#1082](https://github.com/ethereum/execution-spec-tests/pull/1082))
 - ✨ Port [calldatacopy test](https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml) ([#1056](https://github.com/ethereum/execution-spec-tests/pull/1056)).
+- ✨ [EIP-152](https://eips.ethereum.org/EIPS/eip-152) Add tests for Blake2 compression function `F` precompile ([#1067](https://github.com/ethereum/execution-spec-tests/pull/1067))
 
 ### 🛠️ Framework
 
