@@ -42,7 +42,6 @@ from ethereum_test_tools import (
     add_kzg_version,
 )
 from ethereum_test_tools import Opcodes as Op
-from pytest_plugins import fork_covariant_parametrize
 
 from .spec import Spec, SpecHelpers, ref_spec_4844
 
@@ -371,9 +370,9 @@ def block(
     )
 
 
-@fork_covariant_parametrize(
-    parameter_names=["blobs_per_tx"],
-    fn=SpecHelpers.all_valid_blob_combinations,
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx",
+    SpecHelpers.all_valid_blob_combinations,
 )
 @pytest.mark.valid_from("Cancun")
 def test_valid_blob_tx_combinations(
@@ -462,9 +461,9 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
     return tests
 
 
-@fork_covariant_parametrize(
-    parameter_names="parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error",
-    fn=generate_invalid_tx_max_fee_per_blob_gas_tests,
+@pytest.mark.parametrize_by_fork(
+    "parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error",
+    generate_invalid_tx_max_fee_per_blob_gas_tests,
 )
 @pytest.mark.parametrize(
     "account_balance_modifier",
@@ -496,9 +495,9 @@ def test_invalid_tx_max_fee_per_blob_gas(
     )
 
 
-@fork_covariant_parametrize(
-    parameter_names="parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error",
-    fn=generate_invalid_tx_max_fee_per_blob_gas_tests,
+@pytest.mark.parametrize_by_fork(
+    "parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error",
+    generate_invalid_tx_max_fee_per_blob_gas_tests,
 )
 @pytest.mark.valid_from("Cancun")
 def test_invalid_tx_max_fee_per_blob_gas_state(
@@ -558,9 +557,9 @@ def test_invalid_normal_gas(
     )
 
 
-@fork_covariant_parametrize(
-    parameter_names="blobs_per_tx",
-    fn=SpecHelpers.invalid_blob_combinations,
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx",
+    SpecHelpers.invalid_blob_combinations,
 )
 @pytest.mark.parametrize(
     "tx_error", [TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED], ids=[""]
@@ -630,9 +629,9 @@ def test_insufficient_balance_blob_tx(
     )
 
 
-@fork_covariant_parametrize(
-    parameter_names="blobs_per_tx",
-    fn=lambda fork: [
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx",
+    lambda fork: [
         pytest.param([1], id="single_blob"),
         pytest.param([fork.max_blobs_per_block()], id="max_blobs"),
     ],
@@ -677,9 +676,9 @@ def test_sufficient_balance_blob_tx(
     )
 
 
-@fork_covariant_parametrize(
-    parameter_names="blobs_per_tx",
-    fn=lambda fork: [
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx",
+    lambda fork: [
         pytest.param([1], id="single_blob"),
         pytest.param([fork.max_blobs_per_block()], id="max_blobs"),
     ],
@@ -742,9 +741,9 @@ def test_sufficient_balance_blob_tx_pre_fund_tx(
     )
 
 
-@fork_covariant_parametrize(
-    parameter_names="blobs_per_tx",
-    fn=lambda fork: [
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx",
+    lambda fork: [
         pytest.param([1], id="single_blob"),
         pytest.param([fork.max_blobs_per_block()], id="max_blobs"),
     ],
@@ -818,9 +817,9 @@ def test_blob_gas_subtraction_tx(
     )
 
 
-@fork_covariant_parametrize(
-    parameter_names="blobs_per_tx",
-    fn=SpecHelpers.all_valid_blob_combinations,
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx",
+    SpecHelpers.all_valid_blob_combinations,
 )
 @pytest.mark.parametrize("account_balance_modifier", [-1], ids=["exact_balance_minus_1"])
 @pytest.mark.parametrize("tx_error", [TransactionException.INSUFFICIENT_ACCOUNT_FUNDS], ids=[""])
@@ -863,9 +862,9 @@ def generate_invalid_tx_blob_count_tests(
     ]
 
 
-@fork_covariant_parametrize(
-    parameter_names="blobs_per_tx,tx_error",
-    fn=generate_invalid_tx_blob_count_tests,
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx,tx_error",
+    generate_invalid_tx_blob_count_tests,
 )
 @pytest.mark.valid_from("Cancun")
 def test_invalid_tx_blob_count(

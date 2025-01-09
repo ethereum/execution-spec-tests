@@ -20,7 +20,6 @@ from ethereum_test_tools import (
     Transaction,
     TransactionException,
 )
-from pytest_plugins import fork_covariant_parametrize
 
 from .common import INF_POINT, Blob
 from .spec import Spec, SpecHelpers, ref_spec_4844
@@ -285,9 +284,9 @@ def generate_full_blob_tests(
     ]
 
 
-@fork_covariant_parametrize(
-    parameter_names="txs_blobs,txs_wrapped_blobs",
-    fn=generate_full_blob_tests,
+@pytest.mark.parametrize_by_fork(
+    "txs_blobs,txs_wrapped_blobs",
+    generate_full_blob_tests,
 )
 @pytest.mark.valid_from("Cancun")
 def test_reject_valid_full_blob_in_block_rlp(
