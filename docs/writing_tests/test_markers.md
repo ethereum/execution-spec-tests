@@ -271,14 +271,17 @@ def test_something_with_all_tx_types_but_skip_type_1(state_test_only, tx_type):
 
 In this example, the test will be skipped if `tx_type` is equal to 1 by returning a `pytest.mark.skip` marker, and return `None` otherwise.
 
-## `@pytest.mark.fork_parametrize`
+## `@pytest.mark.parametrize_by_fork`
 
-A test can be dynamically parametrized based on the fork using the `fork_parametrize` marker.
+A test can be dynamically parametrized based on the fork using the `parametrize_by_fork` marker.
 
-This marker takes three arguments:
+This marker takes two positional arguments:
 
-- `parameter_names`: A list of parameter names that will be parametrized using the custom function.
-- `fn`: A function that takes the fork as parameter and returns a list of values that will be used to parametrize the test.
+- `argnames`: A list of parameter names that will be parametrized using the custom function.
+- `fn`: A function that takes the fork as parameter and returns a list of values that will be used to parametrize the test at that specific fork.
+
+And one keyword argument:
+
 - `marks` (optional): A marker, list of markers, or a lambda function that can be used to add additional markers to the generated tests.
 
 The marked test function will be parametrized by the values returned by the `fn` function for each fork.
@@ -293,9 +296,7 @@ import pytest
 def covariant_function(fork):
     return [[1, 2], [3, 4]] if fork.name() == "Paris" else [[4, 5], [5, 6], [6, 7]]
 
-@pytest.mark.fork_parametrize(parameter_names=[
-    "test_parameter", "test_parameter_2"
-], fn=covariant_function)
+@pytest.mark.parametrize_by_fork("test_parameter,test_parameter_2", covariant_function)
 @pytest.mark.valid_from("Paris")
 @pytest.mark.valid_until("Shanghai")
 def test_case(state_test_only, test_parameter, test_parameter_2):
