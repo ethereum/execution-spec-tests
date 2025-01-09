@@ -1,7 +1,7 @@
 {
     "000/my_chain_id_test/Shanghai": {
         "_info": {
-            "hash": "0x4cb03c346c3167a7be13e3591441e16a0e973009f1b138d96af80f7ce5880ec8",
+            "hash": "0x288556997e3809e7b3a3f97415a661600fdf3652e9fedf617264d70ce255893f",
             "fixture_format": "state_test"
         },
         "env": {
@@ -54,7 +54,7 @@
                         "gas": 0,
                         "value": 0
                     },
-                    "postDecoded": {
+                    "state": {
                         "0x1000000000000000000000000000000000000000": {
                             "nonce": "0x00",
                             "balance": "0x00",

@@ -1,7 +1,7 @@
 {
     "000/my_chain_id_test/Paris": {
         "_info": {
-            "hash": "0xef608fc08638486a85ee7ba705f5be75400c1318c57b2bc0b20d852a7b37c29d",
+            "hash": "0x14d892cf15f595cc7160e0e66020fa553252c33fc185c3b825bb018d4aac62b6",
             "fixture_format": "state_test"
         },
         "env": {
@@ -54,7 +54,7 @@
                         "gas": 0,
                         "value": 0
                     },
-                    "postDecoded": {
+                    "state": {
                         "0x1000000000000000000000000000000000000000": {
                             "nonce": "0x00",
                             "balance": "0x00",
