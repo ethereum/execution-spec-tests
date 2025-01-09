@@ -9,13 +9,13 @@ from typing import Dict
 
 import pytest
 
-from ethereum_test_base_types.conversions import left_pad_zeros_up_to_size
 from ethereum_test_tools import (
     Account,
     Alloc,
     Bytecode,
     CalldataCase,
     Environment,
+    Hash,
     Initcode,
     StateTestFiller,
     Switch,
@@ -233,7 +233,7 @@ def test_reentrant_selfdestructing_call(
     data: bytes | Bytecode
     if pre_existing_contract:
         callee_address = pre.deploy_contract(code=callee_bytecode)
-        data = left_pad_zeros_up_to_size(callee_address, 32)
+        data = Hash(callee_address, left_padding=True)
     else:
         callee_address = compute_create_address(address=caller_address, nonce=1)
         data = Initcode(deploy_code=callee_bytecode)
