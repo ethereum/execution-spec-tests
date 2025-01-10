@@ -3,14 +3,14 @@
 import json
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Generator, List, Protocol, Tuple
+from typing import Dict, Generator, List, Protocol
 
 import pytest
 
 from ethereum_test_base_types import Account, Address
 from ethereum_test_forks import Fork
 from ethereum_test_specs import BlockchainTestFiller
-from ethereum_test_specs.blockchain import Block, Header
+from ethereum_test_specs.blockchain import Block
 from ethereum_test_types import Alloc, Transaction
 
 
@@ -25,16 +25,18 @@ class SystemContractDeployTestFunction(Protocol):
         *,
         fork: Fork,
         pre: Alloc,
-    ) -> Generator[Tuple[Transaction | None, Header | None], None, None]:
+        post: Alloc,
+    ) -> Generator[Block, None, None]:
         """
         Args:
             fork (Fork): The fork to test.
             pre (Alloc): The pre state of the blockchain.
+            post (Alloc): The post state of the blockchain.
 
         Yields:
-            Tuple[Transaction | None, Header | None]: Once per block to add after the contract is
-                deployed, with a single transaction to execute and the header object used to
-                verify the block.
+            Block: To add after the block where the contract was deployed (e.g. can contain extra
+            transactions to execute after the system contract has been deployed, and/or a header
+            object to verify that the headers are correct).
 
         """
         ...
@@ -48,10 +50,11 @@ class DeploymentTestType(Enum):
 
 
 def generate_system_contract_deploy_test(
+    *,
     fork: Fork,
     tx_json_path: Path,
     expected_deploy_address: Address,
-    expected_system_contract_storage: Dict | None,
+    expected_system_contract_storage: Dict | None = None,
 ):
     """
     Generate a test that verifies the correct deployment of a system contract.
@@ -66,7 +69,8 @@ def generate_system_contract_deploy_test(
             contract.
             Providing a JSON file is useful to copy-paste the transaction from the EIP.
         expected_deploy_address (Address): The expected address of the deployed contract.
-        expected_system_contract_storage (Dict): The expected storage of the system contract.
+        expected_system_contract_storage (Dict | None): The expected storage of the system
+            contract.
 
     """
     with open(tx_json_path, mode="r") as f:
@@ -126,18 +130,6 @@ def generate_system_contract_deploy_test(
                     ),
                 ]
 
-            for tx_header_verify in func(fork=fork, pre=pre):
-                txs = []
-                if tx_header_verify[0] is not None:
-                    txs.append(tx_header_verify[0])
-                header_verify = tx_header_verify[1]
-                blocks.append(
-                    Block(
-                        txs=txs,
-                        header_verify=header_verify,
-                    )
-                )
-
             pre[expected_deploy_address] = Account(
                 code=b"",  # Remove the code that is automatically allocated on the fork
                 nonce=0,
@@ -149,7 +141,7 @@ def generate_system_contract_deploy_test(
 
             expected_deploy_address_int = int.from_bytes(expected_deploy_address, "big")
 
-            post = {}
+            post = Alloc()
             fork_pre_allocation = fork.pre_allocation_blockchain()
             assert expected_deploy_address_int in fork_pre_allocation
             expected_code = fork_pre_allocation[expected_deploy_address_int]["code"]
@@ -167,6 +159,11 @@ def generate_system_contract_deploy_test(
             post[deployer_address] = Account(
                 nonce=1,
             )
+
+            # Extra blocks (if any) returned by the decorated function to add after the
+            # contract is deployed.
+            blocks += list(func(fork=fork, pre=pre, post=post))
+
             blockchain_test(
                 pre=pre,
                 blocks=blocks,

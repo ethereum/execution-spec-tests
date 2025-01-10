@@ -19,7 +19,6 @@ REFERENCE_SPEC_VERSION = ref_spec_2935.version
     fork=Prague,
     tx_json_path=Path(realpath(__file__)).parent / "contract_deploy_tx.json",
     expected_deploy_address=Address(Spec.HISTORY_STORAGE_ADDRESS),
-    expected_system_contract_storage=None,
 )
 def test_system_contract_deployment(*args, **kwargs):
     """Verify deployment of the block hashes system contract."""
