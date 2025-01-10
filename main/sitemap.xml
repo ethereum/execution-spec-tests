@@ -3231,6 +3231,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes/test_invalid_history_contract_calls_input_size/</loc>
+         <lastmod>2025-01-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment/</loc>
+         <lastmod>2025-01-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment/test_system_contract_deployment/</loc>
+         <lastmod>2025-01-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip6110_deposits/</loc>
          <lastmod>2025-01-10</lastmod>
          <changefreq>daily</changefreq>
