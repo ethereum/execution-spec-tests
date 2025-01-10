@@ -1,3 +1,1 @@
-"""
-Scenarios common import
-"""
+"""Scenarios common import."""

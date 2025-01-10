@@ -79,16 +79,16 @@ REFERENCE_SPEC_VERSION = "N/A"
 @pytest.fixture
 def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug) -> List[Scenario]:
     """
-    This is the main parametrization vector
-    Define list of contracts that execute scenarios for a given operation
+    Define list of contracts that execute scenarios for a given operation.
+    This is the main parametrization vector.
     """
-    list: List[Scenario] = []
+    scenarios_list: List[Scenario] = []
 
     """select only debug program if set"""
     if debug.test_param is not None:
         debug_program = debug.test_param.values[0]
         if hasattr(debug_program, "hex") and operation.hex() != debug_program.hex():
-            return list
+            return scenarios_list
 
     """Deploy external address to test ext opcodes"""
     external_balance = 123
@@ -96,7 +96,7 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
 
     operation = replace_special_calls_in_operation(pre, operation, external_address)
 
-    input: ScenarioGeneratorInput = ScenarioGeneratorInput(
+    combinations_input: ScenarioGeneratorInput = ScenarioGeneratorInput(
         fork=fork,
         pre=pre,
         operation_code=operation,
@@ -104,20 +104,20 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
         external_balance=external_balance,
     )
 
-    call_combinations = ScenariosCallCombinations(input).generate()
+    call_combinations = ScenariosCallCombinations(combinations_input).generate()
     for combination in call_combinations:
         if not debug.scenario_name or combination.name == debug.scenario_name:
-            list.append(combination)
+            scenarios_list.append(combination)
 
-    call_combinations = scenarios_create_combinations(input)
+    call_combinations = scenarios_create_combinations(combinations_input)
     for combination in call_combinations:
         if not debug.scenario_name or combination.name == debug.scenario_name:
-            list.append(combination)
+            scenarios_list.append(combination)
 
-    revert_combinations = scenarios_revert_combinations(input)
+    revert_combinations = scenarios_revert_combinations(combinations_input)
     for combination in revert_combinations:
         if not debug.scenario_name or combination.name == debug.scenario_name:
-            list.append(combination)
+            scenarios_list.append(combination)
 
     """
         // 21. 0x00FD  Run the code, call a contract that reverts, then run again
@@ -126,7 +126,7 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
         // 34. 0x60BACCFA57 Call recurse to the limit
     """
 
-    return list
+    return scenarios_list
 
 
 @pytest.mark.valid_from("Frontier")
@@ -192,7 +192,7 @@ def test_scenarios(
     """
     Test given operation in different scenarios
     Verify that it's return value equal to expected result on every scenario,
-    that is valid for the given fork
+    that is valid for the given fork.
 
     Note: Don't use pytest parametrize for scenario production, because scenarios will be complex
     Generate one test file for [each operation] * [each scenario] to save space
@@ -219,7 +219,7 @@ def test_scenarios(
     )
 
     def make_result(scenario: Scenario) -> int:
-        """Make Scenario post result"""
+        """Make Scenario post result."""
         if scenario.halts:
             return post.store_next(0, hint=scenario.name)
         else:
