@@ -1,6 +1,4 @@
-"""
-Define Scenario structures and helpers for test_scenarios test
-"""
+"""Define Scenario structures and helpers for test_scenarios test."""
 
 from dataclasses import dataclass
 from enum import Enum
@@ -16,14 +14,14 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 @dataclass
 class ScenarioDebug:
-    """Debug selector for the development"""
+    """Debug selector for the development."""
 
     test_param: ParameterSet | None
     scenario_name: str
 
 
 class ScenarioExpectOpcode(Enum):
-    """Opcodes that are replaced to real values computed by the scenario"""
+    """Opcodes that are replaced to real values computed by the scenario."""
 
     TX_ORIGIN = 1
     CODE_ADDRESS = 2
@@ -44,12 +42,13 @@ class ScenarioExpectOpcode(Enum):
 @dataclass
 class ProgramResult:
     """
-    Describe expected result of a program
+    Describe expected result of a program.
 
     Attributes:
         result (int | ScenarioExpectOpcode): The result of the program
         from_fork (Fork): The result is only valid from this fork (default: Frontier)
         static_support (bool): Can be verified in static context (default: True)
+
     """
 
     result: int | ScenarioExpectOpcode
@@ -64,7 +63,7 @@ class ScenarioEnvironment:
     """
     Scenario evm environment
     Each scenario must define an environment on which program is executed
-    This is so post state verification could check results of evm opcodes
+    This is so post state verification could check results of evm opcodes.
     """
 
     code_address: Address  # Op.ADDRESS, address scope for program
@@ -79,9 +78,7 @@ class ScenarioEnvironment:
 
 @dataclass
 class ExecutionEnvironment:
-    """
-    Scenario execution environment which is determined by test
-    """
+    """Scenario execution environment which is determined by test."""
 
     fork: Fork
     gasprice: int
@@ -95,13 +92,14 @@ class ExecutionEnvironment:
 @dataclass
 class ScenarioGeneratorInput:
     """
-    Parameters for the scenario generator function
+    Parameters for the scenario generator function.
 
     Attributes:
         fork (Fork): Fork for which we ask to generate scenarios
         pre (Alloc): Access to the state to be able to deploy contracts into pre
         operation (Bytecode): Evm bytecode program that will be tested
         external_address (Address): Static external address for ext opcodes
+
     """
 
     fork: Fork
@@ -114,13 +112,14 @@ class ScenarioGeneratorInput:
 @dataclass
 class Scenario:
     """
-    Describe test scenario that will be run in test for each program
+    Describe test scenario that will be run in test for each program.
 
     Attributes:
         name (str): Scenario name for the test vector
         code (Address): Address that is an entry point for scenario code
         env (ScenarioEnvironment): Evm values for ScenarioExpectAddress map
         reverting (bool): If scenario reverts program execution, making result 0 (default: False)
+
     """
 
     name: str
@@ -134,7 +133,7 @@ def translate_result(
 ) -> int:
     """
     Translate expected program result code into concrete value,
-    given the scenario evm environment and test execution environment
+    given the scenario evm environment and test execution environment.
     """
     if exec_env.fork < res.from_fork:
         return 0
@@ -168,7 +167,7 @@ def translate_result(
         if res.result == ScenarioExpectOpcode.SELFBALANCE:
             return int(env.selfbalance)
 
-    return res.result
+    return int(res.result)
 
 
 def replace_special_calls_in_operation(
@@ -177,7 +176,7 @@ def replace_special_calls_in_operation(
     """
     Run find replace of some special calls to the contracts that we don't know at compile time
     replace 0xfff..fff address to external_address
-    replace special call to 0xfff..ffe address to gas_hash_address contract
+    replace special call to 0xfff..ffe address to gas_hash_address contract.
     """
     gas_hash_address = make_gas_hash_contract(pre)
     invalid_opcode_contract = make_invalid_opcode_contract(pre)
@@ -235,7 +234,7 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
     Contract that spends unique amount of gas based on input
     Used for the values we can't predict, can be gas consuming on high values
     So that if we can't check exact value in expect section,
-    we at least could spend unique gas amount
+    we at least could spend unique gas amount.
     """
     gas_hash_address = pre.deploy_contract(
         code=Op.MSTORE(0, 0)
@@ -259,7 +258,7 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
 def make_invalid_opcode_contract(pre: Alloc) -> Address:
     """
     Deploy a contract that will execute any asked byte as an opcode from calldataload
-    With 0-ed input stack of 10 elements, valid for opcodes starting at 0x0C
+    With 0-ed input stack of 10 elements, valid for opcodes starting at 0x0C.
     """
     invalid_opcode_caller = pre.deploy_contract(
         code=Op.PUSH0 * 10

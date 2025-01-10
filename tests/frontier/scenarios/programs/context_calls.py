@@ -1,6 +1,4 @@
-"""
-Define programs that will run all context opcodes for test scenarios
-"""
+"""Define programs that will run all context opcodes for test scenarios."""
 
 import pytest
 
