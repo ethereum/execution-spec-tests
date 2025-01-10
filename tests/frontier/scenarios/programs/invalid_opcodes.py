@@ -1,6 +1,4 @@
-"""
-Define programs that can not be run in static context
-"""
+"""Define programs that can not be run in static context."""
 
 import pytest
 
@@ -22,7 +20,7 @@ invalid_opcode_ranges = [
 
 
 def make_all_invalid_opcode_calls() -> Bytecode:
-    """Call special contract to initiate all invalid opcode instruction"""
+    """Call special contract to initiate all invalid opcode instruction."""
     invalid_opcode_caller = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD
 
     code = Bytecode(
