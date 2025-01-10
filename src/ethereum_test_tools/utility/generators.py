@@ -14,6 +14,13 @@ from ethereum_test_specs.blockchain import Block
 from ethereum_test_types import Alloc, Transaction
 
 
+class DeploymentTestType(Enum):
+    """Represents the type of deployment test."""
+
+    DEPLOY_BEFORE_FORK = "deploy_before_fork"
+    DEPLOY_AFTER_FORK = "deploy_after_fork"
+
+
 class SystemContractDeployTestFunction(Protocol):
     """
     Represents a function to be decorated with the `generate_system_contract_deploy_test`
@@ -26,12 +33,14 @@ class SystemContractDeployTestFunction(Protocol):
         fork: Fork,
         pre: Alloc,
         post: Alloc,
+        test_type: DeploymentTestType,
     ) -> Generator[Block, None, None]:
         """
         Args:
             fork (Fork): The fork to test.
             pre (Alloc): The pre state of the blockchain.
             post (Alloc): The post state of the blockchain.
+            test_type (DeploymentTestType): The type of deployment test currently being filled.
 
         Yields:
             Block: To add after the block where the contract was deployed (e.g. can contain extra
@@ -40,13 +49,6 @@ class SystemContractDeployTestFunction(Protocol):
 
         """
         ...
-
-
-class DeploymentTestType(Enum):
-    """Represents the type of deployment test."""
-
-    DEPLOY_BEFORE_FORK = "deploy_before_fork"
-    DEPLOY_AFTER_FORK = "deploy_after_fork"
 
 
 def generate_system_contract_deploy_test(
@@ -162,7 +164,7 @@ def generate_system_contract_deploy_test(
 
             # Extra blocks (if any) returned by the decorated function to add after the
             # contract is deployed.
-            blocks += list(func(fork=fork, pre=pre, post=post))
+            blocks += list(func(fork=fork, pre=pre, post=post, test_type=test_type))
 
             blockchain_test(
                 pre=pre,
