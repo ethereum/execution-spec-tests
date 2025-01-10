@@ -1096,6 +1096,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/precompiles/</loc>
+         <lastmod>2025-01-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/precompiles/test_precompile_absence/</loc>
+         <lastmod>2025-01-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/precompiles/test_precompile_absence/test_precompile_absence/</loc>
+         <lastmod>2025-01-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/homestead/</loc>
          <lastmod>2025-01-10</lastmod>
          <changefreq>daily</changefreq>
