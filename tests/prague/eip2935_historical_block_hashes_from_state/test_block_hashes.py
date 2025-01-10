@@ -395,7 +395,7 @@ def test_invalid_history_contract_calls_input_size(
     """Test calling the history contract with invalid input sizes."""
     storage = Storage()
 
-    return_code_slot = storage.store_next(not reverts)
+    return_code_slot = storage.store_next(not reverts, "history storage call result")
     returned_block_hash_slot = storage.store_next(0)
 
     return_offset = 64
