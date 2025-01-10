@@ -25675,7 +25675,7 @@
 
 
 <h1 id="test-blob-txs">Test Blob Txs<a class="headerlink" href="#test-blob-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/76069fe9e17554272b38093038466a0f8d4022c2/tests/cancun/eip4844_blobs/test_blob_txs.py#L562"><code>tests/cancun/eip4844_blobs/test_blob_txs.py@76069fe9</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/edbace179f7c915c5661d9d05d4dadeaa3563e51/tests/cancun/eip4844_blobs/test_blob_txs.py#L373"><code>tests/cancun/eip4844_blobs/test_blob_txs.py@edbace17</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py --fork Prague</span>
@@ -25734,7 +25734,7 @@
 <tr>
 <td><a href="test_valid_blob_tx_combinations/"><code>test_valid_blob_tx_combinations</code></a></td>
 <td>blockchain_test</td>
-<td>44</td>
+<td>169</td>
 <td>Test all valid blob combinations in a single block, assuming a given value of</td>
 </tr>
 <tr>
@@ -25758,7 +25758,7 @@
 <tr>
 <td><a href="test_invalid_block_blob_count/"><code>test_invalid_block_blob_count</code></a></td>
 <td>blockchain_test</td>
-<td>28</td>
+<td>80</td>
 <td>Test all invalid blob combinations in a single block, where the sum of all blobs in a block is</td>
 </tr>
 <tr>
@@ -25770,25 +25770,25 @@
 <tr>
 <td><a href="test_sufficient_balance_blob_tx/"><code>test_sufficient_balance_blob_tx</code></a></td>
 <td>state_test</td>
-<td>144</td>
+<td>288</td>
 <td>Check that transaction is accepted when user can exactly afford the blob gas specified (and</td>
 </tr>
 <tr>
 <td><a href="test_sufficient_balance_blob_tx_pre_fund_tx/"><code>test_sufficient_balance_blob_tx_pre_fund_tx</code></a></td>
 <td>blockchain_test</td>
-<td>144</td>
+<td>288</td>
 <td>Check that transaction is accepted when user can exactly afford the blob gas specified (and</td>
 </tr>
 <tr>
 <td><a href="test_blob_gas_subtraction_tx/"><code>test_blob_gas_subtraction_tx</code></a></td>
 <td>state_test</td>
-<td>64</td>
+<td>128</td>
 <td>Check that the blob gas fee for a transaction is subtracted from the sender balance before the</td>
 </tr>
 <tr>
 <td><a href="test_insufficient_balance_blob_tx_combinations/"><code>test_insufficient_balance_blob_tx_combinations</code></a></td>
 <td>blockchain_test</td>
-<td>44</td>
+<td>169</td>
 <td>Reject all valid blob transaction combinations in a block, but block is invalid.</td>
 </tr>
 <tr>

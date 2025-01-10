@@ -25733,7 +25733,7 @@
 
 
 <h1 id="test_invalid_tx_max_fee_per_blob_gas"><code>test_invalid_tx_max_fee_per_blob_gas()</code><a class="headerlink" href="#test_invalid_tx_max_fee_per_blob_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/76069fe9e17554272b38093038466a0f8d4022c2/tests/cancun/eip4844_blobs/test_blob_txs.py#L592"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas@76069fe9</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/edbace179f7c915c5661d9d05d4dadeaa3563e51/tests/cancun/eip4844_blobs/test_blob_txs.py#L464"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas@edbace17</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas --fork Prague</span>
@@ -25756,74 +25756,40 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span>
-<span class="normal">620</span>
-<span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error&quot;</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="c1"># tx max_blob_gas_cost of the transaction is not enough</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># blob gas price is 1</span>
-            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># blob gas cost increases to 2</span>
-            <span class="mi">1</span><span class="p">,</span>  <span class="c1"># tx max_blob_gas_cost is 1</span>
-            <span class="n">TransactionException</span><span class="o">.</span><span class="n">INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;insufficient_max_fee_per_blob_gas&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="c1"># tx max_blob_gas_cost of the transaction is zero, which is invalid</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># blob gas price is 1</span>
-            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># blob gas cost stays put at 1</span>
-            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># tx max_blob_gas_cost is 0</span>
-            <span class="n">TransactionException</span><span class="o">.</span><span class="n">INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;invalid_max_fee_per_blob_gas&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">],</span>
+    <span class="n">generate_invalid_tx_max_fee_per_blob_gas_tests</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;account_balance_modifier&quot;</span><span class="p">,</span>
@@ -25902,91 +25868,91 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>account_balance_modifier</th>
                         <th>parent_excess_blobs</th>
                         <th>parent_blobs</th>
                         <th>tx_max_fee_per_blob_gas</th>
                         <th>tx_error</th>
+                        <th>account_balance_modifier</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Cancun-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Cancun-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas]">
-                    ...fork_Cancun-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Cancun-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Cancun-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]">
+                    ...fork_Cancun-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000
                 </abbr>
             </td>
-                        <td>1000000000</td>
                         <td>17</td>
                         <td>4</td>
                         <td>1</td>
                         <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</td>
+                        <td>1000000000</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Cancun-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Cancun-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas]">
-                    ...fork_Cancun-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Cancun-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Cancun-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]">
+                    ...fork_Cancun-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000
                 </abbr>
             </td>
-                        <td>1000000000</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                         <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</td>
+                        <td>1000000000</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Prague-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Prague-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas]">
-                    ...fork_Prague-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Prague-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Prague-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]">
+                    ...fork_Prague-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000
                 </abbr>
             </td>
-                        <td>1000000000</td>
-                        <td>17</td>
-                        <td>4</td>
+                        <td>26</td>
+                        <td>7</td>
                         <td>1</td>
                         <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</td>
+                        <td>1000000000</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Prague-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Prague-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas]">
-                    ...fork_Prague-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Prague-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Prague-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]">
+                    ...fork_Prague-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000
                 </abbr>
             </td>
-                        <td>1000000000</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                         <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</td>
+                        <td>1000000000</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Osaka-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Osaka-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas]">
-                    ...fork_Osaka-blockchain_test-account_balance_modifier_1000000000-insufficient_max_fee_per_blob_gas
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Osaka-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Osaka-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]">
+                    ...fork_Osaka-insufficient_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000
                 </abbr>
             </td>
-                        <td>1000000000</td>
-                        <td>17</td>
-                        <td>4</td>
+                        <td>26</td>
+                        <td>7</td>
                         <td>1</td>
                         <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</td>
+                        <td>1000000000</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Osaka-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Osaka-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas]">
-                    ...fork_Osaka-blockchain_test-account_balance_modifier_1000000000-invalid_max_fee_per_blob_gas
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Osaka-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_max_fee_per_blob_gas[fork_Osaka-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000]">
+                    ...fork_Osaka-invalid_max_fee_per_blob_gas-blockchain_test-account_balance_modifier_1000000000
                 </abbr>
             </td>
-                        <td>1000000000</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                         <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS</td>
+                        <td>1000000000</td>
                     </tr>
             </tbody>
 </table>

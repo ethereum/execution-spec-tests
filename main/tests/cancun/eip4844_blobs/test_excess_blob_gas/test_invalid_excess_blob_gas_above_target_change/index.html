@@ -25733,7 +25733,7 @@
 
 
 <h1 id="test_invalid_excess_blob_gas_above_target_change"><code>test_invalid_excess_blob_gas_above_target_change()</code><a class="headerlink" href="#test_invalid_excess_blob_gas_above_target_change" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/76069fe9e17554272b38093038466a0f8d4022c2/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L494"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change@76069fe9</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/edbace179f7c915c5661d9d05d4dadeaa3563e51/tests/cancun/eip4844_blobs/test_excess_blob_gas.py#L477"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change@edbace17</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change --fork Prague</span>
@@ -25756,7 +25756,24 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">494</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
 <span class="normal">495</span>
 <span class="normal">496</span>
 <span class="normal">497</span>
@@ -25775,34 +25792,9 @@
 <span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">513</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;header_excess_blobs_delta,parent_blobs&quot;</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()),</span>
-    <span class="p">],</span>
-    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;zero_blobs_decrease_more_than_expected&quot;</span><span class="p">,</span> <span class="s2">&quot;max_blobs_increase_more_than_expected&quot;</span><span class="p">],</span>
+    <span class="n">generate_invalid_excess_blob_gas_above_target_change_tests</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;new_blobs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_invalid_excess_blob_gas_above_target_change</span><span class="p">(</span>
@@ -25886,77 +25878,77 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>new_blobs</th>
                         <th>header_excess_blobs_delta</th>
                         <th>parent_blobs</th>
+                        <th>new_blobs</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Cancun-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Cancun-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected]">
-                    ...fork_Cancun-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Cancun-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Cancun-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1]">
+                    ...fork_Cancun-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1
                 </abbr>
             </td>
-                        <td>1</td>
                         <td>-1</td>
                         <td>0</td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Cancun-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Cancun-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected]">
-                    ...fork_Cancun-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Cancun-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Cancun-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1]">
+                    ...fork_Cancun-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>1</td>
                         <td>6</td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Prague-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Prague-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected]">
-                    ...fork_Prague-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Prague-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Prague-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1]">
+                    ...fork_Prague-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1
                 </abbr>
             </td>
-                        <td>1</td>
                         <td>-1</td>
                         <td>0</td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Prague-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Prague-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected]">
-                    ...fork_Prague-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Prague-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Prague-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1]">
+                    ...fork_Prague-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1
                 </abbr>
             </td>
                         <td>1</td>
+                        <td>9</td>
                         <td>1</td>
-                        <td>6</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Osaka-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Osaka-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected]">
-                    ...fork_Osaka-blockchain_test-new_blobs_1-zero_blobs_decrease_more_than_expected
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Osaka-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Osaka-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1]">
+                    ...fork_Osaka-zero_blobs_decrease_more_than_expected-blockchain_test-new_blobs_1
                 </abbr>
             </td>
-                        <td>1</td>
                         <td>-1</td>
                         <td>0</td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Osaka-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Osaka-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected]">
-                    ...fork_Osaka-blockchain_test-new_blobs_1-max_blobs_increase_more_than_expected
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Osaka-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1]" title="tests/cancun/eip4844_blobs/test_excess_blob_gas.py::test_invalid_excess_blob_gas_above_target_change[fork_Osaka-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1]">
+                    ...fork_Osaka-max_blobs_increase_more_than_expected-blockchain_test-new_blobs_1
                 </abbr>
             </td>
                         <td>1</td>
+                        <td>9</td>
                         <td>1</td>
-                        <td>6</td>
                     </tr>
             </tbody>
 </table>

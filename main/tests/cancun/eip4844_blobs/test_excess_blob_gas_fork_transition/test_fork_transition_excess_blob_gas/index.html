@@ -25733,7 +25733,7 @@
 
 
 <h1 id="test_fork_transition_excess_blob_gas"><code>test_fork_transition_excess_blob_gas()</code><a class="headerlink" href="#test_fork_transition_excess_blob_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/76069fe9e17554272b38093038466a0f8d4022c2/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L217"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_fork_transition_excess_blob_gas@76069fe9</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/edbace179f7c915c5661d9d05d4dadeaa3563e51/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L218"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_fork_transition_excess_blob_gas@edbace17</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_fork_transition_excess_blob_gas --fork Prague</span>
@@ -25754,8 +25754,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
-<span class="normal">218</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
@@ -25788,17 +25787,18 @@
 <span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
-<span class="normal">251</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">251</span>
+<span class="normal">252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;post_fork_block_count,blob_count_per_block&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span>
-            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-            <span class="o">//</span> <span class="p">(</span><span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span> <span class="o">-</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">())</span>
+            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">Cancun</span><span class="p">,</span> <span class="n">blob_gas_price</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="o">//</span> <span class="p">(</span><span class="n">Cancun</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span> <span class="o">-</span> <span class="n">Cancun</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">())</span>
             <span class="o">+</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">(),</span>
+            <span class="n">Cancun</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">(),</span>
         <span class="p">),</span>
         <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">SpecHelpers</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()),</span>
+        <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">Cancun</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;max_blobs&quot;</span><span class="p">,</span> <span class="s2">&quot;no_blobs&quot;</span><span class="p">,</span> <span class="s2">&quot;target_blobs&quot;</span><span class="p">],</span>
 <span class="p">)</span>

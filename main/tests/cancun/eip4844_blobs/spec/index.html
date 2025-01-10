@@ -25749,7 +25749,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/76069fe9e17554272b38093038466a0f8d4022c2/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py@76069fe9</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/edbace179f7c915c5661d9d05d4dadeaa3563e51/tests/cancun/eip4844_blobs/spec.py"><code>tests/cancun/eip4844_blobs/spec.py@edbace17</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -25796,89 +25796,52 @@ out.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
-<span class="normal"> 33</span>
-<span class="normal"> 34</span>
-<span class="normal"> 35</span>
-<span class="normal"> 36</span>
-<span class="normal"> 37</span>
-<span class="normal"> 38</span>
-<span class="normal"> 39</span>
-<span class="normal"> 40</span>
-<span class="normal"> 41</span>
-<span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
-<span class="normal"> 47</span>
-<span class="normal"> 48</span>
-<span class="normal"> 49</span>
-<span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-4844 specifications as defined at</span>
@@ -25894,17 +25857,12 @@ out.</p>
     <span class="n">BLOB_COMMITMENT_VERSION_KZG</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">POINT_EVALUATION_PRECOMPILE_ADDRESS</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span> <span class="o">=</span> <span class="mi">50_000</span>
-    <span class="n">MAX_BLOB_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">786432</span>
-    <span class="n">TARGET_BLOB_GAS_PER_BLOCK</span> <span class="o">=</span> <span class="mi">393216</span>
-    <span class="n">MIN_BLOB_GASPRICE</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">BLOB_GASPRICE_UPDATE_FRACTION</span> <span class="o">=</span> <span class="mi">3338477</span>
     <span class="c1"># MAX_VERSIONED_HASHES_LIST_SIZE = 2**24</span>
     <span class="c1"># MAX_CALLDATA_SIZE = 2**24</span>
     <span class="c1"># MAX_ACCESS_LIST_SIZE = 2**24</span>
     <span class="c1"># MAX_ACCESS_LIST_STORAGE_KEYS = 2**24</span>
     <span class="c1"># MAX_TX_WRAP_COMMITMENTS = 2**12</span>
     <span class="c1"># LIMIT_BLOBS_PER_TX = 2**12</span>
-    <span class="n">GAS_PER_BLOB</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">17</span>
     <span class="n">HASH_OPCODE_BYTE</span> <span class="o">=</span> <span class="mh">0x49</span>
     <span class="n">HASH_GAS_COST</span> <span class="o">=</span> <span class="mi">3</span>
 
@@ -25924,43 +25882,11 @@ out.</p>
         <span class="k">return</span> <span class="n">blob_commitment_version_kzg</span> <span class="o">+</span> <span class="n">sha256</span><span class="p">(</span><span class="n">kzg_commitment</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">fake_exponential</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">numerator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denominator</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the blob gas cost.&quot;&quot;&quot;</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">numerator_accumulator</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">denominator</span>
-        <span class="k">while</span> <span class="n">numerator_accumulator</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="n">numerator_accumulator</span>
-            <span class="n">numerator_accumulator</span> <span class="o">=</span> <span class="p">(</span><span class="n">numerator_accumulator</span> <span class="o">*</span> <span class="n">numerator</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">denominator</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">output</span> <span class="o">//</span> <span class="n">denominator</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">calc_excess_blob_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">BlockHeaderBlobGasFields</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the excess blob gas for a block given the excess blob gas</span>
-<span class="sd">        and blob gas used from the parent block header.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">+</span> <span class="n">parent</span><span class="o">.</span><span class="n">blob_gas_used</span> <span class="o">-</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_total_blob_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_total_blob_gas</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span> <span class="n">blob_gas_per_blob</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the total blob gas for a transaction.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">tx</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">)</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_blob_gasprice</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the blob gas price from the excess.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fake_exponential</span><span class="p">(</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">MIN_BLOB_GASPRICE</span><span class="p">,</span>
-            <span class="n">excess_blob_gas</span><span class="p">,</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">BLOB_GASPRICE_UPDATE_FRACTION</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">blob_gas_per_blob</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -26006,7 +25932,50 @@ spec but not strictly part of it.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/cancun/eip4844_blobs/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
@@ -26053,7 +26022,8 @@ spec but not strictly part of it.</p>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
-<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">162</span>
+<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">SpecHelpers</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Define parameters and helper functions that are tightly coupled to the 4844</span>
@@ -26063,44 +26033,88 @@ spec but not strictly part of it.</p>
     <span class="n">BYTES_PER_FIELD_ELEMENT</span> <span class="o">=</span> <span class="mi">32</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># MAX_BLOBS_PER_BLOCK =</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return maximum number of blobs per block.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_BLOB_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return target number of blobs per block.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">TARGET_BLOB_GAS_PER_BLOCK</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">calc_excess_blob_gas_from_blob_count</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">parent_excess_blob_gas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parent_blob_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="k">def</span> <span class="nf">get_min_excess_blob_gas_for_blob_gas_price</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+        <span class="n">blob_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the excess blob gas for a block given the parent excess blob gas</span>
-<span class="sd">        and the number of blobs in the block.</span>
+<span class="sd">        Get the minimum required excess blob gas value to get a given blob gas cost in a</span>
+<span class="sd">        block.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parent_consumed_blob_gas</span> <span class="o">=</span> <span class="n">parent_blob_count</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
-        <span class="k">return</span> <span class="n">Spec</span><span class="o">.</span><span class="n">calc_excess_blob_gas</span><span class="p">(</span>
-            <span class="n">BlockHeaderBlobGasFields</span><span class="p">(</span><span class="n">parent_excess_blob_gas</span><span class="p">,</span> <span class="n">parent_consumed_blob_gas</span><span class="p">)</span>
-        <span class="p">)</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_min_excess_blob_gas_for_blob_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">blob_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get minimum required excess blob gas value to get a given blob gas cost in a block.&quot;&quot;&quot;</span>
         <span class="n">current_excess_blob_gas</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">current_blob_gas_price</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">get_blob_gas_price</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_price_calculator</span><span class="p">()</span>
+        <span class="n">gas_per_blob</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_per_blob</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">current_blob_gas_price</span> <span class="o">&lt;</span> <span class="n">blob_gas_price</span><span class="p">:</span>
-            <span class="n">current_excess_blob_gas</span> <span class="o">+=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
-            <span class="n">current_blob_gas_price</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">get_blob_gasprice</span><span class="p">(</span>
-                <span class="n">excess_blob_gas</span><span class="o">=</span><span class="n">current_excess_blob_gas</span>
-            <span class="p">)</span>
+            <span class="n">current_excess_blob_gas</span> <span class="o">+=</span> <span class="n">gas_per_blob</span>
+            <span class="n">current_blob_gas_price</span> <span class="o">=</span> <span class="n">get_blob_gas_price</span><span class="p">(</span><span class="n">excess_blob_gas</span><span class="o">=</span><span class="n">current_excess_blob_gas</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">current_excess_blob_gas</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">blob_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get minimum required excess blobs to get a given blob gas cost in a block.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_min_excess_blob_gas_for_blob_gas_price</span><span class="p">(</span><span class="n">blob_gas_price</span><span class="p">)</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">GAS_PER_BLOB</span>
+    <span class="k">def</span> <span class="nf">get_min_excess_blobs_for_blob_gas_price</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+        <span class="n">blob_gas_price</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the minimum required excess blobs to get a given blob gas cost in a block.&quot;&quot;&quot;</span>
+        <span class="n">gas_per_blob</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_per_blob</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">get_min_excess_blob_gas_for_blob_gas_price</span><span class="p">(</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+                <span class="n">blob_gas_price</span><span class="o">=</span><span class="n">blob_gas_price</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">//</span> <span class="n">gas_per_blob</span>
+        <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_blob_combinations</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">blob_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all possible combinations of blobs that result in a given blob count.&quot;&quot;&quot;</span>
+        <span class="n">combinations</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">seq</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                <span class="n">blob_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="p">)</span>  <span class="c1"># We can have from 1 to at most MAX_BLOBS_PER_BLOCK blobs per block</span>
+            <span class="k">for</span> <span class="n">seq</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations_with_replacement</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blob_count</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">i</span>
+            <span class="p">)</span>  <span class="c1"># We iterate through all possible combinations</span>
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="n">blob_count</span>  <span class="c1"># And we only keep the ones that match the</span>
+            <span class="c1"># expected invalid blob count</span>
+        <span class="p">]</span>
+
+        <span class="c1"># We also add the reversed version of each combination, only if it&#39;s not</span>
+        <span class="c1"># already in the list. E.g. (4, 1) is added from (1, 4) but not</span>
+        <span class="c1"># (1, 1, 1, 1, 1) because its reversed version is identical.</span>
+        <span class="n">combinations</span> <span class="o">+=</span> <span class="p">[</span>
+            <span class="nb">tuple</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">combinations</span> <span class="k">if</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">combinations</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">combinations</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">all_valid_blob_combinations</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return all valid blob tx combinations for a given block,</span>
+<span class="sd">        assuming the given MAX_BLOBS_PER_BLOCK.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">max_blobs_per_block</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span>
+        <span class="n">combinations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_blobs_per_block</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">combinations</span> <span class="o">+=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_blob_combinations</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">combinations</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">invalid_blob_combinations</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return invalid blob tx combinations for a given block that use up to</span>
+<span class="sd">        MAX_BLOBS_PER_BLOCK+1 blobs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">max_blobs_per_block</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_blob_combinations</span><span class="p">(</span><span class="n">max_blobs_per_block</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
