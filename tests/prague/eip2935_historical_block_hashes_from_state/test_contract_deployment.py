@@ -23,4 +23,4 @@ REFERENCE_SPEC_VERSION = ref_spec_2935.version
 )
 def test_system_contract_deployment(*args, **kwargs):
     """Verify deployment of the block hashes system contract."""
-    yield from []
+    yield from []  # empty list: only test deployment; don't test with any subsequent transactions
