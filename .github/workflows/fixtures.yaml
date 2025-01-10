@@ -20,7 +20,7 @@ jobs:
           echo "features=$(grep -Po "^[0-9a-zA-Z_\-]+" ./.github/configs/feature.yaml | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
   build:
     needs: features
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         name: ${{ fromJson(needs.features.outputs.features) }}

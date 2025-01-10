@@ -302,11 +302,12 @@ jobs:
           sudo chown -R $user:$user ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Upload coverage results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
-          name: coverage-diff-native
+          name: coverage-diff-native-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ github.workspace }}/evmtest_coverage/coverage
+          compression-level: 6  # Default compression level for optimal balance
 
       - name: Verify coverage results
         uses: addnab/docker-run-action@v3

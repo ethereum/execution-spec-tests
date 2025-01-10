@@ -1,40 +1,104 @@
-name: Run Tox Verifications
+name: Tox
 
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build:
+
+  lint:
+    name: Lint python sources with ruff
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@v4
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Run ruff linter via tox
+        run: uvx --with=tox-uv tox -e lint
+
+  typecheck:
+    name: Typecheck python sources with mypy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@v4
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Run mypy typechecker via tox
+        run: uvx --with=tox-uv tox -e typecheck
+
+  spellcheck:
+    name: Spellcheck sources with pyspelling
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@v4
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Install dependencies (aspell, aspell-en)
+        run: |
+          sudo apt-get update && sudo apt-get install -y aspell aspell-en
+      - name: Run spellcheck with pyspelling via tox
+        run: uvx --with=tox-uv tox -e spellcheck
+
+  markdownlint:
+    name: Lint markdown files with markdownlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            README.md
+            docs/**/*.md
+
+  mkdocs:
+    name: Build html documentation with mkdocs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@v4
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Build html documentation with mkdocs via tox
+        run: uvx --with=tox-uv tox -e mkdocs
+
+  pytest_framework:
+    name: Run unit tests, ${{ matrix.os }}, ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
-          # Temporarily disable
-          # - os: ubuntu-latest
-          #   python: "3.10"
-          #   evm-type: "stable"
-          #   tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"  # TODO: disable parallelisation for uv testing
           - os: ubuntu-latest
-            python: "3.12"
-            evm-type: "stable"
-            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
-          # Disabled due to unavailable evm implementation for devnet-1
-          # - os: ubuntu-latest
-          #   python: '3.11'
-          #   evm-type: 'develop'
-          #   tox-cmd: 'tox -e tests-develop'
-          # Disabled to not be gated by evmone implementation
-          # - os: ubuntu-latest
-          #   python: '3.11'
-          #   evm-type: 'eip7692'
-          #   tox-cmd: 'tox -e tests-eip7692'
+            python: "3.10"
           - os: macos-latest
             python: "3.11"
-            evm-type: "stable"
-            tox-cmd: "uvx --with=tox-uv tox"  # run-parallel --parallel-no-spinner"
+          - os: ubuntu-latest
+            python: "3.12"
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@v4
-      - name: Checkout ethereum/execution-specs
+      - name: Checkout ethereum/execution-specs for local EELS implementation
         uses: actions/checkout@v4
         with:
           repository: ethereum/execution-specs
@@ -43,30 +107,51 @@ jobs:
           sparse-checkout: |
             src/ethereum
           fetch-depth: 1
-      - uses: ./.github/actions/build-evm-base
-        id: evm-builder
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
+        uses: astral-sh/setup-uv@v5
         with:
-          type: ${{ matrix.evm-type }}
-      - name: Set up uv
-        uses: ./.github/actions/setup-uv
-      - name: Set up Python ${{ matrix.python }}
-        run: uv python install ${{ matrix.python }}
-      - name: Setup Tools/Dependencies Ubuntu
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update && sudo apt-get install -y aspell aspell-en
-      - name: Setup Tools/Dependencies macOS
-        if: runner.os == 'macOS'
-        run: |
-          brew install aspell
-          # Add additional packages on 3.11: https://github.com/ethereum/execution-spec-tests/issues/274
-          if [ ${{ matrix.python }} == '3.11' ]; then brew install autoconf automake libtool; fi
-      - name: Run Tox (CPython)
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ matrix.python }}
+      - name: Run tox - run framework unit tests with pytest
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
-        run: ${{ matrix.tox-cmd }}
-      - uses: DavidAnson/markdownlint-cli2-action@v16
+        run: uvx --with=tox-uv tox -e pytest
+
+  tests_deployed:
+    name: Fill tests, deployed, ${{ matrix.os }}, ${{ matrix.python }}    
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          # Still getting requests.exceptions.ReadTimeout: UnixHTTPConnectionPool() in CI, even with local EELS
+          # - os: ubuntu-latest
+          #  python: "3.10"
+          - os: ubuntu-latest
+            python: "3.11"
+          - os: macos-latest
+            python: "3.12"
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@v4
+      - name: Checkout ethereum/execution-specs for local EELS implementation
+        uses: actions/checkout@v4
         with:
-          globs: |
-            README.md
-            docs/**/*.md
+          repository: ethereum/execution-specs
+          ref: 9b95554a88d2a8485f8180254d0f6a493a593fda
+          path: execution-specs
+          sparse-checkout: |
+            src/ethereum
+          fetch-depth: 1
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ matrix.python }}
+      - name: Run tox - fill tests for deployed forks
+        env:
+          EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
+        run: uvx --with=tox-uv tox -e tests-deployed
