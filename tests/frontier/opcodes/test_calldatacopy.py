@@ -1,7 +1,5 @@
 """test `CALLDATACOPY` opcode."""
 
-from re import M
-
 import pytest
 
 from ethereum_test_forks import Fork
@@ -10,7 +8,6 @@ from ethereum_test_tools import Account, Alloc, Bytecode, StateTestFiller, Trans
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
-# @pytest.mark.valid_from("Byzantium")
 @pytest.mark.parametrize(
     "code,tx_data,code_address_storage,to_address_storage",
     [
@@ -165,7 +162,7 @@ def test_calldatacopy(
 
     tx = Transaction(
         data=tx_data,
-        gas_limit=0x100_000,
+        gas_limit=0x100_000_000,
         gas_price=0x0A,
         protected=fork >= Byzantium,
         sender=pre.fund_eoa(),
