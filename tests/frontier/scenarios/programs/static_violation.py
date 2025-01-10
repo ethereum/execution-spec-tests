@@ -1,6 +1,4 @@
-"""
-Define programs that can not be run in static context
-"""
+"""Define programs that can not be run in static context."""
 
 import pytest
 
