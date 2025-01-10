@@ -1,6 +1,4 @@
-"""
-Define a program for scenario test that executes all frontier opcodes and entangles it's result
-"""
+"""Define a program for scenario test that executes all frontier opcodes and entangles it's result."""  # noqa: E501
 
 import pytest
 
@@ -16,7 +14,7 @@ from ..common import ProgramResult
 
 
 def make_all_opcode_program() -> Bytecode:
-    """Make a program that call each Frontier opcode and verifies it's result"""
+    """Make a program that call each Frontier opcode and verifies it's result."""
     code: Bytecode = (
         # Test opcode 01 - ADD
         Conditional(
