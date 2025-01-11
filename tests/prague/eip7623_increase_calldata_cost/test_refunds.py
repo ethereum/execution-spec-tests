@@ -116,6 +116,15 @@ def code_storage(refund_type: RefundType) -> Dict:
 
 
 @pytest.fixture
+def contract_creating_tx() -> bool:
+    """
+    Override fixture in order to avoid a circular fixture dependency since
+    none of theses tests are contract creating transactions.
+    """
+    return False
+
+
+@pytest.fixture
 def execution_gas_used(
     tx_intrinsic_gas_cost_before_execution: int,
     tx_floor_data_cost: int,
@@ -215,12 +224,12 @@ def test_gas_refunds_from_data_floor(
     tx: Transaction,
     tx_floor_data_cost: int,
     tx_intrinsic_gas_cost_before_execution: int,
-    execution_gas_cost: int,
+    execution_gas_used: int,
     refund: int,
     refund_test_type: RefundTestType,
 ) -> None:
     """Test gas refunds deducted from the execution gas cost and not the data floor."""
-    gas_used = tx_intrinsic_gas_cost_before_execution + execution_gas_cost - refund
+    gas_used = tx_intrinsic_gas_cost_before_execution + execution_gas_used - refund
     if refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_LESS_THAN_DATA_FLOOR:
         assert gas_used < tx_floor_data_cost
     elif refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_GREATER_THAN_DATA_FLOOR:
