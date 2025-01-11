@@ -4,7 +4,7 @@ abstract: Test [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS
 """  # noqa: E501
 
 from enum import Enum, Flag, auto
-from typing import Dict
+from typing import Dict, List
 
 import pytest
 
@@ -12,6 +12,7 @@ from ethereum_test_forks import Fork, Prague
 from ethereum_test_tools import (
     Address,
     Alloc,
+    AuthorizationTuple,
     Bytecode,
     StateTestFiller,
     Transaction,
@@ -61,9 +62,11 @@ def data_test_type() -> DataTestType:
 
 
 @pytest.fixture
-def authorization_refund(refund_type: RefundType) -> int:
+def authorization_list(pre: Alloc, refund_type: RefundType) -> List[AuthorizationTuple] | None:
     """Modify fixture from conftest to automatically read the refund_type information."""
-    return RefundType.AUTHORIZATION_EXISTING_AUTHORITY in refund_type
+    if RefundType.AUTHORIZATION_EXISTING_AUTHORITY not in refund_type:
+        return None
+    return [AuthorizationTuple(signer=pre.fund_eoa(1), address=Address(1))]
 
 
 @pytest.fixture
