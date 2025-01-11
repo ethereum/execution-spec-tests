@@ -43,6 +43,10 @@ class RefundTestType(Enum):
     The execution gas minus the refund is less than the data floor, hence the data floor cost is
     charged.
     """
+    EXECUTION_GAS_MINUS_REFUND_EQUAL_TO_DATA_FLOOR = 2
+    """
+    The execution gas minus the refund is equal to the data floor.
+    """
 
 
 class RefundType(Flag):
@@ -128,6 +132,22 @@ def contract_creating_tx() -> bool:
 
 
 @pytest.fixture
+def intrinsic_gas_data_floor_minimum_delta() -> int:
+    """
+    Induce a minimum delta between the transaction intrinsic gas cost and the
+    floor data gas cost.
+
+    Since at least one of the cases requires some execution gas expenditure (SSTORE clearing),
+    we need to introduce an increment of the floor data cost above the transaction intrinsic gas
+    cost, otherwise the floor data cost would always be the below the execution gas cost even
+    after the refund is applied.
+
+    This value has been set as of Prague and should be adjusted if the gas costs change.
+    """
+    return 250
+
+
+@pytest.fixture
 def execution_gas_used(
     tx_intrinsic_gas_cost_before_execution: int,
     tx_floor_data_cost: int,
@@ -140,9 +160,10 @@ def execution_gas_used(
 
     This gas amount is on top of the transaction intrinsic gas cost.
 
-    Since intrinsic_gas_data_floor_minimum_delta is zero for all test cases, if this value is zero
-    it will result in the refund being applied to the execution gas cost and the resulting amount
-    being always below the floor data cost.
+    If this value were zero it would result in the refund being applied to the execution gas cost
+    and the resulting amount being always below the floor data cost, hence we need to find a
+    higher value in this function to ensure we get both scenarios where the refund drives
+    the execution cost below the floor data cost and above the floor data cost.
     """
 
     def execution_gas_cost(execution_gas: int) -> int:
@@ -151,13 +172,18 @@ def execution_gas_used(
 
     execution_gas = prefix_code_gas
 
-    assert execution_gas_cost(execution_gas) < tx_floor_data_cost, "tx_floor_data_cost is too low"
+    assert execution_gas_cost(execution_gas) < tx_floor_data_cost, (
+        "tx_floor_data_cost is too low, there might have been a gas cost change that caused this "
+        "test to fail. Try increasing the intrinsic_gas_data_floor_minimum_delta fixture."
+    )
 
     # Dumb for-loop to find the execution gas cost that will result in the expected refund.
     while execution_gas_cost(execution_gas) < tx_floor_data_cost:
         execution_gas += 1
-    if refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_GREATER_THAN_DATA_FLOOR:
+    if refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_EQUAL_TO_DATA_FLOOR:
         return execution_gas
+    elif refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_GREATER_THAN_DATA_FLOOR:
+        return execution_gas + 1
     elif refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_LESS_THAN_DATA_FLOOR:
         return execution_gas - 1
 
@@ -183,9 +209,16 @@ def to(
     prefix_code_gas: int,
     code_storage: Dict,
 ) -> Address | None:
-    """Return a contract that consumes the expected execution gas."""
+    """
+    Return a contract that consumes the expected execution gas.
+
+    At the moment we naively use JUMPDEST to consume the gas, which can yield very big contracts.
+
+    Ideally, we can use memory expansion to consume gas.
+    """
+    extra_gas = execution_gas_used - prefix_code_gas
     return pre.deploy_contract(
-        prefix_code + (Op.JUMPDEST * (execution_gas_used - prefix_code_gas)) + Op.STOP,
+        prefix_code + (Op.JUMPDEST * extra_gas) + Op.STOP,
         storage=code_storage,
     )
 
@@ -211,6 +244,7 @@ def tx_gas_limit(
     [
         RefundTestType.EXECUTION_GAS_MINUS_REFUND_GREATER_THAN_DATA_FLOOR,
         RefundTestType.EXECUTION_GAS_MINUS_REFUND_LESS_THAN_DATA_FLOOR,
+        RefundTestType.EXECUTION_GAS_MINUS_REFUND_EQUAL_TO_DATA_FLOOR,
     ],
 )
 @pytest.mark.parametrize(
@@ -236,7 +270,9 @@ def test_gas_refunds_from_data_floor(
     if refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_LESS_THAN_DATA_FLOOR:
         assert gas_used < tx_floor_data_cost
     elif refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_GREATER_THAN_DATA_FLOOR:
-        assert gas_used >= tx_floor_data_cost
+        assert gas_used > tx_floor_data_cost
+    elif refund_test_type == RefundTestType.EXECUTION_GAS_MINUS_REFUND_EQUAL_TO_DATA_FLOOR:
+        assert gas_used == tx_floor_data_cost
     else:
         raise ValueError("Invalid refund test type")
     if gas_used < tx_floor_data_cost:
