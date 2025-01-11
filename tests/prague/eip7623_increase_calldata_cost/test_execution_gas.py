@@ -38,11 +38,8 @@ def data_test_type() -> DataTestType:
 
 @pytest.fixture
 def authorization_refund() -> bool:
-    """
-    Force the authority of the authorization tuple to be an existing authority in order
-    to produce a refund.
-    """
-    return True
+    """Disable the refunds on these tests (see ./test_refunds.py)."""
+    return False
 
 
 class TestGasConsumption:
@@ -61,20 +58,6 @@ class TestGasConsumption:
         """Return a contract that consumes all gas when executed by calling an invalid opcode."""
         return pre.deploy_contract(Op.INVALID)
 
-    @pytest.fixture
-    def refund(
-        self,
-        fork: Fork,
-        ty: int,
-        authorization_refund: bool,
-    ) -> int:
-        """Return the refund gas of the transaction."""
-        gas_costs = fork.gas_costs()
-        refund = 0
-        if ty == 4 and authorization_refund:
-            refund += gas_costs.R_AUTHORIZATION_EXISTING_AUTHORITY
-        return refund
-
     @pytest.mark.parametrize(
         "ty,protected,authorization_list",
         [
@@ -82,26 +65,15 @@ class TestGasConsumption:
             pytest.param(0, True, None, id="type_0_protected"),
             pytest.param(1, True, None, id="type_1"),
             pytest.param(2, True, None, id="type_2"),
-            pytest.param(
-                3,
-                True,
-                None,
-                id="type_3",
-            ),
-            pytest.param(
-                4,
-                True,
-                [Address(1)],
-                id="type_4_with_authorization_refund",
-            ),
+            pytest.param(3, True, None, id="type_3"),
+            pytest.param(4, True, [Address(1)], id="type_4"),
         ],
         indirect=["authorization_list"],
     )
     @pytest.mark.parametrize(
         "tx_gas_delta",
         [
-            # Test with exact gas and extra gas, to verify that the refund is correctly applied
-            # to the full consumed execution gas.
+            # Test with exact gas and extra gas.
             pytest.param(1, id="extra_gas"),
             pytest.param(0, id="exact_gas"),
         ],
@@ -111,10 +83,9 @@ class TestGasConsumption:
         state_test: StateTestFiller,
         pre: Alloc,
         tx: Transaction,
-        refund: int,
     ) -> None:
         """Test executing a transaction that fully consumes its execution gas allocation."""
-        tx.expected_receipt = TransactionReceipt(gas_used=tx.gas_limit - refund)
+        tx.expected_receipt = TransactionReceipt(gas_used=tx.gas_limit)
         state_test(
             pre=pre,
             post={},
@@ -129,20 +100,6 @@ class TestGasConsumptionBelowDataFloor:
     def contract_creating_tx(self) -> bool:
         """Use a constant in order to avoid circular fixture dependencies."""
         return False
-
-    @pytest.fixture
-    def refund(
-        self,
-        fork: Fork,
-        ty: int,
-        authorization_refund: bool,
-    ) -> int:
-        """Return the refund gas of the transaction."""
-        gas_costs = fork.gas_costs()
-        refund = 0
-        if ty == 4 and authorization_refund:
-            refund += gas_costs.R_AUTHORIZATION_EXISTING_AUTHORITY
-        return refund
 
     @pytest.fixture
     def to(
@@ -171,33 +128,14 @@ class TestGasConsumptionBelowDataFloor:
         return pre.deploy_contract((Op.JUMPDEST * (execution_gas - 1)) + Op.STOP)
 
     @pytest.mark.parametrize(
-        "ty,protected,authorization_list,authorization_refund",
+        "ty,protected,authorization_list",
         [
-            pytest.param(0, False, None, False, id="type_0_unprotected"),
-            pytest.param(0, True, None, False, id="type_0_protected"),
-            pytest.param(1, True, None, False, id="type_1"),
-            pytest.param(2, True, None, False, id="type_2"),
-            pytest.param(
-                3,
-                True,
-                None,
-                False,
-                id="type_3",
-            ),
-            pytest.param(
-                4,
-                True,
-                [Address(1)],
-                False,
-                id="type_4",
-            ),
-            pytest.param(
-                4,
-                True,
-                [Address(1)],
-                True,
-                id="type_4_with_authorization_refund",
-            ),
+            pytest.param(0, False, None, id="type_0_unprotected"),
+            pytest.param(0, True, None, id="type_0_protected"),
+            pytest.param(1, True, None, id="type_1"),
+            pytest.param(2, True, None, id="type_2"),
+            pytest.param(3, True, None, id="type_3"),
+            pytest.param(4, True, [Address(1)], id="type_4"),
         ],
         indirect=["authorization_list"],
     )
@@ -215,10 +153,9 @@ class TestGasConsumptionBelowDataFloor:
         pre: Alloc,
         tx: Transaction,
         tx_floor_data_cost: int,
-        refund: int,
     ) -> None:
         """Test executing a transaction that almost consumes the floor data cost."""
-        tx.expected_receipt = TransactionReceipt(gas_used=tx_floor_data_cost - refund)
+        tx.expected_receipt = TransactionReceipt(gas_used=tx_floor_data_cost)
         state_test(
             pre=pre,
             post={},
