@@ -196,9 +196,10 @@ class Frontier(BaseFork, solc_name="homestead"):
             return_cost_deducted_prior_execution: bool = False,
         ) -> int:
             assert access_list is None, f"Access list is not supported in {cls.name()}"
-            assert authorization_list_or_count is None, (
-                f"Authorizations are not supported in {cls.name()}"
-            )
+            assert (
+                authorization_list_or_count is None
+            ), f"Authorizations are not supported in {cls.name()}"
+
             intrinsic_cost: int = gas_costs.G_TRANSACTION
 
             if contract_creation:
@@ -642,9 +643,12 @@ class Byzantium(Homestead):
         cls,
     ) -> List[Opcodes]:
         """Return list of Opcodes that are valid to work on this fork."""
-        return [Opcodes.REVERT, Opcodes.RETURNDATASIZE, Opcodes.STATICCALL] + super(
-            Byzantium, cls
-        ).valid_opcodes()
+        return [
+            Opcodes.REVERT,
+            Opcodes.RETURNDATASIZE,
+            Opcodes.RETURNDATACOPY,
+            Opcodes.STATICCALL,
+        ] + super(Byzantium, cls).valid_opcodes()
 
 
 class Constantinople(Byzantium):

@@ -25,14 +25,14 @@ def make_all_invalid_opcode_calls() -> Bytecode:
 
     code = Bytecode(
         sum(
-            [
-                Op.MSTORE(64, opcode)
-                + Op.MSTORE(32, Op.CALL(100000, invalid_opcode_caller, 0, 64, 32, 0, 0))
-                + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), Op.MLOAD(32)))
-                for opcode_range in invalid_opcode_ranges
-                for opcode in opcode_range
-            ],
-            start=Bytecode(),
+            Op.MSTORE(64, opcode)
+            + Op.MSTORE(
+                32,
+                Op.CALL(gas=100000, address=invalid_opcode_caller, args_offset=64, args_size=32),
+            )
+            + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), Op.MLOAD(32)))
+            for opcode_range in invalid_opcode_ranges
+            for opcode in opcode_range
         )
         # If any of invalid instructions works, mstore[0] will be > 1
         + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), 1))

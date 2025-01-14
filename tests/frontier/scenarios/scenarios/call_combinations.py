@@ -31,10 +31,10 @@ class ScenariosCallCombinations:
     keep_gas = 100000
 
     """Possible calls list to make as a first call"""
-    first_calls: List[Opcode] = []
+    first_call_opcodes: List[Opcode] = []
 
     """Possible calls list to make as a second call"""
-    second_calls: List[Opcode] = []
+    second_call_opcodes: List[Opcode] = []
 
     """Balance map that we put in different accounts"""
     balance: AddressBalance
@@ -44,17 +44,13 @@ class ScenariosCallCombinations:
 
     def __init__(self, scenario_input: ScenarioGeneratorInput):
         """Define possible call combinations given the fork."""
-        self.first_calls = [
+        self.first_call_opcodes = [
             callcode
             for callcode, evm_type in scenario_input.fork.call_opcodes()
             if evm_type == EVMCodeType.LEGACY
         ]
-        self.second_calls = [
-            callcode
-            for callcode, evm_type in scenario_input.fork.call_opcodes()
-            if evm_type == EVMCodeType.LEGACY
-        ]
-        self.second_calls.append(Op.NOOP)
+        self.second_call_opcodes = self.first_call_opcodes[:]
+        self.second_call_opcodes.append(Op.NOOP)
         self.scenario_input = scenario_input
         self.balance = self.AddressBalance()
 
@@ -73,15 +69,17 @@ class ScenariosCallCombinations:
         """
         scenarios_list: List[Scenario] = []
 
-        for first_call in self.first_calls:
-            for second_call in self.second_calls:
+        for first_call in self.first_call_opcodes:
+            for second_call in self.second_call_opcodes:
                 if second_call == Op.NOOP:
-                    self._generate_one_call_scenarios(first_call, scenarios_list)
+                    scenarios_list.append(self._generate_one_call_scenario(first_call))
                 else:
-                    self._generate_two_call_scenarios(first_call, second_call, scenarios_list)
+                    scenarios_list.append(
+                        self._generate_two_call_scenario(first_call, second_call)
+                    )
         return scenarios_list
 
-    def _generate_one_call_scenarios(self, first_call: Opcode, scenarios_list: List[Scenario]):
+    def _generate_one_call_scenario(self, first_call: Opcode) -> Scenario:
         """
         Generate scenario for only one call
         root_contract -(CALL)-> scenario_contract -(first_call)-> operation_contract.
@@ -117,47 +115,43 @@ class ScenariosCallCombinations:
             balance=balance.root_contract_balance,
         )
 
-        scenarios_list.append(
-            Scenario(
-                name=f"scenario_{first_call}",
-                code=root_contract,
-                env=ScenarioEnvironment(
-                    # Define address on which behalf program is executed
-                    code_address=(
-                        scenario_contract
-                        if first_call == Op.CALLCODE or first_call == Op.DELEGATECALL
-                        else operation_contract
-                    ),
-                    # Define code_caller for Op.CALLER
-                    code_caller=(
-                        root_contract if first_call == Op.DELEGATECALL else scenario_contract
-                    ),
-                    # Define balance for Op.BALANCE
-                    selfbalance=(
-                        balance.scenario_contract_balance
-                        if first_call in [Op.DELEGATECALL, Op.CALLCODE]
-                        else (
-                            balance.program_selfbalance
-                            if first_call == Op.STATICCALL
-                            else balance.first_call_value + balance.program_selfbalance
-                        )
-                    ),
-                    ext_balance=scenario_input.external_balance,
-                    call_value=(
-                        0
-                        if first_call in [Op.STATICCALL, Op.DELEGATECALL]
-                        else balance.first_call_value
-                    ),
-                    call_dataload_0=int(scenario_input.external_address.hex(), 16),
-                    call_datasize=40,
-                    has_static=True if first_call == Op.STATICCALL else False,
+        return Scenario(
+            name=f"scenario_{first_call}",
+            code=root_contract,
+            env=ScenarioEnvironment(
+                # Define address on which behalf program is executed
+                code_address=(
+                    scenario_contract
+                    if first_call == Op.CALLCODE or first_call == Op.DELEGATECALL
+                    else operation_contract
                 ),
-            )
+                # Define code_caller for Op.CALLER
+                code_caller=(
+                    root_contract if first_call == Op.DELEGATECALL else scenario_contract
+                ),
+                # Define balance for Op.BALANCE
+                selfbalance=(
+                    balance.scenario_contract_balance
+                    if first_call in [Op.DELEGATECALL, Op.CALLCODE]
+                    else (
+                        balance.program_selfbalance
+                        if first_call == Op.STATICCALL
+                        else balance.first_call_value + balance.program_selfbalance
+                    )
+                ),
+                ext_balance=scenario_input.external_balance,
+                call_value=(
+                    0
+                    if first_call in [Op.STATICCALL, Op.DELEGATECALL]
+                    else balance.first_call_value
+                ),
+                call_dataload_0=int(scenario_input.external_address.hex(), 16),
+                call_datasize=40,
+                has_static=True if first_call == Op.STATICCALL else False,
+            ),
         )
 
-    def _generate_two_call_scenarios(
-        self, first_call: Opcode, second_call: Opcode, scenarios_list: List[Scenario]
-    ):
+    def _generate_two_call_scenario(self, first_call: Opcode, second_call: Opcode) -> Scenario:
         """
         Generate scenario for two types of calls combination
         root_contract -(CALL)-> scenario_contract -(first_call)-> sub_contract
@@ -269,33 +263,29 @@ class ScenariosCallCombinations:
             + Op.RETURN(0, 32),
         )
 
-        scenarios_list.append(
-            Scenario(
-                name=f"scenario_{first_call}_{second_call}",
-                code=root_contract,
-                env=ScenarioEnvironment(
-                    # Define address on which behalf program is executed
-                    code_address=(
-                        operation_contract
-                        if second_call not in [Op.CALLCODE, Op.DELEGATECALL]
-                        else (
-                            sub_contract
-                            if first_call not in [Op.CALLCODE, Op.DELEGATECALL]
-                            else scenario_contract
-                        )
-                    ),
-                    # Define code_caller for Op.CALLER
-                    code_caller=_compute_code_caller(),
-                    selfbalance=_compute_selfbalance(),
-                    ext_balance=scenario_input.external_balance,
-                    call_value=_compute_callvalue(),
-                    call_dataload_0=int(scenario_input.external_address.hex(), 16),
-                    call_datasize=40,
-                    has_static=(
-                        True
-                        if first_call == Op.STATICCALL or second_call == Op.STATICCALL
-                        else False
-                    ),
+        return Scenario(
+            name=f"scenario_{first_call}_{second_call}",
+            code=root_contract,
+            env=ScenarioEnvironment(
+                # Define address on which behalf program is executed
+                code_address=(
+                    operation_contract
+                    if second_call not in [Op.CALLCODE, Op.DELEGATECALL]
+                    else (
+                        sub_contract
+                        if first_call not in [Op.CALLCODE, Op.DELEGATECALL]
+                        else scenario_contract
+                    )
                 ),
-            )
+                # Define code_caller for Op.CALLER
+                code_caller=_compute_code_caller(),
+                selfbalance=_compute_selfbalance(),
+                ext_balance=scenario_input.external_balance,
+                call_value=_compute_callvalue(),
+                call_dataload_0=int(scenario_input.external_address.hex(), 16),
+                call_datasize=40,
+                has_static=(
+                    True if first_call == Op.STATICCALL or second_call == Op.STATICCALL else False
+                ),
+            ),
         )
