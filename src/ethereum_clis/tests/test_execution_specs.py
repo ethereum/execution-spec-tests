@@ -36,9 +36,7 @@ def monkeypatch_path_for_entry_points(monkeypatch):
 
 @pytest.fixture
 def t8n(request):
-    """
-    Instantiate the TransitionTool subclass under test.
-    """
+    """Instantiate the TransitionTool subclass under test."""
     return request.param()
 
 
