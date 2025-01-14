@@ -1086,6 +1086,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_push/</loc>
+         <lastmod>2025-01-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_push/test_push/</loc>
+         <lastmod>2025-01-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_push/test_stack_overflow/</loc>
+         <lastmod>2025-01-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_selfdestruct/</loc>
          <lastmod>2025-01-14</lastmod>
          <changefreq>daily</changefreq>
