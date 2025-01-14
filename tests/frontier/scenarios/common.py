@@ -166,8 +166,9 @@ def translate_result(
             return exec_env.gaslimit
         if res.result == ScenarioExpectOpcode.SELFBALANCE:
             return int(env.selfbalance)
-
-    return int(res.result)
+    else:
+        return res.result
+    return 0
 
 
 def replace_special_calls_in_operation(
