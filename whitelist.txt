@@ -253,6 +253,7 @@ isort
 isort's
 ispkg
 itemName
+intermidiate
 javascripts
 jimporter
 joinpath
