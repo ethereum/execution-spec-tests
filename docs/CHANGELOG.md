@@ -23,6 +23,12 @@ Release tarball changes:
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) set code of non-empty-storage account test ([#948](https://github.com/ethereum/execution-spec-tests/pull/948))
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) Remove delegation behavior of EXTCODE* ([#984](https://github.com/ethereum/execution-spec-tests/pull/984))
 - ✨ [EIP-7623](https://eips.ethereum.org/EIPS/eip-7623) Increase calldata cost ([#1004](https://github.com/ethereum/execution-spec-tests/pull/1004))
+- ✨ Add generic precompile-absence test ([#1036](https://github.com/ethereum/execution-spec-tests/pull/1036))
+- ✨ Add test for [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537) which uses the full discount table of G2 MSM ([#1038](https://github.com/ethereum/execution-spec-tests/pull/1038))
+- 🔀 Update EIP-7251 according to [spec updates](https://github.com/ethereum/EIPs/pull/9127) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
+- 🔀 Update EIP-7002 according to [spec updates](https://github.com/ethereum/EIPs/pull/9119) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
+- 🔀 Update EIP-2935 according to [spec updates](https://github.com/ethereum/EIPs/pull/9144) ([#1046](https://github.com/ethereum/execution-spec-tests/pull/1046))
+- ✨ [EIP-7691](https://eips.ethereum.org/EIPS/eip-7691) Blob throughput increase tests by parametrization of existing EIP-4844 tests ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023))
 
 ### 🛠️ Framework
 
@@ -68,10 +74,9 @@ Release tarball changes:
 - ✨ Generate Transaction Test type ([#933](https://github.com/ethereum/execution-spec-tests/pull/933)).
 - ✨ Add a default location for evm logs (`--evm-dump-dir`) when filling tests ([#999](https://github.com/ethereum/execution-spec-tests/pull/999)).
 - ✨ Slow tests now have greater timeout when making a request to the T8N server ([#1037](https://github.com/ethereum/execution-spec-tests/pull/1037)).
-- ✨ Introduce [`fork_covariant_parametrize`](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#custom-fork-covariant-markers) helper function ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019)).
-- 🔀 Update EIP-7251 according to [spec updates](https://github.com/ethereum/EIPs/pull/9127) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
-- 🔀 Update EIP-7002 according to [spec updates](https://github.com/ethereum/EIPs/pull/9119) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
+- ✨ Introduce [`pytest.mark.parametrize_by_fork`](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#pytestmarkfork_parametrize) helper marker ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019), [#1057](https://github.com/ethereum/execution-spec-tests/pull/1057)).
 - 🐞 fix(consume): allow absolute paths with `--evm-bin` ([#1052](https://github.com/ethereum/execution-spec-tests/pull/1052)).
+- ✨ Disable EIP-7742 framework changes for Prague ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023)).
 
 ### 🔧 EVM Tools
 
@@ -92,6 +97,7 @@ Release tarball changes:
 - 🐞 Use a local version of ethereum/execution-specs (EELS) when running the framework tests in CI ([#997](https://github.com/ethereum/execution-spec-tests/pull/997)).
 - ✨ Use self-hosted runners for fixture building in CI ([#1051](https://github.com/ethereum/execution-spec-tests/pull/1051)).
 - ✨ Release tarballs now contain fixtures filled for all forks, not only the fork under active development and the fork currently deployed on mainnet ([#1053](https://github.com/ethereum/execution-spec-tests/pull/1053)).
+- ✨ `StateTest` fixture format now contains `state` field in each network post result, containing the decoded post allocation that results from the transaction execution ([#1064](https://github.com/ethereum/execution-spec-tests/pull/1064)).
 
 ### 💥 Breaking Change
 

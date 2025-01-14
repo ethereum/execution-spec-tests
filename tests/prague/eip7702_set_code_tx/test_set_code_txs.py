@@ -2654,7 +2654,7 @@ def test_set_code_to_system_contract(
             )
             caller_payload = consolidation_request.calldata
             call_value = consolidation_request.value
-        case Address(0x0AAE40965E6800CD9B1F4B05FF21581047E3F91E):  # EIP-2935
+        case Address(0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC):  # EIP-2935
             caller_payload = Hash(0)
             caller_code_storage[call_return_data_size_slot] = 32
         case _:
@@ -2722,6 +2722,7 @@ def test_eoa_tx_after_set_code(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     tx_type: int,
+    fork: Fork,
     evm_code_type: EVMCodeType,
 ):
     """Test sending a transaction from an EOA after code has been set to the account."""
@@ -2807,7 +2808,7 @@ def test_eoa_tx_after_set_code(
                     value=0,
                     max_fee_per_gas=1_000,
                     max_priority_fee_per_gas=1_000,
-                    max_fee_per_blob_gas=1_000,
+                    max_fee_per_blob_gas=fork.min_base_fee_per_blob_gas() * 10,
                     blob_versioned_hashes=add_kzg_version(
                         [Hash(1)],
                         Spec4844.BLOB_COMMITMENT_VERSION_KZG,

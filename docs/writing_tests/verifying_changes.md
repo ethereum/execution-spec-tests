@@ -1,15 +1,15 @@
 # Verifying Changes
 
-The `tox` tool can be executed locally to check that local changes won't cause Github Actions Checks to fail.
+The `tox` tool is used by execution-spec-tests to perform various checks on the codebase such as linting, type checking and spell-checking. The `tox` command can be executed locally to ensure that Github CI checks pass upon pushing to the repository.
 
-!!! note "Pre-commit"
-    Tox can be ran as a git pre-commit hook, see [Enabling Pre-Commit Checks](../dev/precommit.md).
+!!! note "Using automatic pre-commit checks"
+    Some `tox` environments can be ran as a git pre-commit hook, see [Enabling Pre-Commit Checks](../dev/precommit.md).
 
-## Executing `tox`
+## Running `tox`
 
 ### Execution
 
-Run `tox` and execute the defined environments (see `tox.ini`) in parallel with:
+Run all `tox` environments in parallel with:
 
 ```console
 uvx --with=tox-uv tox run-parallel
@@ -21,42 +21,48 @@ or, with sequential test environment execution and verbose output as:
 uvx --with=tox-uv tox
 ```
 
-This executes all the environments described in the next section.
+As some environments are rather slow, the next section describes how to run them individually.
 
 !!! note "Tox Virtual Environment"
     The checks performed by `tox` are sandboxed in their own virtual environments (which are created automatically in the `.tox/` subdirectory). These can be used to debug errors encountered during `tox` execution.
 
-    Whilst we create a virtual environment in the code snippet above, it's only to install the tox tool itself.
+### Listing the Available Environments
+
+Get a list of all the available `tox` environments:
+
+```console
+uvx --with=tox-uv tox -av
+```
 
 ## Executing `tox` Environments Individually
 
-There are three tox environments available:
-
-1. `framework`: Lint and test framework and libraries related code in `src/`.
-2. `tests`: Lint and test the test cases in `tests/` (runs `fill` on all forks deployed to mainnet).
-3. `docs`: Lint and spell-check markdown in `docs/`; build docs.
-
-For targeted tox runs locally, each environment can be ran separately as described below.
-
-### Test Case Verification: `tests`
-
-Verify:
+A selection of preferred environments may be executed via the `-e` flag:
 
 ```console
-uvx --with=tox-uv tox -e tests
+uvx --with=tox-uv tox -e lint,typecheck,spellcheck
 ```
 
-### Framework Verification: `framework`
-
-Verify:
+### Environments required for test case changes (`./tests/`)
 
 ```console
-uvx --with=tox-uv tox -e framework
+uvx --with=tox-uv tox -e lint,typecheck,spellcheck,tests-deployed
 ```
 
-### Documentation Verification: `docs`
+### Environments required for test framework and library changes (`./src/`)
 
-This environment runs `pyspelling` and `markdownlint-cli2` in a "soft fail" mode because they require external (non-python) packages. This allows developers who aren't working on documentation to execute tox locally without additional overhead. These commands are, however, ran as part of the checks in Github Actions.
+```console
+uvx --with=tox-uv tox -e lint,typecheck,spellcheck,pytest
+```
+
+### Environment required for documentation changes (`./docs/`)
+
+```console
+uvx --with=tox-uv tox -e spellcheck,markdownlint,mkdocs
+```
+
+### Additional Required Dependencies for `spellcheck` and `markdownlint`
+
+The `spellcheck` and `markdownlint` environments require external (non-python) packages. To avoid disruption to external contributors, these environments run in a "soft fail" mode if these dependencies are not available.
 
 Additional, optional prerequisites:
 
@@ -74,12 +80,6 @@ Additional, optional prerequisites:
     ```
 
     Or use a specific node version using `nvm`, for example.
-
-Verify:
-
-```console
-uvx --with=tox-uv tox -e docs
-```
 
 ### Verifying Fixture Changes
 

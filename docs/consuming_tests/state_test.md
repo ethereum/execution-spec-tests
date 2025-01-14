@@ -171,6 +171,10 @@ Hash of the RLP representation of the state logs result of applying the transact
 
 Exception that is expected to be thrown by the transaction execution (Field is missing if the transaction is expected to succeed)
 
+#### - `state`: [`Alloc`](./common_types.md#alloc-mappingaddressaccount)
+
+Dictionary that represents the allocation after execution of the transaction.
+
 ### `FixtureForkPostIndexes`
 
 #### - `data`: `int`

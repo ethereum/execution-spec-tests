@@ -81,6 +81,7 @@ CLIs
 cli2
 cmd
 codeAddr
+codebase
 codecopy
 codesize
 coinbase
