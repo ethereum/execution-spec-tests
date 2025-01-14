@@ -135,7 +135,7 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
     # program=None select all programs
     # scenario_name="" select all scenarios
     "debug",
-    [ScenarioDebug(None, scenario_name="")],
+    [ScenarioDebug(test_param=None, scenario_name="")],
     ids=["debug"],
 )
 @pytest.mark.parametrize(
@@ -245,7 +245,7 @@ def test_scenarios(
         gas_limit=500_000_000,
         gas_price=tx_gasprice,
         to=runner_contract,
-        data=b"0x11223344",
+        data=bytes.fromhex("11223344"),
         value=0,
         protected=False,
     )
