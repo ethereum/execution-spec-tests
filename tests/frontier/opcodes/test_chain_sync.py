@@ -5,18 +5,23 @@ abstract: Test the chain synchronization feature.
 
 import pytest
 
-from ethereum_test_forks import Frontier, Homestead
-from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Environment
-from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import Transaction
+from ethereum_test_base_types import Account
+from ethereum_test_forks.forks.forks import Frontier, Homestead
+from ethereum_test_specs.blockchain import Block, BlockchainTestFiller, Environment, Transaction
+from ethereum_test_types.types import Alloc
+from ethereum_test_vm import Opcodes as Op
+
+EXPECTED_BH_254 = 0x59E4655F093809C72B7655D2C4E17A29E1AFC868D50D074AE33FAE4FF7F45B57
+EXPECTED_BH_255 = 0x3B37DF5B367774496FEB057125414B8B02C6A16BE37C5CFEE48F6EA310476895
+EXPECTED_BH256 = 0xCA4B3DF81146433C8B710608B2AE7D59CB949F721D87DDBA579339E9452188F1
 
 
 @pytest.mark.parametrize(
     "offset,expected",
     [
-        (254, 0x59E4655F093809C72B7655D2C4E17A29E1AFC868D50D074AE33FAE4FF7F45B57),
-        (255, 0x3B37DF5B367774496FEB057125414B8B02C6A16BE37C5CFEE48F6EA310476895),
-        (256, 0xCA4B3DF81146433C8B710608B2AE7D59CB949F721D87DDBA579339E9452188F1),
+        (254, EXPECTED_BH_254),
+        (255, EXPECTED_BH_255),
+        (256, EXPECTED_BH256),
         (257, 0x0),
     ],
 )
