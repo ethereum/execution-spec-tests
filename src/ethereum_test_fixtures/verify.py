@@ -1,4 +1,4 @@
-"""Ethereum test fixture verifyer abstract class."""
+"""Ethereum test fixture verifier abstract class."""
 
 from abc import ABC, abstractmethod
 from pathlib import Path

@@ -1,6 +1,4 @@
-"""
-Schema for filled Blockchain Test
-"""
+"""Schema for filled Blockchain Test."""
 
 from typing import Tuple
 
@@ -25,9 +23,7 @@ from .headers import (
 
 
 class BlockchainTestFixtureModel(BaseModel):
-    """
-    Blockchain test file
-    """
+    """Blockchain test file."""
 
     info: dict = Field(alias="_info")
     network: str
@@ -40,15 +36,13 @@ class BlockchainTestFixtureModel(BaseModel):
     sealEngine: str  # noqa: N815
 
     class Config:
-        """Forbids any extra fields that are not declared in the model"""
+        """Forbids any extra fields that are not declared in the model."""
 
         extra = "forbid"
 
     @model_validator(mode="after")
     def check_block_headers(self):
-        """
-        Validate genesis header fields based by fork
-        """
+        """Validate genesis header fields based by fork."""
         # TODO str to Fork class comparison
         allowed_networks: dict[str, Tuple[FrontierHeader, BlockRecord]] = {
             "Frontier": (FrontierHeader, BlockRecord),
