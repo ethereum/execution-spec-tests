@@ -80,6 +80,7 @@ Release tarball changes:
 - ✨ Allow verification of the transaction receipt on executed test transactions ([#1068](https://github.com/ethereum/execution-spec-tests/pull/1068)).
 - ✨ Modify `valid_at_transition_to` marker to add keyword arguments `subsequent_transitions` and `until` to fill a test using multiple transition forks ([#1081](https://github.com/ethereum/execution-spec-tests/pull/1081)).
 - 🐞 fix(consume): use `"HIVE_CHECK_LIVE_PORT"` to signal hive to wait for port 8551 (Engine API port) instead of the 8545 port when running `consume engine` ([#1095](https://github.com/ethereum/execution-spec-tests/pull/1095)).
+- ✨ `state_test`, `blockchain_test` and `blockchain_test_engine` fixtures now contain the `blobSchedule` from [EIP-7840](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7840.md), only for tests filled for Cancun and Prague forks ([#1040](https://github.com/ethereum/execution-spec-tests/pull/1040)).
 
 ### 🔧 EVM Tools
 
@@ -107,6 +108,7 @@ Release tarball changes:
 - The EOF fixture format contained in `eof_tests` may now contain multiple exceptions in the `"exception"` field in the form of a pipe (`|`) separated string ([#759](https://github.com/ethereum/execution-spec-tests/pull/759)).
 - Remove redundant tests within stable and develop fixture releases, moving them to a separate legacy release ([#788](https://github.com/ethereum/execution-spec-tests/pull/788)).
 - Ruff now replaces Flake8, Isort and Black resulting in significant changes to the entire code base including its usage ([#922](https://github.com/ethereum/execution-spec-tests/pull/922)).
+- `state_test`, `blockchain_test` and `blockchain_test_engine` fixtures now contain a `config` field, which contains an object that contains a `blobSchedule` field. On the `blockchain_test` and `blockchain_test_engine` fixtures, the object also contains a duplicate of the `network` root field. The root's `network` field will be eventually deprecated ([#1040](https://github.com/ethereum/execution-spec-tests/pull/1040)).
 
 ## [v3.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2024-07-22
 

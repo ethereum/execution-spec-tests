@@ -98,6 +98,10 @@ Chain configuration object to be applied to the client running the blockchain te
 
 Fork configuration for the test. It is guaranteed that this field contains the same value as the root field `network`.
 
+#### - `blobSchedule`: [`BlobSchedule`](./common_types.md#blobschedule-mappingforkforkblobschedule)
+
+Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
+
 ### `FixtureHeader`
 
 #### - `parentHash`: [`Hash`](./common_types.md#hash)
