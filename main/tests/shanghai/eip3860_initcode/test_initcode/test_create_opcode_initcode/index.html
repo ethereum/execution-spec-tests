@@ -25861,7 +25861,7 @@
 
 
 <h1 id="test_create_opcode_initcode"><code>test_create_opcode_initcode()</code><a class="headerlink" href="#test_create_opcode_initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/27534e1d5f65b584bb59ee73860e479a5a0603aa/tests/shanghai/eip3860_initcode/test_initcode.py#L482"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode@27534e1d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/64fbb5023bba0aa1a9146c7e7161a18294bcccd5/tests/shanghai/eip3860_initcode/test_initcode.py#L485"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode@64fbb502</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode --fork Prague</span>
@@ -25882,10 +25882,7 @@ that is on/over the max allowed limit.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">357</span>
 <span class="normal">358</span>
 <span class="normal">359</span>
 <span class="normal">360</span>
@@ -26086,7 +26083,10 @@ that is on/over the max allowed limit.</p>
 <span class="normal">555</span>
 <span class="normal">556</span>
 <span class="normal">557</span>
-<span class="normal">558</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -26320,10 +26320,7 @@ initcode that is on/over the max allowed limit.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">485</span>
 <span class="normal">486</span>
 <span class="normal">487</span>
 <span class="normal">488</span>
@@ -26396,7 +26393,10 @@ initcode that is on/over the max allowed limit.</p>
 <span class="normal">555</span>
 <span class="normal">556</span>
 <span class="normal">557</span>
-<span class="normal">558</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>

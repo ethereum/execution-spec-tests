@@ -25861,7 +25861,7 @@
 
 
 <h1 id="test_gas_refunds_from_data_floor"><code>test_gas_refunds_from_data_floor()</code><a class="headerlink" href="#test_gas_refunds_from_data_floor" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/27534e1d5f65b584bb59ee73860e479a5a0603aa/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L71"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasRefunds::test_gas_refunds_from_data_floor@27534e1d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/64fbb5023bba0aa1a9146c7e7161a18294bcccd5/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L78"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasRefunds::test_gas_refunds_from_data_floor@64fbb502</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasRefunds::test_gas_refunds_from_data_floor --fork Prague</span>
@@ -25881,7 +25881,9 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 50</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
 <span class="normal"> 51</span>
 <span class="normal"> 52</span>
 <span class="normal"> 53</span>
@@ -25958,7 +25960,12 @@
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasRefunds</span><span class="p">:</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasRefunds</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test gas refunds with EIP-7623 active.&quot;&quot;&quot;</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -25979,27 +25986,31 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a contract that when executed results in refunds due to storage clearing.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span> <span class="nf">refund</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">ty</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the refund gas of the transaction.&quot;&quot;&quot;</span>
+        <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+        <span class="n">refund</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">R_STORAGE_CLEAR</span>
+        <span class="k">if</span> <span class="n">ty</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">refund</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">R_AUTHORIZATION_EXISTING_AUTHORITY</span>
+        <span class="k">return</span> <span class="n">refund</span>
+
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-        <span class="s2">&quot;ty,protected,blob_versioned_hashes,authorization_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ty,protected,authorization_list&quot;</span><span class="p">,</span>
         <span class="p">[</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
                 <span class="mi">3</span><span class="p">,</span>
                 <span class="kc">True</span><span class="p">,</span>
-                <span class="n">add_kzg_version</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
-                    <span class="n">EIP_4844_Spec</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span><span class="p">,</span>
-                <span class="p">),</span>
                 <span class="kc">None</span><span class="p">,</span>
                 <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_3&quot;</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
                 <span class="mi">4</span><span class="p">,</span>
                 <span class="kc">True</span><span class="p">,</span>
-                <span class="kc">None</span><span class="p">,</span>
                 <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
                 <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_4_with_authorization_refund&quot;</span><span class="p">,</span>
             <span class="p">),</span>
@@ -26020,6 +26031,8 @@
         <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
         <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+        <span class="n">tx_floor_data_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">refund</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test gas refunds deducted from the data floor.</span>
@@ -26027,6 +26040,7 @@
 <span class="sd">        I.e. the used gas by the intrinsic gas cost plus the execution cost is less than the data</span>
 <span class="sd">        floor, hence data floor is used, and then the gas refunds are applied to the data floor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">expected_receipt</span> <span class="o">=</span> <span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">tx_floor_data_cost</span> <span class="o">-</span> <span class="n">refund</span><span class="p">)</span>
         <span class="n">state_test</span><span class="p">(</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="p">{</span>
@@ -26053,7 +26067,7 @@
 
 
 <h2 id="tests.prague.eip7623_increase_calldata_cost.test_execution_gas.TestGasRefunds.test_gas_refunds_from_data_floor" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_gas_refunds_from_data_floor</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_gas_refunds_from_data_floor</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">tx_floor_data_cost</span><span class="p">,</span> <span class="n">refund</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7623_increase_calldata_cost.test_execution_gas.TestGasRefunds.test_gas_refunds_from_data_floor" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -26066,14 +26080,7 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -26122,27 +26129,27 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;ty,protected,blob_versioned_hashes,authorization_list&quot;</span><span class="p">,</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;ty,protected,authorization_list&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mi">3</span><span class="p">,</span>
             <span class="kc">True</span><span class="p">,</span>
-            <span class="n">add_kzg_version</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
-                <span class="n">EIP_4844_Spec</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span><span class="p">,</span>
-            <span class="p">),</span>
             <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_3&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mi">4</span><span class="p">,</span>
             <span class="kc">True</span><span class="p">,</span>
-            <span class="kc">None</span><span class="p">,</span>
             <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_4_with_authorization_refund&quot;</span><span class="p">,</span>
         <span class="p">),</span>
@@ -26163,6 +26170,8 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+    <span class="n">tx_floor_data_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">refund</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test gas refunds deducted from the data floor.</span>
@@ -26170,6 +26179,7 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
 <span class="sd">    I.e. the used gas by the intrinsic gas cost plus the execution cost is less than the data</span>
 <span class="sd">    floor, hence data floor is used, and then the gas refunds are applied to the data floor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tx</span><span class="o">.</span><span class="n">expected_receipt</span> <span class="o">=</span> <span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">tx_floor_data_cost</span> <span class="o">-</span> <span class="n">refund</span><span class="p">)</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{</span>
@@ -26241,7 +26251,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <th>tx_gas_delta</th>
                         <th>ty</th>
                         <th>protected</th>
-                        <th>blob_versioned_hashes</th>
                     </tr>
     </thead>
     <tbody>
@@ -26256,7 +26265,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26269,7 +26277,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26282,7 +26289,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26295,7 +26301,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26308,7 +26313,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26321,7 +26325,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26334,7 +26337,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26347,7 +26349,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26360,7 +26361,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26373,7 +26373,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26386,7 +26385,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26399,7 +26397,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26412,7 +26409,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26425,7 +26421,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26438,7 +26433,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26451,7 +26445,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26464,7 +26457,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26477,7 +26469,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26490,7 +26481,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26503,7 +26493,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26516,7 +26505,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26529,7 +26517,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26542,7 +26529,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26555,7 +26541,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26568,7 +26553,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26581,7 +26565,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26594,7 +26577,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26607,7 +26589,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26620,7 +26601,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26633,7 +26613,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26646,7 +26625,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26659,7 +26637,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26672,7 +26649,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26685,7 +26661,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26698,7 +26673,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26711,7 +26685,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26724,7 +26697,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26737,7 +26709,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26750,7 +26721,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26763,7 +26733,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26776,7 +26745,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26789,7 +26757,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>1</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26802,7 +26769,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26815,7 +26781,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26828,7 +26793,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26841,7 +26805,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26854,7 +26817,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26867,7 +26829,6 @@ floor, hence data floor is used, and then the gas refunds are applied to the dat
                         <td>0</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
             </tbody>
 </table>

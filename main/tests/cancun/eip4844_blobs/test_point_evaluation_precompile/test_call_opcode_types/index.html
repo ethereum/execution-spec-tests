@@ -25843,7 +25843,7 @@
 
 
 <h1 id="test_call_opcode_types"><code>test_call_opcode_types()</code><a class="headerlink" href="#test_call_opcode_types" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/27534e1d5f65b584bb59ee73860e479a5a0603aa/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L464"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_call_opcode_types@27534e1d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/64fbb5023bba0aa1a9146c7e7161a18294bcccd5/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L465"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_call_opcode_types@64fbb502</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_call_opcode_types --fork Prague</span>
@@ -25868,8 +25868,7 @@ and parameter configuration.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">464</span>
-<span class="normal">465</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">465</span>
 <span class="normal">466</span>
 <span class="normal">467</span>
 <span class="normal">468</span>
@@ -25903,7 +25902,8 @@ and parameter configuration.</p>
 <span class="normal">496</span>
 <span class="normal">497</span>
 <span class="normal">498</span>
-<span class="normal">499</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">499</span>
+<span class="normal">500</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_gas,y,result&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Result</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">),</span>

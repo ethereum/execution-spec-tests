@@ -26238,12 +26238,14 @@ of each transaction, and any differences are considered a failure</p>
 storage to be able to verify them in the post-state.</p>
 <h2 id="test-transactions">Test Transactions<a class="headerlink" href="#test-transactions" title="Permanent link">&para;</a></h2>
 <p>Transactions can be crafted by sending them with specific <code>data</code> or to a
-specific account, which contains the code to be executed</p>
+specific account, which contains the code to be executed.</p>
 <p>Transactions can also create more accounts, by setting the <code>to</code> field to an
 empty string.</p>
 <p>Transactions can be designed to fail, and a verification must be made that the
 transaction fails with the specific error that matches what is expected by the
 test.</p>
+<p>They can also contain a <code>TransactionReceipt</code> object in field <code>expected_receipt</code>
+which allows checking for an exact <code>gas_used</code> value.</p>
 <h2 id="writing-code-for-the-accounts-in-the-test">Writing code for the accounts in the test<a class="headerlink" href="#writing-code-for-the-accounts-in-the-test" title="Permanent link">&para;</a></h2>
 <p>Account bytecode can be embedded in the test accounts by adding it to the <code>code</code>
 field of the <code>account</code> object, or the <code>data</code> field of the <code>tx</code> object if the

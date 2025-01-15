@@ -25861,7 +25861,7 @@
 
 
 <h1 id="test_full_gas_consumption"><code>test_full_gas_consumption()</code><a class="headerlink" href="#test_full_gas_consumption" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/27534e1d5f65b584bb59ee73860e479a5a0603aa/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L146"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption@27534e1d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/64fbb5023bba0aa1a9146c7e7161a18294bcccd5/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L165"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption@64fbb502</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption --fork Prague</span>
@@ -25881,12 +25881,7 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
@@ -25944,7 +25939,23 @@
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumption</span><span class="p">:</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumption</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test gas consumption with EIP-7623 active.&quot;&quot;&quot;</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -25960,27 +25971,36 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a contract that consumes all gas when executed by calling an invalid opcode.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">)</span>
 
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span> <span class="nf">refund</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+        <span class="n">ty</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">authorization_refund</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the refund gas of the transaction.&quot;&quot;&quot;</span>
+        <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+        <span class="n">refund</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">ty</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">authorization_refund</span><span class="p">:</span>
+            <span class="n">refund</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">R_AUTHORIZATION_EXISTING_AUTHORITY</span>
+        <span class="k">return</span> <span class="n">refund</span>
+
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-        <span class="s2">&quot;ty,protected,blob_versioned_hashes,authorization_list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ty,protected,authorization_list&quot;</span><span class="p">,</span>
         <span class="p">[</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
                 <span class="mi">3</span><span class="p">,</span>
                 <span class="kc">True</span><span class="p">,</span>
-                <span class="n">add_kzg_version</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
-                    <span class="n">EIP_4844_Spec</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span><span class="p">,</span>
-                <span class="p">),</span>
                 <span class="kc">None</span><span class="p">,</span>
                 <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_3&quot;</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
                 <span class="mi">4</span><span class="p">,</span>
                 <span class="kc">True</span><span class="p">,</span>
-                <span class="kc">None</span><span class="p">,</span>
                 <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
                 <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_4_with_authorization_refund&quot;</span><span class="p">,</span>
             <span class="p">),</span>
@@ -26001,8 +26021,10 @@
         <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
         <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+        <span class="n">refund</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test executing a transaction that fully consumes its execution gas allocation.&quot;&quot;&quot;</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">expected_receipt</span> <span class="o">=</span> <span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">-</span> <span class="n">refund</span><span class="p">)</span>
         <span class="n">state_test</span><span class="p">(</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
@@ -26025,7 +26047,7 @@
 
 
 <h2 id="tests.prague.eip7623_increase_calldata_cost.test_execution_gas.TestGasConsumption.test_full_gas_consumption" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_full_gas_consumption</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_full_gas_consumption</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">refund</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7623_increase_calldata_cost.test_execution_gas.TestGasConsumption.test_full_gas_consumption" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -26036,26 +26058,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
@@ -26083,27 +26086,38 @@
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;ty,protected,blob_versioned_hashes,authorization_list&quot;</span><span class="p">,</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;ty,protected,authorization_list&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mi">3</span><span class="p">,</span>
             <span class="kc">True</span><span class="p">,</span>
-            <span class="n">add_kzg_version</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
-                <span class="n">EIP_4844_Spec</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span><span class="p">,</span>
-            <span class="p">),</span>
             <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_3&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mi">4</span><span class="p">,</span>
             <span class="kc">True</span><span class="p">,</span>
-            <span class="kc">None</span><span class="p">,</span>
             <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_4_with_authorization_refund&quot;</span><span class="p">,</span>
         <span class="p">),</span>
@@ -26124,8 +26138,10 @@
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+    <span class="n">refund</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test executing a transaction that fully consumes its execution gas allocation.&quot;&quot;&quot;</span>
+    <span class="n">tx</span><span class="o">.</span><span class="n">expected_receipt</span> <span class="o">=</span> <span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">-</span> <span class="n">refund</span><span class="p">)</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
@@ -26193,7 +26209,6 @@
                         <th>tx_gas_delta</th>
                         <th>ty</th>
                         <th>protected</th>
-                        <th>blob_versioned_hashes</th>
                     </tr>
     </thead>
     <tbody>
@@ -26208,7 +26223,6 @@
                         <td>1</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26221,7 +26235,6 @@
                         <td>1</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26234,7 +26247,6 @@
                         <td>1</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26247,7 +26259,6 @@
                         <td>1</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26260,7 +26271,6 @@
                         <td>1</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26273,7 +26283,6 @@
                         <td>1</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26286,7 +26295,6 @@
                         <td>0</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26299,7 +26307,6 @@
                         <td>0</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26312,7 +26319,6 @@
                         <td>0</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26325,7 +26331,6 @@
                         <td>0</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26338,7 +26343,6 @@
                         <td>0</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26351,7 +26355,6 @@
                         <td>0</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26364,7 +26367,6 @@
                         <td>1</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26377,7 +26379,6 @@
                         <td>1</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26390,7 +26391,6 @@
                         <td>1</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26403,7 +26403,6 @@
                         <td>1</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26416,7 +26415,6 @@
                         <td>1</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26429,7 +26427,6 @@
                         <td>1</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26442,7 +26439,6 @@
                         <td>0</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26455,7 +26451,6 @@
                         <td>0</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26468,7 +26463,6 @@
                         <td>0</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26481,7 +26475,6 @@
                         <td>0</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26494,7 +26487,6 @@
                         <td>0</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -26507,7 +26499,6 @@
                         <td>0</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26520,7 +26511,6 @@
                         <td>1</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26533,7 +26523,6 @@
                         <td>1</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26546,7 +26535,6 @@
                         <td>1</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26559,7 +26547,6 @@
                         <td>1</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26572,7 +26559,6 @@
                         <td>1</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26585,7 +26571,6 @@
                         <td>1</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26598,7 +26583,6 @@
                         <td>0</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26611,7 +26595,6 @@
                         <td>0</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26624,7 +26607,6 @@
                         <td>0</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26637,7 +26619,6 @@
                         <td>0</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26650,7 +26631,6 @@
                         <td>0</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26663,7 +26643,6 @@
                         <td>0</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26676,7 +26655,6 @@
                         <td>1</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26689,7 +26667,6 @@
                         <td>1</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26702,7 +26679,6 @@
                         <td>1</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26715,7 +26691,6 @@
                         <td>1</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26728,7 +26703,6 @@
                         <td>1</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26741,7 +26715,6 @@
                         <td>1</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26754,7 +26727,6 @@
                         <td>0</td>
                         <td>0</td>
                         <td>False</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26767,7 +26739,6 @@
                         <td>0</td>
                         <td>0</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26780,7 +26751,6 @@
                         <td>0</td>
                         <td>1</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26793,7 +26763,6 @@
                         <td>0</td>
                         <td>2</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26806,7 +26775,6 @@
                         <td>0</td>
                         <td>3</td>
                         <td>True</td>
-                        <td>[b'\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -26819,7 +26787,6 @@
                         <td>0</td>
                         <td>4</td>
                         <td>True</td>
-                        <td>None</td>
                     </tr>
             </tbody>
 </table>
