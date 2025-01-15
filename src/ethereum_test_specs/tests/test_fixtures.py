@@ -14,6 +14,7 @@ from ethereum_test_exceptions import TransactionException
 from ethereum_test_fixtures import (
     BlockchainEngineFixture,
     BlockchainFixture,
+    BlockchainFixtureCommon,
     FixtureFormat,
     StateFixture,
 )
@@ -499,7 +500,7 @@ class TestFillBlockchainValidTxs:
         blockchain_test_fixture: BlockchainFixture,
     ):
         assert blockchain_test_fixture.__class__ == fixture_format
-        assert isinstance(blockchain_test_fixture, FixtureCommon)
+        assert isinstance(blockchain_test_fixture, BlockchainFixtureCommon)
 
         fixture_name = f"000/my_blockchain_test/{fork.name()}"
 
@@ -870,7 +871,7 @@ def test_fill_blockchain_invalid_txs(fork: Fork, check_hive: bool, expected_json
         fixture_format=fixture_format,
     )
     assert generated_fixture.__class__ == fixture_format
-    assert isinstance(generated_fixture, FixtureCommon)
+    assert isinstance(generated_fixture, BlockchainFixtureCommon)
 
     fixture_name = f"000/my_blockchain_test/{fork.name()}"
 
