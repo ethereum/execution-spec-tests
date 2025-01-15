@@ -114,19 +114,43 @@ class BaseForkMeta(ABCMeta):
 
     def __gt__(cls, other: "BaseForkMeta") -> bool:
         """Compare if a fork is newer than some other fork."""
-        return cls != other and other.__subclasscheck__(cls)
+        if cls == other:
+            return False
+        current = cls
+        if hasattr(current, "transitions_to"):
+            current = current.transitions_to()
+        if hasattr(other, "transitions_to"):
+            other = other.transitions_to()
+        return other.__subclasscheck__(current)
 
     def __ge__(cls, other: "BaseForkMeta") -> bool:
         """Compare if a fork is newer than or equal to some other fork."""
-        return other.__subclasscheck__(cls)
+        current = cls
+        if hasattr(current, "transitions_to"):
+            current = current.transitions_to()
+        if hasattr(other, "transitions_to"):
+            other = other.transitions_to()
+        return other.__subclasscheck__(current)
 
     def __lt__(cls, other: "BaseForkMeta") -> bool:
         """Compare if a fork is older than some other fork."""
-        return cls != other and cls.__subclasscheck__(other)
+        if cls == other:
+            return False
+        current = cls
+        if hasattr(current, "transitions_to"):
+            current = current.transitions_to()
+        if hasattr(other, "transitions_to"):
+            other = other.transitions_to()
+        return current.__subclasscheck__(other)
 
     def __le__(cls, other: "BaseForkMeta") -> bool:
         """Compare if a fork is older than or equal to some other fork."""
-        return cls.__subclasscheck__(other)
+        current = cls
+        if hasattr(current, "transitions_to"):
+            current = current.transitions_to()
+        if hasattr(other, "transitions_to"):
+            other = other.transitions_to()
+        return current.__subclasscheck__(other)
 
 
 class BaseFork(ABC, metaclass=BaseForkMeta):
