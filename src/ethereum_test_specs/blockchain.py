@@ -36,6 +36,7 @@ from ethereum_test_fixtures.blockchain import (
     FixtureWithdrawal,
     InvalidFixtureBlock,
 )
+from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
 
@@ -567,6 +568,7 @@ class BlockchainTest(BaseTest):
             last_block_hash=head,
             pre=pre,
             post_state=alloc,
+            blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
         )
 
     def make_hive_fixture(
@@ -655,6 +657,7 @@ class BlockchainTest(BaseTest):
             post_state=alloc,
             sync_payload=sync_payload,
             last_block_hash=head_hash,
+            blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
         )
 
     def generate(

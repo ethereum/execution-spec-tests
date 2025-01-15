@@ -16,6 +16,7 @@ from ethereum_test_fixtures import (
     FixtureFormat,
     StateFixture,
 )
+from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_fixtures.state import (
     FixtureEnvironment,
     FixtureForkPost,
@@ -169,6 +170,7 @@ class StateTest(BaseTest):
                 ]
             },
             transaction=FixtureTransaction.from_transaction(tx),
+            blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
         )
 
     def generate(
