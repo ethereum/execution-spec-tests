@@ -12,7 +12,13 @@ from .spec import GAS_CALCULATION_FUNCTION_MAP
 
 @pytest.fixture
 def vector_gas_value() -> int | None:
-    """Gas value from the test vector."""
+    """
+    Gas value from the test vector if any.
+
+    If `None` it means that the test scenario did not come from a file, so no comparison is needed.
+
+    The `vectors_from_file` function reads the gas value from the file and overwrites this fixture.
+    """
     return None
 
 
