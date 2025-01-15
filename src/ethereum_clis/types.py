@@ -4,7 +4,15 @@ from typing import List
 
 from pydantic import Field
 
-from ethereum_test_base_types import Address, Bloom, Bytes, CamelModel, Hash, HexNumber
+from ethereum_test_base_types import (
+    Address,
+    BlobSchedule,
+    Bloom,
+    Bytes,
+    CamelModel,
+    Hash,
+    HexNumber,
+)
 from ethereum_test_types import Alloc, Environment, Transaction
 
 
@@ -93,3 +101,19 @@ class TransitionToolOutput(CamelModel):
     alloc: Alloc
     result: Result
     body: Bytes | None = None
+
+
+class TransitionToolState(CamelModel):
+    """Transition tool state."""
+
+    fork: str
+    chain_id: int = Field(..., alias="chainid")
+    reward: int
+    blob_schedule: BlobSchedule | None
+
+
+class TransitionToolPost(CamelModel):
+    """Transition tool post."""
+
+    state: TransitionToolState
+    input: TransitionToolInput

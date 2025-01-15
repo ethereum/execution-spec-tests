@@ -28,8 +28,6 @@ from ethereum_test_fixtures import (
     FixtureFormat,
 )
 from ethereum_test_fixtures.blockchain import (
-    EngineFixture,
-    Fixture,
     FixtureBlock,
     FixtureBlockBase,
     FixtureEngineNewPayload,
@@ -38,6 +36,7 @@ from ethereum_test_fixtures.blockchain import (
     FixtureWithdrawal,
     InvalidFixtureBlock,
 )
+from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
 
@@ -109,7 +108,6 @@ class Header(CamelModel):
     excess_blob_gas: Removable | HexNumber | None = None
     parent_beacon_block_root: Removable | Hash | None = None
     requests_hash: Removable | Hash | None = None
-    target_blobs_per_block: Removable | HexNumber | None = None
 
     REMOVE_FIELD: ClassVar[Removable] = Removable()
     """
@@ -252,8 +250,6 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
-        if not isinstance(self.target_blobs_per_block, Removable):
-            new_env_values["target_blobs_per_block"] = self.target_blobs_per_block
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
@@ -338,11 +334,6 @@ class BlockchainTest(BaseTest):
             ),
             parent_beacon_block_root=env.parent_beacon_block_root,
             requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
-            target_blobs_per_block=(
-                fork.target_blobs_per_block(0, 0)
-                if fork.header_target_blobs_per_block_required(0, 0)
-                else None
-            ),
             fork=fork,
         )
 
@@ -395,6 +386,7 @@ class BlockchainTest(BaseTest):
             fork=fork,
             chain_id=self.chain_id,
             reward=fork.get_reward(env.number, env.timestamp),
+            blob_schedule=fork.blob_schedule(),
             eips=eips,
             debug_output_path=self.get_next_transition_tool_output_path(),
             slow_request=slow,
@@ -503,7 +495,7 @@ class BlockchainTest(BaseTest):
         fork: Fork,
         eips: Optional[List[int]] = None,
         slow: bool = False,
-    ) -> Fixture:
+    ) -> BlockchainFixture:
         """Create a fixture from the blockchain test definition."""
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
@@ -569,7 +561,7 @@ class BlockchainTest(BaseTest):
                 )
 
         self.verify_post_state(t8n, alloc)
-        return Fixture(
+        return BlockchainFixture(
             fork=self.network_info(fork, eips),
             genesis=genesis.header,
             genesis_rlp=genesis.rlp,
@@ -577,6 +569,7 @@ class BlockchainTest(BaseTest):
             last_block_hash=head,
             pre=pre,
             post_state=alloc,
+            blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
         )
 
     def make_hive_fixture(
@@ -585,7 +578,7 @@ class BlockchainTest(BaseTest):
         fork: Fork,
         eips: Optional[List[int]] = None,
         slow: bool = False,
-    ) -> EngineFixture:
+    ) -> BlockchainEngineFixture:
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
@@ -656,7 +649,7 @@ class BlockchainTest(BaseTest):
                 error_code=None,
             )
 
-        return EngineFixture(
+        return BlockchainEngineFixture(
             fork=self.network_info(fork, eips),
             genesis=genesis.header,
             payloads=fixture_payloads,
@@ -665,6 +658,7 @@ class BlockchainTest(BaseTest):
             post_state=alloc,
             sync_payload=sync_payload,
             last_block_hash=head_hash,
+            blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
         )
 
     def generate(
