@@ -59,7 +59,7 @@ def test_blockhash(
         sender=sender,
     )
 
-    blockhash_block = Block(txs=[blockhash_transaction])
+    blockhash_block = Block(txs=[tx])
 
     blockchain_test(
         env=env,
