@@ -43,6 +43,7 @@ from ethereum_test_types.types import (
 )
 
 from .base import BaseFixture
+from .common import FixtureBlobSchedule
 
 
 class HeaderForkRequirement(str):
@@ -412,6 +413,7 @@ class BlockchainFixtureCommon(BaseFixture):
     pre: Alloc
     post_state: Alloc | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
+    blob_schedule: FixtureBlobSchedule | None = None
 
     def get_fork(self) -> str | None:
         """Return fork of the fixture as a string."""
