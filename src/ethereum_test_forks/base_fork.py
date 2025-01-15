@@ -291,6 +291,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
+    def supports_blobs(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return whether the given fork supports blobs or not."""
+        pass
+
+    @classmethod
+    @abstractmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the target blobs per block at a given fork."""
         pass
