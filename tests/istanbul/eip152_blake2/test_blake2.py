@@ -28,8 +28,8 @@ class Blake2Input(TestParameterGroup):
     call data from them. Returns all inputs encoded as bytes.
 
     Attributes:
-        bytes_length (int): An optional integer representing the message length.
-            Defaults to the expected length of 213.
+        rounds_length (int): An optional integer representing the bytes length
+            for the number of rounds. Defaults to the expected length of 4.
         rounds (int): An integer representing the number of rounds.
         h (str): A hex string that represents the state vector.
         m (str): A hex string that represents the message block vector.
@@ -39,7 +39,7 @@ class Blake2Input(TestParameterGroup):
 
     """
 
-    bytes_length: int = 213
+    rounds_length: int = 4
     rounds: int
     h: str
     m: str
@@ -50,23 +50,13 @@ class Blake2Input(TestParameterGroup):
     def create_blake2_tx_data(self):
         """Generate input for the BLAKE2 precompile."""
         inputs = (
-            self.rounds.to_bytes(4)
+            self.rounds.to_bytes(self.rounds_length)
             + bytes.fromhex(self.h)
             + bytes.fromhex(self.m)
             + bytes.fromhex(self.t_0)
             + bytes.fromhex(self.t_1)
             + int(self.f).to_bytes()
         )
-
-        # Bytes length override to check error cases
-        # Add or remove byte values to the beginning of inputs
-        # based on the difference in bytes_length
-        if self.bytes_length != 213:
-            length_diff = abs(self.bytes_length - 213)
-            if self.bytes_length - 213 > 0:
-                inputs = bytes(length_diff) + inputs
-            else:
-                inputs = inputs[length_diff:]
 
         return inputs
 
@@ -93,11 +83,11 @@ class ExpectedOutput(TestParameterGroup):
         pytest.param(
             Blake2Input(
                 rounds=0,
+                rounds_length=0,
                 h="",
                 m="",
                 t_0="",
                 t_1="",
-                bytes_length=0,
             ),
             ExpectedOutput(
                 call_return_code="00",
@@ -109,11 +99,11 @@ class ExpectedOutput(TestParameterGroup):
         pytest.param(
             Blake2Input(
                 rounds=12,
+                rounds_length=3,
                 h="48c9bdf267e6096a3ba7ca8485ae67bb2bf894fe72f36e3cf1361d5f3af54fa5d182e6ad7f520e511f6c3e2b8c68059b6bbd41fbabd9831f79217e1319cde05b",
-                m="616263000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                m="6162630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0="0300000000000000",
                 t_1="0000000000000000",
-                bytes_length=212,
             ),
             ExpectedOutput(
                 call_return_code="00",
@@ -125,11 +115,11 @@ class ExpectedOutput(TestParameterGroup):
         pytest.param(
             Blake2Input(
                 rounds=12,
+                rounds_length=5,
                 h="48c9bdf267e6096a3ba7ca8485ae67bb2bf894fe72f36e3cf1361d5f3af54fa5d182e6ad7f520e511f6c3e2b8c68059b6bbd41fbabd9831f79217e1319cde05b",
                 m="6162630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0="0300000000000000",
                 t_1="0000000000000000",
-                bytes_length=214,
             ),
             ExpectedOutput(
                 call_return_code="0x00",
@@ -519,15 +509,15 @@ def test_blake2(
         + Op.SSTORE(
             0,
             # Setup stack to CALL into Blake2 with the CALLDATA and CALL into it (+ pop value)
-            Op.CALL(Op.GAS(), 0x09, 0, 0, Op.CALLDATASIZE(), 1000, 64),
+            Op.CALL(Op.GAS(), 9, 0, 0, Op.CALLDATASIZE(), 0x200, 0x40),
         )
         + Op.SSTORE(
             1,
-            Op.MLOAD(1000),
+            Op.MLOAD(0x200),
         )
         + Op.SSTORE(
             2,
-            Op.MLOAD(1032),
+            Op.MLOAD(0x220),
         )
         + Op.STOP(),
     )
