@@ -1,6 +1,4 @@
-"""
-Base types for Pydantic json test fixtures
-"""
+"""Base types for Pydantic json test fixtures."""
 
 import re
 
@@ -14,9 +12,7 @@ class FixedHash(RootModel[str]):
 
     @model_validator(mode="after")
     def validate_hex_hash(self):
-        """
-        Validate that the field is a 0x-prefixed hash of specified byte length.
-        """
+        """Validate that the field is a 0x-prefixed hash of specified byte length."""
         expected_length = 2 + 2 * self._length_in_bytes  # 2 for '0x' + 2 hex chars per byte
         if not self.root.startswith("0x"):
             raise ValueError("The hash must start with '0x'.")
@@ -34,25 +30,25 @@ class FixedHash(RootModel[str]):
 
 
 class FixedHash32(FixedHash):
-    """FixedHash32 type (32 bytes)"""
+    """FixedHash32 type (32 bytes)."""
 
     _length_in_bytes = 32
 
 
 class FixedHash20(FixedHash):
-    """FixedHash20 type (20 bytes)"""
+    """FixedHash20 type (20 bytes)."""
 
     _length_in_bytes = 20
 
 
 class FixedHash8(FixedHash):
-    """FixedHash8 type (8 bytes)"""
+    """FixedHash8 type (8 bytes)."""
 
     _length_in_bytes = 8
 
 
 class FixedHash256(FixedHash):
-    """FixedHash256 type (256 bytes)"""
+    """FixedHash256 type (256 bytes)."""
 
     _length_in_bytes = 256
 
@@ -61,9 +57,7 @@ class PrefixedEvenHex(RootModel[str]):
     """Class to validate a hexadecimal integer encoding in test files."""
 
     def __eq__(self, other):
-        """
-        For python str comparison
-        """
+        """For python str comparison."""
         if isinstance(other, str):
             return self.root == other
         return NotImplemented

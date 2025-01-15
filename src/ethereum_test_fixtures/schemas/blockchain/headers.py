@@ -1,6 +1,4 @@
-"""
-Define genesisHeader schema for filled .json tests
-"""
+"""Define genesisHeader schema for filled .json tests."""
 
 from typing import Any, Optional
 
@@ -18,20 +16,20 @@ from ..common.types import (
 
 
 class InvalidBlockRecord(BaseModel):
-    """Invalid block rlp only provided"""
+    """Invalid block rlp only provided."""
 
     rlp: str
     expectException: str  # noqa: N815
     rlp_decoded: Optional[dict] = None
 
     class Config:
-        """Forbids any extra fields that are not declared in the model"""
+        """Forbids any extra fields that are not declared in the model."""
 
         extra = "forbid"
 
 
 class BlockRecord(BaseModel):
-    """Block record in blockchain tests"""
+    """Block record in blockchain tests."""
 
     blockHeader: dict  # noqa: N815
     rlp: str
@@ -43,19 +41,19 @@ class BlockRecord(BaseModel):
     )
 
     class Config:
-        """Forbids any extra fields that are not declared in the model"""
+        """Forbids any extra fields that are not declared in the model."""
 
         extra = "forbid"
 
 
 class BlockRecordShanghai(BlockRecord):
-    """Block record in blockchain tests"""
+    """Block record in blockchain tests."""
 
     withdrawals: list
 
 
 class FrontierHeader(BaseModel):
-    """Frontier block header in test json"""
+    """Frontier block header in test json."""
 
     bloom: FixedHash256
     coinbase: FixedHash20
@@ -75,12 +73,12 @@ class FrontierHeader(BaseModel):
     uncleHash: FixedHash32  # noqa: N815"
 
     class Config:
-        """Forbids any extra fields that are not declared in the model"""
+        """Forbids any extra fields that are not declared in the model."""
 
         extra = "forbid"
 
     def get_field_rlp_order(self) -> dict[str, Any]:
-        """The order fields are encoded into rlp"""
+        """Order fields are encoded into rlp."""
         rlp_order: dict[str, Any] = {
             "parentHash": self.parentHash,
             "uncleHash": self.uncleHash,
@@ -102,70 +100,68 @@ class FrontierHeader(BaseModel):
 
 
 class HomesteadHeader(FrontierHeader):
-    """Homestead block header in test json"""
+    """Homestead block header in test json."""
 
 
 class ByzantiumHeader(HomesteadHeader):
-    """Byzantium block header in test json"""
+    """Byzantium block header in test json."""
 
 
 class ConstantinopleHeader(ByzantiumHeader):
-    """Constantinople block header in test json"""
+    """Constantinople block header in test json."""
 
 
 class IstanbulHeader(ConstantinopleHeader):
-    """Istanbul block header in test json"""
+    """Istanbul block header in test json."""
 
 
 class BerlinHeader(IstanbulHeader):
-    """Berlin block header in test json"""
+    """Berlin block header in test json."""
 
 
 class LondonHeader(BerlinHeader):
-    """London block header in test json"""
+    """London block header in test json."""
 
     baseFeePerGas: PrefixedEvenHex  # noqa: N815
 
     def get_field_rlp_order(self) -> dict[str, Any]:
-        """The order fields are encoded into rlp"""
+        """Order fields are encoded into rlp."""
         rlp_order: dict[str, Any] = super().get_field_rlp_order()
         rlp_order["baseFeePerGas"] = self.baseFeePerGas
         return rlp_order
 
 
 class ParisHeader(LondonHeader):
-    """Paris block header in test json"""
+    """Paris block header in test json."""
 
     @model_validator(mode="after")
     def check_block_header(self):
-        """
-        Validate Paris block header rules
-        """
+        """Validate Paris block header rules."""
         if self.difficulty != "0x00":
             raise ValueError("Starting from Paris, block difficulty must be 0x00")
 
 
 class ShanghaiHeader(ParisHeader):
-    """Shanghai block header in test json"""
+    """Shanghai block header in test json."""
 
     withdrawalsRoot: FixedHash32  # noqa: N815
 
     def get_field_rlp_order(self) -> dict[str, Any]:
-        """The order fields are encoded into rlp"""
+        """Order fields are encoded into rlp."""
         rlp_order: dict[str, Any] = super().get_field_rlp_order()
         rlp_order["withdrawalsRoot"] = self.withdrawalsRoot
         return rlp_order
 
 
 class CancunHeader(ShanghaiHeader):
-    """Cancun block header in test json"""
+    """Cancun block header in test json."""
 
     blobGasUsed: PrefixedEvenHex  # noqa: N815
     excessBlobGas: PrefixedEvenHex  # noqa: N815
     parentBeaconBlockRoot: FixedHash32  # noqa: N815
 
     def get_field_rlp_order(self) -> dict[str, Any]:
-        """The order fields are encoded into rlp"""
+        """Order fields are encoded into rlp."""
         rlp_order: dict[str, Any] = super().get_field_rlp_order()
         rlp_order["blobGasUsed"] = self.blobGasUsed
         rlp_order["excessBlobGas"] = self.excessBlobGas
@@ -174,7 +170,7 @@ class CancunHeader(ShanghaiHeader):
 
 
 def verify_block_header_vs_rlp_string(header: FrontierHeader, rlp_string: str):
-    """Check that rlp encoding of block header match header object"""
+    """Check that rlp encoding of block header match header object."""
     rlp = rlp_decode(bytes.fromhex(rlp_string[2:]))[0]
     for rlp_index, (field_name, field) in enumerate(header.get_field_rlp_order().items()):
         rlp_hex = rlp[rlp_index].hex()
