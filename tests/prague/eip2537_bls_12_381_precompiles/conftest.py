@@ -11,9 +11,22 @@ from .spec import GAS_CALCULATION_FUNCTION_MAP
 
 
 @pytest.fixture
-def precompile_gas(precompile_address: int, input_data: bytes) -> int:
+def vector_gas_value() -> int | None:
+    """Gas value from the test vector."""
+    return None
+
+
+@pytest.fixture
+def precompile_gas(
+    precompile_address: int, input_data: bytes, vector_gas_value: int | None
+) -> int:
     """Gas cost for the precompile."""
-    return GAS_CALCULATION_FUNCTION_MAP[precompile_address](len(input_data))
+    calculated_gas = GAS_CALCULATION_FUNCTION_MAP[precompile_address](len(input_data))
+    if vector_gas_value is not None:
+        assert (
+            calculated_gas == vector_gas_value
+        ), f"Calculated gas {calculated_gas} != Vector gas {vector_gas_value}"
+    return calculated_gas
 
 
 @pytest.fixture
