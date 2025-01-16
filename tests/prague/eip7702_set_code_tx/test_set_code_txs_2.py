@@ -1,6 +1,4 @@
-"""
-A state test for [EIP-7702 SetCodeTX](https://eips.ethereum.org/EIPS/eip-7702).
-"""
+"""A state test for [EIP-7702 SetCodeTX](https://eips.ethereum.org/EIPS/eip-7702)."""
 
 from enum import Enum, IntEnum
 
@@ -38,7 +36,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7702.version
 @pytest.mark.valid_from("Prague")
 def test_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc):
     """
-    Tx -> call -> pointer A -> contract A -> pointer B -> contract loop C
+    Tx -> call -> pointer A -> contract A -> pointer B -> contract loop C.
 
     Call pointer that goes more level of depth to call a contract loop
     Loop is created only if pointers are set with auth tuples
@@ -93,7 +91,7 @@ def test_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc):
 @pytest.mark.valid_from("Prague")
 def test_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
     """
-    Tx -> call -> pointer A -> pointer B
+    Tx -> call -> pointer A -> pointer B.
 
     Direct call from pointer to pointer is OOG
     """
@@ -138,7 +136,7 @@ def test_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
 def test_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
     Tx -> call -> pointer A -> contract
-    Other normal tx can interact with previously assigned pointers
+    Other normal tx can interact with previously assigned pointers.
     """
     env = Environment()
 
@@ -199,7 +197,7 @@ def test_pointer_measurements(blockchain_test: BlockchainTestFiller, pre: Alloc)
     """
     Check extcode* operations on pointer before and after pointer is set
     Check context opcode results when called under pointer call
-    Opcodes have context of an original pointer account (balance, storage)
+    Opcodes have context of an original pointer account (balance, storage).
     """
     env = Environment()
 
@@ -354,7 +352,7 @@ def test_call_to_precompile_in_pointer_context(
     """
     Tx -> call -> pointer A -> precompile contract
     Make sure that gas consumed when calling precompiles in normal call are the same
-    As from inside the pointer context call
+    As from inside the pointer context call.
     """
     env = Environment()
 
@@ -411,7 +409,7 @@ def test_call_to_precompile_in_pointer_context(
 @pytest.mark.valid_from("Prague")
 def test_pointer_to_precompile(state_test: StateTestFiller, pre: Alloc, precompile: int):
     """
-    Tx -> call -> pointer A -> precompile contract
+    Tx -> call -> pointer A -> precompile contract.
 
     In case a delegation designator points to a precompile address, retrieved code is considered
     empty and CALL, CALLCODE, STATICCALL, DELEGATECALL instructions targeting this account will
@@ -508,7 +506,7 @@ def test_pointer_to_precompile(state_test: StateTestFiller, pre: Alloc, precompi
 
 
 class AccessListCall(Enum):
-    """Add addresses to access list"""
+    """Add addresses to access list."""
 
     NONE = 1
     IN_NORMAL_TX_ONLY = 2
@@ -517,7 +515,7 @@ class AccessListCall(Enum):
 
 
 class PointerDefinition(Enum):
-    """Define pointer in transactions"""
+    """Define pointer in transactions."""
 
     SEPARATE = 1
     IN_NORMAL_TX_ONLY = 2
@@ -526,7 +524,7 @@ class PointerDefinition(Enum):
 
 
 class AccessListTo(Enum):
-    """Define access list to"""
+    """Define access list to."""
 
     POINTER_ADDRESS = 1
     CONTRACT_ADDRESS = 2
@@ -565,7 +563,7 @@ def test_gas_diff_pointer_vs_direct_call(
 ):
     """
     Check the gas difference when calling the contract directly vs as a pointer
-    Combine with AccessList and AuthTuple gas reductions scenarios
+    Combine with AccessList and AuthTuple gas reductions scenarios.
     """
     env = Environment()
 
@@ -575,7 +573,7 @@ def test_gas_diff_pointer_vs_direct_call(
     gas_costs: GasCosts = fork.gas_costs()
 
     opcodes_price = 42
-    G_CALL_OPCODE: int = 100
+    G_CALL_OPCODE: int = 100  # noqa: N806
     direct_call_gas: int = (
         # 20_000 + 2_600 + 2_100 + 100 + 42 = 24842
         gas_costs.G_STORAGE_SET
@@ -770,7 +768,8 @@ def test_pointer_call_followed_by_direct_call(
     """
     If we first call by pointer then direct call, will the call/sload be hot
     The direct call will warm because pointer access marks it warm
-    But the sload is still cold because storage marked hot from pointer's account in a pointer call
+    But the sload is still cold because
+    storage marked hot from pointer's account in a pointer call.
     """
     env = Environment()
 
@@ -778,7 +777,7 @@ def test_pointer_call_followed_by_direct_call(
     pointer_a = pre.fund_eoa()
     gas_costs: GasCosts = fork.gas_costs()
     call_worked = 1
-    G_CALL_OPCODE: int = 100
+    G_CALL_OPCODE: int = 100  # noqa: N806
     opcodes_price: int = 42
     pointer_call_gas = (
         gas_costs.G_STORAGE_SET
@@ -849,7 +848,7 @@ def test_pointer_call_followed_by_direct_call(
 def test_pointer_to_static(state_test: StateTestFiller, pre: Alloc):
     """
     Tx -> call -> pointer A -> static -> static violation
-    Verify that static context is active when called under pointer
+    Verify that static context is active when called under pointer.
     """
     env = Environment()
     storage: Storage = Storage()
@@ -893,7 +892,7 @@ def test_pointer_to_static(state_test: StateTestFiller, pre: Alloc):
 def test_static_to_pointer(state_test: StateTestFiller, pre: Alloc):
     """
     Tx -> staticcall -> pointer A -> static violation
-    Verify that static context is active when make sub call to pointer
+    Verify that static context is active when make sub call to pointer.
     """
     env = Environment()
     storage: Storage = Storage()
@@ -937,7 +936,7 @@ def test_static_to_pointer(state_test: StateTestFiller, pre: Alloc):
 def test_pointer_to_eof(state_test: StateTestFiller, pre: Alloc):
     """
     Tx -> call -> pointer A -> EOF
-    Pointer to eof contract works
+    Pointer to eof contract works.
     """
     env = Environment()
     storage: Storage = Storage()
@@ -982,7 +981,7 @@ def test_pointer_to_eof(state_test: StateTestFiller, pre: Alloc):
 def test_pointer_to_static_reentry(state_test: StateTestFiller, pre: Alloc):
     """
     Tx call -> pointer A -> static -> code -> pointer A -> static violation
-    Verify that static context is active when called under pointer
+    Verify that static context is active when called under pointer.
     """
     env = Environment()
     storage: Storage = Storage()
@@ -1043,7 +1042,7 @@ def test_contract_storage_to_pointer_with_storage(
 ):
     """
     Tx call -> contract with storage -> pointer A with storage -> storage/tstorage modify
-    Check storage/tstorage modifications when interacting with pointers
+    Check storage/tstorage modifications when interacting with pointers.
     """
     env = Environment()
 
@@ -1087,7 +1086,8 @@ def test_contract_storage_to_pointer_with_storage(
         + call_type(address=pointer_b, gas=500_000)
         + Op.SSTORE(third_slot, Op.TLOAD(third_slot))
         # Verify tstorage in contract after interacting with pointer, it must be 0
-        + Op.MSTORE(0, 1) + Op.CALL(address=contract_b, gas=500_000, args_offset=0, args_size=32),
+        + Op.MSTORE(0, 1)
+        + Op.CALL(address=contract_b, gas=500_000, args_offset=0, args_size=32),
         storage={
             storage_a.store_next(
                 # caller storage is modified when calling pointer with delegate or callcode
@@ -1132,7 +1132,7 @@ def test_contract_storage_to_pointer_with_storage(
 
 
 class ReentryAction(IntEnum):
-    """Reentry logic action"""
+    """Reentry logic action."""
 
     CALL_PROXY = 0
     MEASURE_VALUES = 1
@@ -1143,7 +1143,7 @@ class ReentryAction(IntEnum):
 def test_pointer_reentry(state_test: StateTestFiller, pre: Alloc):
     """
     Check operations when reenter the pointer again
-    TODO: feel free to extend the code checks under given scenarios in switch case
+    TODO: feel free to extend the code checks under given scenarios in switch case.
     """
     env = Environment()
     arg_contract = 0
@@ -1247,7 +1247,7 @@ def test_eoa_init_as_pointer(state_test: StateTestFiller, pre: Alloc):
     """
     It was agreed before that senders don't have code
     And there were issues with tests sending transactions from account's with code
-    With EIP7702 it is again possible, let's check the test runners are ok
+    With EIP7702 it is again possible, let's check the test runners are ok.
     """
     env = Environment()
     storage = Storage()
@@ -1276,7 +1276,7 @@ def test_call_pointer_to_created_from_create_after_oog_call_again(
     state_test: StateTestFiller, pre: Alloc, call_return: Op
 ):
     """
-    Set pointer to account that we are about to create
+    Set pointer to account that we are about to create.
 
     Pointer is set to create address that is yet not in the state
     During the call, address is created. pointer is called from init code to do nothing
@@ -1362,7 +1362,7 @@ def test_call_pointer_to_created_from_create_after_oog_call_again(
 # (pointer set its storage, contract set its storage), revert
 # (contract set its storage, pointer set its storage), revert
 class CallOrder(Enum):
-    """Add addresses to access list"""
+    """Add addresses to access list."""
 
     POINTER_CONTRACT = 1
     CONTRACT_POINTER = 2
@@ -1388,7 +1388,7 @@ def test_pointer_reverts(
     final_revert: bool,
     call_order: CallOrder,
 ):
-    """Pointer do operations then revert"""
+    """Pointer do operations then revert."""
     sender = pre.fund_eoa()
     pointer = pre.fund_eoa()
 
@@ -1463,7 +1463,7 @@ def test_pointer_reverts(
 
 
 class DelegationTo(Enum):
-    """Add addresses to access list"""
+    """Add addresses to access list."""
 
     CONTRACT_A = 1
     CONTRACT_B = 2
@@ -1483,9 +1483,7 @@ def test_double_auth(
     first_delegation: DelegationTo,
     second_delegation: DelegationTo,
 ):
-    """
-    Only the last auth works, but first auth still charges the gas
-    """
+    """Only the last auth works, but first auth still charges the gas."""
     env = Environment()
     sender = pre.fund_eoa()
     pointer = pre.fund_eoa()
@@ -1573,11 +1571,12 @@ def test_pointer_resets_an_empty_code_account_with_storage(
     pre: Alloc,
 ):
     """
-    This one is a little messy, because ideas were flowing
     So in Block1 we create a sender with empty code, but non empty storage using pointers
     In Block2 we create account that perform suicide, then we check that when calling
     a pointer, that points to newly created account and runs suicide,
-    is not deleted as well as its storage
+    is not deleted as well as its storage.
+
+    This one is a little messy.
     """
     sender = pre.fund_eoa()
     pointer = pre.fund_eoa(amount=0)
