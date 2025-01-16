@@ -42,7 +42,7 @@ def test_case(state_test_only):
             ),
             ["--until=Prague"],
             {"passed": 4, "failed": 0, "skipped": 0, "errors": 0},
-            id="valid_from_until",
+            id="valid_from",
         ),
         pytest.param(
             generate_test(
@@ -97,12 +97,19 @@ def test_case(state_test_only):
         ),
         pytest.param(
             generate_test(
-                valid_from='"Shanghai"',
-                fork_transition_test="",
+                valid_at_transition_to='"Paris", subsequent_forks=True',
             ),
             ["--until=Prague"],
             {"passed": 3, "failed": 0, "skipped": 0, "errors": 0},
-            id="valid_from,fork_transition_test",
+            id="valid_at_transition_to,subsequent_forks=True",
+        ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"Paris", subsequent_forks=True, until="Cancun"',
+            ),
+            ["--until=Prague"],
+            {"passed": 2, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_to,subsequent_forks=True,until",
         ),
     ],
 )
