@@ -1,3 +1,4 @@
+# Touch file
 """Test the SELFDESTRUCT opcode."""
 
 import pytest
