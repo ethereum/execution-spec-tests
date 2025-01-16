@@ -412,6 +412,14 @@ def pytest_configure(config: pytest.Config):
             "specified names and values returned by the function values_fn(fork)"
         ),
     )
+    config.addinivalue_line(
+        "markers",
+        (
+            "fork_transition_test(): mark a test as a fork transition test, which will be run for "
+            "all transition forks starting from the fork specified by `valid_from` marker to the "
+            "fork specified by `valid_until` marker"
+        ),
+    )
     for d in fork_covariant_decorators:
         config.addinivalue_line("markers", f"{d.marker_name}: {d.description}")
 
@@ -493,10 +501,21 @@ def pytest_configure(config: pytest.Config):
         if not forks_until:
             forks_until = get_last_descendants(set(get_deployed_forks()), forks_from)
 
-    fork_set = get_from_until_fork_set(forks, forks_from, forks_until)
-    config.fork_set = fork_set  # type: ignore
+    selected_fork_set = get_from_until_fork_set(forks, forks_from, forks_until)
+    for fork in list(selected_fork_set):
+        transition_fork_set = transition_fork_to(fork)
+        selected_fork_set |= transition_fork_set
 
-    if not fork_set:
+    config.selected_fork_set = selected_fork_set  # type: ignore
+    config.all_forks = {fork for fork in get_forks() if not fork.ignore()}  # type: ignore
+    config.all_forks_with_transitions = {  # type: ignore
+        fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
+    }
+    config.all_transition_forks = {  # type: ignore
+        fork for fork in get_transition_forks() if not fork.ignore()
+    }
+
+    if not selected_fork_set:
         print(
             f"Error: --from {','.join(fork.name() for fork in forks_from)} "
             f"--until {','.join(fork.name() for fork in forks_until)} "
@@ -517,7 +536,7 @@ def pytest_configure(config: pytest.Config):
     if evm_bin is not None:
         t8n = TransitionTool.from_binary_path(binary_path=evm_bin)
         config.unsupported_forks = frozenset(  # type: ignore
-            fork for fork in fork_set if not t8n.is_fork_supported(fork)
+            fork for fork in selected_fork_set if not t8n.is_fork_supported(fork)
         )
 
 
@@ -531,11 +550,11 @@ def pytest_report_header(config, start_path):
         (
             bold
             + "Generating fixtures for: "
-            + ", ".join([f.name() for f in sorted(config.fork_set)])
+            + ", ".join([f.name() for f in sorted(config.selected_fork_set)])
             + reset
         ),
     ]
-    if all(fork.is_deployed() for fork in config.fork_set):
+    if all(fork.is_deployed() for fork in config.selected_fork_set):
         header += [
             (
                 bold + warning + "Only generating fixtures with stable/deployed forks: "
@@ -552,11 +571,11 @@ def fork(request):
     pass
 
 
-def get_validity_marker_args(
+def get_validity_marker_fork_set(
     metafunc: Metafunc,
     validity_marker_name: str,
     test_name: str,
-) -> Set[Fork]:
+) -> Set[Fork] | None:
     """
     Check and return the arguments specified to validity markers.
 
@@ -582,7 +601,7 @@ def get_validity_marker_args(
     """
     validity_markers = list(metafunc.definition.iter_markers(validity_marker_name))
     if not validity_markers:
-        return set()
+        return None
     if len(validity_markers) > 1:
         pytest.fail(f"'{test_name}': Too many '{validity_marker_name}' markers applied to test. ")
     if len(validity_markers[0].args) == 0:
@@ -593,17 +612,32 @@ def get_validity_marker_args(
         )
     fork_names_string = validity_markers[0].args[0]
     fork_names = fork_names_string.split(",")
+
+    fork_transition_test = len(
+        list(metafunc.definition.iter_markers("fork_transition_test"))
+    ) > 0 or (validity_marker_name == "valid_at_transition_to")
+    forks: Set[Fork] = (
+        metafunc.config.all_transition_forks  # type: ignore
+        if fork_transition_test
+        else metafunc.config.all_forks  # type: ignore
+    )
+
     resulting_set: Set[Fork] = set()
     for fork_name in fork_names:  # type: ignore
         if fork_name not in metafunc.config.fork_names:  # type: ignore
             pytest.fail(
-                f"'{test_name}' specifies an invalid fork '{fork_names_string}' to the "
+                f"'{test_name}' specifies an invalid fork '{fork_name}' to the "
                 f"'{validity_marker_name}'. "
                 "List of valid forks: "
                 ", ".join(name for name in metafunc.config.fork_names)  # type: ignore
             )
-
-        resulting_set.add(metafunc.config.forks_by_name[fork_name])  # type: ignore
+        fork: Fork = metafunc.config.forks_by_name[fork_name]  # type: ignore
+        if validity_marker_name == "valid_at_transition_to":
+            resulting_set |= transition_fork_to(fork)
+        elif validity_marker_name == "valid_until":
+            resulting_set |= {f for f in forks if f <= fork}
+        elif validity_marker_name == "valid_from":
+            resulting_set |= {f for f in forks if f >= fork}
 
     return resulting_set
 
@@ -611,51 +645,48 @@ def get_validity_marker_args(
 def pytest_generate_tests(metafunc: pytest.Metafunc):
     """Pytest hook used to dynamically generate test cases."""
     test_name = metafunc.function.__name__
-    valid_at_transition_to = get_validity_marker_args(
+    valid_at_transition_to_set = get_validity_marker_fork_set(
         metafunc, "valid_at_transition_to", test_name
     )
-    valid_from = get_validity_marker_args(metafunc, "valid_from", test_name)
-    valid_until = get_validity_marker_args(metafunc, "valid_until", test_name)
+    valid_from_set = get_validity_marker_fork_set(metafunc, "valid_from", test_name)
+    valid_until_set = get_validity_marker_fork_set(metafunc, "valid_until", test_name)
 
-    if valid_at_transition_to and valid_from:
+    if valid_at_transition_to_set is not None and valid_from_set is not None:
         pytest.fail(
             f"'{test_name}': "
             "The markers 'valid_from' and 'valid_at_transition_to' can't be combined. "
         )
-    if valid_at_transition_to and valid_until:
+    if valid_at_transition_to_set is not None and valid_until_set is not None:
         pytest.fail(
             f"'{test_name}': "
             "The markers 'valid_until' and 'valid_at_transition_to' can't be combined. "
         )
 
-    fork_set: Set[Fork] = metafunc.config.fork_set  # type: ignore
-    forks: Set[Fork] = metafunc.config.forks  # type: ignore
+    # Start with all known forks
+    test_fork_set: Set[Fork] = set() | metafunc.config.all_forks_with_transitions  # type: ignore
 
-    intersection_set: Set[Fork] = set()
-    if valid_at_transition_to:
-        for fork in valid_at_transition_to:
-            if fork in fork_set:
-                intersection_set = intersection_set | set(transition_fork_to(fork))
+    any_applied = False
+    for validity_marker_set in [valid_from_set, valid_until_set, valid_at_transition_to_set]:
+        # Apply the validity markers to the test function if applicable
+        if validity_marker_set is None:
+            continue
+        any_applied = True
+        test_fork_set &= validity_marker_set
 
-    else:
-        if not valid_from:
-            valid_from = get_forks_with_no_parents(forks)
+    if not any_applied:
+        # Limit to non-transition forks if no validity markers are applied
+        test_fork_set = metafunc.config.all_forks  # type: ignore
 
-        if not valid_until:
-            valid_until = get_last_descendants(forks, valid_from)
+    if not test_fork_set:
+        pytest.fail(
+            "The test function's "
+            f"'{test_name}' fork validity markers generate "
+            "an empty fork range. Please check the arguments to its "
+            f"markers:  @pytest.mark.valid_from and "
+            f"@pytest.mark.valid_until."
+        )
 
-        test_fork_set = get_from_until_fork_set(forks, valid_from, valid_until)
-
-        if not test_fork_set:
-            pytest.fail(
-                "The test function's "
-                f"'{test_name}' fork validity markers generate "
-                "an empty fork range. Please check the arguments to its "
-                f"markers:  @pytest.mark.valid_from ({valid_from}) and "
-                f"@pytest.mark.valid_until ({valid_until})."
-            )
-
-        intersection_set = fork_set & test_fork_set
+    intersection_set = test_fork_set & metafunc.config.selected_fork_set  # type: ignore
 
     pytest_params: List[Any]
     if "fork" in metafunc.fixturenames:
