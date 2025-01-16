@@ -173,10 +173,9 @@ jobs:
           source $GITHUB_ENV
           files=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
 
-          # fill new tests
-          # using `|| true` here because if no tests found, pyspec fill returns error code
           mkdir -p fixtures/state_tests
           mkdir -p fixtures/eof_tests
+          mkdir -p fixtures/blockchain_tests
 
           echo "uv run fill $files --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
           uv run fill $files --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
@@ -186,10 +185,11 @@ jobs:
               exit 1
           fi
 
+          filesBlock=$(find fixtures/blockchain_tests -type f -name "*.json")
           filesState=$(find fixtures/state_tests -type f -name "*.json")
           filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
-          if [ -z "$filesState" ] && [ -z "$filesEOF" ]; then
-              echo "Error: No filled JSON fixtures found in fixtures."
+          if [ -z "$filesState" ] && [ -z "$filesEOF" ] && [ -z "$filesBlock" ]; then
+              echo "Error: No supported filled JSON files found in fixtures."
               exit 1
           fi
 
@@ -199,6 +199,7 @@ jobs:
 
           PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
           mkdir -p $PATCH_TEST_PATH
+          find fixtures/blockchain_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
           find fixtures/state_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
           find fixtures/eof_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
 
@@ -229,6 +230,7 @@ jobs:
 
             rm -r fixtures
             rm filloutput.log
+            mkdir -p fixtures/blockchain_tests
             mkdir -p fixtures/state_tests
             mkdir -p fixtures/eof_tests
 
@@ -246,14 +248,17 @@ jobs:
                   exit 1
                 fi
             else
-                echo "No tests affected from before patch!"
+                echo "No tests affected from before the patch!"
             fi
 
+            filesBlock=$(find fixtures/blockchain_tests -type f -name "*.json")
             filesState=$(find fixtures/state_tests -type f -name "*.json")
             filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
 
             BASE_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
             mkdir -p $BASE_TEST_PATH
+
+            find fixtures/blockchain_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
             find fixtures/state_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
             find fixtures/eof_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
             for file in $BASE_TEST_PATH/*.json; do
