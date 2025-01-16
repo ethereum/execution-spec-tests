@@ -24,7 +24,7 @@
     "London": {
         "path": "../../execution-specs/src/ethereum/london"
     },
-    "Paris": {
+    "Merge": {
         "path": "../../execution-specs/src/ethereum/paris"
     },
     "Shanghai": {
