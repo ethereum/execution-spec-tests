@@ -481,6 +481,7 @@ wds
 wei
 wikipedia
 wordlist
+workspaces
 www
 xdist
 xF

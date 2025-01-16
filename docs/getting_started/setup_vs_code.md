@@ -19,45 +19,33 @@ The [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-t
 📁 execution-test-specs/
 └──📁 .vscode/
     ├── 📄 settings.json
-    ├── 📄 settings.local.recommended.json
     ├── 📄 extensions.json
     └── 📄 launch.recommended.json
 ```
 
-By default the repository settings are applied via `.vscode/settings.json`, if you want to add your own settings please edit `.vscode/settings.local.recommended.json`.
+By default, the repository settings are applied via `.vscode/settings.json`.
 
-To enable the recommended launch configurations:
+To enable the recommended launch configurations (that include some useful debugging configurations), copy the recommended launch configuration file to `.vscode/launch.json`:
 
 ```console
 cp .vscode/launch.recommended.json .vscode/launch.json
 ```
 
-To additionally use and add local settings please run the following first:
+## VS Code Extension Configuration
 
-```console
-cp .vscode/settings.local.recommended.json .vscode/settings.local.json
-```
+The extensions listed in `.vscode/extensions.json` are required for a smooth developer experience.
 
-## Additional VS Code Extensions
+1. Open the root folder of your local `execution-spec-tests` clone in VS Code, it will prompt you to install the repository's required extensions (from `.vscode/extensions.json` - you will be required to trust the `executions-spec-tests` repository first). These extensions are used to format, lint, type check and run tests on the codebase.
 
-Open the folder in VS Code where execution-spec-tests is cloned: VS Code should prompt to install the repository's required extensions from `.vscode/extensions.json`:
+2. If previously installed, ensure that the following `ms-python` extensions are disabled for the `execution-spec-tests` workspace to ensure there are no conflicts with the `ruff` formatter. In the VS Code Extensions tab, search for the each of the extensions below, and if installed and enabled, open the "Disabled" menu and select "Disable (Workspace)". This ensures that the extensions will be available with other workspaces that may need them.
 
-- [`ms-python.python`](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-- [`charliermarsh.ruff`](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
-- [`esbenp.prettier-vscode`](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-- [`streetsidesoftware.code-spell-checker`](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
-- [`tamasfe.even-better-toml`](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml)
+    - [`ms-python.isort`](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)
+    - [`ms-python.flake8`](https://marketplace.visualstudio.com/items?itemName=ms-python.flake8)
+    - [`ms-python.black-formatter`](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
 
-!!! note "Workspace Trust"
-Trust the `execution-specs-test` repository when opening in VS Code to be prompted to install the plugins recommended via the `extensions.json` file.
-
-The `.vscode/extensions.json` additionally contains a list of extensions that should be disabled:
-
-- [`ms-python.isort`](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)
-- [`ms-python.flake8`](https://marketplace.visualstudio.com/items?itemName=ms-python.flake8)
-- [`ms-python.black-formatter`](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
-
-Please ensure that these are disabled for the repo if they are installed as part of your VS Code extensions.
+    <figure markdown>
+        ![Disabling extensions for the current workspace](./img/vscode_extension_disable_for_workspace.png){width=auto align=center}
+    </figure>
 
 ## Configuration for Testing EVM Features Under Active Development
 
