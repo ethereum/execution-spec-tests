@@ -6,6 +6,6 @@ runs:
     - name: Install UV
       shell: bash
       run: |
-        UV_VERSION="0.4.17"
+        UV_VERSION="0.5.20"
         echo "Installing UV version $UV_VERSION..."
         curl -LsSf https://astral.sh/uv/${UV_VERSION}/install.sh | sh
