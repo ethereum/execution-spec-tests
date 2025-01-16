@@ -52,6 +52,23 @@ This marker is used to specify that a test is only meant to be filled at the tra
 
 The test usually starts at the fork prior to the specified fork at genesis and at block 5 (for pre-merge forks) or at timestamp 15,000 (for post-merge forks) the fork transition occurs.
 
+This marker also accepts the following keyword arguments:
+
+- `subsequent_transitions`: Force the test to also fill for subsequent fork transitions.
+- `until`: Implies `subsequent_transitions` and puts a limit on which transition fork will the test filling will be limited to.
+
+```python
+@pytest.mark.valid_at_transition_to("Cancun", subsequent_transitions=True)
+```
+
+produces tests on `ShanghaiToCancunAtTime15k` and `CancunToPragueAtTime15k`, and any transition for after that.
+
+```python
+@pytest.mark.valid_at_transition_to("Cancun", subsequent_transitions=True, until="Prague")
+```
+
+produces tests on `ShanghaiToCancunAtTime15k` and `CancunToPragueAtTime15k`, but no forks after Prague.
+
 ## Fork Covariant Markers
 
 These markers are used in conjunction with the fork validity markers to automatically parameterize tests with values that are valid for the fork being tested.
