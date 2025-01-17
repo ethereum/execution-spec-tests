@@ -639,7 +639,11 @@ class Byzantium(Homestead):
         cls,
     ) -> List[Opcodes]:
         """Return list of Opcodes that are valid to work on this fork."""
-        return [Opcodes.RETURNDATASIZE, Opcodes.STATICCALL] + super(Byzantium, cls).valid_opcodes()
+        return [
+            Opcodes.RETURNDATASIZE,
+            Opcodes.RETURNDATACOPY,
+            Opcodes.STATICCALL,
+        ] + super(Byzantium, cls).valid_opcodes()
 
 
 class Constantinople(Byzantium):
