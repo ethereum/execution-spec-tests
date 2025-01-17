@@ -9,7 +9,7 @@ from ethereum_test_base_types import Account
 from ethereum_test_tools import Environment, Storage, Transaction
 
 
-def test_generate_success(monkeypatch):
+def test_generate_success(tmp_path, monkeypatch):
     """Test the generate command with a successful scenario."""
     ## Arrange ##
 
@@ -18,7 +18,7 @@ def test_generate_success(monkeypatch):
     # This is done by patching the `get_context` method of the `StateTestProvider`.
     runner = CliRunner()
     transaction_hash = "0xa41f343be7a150b740e5c939fa4d89f3a2850dbe21715df96b612fc20d1906be"
-    output_file = "tests/paris/test_0xa41f.py"
+    output_file = str(tmp_path / "gentest.py")
 
     def get_mock_context(self: StateTestProvider) -> dict:
         return {
@@ -94,8 +94,7 @@ def test_generate_success(monkeypatch):
 
     ## Act ##
     gentest_result = runner.invoke(generate, [transaction_hash, output_file])
-    print(output_file)
-    fill_result = runner.invoke(fill, [output_file])
+    fill_result = runner.invoke(fill, ["-c", "pytest.ini", output_file])
 
     ## Assert ##
     assert gentest_result.exit_code == 0
