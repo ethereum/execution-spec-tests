@@ -43,7 +43,6 @@ dependencies = [
     "ethereum-types>=0.2.1,<0.3",
     "pyyaml>=6.0.2,<7",
     "types-pyyaml>=6.0.12.20240917,<7",
-    "rlp>=3.0.0",
     "pytest-json-report>=1.5.0,<2",
     # TODO: bump questionary to a newer release, when it becomes available.
     # The current release questionary 2.0.1 requires `prompt_toolkit = ">=2.0,<=3.0.36"`.

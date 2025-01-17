@@ -22,4 +22,4 @@ class VerifyFixtureJson:
         except ValidationError as e:
             raise Exception(
                 f"Error in generated blockchain test json ({self.fixture_name})" + e.json()
-            ) from ValidationError
+            ) from e
