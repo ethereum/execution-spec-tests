@@ -1,9 +1,14 @@
 """Define genesisHeader schema for filled .json tests."""
 
-from typing import Any, Optional
+from dataclasses import dataclass, fields
+from typing import Optional, Type
 
+from ethereum_rlp import decode as rlp_decode
+from ethereum_rlp import decode_to as rlp_decode_to
+from ethereum_rlp import encode as rlp_encode
+from ethereum_types.bytes import Bytes
+from ethereum_types.numeric import Uint
 from pydantic import BaseModel, Field, model_validator
-from rlp import decode as rlp_decode
 
 from ..common.types import (
     DataBytes,
@@ -52,6 +57,11 @@ class BlockRecordShanghai(BlockRecord):
     withdrawals: list
 
 
+@dataclass
+class BaseRLPHeader:
+    """Abstract base RLP header."""
+
+
 class FrontierHeader(BaseModel):
     """Frontier block header in test json."""
 
@@ -77,26 +87,29 @@ class FrontierHeader(BaseModel):
 
         extra = "forbid"
 
-    def get_field_rlp_order(self) -> dict[str, Any]:
-        """Order fields are encoded into rlp."""
-        rlp_order: dict[str, Any] = {
-            "parentHash": self.parentHash,
-            "uncleHash": self.uncleHash,
-            "coinbase": self.coinbase,
-            "stateRoot": self.stateRoot,
-            "transactionsTrie": self.transactionsTrie,
-            "receiptTrie": self.receiptTrie,
-            "bloom": self.bloom,
-            "difficulty": self.difficulty,
-            "number": self.number,
-            "gasLimit": self.gasLimit,
-            "gasUsed": self.gasUsed,
-            "timestamp": self.timestamp,
-            "extraData": self.extraData,
-            "mixHash": self.mixHash,
-            "nonce": self.nonce,
-        }
-        return rlp_order
+    @dataclass
+    class FrontierRLPHeader(BaseRLPHeader):
+        """Frontier block header representation in RLP format."""
+
+        parentHash: Bytes  # noqa: N815"
+        uncleHash: Bytes  # noqa: N815"
+        coinbase: Bytes
+        stateRoot: Bytes  # noqa: N815"
+        transactionsTrie: Bytes  # noqa: N815"
+        receiptTrie: Bytes  # noqa: N815"
+        bloom: Bytes
+        difficulty: Uint
+        number: Uint
+        gasLimit: Uint  # noqa: N815"
+        gasUsed: Uint  # noqa: N815"
+        timestamp: Uint
+        extraData: Bytes  # noqa: N815"
+        mixHash: Bytes  # noqa: N815"
+        nonce: Bytes
+
+    def get_rlp_header_scheme(self) -> Type[BaseRLPHeader]:
+        """Return structure of fields as they are encoded in RLP."""
+        return self.FrontierRLPHeader
 
 
 class HomesteadHeader(FrontierHeader):
@@ -124,11 +137,15 @@ class LondonHeader(BerlinHeader):
 
     baseFeePerGas: PrefixedEvenHex  # noqa: N815
 
-    def get_field_rlp_order(self) -> dict[str, Any]:
-        """Order fields are encoded into rlp."""
-        rlp_order: dict[str, Any] = super().get_field_rlp_order()
-        rlp_order["baseFeePerGas"] = self.baseFeePerGas
-        return rlp_order
+    @dataclass
+    class LondonRLPHeader(FrontierHeader.FrontierRLPHeader):
+        """London block header representation in RLP format."""
+
+        baseFeePerGas: Uint  # noqa: N815
+
+    def get_rlp_header_scheme(self) -> Type[BaseRLPHeader]:
+        """Return structure of fields as they are encoded in RLP."""
+        return self.LondonRLPHeader
 
 
 class ParisHeader(LondonHeader):
@@ -146,11 +163,15 @@ class ShanghaiHeader(ParisHeader):
 
     withdrawalsRoot: FixedHash32  # noqa: N815
 
-    def get_field_rlp_order(self) -> dict[str, Any]:
-        """Order fields are encoded into rlp."""
-        rlp_order: dict[str, Any] = super().get_field_rlp_order()
-        rlp_order["withdrawalsRoot"] = self.withdrawalsRoot
-        return rlp_order
+    @dataclass
+    class ShanghaiRLPHeader(LondonHeader.LondonRLPHeader):
+        """Shanghai block header representation in RLP format."""
+
+        withdrawalsRoot: Bytes  # noqa: N815
+
+    def get_rlp_header_scheme(self) -> Type[BaseRLPHeader]:
+        """Return structure of fields as they are encoded in RLP."""
+        return self.ShanghaiRLPHeader
 
 
 class CancunHeader(ShanghaiHeader):
@@ -160,27 +181,44 @@ class CancunHeader(ShanghaiHeader):
     excessBlobGas: PrefixedEvenHex  # noqa: N815
     parentBeaconBlockRoot: FixedHash32  # noqa: N815
 
-    def get_field_rlp_order(self) -> dict[str, Any]:
-        """Order fields are encoded into rlp."""
-        rlp_order: dict[str, Any] = super().get_field_rlp_order()
-        rlp_order["blobGasUsed"] = self.blobGasUsed
-        rlp_order["excessBlobGas"] = self.excessBlobGas
-        rlp_order["parentBeaconBlockRoot"] = self.parentBeaconBlockRoot
-        return rlp_order
+    @dataclass
+    class CancunRLPHeader(ShanghaiHeader.ShanghaiRLPHeader):
+        """Cancun block header representation in RLP format."""
+
+        blobGasUsed: Uint  # noqa: N815
+        excessBlobGas: Uint  # noqa: N815
+        parentBeaconBlockRoot: Bytes  # noqa: N815
+
+    def get_rlp_header_scheme(self) -> Type[BaseRLPHeader]:
+        """Return structure of fields as they are encoded in RLP."""
+        return self.CancunRLPHeader
 
 
-def verify_block_header_vs_rlp_string(header: FrontierHeader, rlp_string: str):
+def verify_block_header_vs_rlp_string(header_json: FrontierHeader, rlp_string: str):
     """Check that rlp encoding of block header match header object."""
-    rlp = rlp_decode(bytes.fromhex(rlp_string[2:]))[0]
-    for rlp_index, (field_name, field) in enumerate(header.get_field_rlp_order().items()):
-        rlp_hex = rlp[rlp_index].hex()
+    rlp_block = rlp_decode(bytes.fromhex(rlp_string[2:]))
+    if isinstance(rlp_block[0], (list, tuple)):
+        rlp_header = rlp_decode_to(header_json.get_rlp_header_scheme(), rlp_encode(rlp_block[0]))
+    else:
+        raise ValueError("Rlp block encoding must be a list, first element must be a list!")
+
+    for field in fields(header_json.get_rlp_header_scheme()):
+        field_name = field.name
+
+        rlp_value = getattr(rlp_header, field_name)
+        field_rlp_value = (
+            rlp_value.hex() if isinstance(rlp_value, bytes) else rlp_value.to_be_bytes().hex()
+        )
+
         """special rlp rule"""
-        if rlp_hex == "" and field_name not in ["data", "to", "extraData"]:
-            rlp_hex = "00"
+        # Field number in header encoded as empty byte '80' so it is decoded as '' but it is '00'
+        if field_rlp_value == "" and field_name not in ["data", "to", "extraData"]:
+            field_rlp_value = "00"
         """"""
-        json_hex = field.root[2:]
-        if rlp_hex != json_hex:
+
+        field_json_value = getattr(header_json, field_name).root[2:]
+        if field_json_value != field_rlp_value:
             raise ValueError(
                 f"Field `{field_name}` in json not equal to it's rlp encoding:"
-                f"\n {json_hex} != {rlp_hex}"
+                f"\n {field_json_value} != {field_rlp_value}"
             )
