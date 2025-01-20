@@ -199,6 +199,16 @@ class ExpectedOutput(TestParameterGroup):
             ),
             id="EIP-198-case5-raw-input",
         ),
+        pytest.param(
+            ModExpRawInput(
+                raw_input="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa0",
+            ),
+            ExpectedOutput(
+                call_return_code="0x00",
+                returned_data="0000000000000000000000000000000000000000000000000000000000000000",
+            ),
+            id="immunefi-38958-by-omik-overflow",
+        ),
     ],
     ids=lambda param: param.__repr__(),  # only required to remove parameter names (input/output)
 )
