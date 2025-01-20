@@ -471,6 +471,9 @@ v3
 v4
 validator
 validators
+ValidAtTransitionTo
+ValidFrom
+ValidUntil
 venv
 visualstudio
 vm
