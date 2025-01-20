@@ -562,6 +562,8 @@ def fork(request):
 
 ALL_VALIDITY_MARKERS: List["Type[ValidityMarker]"] = []
 
+MARKER_NAME_REGEX = re.compile(r"(?<!^)(?=[A-Z])")
+
 
 @dataclass(kw_only=True)
 class ValidityMarker:
@@ -595,7 +597,7 @@ class ValidityMarker:
             cls.marker_name = marker_name
         else:
             # Use the class name converted to underscore: https://stackoverflow.com/a/1176023
-            cls.marker_name = re.sub(r"(?<!^)(?=[A-Z])", "_", cls.__name__).lower()
+            cls.marker_name = MARKER_NAME_REGEX.sub("_", cls.__name__).lower()
         cls.mutually_exclusive = mutually_exclusive
         if cls in ALL_VALIDITY_MARKERS:
             raise ValueError(f"Duplicate validity marker class: {cls}")
@@ -603,7 +605,6 @@ class ValidityMarker:
 
     def process_fork_arguments(self, *fork_args: str) -> Set[Fork]:
         """Process the fork arguments."""
-        forks: Set[Fork] = set()
         fork_names: Set[str] = set()
         for fork_arg in fork_args:
             fork_names_list = fork_arg.strip().split(",")
@@ -614,6 +615,7 @@ class ValidityMarker:
                     f"'{self.test_name}': Duplicate argument specified in "
                     f"'{self.marker_name}'."
                 )
+        forks: Set[Fork] = set()
         for fork_name in fork_names:
             if fork_name not in self.all_forks_by_name:
                 pytest.fail(f"'{self.test_name}': Invalid fork '{fork_name}' specified.")
@@ -759,7 +761,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
         test_fork_set: Set[Fork] = metafunc.config.all_forks_with_transitions  # type: ignore
         for validity_marker in validity_markers:
             # Apply the validity markers to the test function if applicable
-            test_fork_set &= validity_marker.process()
+            test_fork_set = test_fork_set & validity_marker.process()
 
     if not test_fork_set:
         pytest.fail(
