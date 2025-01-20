@@ -91,8 +91,7 @@ def format_code(code: str) -> str:
                 check=True,
             )
         except subprocess.CalledProcessError as e:
-            print(f"Error formatting code: {e}", file=sys.stderr)
-            raise
+            raise Exception(f"Error formatting code using formatter '{formatter_path}'") from e
 
         # Return the formatted source code
         return input_file_path.read_text()

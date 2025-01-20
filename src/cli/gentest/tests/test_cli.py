@@ -92,10 +92,10 @@ def test_generate_success(tmp_path, monkeypatch):
 
     monkeypatch.setattr(StateTestProvider, "get_context", get_mock_context)
 
-    ## Act ##
+    ## Genenrate ##
     gentest_result = runner.invoke(generate, [transaction_hash, output_file])
-    fill_result = runner.invoke(fill, ["-c", "pytest.ini", output_file])
-
-    ## Assert ##
     assert gentest_result.exit_code == 0
+
+    ## Fill ##
+    fill_result = runner.invoke(fill, ["-c", "pytest.ini", output_file])
     assert fill_result.exit_code == 0
