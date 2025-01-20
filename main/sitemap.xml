@@ -1046,6 +1046,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/examples/</loc>
+         <lastmod>2025-01-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/examples/test_block_intermediate_state/</loc>
+         <lastmod>2025-01-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/examples/test_block_intermediate_state/test_block_intermidiate_state/</loc>
+         <lastmod>2025-01-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/</loc>
          <lastmod>2025-01-20</lastmod>
          <changefreq>daily</changefreq>
