@@ -2,7 +2,7 @@
 
 import io
 import json
-from typing import Generator, List, cast
+from typing import Generator, List, Literal, cast
 
 import pytest
 import rich
@@ -123,7 +123,21 @@ def client_genesis(blockchain_fixture: BlockchainFixtureCommon) -> dict:
 
 
 @pytest.fixture(scope="function")
-def environment(blockchain_fixture: BlockchainFixtureCommon) -> dict:
+def check_live_port(test_suite_name: str) -> Literal[8545, 8551]:
+    """Port used by hive to check for liveness of the client."""
+    if test_suite_name == "eest/consume-rlp":
+        return 8545
+    elif test_suite_name == "eest/consume-engine":
+        return 8551
+    raise ValueError(
+        f"Unexpected test suite name '{test_suite_name}' while setting HIVE_CHECK_LIVE_PORT."
+    )
+
+
+@pytest.fixture(scope="function")
+def environment(
+    blockchain_fixture: BlockchainFixtureCommon, check_live_port: Literal[8545, 8551]
+) -> dict:
     """Define the environment that hive will start the client with."""
     assert (
         blockchain_fixture.fork in ruleset
@@ -132,6 +146,7 @@ def environment(blockchain_fixture: BlockchainFixtureCommon) -> dict:
         "HIVE_CHAIN_ID": "1",
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
+        "HIVE_CHECK_LIVE_PORT": str(check_live_port),
         **{k: f"{v:d}" for k, v in ruleset[blockchain_fixture.fork].items()},
     }
 
