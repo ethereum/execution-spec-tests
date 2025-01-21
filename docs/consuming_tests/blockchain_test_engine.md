@@ -63,9 +63,17 @@ Version of the `engine_forkchoiceUpdatedVX` directive to use to set the head of 
 
 Starting account allocation for the test. State root calculated from this allocation must match the one in the genesis block.
 
+#### - `lastblockhash`: [`Hash`](./common_types.md#hash)
+
+Hash of the last valid block, or the genesis block hash if the list of blocks is empty, or contains a single invalid block.
+
 #### - `post`: [`Alloc`](./common_types.md#alloc-mappingaddressaccount)
 
 Account allocation for verification after all the blocks have been processed.
+
+#### - `blobSchedule`: [`BlobSchedule`](./common_types.md#blobschedule-mappingforkforkblobschedule)
+
+Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
 
 ### `FixtureEngineNewPayload`
 

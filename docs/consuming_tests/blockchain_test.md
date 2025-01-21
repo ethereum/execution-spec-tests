@@ -80,6 +80,10 @@ Hash of the last valid block, or the genesis block hash if the list of blocks is
 
 Account allocation for verification after all the blocks have been processed.
 
+#### - `blobSchedule`: [`BlobSchedule`](./common_types.md#blobschedule-mappingforkforkblobschedule)
+
+Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
+
 #### - `sealEngine`: `str`
 
 Deprecated: Seal engine used to mine the blocks.

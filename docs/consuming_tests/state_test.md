@@ -60,6 +60,10 @@ Transaction to be executed.
 
 Mapping of lists of post for verification per fork, where each element represents a single possible outcome of the transaction execution after being applied to the `pre`.
 
+#### - `blobSchedule`: [`BlobSchedule`](./common_types.md#blobschedule-mappingforkforkblobschedule)
+
+Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
+
 ### `FixtureEnvironment`
 
 #### - `currentCoinbase`: [`Address`](./common_types.md#address)
