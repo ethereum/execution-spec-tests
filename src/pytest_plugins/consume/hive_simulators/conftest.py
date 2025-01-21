@@ -124,10 +124,7 @@ def client_genesis(blockchain_fixture: BlockchainFixtureCommon) -> dict:
 
 @pytest.fixture(scope="function")
 def environment(blockchain_fixture: BlockchainFixtureCommon) -> dict:
-    """
-    Define the environment that hive will start the client with using the fork
-    rules specific for the simulator.
-    """
+    """Define the environment that hive will start the client with."""
     assert (
         blockchain_fixture.fork in ruleset
     ), f"fork '{blockchain_fixture.fork}' missing in hive ruleset"
@@ -141,10 +138,7 @@ def environment(blockchain_fixture: BlockchainFixtureCommon) -> dict:
 
 @pytest.fixture(scope="function")
 def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
-    """
-    Create a buffered reader for the genesis block header of the current test
-    fixture.
-    """
+    """Create a buffered reader for the genesis block header of the current test fixture."""
     genesis_json = json.dumps(client_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
