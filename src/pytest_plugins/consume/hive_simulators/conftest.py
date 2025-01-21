@@ -64,8 +64,7 @@ def eest_consume_commands(
     hive_dev = f"./hive --dev --client-file configs/prague.yaml --client {client_type.name}"
     input_source = request.config.getoption("fixture_source")
     consume = (
-        f'consume {test_suite_name.split("-")[-1]} -v --input={input_source} -k '
-        f'"{test_case.id}"'
+        f'consume {test_suite_name.split("-")[-1]} -v --input={input_source} -k "{test_case.id}"'
     )
     return [hive_dev, consume]
 
@@ -89,13 +88,13 @@ def test_case_description(
     else:
         description += f"\n\n{blockchain_fixture.info['description']}"
     description += (
-        f"\n\nCommand to reproduce entirely in hive:" f"\n<code>{hive_consume_command}</code>"
+        f"\n\nCommand to reproduce entirely in hive:\n<code>{hive_consume_command}</code>"
     )
     eest_commands = "\n".join(
-        f"{i+1}. <code>{cmd}</code>" for i, cmd in enumerate(eest_consume_commands)
+        f"{i + 1}. <code>{cmd}</code>" for i, cmd in enumerate(eest_consume_commands)
     )
     description += (
-        "\n\nCommands to reproduce within EEST using a hive dev back-end:" f"\n{eest_commands}"
+        f"\n\nCommands to reproduce within EEST using a hive dev back-end:\n{eest_commands}"
     )
     description = description.replace("\n", "<br/>")
     return description
