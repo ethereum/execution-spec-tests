@@ -41,6 +41,7 @@ class SectionKind(IntEnum):
     CODE = 2
     CONTAINER = 3
     DATA = 4
+    METADATA = 5
 
     def __str__(self) -> str:
         """Return string representation of the section kind."""
@@ -281,6 +282,12 @@ class Section(CopyValidateModel):
         kwargs.pop("kind", None)
         return cls(kind=SectionKind.DATA, data=data, **kwargs)
 
+    @classmethod
+    def Metadata(cls, data: BytesConvertible = b"", **kwargs) -> "Section":  # noqa: N802
+        """Create new metadata section with the specified data."""
+        kwargs.pop("kind", None)
+        return cls(kind=SectionKind.METADATA, data=data, **kwargs)
+
 
 class Container(CopyValidateModel):
     """Class that represents an EOF V1 container."""
@@ -324,10 +331,8 @@ class Container(CopyValidateModel):
     auto_sort_sections: AutoSection = AutoSection.AUTO
     """
     Automatically sort sections for the header and body:
-    Headers: type section first, all code sections, container sections, last
-                data section(s)
-    Body: type section first, all code sections, data section(s), last
-                container sections
+    Order: type section first, all code sections, container sections, metadata section,
+                last data section
     """
     skip_join_concurrent_sections_in_header: bool = False
     """
