@@ -212,7 +212,8 @@ class BesuExceptionMapper(ExceptionMapper):
         return [
             ExceptionMessage(
                 TransactionException.TYPE_4_TX_CONTRACT_CREATION,
-                "transaction code delegation transactions must have a non-empty code delegation list",
+                "transaction code delegation transactions must have a non-empty code "
+                "delegation list",
             ),
             ExceptionMessage(
                 TransactionException.INSUFFICIENT_ACCOUNT_FUNDS,
