@@ -25994,7 +25994,7 @@
 
 
 <h1 id="test_self_destructing_account"><code>test_self_destructing_account()</code><a class="headerlink" href="#test_self_destructing_account" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0dbf2dd58159c8af2eb91ce51682591d2241c560/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L352"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_self_destructing_account@0dbf2dd5</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1fb1ab44221949a58556b39f93270e3c1577db1d/tests/shanghai/eip4895_withdrawals/test_withdrawals.py#L352"><code>tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_self_destructing_account@1fb1ab44</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip4895_withdrawals/test_withdrawals.py::test_self_destructing_account --fork Prague</span>
@@ -26089,7 +26089,7 @@ Then, a withdrawal is received at <code>0x100</code> with 99 wei.</p>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">self_destruct_contract_address</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">recipient</span><span class="p">),</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="n">left_padding</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">withdrawal</span> <span class="o">=</span> <span class="n">Withdrawal</span><span class="p">(</span>

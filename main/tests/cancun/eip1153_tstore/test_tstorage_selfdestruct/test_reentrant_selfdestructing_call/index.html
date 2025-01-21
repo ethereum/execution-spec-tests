@@ -25994,7 +25994,7 @@
 
 
 <h1 id="test_reentrant_selfdestructing_call"><code>test_reentrant_selfdestructing_call()</code><a class="headerlink" href="#test_reentrant_selfdestructing_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0dbf2dd58159c8af2eb91ce51682591d2241c560/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py#L219"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call@0dbf2dd5</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1fb1ab44221949a58556b39f93270e3c1577db1d/tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py#L219"><code>tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call@1fb1ab44</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_selfdestruct.py::test_reentrant_selfdestructing_call --fork Prague</span>
@@ -26065,10 +26065,10 @@
 
     <span class="n">caller_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">caller_bytecode</span><span class="p">)</span>
 
-    <span class="n">data</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">|</span> <span class="n">Bytecode</span>
+    <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">Bytecode</span>
     <span class="k">if</span> <span class="n">pre_existing_contract</span><span class="p">:</span>
         <span class="n">callee_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">callee_bytecode</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">callee_address</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">callee_address</span><span class="p">,</span> <span class="n">left_padding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">callee_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">caller_address</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">callee_bytecode</span><span class="p">)</span>
