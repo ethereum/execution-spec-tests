@@ -60,6 +60,14 @@ Transaction to be executed.
 
 Mapping of lists of post for verification per fork, where each element represents a single possible outcome of the transaction execution after being applied to the `pre`.
 
+#### - `config`: [`FixtureConfig`](#fixtureconfig)
+
+Chain configuration object.
+
+### `FixtureConfig`
+
+At the moment, this object is an empty dictionary and contains no fields.
+
 ### `FixtureEnvironment`
 
 #### - `currentCoinbase`: [`Address`](./common_types.md#address)
