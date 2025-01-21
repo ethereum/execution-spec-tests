@@ -6,7 +6,7 @@ Configures the hive back-end & EL clients for each individual test execution.
 
 import io
 from pathlib import Path
-from typing import Dict, Mapping
+from typing import Mapping
 
 import pytest
 from hive.client import Client
@@ -18,19 +18,6 @@ from ethereum_test_rpc import EngineRPC
 from pytest_plugins.consume.consume import JsonSource
 
 TestCase = TestCaseIndexFile | TestCaseStream
-
-
-@pytest.fixture(scope="function")
-def environment(request: pytest.FixtureRequest) -> Dict:
-    """
-    For the Engine API simulations, we need that the port 8551 is ready on the client's side,
-    instead of the default 8545, because the first request is a forkchoice update.
-
-    We signal this to hive by adding the "HIVE_CHECK_LIVE_PORT" environment variable.
-    """
-    environment: Dict = request.getfixturevalue("environment")
-    environment["HIVE_CHECK_LIVE_PORT"] = "8551"
-    return environment
 
 
 @pytest.fixture(scope="function")
