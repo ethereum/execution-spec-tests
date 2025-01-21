@@ -2,8 +2,7 @@
 
 import pytest
 
-from ethereum_test_forks import Fork
-from ethereum_test_forks.forks.forks import Byzantium
+from ethereum_test_forks import Byzantium, Fork
 from ethereum_test_tools import Account, Alloc, Bytecode, StateTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -150,14 +149,19 @@ def test_calldatacopy(
         code=(
             Op.MSTORE(offset=0x0, value=0x1234567890ABCDEF01234567890ABCDEF0)
             + Op.CALL(
-                0xFFFFFF, Op.ADD(0x1000, Op.CALLDATALOAD(offset=0x4)), 0x0, 0xF, 0x10, 0x20, 0x40
+                gas=Op.SUB(Op.GAS(), 0x100),
+                address=code_address,
+                value=0x0,
+                args_offset=0xF,
+                args_size=0x10,
+                ret_offset=0x20,
+                ret_size=0x40,
             )
             + Op.POP
             + Op.SSTORE(key=0x0, value=Op.MLOAD(offset=0x20))
             + Op.SSTORE(key=0x1, value=Op.MLOAD(offset=0x40))
             + Op.STOP
         ),
-        nonce=0,
     )
 
     tx = Transaction(
