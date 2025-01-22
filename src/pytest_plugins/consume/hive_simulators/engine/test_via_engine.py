@@ -5,7 +5,7 @@ from the Engine API. The simulator uses the `BlockchainEngineFixtures` to test a
 Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID responses.
 """
 
-from ethereum_test_fixtures import BlockchainEngineFixture
+from ethereum_test_fixtures import BlockchainEngineFixture, FixtureFormat
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.types import ForkchoiceState, PayloadStatusEnum
 from pytest_plugins.consume.hive_simulators.exceptions import GenesisBlockMismatchExceptionError
@@ -20,6 +20,7 @@ def test_via_engine(
     eth_rpc: EthRPC,
     engine_rpc: EngineRPC,
     blockchain_fixture: BlockchainEngineFixture,
+    fixture_format: FixtureFormat,
 ):
     """
     1. Check the client genesis block hash matches `blockchain_fixture.genesis.block_hash`.
