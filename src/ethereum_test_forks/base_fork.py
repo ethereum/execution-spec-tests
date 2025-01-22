@@ -104,9 +104,10 @@ class ExcessBlobGasCalculator(Protocol):
 class BaseForkMeta(ABCMeta):
     """Metaclass for BaseFork."""
 
+    @abstractmethod
     def name(cls) -> str:
-        """To be implemented by the fork base class."""
-        return ""
+        """Return the name of the fork (e.g., Berlin), must be implemented by subclasses."""
+        pass
 
     def __repr__(cls) -> str:
         """Print the name of the fork, instead of the class."""
