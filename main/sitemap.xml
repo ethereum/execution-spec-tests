@@ -2106,6 +2106,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_height_limit_exceeded/</loc>
+         <lastmod>2025-01-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_by_height/</loc>
+         <lastmod>2025-01-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_by_outputs/</loc>
+         <lastmod>2025-01-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_eof_validity/</loc>
          <lastmod>2025-01-22</lastmod>
          <changefreq>daily</changefreq>

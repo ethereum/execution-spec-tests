@@ -7094,6 +7094,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -7168,6 +7174,69 @@
   
   <span class="md-ellipsis">
     <code>test_unreachable_code_sections</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip4750_functions/test_code_validation/test_callf_stack_height_limit_exceeded/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_stack_height_limit_exceeded</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip4750_functions/test_code_validation/test_callf_stack_overflow_by_outputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_stack_overflow_by_outputs</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip4750_functions/test_code_validation/test_callf_stack_overflow_by_height/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_stack_overflow_by_height</code>
   </span>
   
 
@@ -25996,7 +26065,7 @@
 
 
 <h1 id="test_migrated_valid_invalid"><code>test_migrated_valid_invalid()</code><a class="headerlink" href="#test_migrated_valid_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6b7ed8f6d1557926b06b9a9abc637490d02b9dfe/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py#L21"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid@6b7ed8f6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/897733bb1122917b7563d15f63adf1cd968d99de/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py#L21"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid@897733bb</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid --fork Osaka</span>
@@ -26780,7 +26849,7 @@
                 </abbr>
             </td>
                         <td><code>ef000102000100010100040400020000</code> <code>000000feaabb</code></td>
-                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26790,7 +26859,7 @@
                 </abbr>
             </td>
                         <td><code>ef000104000201000402000100010000</code> <code>000000feaabb</code></td>
-                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26800,7 +26869,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000404000202000100010000</code> <code>000000feaabb</code></td>
-                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26810,7 +26879,7 @@
                 </abbr>
             </td>
                         <td><code>ef00010100040400020000000000aabb</code></td>
-                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26820,7 +26889,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000402000100010000000000</code> <code>fe</code></td>
-                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26850,7 +26919,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000402000100010400020400</code> <code>020000000000feaabbaabb</code></td>
-                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26860,7 +26929,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000802000200010001040002</code> <code>040002000000000000000000fefeaabb</code> <code>aabb</code></td>
-                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26870,7 +26939,7 @@
                 </abbr>
             </td>
                         <td><code>ef000105000101000402000100010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26880,7 +26949,7 @@
                 </abbr>
             </td>
                         <td><code>ef000106000101000402000100010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26890,7 +26959,7 @@
                 </abbr>
             </td>
                         <td><code>ef0001ff000101000402000100010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26900,7 +26969,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000405000102000100010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26910,7 +26979,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000406000102000100010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26920,7 +26989,7 @@
                 </abbr>
             </td>
                         <td><code>ef0001010004ff000102000100010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26930,7 +26999,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000402000100010500010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26940,7 +27009,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000402000100010600010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26950,7 +27019,7 @@
                 </abbr>
             </td>
                         <td><code>ef00010100040200010001ff00010400</code> <code>000000000000fe</code></td>
-                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26960,7 +27029,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000402000100010400000500</code> <code>010000000000fe</code></td>
-                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26970,7 +27039,7 @@
                 </abbr>
             </td>
                         <td><code>ef000101000402000100010400000600</code> <code>010000000000fe</code></td>
-                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -26980,7 +27049,7 @@
                 </abbr>
             </td>
                         <td><code>ef00010100040200010001040000ff00</code> <code>010000000000fe</code></td>
-                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 47>]</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 

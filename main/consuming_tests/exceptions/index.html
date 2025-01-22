@@ -2687,6 +2687,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.EOFException.STACK_OVERFLOW" class="md-nav__link">
+    <span class="md-ellipsis">
+      STACK_OVERFLOW
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_exceptions.EOFException.STACK_HEIGHT_MISMATCH" class="md-nav__link">
     <span class="md-ellipsis">
       STACK_HEIGHT_MISMATCH
@@ -8526,6 +8535,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -8600,6 +8615,69 @@
   
   <span class="md-ellipsis">
     <code>test_unreachable_code_sections</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_height_limit_exceeded/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_stack_height_limit_exceeded</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_by_outputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_stack_overflow_by_outputs</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_by_height/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_stack_overflow_by_height</code>
   </span>
   
 
@@ -28718,6 +28796,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.EOFException.STACK_OVERFLOW" class="md-nav__link">
+    <span class="md-ellipsis">
+      STACK_OVERFLOW
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_exceptions.EOFException.STACK_HEIGHT_MISMATCH" class="md-nav__link">
     <span class="md-ellipsis">
       STACK_HEIGHT_MISMATCH
@@ -33009,7 +33096,11 @@ a fork that is not active yet.</p>
 <span class="normal">749</span>
 <span class="normal">750</span>
 <span class="normal">751</span>
-<span class="normal">752</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
@@ -33143,6 +33234,10 @@ a fork that is not active yet.</p>
     <span class="n">STACK_UNDERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EOF container&#39;s code produces an stack underflow.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">STACK_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF container&#39;s code produces an stack overflow.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">STACK_HEIGHT_MISMATCH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -34073,6 +34168,33 @@ a fork that is not active yet.</p>
     <div class="doc doc-contents ">
 
       <p>EOF container's code produces an stack underflow.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="ethereum_test_exceptions.EOFException.STACK_OVERFLOW" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">STACK_OVERFLOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.EOFException.STACK_OVERFLOW" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>EOF container's code produces an stack overflow.</p>
     </div>
 
 </div>
