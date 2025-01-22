@@ -566,7 +566,7 @@ MARKER_NAME_REGEX = re.compile(r"(?<!^)(?=[A-Z])")
 
 
 @dataclass(kw_only=True)
-class ValidityMarker:
+class ValidityMarker(ABC):
     """
     Abstract class to represent any fork validity marker.
 
