@@ -24,7 +24,6 @@ from ethereum_test_tools import (
     Transaction,
     add_kzg_version,
 )
-from ethereum_test_tools import Opcodes as Op
 
 from .spec import Spec, SpecHelpers, ref_spec_4844
 
