@@ -28,7 +28,7 @@ Release tarball changes:
 - 🔀 Update EIP-7251 according to [spec updates](https://github.com/ethereum/EIPs/pull/9127) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
 - 🔀 Update EIP-7002 according to [spec updates](https://github.com/ethereum/EIPs/pull/9119) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
 - 🔀 Update EIP-2935 according to [spec updates](https://github.com/ethereum/EIPs/pull/9144) ([#1046](https://github.com/ethereum/execution-spec-tests/pull/1046))
-- ✨ [EIP-7691](https://eips.ethereum.org/EIPS/eip-7691) Blob throughput increase tests by parametrization of existing EIP-4844 tests ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023))
+- ✨ [EIP-7691](https://eips.ethereum.org/EIPS/eip-7691) Blob throughput increase tests by parametrization of existing EIP-4844 tests ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023), [#1082](https://github.com/ethereum/execution-spec-tests/pull/1082))
 
 ### 🛠️ Framework
 
