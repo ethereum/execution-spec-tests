@@ -679,13 +679,14 @@ class ValidityMarker:
         """Process the fork arguments."""
         return self._process_with_marker_args(*self.mark.args, **self.mark.kwargs)
 
+    @abstractmethod
     def _process_with_marker_args(self, *args, **kwargs) -> Set[Fork]:
         """
         Process the fork arguments as specified for the marker.
 
         Method must be implemented by the subclass.
         """
-        raise NotImplementedError
+        pass
 
 
 class ValidFrom(ValidityMarker):
