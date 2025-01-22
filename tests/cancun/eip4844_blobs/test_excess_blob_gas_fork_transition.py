@@ -79,18 +79,9 @@ def pre_fork_blocks(
                     ),
                     sender=sender,
                 )
-                if pre_fork_blobs_per_block > 0
-                else Transaction(
-                    ty=2,
-                    to=destination_account,
-                    value=1,
-                    gas_limit=3_000_000,
-                    max_fee_per_gas=1_000_000,
-                    max_priority_fee_per_gas=10,
-                    access_list=[],
-                    sender=sender,
-                )
-            ],
+            ]
+            if pre_fork_blobs_per_block > 0
+            else [],
             timestamp=t,
         )
         for t in range(999, FORK_TIMESTAMP, 1_000)
@@ -132,7 +123,8 @@ def post_fork_blobs_per_block(fork: Fork) -> int:
 
 @pytest.fixture
 def destination_account(pre: Alloc) -> Address:  # noqa: D103
-    return pre.deploy_contract(Op.STOP)
+    # Empty account to receive the blobs
+    return pre.fund_eoa(amount=0)
 
 
 @pytest.fixture
@@ -162,33 +154,28 @@ def post_fork_blocks(
     """Generate blocks past the fork."""
     blocks = []
     for i in range(post_fork_block_count):
-        txs = [
-            Transaction(
-                ty=Spec.BLOB_TX_TYPE,
-                to=destination_account,
-                value=1,
-                gas_limit=3_000_000,
-                max_fee_per_gas=1_000_000,
-                max_priority_fee_per_gas=10,
-                max_fee_per_blob_gas=100,
-                blob_versioned_hashes=add_kzg_version(
-                    [Hash(x) for x in range(post_fork_blobs_per_block)],
-                    Spec.BLOB_COMMITMENT_VERSION_KZG,
-                ),
-                sender=sender,
-            )
+        txs = (
+            [
+                Transaction(
+                    ty=Spec.BLOB_TX_TYPE,
+                    to=destination_account,
+                    value=1,
+                    gas_limit=3_000_000,
+                    max_fee_per_gas=1_000_000,
+                    max_priority_fee_per_gas=10,
+                    max_fee_per_blob_gas=100,
+                    blob_versioned_hashes=add_kzg_version(
+                        [Hash(x) for x in range(post_fork_blobs_per_block)],
+                        Spec.BLOB_COMMITMENT_VERSION_KZG,
+                    ),
+                    sender=sender,
+                )
+            ]
             if post_fork_blobs_per_block > 0
-            else Transaction(
-                ty=2,
-                to=destination_account,
-                value=1,
-                gas_limit=3_000_000,
-                max_fee_per_gas=1_000_000,
-                max_priority_fee_per_gas=10,
-                sender=sender,
-            )
-        ]
+            else []
+        )
         if i == 0:
+            # Check the excess blob gas on the first block of the new fork
             blocks.append(
                 Block(
                     txs=txs,
@@ -203,11 +190,18 @@ def post_fork_blocks(
 @pytest.fixture
 def post(  # noqa: D103
     pre_fork_blocks: List[Block],
+    pre_fork_blobs_per_block: int,
     post_fork_block_count: int,
+    post_fork_blobs_per_block: int,
     destination_account: Address,
 ) -> Mapping[Address, Account]:
+    pre_fork_value = len(pre_fork_blocks) if pre_fork_blobs_per_block > 0 else 0
+    post_fork_value = post_fork_block_count if post_fork_blobs_per_block > 0 else 0
+    total_value = pre_fork_value + post_fork_value
+    if total_value == 0:
+        return {}
     return {
-        destination_account: Account(balance=post_fork_block_count + len(pre_fork_blocks)),
+        destination_account: Account(balance=total_value),
     }
 
 
