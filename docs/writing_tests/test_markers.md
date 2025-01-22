@@ -10,47 +10,15 @@ These markers are used to specify the forks for which a test is valid.
 
 ### `@pytest.mark.valid_from("FORK_NAME")`
 
-This marker is used to specify the fork from which the test is valid. The test will not be filled for forks before the specified fork.
-
-```python
-import pytest
-
-from ethereum_test_tools import Alloc, StateTestFiller
-
-@pytest.mark.valid_from("London")
-def test_something_only_valid_after_london(
-    state_test: StateTestFiller, 
-    pre: Alloc
-):
-    pass
-```
-
-In this example, the test will only be filled for the London fork and after, e.g. London, Paris, Shanghai, Cancun, etc.
+:::pytest_plugins.forks.forks.ValidFrom
 
 ### `@pytest.mark.valid_until("FORK_NAME")`
 
-This marker is used to specify the fork until which the test is valid. The test will not be filled for forks after the specified fork.
-
-```python
-import pytest
-
-from ethereum_test_tools import Alloc, StateTestFiller
-
-@pytest.mark.valid_until("London")
-def test_something_only_valid_until_london(
-    state_test: StateTestFiller, 
-    pre: Alloc
-):
-    pass
-```
-
-In this example, the test will only be filled for the London fork and before, e.g. London, Berlin, Istanbul, etc.
+:::pytest_plugins.forks.forks.ValidUntil
 
 ### `@pytest.mark.valid_at_transition_to("FORK_NAME")`
 
-This marker is used to specify that a test is only meant to be filled at the transition to the specified fork.
-
-The test usually starts at the fork prior to the specified fork at genesis and at block 5 (for pre-merge forks) or at timestamp 15,000 (for post-merge forks) the fork transition occurs.
+:::pytest_plugins.forks.forks.ValidAtTransitionTo
 
 ## Fork Covariant Markers
 
