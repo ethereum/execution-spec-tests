@@ -26063,7 +26063,7 @@
 
 
 <h1 id="test_valid"><code>test_valid()</code><a class="headerlink" href="#test_valid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/897733bb1122917b7563d15f63adf1cd968d99de/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py#L23"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid@897733bb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0609c7fa00c844b278967f26f6ff6f81e35d7cb5/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py#L23"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid@0609c7fa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid --fork Prague</span>
@@ -26082,90 +26082,101 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;input_data,expected_output&quot;</span><span class="p">,</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;input_data,expected_output,vector_gas_value&quot;</span><span class="p">,</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;mul_G2_bls.json&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(0*inf=inf)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(2**256-1*inf=inf)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -26180,36 +26191,43 @@
                     <span class="mh">0x5397DAD1357CF8333189821B737172B18099ECF7EE8BDB4B3F05EBCCDF40E1782A6C71436D5ACE0843D7F361CBC6DB2</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
                 <span class="p">),</span>
             <span class="p">),</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(2**256-1*P2)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
             <span class="o">-</span><span class="n">Spec</span><span class="o">.</span><span class="n">P2</span><span class="p">,</span>  <span class="c1"># negated P2</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(q-1*P2)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(q*P2)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(q*G2)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(q+1*P2)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(2q*P2)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(Nq*P2)&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
@@ -26278,6 +26296,7 @@
             <th>Test ID (Abbreviated)</th>
                         <th>input_data</th>
                         <th>expected_output</th>
+                        <th>vector_gas_value</th>
                         <th>precompile_address</th>
                     </tr>
     </thead>
@@ -26291,6 +26310,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>1638533957d540a9d2370f17cc7ed586</code> <code>3bc0b995b8825e0ee1ea1e1e4d00dbae</code> <code>81f14b0bf3611b78c952aacab827a053</code> <code>00000000000000000000000000000000</code> <code>0a4edef9c1ed7f729f520e47730a124f</code> <code>d70662a904ba1074728114d1031e1572</code> <code>c6c886f6b57ec72a6178288c47c33577</code> <code>00000000000000000000000000000000</code> <code>0468fb440d82b0630aeb8dca2b525678</code> <code>9a66da69bf91009cbfe6bd221e47aa8a</code> <code>e88dece9764bf3bd999d95d71e4c9899</code> <code>00000000000000000000000000000000</code> <code>0f6d4552fa65dd2638b361543f887136</code> <code>a43253d9c66c411697003f7a13c308f5</code> <code>422e1aa0a59c8967acdefd8b6e36ccf3</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26302,6 +26322,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>0b76fcbb604082a4f2d19858a7befd60</code> <code>53fa181c5119a612dfec83832537f644</code> <code>e02454f2b70d40985ebb08042d1620d4</code> <code>00000000000000000000000000000000</code> <code>19a4a02c0ae51365d964c73be7babb71</code> <code>9db1c69e0ddbf9a8a335b5bed3b0a4b0</code> <code>70d2d5df01d2da4a3f1e56aae2ec106d</code> <code>00000000000000000000000000000000</code> <code>0d18322f821ac72d3ca92f92b000483c</code> <code>f5b7d9e5d06873a44071c4e7e81efd90</code> <code>4f210208fe0b9b4824f01c65bc7e6208</code> <code>00000000000000000000000000000000</code> <code>04e563d53609a2d1e216aaaee5fbc14e</code> <code>f460160db8d1fdc5e1bd4e8b54cd2f39</code> <code>abf6f925969fa405efb9e700b01c7085</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26313,6 +26334,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26324,6 +26346,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26335,6 +26358,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26346,6 +26370,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26357,6 +26382,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000011</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26368,6 +26394,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>263dbd792f5b1be47ed85f8938c0f295</code> <code>86af0d3ac7b977f21c278fe1462040e3</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>14856c22d8cdb2967c720e963eedc999</code> <code>e738373b14172f06fc915769d3cc5ab7</code> <code>ae0a1b9c38f48b5585fb09d4bd2733bb</code> <code>00000000000000000000000000000000</code> <code>0c400b70f6f8cd35648f5c126cce5417</code> <code>f3be4d8eefbd42ceb4286a14df7e0313</code> <code>5313fe5845e3a575faab3e8b949d2488</code> <code>00000000000000000000000000000000</code> <code>149a0aacc34beba2beb2f2a19a440166</code> <code>e76e373194714f108e4ab1c3fd331e80</code> <code>f4e73e6b9ea65fe3ec96d7136de81544</code> <code>00000000000000000000000000000000</code> <code>0e4622fef26bdb9b1e8ef6591a7cc99f</code> <code>5b73164500c1ee224b6a761e676b8799</code> <code>b09a3fd4fa7e242645cc1a34708285e4</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26379,6 +26406,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>263dbd792f5b1be47ed85f8938c0f295</code> <code>86af0d3ac7b977f21c278fe1462040e3</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>036074dcbbd0e987531bfe0e45ddfbe0</code> <code>9fd015665990ee0c352e8e403fe6af97</code> <code>1d8f42141970d9ab14b4dd04874409e6</code> <code>00000000000000000000000000000000</code> <code>019705637f24ba2f398f32c3a3e20d6a</code> <code>1cd0fd63e6f8f071cf603a8334f25574</code> <code>4927e7bfdfdb18519e019c49ff6e9145</code> <code>00000000000000000000000000000000</code> <code>008e74fcff4c4278c9accfb60809ed69</code> <code>bbcbe3d6213ef2304e078d15ec7d6dec</code> <code>b4f462b24b8e7cc38cc11b6f2c9e0486</code> <code>00000000000000000000000000000000</code> <code>1331d40100f38c1070afd832445881b4</code> <code>7cf4d63894666d9907c85ac66604aab5</code> <code>ad329980938cc3c167ccc5b6bc1b8f30</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26390,6 +26418,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>9a2b64cc58f8992cb21237914262ca9a</code> <code>da6cb13dc7b7d3f11c278fe0462040e4</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>14856c22d8cdb2967c720e963eedc999</code> <code>e738373b14172f06fc915769d3cc5ab7</code> <code>ae0a1b9c38f48b5585fb09d4bd2733bb</code> <code>00000000000000000000000000000000</code> <code>0c400b70f6f8cd35648f5c126cce5417</code> <code>f3be4d8eefbd42ceb4286a14df7e0313</code> <code>5313fe5845e3a575faab3e8b949d2488</code> <code>00000000000000000000000000000000</code> <code>149a0aacc34beba2beb2f2a19a440166</code> <code>e76e373194714f108e4ab1c3fd331e80</code> <code>f4e73e6b9ea65fe3ec96d7136de81544</code> <code>00000000000000000000000000000000</code> <code>0e4622fef26bdb9b1e8ef6591a7cc99f</code> <code>5b73164500c1ee224b6a761e676b8799</code> <code>b09a3fd4fa7e242645cc1a34708285e4</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26401,6 +26430,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>9a2b64cc58f8992cb21237914262ca9a</code> <code>da6cb13dc7b7d3f11c278fe0462040e4</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>036074dcbbd0e987531bfe0e45ddfbe0</code> <code>9fd015665990ee0c352e8e403fe6af97</code> <code>1d8f42141970d9ab14b4dd04874409e6</code> <code>00000000000000000000000000000000</code> <code>019705637f24ba2f398f32c3a3e20d6a</code> <code>1cd0fd63e6f8f071cf603a8334f25574</code> <code>4927e7bfdfdb18519e019c49ff6e9145</code> <code>00000000000000000000000000000000</code> <code>008e74fcff4c4278c9accfb60809ed69</code> <code>bbcbe3d6213ef2304e078d15ec7d6dec</code> <code>b4f462b24b8e7cc38cc11b6f2c9e0486</code> <code>00000000000000000000000000000000</code> <code>1331d40100f38c1070afd832445881b4</code> <code>7cf4d63894666d9907c85ac66604aab5</code> <code>ad329980938cc3c167ccc5b6bc1b8f30</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26412,6 +26442,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26423,6 +26454,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26434,6 +26466,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
                         <td>PointG2(x=(369299185713149296722964765131350845632494137406374971792275870536476213339279490909038151768626311587979724757794, 1024521220153860154372658692728698921549739062978654412401519523062908974116539868214303017597064322164944484269061), y=(1891410104604362321100633434194656416970566143962970594665757424363414034001870448441375615483982951170318222104059, 804135522508228924982444297234263487233924799422029144668049615247127931891418551496897048454905651741261689548210))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26445,6 +26478,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000000</code></td>
                         <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(1598413977085546157439602528875378739913863954506072298065624151686358281477208977544458745912061577135433376334637, 1980625819428920253409155504364715977353174997055398678576136099320530742511416887902831622100366706834172466964058))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26456,6 +26490,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26467,6 +26502,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26478,6 +26514,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000002</code></td>
                         <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(2403995578136121235978187296860525416643018865432935587266433984437673369013628886898228883216954086902460896225150, 2021783735792747140008634321371188179203707822883609206755922036803500907979420976539856007028648957203721805595729))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26489,6 +26526,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26500,6 +26538,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26511,6 +26550,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>1638533957d540a9d2370f17cc7ed586</code> <code>3bc0b995b8825e0ee1ea1e1e4d00dbae</code> <code>81f14b0bf3611b78c952aacab827a053</code> <code>00000000000000000000000000000000</code> <code>0a4edef9c1ed7f729f520e47730a124f</code> <code>d70662a904ba1074728114d1031e1572</code> <code>c6c886f6b57ec72a6178288c47c33577</code> <code>00000000000000000000000000000000</code> <code>0468fb440d82b0630aeb8dca2b525678</code> <code>9a66da69bf91009cbfe6bd221e47aa8a</code> <code>e88dece9764bf3bd999d95d71e4c9899</code> <code>00000000000000000000000000000000</code> <code>0f6d4552fa65dd2638b361543f887136</code> <code>a43253d9c66c411697003f7a13c308f5</code> <code>422e1aa0a59c8967acdefd8b6e36ccf3</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26522,6 +26562,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>0b76fcbb604082a4f2d19858a7befd60</code> <code>53fa181c5119a612dfec83832537f644</code> <code>e02454f2b70d40985ebb08042d1620d4</code> <code>00000000000000000000000000000000</code> <code>19a4a02c0ae51365d964c73be7babb71</code> <code>9db1c69e0ddbf9a8a335b5bed3b0a4b0</code> <code>70d2d5df01d2da4a3f1e56aae2ec106d</code> <code>00000000000000000000000000000000</code> <code>0d18322f821ac72d3ca92f92b000483c</code> <code>f5b7d9e5d06873a44071c4e7e81efd90</code> <code>4f210208fe0b9b4824f01c65bc7e6208</code> <code>00000000000000000000000000000000</code> <code>04e563d53609a2d1e216aaaee5fbc14e</code> <code>f460160db8d1fdc5e1bd4e8b54cd2f39</code> <code>abf6f925969fa405efb9e700b01c7085</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26533,6 +26574,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26544,6 +26586,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26555,6 +26598,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26566,6 +26610,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26577,6 +26622,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000011</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26588,6 +26634,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>263dbd792f5b1be47ed85f8938c0f295</code> <code>86af0d3ac7b977f21c278fe1462040e3</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>14856c22d8cdb2967c720e963eedc999</code> <code>e738373b14172f06fc915769d3cc5ab7</code> <code>ae0a1b9c38f48b5585fb09d4bd2733bb</code> <code>00000000000000000000000000000000</code> <code>0c400b70f6f8cd35648f5c126cce5417</code> <code>f3be4d8eefbd42ceb4286a14df7e0313</code> <code>5313fe5845e3a575faab3e8b949d2488</code> <code>00000000000000000000000000000000</code> <code>149a0aacc34beba2beb2f2a19a440166</code> <code>e76e373194714f108e4ab1c3fd331e80</code> <code>f4e73e6b9ea65fe3ec96d7136de81544</code> <code>00000000000000000000000000000000</code> <code>0e4622fef26bdb9b1e8ef6591a7cc99f</code> <code>5b73164500c1ee224b6a761e676b8799</code> <code>b09a3fd4fa7e242645cc1a34708285e4</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26599,6 +26646,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>263dbd792f5b1be47ed85f8938c0f295</code> <code>86af0d3ac7b977f21c278fe1462040e3</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>036074dcbbd0e987531bfe0e45ddfbe0</code> <code>9fd015665990ee0c352e8e403fe6af97</code> <code>1d8f42141970d9ab14b4dd04874409e6</code> <code>00000000000000000000000000000000</code> <code>019705637f24ba2f398f32c3a3e20d6a</code> <code>1cd0fd63e6f8f071cf603a8334f25574</code> <code>4927e7bfdfdb18519e019c49ff6e9145</code> <code>00000000000000000000000000000000</code> <code>008e74fcff4c4278c9accfb60809ed69</code> <code>bbcbe3d6213ef2304e078d15ec7d6dec</code> <code>b4f462b24b8e7cc38cc11b6f2c9e0486</code> <code>00000000000000000000000000000000</code> <code>1331d40100f38c1070afd832445881b4</code> <code>7cf4d63894666d9907c85ac66604aab5</code> <code>ad329980938cc3c167ccc5b6bc1b8f30</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26610,6 +26658,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>9a2b64cc58f8992cb21237914262ca9a</code> <code>da6cb13dc7b7d3f11c278fe0462040e4</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>14856c22d8cdb2967c720e963eedc999</code> <code>e738373b14172f06fc915769d3cc5ab7</code> <code>ae0a1b9c38f48b5585fb09d4bd2733bb</code> <code>00000000000000000000000000000000</code> <code>0c400b70f6f8cd35648f5c126cce5417</code> <code>f3be4d8eefbd42ceb4286a14df7e0313</code> <code>5313fe5845e3a575faab3e8b949d2488</code> <code>00000000000000000000000000000000</code> <code>149a0aacc34beba2beb2f2a19a440166</code> <code>e76e373194714f108e4ab1c3fd331e80</code> <code>f4e73e6b9ea65fe3ec96d7136de81544</code> <code>00000000000000000000000000000000</code> <code>0e4622fef26bdb9b1e8ef6591a7cc99f</code> <code>5b73164500c1ee224b6a761e676b8799</code> <code>b09a3fd4fa7e242645cc1a34708285e4</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26621,6 +26670,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>9a2b64cc58f8992cb21237914262ca9a</code> <code>da6cb13dc7b7d3f11c278fe0462040e4</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>036074dcbbd0e987531bfe0e45ddfbe0</code> <code>9fd015665990ee0c352e8e403fe6af97</code> <code>1d8f42141970d9ab14b4dd04874409e6</code> <code>00000000000000000000000000000000</code> <code>019705637f24ba2f398f32c3a3e20d6a</code> <code>1cd0fd63e6f8f071cf603a8334f25574</code> <code>4927e7bfdfdb18519e019c49ff6e9145</code> <code>00000000000000000000000000000000</code> <code>008e74fcff4c4278c9accfb60809ed69</code> <code>bbcbe3d6213ef2304e078d15ec7d6dec</code> <code>b4f462b24b8e7cc38cc11b6f2c9e0486</code> <code>00000000000000000000000000000000</code> <code>1331d40100f38c1070afd832445881b4</code> <code>7cf4d63894666d9907c85ac66604aab5</code> <code>ad329980938cc3c167ccc5b6bc1b8f30</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26632,6 +26682,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26643,6 +26694,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26654,6 +26706,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
                         <td>PointG2(x=(369299185713149296722964765131350845632494137406374971792275870536476213339279490909038151768626311587979724757794, 1024521220153860154372658692728698921549739062978654412401519523062908974116539868214303017597064322164944484269061), y=(1891410104604362321100633434194656416970566143962970594665757424363414034001870448441375615483982951170318222104059, 804135522508228924982444297234263487233924799422029144668049615247127931891418551496897048454905651741261689548210))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26665,6 +26718,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000000</code></td>
                         <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(1598413977085546157439602528875378739913863954506072298065624151686358281477208977544458745912061577135433376334637, 1980625819428920253409155504364715977353174997055398678576136099320530742511416887902831622100366706834172466964058))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26676,6 +26730,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26687,6 +26742,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26698,6 +26754,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000002</code></td>
                         <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(2403995578136121235978187296860525416643018865432935587266433984437673369013628886898228883216954086902460896225150, 2021783735792747140008634321371188179203707822883609206755922036803500907979420976539856007028648957203721805595729))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26709,6 +26766,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -26720,6 +26778,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26731,6 +26790,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>1638533957d540a9d2370f17cc7ed586</code> <code>3bc0b995b8825e0ee1ea1e1e4d00dbae</code> <code>81f14b0bf3611b78c952aacab827a053</code> <code>00000000000000000000000000000000</code> <code>0a4edef9c1ed7f729f520e47730a124f</code> <code>d70662a904ba1074728114d1031e1572</code> <code>c6c886f6b57ec72a6178288c47c33577</code> <code>00000000000000000000000000000000</code> <code>0468fb440d82b0630aeb8dca2b525678</code> <code>9a66da69bf91009cbfe6bd221e47aa8a</code> <code>e88dece9764bf3bd999d95d71e4c9899</code> <code>00000000000000000000000000000000</code> <code>0f6d4552fa65dd2638b361543f887136</code> <code>a43253d9c66c411697003f7a13c308f5</code> <code>422e1aa0a59c8967acdefd8b6e36ccf3</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26742,6 +26802,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>0b76fcbb604082a4f2d19858a7befd60</code> <code>53fa181c5119a612dfec83832537f644</code> <code>e02454f2b70d40985ebb08042d1620d4</code> <code>00000000000000000000000000000000</code> <code>19a4a02c0ae51365d964c73be7babb71</code> <code>9db1c69e0ddbf9a8a335b5bed3b0a4b0</code> <code>70d2d5df01d2da4a3f1e56aae2ec106d</code> <code>00000000000000000000000000000000</code> <code>0d18322f821ac72d3ca92f92b000483c</code> <code>f5b7d9e5d06873a44071c4e7e81efd90</code> <code>4f210208fe0b9b4824f01c65bc7e6208</code> <code>00000000000000000000000000000000</code> <code>04e563d53609a2d1e216aaaee5fbc14e</code> <code>f460160db8d1fdc5e1bd4e8b54cd2f39</code> <code>abf6f925969fa405efb9e700b01c7085</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26753,6 +26814,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26764,6 +26826,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26775,6 +26838,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26786,6 +26850,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26797,6 +26862,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000011</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26808,6 +26874,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>263dbd792f5b1be47ed85f8938c0f295</code> <code>86af0d3ac7b977f21c278fe1462040e3</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>14856c22d8cdb2967c720e963eedc999</code> <code>e738373b14172f06fc915769d3cc5ab7</code> <code>ae0a1b9c38f48b5585fb09d4bd2733bb</code> <code>00000000000000000000000000000000</code> <code>0c400b70f6f8cd35648f5c126cce5417</code> <code>f3be4d8eefbd42ceb4286a14df7e0313</code> <code>5313fe5845e3a575faab3e8b949d2488</code> <code>00000000000000000000000000000000</code> <code>149a0aacc34beba2beb2f2a19a440166</code> <code>e76e373194714f108e4ab1c3fd331e80</code> <code>f4e73e6b9ea65fe3ec96d7136de81544</code> <code>00000000000000000000000000000000</code> <code>0e4622fef26bdb9b1e8ef6591a7cc99f</code> <code>5b73164500c1ee224b6a761e676b8799</code> <code>b09a3fd4fa7e242645cc1a34708285e4</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26819,6 +26886,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>263dbd792f5b1be47ed85f8938c0f295</code> <code>86af0d3ac7b977f21c278fe1462040e3</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>036074dcbbd0e987531bfe0e45ddfbe0</code> <code>9fd015665990ee0c352e8e403fe6af97</code> <code>1d8f42141970d9ab14b4dd04874409e6</code> <code>00000000000000000000000000000000</code> <code>019705637f24ba2f398f32c3a3e20d6a</code> <code>1cd0fd63e6f8f071cf603a8334f25574</code> <code>4927e7bfdfdb18519e019c49ff6e9145</code> <code>00000000000000000000000000000000</code> <code>008e74fcff4c4278c9accfb60809ed69</code> <code>bbcbe3d6213ef2304e078d15ec7d6dec</code> <code>b4f462b24b8e7cc38cc11b6f2c9e0486</code> <code>00000000000000000000000000000000</code> <code>1331d40100f38c1070afd832445881b4</code> <code>7cf4d63894666d9907c85ac66604aab5</code> <code>ad329980938cc3c167ccc5b6bc1b8f30</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26830,6 +26898,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>9a2b64cc58f8992cb21237914262ca9a</code> <code>da6cb13dc7b7d3f11c278fe0462040e4</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>14856c22d8cdb2967c720e963eedc999</code> <code>e738373b14172f06fc915769d3cc5ab7</code> <code>ae0a1b9c38f48b5585fb09d4bd2733bb</code> <code>00000000000000000000000000000000</code> <code>0c400b70f6f8cd35648f5c126cce5417</code> <code>f3be4d8eefbd42ceb4286a14df7e0313</code> <code>5313fe5845e3a575faab3e8b949d2488</code> <code>00000000000000000000000000000000</code> <code>149a0aacc34beba2beb2f2a19a440166</code> <code>e76e373194714f108e4ab1c3fd331e80</code> <code>f4e73e6b9ea65fe3ec96d7136de81544</code> <code>00000000000000000000000000000000</code> <code>0e4622fef26bdb9b1e8ef6591a7cc99f</code> <code>5b73164500c1ee224b6a761e676b8799</code> <code>b09a3fd4fa7e242645cc1a34708285e4</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26841,6 +26910,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>9a2b64cc58f8992cb21237914262ca9a</code> <code>da6cb13dc7b7d3f11c278fe0462040e4</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>036074dcbbd0e987531bfe0e45ddfbe0</code> <code>9fd015665990ee0c352e8e403fe6af97</code> <code>1d8f42141970d9ab14b4dd04874409e6</code> <code>00000000000000000000000000000000</code> <code>019705637f24ba2f398f32c3a3e20d6a</code> <code>1cd0fd63e6f8f071cf603a8334f25574</code> <code>4927e7bfdfdb18519e019c49ff6e9145</code> <code>00000000000000000000000000000000</code> <code>008e74fcff4c4278c9accfb60809ed69</code> <code>bbcbe3d6213ef2304e078d15ec7d6dec</code> <code>b4f462b24b8e7cc38cc11b6f2c9e0486</code> <code>00000000000000000000000000000000</code> <code>1331d40100f38c1070afd832445881b4</code> <code>7cf4d63894666d9907c85ac66604aab5</code> <code>ad329980938cc3c167ccc5b6bc1b8f30</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26852,6 +26922,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26863,6 +26934,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26874,6 +26946,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
                         <td>PointG2(x=(369299185713149296722964765131350845632494137406374971792275870536476213339279490909038151768626311587979724757794, 1024521220153860154372658692728698921549739062978654412401519523062908974116539868214303017597064322164944484269061), y=(1891410104604362321100633434194656416970566143962970594665757424363414034001870448441375615483982951170318222104059, 804135522508228924982444297234263487233924799422029144668049615247127931891418551496897048454905651741261689548210))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26885,6 +26958,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000000</code></td>
                         <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(1598413977085546157439602528875378739913863954506072298065624151686358281477208977544458745912061577135433376334637, 1980625819428920253409155504364715977353174997055398678576136099320530742511416887902831622100366706834172466964058))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26896,6 +26970,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26907,6 +26982,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26918,6 +26994,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000002</code></td>
                         <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(2403995578136121235978187296860525416643018865432935587266433984437673369013628886898228883216954086902460896225150, 2021783735792747140008634321371188179203707822883609206755922036803500907979420976539856007028648957203721805595729))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26929,6 +27006,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26940,6 +27018,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -26951,6 +27030,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>1638533957d540a9d2370f17cc7ed586</code> <code>3bc0b995b8825e0ee1ea1e1e4d00dbae</code> <code>81f14b0bf3611b78c952aacab827a053</code> <code>00000000000000000000000000000000</code> <code>0a4edef9c1ed7f729f520e47730a124f</code> <code>d70662a904ba1074728114d1031e1572</code> <code>c6c886f6b57ec72a6178288c47c33577</code> <code>00000000000000000000000000000000</code> <code>0468fb440d82b0630aeb8dca2b525678</code> <code>9a66da69bf91009cbfe6bd221e47aa8a</code> <code>e88dece9764bf3bd999d95d71e4c9899</code> <code>00000000000000000000000000000000</code> <code>0f6d4552fa65dd2638b361543f887136</code> <code>a43253d9c66c411697003f7a13c308f5</code> <code>422e1aa0a59c8967acdefd8b6e36ccf3</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -26962,6 +27042,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>0b76fcbb604082a4f2d19858a7befd60</code> <code>53fa181c5119a612dfec83832537f644</code> <code>e02454f2b70d40985ebb08042d1620d4</code> <code>00000000000000000000000000000000</code> <code>19a4a02c0ae51365d964c73be7babb71</code> <code>9db1c69e0ddbf9a8a335b5bed3b0a4b0</code> <code>70d2d5df01d2da4a3f1e56aae2ec106d</code> <code>00000000000000000000000000000000</code> <code>0d18322f821ac72d3ca92f92b000483c</code> <code>f5b7d9e5d06873a44071c4e7e81efd90</code> <code>4f210208fe0b9b4824f01c65bc7e6208</code> <code>00000000000000000000000000000000</code> <code>04e563d53609a2d1e216aaaee5fbc14e</code> <code>f460160db8d1fdc5e1bd4e8b54cd2f39</code> <code>abf6f925969fa405efb9e700b01c7085</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -26973,6 +27054,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -26984,6 +27066,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -26995,6 +27078,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27006,6 +27090,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27017,6 +27102,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000011</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27028,6 +27114,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>263dbd792f5b1be47ed85f8938c0f295</code> <code>86af0d3ac7b977f21c278fe1462040e3</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>14856c22d8cdb2967c720e963eedc999</code> <code>e738373b14172f06fc915769d3cc5ab7</code> <code>ae0a1b9c38f48b5585fb09d4bd2733bb</code> <code>00000000000000000000000000000000</code> <code>0c400b70f6f8cd35648f5c126cce5417</code> <code>f3be4d8eefbd42ceb4286a14df7e0313</code> <code>5313fe5845e3a575faab3e8b949d2488</code> <code>00000000000000000000000000000000</code> <code>149a0aacc34beba2beb2f2a19a440166</code> <code>e76e373194714f108e4ab1c3fd331e80</code> <code>f4e73e6b9ea65fe3ec96d7136de81544</code> <code>00000000000000000000000000000000</code> <code>0e4622fef26bdb9b1e8ef6591a7cc99f</code> <code>5b73164500c1ee224b6a761e676b8799</code> <code>b09a3fd4fa7e242645cc1a34708285e4</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27039,6 +27126,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>263dbd792f5b1be47ed85f8938c0f295</code> <code>86af0d3ac7b977f21c278fe1462040e3</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>036074dcbbd0e987531bfe0e45ddfbe0</code> <code>9fd015665990ee0c352e8e403fe6af97</code> <code>1d8f42141970d9ab14b4dd04874409e6</code> <code>00000000000000000000000000000000</code> <code>019705637f24ba2f398f32c3a3e20d6a</code> <code>1cd0fd63e6f8f071cf603a8334f25574</code> <code>4927e7bfdfdb18519e019c49ff6e9145</code> <code>00000000000000000000000000000000</code> <code>008e74fcff4c4278c9accfb60809ed69</code> <code>bbcbe3d6213ef2304e078d15ec7d6dec</code> <code>b4f462b24b8e7cc38cc11b6f2c9e0486</code> <code>00000000000000000000000000000000</code> <code>1331d40100f38c1070afd832445881b4</code> <code>7cf4d63894666d9907c85ac66604aab5</code> <code>ad329980938cc3c167ccc5b6bc1b8f30</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27050,6 +27138,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>9a2b64cc58f8992cb21237914262ca9a</code> <code>da6cb13dc7b7d3f11c278fe0462040e4</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>14856c22d8cdb2967c720e963eedc999</code> <code>e738373b14172f06fc915769d3cc5ab7</code> <code>ae0a1b9c38f48b5585fb09d4bd2733bb</code> <code>00000000000000000000000000000000</code> <code>0c400b70f6f8cd35648f5c126cce5417</code> <code>f3be4d8eefbd42ceb4286a14df7e0313</code> <code>5313fe5845e3a575faab3e8b949d2488</code> <code>00000000000000000000000000000000</code> <code>149a0aacc34beba2beb2f2a19a440166</code> <code>e76e373194714f108e4ab1c3fd331e80</code> <code>f4e73e6b9ea65fe3ec96d7136de81544</code> <code>00000000000000000000000000000000</code> <code>0e4622fef26bdb9b1e8ef6591a7cc99f</code> <code>5b73164500c1ee224b6a761e676b8799</code> <code>b09a3fd4fa7e242645cc1a34708285e4</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27061,6 +27150,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>9a2b64cc58f8992cb21237914262ca9a</code> <code>da6cb13dc7b7d3f11c278fe0462040e4</code></td>
                         <td><code>00000000000000000000000000000000</code> <code>036074dcbbd0e987531bfe0e45ddfbe0</code> <code>9fd015665990ee0c352e8e403fe6af97</code> <code>1d8f42141970d9ab14b4dd04874409e6</code> <code>00000000000000000000000000000000</code> <code>019705637f24ba2f398f32c3a3e20d6a</code> <code>1cd0fd63e6f8f071cf603a8334f25574</code> <code>4927e7bfdfdb18519e019c49ff6e9145</code> <code>00000000000000000000000000000000</code> <code>008e74fcff4c4278c9accfb60809ed69</code> <code>bbcbe3d6213ef2304e078d15ec7d6dec</code> <code>b4f462b24b8e7cc38cc11b6f2c9e0486</code> <code>00000000000000000000000000000000</code> <code>1331d40100f38c1070afd832445881b4</code> <code>7cf4d63894666d9907c85ac66604aab5</code> <code>ad329980938cc3c167ccc5b6bc1b8f30</code></td>
+                        <td>22500</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27072,6 +27162,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27083,6 +27174,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27094,6 +27186,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
                         <td>PointG2(x=(369299185713149296722964765131350845632494137406374971792275870536476213339279490909038151768626311587979724757794, 1024521220153860154372658692728698921549739062978654412401519523062908974116539868214303017597064322164944484269061), y=(1891410104604362321100633434194656416970566143962970594665757424363414034001870448441375615483982951170318222104059, 804135522508228924982444297234263487233924799422029144668049615247127931891418551496897048454905651741261689548210))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27105,6 +27198,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000000</code></td>
                         <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(1598413977085546157439602528875378739913863954506072298065624151686358281477208977544458745912061577135433376334637, 1980625819428920253409155504364715977353174997055398678576136099320530742511416887902831622100366706834172466964058))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27116,6 +27210,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27127,6 +27222,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27138,6 +27234,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000002</code></td>
                         <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(2403995578136121235978187296860525416643018865432935587266433984437673369013628886898228883216954086902460896225150, 2021783735792747140008634321371188179203707822883609206755922036803500907979420976539856007028648957203721805595729))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27149,6 +27246,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27160,6 +27258,7 @@
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
                         <td>14</td>
                     </tr>
             </tbody>
