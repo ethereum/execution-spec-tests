@@ -1544,6 +1544,57 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#blobschedule-mappingforkforkblobschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlobSchedule: Mapping[Fork,ForkBlobSchedule]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forkblobschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      ForkBlobSchedule
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ForkBlobSchedule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-target-zeropaddedhexnumber" class="md-nav__link">
+    <span class="md-ellipsis">
+      - target: ZeroPaddedHexNumber
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-max-zeropaddedhexnumber" class="md-nav__link">
+    <span class="md-ellipsis">
+      - max: ZeroPaddedHexNumber
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-base_fee_update_fraction-zeropaddedhexnumber" class="md-nav__link">
+    <span class="md-ellipsis">
+      - base_fee_update_fraction: ZeroPaddedHexNumber
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -26582,6 +26633,57 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#blobschedule-mappingforkforkblobschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlobSchedule: Mapping[Fork,ForkBlobSchedule]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forkblobschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      ForkBlobSchedule
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ForkBlobSchedule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-target-zeropaddedhexnumber" class="md-nav__link">
+    <span class="md-ellipsis">
+      - target: ZeroPaddedHexNumber
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-max-zeropaddedhexnumber" class="md-nav__link">
+    <span class="md-ellipsis">
+      - max: ZeroPaddedHexNumber
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-base_fee_update_fraction-zeropaddedhexnumber" class="md-nav__link">
+    <span class="md-ellipsis">
+      - base_fee_update_fraction: ZeroPaddedHexNumber
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -26816,6 +26918,16 @@ E.g. <code>Mapping[Address, Account]</code> is a JSON object where the keys are 
 <p>Storage of the account.</p>
 <h3 id="alloc-mappingaddressaccount"><code>Alloc</code>: <a href="#mapping"><code>Mapping</code></a><code>[</code><a href="#address"><code>Address</code></a><code>,</code><a href="#account"><code>Account</code></a><code>]</code><a class="headerlink" href="#alloc-mappingaddressaccount" title="Permanent link">&para;</a></h3>
 <p>State allocation represented as a JSON object, where the keys are the addresses of the accounts, and the values are the accounts.</p>
+<h3 id="blobschedule-mappingforkforkblobschedule"><code>BlobSchedule</code>: <a href="#mapping"><code>Mapping</code></a><code>[</code><a href="#fork"><code>Fork</code></a><code>,</code><a href="#forkblobschedule"><code>ForkBlobSchedule</code></a><code>]</code><a class="headerlink" href="#blobschedule-mappingforkforkblobschedule" title="Permanent link">&para;</a></h3>
+<p>Maps forks to blob schedule configurations as defined by <a href="https://eips.ethereum.org/EIPS/eip-7840">EIP-7840</a>.</p>
+<h3 id="forkblobschedule"><code>ForkBlobSchedule</code><a class="headerlink" href="#forkblobschedule" title="Permanent link">&para;</a></h3>
+<p>A fork blob schedule as defined by <a href="https://eips.ethereum.org/EIPS/eip-7840">EIP-7840</a> as a JSON dictionary with the following entries:</p>
+<h4 id="-target-zeropaddedhexnumber">- <code>target</code>: <a href="#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a><a class="headerlink" href="#-target-zeropaddedhexnumber" title="Permanent link">&para;</a></h4>
+<p>The target blob count for a block.</p>
+<h4 id="-max-zeropaddedhexnumber">- <code>max</code>: <a href="#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a><a class="headerlink" href="#-max-zeropaddedhexnumber" title="Permanent link">&para;</a></h4>
+<p>The maximum possible blob count for a block.</p>
+<h4 id="-base_fee_update_fraction-zeropaddedhexnumber">- <code>base_fee_update_fraction</code>: <a href="#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a><a class="headerlink" href="#-base_fee_update_fraction-zeropaddedhexnumber" title="Permanent link">&para;</a></h4>
+<p>The blob base fee update fraction (adjusts the responsiveness of blob gas pricing per fork).</p>
 <h2 id="fork">Fork<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h2>
 <p>Fork type is represented as a JSON string that can be set to one of the following values:</p>
 <h3 id="frontier"><code>"Frontier"</code><a class="headerlink" href="#frontier" title="Permanent link">&para;</a></h3>

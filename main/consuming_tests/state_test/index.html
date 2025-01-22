@@ -1311,6 +1311,39 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#-config-fixtureconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      - config: FixtureConfig
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixtureconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      FixtureConfig
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FixtureConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-blobschedule-blobschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      - blobSchedule: BlobSchedule
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -26493,6 +26526,39 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#-config-fixtureconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      - config: FixtureConfig
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixtureconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      FixtureConfig
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FixtureConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-blobschedule-blobschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      - blobSchedule: BlobSchedule
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -26903,6 +26969,12 @@
 <p>Transaction to be executed.</p>
 <h4 id="-post-mappingforklist-fixtureforkpost">- <code>post</code>: <a href="../common_types/#mapping"><code>Mapping</code></a><code>(</code><a href="../common_types/#fork"><code>Fork</code></a><code>,</code><a href="../common_types/#list"><code>List</code></a><code>[</code> <a href="#fixtureforkpost"><code>FixtureForkPost</code></a> <code>])</code><a class="headerlink" href="#-post-mappingforklist-fixtureforkpost" title="Permanent link">&para;</a></h4>
 <p>Mapping of lists of post for verification per fork, where each element represents a single possible outcome of the transaction execution after being applied to the <code>pre</code>.</p>
+<h4 id="-config-fixtureconfig">- <code>config</code>: <a href="#fixtureconfig"><code>FixtureConfig</code></a><a class="headerlink" href="#-config-fixtureconfig" title="Permanent link">&para;</a></h4>
+<p>Chain configuration object.</p>
+<h3 id="fixtureconfig"><code>FixtureConfig</code><a class="headerlink" href="#fixtureconfig" title="Permanent link">&para;</a></h3>
+<p>At the moment this object can contain only the <code>blobSchedule</code> that is necessary to apply the correct cap to the maximum amount of blobs that a transaction can have. Otherwise, in forks prior to Cancun for example, it will be an empty JSON object.</p>
+<h4 id="-blobschedule-blobschedule">- <code>blobSchedule</code>: <a href="../common_types/#blobschedule-mappingforkforkblobschedule"><code>BlobSchedule</code></a><a class="headerlink" href="#-blobschedule-blobschedule" title="Permanent link">&para;</a></h4>
+<p>Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by <a href="https://eips.ethereum.org/EIPS/eip-7840">EIP-7840</a>.</p>
 <h3 id="fixtureenvironment"><code>FixtureEnvironment</code><a class="headerlink" href="#fixtureenvironment" title="Permanent link">&para;</a></h3>
 <h4 id="-currentcoinbase-address">- <code>currentCoinbase</code>: <a href="../common_types/#address"><code>Address</code></a><a class="headerlink" href="#-currentcoinbase-address" title="Permanent link">&para;</a></h4>
 <p>The address of the account that will receive the rewards for building the block.</p>

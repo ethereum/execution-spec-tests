@@ -1363,9 +1363,60 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#-lastblockhash-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      - lastblockhash: Hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#-post-alloc" class="md-nav__link">
     <span class="md-ellipsis">
       - post: Alloc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-config-fixtureconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      - config: FixtureConfig
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixtureconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      FixtureConfig
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FixtureConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-network-fork_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      - network: Fork
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-blobschedule-blobschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      - blobSchedule: BlobSchedule
     </span>
   </a>
   
@@ -26479,9 +26530,60 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#-lastblockhash-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      - lastblockhash: Hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#-post-alloc" class="md-nav__link">
     <span class="md-ellipsis">
       - post: Alloc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-config-fixtureconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      - config: FixtureConfig
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixtureconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      FixtureConfig
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FixtureConfig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-network-fork_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      - network: Fork
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-blobschedule-blobschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      - blobSchedule: BlobSchedule
     </span>
   </a>
   
@@ -26848,7 +26950,9 @@
 <h2 id="structures">Structures<a class="headerlink" href="#structures" title="Permanent link">&para;</a></h2>
 <h3 id="hivefixture"><code>HiveFixture</code><a class="headerlink" href="#hivefixture" title="Permanent link">&para;</a></h3>
 <h4 id="-network-fork">- <code>network</code>: <a href="../common_types/#fork"><code>Fork</code></a><a class="headerlink" href="#-network-fork" title="Permanent link">&para;</a></h4>
+<h5 id="to-be-deprecated">TO BE DEPRECATED<a class="headerlink" href="#to-be-deprecated" title="Permanent link">&para;</a></h5>
 <p>Fork configuration for the test.</p>
+<p>This field is going to be replaced by the value contained in <code>config.network</code>.</p>
 <h4 id="-genesisblockheader-fixtureheader">- <code>genesisBlockHeader</code>: <a href="../blockchain_test/#fixtureheader"><code>FixtureHeader</code></a><a class="headerlink" href="#-genesisblockheader-fixtureheader" title="Permanent link">&para;</a></h4>
 <p>Genesis block header.</p>
 <h4 id="-enginenewpayloads-listfixtureenginenewpayload">- <code>engineNewPayloads</code>: <a href="../common_types/#list"><code>List</code></a><code>[</code><a href="#fixtureenginenewpayload"><code>FixtureEngineNewPayload</code></a><code>]</code><a class="headerlink" href="#-enginenewpayloads-listfixtureenginenewpayload" title="Permanent link">&para;</a></h4>
@@ -26857,8 +26961,17 @@
 <p>Version of the <code>engine_forkchoiceUpdatedVX</code> directive to use to set the head of the chain.</p>
 <h4 id="-pre-alloc">- <code>pre</code>: <a href="../common_types/#alloc-mappingaddressaccount"><code>Alloc</code></a><a class="headerlink" href="#-pre-alloc" title="Permanent link">&para;</a></h4>
 <p>Starting account allocation for the test. State root calculated from this allocation must match the one in the genesis block.</p>
+<h4 id="-lastblockhash-hash">- <code>lastblockhash</code>: <a href="../common_types/#hash"><code>Hash</code></a><a class="headerlink" href="#-lastblockhash-hash" title="Permanent link">&para;</a></h4>
+<p>Hash of the last valid block, or the genesis block hash if the list of blocks is empty, or contains a single invalid block.</p>
 <h4 id="-post-alloc">- <code>post</code>: <a href="../common_types/#alloc-mappingaddressaccount"><code>Alloc</code></a><a class="headerlink" href="#-post-alloc" title="Permanent link">&para;</a></h4>
 <p>Account allocation for verification after all the blocks have been processed.</p>
+<h4 id="-config-fixtureconfig">- <code>config</code>: <a href="#fixtureconfig"><code>FixtureConfig</code></a><a class="headerlink" href="#-config-fixtureconfig" title="Permanent link">&para;</a></h4>
+<p>Chain configuration object to be applied to the client running the blockchain engine test.</p>
+<h3 id="fixtureconfig"><code>FixtureConfig</code><a class="headerlink" href="#fixtureconfig" title="Permanent link">&para;</a></h3>
+<h4 id="-network-fork_1">- <code>network</code>: <a href="../common_types/#fork"><code>Fork</code></a><a class="headerlink" href="#-network-fork_1" title="Permanent link">&para;</a></h4>
+<p>Fork configuration for the test. It is guaranteed that this field contains the same value as the root field <code>network</code>.</p>
+<h4 id="-blobschedule-blobschedule">- <code>blobSchedule</code>: <a href="../common_types/#blobschedule-mappingforkforkblobschedule"><code>BlobSchedule</code></a><a class="headerlink" href="#-blobschedule-blobschedule" title="Permanent link">&para;</a></h4>
+<p>Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by <a href="https://eips.ethereum.org/EIPS/eip-7840">EIP-7840</a>.</p>
 <h3 id="fixtureenginenewpayload"><code>FixtureEngineNewPayload</code><a class="headerlink" href="#fixtureenginenewpayload" title="Permanent link">&para;</a></h3>
 <h4 id="-executionpayload-fixtureexecutionpayload">- <code>executionPayload</code>: <a href="#fixtureexecutionpayload"><code>FixtureExecutionPayload</code></a><a class="headerlink" href="#-executionpayload-fixtureexecutionpayload" title="Permanent link">&para;</a></h4>
 <p>Execution payload.</p>
