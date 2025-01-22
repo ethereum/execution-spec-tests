@@ -69,11 +69,11 @@ def engine_api_error_code(
     if any(len(r) <= 1 for r in block_body_override_requests_bytes):
         return EngineAPIError.InvalidParams
 
-    last_type: int = -1
-    for r in block_body_override_requests_bytes:
-        if r[0] <= last_type:
-            return EngineAPIError.InvalidParams
-        last_type = r[0]
+    def is_monotonically_increasing(requests: List[bytes]) -> bool:
+        return all(x[0] < y[0] for x, y in zip(requests, requests[1:], strict=False))
+
+    if not is_monotonically_increasing(block_body_override_requests_bytes):
+        return EngineAPIError.InvalidParams
 
     return None
 
