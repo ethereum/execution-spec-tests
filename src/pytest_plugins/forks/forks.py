@@ -4,6 +4,7 @@ import itertools
 import re
 import sys
 import textwrap
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from types import FunctionType
 from typing import Any, Callable, ClassVar, Iterable, List, Mapping, Set, Tuple, Type
