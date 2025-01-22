@@ -300,7 +300,7 @@ def test_invalid_post_fork_block_without_blob_fields(
     )
 
 
-@pytest.mark.valid_at_transition_to("Cancun", subsequent_forks=True)
+@pytest.mark.valid_at_transition_to("Cancun", subsequent_forks=False)
 @pytest.mark.parametrize_by_fork(
     "post_fork_block_count,post_fork_blobs_per_block",
     lambda fork: [
@@ -318,7 +318,76 @@ def test_invalid_post_fork_block_without_blob_fields(
         pytest.param(10, fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP), id="target_blobs"),
     ],
 )
-def test_fork_transition_excess_blob_gas(
+def test_fork_transition_excess_blob_gas_at_blob_genesis(
+    blockchain_test: BlockchainTestFiller,
+    env: Environment,
+    pre: Alloc,
+    pre_fork_blocks: List[Block],
+    post_fork_blocks: List[Block],
+    post: Mapping[Address, Account],
+):
+    """
+    Test `excessBlobGas` calculation in the header when the fork is activated.
+
+    Also produce enough blocks to test the blob gas price increase when the block is full with
+    `SpecHelpers.max_blobs_per_block()` blobs.
+    """
+    blockchain_test(
+        pre=pre,
+        post=post,
+        blocks=pre_fork_blocks + post_fork_blocks,
+        genesis_environment=env,
+    )
+
+
+@pytest.mark.valid_at_transition_to("Prague", subsequent_forks=True)
+@pytest.mark.parametrize_by_fork(
+    "post_fork_block_count,pre_fork_blobs_per_block,post_fork_blobs_per_block",
+    lambda fork: [
+        pytest.param(
+            SpecHelpers.get_min_excess_blobs_for_blob_gas_price(fork=fork, blob_gas_price=2)
+            // (
+                fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP)
+                - fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP)
+            )
+            + 2,
+            fork.max_blobs_per_block(timestamp=0),
+            fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
+            id="max_blobs",
+        ),
+        pytest.param(
+            10,
+            0,
+            fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
+            id="no_blobs_before",
+        ),
+        pytest.param(
+            10,
+            fork.max_blobs_per_block(timestamp=0),
+            0,
+            id="no_blobs_after",
+        ),
+        pytest.param(
+            10,
+            fork.target_blobs_per_block(timestamp=0),
+            fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP),
+            id="target_blobs",
+        ),
+        pytest.param(
+            10,
+            1,
+            fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
+            id="single_blob_to_max_blobs",
+        ),
+        pytest.param(
+            10,
+            fork.max_blobs_per_block(timestamp=0),
+            1,
+            id="max_blobs_to_single_blob",
+        ),
+    ],
+)
+def test_fork_transition_excess_blob_gas_post_blob_genesis(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
     pre: Alloc,
