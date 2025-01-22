@@ -356,9 +356,17 @@ def test_fork_transition_excess_blob_gas_at_blob_genesis(
             id="max_blobs",
         ),
         pytest.param(
-            10, 0, fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP), id="no_blobs_before"
+            10,
+            0,
+            fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
+            id="no_blobs_before",
         ),
-        pytest.param(10, fork.max_blobs_per_block(timestamp=0), 0, id="no_blobs_after"),
+        pytest.param(
+            10,
+            fork.max_blobs_per_block(timestamp=0),
+            0,
+            id="no_blobs_after",
+        ),
         pytest.param(
             10,
             fork.target_blobs_per_block(timestamp=0),
