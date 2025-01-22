@@ -761,7 +761,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/test_fork_transition_excess_blob_gas/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/test_fork_transition_excess_blob_gas_at_blob_genesis/</loc>
+         <lastmod>2025-01-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition/test_fork_transition_excess_blob_gas_post_blob_genesis/</loc>
          <lastmod>2025-01-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
