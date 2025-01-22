@@ -394,9 +394,9 @@ def pytest_configure(config: pytest.Config):
     config.addinivalue_line(
         "markers",
         (
-            "valid_at_transition_to(fork[, subsequent_forks: bool = False, "
-            "until: str | None = None]): specifies a test case is valid "
-            "only at fork transition boundary to the specified fork"
+            "valid_at_transition_to(fork, subsequent_forks: bool = False, "
+            "until: str | None = None): specifies a test case is only valid "
+            "at the specified fork transition boundaries"
         ),
     )
     config.addinivalue_line(
