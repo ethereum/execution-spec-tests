@@ -60,6 +60,18 @@ Transaction to be executed.
 
 Mapping of lists of post for verification per fork, where each element represents a single possible outcome of the transaction execution after being applied to the `pre`.
 
+#### - `config`: [`FixtureConfig`](#fixtureconfig)
+
+Chain configuration object.
+
+### `FixtureConfig`
+
+At the moment this object can contain only the `blobSchedule` that is necessary to apply the correct cap to the maximum amount of blobs that a transaction can have. Otherwise, in forks prior to Cancun for example, it will be an empty JSON object.
+
+#### - `blobSchedule`: [`BlobSchedule`](./common_types.md#blobschedule-mappingforkforkblobschedule)
+
+Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
+
 ### `FixtureEnvironment`
 
 #### - `currentCoinbase`: [`Address`](./common_types.md#address)

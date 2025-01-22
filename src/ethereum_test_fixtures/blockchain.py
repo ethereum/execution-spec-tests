@@ -43,6 +43,7 @@ from ethereum_test_types.types import (
 )
 
 from .base import BaseFixture
+from .common import FixtureBlobSchedule
 
 
 class HeaderForkRequirement(str):
@@ -118,9 +119,6 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
-    target_blobs_per_block: (
-        Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("target_blobs_per_block")] | None
-    ) = Field(None)
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -306,12 +304,6 @@ class FixtureEngineNewPayload(CamelModel):
                 raise ValueError(f"Requests are required for ${fork}.")
             params.append(requests)
 
-        if fork.engine_new_payload_target_blobs_per_block(header.number, header.timestamp):
-            target_blobs_per_block = header.target_blobs_per_block
-            if target_blobs_per_block is None:
-                raise ValueError(f"Target blobs per block is required for ${fork}.")
-            params.append(target_blobs_per_block)
-
         payload_params: EngineNewPayloadParameters = cast(
             EngineNewPayloadParameters,
             tuple(params),
@@ -405,6 +397,13 @@ class FixtureBlock(FixtureBlockBase):
         )
 
 
+class FixtureConfig(CamelModel):
+    """Chain configuration for a fixture."""
+
+    fork: str = Field(..., alias="network")
+    blob_schedule: FixtureBlobSchedule | None = None
+
+
 class InvalidFixtureBlock(CamelModel):
     """Representation of an invalid Ethereum block within a test Fixture."""
 
@@ -413,7 +412,7 @@ class InvalidFixtureBlock(CamelModel):
     rlp_decoded: FixtureBlockBase | None = Field(None, alias="rlp_decoded")
 
 
-class FixtureCommon(BaseFixture):
+class BlockchainFixtureCommon(BaseFixture):
     """Base blockchain test fixture model."""
 
     fork: str = Field(..., alias="network")
@@ -421,13 +420,14 @@ class FixtureCommon(BaseFixture):
     pre: Alloc
     post_state: Alloc | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
+    config: FixtureConfig
 
     def get_fork(self) -> str | None:
         """Return fork of the fixture as a string."""
         return self.fork
 
 
-class Fixture(FixtureCommon):
+class BlockchainFixture(BlockchainFixtureCommon):
     """Cross-client specific blockchain test model use in JSON fixtures."""
 
     fixture_format_name: ClassVar[str] = "blockchain_test"
@@ -438,7 +438,7 @@ class Fixture(FixtureCommon):
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
 
-class EngineFixture(FixtureCommon):
+class BlockchainEngineFixture(BlockchainFixtureCommon):
     """Engine specific test fixture information."""
 
     fixture_format_name: ClassVar[str] = "blockchain_test_engine"

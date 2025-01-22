@@ -5,7 +5,7 @@ from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Sized, Tupl
 
 from semver import Version
 
-from ethereum_test_base_types import AccessList, Address
+from ethereum_test_base_types import AccessList, Address, BlobSchedule
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
@@ -218,14 +218,6 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """Return true if the header must contain beacon chain requests."""
         pass
 
-    @classmethod
-    @abstractmethod
-    def header_target_blobs_per_block_required(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
-        """Return true if the header must contain target blobs per block."""
-        pass
-
     # Gas related abstract methods
 
     @classmethod
@@ -319,6 +311,13 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @abstractmethod
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the max blobs per block at a given fork."""
+        pass
+
+    @classmethod
+    @prefer_transition_to_method
+    @abstractmethod
+    def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
+        """Return the blob schedule up until the given fork."""
         pass
 
     @classmethod
@@ -546,6 +545,15 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     def ignore(cls) -> bool:
         """Return whether the fork should be ignored during test generation."""
         return cls._ignore
+
+    @classmethod
+    def parent(cls) -> Type["BaseFork"] | None:
+        """Return the parent fork."""
+        base_class = cls.__bases__[0]
+        assert issubclass(base_class, BaseFork)
+        if base_class == BaseFork:
+            return None
+        return base_class
 
 
 # Fork Type
