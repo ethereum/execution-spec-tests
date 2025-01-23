@@ -33916,16 +33916,24 @@ Raises exception on failure.</p>
 <span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
-<span class="normal">309</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">20</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">20</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class that helps represent Ethereum addresses in tests.&quot;&quot;&quot;</span>
 
     <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">input_bytes</span><span class="p">:</span> <span class="s2">&quot;FixedSizeBytesConvertible | Address&quot;</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">input_bytes</span><span class="p">:</span> <span class="s2">&quot;FixedSizeBytesConvertible | Address&quot;</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new Address object with an optional label.&quot;&quot;&quot;</span>
-        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Address</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_bytes</span><span class="p">)</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Address</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_bytes</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">,</span> <span class="n">Address</span><span class="p">)</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">input_bytes</span><span class="o">.</span><span class="n">label</span>
         <span class="k">else</span><span class="p">:</span>
@@ -33948,7 +33956,7 @@ Raises exception on failure.</p>
 
 
 <h3 id="ethereum_test_tools.Address.__new__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_tools.Address.__new__" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -33968,11 +33976,19 @@ Raises exception on failure.</p>
 <span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
-<span class="normal">309</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-    <span class="bp">cls</span><span class="p">,</span> <span class="n">input_bytes</span><span class="p">:</span> <span class="s2">&quot;FixedSizeBytesConvertible | Address&quot;</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span>
+    <span class="n">input_bytes</span><span class="p">:</span> <span class="s2">&quot;FixedSizeBytesConvertible | Address&quot;</span><span class="p">,</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new Address object with an optional label.&quot;&quot;&quot;</span>
-    <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Address</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_bytes</span><span class="p">)</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Address</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_bytes</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">,</span> <span class="n">Address</span><span class="p">)</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">input_bytes</span><span class="o">.</span><span class="n">label</span>
     <span class="k">else</span><span class="p">:</span>
@@ -34364,10 +34380,10 @@ Raises exception on failure.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/base_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Hash</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">32</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Hash</span><span class="p">(</span><span class="n">FixedSizeBytes</span><span class="p">[</span><span class="mi">32</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class that helps represent hashes in tests.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span>
