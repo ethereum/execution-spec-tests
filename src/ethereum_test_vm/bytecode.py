@@ -134,11 +134,18 @@ class Bytecode:
             )
         )
 
-    def __add__(self, other: "Bytecode | int | None") -> "Bytecode":
+    def __add__(self, other: "Bytecode | bytes | int | None") -> "Bytecode":
         """Concatenate the bytecode representation with another bytecode object."""
         if other is None or (isinstance(other, int) and other == 0):
             # Edge case for sum() function
             return self
+
+        if isinstance(other, bytes):
+            c = Bytecode(self)
+            c._bytes_ += other
+            c._name_ = ""
+            return c
+
         assert isinstance(other, Bytecode), "Can only concatenate Bytecode instances"
         # Figure out the stack height after executing the two opcodes.
         a_pop, a_push = self.popped_stack_items, self.pushed_stack_items
