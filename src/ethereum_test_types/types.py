@@ -27,6 +27,7 @@ from ethereum_test_base_types import (
     AccessList,
     Account,
     Address,
+    Bloom,
     BLSPublicKey,
     BLSSignature,
     Bytes,
@@ -342,10 +343,6 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     difficulty: NumberBoundTypeVar | None = Field(None, alias="currentDifficulty")
     base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="currentBaseFee")
     excess_blob_gas: NumberBoundTypeVar | None = Field(None, alias="currentExcessBlobGas")
-    target_blobs_per_block: NumberBoundTypeVar | None = Field(
-        None,
-        alias="currentTargetBlobsPerBlock",
-    )
 
     parent_difficulty: NumberBoundTypeVar | None = Field(None)
     parent_timestamp: NumberBoundTypeVar | None = Field(None)
@@ -428,14 +425,6 @@ class Environment(EnvironmentGeneric[Number]):
             and self.parent_beacon_block_root is None
         ):
             updated_values["parent_beacon_block_root"] = 0
-
-        if (
-            fork.header_target_blobs_per_block_required(number, timestamp)
-            and self.target_blobs_per_block is None
-        ):
-            updated_values["target_blobs_per_block"] = fork.target_blobs_per_block(
-                number, timestamp
-            )
 
         return self.copy(**updated_values)
 
@@ -558,6 +547,47 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
         self.s = HexNumber(signature[2])
 
 
+class TransactionLog(CamelModel):
+    """Transaction log."""
+
+    address: Address
+    topics: List[Hash]
+    data: Bytes
+    block_number: HexNumber
+    transaction_hash: Hash
+    transaction_index: HexNumber
+    block_hash: Hash
+    log_index: HexNumber
+    removed: bool
+
+
+class ReceiptDelegation(CamelModel):
+    """Transaction receipt set-code delegation."""
+
+    from_address: Address = Field(..., alias="from")
+    nonce: HexNumber
+    target: Address
+
+
+class TransactionReceipt(CamelModel):
+    """Transaction receipt."""
+
+    transaction_hash: Hash | None = None
+    gas_used: HexNumber | None = None
+    root: Bytes | None = None
+    status: HexNumber | None = None
+    cumulative_gas_used: HexNumber | None = None
+    logs_bloom: Bloom | None = None
+    logs: List[TransactionLog] | None = None
+    contract_address: Address | None = None
+    effective_gas_price: HexNumber | None = None
+    block_hash: Hash | None = None
+    transaction_index: HexNumber | None = None
+    blob_gas_used: HexNumber | None = None
+    blob_gas_price: HexNumber | None = None
+    delegations: List[ReceiptDelegation] | None = None
+
+
 @dataclass
 class TransactionDefaults:
     """Default values for transactions."""
@@ -594,28 +624,8 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     sender: EOA | None = None
 
 
-class TransactionFixtureConverter(CamelModel):
-    """Handler for serializing and validating the `to` field as an empty string."""
-
-    @model_validator(mode="before")
-    @classmethod
-    def validate_to_as_empty_string(cls, data: Any) -> Any:
-        """If the `to` field is an empty string, set the model value to None."""
-        if isinstance(data, dict) and "to" in data and data["to"] == "":
-            data["to"] = None
-        return data
-
-    @model_serializer(mode="wrap", when_used="json-unless-none")
-    def serialize_to_as_empty_string(self, serializer):
-        """Serialize the `to` field as the empty string if the model value is None."""
-        default = serializer(self)
-        if default is not None and "to" not in default:
-            default["to"] = ""
-        return default
-
-
-class TransactionTransitionToolConverter(CamelModel):
-    """Handler for serializing and validating the `to` field as an empty string."""
+class TransactionValidateToAsEmptyString(CamelModel):
+    """Handler to validate the `to` field from an empty string."""
 
     @model_validator(mode="before")
     @classmethod
@@ -629,6 +639,22 @@ class TransactionTransitionToolConverter(CamelModel):
         ):
             data["to"] = None
         return data
+
+
+class TransactionFixtureConverter(TransactionValidateToAsEmptyString):
+    """Handler for serializing and validating the `to` field as an empty string."""
+
+    @model_serializer(mode="wrap", when_used="json-unless-none")
+    def serialize_to_as_empty_string(self, serializer):
+        """Serialize the `to` field as the empty string if the model value is None."""
+        default = serializer(self)
+        if default is not None and "to" not in default:
+            default["to"] = ""
+        return default
+
+
+class TransactionTransitionToolConverter(TransactionValidateToAsEmptyString):
+    """Handler for serializing and validating the `to` field as an empty string."""
 
     @model_serializer(mode="wrap", when_used="json-unless-none")
     def serialize_to_as_none(self, serializer):
@@ -659,6 +685,8 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
     protected: bool = Field(True, exclude=True)
     rlp_override: Bytes | None = Field(None, exclude=True)
+
+    expected_receipt: TransactionReceipt | None = Field(None, exclude=True)
 
     wrapped_blob_transaction: bool = Field(False, exclude=True)
     blobs: Sequence[Bytes] | None = Field(None, exclude=True)

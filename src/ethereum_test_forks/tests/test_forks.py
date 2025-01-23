@@ -1,9 +1,11 @@
 """Test fork utilities."""
 
-from typing import Mapping, cast
+from typing import Dict, cast
 
 import pytest
 from semver import Version
+
+from ethereum_test_base_types import BlobSchedule
 
 from ..base_fork import Fork
 from ..forks.forks import (
@@ -17,7 +19,12 @@ from ..forks.forks import (
     Prague,
     Shanghai,
 )
-from ..forks.transition import BerlinToLondonAt5, ParisToShanghaiAtTime15k
+from ..forks.transition import (
+    BerlinToLondonAt5,
+    CancunToPragueAtTime15k,
+    ParisToShanghaiAtTime15k,
+    ShanghaiToCancunAtTime15k,
+)
 from ..helpers import (
     forks_from,
     forks_from_until,
@@ -40,7 +47,7 @@ def test_transition_forks():
     """Test transition fork utilities."""
     assert transition_fork_from_to(Berlin, London) == BerlinToLondonAt5
     assert transition_fork_from_to(Berlin, Paris) is None
-    assert transition_fork_to(Shanghai) == [ParisToShanghaiAtTime15k]
+    assert transition_fork_to(Shanghai) == {ParisToShanghaiAtTime15k}
 
     # Test forks transitioned to and from
     assert BerlinToLondonAt5.transitions_to() == London
@@ -119,6 +126,9 @@ def test_forks():
     assert cast(Fork, ParisToShanghaiAtTime15k).header_withdrawals_required(0, 15_000) is True
     assert cast(Fork, ParisToShanghaiAtTime15k).header_withdrawals_required() is True
 
+
+def test_fork_comparison():
+    """Test fork comparison operators."""
     # Test fork comparison
     assert Paris > Berlin
     assert not Berlin > Paris
@@ -153,6 +163,50 @@ def test_forks():
     assert fork == Berlin
 
 
+def test_transition_fork_comparison():
+    """
+    Test comparing to a transition fork.
+
+    The comparison logic is based on the logic we use to generate the tests.
+
+    E.g. given transition fork A->B, when filling, and given the from/until markers,
+    we expect the following logic:
+
+    Marker    Comparison   A->B Included
+    --------- ------------ ---------------
+    From A    fork >= A    True
+    Until A   fork <= A    False
+    From B    fork >= B    True
+    Until B   fork <= B    True
+    """
+    assert BerlinToLondonAt5 >= Berlin
+    assert not BerlinToLondonAt5 <= Berlin
+    assert BerlinToLondonAt5 >= London
+    assert BerlinToLondonAt5 <= London
+
+    # Comparisons between transition forks is done against the `transitions_to` fork
+    assert BerlinToLondonAt5 < ParisToShanghaiAtTime15k
+    assert ParisToShanghaiAtTime15k > BerlinToLondonAt5
+    assert BerlinToLondonAt5 == BerlinToLondonAt5
+    assert BerlinToLondonAt5 != ParisToShanghaiAtTime15k
+    assert BerlinToLondonAt5 <= ParisToShanghaiAtTime15k
+    assert ParisToShanghaiAtTime15k >= BerlinToLondonAt5
+
+    assert sorted(
+        {
+            CancunToPragueAtTime15k,
+            ParisToShanghaiAtTime15k,
+            ShanghaiToCancunAtTime15k,
+            BerlinToLondonAt5,
+        }
+    ) == [
+        BerlinToLondonAt5,
+        ParisToShanghaiAtTime15k,
+        ShanghaiToCancunAtTime15k,
+        CancunToPragueAtTime15k,
+    ]
+
+
 def test_get_forks():  # noqa: D103
     all_forks = get_forks()
     assert all_forks[0] == FIRST_DEPLOYED
@@ -169,7 +223,7 @@ class PrePreAllocFork(Shanghai):
     """Dummy fork used for testing."""
 
     @classmethod
-    def pre_allocation(cls) -> Mapping:
+    def pre_allocation(cls) -> Dict:
         """Return some starting point for allocation."""
         return {"test": "test"}
 
@@ -178,12 +232,12 @@ class PreAllocFork(PrePreAllocFork):
     """Dummy fork used for testing."""
 
     @classmethod
-    def pre_allocation(cls) -> Mapping:
+    def pre_allocation(cls) -> Dict:
         """Add allocation to the pre-existing one from previous fork."""
         return {"test2": "test2"} | super(PreAllocFork, cls).pre_allocation()
 
 
-@transition_fork(to_fork=PreAllocFork, at_timestamp=15_000)
+@transition_fork(to_fork=PreAllocFork, at_timestamp=15_000)  # type: ignore
 class PreAllocTransitionFork(PrePreAllocFork):
     """PrePreAllocFork to PreAllocFork transition at Timestamp 15k."""
 
@@ -264,3 +318,60 @@ def test_tx_intrinsic_gas_functions(fork: Fork, calldata: bytes, create_tx: bool
         )
         == intrinsic_gas
     )
+
+
+@pytest.mark.parametrize(
+    "fork,expected_schedule",
+    [
+        pytest.param(Frontier, None, id="Frontier"),
+        pytest.param(
+            Cancun,
+            {
+                "Cancun": {
+                    "target_blobs_per_block": 3,
+                    "max_blobs_per_block": 6,
+                    "baseFeeUpdateFraction": 3338477,
+                },
+            },
+            id="Cancun",
+        ),
+        pytest.param(
+            Prague,
+            {
+                "Cancun": {
+                    "target_blobs_per_block": 3,
+                    "max_blobs_per_block": 6,
+                    "baseFeeUpdateFraction": 3338477,
+                },
+                "Prague": {
+                    "target_blobs_per_block": 6,
+                    "max_blobs_per_block": 9,
+                    "baseFeeUpdateFraction": 5007716,
+                },
+            },
+            id="Prague",
+        ),
+        pytest.param(
+            CancunToPragueAtTime15k,
+            {
+                "Cancun": {
+                    "target_blobs_per_block": 3,
+                    "max_blobs_per_block": 6,
+                    "baseFeeUpdateFraction": 3338477,
+                },
+                "Prague": {
+                    "target_blobs_per_block": 6,
+                    "max_blobs_per_block": 9,
+                    "baseFeeUpdateFraction": 5007716,
+                },
+            },
+            id="CancunToPragueAtTime15k",
+        ),
+    ],
+)
+def test_blob_schedules(fork: Fork, expected_schedule: Dict | None):
+    """Test blob schedules for different forks."""
+    if expected_schedule is None:
+        assert fork.blob_schedule() is None
+    else:
+        assert fork.blob_schedule() == BlobSchedule(**expected_schedule)

@@ -1,8 +1,4 @@
 {
-    "EELSMaster": {
-        "git_url": "https://github.com/ethereum/execution-specs.git",
-        "branch": "master"
-    },
     "Frontier": {
         "path": "../../execution-specs/src/ethereum/frontier"
     },
@@ -24,7 +20,7 @@
     "London": {
         "path": "../../execution-specs/src/ethereum/london"
     },
-    "Paris": {
+    "Merge": {
         "path": "../../execution-specs/src/ethereum/paris"
     },
     "Shanghai": {

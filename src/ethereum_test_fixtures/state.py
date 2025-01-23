@@ -4,7 +4,14 @@ from typing import ClassVar, List, Mapping, Sequence
 
 from pydantic import BaseModel, Field
 
-from ethereum_test_base_types import AccessList, Address, Alloc, Bytes, Hash, ZeroPaddedHexNumber
+from ethereum_test_base_types import (
+    AccessList,
+    Address,
+    Alloc,
+    Bytes,
+    Hash,
+    ZeroPaddedHexNumber,
+)
 from ethereum_test_exceptions import TransactionExceptionInstanceOrList
 from ethereum_test_types.types import (
     AuthorizationTupleGeneric,
@@ -15,6 +22,7 @@ from ethereum_test_types.types import (
 )
 
 from .base import BaseFixture
+from .common import FixtureBlobSchedule
 
 
 class FixtureEnvironment(EnvironmentGeneric[ZeroPaddedHexNumber]):
@@ -86,7 +94,13 @@ class FixtureForkPost(CamelModel):
     expect_exception: TransactionExceptionInstanceOrList | None = None
 
 
-class Fixture(BaseFixture):
+class FixtureConfig(CamelModel):
+    """Chain configuration for a fixture."""
+
+    blob_schedule: FixtureBlobSchedule | None = None
+
+
+class StateFixture(BaseFixture):
     """Fixture for a single StateTest."""
 
     fixture_format_name: ClassVar[str] = "state_test"
@@ -96,6 +110,7 @@ class Fixture(BaseFixture):
     pre: Alloc
     transaction: FixtureTransaction
     post: Mapping[str, List[FixtureForkPost]]
+    config: FixtureConfig
 
     def get_fork(self) -> str | None:
         """Return fork of the fixture as a string."""

@@ -28,16 +28,16 @@ from ethereum_test_fixtures import (
     FixtureFormat,
 )
 from ethereum_test_fixtures.blockchain import (
-    EngineFixture,
-    Fixture,
     FixtureBlock,
     FixtureBlockBase,
+    FixtureConfig,
     FixtureEngineNewPayload,
     FixtureHeader,
     FixtureTransaction,
     FixtureWithdrawal,
     InvalidFixtureBlock,
 )
+from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
 
@@ -109,7 +109,6 @@ class Header(CamelModel):
     excess_blob_gas: Removable | HexNumber | None = None
     parent_beacon_block_root: Removable | Hash | None = None
     requests_hash: Removable | Hash | None = None
-    target_blobs_per_block: Removable | HexNumber | None = None
 
     REMOVE_FIELD: ClassVar[Removable] = Removable()
     """
@@ -224,6 +223,10 @@ class Block(Header):
     """
     Custom list of requests to embed in this block.
     """
+    expected_post_state: Alloc | None = None
+    """
+    Post state for verification after block execution in BlockchainTest
+    """
 
     def set_environment(self, env: Environment) -> Environment:
         """
@@ -252,8 +255,6 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
-        if not isinstance(self.target_blobs_per_block, Removable):
-            new_env_values["target_blobs_per_block"] = self.target_blobs_per_block
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
@@ -338,11 +339,6 @@ class BlockchainTest(BaseTest):
             ),
             parent_beacon_block_root=env.parent_beacon_block_root,
             requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
-            target_blobs_per_block=(
-                fork.target_blobs_per_block(0, 0)
-                if fork.header_target_blobs_per_block_required(0, 0)
-                else None
-            ),
             fork=fork,
         )
 
@@ -395,6 +391,7 @@ class BlockchainTest(BaseTest):
             fork=fork,
             chain_id=self.chain_id,
             reward=fork.get_reward(env.number, env.timestamp),
+            blob_schedule=fork.blob_schedule(),
             eips=eips,
             debug_output_path=self.get_next_transition_tool_output_path(),
             slow_request=slow,
@@ -402,7 +399,9 @@ class BlockchainTest(BaseTest):
 
         try:
             rejected_txs = verify_transactions(
-                t8n.exception_mapper, txs, transition_tool_output.result
+                txs=txs,
+                exception_mapper=t8n.exception_mapper,
+                result=transition_tool_output.result,
             )
             verify_result(transition_tool_output.result, env)
         except Exception as e:
@@ -489,10 +488,13 @@ class BlockchainTest(BaseTest):
             else fork.blockchain_test_network_name()
         )
 
-    def verify_post_state(self, t8n, alloc: Alloc):
+    def verify_post_state(self, t8n, t8n_state: Alloc, expected_state: Alloc | None = None):
         """Verify post alloc after all block/s or payload/s are generated."""
         try:
-            self.post.verify_post_alloc(alloc)
+            if expected_state:
+                expected_state.verify_post_alloc(t8n_state)
+            else:
+                self.post.verify_post_alloc(t8n_state)
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
@@ -503,7 +505,7 @@ class BlockchainTest(BaseTest):
         fork: Fork,
         eips: Optional[List[int]] = None,
         slow: bool = False,
-    ) -> Fixture:
+    ) -> BlockchainFixture:
         """Create a fixture from the blockchain test definition."""
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
@@ -568,15 +570,25 @@ class BlockchainTest(BaseTest):
                     ),
                 )
 
-        self.verify_post_state(t8n, alloc)
-        return Fixture(
-            fork=self.network_info(fork, eips),
+            if block.expected_post_state:
+                self.verify_post_state(
+                    t8n, t8n_state=alloc, expected_state=block.expected_post_state
+                )
+
+        self.verify_post_state(t8n, t8n_state=alloc)
+        network_info = self.network_info(fork, eips)
+        return BlockchainFixture(
+            fork=network_info,
             genesis=genesis.header,
             genesis_rlp=genesis.rlp,
             blocks=fixture_blocks,
             last_block_hash=head,
             pre=pre,
             post_state=alloc,
+            config=FixtureConfig(
+                fork=network_info,
+                blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
+            ),
         )
 
     def make_hive_fixture(
@@ -585,7 +597,7 @@ class BlockchainTest(BaseTest):
         fork: Fork,
         eips: Optional[List[int]] = None,
         slow: bool = False,
-    ) -> EngineFixture:
+    ) -> BlockchainEngineFixture:
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
@@ -620,13 +632,19 @@ class BlockchainTest(BaseTest):
                     alloc = new_alloc
                     env = apply_new_parent(env, header)
                     head_hash = header.block_hash
+
+            if block.expected_post_state:
+                self.verify_post_state(
+                    t8n, t8n_state=alloc, expected_state=block.expected_post_state
+                )
+
         fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
         assert (
             fcu_version is not None
         ), "A hive fixture was requested but no forkchoice update is defined. The framework should"
         " never try to execute this test case."
 
-        self.verify_post_state(t8n, alloc)
+        self.verify_post_state(t8n, t8n_state=alloc)
 
         sync_payload: Optional[FixtureEngineNewPayload] = None
         if self.verify_sync:
@@ -656,8 +674,9 @@ class BlockchainTest(BaseTest):
                 error_code=None,
             )
 
-        return EngineFixture(
-            fork=self.network_info(fork, eips),
+        network_info = self.network_info(fork, eips)
+        return BlockchainEngineFixture(
+            fork=network_info,
             genesis=genesis.header,
             payloads=fixture_payloads,
             fcu_version=fcu_version,
@@ -665,6 +684,10 @@ class BlockchainTest(BaseTest):
             post_state=alloc,
             sync_payload=sync_payload,
             last_block_hash=head_hash,
+            config=FixtureConfig(
+                fork=network_info,
+                blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
+            ),
         )
 
     def generate(

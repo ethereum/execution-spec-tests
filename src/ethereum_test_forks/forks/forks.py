@@ -8,7 +8,7 @@ from typing import List, Mapping, Optional, Sized, Tuple
 
 from semver import Version
 
-from ethereum_test_base_types import AccessList, Address, Bytes
+from ethereum_test_base_types import AccessList, Address, BlobSchedule, Bytes, ForkBlobSchedule
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
@@ -123,7 +123,8 @@ class Frontier(BaseFork, solc_name="homestead"):
             G_KECCAK_256_WORD=6,
             G_COPY=3,
             G_BLOCKHASH=20,
-            G_AUTHORIZATION=25_000,
+            G_AUTHORIZATION=0,
+            R_AUTHORIZATION_EXISTING_AUTHORITY=0,
         )
 
     @classmethod
@@ -214,24 +215,26 @@ class Frontier(BaseFork, solc_name="homestead"):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> BlobGasPriceCalculator:
         """Return a callable that calculates the blob gas price at a given fork."""
-        raise NotImplementedError("Blob gas price calculator is not supported in Frontier")
+        raise NotImplementedError(f"Blob gas price calculator is not supported in {cls.name()}")
 
     @classmethod
     def excess_blob_gas_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> ExcessBlobGasCalculator:
         """Return a callable that calculates the excess blob gas for a block at a given fork."""
-        raise NotImplementedError("Excess blob gas calculator is not supported in Frontier")
+        raise NotImplementedError(f"Excess blob gas calculator is not supported in {cls.name()}")
 
     @classmethod
     def min_base_fee_per_blob_gas(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the amount of blob gas used per blob at a given fork."""
-        raise NotImplementedError("Base fee per blob gas is not supported in Frontier")
+        raise NotImplementedError(f"Base fee per blob gas is not supported in {cls.name()}")
 
     @classmethod
     def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the blob base fee update fraction at a given fork."""
-        raise NotImplementedError("Blob base fee update fraction is not supported in Frontier")
+        raise NotImplementedError(
+            f"Blob base fee update fraction is not supported in {cls.name()}"
+        )
 
     @classmethod
     def blob_gas_per_blob(cls, block_number: int = 0, timestamp: int = 0) -> int:
@@ -239,14 +242,24 @@ class Frontier(BaseFork, solc_name="homestead"):
         return 0
 
     @classmethod
+    def supports_blobs(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Blobs are not supported at Frontier."""
+        return False
+
+    @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the target number of blobs per block at a given fork."""
-        raise NotImplementedError("Target blobs per block is not supported in Frontier")
+        raise NotImplementedError(f"Target blobs per block is not supported in {cls.name()}")
 
     @classmethod
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the max number of blobs per block at a given fork."""
-        raise NotImplementedError("Max blobs per block is not supported in Frontier")
+        raise NotImplementedError(f"Max blobs per block is not supported in {cls.name()}")
+
+    @classmethod
+    def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
+        """At genesis, no blob schedule is used."""
+        return None
 
     @classmethod
     def header_requests_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
@@ -263,15 +276,6 @@ class Frontier(BaseFork, solc_name="homestead"):
     @classmethod
     def header_beacon_root_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """At genesis, header must not contain parent beacon block root."""
-        return False
-
-    @classmethod
-    def header_target_blobs_per_block_required(
-        cls,
-        block_number: int = 0,
-        timestamp: int = 0,
-    ) -> bool:
-        """At genesis, header must not contain target blobs per block."""
         return False
 
     @classmethod
@@ -938,6 +942,11 @@ class Cancun(Shanghai):
         return 2**17
 
     @classmethod
+    def supports_blobs(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """At Cancun, blobs support is enabled."""
+        return True
+
+    @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Blobs are enabled starting from Cancun, with a static target of 3 blobs."""
         return 3
@@ -946,6 +955,29 @@ class Cancun(Shanghai):
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Blobs are enabled starting from Cancun, with a static max of 6 blobs."""
         return 6
+
+    @classmethod
+    def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
+        """
+        At Cancun, the fork object runs this routine to get the updated blob
+        schedule.
+        """
+        parent_fork = cls.parent()
+        assert parent_fork is not None, "Parent fork must be defined"
+        blob_schedule = parent_fork.blob_schedule(block_number, timestamp)
+        if blob_schedule is None:
+            last_blob_schedule = None
+            blob_schedule = BlobSchedule()
+        else:
+            last_blob_schedule = blob_schedule.last()
+        current_blob_schedule = ForkBlobSchedule(
+            target_blobs_per_block=cls.target_blobs_per_block(block_number, timestamp),
+            max_blobs_per_block=cls.max_blobs_per_block(block_number, timestamp),
+            base_fee_update_fraction=cls.blob_base_fee_update_fraction(block_number, timestamp),
+        )
+        if last_blob_schedule is None or last_blob_schedule != current_blob_schedule:
+            blob_schedule.append(fork=cls.__name__, schedule=current_blob_schedule)
+        return blob_schedule
 
     @classmethod
     def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
@@ -1052,6 +1084,8 @@ class Prague(Cancun):
             super(Prague, cls).gas_costs(block_number, timestamp),
             G_TX_DATA_STANDARD_TOKEN_COST=4,  # https://eips.ethereum.org/EIPS/eip-7623
             G_TX_DATA_FLOOR_TOKEN_COST=10,
+            G_AUTHORIZATION=25_000,
+            R_AUTHORIZATION_EXISTING_AUTHORITY=12_500,
         )
 
     @classmethod
