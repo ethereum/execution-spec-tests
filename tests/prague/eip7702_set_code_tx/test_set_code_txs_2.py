@@ -425,11 +425,8 @@ def test_pointer_to_precompile(state_test: StateTestFiller, pre: Alloc, precompi
     """
     Tx -> call -> pointer A -> precompile contract.
 
-    In case a delegation designator points to a precompile address, retrieved code is considered
-    empty and CALL, CALLCODE, STATICCALL, DELEGATECALL instructions targeting this account will
-    execute empty code, i.e. succeed with no execution given enough gas.
-
-    So call to a pointer that points to a precompile is like call to an empty account
+    The call to the pointer is passed with zero gas, so any potential precompile execution would
+    immediately fail.
     """
     env = Environment()
 
@@ -438,78 +435,21 @@ def test_pointer_to_precompile(state_test: StateTestFiller, pre: Alloc, precompi
     sender = pre.fund_eoa()
     pointer_a = pre.fund_eoa()
 
-    contract_test_normal = pre.deploy_contract(
-        code=Op.GAS()
-        + Op.POP(Op.CALL(gas=100_000, address=precompile, args_size=Op.CALLDATASIZE()))
-        + Op.MSTORE(0, Op.SUB(Op.SWAP1(), Op.GAS()))
-        + Op.RETURN(0, 32)
-    )
-
-    contract_test_pointer = pre.deploy_contract(
-        code=Op.GAS()
-        + Op.POP(Op.CALL(gas=100_000, address=pointer_a, args_size=Op.CALLDATASIZE()))
-        + Op.MSTORE(0, Op.SUB(Op.SWAP1(), Op.GAS()))
-        + Op.RETURN(0, 32)
-    )
-
-    # Precompile call gas diff map. if it matches we know for sure
-    # that pointer call didn't work as a call to precompile contract
-    # due to unique call gas difference
-    # Existing test check only return call value, but we can either see the gas consumed on
-    # precompile or provide a valid data and verify that the precompile really didn't work
-    precompile_gas_diff: dict[int, int] = {
-        0x01: 2900,
-        0x02: 56,
-        0x03: 1460,
-        0x04: -61,
-        0x05: 99900,
-        0x06: 50,
-        0x07: 5900,
-        0x08: 99900,
-        0x09: 99900,
-        0x0A: 99900,
-        0x0B: 99900,
-        0x0C: 99900,
-        0x0D: 99900,
-        0x0E: 99900,
-        0x0F: 99900,
-        0x10: 99900,
-        0x11: 99900,
-        0x12: 99900,
-        0x13: 99900,
-    }
-
-    normal_call_gas = 2000
-    pointer_call_gas = 3000
     contract_a = pre.deploy_contract(
-        code=Op.CALL(
-            gas=1_000_000,
-            address=contract_test_normal,
-            args_size=Op.CALLDATASIZE(),
-            ret_offset=1000,
-            ret_size=32,
-        )
-        + Op.MSTORE(normal_call_gas, Op.MLOAD(1000))
-        + Op.CALL(
-            gas=1_000_000,
-            address=contract_test_pointer,
-            args_size=Op.CALLDATASIZE(),
-            ret_offset=1000,
-            ret_size=32,
-        )
-        + Op.MSTORE(pointer_call_gas, Op.MLOAD(1000))
-        + Op.SSTORE(
-            storage.store_next(
-                precompile_gas_diff.get(int(Address(precompile).hex(), 16), 0), "call_gas_diff"
+        code=Op.SSTORE(
+            storage.store_next(1, "pointer_call_return_code"),
+            Op.CALL(
+                gas=0,  # Guarantees that any precompile logic should fail if called
+                address=pointer_a,
             ),
-            Op.SUB(Op.MLOAD(normal_call_gas), Op.MLOAD(pointer_call_gas)),
         )
+        + Op.STOP
     )
 
     tx = Transaction(
         to=contract_a,
-        gas_limit=3_000_000,
-        data=[0x11] * 256,
+        gas_limit=100_000,
+        data=b"",
         value=0,
         sender=sender,
         authorization_list=[
