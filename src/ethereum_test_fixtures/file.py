@@ -66,17 +66,16 @@ class BaseFixturesRootModel(EthereumTestRootModel):
         add the hash to the info field on per-fixture basis.
         """
         json_fixtures: Dict[str, Dict[str, Any]] = {}
-        for name, fixture in self.items():
-            json_fixtures[name] = fixture.json_dict_with_info()
         lock_file_path = file_path.with_suffix(".lock")
         with FileLock(lock_file_path):
-            initial_data = {}
             if file_path.exists():
                 with open(file_path, "r") as f:
-                    initial_data = json.load(f)
-            initial_data.update(json_fixtures)
+                    json_fixtures = json.load(f)
+            for name, fixture in self.items():
+                json_fixtures[name] = fixture.json_dict_with_info()
+
             with open(file_path, "w") as f:
-                json.dump(initial_data, f, indent=4)
+                json.dump(dict(sorted(json_fixtures.items())), f, indent=4)
 
     @classmethod
     def from_file(
