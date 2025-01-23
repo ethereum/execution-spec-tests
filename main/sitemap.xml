@@ -3451,7 +3451,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7623_increase_calldata_cost/test_execution_gas/test_gas_refunds_from_data_floor/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7623_increase_calldata_cost/test_refunds/</loc>
+         <lastmod>2025-01-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7623_increase_calldata_cost/test_refunds/test_gas_refunds_from_data_floor/</loc>
          <lastmod>2025-01-23</lastmod>
          <changefreq>daily</changefreq>
     </url>

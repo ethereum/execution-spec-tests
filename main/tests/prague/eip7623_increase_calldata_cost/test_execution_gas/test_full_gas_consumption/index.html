@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7623_increase_calldata_cost/test_execution_gas/test_full_gas_consumption/">
       
       
-        <link rel="prev" href="../test_gas_refunds_from_data_floor/">
+        <link rel="prev" href="../">
       
       
         <link rel="next" href="../test_gas_consumption_below_data_floor/">
@@ -15548,6 +15548,8 @@
       
         
       
+        
+      
     
     
       
@@ -15629,8 +15631,6 @@
       
         
       
-        
-      
     
     
       
@@ -15670,27 +15670,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../test_gas_refunds_from_data_floor/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_gas_refunds_from_data_floor</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -15825,6 +15804,91 @@
       
         
       
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3_7_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../test_refunds/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Test Refunds
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10_3_7_4" id="__nav_10_3_7_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_3_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_3_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            Test Refunds
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_refunds/test_gas_refunds_from_data_floor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_gas_refunds_from_data_floor</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
         
       
         
@@ -15841,7 +15905,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3_7_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3_7_5" >
         
           
           
@@ -15857,14 +15921,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_10_3_7_4" id="__nav_10_3_7_4_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_10_3_7_5" id="__nav_10_3_7_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_3_7_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10_3_7_4">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_3_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_3_7_5">
             <span class="md-nav__icon md-icon"></span>
             Test Transaction Validity
           </label>
@@ -26738,7 +26802,7 @@
 
 
 <h1 id="test_full_gas_consumption"><code>test_full_gas_consumption()</code><a class="headerlink" href="#test_full_gas_consumption" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4891ac729e654ec361d2430960a9b307be125f9a/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L165"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption@4891ac72</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a77afb5624c3161f77996e22d739e9baf77b431/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L61"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption@4a77afb5</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption --fork Prague</span>
@@ -26758,81 +26822,55 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumption</span><span class="p">:</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumption</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test gas consumption with EIP-7623 active.&quot;&quot;&quot;</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -26848,20 +26886,6 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a contract that consumes all gas when executed by calling an invalid opcode.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">)</span>
 
-    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-    <span class="k">def</span> <span class="nf">refund</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-        <span class="n">ty</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">authorization_refund</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the refund gas of the transaction.&quot;&quot;&quot;</span>
-        <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
-        <span class="n">refund</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="n">ty</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">authorization_refund</span><span class="p">:</span>
-            <span class="n">refund</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">R_AUTHORIZATION_EXISTING_AUTHORITY</span>
-        <span class="k">return</span> <span class="n">refund</span>
-
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
         <span class="s2">&quot;ty,protected,authorization_list&quot;</span><span class="p">,</span>
         <span class="p">[</span>
@@ -26869,26 +26893,15 @@
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-                <span class="mi">3</span><span class="p">,</span>
-                <span class="kc">True</span><span class="p">,</span>
-                <span class="kc">None</span><span class="p">,</span>
-                <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_3&quot;</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-                <span class="mi">4</span><span class="p">,</span>
-                <span class="kc">True</span><span class="p">,</span>
-                <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
-                <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_4_with_authorization_refund&quot;</span><span class="p">,</span>
-            <span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_3&quot;</span><span class="p">),</span>
+            <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_4&quot;</span><span class="p">),</span>
         <span class="p">],</span>
         <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;authorization_list&quot;</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
         <span class="s2">&quot;tx_gas_delta&quot;</span><span class="p">,</span>
         <span class="p">[</span>
-            <span class="c1"># Test with exact gas and extra gas, to verify that the refund is correctly applied</span>
-            <span class="c1"># to the full consumed execution gas.</span>
+            <span class="c1"># Test with exact gas and extra gas.</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;extra_gas&quot;</span><span class="p">),</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;exact_gas&quot;</span><span class="p">),</span>
         <span class="p">],</span>
@@ -26898,10 +26911,9 @@
         <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
         <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
-        <span class="n">refund</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test executing a transaction that fully consumes its execution gas allocation.&quot;&quot;&quot;</span>
-        <span class="n">tx</span><span class="o">.</span><span class="n">expected_receipt</span> <span class="o">=</span> <span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">-</span> <span class="n">refund</span><span class="p">)</span>
+        <span class="n">tx</span><span class="o">.</span><span class="n">expected_receipt</span> <span class="o">=</span> <span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">)</span>
         <span class="n">state_test</span><span class="p">(</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
@@ -26924,7 +26936,7 @@
 
 
 <h2 id="tests.prague.eip7623_increase_calldata_cost.test_execution_gas.TestGasConsumption.test_full_gas_consumption" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">test_full_gas_consumption</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">refund</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">test_full_gas_consumption</span><span class="p">(</span><span class="n">state_test</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="p">)</span></code>
 
 <a href="#tests.prague.eip7623_increase_calldata_cost.test_execution_gas.TestGasConsumption.test_full_gas_consumption" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -26935,77 +26947,54 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;ty,protected,authorization_list&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_protected&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_1&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_2&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="mi">3</span><span class="p">,</span>
-            <span class="kc">True</span><span class="p">,</span>
-            <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_3&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="mi">4</span><span class="p">,</span>
-            <span class="kc">True</span><span class="p">,</span>
-            <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_4_with_authorization_refund&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_3&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_4&quot;</span><span class="p">),</span>
     <span class="p">],</span>
     <span class="n">indirect</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;authorization_list&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_gas_delta&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="c1"># Test with exact gas and extra gas, to verify that the refund is correctly applied</span>
-        <span class="c1"># to the full consumed execution gas.</span>
+        <span class="c1"># Test with exact gas and extra gas.</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;extra_gas&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;exact_gas&quot;</span><span class="p">),</span>
     <span class="p">],</span>
@@ -27015,10 +27004,9 @@
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
-    <span class="n">refund</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test executing a transaction that fully consumes its execution gas allocation.&quot;&quot;&quot;</span>
-    <span class="n">tx</span><span class="o">.</span><span class="n">expected_receipt</span> <span class="o">=</span> <span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">-</span> <span class="n">refund</span><span class="p">)</span>
+    <span class="n">tx</span><span class="o">.</span><span class="n">expected_receipt</span> <span class="o">=</span> <span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">)</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
@@ -27152,8 +27140,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-blockchain_test-extra_gas-type_4_with_authorization_refund]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-blockchain_test-extra_gas-type_4_with_authorization_refund]">
-                    ...fork_Prague-blockchain_test-extra_gas-type_4_with_authorization_refund
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-blockchain_test-extra_gas-type_4]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-blockchain_test-extra_gas-type_4]">
+                    ...fork_Prague-blockchain_test-extra_gas-type_4
                 </abbr>
             </td>
                         <td>[b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
@@ -27224,8 +27212,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-blockchain_test-exact_gas-type_4_with_authorization_refund]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-blockchain_test-exact_gas-type_4_with_authorization_refund]">
-                    ...fork_Prague-blockchain_test-exact_gas-type_4_with_authorization_refund
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-blockchain_test-exact_gas-type_4]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-blockchain_test-exact_gas-type_4]">
+                    ...fork_Prague-blockchain_test-exact_gas-type_4
                 </abbr>
             </td>
                         <td>[b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
@@ -27296,8 +27284,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-extra_gas-type_4_with_authorization_refund]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-extra_gas-type_4_with_authorization_refund]">
-                    ...fork_Prague-state_test-extra_gas-type_4_with_authorization_refund
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-extra_gas-type_4]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-extra_gas-type_4]">
+                    ...fork_Prague-state_test-extra_gas-type_4
                 </abbr>
             </td>
                         <td>[b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
@@ -27368,8 +27356,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-exact_gas-type_4_with_authorization_refund]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-exact_gas-type_4_with_authorization_refund]">
-                    ...fork_Prague-state_test-exact_gas-type_4_with_authorization_refund
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-exact_gas-type_4]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-exact_gas-type_4]">
+                    ...fork_Prague-state_test-exact_gas-type_4
                 </abbr>
             </td>
                         <td>[b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
@@ -27440,8 +27428,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-blockchain_test-extra_gas-type_4_with_authorization_refund]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-blockchain_test-extra_gas-type_4_with_authorization_refund]">
-                    ...fork_Osaka-blockchain_test-extra_gas-type_4_with_authorization_refund
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-blockchain_test-extra_gas-type_4]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-blockchain_test-extra_gas-type_4]">
+                    ...fork_Osaka-blockchain_test-extra_gas-type_4
                 </abbr>
             </td>
                         <td>[b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
@@ -27512,8 +27500,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-blockchain_test-exact_gas-type_4_with_authorization_refund]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-blockchain_test-exact_gas-type_4_with_authorization_refund]">
-                    ...fork_Osaka-blockchain_test-exact_gas-type_4_with_authorization_refund
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-blockchain_test-exact_gas-type_4]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-blockchain_test-exact_gas-type_4]">
+                    ...fork_Osaka-blockchain_test-exact_gas-type_4
                 </abbr>
             </td>
                         <td>[b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
@@ -27584,8 +27572,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-state_test-extra_gas-type_4_with_authorization_refund]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-state_test-extra_gas-type_4_with_authorization_refund]">
-                    ...fork_Osaka-state_test-extra_gas-type_4_with_authorization_refund
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-state_test-extra_gas-type_4]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-state_test-extra_gas-type_4]">
+                    ...fork_Osaka-state_test-extra_gas-type_4
                 </abbr>
             </td>
                         <td>[b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
@@ -27656,8 +27644,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-state_test-exact_gas-type_4_with_authorization_refund]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-state_test-exact_gas-type_4_with_authorization_refund]">
-                    ...fork_Osaka-state_test-exact_gas-type_4_with_authorization_refund
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-state_test-exact_gas-type_4]" title="tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Osaka-state_test-exact_gas-type_4]">
+                    ...fork_Osaka-state_test-exact_gas-type_4
                 </abbr>
             </td>
                         <td>[b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01']</td>
