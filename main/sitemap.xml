@@ -1096,6 +1096,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_calldatacopy/</loc>
+         <lastmod>2025-01-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_calldatacopy/test_calldatacopy/</loc>
+         <lastmod>2025-01-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/opcodes/test_dup/</loc>
          <lastmod>2025-01-23</lastmod>
          <changefreq>daily</changefreq>
