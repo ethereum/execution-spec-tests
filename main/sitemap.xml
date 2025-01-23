@@ -2131,6 +2131,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_invalid_code_section_index/</loc>
+         <lastmod>2025-01-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_unreachable_code_sections/</loc>
          <lastmod>2025-01-23</lastmod>
          <changefreq>daily</changefreq>

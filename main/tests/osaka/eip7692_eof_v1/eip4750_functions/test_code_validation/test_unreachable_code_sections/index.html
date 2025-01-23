@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_unreachable_code_sections/">
       
       
-        <link rel="prev" href="../test_eof_validity/">
+        <link rel="prev" href="../test_invalid_code_section_index/">
       
       
         <link rel="next" href="../test_callf_stack_height_limit_exceeded/">
@@ -7042,6 +7042,8 @@
       
         
       
+        
+      
     
     
       
@@ -7095,6 +7097,27 @@
   
   <span class="md-ellipsis">
     <code>test_eof_validity</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_invalid_code_section_index/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_code_section_index</code>
   </span>
   
 
@@ -26088,7 +26111,7 @@
 
 
 <h1 id="test_unreachable_code_sections"><code>test_unreachable_code_sections()</code><a class="headerlink" href="#test_unreachable_code_sections" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7b8fdf24869ec5fdedd9a776a77efed443f55b13/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L191"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_unreachable_code_sections@7b8fdf24</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1cffb434a0b6284d51bf728908ba30978689769e/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L224"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_unreachable_code_sections@1cffb434</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_unreachable_code_sections --fork Osaka</span>
@@ -26108,40 +26131,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
@@ -26269,7 +26259,40 @@
 <span class="normal">349</span>
 <span class="normal">350</span>
 <span class="normal">351</span>
-<span class="normal">352</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
