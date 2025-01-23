@@ -8,7 +8,6 @@ from ethereum_test_forks import Fork, GasCosts
 from ethereum_test_tools import (
     AccessList,
     Account,
-    Address,
     Alloc,
     AuthorizationTuple,
     Block,
