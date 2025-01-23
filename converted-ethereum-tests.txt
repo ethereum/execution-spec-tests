@@ -16,6 +16,7 @@ EOFTests/EIP3670/validInvalid.json
 EOFTests/EIP4200/validInvalid.json
 EOFTests/efValidation/EOF1_embedded_container_.json
 EOFTests/efValidation/EOF1_eofcreate_valid_.json
+EOFTests/efValidation/EOF1_callf_truncated_.json
 EOFTests/efValidation/EOF1_valid_rjump_.json
 EOFTests/efValidation/EOF1_valid_rjumpi_.json
 EOFTests/efValidation/EOF1_valid_rjumpv_.json
