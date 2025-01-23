@@ -277,12 +277,19 @@ def test_gas_refunds_from_data_floor(
         raise ValueError("Invalid refund test type")
     if gas_used < tx_floor_data_cost:
         gas_used = tx_floor_data_cost
+    # This is the actual test verification:
+    # - During test filling, the receipt returned by the transition tool (t8n) is verified against
+    #   the expected receipt.
+    # - During test consumption, this is reflected in the balance difference and the state
+    #   root.
     tx.expected_receipt = TransactionReceipt(gas_used=gas_used)
     state_test(
         pre=pre,
         post={
             tx.to: {
-                "storage": {0: 0},  # Verify storage was cleared
+                # Verify that the storage was cleared (for storage clear refund).
+                # See `code_storage` fixture for more details.
+                "storage": {0: 0},
             }
         },
         tx=tx,
