@@ -26086,7 +26086,7 @@
 
 
 <h1 id="test_selfdestruct_pre_existing"><code>test_selfdestruct_pre_existing()</code><a class="headerlink" href="#test_selfdestruct_pre_existing" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/00e8ce8218578c1db9769576cf1dd1fcf5185d4f/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L621"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing@00e8ce82</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7b8fdf24869ec5fdedd9a776a77efed443f55b13/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L621"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing@7b8fdf24</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_selfdestruct_pre_existing --fork Prague</span>
@@ -26364,14 +26364,14 @@ the behavior before the EIP, but the account is not deleted.</p>
 <span class="sd">        - Different send-all recipient addresses: single, multiple, including self</span>
 <span class="sd">        - Different initial balances for the self-destructing contract</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">selfdestruct_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">selfdestruct_code</span><span class="p">)</span>
+    <span class="n">selfdestruct_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">selfdestruct_code</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="n">selfdestruct_contract_initial_balance</span>
+    <span class="p">)</span>
     <span class="n">entry_code_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sendall_recipient_addresses</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">sendall_recipient_addresses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">SELF_ADDRESS</span><span class="p">:</span>
             <span class="n">sendall_recipient_addresses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">selfdestruct_contract_address</span>
-    <span class="k">if</span> <span class="n">selfdestruct_contract_initial_balance</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">selfdestruct_contract_address</span><span class="p">,</span> <span class="n">selfdestruct_contract_initial_balance</span><span class="p">)</span>
 
     <span class="c1"># Create a dict to record the expected final balances</span>
     <span class="n">sendall_final_balances</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
