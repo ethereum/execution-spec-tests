@@ -167,8 +167,16 @@ def pytest_addoption(parser: pytest.Parser):
         "--index",
         action="store_true",
         dest="generate_index",
-        default=False,
-        help="Generate an index file for all produced fixtures.",
+        default=True,
+        help="Generate an index file for all produced fixtures. By default this flag is set.",
+    )
+
+    test_group.addoption(
+        "--skip-index",
+        action="store_false",
+        dest="generate_index",
+        default=True,
+        help="Skip generating an index file for all produced fixtures.",
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")

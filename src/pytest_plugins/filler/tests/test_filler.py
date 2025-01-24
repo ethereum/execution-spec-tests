@@ -102,8 +102,56 @@ total_test_count = test_count_paris + test_count_shanghai
                 Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_two.json"),
             ],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            False,
+            True,
             id="default-args",
+        ),
+        pytest.param(
+            ["--index"],
+            [
+                Path("fixtures/blockchain_tests/paris/module_paris/paris_one.json"),
+                Path("fixtures/blockchain_tests_engine/paris/module_paris/paris_one.json"),
+                Path("fixtures/state_tests/paris/module_paris/paris_one.json"),
+                Path("fixtures/blockchain_tests/paris/module_paris/paris_two.json"),
+                Path("fixtures/blockchain_tests_engine/paris/module_paris/paris_two.json"),
+                Path("fixtures/state_tests/paris/module_paris/paris_two.json"),
+                Path("fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one.json"),
+                Path(
+                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one.json"
+                ),
+                Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_one.json"),
+                Path("fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_two.json"),
+                Path(
+                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_two.json"
+                ),
+                Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_two.json"),
+            ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
+            True,
+            id="index-flag",
+        ),
+        pytest.param(
+            ["--skip-index"],
+            [
+                Path("fixtures/blockchain_tests/paris/module_paris/paris_one.json"),
+                Path("fixtures/blockchain_tests_engine/paris/module_paris/paris_one.json"),
+                Path("fixtures/state_tests/paris/module_paris/paris_one.json"),
+                Path("fixtures/blockchain_tests/paris/module_paris/paris_two.json"),
+                Path("fixtures/blockchain_tests_engine/paris/module_paris/paris_two.json"),
+                Path("fixtures/state_tests/paris/module_paris/paris_two.json"),
+                Path("fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one.json"),
+                Path(
+                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one.json"
+                ),
+                Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_one.json"),
+                Path("fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_two.json"),
+                Path(
+                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_two.json"
+                ),
+                Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_two.json"),
+            ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
+            False,
+            id="skip-index",
         ),
         pytest.param(
             ["--index", "--build-name", "test_build"],
