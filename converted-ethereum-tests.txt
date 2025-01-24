@@ -14,6 +14,7 @@ EOFTests/EIP3540/validInvalid.json
 
 EOFTests/EIP3670/validInvalid.json
 EOFTests/EIP4200/validInvalid.json
+EOFTests/EIP4750/validInvalid.json
 EOFTests/efValidation/callf_into_nonreturning_.json
 EOFTests/efValidation/EOF1_embedded_container_.json
 EOFTests/efValidation/EOF1_eofcreate_valid_.json
