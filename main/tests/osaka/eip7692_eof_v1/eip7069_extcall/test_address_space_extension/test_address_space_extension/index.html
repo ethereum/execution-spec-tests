@@ -7040,6 +7040,8 @@
       
         
       
+        
+      
     
     
       
@@ -7093,6 +7095,27 @@
   
   <span class="md-ellipsis">
     <code>test_eof_validity</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip4750_functions/test_code_validation/test_callf_truncated_immediate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_truncated_immediate</code>
   </span>
   
 
@@ -9677,6 +9700,8 @@
       
         
       
+        
+      
     
     
       
@@ -9751,6 +9776,27 @@
   
   <span class="md-ellipsis">
     <code>test_transfer_gas_is_cleared</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_gas/test_late_account_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_late_account_create</code>
   </span>
   
 
@@ -26873,7 +26919,7 @@
 
 
 <h1 id="test_address_space_extension"><code>test_address_space_extension()</code><a class="headerlink" href="#test_address_space_extension" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f6297b25104f2762d78a164c5bfabe285885ce97/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py#L26"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py::test_address_space_extension@f6297b25</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be1d1c9f483f69d5d2c644c9cb1ee3b3acd1e855/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py#L26"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py::test_address_space_extension@be1d1c9f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_address_space_extension.py::test_address_space_extension --fork Osaka</span>
@@ -27129,7 +27175,7 @@
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="n">ase_address</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_address</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">20</span>
-    <span class="n">stripped_address</span> <span class="o">=</span> <span class="n">target_address</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:]</span> <span class="k">if</span> <span class="n">ase_address</span> <span class="k">else</span> <span class="n">target_address</span>
+    <span class="n">stripped_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="n">target_address</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:],</span> <span class="n">left_padding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ase_address</span> <span class="ow">and</span> <span class="n">target_address</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">&quot;00&quot;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Test instrumentation requires target addresses trim leading zeros&quot;</span><span class="p">)</span>
 
@@ -27185,16 +27231,16 @@
             <span class="c1"># add no account</span>
             <span class="k">pass</span>
         <span class="k">case</span> <span class="s2">&quot;EOA&quot;</span><span class="p">:</span>
-            <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">Address</span><span class="p">(</span><span class="n">stripped_address</span><span class="p">),</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">)</span>
+            <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">stripped_address</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">)</span>
             <span class="c1"># TODO: we could use pre.fund_eoa here with nonce!=0.</span>
         <span class="k">case</span> <span class="s2">&quot;LegacyContract&quot;</span><span class="p">:</span>
-            <span class="n">pre</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="n">stripped_address</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">pre</span><span class="p">[</span><span class="n">stripped_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
                 <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">case</span> <span class="s2">&quot;EOFContract&quot;</span><span class="p">:</span>
-            <span class="n">pre</span><span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="n">stripped_address</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">pre</span><span class="p">[</span><span class="n">stripped_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
                     <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                         <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>

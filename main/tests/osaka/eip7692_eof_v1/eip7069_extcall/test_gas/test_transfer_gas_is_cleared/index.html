@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_ext_calls_gas/">
       
       
-        <link rel="next" href="../../test_returndatacopy_memory_expansion/">
+        <link rel="next" href="../test_late_account_create/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -7040,6 +7040,8 @@
       
         
       
+        
+      
     
     
       
@@ -7093,6 +7095,27 @@
   
   <span class="md-ellipsis">
     <code>test_eof_validity</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip4750_functions/test_code_validation/test_callf_truncated_immediate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_truncated_immediate</code>
   </span>
   
 
@@ -9619,6 +9642,8 @@
       
         
       
+        
+      
     
     
       
@@ -9755,6 +9780,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_late_account_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_late_account_create</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -26873,7 +26919,7 @@
 
 
 <h1 id="test_transfer_gas_is_cleared"><code>test_transfer_gas_is_cleared()</code><a class="headerlink" href="#test_transfer_gas_is_cleared" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f6297b25104f2762d78a164c5bfabe285885ce97/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py#L146"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_transfer_gas_is_cleared@f6297b25</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be1d1c9f483f69d5d2c644c9cb1ee3b3acd1e855/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py#L147"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_transfer_gas_is_cleared@be1d1c9f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_transfer_gas_is_cleared --fork Osaka</span>
@@ -26895,8 +26941,7 @@ in the outer call, however, we extend the test to all 3 EXT*CALL opcodes for goo
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
@@ -26936,7 +26981,8 @@ in the outer call, however, we extend the test to all 3 EXT*CALL opcodes for goo
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
-<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">])</span>
+<span class="normal">187</span>
+<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_transfer_gas_is_cleared</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
