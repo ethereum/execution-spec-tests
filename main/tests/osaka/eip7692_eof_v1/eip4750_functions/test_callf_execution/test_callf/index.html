@@ -26919,7 +26919,7 @@
 
 
 <h1 id="test_callf"><code>test_callf()</code><a class="headerlink" href="#test_callf" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/81582f7ad5030b066023b4662268b757f22949be/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L113"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf@81582f7a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8958b836bb8959b8218e923736ea6b05fbc85b0a/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L113"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf@8958b836</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf --fork Osaka</span>
@@ -26994,7 +26994,40 @@
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">(</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -27039,6 +27072,39 @@
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple_sections_of_different_types&quot;</span><span class="p">,</span>  <span class="c1"># EOF1V4750_0005</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">value_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">slot_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
@@ -27122,6 +27188,15 @@
             </td>
                         <td>max_code_sections_retf2</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf[fork_Osaka-eof_test-multiple_sections_of_different_types]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf[fork_Osaka-eof_test-multiple_sections_of_different_types]">
+                    ...fork_Osaka-eof_test-multiple_sections_of_different_types
+                </abbr>
+            </td>
+                        <td>multiple_sections_of_different_types</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27140,6 +27215,15 @@
             </td>
                         <td>max_code_sections_retf2</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf[fork_Osaka-state_test-multiple_sections_of_different_types]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf[fork_Osaka-state_test-multiple_sections_of_different_types]">
+                    ...fork_Osaka-state_test-multiple_sections_of_different_types
+                </abbr>
+            </td>
+                        <td>multiple_sections_of_different_types</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27157,6 +27241,15 @@
                 </abbr>
             </td>
                         <td>max_code_sections_retf2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf[fork_Osaka-blockchain_test-multiple_sections_of_different_types]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf[fork_Osaka-blockchain_test-multiple_sections_of_different_types]">
+                    ...fork_Osaka-blockchain_test-multiple_sections_of_different_types
+                </abbr>
+            </td>
+                        <td>multiple_sections_of_different_types</td>
                     </tr>
             </tbody>
 </table>
