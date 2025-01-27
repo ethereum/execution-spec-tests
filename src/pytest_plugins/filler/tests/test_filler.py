@@ -79,7 +79,7 @@ total_test_count = test_count_paris + test_count_shanghai
 
 @pytest.mark.run_in_serial
 @pytest.mark.parametrize(
-    "args, expected_fixture_files, expected_fixture_counts, expected_index",
+    "args, expected_fixture_files, expected_fixture_counts",
     [
         pytest.param(
             [],
@@ -102,7 +102,6 @@ total_test_count = test_count_paris + test_count_shanghai
                 Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_two.json"),
             ],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            True,
             id="default-args",
         ),
         pytest.param(
@@ -126,7 +125,6 @@ total_test_count = test_count_paris + test_count_shanghai
                 Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_two.json"),
             ],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            False,
             id="skip-index",
         ),
         pytest.param(
@@ -150,7 +148,6 @@ total_test_count = test_count_paris + test_count_shanghai
                 Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_two.json"),
             ],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            True,
             id="build-name-in-fixtures-ini-file",
         ),
         pytest.param(
@@ -170,7 +167,6 @@ total_test_count = test_count_paris + test_count_shanghai
                 Path("fixtures/state_tests/shanghai_two.json"),
             ],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            True,
             id="flat-output",
         ),
         pytest.param(
@@ -190,7 +186,6 @@ total_test_count = test_count_paris + test_count_shanghai
                 Path("other_fixtures/state_tests/shanghai_two.json"),
             ],
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            True,
             id="flat-output_custom-output-dir",
         ),
         pytest.param(
@@ -306,7 +301,6 @@ total_test_count = test_count_paris + test_count_shanghai
                 ),
             ],
             [1] * 36,
-            True,
             id="single-fixture-per-file",
         ),
         pytest.param(
@@ -422,7 +416,6 @@ total_test_count = test_count_paris + test_count_shanghai
                 ),
             ],
             [1] * 36,
-            True,
             id="single-fixture-per-file_custom_output_dir",
         ),
         pytest.param(
@@ -502,13 +495,12 @@ total_test_count = test_count_paris + test_count_shanghai
                 ),
             ],
             [1] * 36,
-            True,
             id="flat-single-per-file_flat-output",
         ),
     ],
 )
 def test_fixture_output_based_on_command_line_args(
-    testdir, args, expected_fixture_files, expected_fixture_counts, expected_index
+    testdir, args, expected_fixture_files, expected_fixture_counts
 ):
     """
     Test:
@@ -595,7 +587,7 @@ def test_fixture_output_based_on_command_line_args(
     config = configparser.ConfigParser()
     config.read(ini_file)
 
-    if expected_index:
+    if "--skip-index" not in args:
         assert index_file is not None, f"No {expected_index_file} file was found in {meta_dir}"
 
     properties = {key: value for key, value in config.items("fixtures")}
