@@ -10186,6 +10186,8 @@
       
         
       
+        
+      
     
     
       
@@ -10260,6 +10262,27 @@
   
   <span class="md-ellipsis">
     <code>test_legacy_initcode_invalid_eof_v1_contract</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7480_data_section/test_code_validation/test_dataloadn_truncated_immediate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_dataloadn_truncated_immediate</code>
   </span>
   
 
@@ -26942,7 +26965,7 @@
 
 
 <h1 id="test_callf_truncated_immediate"><code>test_callf_truncated_immediate()</code><a class="headerlink" href="#test_callf_truncated_immediate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5a195ee14572dc94f53165ffca7d70d5e8be44fd/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L178"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_truncated_immediate@5a195ee1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5f84ce4fc6917683478bd914fb4807a2c1612d2d/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L178"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_truncated_immediate@5f84ce4f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_truncated_immediate --fork Osaka</span>
@@ -27008,10 +27031,7 @@
 <span class="normal">222</span>
 <span class="normal">223</span>
 <span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -27021,7 +27041,6 @@
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">],</span>
-            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TRUNCATED_INSTRUCTION</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;imm1&quot;</span><span class="p">,</span>
@@ -27030,7 +27049,6 @@
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">],</span>
-            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TRUNCATED_INSTRUCTION</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;imm_from_next_section&quot;</span><span class="p">,</span>
@@ -27051,7 +27069,6 @@
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TRUNCATED_INSTRUCTION</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="n">container_name</span><span class="p">,</span>

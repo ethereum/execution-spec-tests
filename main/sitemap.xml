@@ -2606,6 +2606,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation/test_dataloadn_truncated_immediate/</loc>
+         <lastmod>2025-01-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation/test_legacy_initcode_invalid_eof_v1_contract/</loc>
          <lastmod>2025-01-27</lastmod>
          <changefreq>daily</changefreq>
