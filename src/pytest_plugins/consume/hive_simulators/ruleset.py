@@ -17,7 +17,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "Homestead": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -30,7 +30,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "EIP150": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -42,7 +42,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "EIP158": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -54,7 +54,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "Byzantium": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -66,7 +66,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "Constantinople": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -78,7 +78,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "ConstantinopleFix": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -90,7 +90,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "Istanbul": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -102,7 +102,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 0,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "Berlin": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -114,7 +114,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 0,
         "HIVE_FORK_BERLIN": 0,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "FrontierToHomesteadAt5": {
         "HIVE_FORK_HOMESTEAD": 5,
@@ -127,7 +127,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "HomesteadToEIP150At5": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -140,7 +140,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "HomesteadToDaoAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -153,7 +153,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "EIP158ToByzantiumAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -166,7 +166,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "ByzantiumToConstantinopleAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -179,7 +179,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "ByzantiumToConstantinopleFixAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -192,7 +192,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 2000,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "ConstantinopleFixToIstanbulAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -205,7 +205,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 5,
         "HIVE_FORK_BERLIN": 2000,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "IstanbulToBerlinAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -218,7 +218,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 0,
         "HIVE_FORK_BERLIN": 5,
         "HIVE_FORK_LONDON": 2000,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "BerlinToLondonAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -231,7 +231,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 0,
         "HIVE_FORK_BERLIN": 0,
         "HIVE_FORK_LONDON": 5,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "London": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -243,7 +243,7 @@ ruleset = {
         "HIVE_FORK_ISTANBUL": 0,
         "HIVE_FORK_BERLIN": 0,
         "HIVE_FORK_LONDON": 0,
-        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**64,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 2**32,
     },
     "ArrowGlacierToMergeAtDiffC0000": {
         "HIVE_FORK_HOMESTEAD": 0,
