@@ -1,7 +1,7 @@
 {
     "000/my_blockchain_test/London": {
         "_info": {
-            "hash": "0x76838b666ca44a330fcf031ae20392647c3251ad54f29e995890bd608948b915",
+            "hash": "0xd537e9737bcce3ebb8f0f12850f60cebf920994faf9a796001b2c9c87d67cb6f",
             "fixture_format": "blockchain_test"
         },
         "network": "London",
@@ -541,7 +541,8 @@
         },
         "sealEngine": "NoProof",
         "config": {
-            "network": "London"
+            "network": "London",
+            "chainid": 1
         }
     }
 }

@@ -1,7 +1,7 @@
 {
     "000/my_chain_id_test/Cancun": {
         "_info": {
-            "hash": "0x66186573da8dc65698bed9544ccbe25c13a1ff1039320609531e134473e7210c",
+            "hash": "0xb1727871136c6d0971fd796eabb7a5e6cab6859aaa2b07d4313a30bbab2d2cec",
             "fixture_format": "blockchain_test_engine"
         },
         "network": "Cancun",
@@ -112,6 +112,7 @@
         },
         "config": {
             "network": "Cancun",
+            "chainid": 1,
             "blobSchedule": {
                 "Cancun": {
                     "max": "0x06",
