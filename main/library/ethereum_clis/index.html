@@ -8810,6 +8810,8 @@
       
         
       
+        
+      
     
     
       
@@ -8947,6 +8949,27 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_in_nonreturning</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation/test_callf_to_nonreturning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_to_nonreturning</code>
   </span>
   
 
@@ -29131,7 +29154,10 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
-<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">(</span><span class="n">ExceptionMapper</span><span class="p">):</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">(</span><span class="n">ExceptionMapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Translate between EEST exceptions and error strings returned by Evmone.&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -29271,6 +29297,9 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
             <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TOO_MANY_CONTAINERS</span><span class="p">,</span> <span class="s2">&quot;err: too_many_container_sections&quot;</span><span class="p">),</span>
             <span class="n">ExceptionMessage</span><span class="p">(</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_CODE_SECTION_INDEX</span><span class="p">,</span> <span class="s2">&quot;err: invalid_code_section_index&quot;</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">CALLF_TO_NON_RETURNING</span><span class="p">,</span> <span class="s2">&quot;err: callf_to_non_returning_function&quot;</span>
             <span class="p">),</span>
         <span class="p">]</span>
 </code></pre></div></td></tr></table></div>
