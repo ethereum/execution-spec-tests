@@ -588,6 +588,7 @@ class BlockchainTest(BaseTest):
             config=FixtureConfig(
                 fork=network_info,
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
+                chain_id=self.chain_id,
             ),
         )
 

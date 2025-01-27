@@ -401,6 +401,7 @@ class FixtureConfig(CamelModel):
     """Chain configuration for a fixture."""
 
     fork: str = Field(..., alias="network")
+    chain_id: int = Field(1, alias="chainid")
     blob_schedule: FixtureBlobSchedule | None = None
 
 

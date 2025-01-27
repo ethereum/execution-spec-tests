@@ -98,6 +98,8 @@ class FixtureConfig(CamelModel):
     """Chain configuration for a fixture."""
 
     blob_schedule: FixtureBlobSchedule | None = None
+    chain_id: int = Field(1, alias="chainid")
+    fork: str = Field(..., alias="network")
 
 
 class StateFixture(BaseFixture):
