@@ -118,7 +118,7 @@ class Bytecode:
                 and self.max_stack_height == other.max_stack_height
                 and self.min_stack_height == other.min_stack_height
             )
-        if isinstance(other, SupportsBytes):
+        if isinstance(other, SupportsBytes) or isinstance(other, bytes):
             return bytes(self) == bytes(other)
         raise NotImplementedError(f"Unsupported type for comparison: {type(other)}")
 
