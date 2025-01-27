@@ -164,14 +164,6 @@ def pytest_addoption(parser: pytest.Parser):
         help="Specify a build name for the fixtures.ini file, e.g., 'stable'.",
     )
     test_group.addoption(
-        "--index",
-        action="store_true",
-        dest="generate_index",
-        default=True,
-        help="Generate an index file for all produced fixtures. By default this flag is set.",
-    )
-
-    test_group.addoption(
         "--skip-index",
         action="store_false",
         dest="generate_index",

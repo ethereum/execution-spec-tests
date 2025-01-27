@@ -106,30 +106,6 @@ total_test_count = test_count_paris + test_count_shanghai
             id="default-args",
         ),
         pytest.param(
-            ["--index"],
-            [
-                Path("fixtures/blockchain_tests/paris/module_paris/paris_one.json"),
-                Path("fixtures/blockchain_tests_engine/paris/module_paris/paris_one.json"),
-                Path("fixtures/state_tests/paris/module_paris/paris_one.json"),
-                Path("fixtures/blockchain_tests/paris/module_paris/paris_two.json"),
-                Path("fixtures/blockchain_tests_engine/paris/module_paris/paris_two.json"),
-                Path("fixtures/state_tests/paris/module_paris/paris_two.json"),
-                Path("fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one.json"
-                ),
-                Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_one.json"),
-                Path("fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_two.json"),
-                Path(
-                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_two.json"
-                ),
-                Path("fixtures/state_tests/shanghai/module_shanghai/shanghai_two.json"),
-            ],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6],
-            True,
-            id="index-flag",
-        ),
-        pytest.param(
             ["--skip-index"],
             [
                 Path("fixtures/blockchain_tests/paris/module_paris/paris_one.json"),
@@ -154,7 +130,7 @@ total_test_count = test_count_paris + test_count_shanghai
             id="skip-index",
         ),
         pytest.param(
-            ["--index", "--build-name", "test_build"],
+            ["--build-name", "test_build"],
             [
                 Path("fixtures/blockchain_tests/paris/module_paris/paris_one.json"),
                 Path("fixtures/blockchain_tests_engine/paris/module_paris/paris_one.json"),
@@ -178,7 +154,7 @@ total_test_count = test_count_paris + test_count_shanghai
             id="build-name-in-fixtures-ini-file",
         ),
         pytest.param(
-            ["--flat-output", "--index"],
+            ["--flat-output"],
             [
                 Path("fixtures/blockchain_tests/paris_one.json"),
                 Path("fixtures/blockchain_tests_engine/paris_one.json"),
@@ -198,7 +174,7 @@ total_test_count = test_count_paris + test_count_shanghai
             id="flat-output",
         ),
         pytest.param(
-            ["--flat-output", "--index", "--output", "other_fixtures"],
+            ["--flat-output", "--output", "other_fixtures"],
             [
                 Path("other_fixtures/blockchain_tests/paris_one.json"),
                 Path("other_fixtures/blockchain_tests_engine/paris_one.json"),
@@ -218,7 +194,7 @@ total_test_count = test_count_paris + test_count_shanghai
             id="flat-output_custom-output-dir",
         ),
         pytest.param(
-            ["--single-fixture-per-file", "--index"],
+            ["--single-fixture-per-file"],
             [
                 Path(
                     "fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Paris_blockchain_test.json"
@@ -334,7 +310,7 @@ total_test_count = test_count_paris + test_count_shanghai
             id="single-fixture-per-file",
         ),
         pytest.param(
-            ["--single-fixture-per-file", "--index", "--output", "other_fixtures"],
+            ["--single-fixture-per-file", "--output", "other_fixtures"],
             [
                 Path(
                     "other_fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Paris_blockchain_test.json"
@@ -450,7 +426,7 @@ total_test_count = test_count_paris + test_count_shanghai
             id="single-fixture-per-file_custom_output_dir",
         ),
         pytest.param(
-            ["--flat-output", "--index", "--single-fixture-per-file"],
+            ["--flat-output", "--single-fixture-per-file"],
             [
                 Path("fixtures/blockchain_tests/paris_one__fork_Paris_blockchain_test.json"),
                 Path("fixtures/state_tests/paris_one__fork_Paris_state_test.json"),
