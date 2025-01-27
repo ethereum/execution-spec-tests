@@ -766,25 +766,22 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
         return
 
     output: Path = session.config.getoption("output")
-    is_output_tarball = output.suffix == ".gz" and output.with_suffix("").suffix == ".tar"
-    output_dir = strip_output_tarball_suffix(output)
-
     if is_output_stdout(output):
-        # Don't perform any further actions if the output is stdout.
         return
 
+    output_dir = strip_output_tarball_suffix(output)
     # Remove any lock files that may have been created.
     for file in output_dir.rglob("*.lock"):
         file.unlink()
 
     # Generate index file for all produced fixtures.
-    generate_index = session.config.getoption("generate_index")
-    if generate_index:
+    if session.config.getoption("generate_index"):
         generate_fixtures_index(
             output_dir, quiet_mode=True, force_flag=False, disable_infer_format=False
         )
 
     # Create tarball of the output directory if the output is a tarball.
+    is_output_tarball = output.suffix == ".gz" and output.with_suffix("").suffix == ".tar"
     if is_output_tarball:
         source_dir = output_dir
         tarball_filename = output
