@@ -26963,7 +26963,7 @@
 
 
 <h1 id="test_system_contract_deployment"><code>test_system_contract_deployment()</code><a class="headerlink" href="#test_system_contract_deployment" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5f84ce4fc6917683478bd914fb4807a2c1612d2d/tests/prague/eip7251_consolidations/test_contract_deployment.py#L92"><code>tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment@5f84ce4f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2aa8e1283b1a5e32b93de82242571e7a86eb3f9d/tests/prague/eip7251_consolidations/test_contract_deployment.py#L107"><code>tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment@2aa8e128</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment --fork Prague</span>
@@ -27103,26 +27103,49 @@
         <tr>
             <th>Test ID (Abbreviated)</th>
                         <th>test_type</th>
+                        <th>has_balance</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork]" title="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork]">
-                    ...fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork
+                <abbr class="copy-id" data-full-id="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork-nonzero_balance]" title="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork-nonzero_balance]">
+                    ...fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork-nonzero_balance
                 </abbr>
             </td>
                         <td>DeploymentTestType.DEPLOY_BEFORE_FORK</td>
+                        <td>ContractAddressHasBalance.NONZERO_BALANCE</td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork]" title="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork]">
-                    ...fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork
+                <abbr class="copy-id" data-full-id="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork-zero_balance]" title="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork-zero_balance]">
+                    ...fork_CancunToPragueAtTime15k-blockchain_test-deploy_before_fork-zero_balance
+                </abbr>
+            </td>
+                        <td>DeploymentTestType.DEPLOY_BEFORE_FORK</td>
+                        <td>ContractAddressHasBalance.ZERO_BALANCE</td>
+                    </tr>
+                <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork-nonzero_balance]" title="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork-nonzero_balance]">
+                    ...fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork-nonzero_balance
                 </abbr>
             </td>
                         <td>DeploymentTestType.DEPLOY_AFTER_FORK</td>
+                        <td>ContractAddressHasBalance.NONZERO_BALANCE</td>
+                    </tr>
+                <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork-zero_balance]" title="tests/prague/eip7251_consolidations/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork-zero_balance]">
+                    ...fork_CancunToPragueAtTime15k-blockchain_test-deploy_after_fork-zero_balance
+                </abbr>
+            </td>
+                        <td>DeploymentTestType.DEPLOY_AFTER_FORK</td>
+                        <td>ContractAddressHasBalance.ZERO_BALANCE</td>
                     </tr>
             </tbody>
 </table>
