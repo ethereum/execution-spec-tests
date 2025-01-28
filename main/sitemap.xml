@@ -2706,6 +2706,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate/test_eofcreate_then_dataload/</loc>
+         <lastmod>2025-01-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate/test_return_data_cleared/</loc>
          <lastmod>2025-01-28</lastmod>
          <changefreq>daily</changefreq>

@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../test_eofcreate_then_call/">
+        <link rel="next" href="../test_eofcreate_then_dataload/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -10571,6 +10571,8 @@
       
         
       
+        
+      
     
     
       
@@ -10686,6 +10688,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_eofcreate_then_dataload/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_eofcreate_then_dataload</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -26965,7 +26988,7 @@
 
 
 <h1 id="test_simple_eofcreate"><code>test_simple_eofcreate()</code><a class="headerlink" href="#test_simple_eofcreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b16de8d67b235790af0bac891b6be9baada1e28a/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L42"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_simple_eofcreate@b16de8d6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8288c0b7426c3a74d1e9a6a08ed780c7d1ecddc4/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L44"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_simple_eofcreate@8288c0b7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_simple_eofcreate --fork Osaka</span>
@@ -26984,9 +27007,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
@@ -27018,7 +27039,8 @@
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_simple_eofcreate</span><span class="p">(</span>
+<span class="normal">76</span>
+<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_simple_eofcreate</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -27033,7 +27055,6 @@
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">container</span><span class="o">=</span><span class="n">smallest_initcode_subcontainer</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;abcdef&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mh">0xB17D</span><span class="p">},</span>  <span class="c1"># a canary to be overwritten</span>
     <span class="p">)</span>
