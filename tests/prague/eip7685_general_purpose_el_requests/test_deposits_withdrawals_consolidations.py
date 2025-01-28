@@ -540,6 +540,12 @@ def test_invalid_deposit_withdrawal_consolidation_requests_engine(
     so the block might execute properly if the client ignores the requests in the new payload
     parameters.
 
+    Note that the only difference between the engine version produced by this test and
+    the ones produced by `test_invalid_deposit_withdrawal_consolidation_requests` is the
+    `blockHash` value in the new payloads, which is calculated using different request hashes
+    for each test, but since the request hash is not a value that is included in the payload,
+    it might not be immediately apparent.
+
     Also these tests would not fail if the block is imported via RLP (syncing from a peer),
     so we only generate the BlockchainTestEngine for them.
     """
