@@ -32,6 +32,7 @@ args = [
     "--gen-docs",
     f"--gen-docs-target-fork={TARGET_FORK}",
     f"--until={GENERATE_UNTIL_FORK}",
+    "--skip-index",
     "-m",
     "(not blockchain_test_engine) and (not eip_version_check)",
     "-s",

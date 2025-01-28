@@ -83,6 +83,7 @@ Release tarball changes:
 - ✨ Modify `valid_at_transition_to` marker to add keyword arguments `subsequent_transitions` and `until` to fill a test using multiple transition forks ([#1081](https://github.com/ethereum/execution-spec-tests/pull/1081)).
 - 🐞 fix(consume): use `"HIVE_CHECK_LIVE_PORT"` to signal hive to wait for port 8551 (Engine API port) instead of the 8545 port when running `consume engine` ([#1095](https://github.com/ethereum/execution-spec-tests/pull/1095)).
 - ✨ `state_test`, `blockchain_test` and `blockchain_test_engine` fixtures now contain the `blobSchedule` from [EIP-7840](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7840.md), only for tests filled for Cancun and Prague forks ([#1040](https://github.com/ethereum/execution-spec-tests/pull/1040)).
+- 🔀 Change `--dist` flag to the default value, `load`, for better parallelism handling during test filling ([#1118](https://github.com/ethereum/execution-spec-tests/pull/1118))
 
 ### 🔧 EVM Tools
 
