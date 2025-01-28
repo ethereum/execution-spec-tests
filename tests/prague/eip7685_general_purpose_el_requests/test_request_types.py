@@ -28,7 +28,7 @@ pytestmark = pytest.mark.valid_from("Prague")
 
 
 @pytest.fixture
-def block_body_extra_requests(fork: Fork, invalid_request_data: bytes) -> List[bytes]:
+def block_body_override_requests(fork: Fork, invalid_request_data: bytes) -> List[bytes]:
     """
     Create a request with an invalid type for the fork.
 
