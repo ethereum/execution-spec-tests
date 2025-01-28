@@ -468,6 +468,30 @@ def invalid_requests_block_combinations(fork: Fork) -> List[Any]:
             id="extra_invalid_type_request",
         ),
     )
+    combinations.append(
+        pytest.param(
+            correct_order_transactions,
+            correct_order + [bytes([fork.max_request_type() + 1, 0x00])],
+            BlockException.INVALID_REQUESTS,
+            id="extra_invalid_type_request_with_data_0x00",
+        ),
+    )
+    combinations.append(
+        pytest.param(
+            correct_order_transactions,
+            correct_order + [bytes([fork.max_request_type() + 1, 0x01])],
+            BlockException.INVALID_REQUESTS,
+            id="extra_invalid_type_request_with_data_0x01",
+        ),
+    )
+    combinations.append(
+        pytest.param(
+            correct_order_transactions,
+            correct_order + [bytes([fork.max_request_type() + 1, 0xFF])],
+            BlockException.INVALID_REQUESTS,
+            id="extra_invalid_type_request_with_data_0xff",
+        ),
+    )
 
     return combinations
 
