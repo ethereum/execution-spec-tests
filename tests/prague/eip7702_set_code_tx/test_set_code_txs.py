@@ -3394,7 +3394,8 @@ def test_invalid_transaction_after_authorization(
             ],
         ),
         Transaction(
-            sender=auth_signer,  # Nonce is not bumped by the authorization, so it is still 0
+            sender=auth_signer,
+            nonce=0,
             gas_limit=21_000,
             to=Address(0),
             value=1,
@@ -3429,6 +3430,7 @@ def test_authorization_reusing_nonce(
     txs = [
         Transaction(
             sender=auth_signer,
+            nonce=0,
             gas_limit=21_000,
             to=Address(0),
             value=1,
