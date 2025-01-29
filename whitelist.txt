@@ -257,6 +257,7 @@ intermidiate
 javascripts
 jimporter
 joinpath
+jpg
 jq
 js
 json
