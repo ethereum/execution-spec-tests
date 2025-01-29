@@ -3621,6 +3621,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_authorization_reusing_nonce/</loc>
+         <lastmod>2025-01-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_call_into_chain_delegating_set_code/</loc>
          <lastmod>2025-01-29</lastmod>
          <changefreq>daily</changefreq>
@@ -3687,6 +3692,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_ext_code_on_set_code/</loc>
+         <lastmod>2025-01-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_invalid_transaction_after_authorization/</loc>
          <lastmod>2025-01-29</lastmod>
          <changefreq>daily</changefreq>
     </url>

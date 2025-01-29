@@ -16812,6 +16812,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -17894,6 +17898,48 @@
   
   <span class="md-ellipsis">
     <code>test_many_delegations</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_invalid_transaction_after_authorization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_transaction_after_authorization</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_authorization_reusing_nonce/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_authorization_reusing_nonce</code>
   </span>
   
 
@@ -26841,7 +26887,7 @@
 
 
 <h1 id="test-set-code-txs">Test Set Code Txs<a class="headerlink" href="#test-set-code-txs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9af76b3aa3d47c1f4f51ea7e7223e8b1a66b5ed3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L57"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py@9af76b3a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/43ff8ffae8af35a0a22859c1c00e4f72e9c6efe9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L57"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py@43ff8ffa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py --fork Prague</span>
@@ -27184,6 +27230,18 @@
 <td>state_test</td>
 <td>4</td>
 <td>Perform as many delegations as possible in a single 120 million gas transaction.</td>
+</tr>
+<tr>
+<td><a href="test_invalid_transaction_after_authorization/"><code>test_invalid_transaction_after_authorization</code></a></td>
+<td>blockchain_test</td>
+<td>1</td>
+<td>Test an invalid block due to a transaction reusing the same nonce as an authorization</td>
+</tr>
+<tr>
+<td><a href="test_authorization_reusing_nonce/"><code>test_authorization_reusing_nonce</code></a></td>
+<td>blockchain_test</td>
+<td>1</td>
+<td>Test an authorization reusing the same nonce as a prior transaction included in the same</td>
 </tr>
 </tbody>
 </table>
