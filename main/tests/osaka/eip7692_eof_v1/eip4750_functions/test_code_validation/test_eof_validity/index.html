@@ -26947,7 +26947,7 @@
 
 
 <h1 id="test_eof_validity"><code>test_eof_validity()</code><a class="headerlink" href="#test_eof_validity" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/43ff8ffae8af35a0a22859c1c00e4f72e9c6efe9/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L165"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity@43ff8ffa</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/25aba9e4ffa5d0ee0e86b00c796557c6088efea7/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L191"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity@25aba9e4</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity --fork Osaka</span>
@@ -26966,17 +26966,17 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="o">*</span><span class="n">VALID</span><span class="p">,</span> <span class="o">*</span><span class="n">INVALID</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="n">container_name</span><span class="p">,</span>
@@ -27077,11 +27077,29 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-function_underflow]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-function_underflow]">
-                    ...fork_Osaka-eof_test-function_underflow
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-code_inputs_underflow_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-code_inputs_underflow_1]">
+                    ...fork_Osaka-eof_test-code_inputs_underflow_1
                 </abbr>
             </td>
-                        <td>function_underflow</td>
+                        <td>code_inputs_underflow_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-code_inputs_underflow_2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-code_inputs_underflow_2]">
+                    ...fork_Osaka-eof_test-code_inputs_underflow_2
+                </abbr>
+            </td>
+                        <td>code_inputs_underflow_2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-callf_inputs_underflow]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-callf_inputs_underflow]">
+                    ...fork_Osaka-eof_test-callf_inputs_underflow
+                </abbr>
+            </td>
+                        <td>callf_inputs_underflow</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 

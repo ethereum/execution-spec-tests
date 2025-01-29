@@ -26947,7 +26947,7 @@
 
 
 <h1 id="test_invalid_containers"><code>test_invalid_containers()</code><a class="headerlink" href="#test_invalid_containers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/43ff8ffae8af35a0a22859c1c00e4f72e9c6efe9/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L151"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@43ff8ffa</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/25aba9e4ffa5d0ee0e86b00c796557c6088efea7/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L151"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@25aba9e4</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers --fork Osaka</span>
@@ -27887,7 +27887,61 @@ initcode and a contract creating transaction.</p>
 <span class="normal">1068</span>
 <span class="normal">1069</span>
 <span class="normal">1070</span>
-<span class="normal">1071</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1071</span>
+<span class="normal">1072</span>
+<span class="normal">1073</span>
+<span class="normal">1074</span>
+<span class="normal">1075</span>
+<span class="normal">1076</span>
+<span class="normal">1077</span>
+<span class="normal">1078</span>
+<span class="normal">1079</span>
+<span class="normal">1080</span>
+<span class="normal">1081</span>
+<span class="normal">1082</span>
+<span class="normal">1083</span>
+<span class="normal">1084</span>
+<span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span>
+<span class="normal">1088</span>
+<span class="normal">1089</span>
+<span class="normal">1090</span>
+<span class="normal">1091</span>
+<span class="normal">1092</span>
+<span class="normal">1093</span>
+<span class="normal">1094</span>
+<span class="normal">1095</span>
+<span class="normal">1096</span>
+<span class="normal">1097</span>
+<span class="normal">1098</span>
+<span class="normal">1099</span>
+<span class="normal">1100</span>
+<span class="normal">1101</span>
+<span class="normal">1102</span>
+<span class="normal">1103</span>
+<span class="normal">1104</span>
+<span class="normal">1105</span>
+<span class="normal">1106</span>
+<span class="normal">1107</span>
+<span class="normal">1108</span>
+<span class="normal">1109</span>
+<span class="normal">1110</span>
+<span class="normal">1111</span>
+<span class="normal">1112</span>
+<span class="normal">1113</span>
+<span class="normal">1114</span>
+<span class="normal">1115</span>
+<span class="normal">1116</span>
+<span class="normal">1117</span>
+<span class="normal">1118</span>
+<span class="normal">1119</span>
+<span class="normal">1120</span>
+<span class="normal">1121</span>
+<span class="normal">1122</span>
+<span class="normal">1123</span>
+<span class="normal">1124</span>
+<span class="normal">1125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -28093,6 +28147,60 @@ initcode and a contract creating transaction.</p>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;data_section_size_incomplete_with_container_section&quot;</span><span class="p">,</span>
             <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0001 04 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code missing mandatory type section</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0001&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000102000100010400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code containing multiple type headers</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple_type_headers_1&quot;</span><span class="p">,</span>  <span class="c1"># EOF1I4750_0002</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00010100040100040400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code containing multiple type headers, second one matches code length</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple_type_headers_2&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00010100040100010400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code containing type section size (Size 1)</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0003&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000101000102000100010400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code containing type section size (Size 8 - 1 Code section)</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0004&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000101000802000100010400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code containing type section size (Size 8 - 3 Code sections)</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0005&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef0001010008020003000100010001040000000080000000800000fefefe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code containing invalid first section type (1,0)</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0006&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000101000402000100010400000001000000fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code containing invalid first section type (0,1)</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0007&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000101000402000100010400000000010000fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="c1"># EOF code containing invalid first section type (2,3)</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0008&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000101000402000100010400000002030000fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_sections&quot;</span><span class="p">,</span>
@@ -29173,6 +29281,87 @@ initcode and a contract creating transaction.</p>
                 </abbr>
             </td>
                         <td>data_section_size_incomplete_with_container_section</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0001]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0001]">
+                    ...fork_Osaka-eof_test-EOF1I4750_0001
+                </abbr>
+            </td>
+                        <td>EOF1I4750_0001</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-multiple_type_headers_1]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-multiple_type_headers_1]">
+                    ...fork_Osaka-eof_test-multiple_type_headers_1
+                </abbr>
+            </td>
+                        <td>multiple_type_headers_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-multiple_type_headers_2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-multiple_type_headers_2]">
+                    ...fork_Osaka-eof_test-multiple_type_headers_2
+                </abbr>
+            </td>
+                        <td>multiple_type_headers_2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0003]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0003]">
+                    ...fork_Osaka-eof_test-EOF1I4750_0003
+                </abbr>
+            </td>
+                        <td>EOF1I4750_0003</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0004]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0004]">
+                    ...fork_Osaka-eof_test-EOF1I4750_0004
+                </abbr>
+            </td>
+                        <td>EOF1I4750_0004</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0005]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0005]">
+                    ...fork_Osaka-eof_test-EOF1I4750_0005
+                </abbr>
+            </td>
+                        <td>EOF1I4750_0005</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0006]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0006]">
+                    ...fork_Osaka-eof_test-EOF1I4750_0006
+                </abbr>
+            </td>
+                        <td>EOF1I4750_0006</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0007]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0007]">
+                    ...fork_Osaka-eof_test-EOF1I4750_0007
+                </abbr>
+            </td>
+                        <td>EOF1I4750_0007</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0008]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-EOF1I4750_0008]">
+                    ...fork_Osaka-eof_test-EOF1I4750_0008
+                </abbr>
+            </td>
+                        <td>EOF1I4750_0008</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
