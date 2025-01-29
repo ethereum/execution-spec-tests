@@ -11,7 +11,7 @@ eip7692:
   repo: ethereum/evmone
   ref: master
   targets: ["evmone-t8n", "evmone-eofparse"]
-pectra-devnet-5:
+pectra-devnet-6:
   impl: eels
   repo: null
   ref: null  
