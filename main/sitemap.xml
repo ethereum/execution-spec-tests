@@ -3551,16 +3551,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7685_general_purpose_el_requests/test_request_types/</loc>
-         <lastmod>2025-01-29</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7685_general_purpose_el_requests/test_request_types/test_invalid_request_type/</loc>
-         <lastmod>2025-01-29</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/</loc>
          <lastmod>2025-01-29</lastmod>
          <changefreq>daily</changefreq>
