@@ -637,14 +637,14 @@ dependencies = [
 
 [[package]]
 name = "ethereum-types"
-version = "0.2.1"
+version = "0.2.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/07/a8/053c5fcc8581fe599a87b86431a50b7df5b84a88242a6ba33ab1138a2a34/ethereum_types-0.2.1.tar.gz", hash = "sha256:2b53c5f08aff52004d7a49cdb09e70163482b55a41e274a95a8d27d194c5d146", size = 14935 }
+sdist = { url = "https://files.pythonhosted.org/packages/65/23/cb6fdde984cc3632b478d68daaad9b8faccb3f83338882d3060e8cb2999e/ethereum_types-0.2.3.tar.gz", hash = "sha256:9cdbfda64052102ff57e6119464493d070f67126c2596081f6c791da90e834cd", size = 15216 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/76/3bbd13a9637287388f23c0c4094c81adf2d1467e314f8974ea0c61d2fc94/ethereum_types-0.2.1-py3-none-any.whl", hash = "sha256:6f6c51b239c231c6e33c10451b8fffb2fc168c6a7f0975cac3893d7e38e9c3e9", size = 10288 },
+    { url = "https://files.pythonhosted.org/packages/f3/0e/d327da9d255b030f8eee252cac85602982c30b87263a4b553e780154fe84/ethereum_types-0.2.3-py3-none-any.whl", hash = "sha256:a09a0d53a82cb9e3df734302d5b7eb92e01f524b81eb9d5b1240c77b796add5d", size = 10381 },
 ]
 
 [[package]]
