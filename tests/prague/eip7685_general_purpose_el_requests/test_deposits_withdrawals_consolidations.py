@@ -465,7 +465,7 @@ def invalid_requests_block_combinations(fork: Fork) -> List[Any]:
             correct_order_transactions,
             correct_order + [bytes([fork.max_request_type() + 1])],
             BlockException.INVALID_REQUESTS,
-            id="extra_invalid_type_request",
+            id="extra_invalid_type_request_with_no_data",
         ),
     )
     combinations.append(
