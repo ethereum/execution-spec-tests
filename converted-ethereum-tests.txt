@@ -67,3 +67,6 @@ GeneralStateTests/Cancun/stEIP1153-transientStorage/20_oogUndoesTransientStoreIn
 
 ([#975](https://github.com/ethereum/execution-spec-tests/pull/975))
 GeneralStateTests/VMTests/vmTests/push.json
+
+([#1067](https://github.com/ethereum/execution-spec-tests/pull/1067))
+GeneralStateTests/stPreCompiledContracts/blake2B.json
