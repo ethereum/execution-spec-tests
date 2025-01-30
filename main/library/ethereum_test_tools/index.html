@@ -50661,7 +50661,11 @@ contract.</p>
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
-<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_system_contract_deploy_test</span><span class="p">(</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_system_contract_deploy_test</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">tx_json_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -50705,6 +50709,10 @@ contract.</p>
     <span class="k">assert</span> <span class="n">gas_price</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">deployer_required_balance</span> <span class="o">=</span> <span class="n">deploy_tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">*</span> <span class="n">gas_price</span>
     <span class="n">deployer_address</span> <span class="o">=</span> <span class="n">deploy_tx</span><span class="o">.</span><span class="n">sender</span>
+    <span class="k">if</span> <span class="s2">&quot;hash&quot;</span> <span class="ow">in</span> <span class="n">tx_json</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">deploy_tx</span><span class="o">.</span><span class="n">hash</span> <span class="o">==</span> <span class="n">Hash</span><span class="p">(</span><span class="n">tx_json</span><span class="p">[</span><span class="s2">&quot;hash&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;sender&quot;</span> <span class="ow">in</span> <span class="n">tx_json</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">deploy_tx</span><span class="o">.</span><span class="n">sender</span> <span class="o">==</span> <span class="n">Address</span><span class="p">(</span><span class="n">tx_json</span><span class="p">[</span><span class="s2">&quot;sender&quot;</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">SystemContractDeployTestFunction</span><span class="p">):</span>
         <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>

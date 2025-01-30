@@ -27165,7 +27165,7 @@
 
 
 <h1 id="test_set_code_to_system_contract"><code>test_set_code_to_system_contract()</code><a class="headerlink" href="#test_set_code_to_system_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9b84e403a3b8321ba6071123cf643cab12e7e881/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2596"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@9b84e403</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b22e90185bb699a5873e27e5629250807f9b3cc2/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2596"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@b22e9018</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract --fork Prague</span>
@@ -27368,7 +27368,7 @@
             <span class="p">)</span>
             <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">deposit_request</span><span class="o">.</span><span class="n">calldata</span>
             <span class="n">call_value</span> <span class="o">=</span> <span class="n">deposit_request</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA</span><span class="p">):</span>  <span class="c1"># EIP-7002</span>
+        <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x00000961EF480EB55E80D19AD83579A64C007002</span><span class="p">):</span>  <span class="c1"># EIP-7002</span>
             <span class="c1"># Fabricate a valid withdrawal request to the set-code account</span>
             <span class="n">withdrawal_request</span> <span class="o">=</span> <span class="n">WithdrawalRequest</span><span class="p">(</span>
                 <span class="n">source_address</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
@@ -27378,7 +27378,7 @@
             <span class="p">)</span>
             <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">withdrawal_request</span><span class="o">.</span><span class="n">calldata</span>
             <span class="n">call_value</span> <span class="o">=</span> <span class="n">withdrawal_request</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x00431F263CE400F4455C2DCF564E53007CA4BBBB</span><span class="p">):</span>  <span class="c1"># EIP-7251</span>
+        <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000BBDDC7CE488642FB579F8B00F3A590007251</span><span class="p">):</span>  <span class="c1"># EIP-7251</span>
             <span class="c1"># Fabricate a valid consolidation request to the set-code account</span>
             <span class="n">consolidation_request</span> <span class="o">=</span> <span class="n">ConsolidationRequest</span><span class="p">(</span>
                 <span class="n">source_address</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
@@ -27388,7 +27388,7 @@
             <span class="p">)</span>
             <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">consolidation_request</span><span class="o">.</span><span class="n">calldata</span>
             <span class="n">call_value</span> <span class="o">=</span> <span class="n">consolidation_request</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC</span><span class="p">):</span>  <span class="c1"># EIP-2935</span>
+        <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">):</span>  <span class="c1"># EIP-2935</span>
             <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">caller_code_storage</span><span class="p">[</span><span class="n">call_return_data_size_slot</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32</span>
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
@@ -27511,35 +27511,35 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test]">
-                    ...fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test]">
+                    ...fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test
                 </abbr>
             </td>
                         <td>CALL</td>
                         <td>LEGACY</td>
-                        <td><code>0x0c15f14308530b7cdb8460094bbb9c</code> <code>c28b9aaaaa</code></td>
+                        <td><code>0x00000961ef480eb55e80d19ad83579</code> <code>a64c007002</code></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test]">
-                    ...fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test]">
+                    ...fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test
                 </abbr>
             </td>
                         <td>CALL</td>
                         <td>LEGACY</td>
-                        <td><code>0x00431f263ce400f4455c2dcf564e53</code> <code>007ca4bbbb</code></td>
+                        <td><code>0x0000bbddc7ce488642fb579f8b00f3</code> <code>a590007251</code></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test]">
-                    ...fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test]">
+                    ...fork_Prague-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test
                 </abbr>
             </td>
                         <td>CALL</td>
                         <td>LEGACY</td>
-                        <td><code>0x0f792be4b0c0cb4dae440ef133e90c</code> <code>0ecd48cccc</code></td>
+                        <td><code>0x0000f90827f1c53a10cb7a02335b17</code> <code>5320002935</code></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -27566,35 +27566,35 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test]">
-                    ...fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test]">
+                    ...fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test
                 </abbr>
             </td>
                         <td>EXTCALL</td>
                         <td>EOF_V1</td>
-                        <td><code>0x0c15f14308530b7cdb8460094bbb9c</code> <code>c28b9aaaaa</code></td>
+                        <td><code>0x00000961ef480eb55e80d19ad83579</code> <code>a64c007002</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test]">
-                    ...fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test]">
+                    ...fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test
                 </abbr>
             </td>
                         <td>EXTCALL</td>
                         <td>EOF_V1</td>
-                        <td><code>0x00431f263ce400f4455c2dcf564e53</code> <code>007ca4bbbb</code></td>
+                        <td><code>0x0000bbddc7ce488642fb579f8b00f3</code> <code>a590007251</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test]">
-                    ...fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test]">
+                    ...fork_Osaka-call_opcode_EXTCALL-evm_code_type_EOF_V1-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test
                 </abbr>
             </td>
                         <td>EXTCALL</td>
                         <td>EOF_V1</td>
-                        <td><code>0x0f792be4b0c0cb4dae440ef133e90c</code> <code>0ecd48cccc</code></td>
+                        <td><code>0x0000f90827f1c53a10cb7a02335b17</code> <code>5320002935</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -27621,35 +27621,35 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test]">
-                    ...fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0c15f14308530b7cdb8460094bbb9cc28b9aaaaa-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test]">
+                    ...fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00000961ef480eb55e80d19ad83579a64c007002-blockchain_test
                 </abbr>
             </td>
                         <td>CALL</td>
                         <td>LEGACY</td>
-                        <td><code>0x0c15f14308530b7cdb8460094bbb9c</code> <code>c28b9aaaaa</code></td>
+                        <td><code>0x00000961ef480eb55e80d19ad83579</code> <code>a64c007002</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test]">
-                    ...fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x00431f263ce400f4455c2dcf564e53007ca4bbbb-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test]">
+                    ...fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000bbddc7ce488642fb579f8b00f3a590007251-blockchain_test
                 </abbr>
             </td>
                         <td>CALL</td>
                         <td>LEGACY</td>
-                        <td><code>0x00431f263ce400f4455c2dcf564e53</code> <code>007ca4bbbb</code></td>
+                        <td><code>0x0000bbddc7ce488642fb579f8b00f3</code> <code>a590007251</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test]">
-                    ...fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0f792be4b0c0cb4dae440ef133e90c0ecd48cccc-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract[fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test]">
+                    ...fork_Osaka-call_opcode_CALL-evm_code_type_LEGACY-system_contract_0x0000f90827f1c53a10cb7a02335b175320002935-blockchain_test
                 </abbr>
             </td>
                         <td>CALL</td>
                         <td>LEGACY</td>
-                        <td><code>0x0f792be4b0c0cb4dae440ef133e90c</code> <code>0ecd48cccc</code></td>
+                        <td><code>0x0000f90827f1c53a10cb7a02335b17</code> <code>5320002935</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 

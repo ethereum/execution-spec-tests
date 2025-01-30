@@ -37648,9 +37648,9 @@ development.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251 and EIP-2935.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">Address</span><span class="p">(</span><span class="mh">0x00000000219AB540356CBB839CBE05303D7705FA</span><span class="p">),</span>
-            <span class="n">Address</span><span class="p">(</span><span class="mh">0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA</span><span class="p">),</span>
-            <span class="n">Address</span><span class="p">(</span><span class="mh">0x00431F263CE400F4455C2DCF564E53007CA4BBBB</span><span class="p">),</span>
-            <span class="n">Address</span><span class="p">(</span><span class="mh">0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC</span><span class="p">),</span>
+            <span class="n">Address</span><span class="p">(</span><span class="mh">0x00000961EF480EB55E80D19AD83579A64C007002</span><span class="p">),</span>
+            <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000BBDDC7CE488642FB579F8B00F3A590007251</span><span class="p">),</span>
+            <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">),</span>
         <span class="p">]</span> <span class="o">+</span> <span class="nb">super</span><span class="p">(</span><span class="n">Prague</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">system_contracts</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
@@ -37779,33 +37779,33 @@ development.</p>
                 <span class="p">}</span>
             <span class="p">)</span>
 
-        <span class="c1"># Add the withdrawal request contract</span>
+        <span class="c1"># EIP-7002: Add the withdrawal request contract</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;withdrawal_request.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="mh">0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="mh">0x00000961EF480EB55E80D19AD83579A64C007002</span><span class="p">:</span> <span class="p">{</span>
                         <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                         <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                     <span class="p">},</span>
                 <span class="p">}</span>
             <span class="p">)</span>
 
-        <span class="c1"># Add the consolidation request contract</span>
+        <span class="c1"># EIP-7251: Add the consolidation request contract</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;consolidation_request.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="mh">0x00431F263CE400F4455C2DCF564E53007CA4BBBB</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="mh">0x0000BBDDC7CE488642FB579F8B00F3A590007251</span><span class="p">:</span> <span class="p">{</span>
                         <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                         <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                     <span class="p">},</span>
                 <span class="p">}</span>
             <span class="p">)</span>
 
-        <span class="c1"># Add the history storage contract</span>
+        <span class="c1"># EIP-2935: Add the history storage contract</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;history_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="mh">0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">:</span> <span class="p">{</span>
                         <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                         <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                     <span class="p">}</span>
@@ -38090,9 +38090,9 @@ EIP-7623.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251 and EIP-2935.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span>
         <span class="n">Address</span><span class="p">(</span><span class="mh">0x00000000219AB540356CBB839CBE05303D7705FA</span><span class="p">),</span>
-        <span class="n">Address</span><span class="p">(</span><span class="mh">0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA</span><span class="p">),</span>
-        <span class="n">Address</span><span class="p">(</span><span class="mh">0x00431F263CE400F4455C2DCF564E53007CA4BBBB</span><span class="p">),</span>
-        <span class="n">Address</span><span class="p">(</span><span class="mh">0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x00000961EF480EB55E80D19AD83579A64C007002</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000BBDDC7CE488642FB579F8B00F3A590007251</span><span class="p">),</span>
+        <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">),</span>
     <span class="p">]</span> <span class="o">+</span> <span class="nb">super</span><span class="p">(</span><span class="n">Prague</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">system_contracts</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -38601,33 +38601,33 @@ the exits contract for EIP-7002, and the history storage contract for EIP-2935.<
             <span class="p">}</span>
         <span class="p">)</span>
 
-    <span class="c1"># Add the withdrawal request contract</span>
+    <span class="c1"># EIP-7002: Add the withdrawal request contract</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;withdrawal_request.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="mh">0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA</span><span class="p">:</span> <span class="p">{</span>
+                <span class="mh">0x00000961EF480EB55E80D19AD83579A64C007002</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                 <span class="p">},</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
-    <span class="c1"># Add the consolidation request contract</span>
+    <span class="c1"># EIP-7251: Add the consolidation request contract</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;consolidation_request.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="mh">0x00431F263CE400F4455C2DCF564E53007CA4BBBB</span><span class="p">:</span> <span class="p">{</span>
+                <span class="mh">0x0000BBDDC7CE488642FB579F8B00F3A590007251</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                 <span class="p">},</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
-    <span class="c1"># Add the history storage contract</span>
+    <span class="c1"># EIP-2935: Add the history storage contract</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">CURRENT_FOLDER</span> <span class="o">/</span> <span class="s2">&quot;contracts&quot;</span> <span class="o">/</span> <span class="s2">&quot;history_contract.bin&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">new_allocation</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="mh">0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC</span><span class="p">:</span> <span class="p">{</span>
+                <span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span>
                 <span class="p">}</span>
