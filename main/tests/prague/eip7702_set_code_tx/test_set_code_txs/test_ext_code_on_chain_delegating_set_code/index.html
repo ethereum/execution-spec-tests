@@ -27165,7 +27165,7 @@
 
 
 <h1 id="test_ext_code_on_chain_delegating_set_code"><code>test_ext_code_on_chain_delegating_set_code()</code><a class="headerlink" href="#test_ext_code_on_chain_delegating_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b15e18e54bf252698c06bbae1497369080c4eb74/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1402"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_chain_delegating_set_code@b15e18e5</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9b84e403a3b8321ba6071123cf643cab12e7e881/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1412"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_chain_delegating_set_code@9b84e403</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_ext_code_on_chain_delegating_set_code --fork Prague</span>
@@ -27185,17 +27185,7 @@ address.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1402</span>
-<span class="normal">1403</span>
-<span class="normal">1404</span>
-<span class="normal">1405</span>
-<span class="normal">1406</span>
-<span class="normal">1407</span>
-<span class="normal">1408</span>
-<span class="normal">1409</span>
-<span class="normal">1410</span>
-<span class="normal">1411</span>
-<span class="normal">1412</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1412</span>
 <span class="normal">1413</span>
 <span class="normal">1414</span>
 <span class="normal">1415</span>
@@ -27278,7 +27268,21 @@ address.</p>
 <span class="normal">1492</span>
 <span class="normal">1493</span>
 <span class="normal">1494</span>
-<span class="normal">1495</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_ext_code_on_chain_delegating_set_code</span><span class="p">(</span>
+<span class="normal">1495</span>
+<span class="normal">1496</span>
+<span class="normal">1497</span>
+<span class="normal">1498</span>
+<span class="normal">1499</span>
+<span class="normal">1500</span>
+<span class="normal">1501</span>
+<span class="normal">1502</span>
+<span class="normal">1503</span>
+<span class="normal">1504</span>
+<span class="normal">1505</span>
+<span class="normal">1506</span>
+<span class="normal">1507</span>
+<span class="normal">1508</span>
+<span class="normal">1509</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_ext_code_on_chain_delegating_set_code</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -27322,18 +27326,22 @@ address.</p>
     <span class="n">callee_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">callee_code</span><span class="p">)</span>
     <span class="n">callee_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
 
-    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_size_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">DELEGATION_DESIGNATION_READING</span><span class="p">)</span>
-    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_hash_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DELEGATION_DESIGNATION_READING</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
-    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_copy_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DELEGATION_DESIGNATION_READING</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span>
-        <span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span>
-    <span class="p">)[:</span><span class="mi">32</span><span class="p">]</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_size_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">))</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_hash_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span>
+        <span class="n">auth_signer_2</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_copy_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span>
+        <span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">auth_signer_2</span><span class="p">),</span> <span class="n">right_padding</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
     <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_balance_result_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_signer_1_balance</span>
 
-    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_size_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">DELEGATION_DESIGNATION_READING</span><span class="p">)</span>
-    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_hash_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DELEGATION_DESIGNATION_READING</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
-    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_copy_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">DELEGATION_DESIGNATION_READING</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span>
-        <span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span>
-    <span class="p">)[:</span><span class="mi">32</span><span class="p">]</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_size_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">))</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_hash_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span>
+        <span class="n">auth_signer_1</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
+    <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_code_copy_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span>
+        <span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">auth_signer_1</span><span class="p">),</span> <span class="n">right_padding</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
     <span class="n">callee_storage</span><span class="p">[</span><span class="n">slot_ext_balance_result_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_signer_2_balance</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

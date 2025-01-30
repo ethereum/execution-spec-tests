@@ -27165,7 +27165,7 @@
 
 
 <h1 id="test_call_pointer_to_created_from_create_after_oog_call_again"><code>test_call_pointer_to_created_from_create_after_oog_call_again()</code><a class="headerlink" href="#test_call_pointer_to_created_from_create_after_oog_call_again" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b15e18e54bf252698c06bbae1497369080c4eb74/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L1244"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_call_pointer_to_created_from_create_after_oog_call_again@b15e18e5</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9b84e403a3b8321ba6071123cf643cab12e7e881/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L1242"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_call_pointer_to_created_from_create_after_oog_call_again@9b84e403</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_call_pointer_to_created_from_create_after_oog_call_again --fork Prague</span>
@@ -27189,7 +27189,9 @@ Then after account is created it is called again to run created code</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1244</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1242</span>
+<span class="normal">1243</span>
+<span class="normal">1244</span>
 <span class="normal">1245</span>
 <span class="normal">1246</span>
 <span class="normal">1247</span>
@@ -27264,9 +27266,7 @@ Then after account is created it is called again to run created code</p>
 <span class="normal">1316</span>
 <span class="normal">1317</span>
 <span class="normal">1318</span>
-<span class="normal">1319</span>
-<span class="normal">1320</span>
-<span class="normal">1321</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
+<span class="normal">1319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_return&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">,</span> <span class="n">Macros</span><span class="o">.</span><span class="n">OOG</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_call_pointer_to_created_from_create_after_oog_call_again</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">call_return</span><span class="p">:</span> <span class="n">Op</span>
