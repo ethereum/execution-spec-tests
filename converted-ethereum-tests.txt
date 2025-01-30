@@ -34,6 +34,9 @@ EOFTests/efValidation/EOF1_truncated_section_.json
 EOFTests/efValidation/EOF1_undefined_opcodes_.json
 EOFTests/efValidation/EOF1_truncated_push_.json
 EOFTests/efValidation/deprecated_instructions_.json
+EOFTests/efValidation/jumpf_compatible_outputs_.json
+EOFTests/efValidation/jumpf_equal_outputs_.json
+EOFTests/efValidation/jumpf_incompatible_outputs_.json
 EOFTests/efValidation/non_returning_status_.json
 EOFTests/efValidation/unreachable_code_sections_.json
 
