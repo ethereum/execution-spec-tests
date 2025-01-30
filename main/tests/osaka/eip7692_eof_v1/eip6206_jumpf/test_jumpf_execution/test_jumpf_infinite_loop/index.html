@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution/test_jumpf_backward/">
+        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution/test_jumpf_infinite_loop/">
       
       
-        <link rel="prev" href="../test_jumpf_forward/">
+        <link rel="prev" href="../test_jumpf_with_inputs_stack_overflow/">
       
       
-        <link rel="next" href="../test_jumpf_to_self/">
+        <link rel="next" href="../../test_jumpf_stack/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -24,7 +24,7 @@
     
     
       
-        <title>test_jumpf_backward - Ethereum Execution Spec Tests</title>
+        <title>test_jumpf_infinite_loop - Ethereum Execution Spec Tests</title>
       
     
     
@@ -66,11 +66,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="<code>test_jumpf_backward</code> - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="<code>test_jumpf_infinite_loop</code> - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution/test_jumpf_backward.png" >
+        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution/test_jumpf_infinite_loop.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -78,15 +78,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution/test_jumpf_backward/" >
+        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution/test_jumpf_infinite_loop/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="<code>test_jumpf_backward</code> - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="<code>test_jumpf_infinite_loop</code> - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution/test_jumpf_backward.png" >
+        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution/test_jumpf_infinite_loop.png" >
       
     
     
@@ -111,7 +111,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#test_jumpf_backward" class="md-skip">
+        <a href="#test_jumpf_infinite_loop" class="md-skip">
           Skip to content
         </a>
       
@@ -148,7 +148,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              <code>test_jumpf_backward</code>
+              <code>test_jumpf_infinite_loop</code>
             
           </span>
         </div>
@@ -7550,6 +7550,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -7616,76 +7620,18 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_jumpf_backward</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../test_jumpf_to_retf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_jumpf_backward</code>
+    <code>test_jumpf_to_retf</code>
   </span>
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_execution.test_jumpf_backward" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_jumpf_backward
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -7703,6 +7649,27 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_to_self</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_jumpf_and_retf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_and_retf</code>
   </span>
   
 
@@ -7917,6 +7884,85 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_infinite_loop</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_infinite_loop</code>
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_execution.test_jumpf_infinite_loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_jumpf_infinite_loop
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -8230,6 +8276,8 @@
       
         
       
+        
+      
     
     
       
@@ -8269,6 +8317,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_jumpf_validation/test_returning_jumpf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_returning_jumpf</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -27065,9 +27134,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_execution.test_jumpf_backward" class="md-nav__link">
+  <a href="#tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_execution.test_jumpf_infinite_loop" class="md-nav__link">
     <span class="md-ellipsis">
-      test_jumpf_backward
+      test_jumpf_infinite_loop
     </span>
   </a>
   
@@ -27097,11 +27166,11 @@
                   
 
 
-<h1 id="test_jumpf_backward"><code>test_jumpf_backward()</code><a class="headerlink" href="#test_jumpf_backward" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70b4ffa13ad63056e723dff7442d99df37651418/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L39"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_backward@70b4ffa1</code></a>.</p>
+<h1 id="test_jumpf_infinite_loop"><code>test_jumpf_infinite_loop()</code><a class="headerlink" href="#test_jumpf_infinite_loop" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b15e18e54bf252698c06bbae1497369080c4eb74/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L514"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop@b15e18e5</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_backward --fork Osaka</span>
+<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop --fork Osaka</span>
 </code></pre></div>
 </div>
 
@@ -27110,57 +27179,161 @@
 
 
 
-<a id="tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_execution.test_jumpf_backward"></a>
+<a id="tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_execution.test_jumpf_infinite_loop"></a>
     <div class="doc doc-contents first">
 
-      <p>Tests JUMPF jumping backward.</p>
+      <p>Tests JUMPF causing an infinite loop.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_jumpf_backward</span><span class="p">(</span>
-    <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests JUMPF jumping backward.&quot;&quot;&quot;</span>
-    <span class="n">eof_state_test</span><span class="p">(</span>
-        <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;container&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;self&quot;</span><span class="p">,</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;1_to_0&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;2_to_1&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;2_to_1_returning&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
-        <span class="n">container_post</span><span class="o">=</span><span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">}),</span>
-        <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\1</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;1_to_0_invalid&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_NON_RETURNING_FLAG</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">container</span><span class="p">:</span> <span class="n">container</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_jumpf_infinite_loop</span><span class="p">(</span><span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="n">Container</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests JUMPF causing an infinite loop.&quot;&quot;&quot;</span>
+    <span class="n">eof_state_test</span><span class="p">(</span>
+        <span class="n">tx_gas</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
+        <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
+        <span class="n">container_post</span><span class="o">=</span><span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_code_worked</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -27211,32 +27384,144 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>container</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_backward[fork_Osaka-eof_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_backward[fork_Osaka-eof_test]">
-                    ...fork_Osaka-eof_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-self]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-self]">
+                    ...fork_Osaka-eof_test-self
                 </abbr>
             </td>
+                        <td>self</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-1_to_0]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-1_to_0]">
+                    ...fork_Osaka-eof_test-1_to_0
+                </abbr>
+            </td>
+                        <td>1_to_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-2_to_1]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-2_to_1]">
+                    ...fork_Osaka-eof_test-2_to_1
+                </abbr>
+            </td>
+                        <td>2_to_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-2_to_1_returning]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-2_to_1_returning]">
+                    ...fork_Osaka-eof_test-2_to_1_returning
+                </abbr>
+            </td>
+                        <td>2_to_1_returning</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-1_to_0_invalid]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-eof_test-1_to_0_invalid]">
+                    ...fork_Osaka-eof_test-1_to_0_invalid
+                </abbr>
+            </td>
+                        <td>1_to_0_invalid</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_backward[fork_Osaka-state_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_backward[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-self]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-self]">
+                    ...fork_Osaka-state_test-self
                 </abbr>
             </td>
+                        <td>self</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-1_to_0]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-1_to_0]">
+                    ...fork_Osaka-state_test-1_to_0
+                </abbr>
+            </td>
+                        <td>1_to_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-2_to_1]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-2_to_1]">
+                    ...fork_Osaka-state_test-2_to_1
+                </abbr>
+            </td>
+                        <td>2_to_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-2_to_1_returning]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-2_to_1_returning]">
+                    ...fork_Osaka-state_test-2_to_1_returning
+                </abbr>
+            </td>
+                        <td>2_to_1_returning</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-1_to_0_invalid]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-state_test-1_to_0_invalid]">
+                    ...fork_Osaka-state_test-1_to_0_invalid
+                </abbr>
+            </td>
+                        <td>1_to_0_invalid</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_backward[fork_Osaka-blockchain_test]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_backward[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-self]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-self]">
+                    ...fork_Osaka-blockchain_test-self
                 </abbr>
             </td>
+                        <td>self</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-1_to_0]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-1_to_0]">
+                    ...fork_Osaka-blockchain_test-1_to_0
+                </abbr>
+            </td>
+                        <td>1_to_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-2_to_1]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-2_to_1]">
+                    ...fork_Osaka-blockchain_test-2_to_1
+                </abbr>
+            </td>
+                        <td>2_to_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-2_to_1_returning]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-2_to_1_returning]">
+                    ...fork_Osaka-blockchain_test-2_to_1_returning
+                </abbr>
+            </td>
+                        <td>2_to_1_returning</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-1_to_0_invalid]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_infinite_loop[fork_Osaka-blockchain_test-1_to_0_invalid]">
+                    ...fork_Osaka-blockchain_test-1_to_0_invalid
+                </abbr>
+            </td>
+                        <td>1_to_0_invalid</td>
                     </tr>
             </tbody>
 </table>

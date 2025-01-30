@@ -7550,6 +7550,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -7619,11 +7623,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_jumpf_backward/" class="md-nav__link">
+      <a href="../test_jumpf_to_retf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_jumpf_backward</code>
+    <code>test_jumpf_to_retf</code>
   </span>
   
 
@@ -7645,6 +7649,27 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_to_self</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_jumpf_and_retf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_and_retf</code>
   </span>
   
 
@@ -7913,6 +7938,27 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_with_inputs_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_jumpf_infinite_loop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_infinite_loop</code>
   </span>
   
 
@@ -8230,6 +8276,8 @@
       
         
       
+        
+      
     
     
       
@@ -8269,6 +8317,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_jumpf_validation/test_returning_jumpf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_returning_jumpf</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -27098,7 +27167,7 @@
 
 
 <h1 id="test_callf_to_non_returning_section"><code>test_callf_to_non_returning_section()</code><a class="headerlink" href="#test_callf_to_non_returning_section" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70b4ffa13ad63056e723dff7442d99df37651418/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L134"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_callf_to_non_returning_section@70b4ffa1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b15e18e54bf252698c06bbae1497369080c4eb74/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L269"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_callf_to_non_returning_section@b15e18e5</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_callf_to_non_returning_section --fork Osaka</span>
@@ -27117,24 +27186,24 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_callf_to_non_returning_section</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_callf_to_non_returning_section</span><span class="p">(</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests CALLF into a non-returning section.&quot;&quot;&quot;</span>

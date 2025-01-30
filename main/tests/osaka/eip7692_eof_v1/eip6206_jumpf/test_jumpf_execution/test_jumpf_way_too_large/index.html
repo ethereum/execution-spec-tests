@@ -7550,6 +7550,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -7619,11 +7623,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_jumpf_backward/" class="md-nav__link">
+      <a href="../test_jumpf_to_retf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_jumpf_backward</code>
+    <code>test_jumpf_to_retf</code>
   </span>
   
 
@@ -7645,6 +7649,27 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_to_self</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_jumpf_and_retf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_and_retf</code>
   </span>
   
 
@@ -7913,6 +7938,27 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_with_inputs_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_jumpf_infinite_loop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_infinite_loop</code>
   </span>
   
 
@@ -8230,6 +8276,8 @@
       
         
       
+        
+      
     
     
       
@@ -8269,6 +8317,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_jumpf_validation/test_returning_jumpf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_returning_jumpf</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -27098,7 +27167,7 @@
 
 
 <h1 id="test_jumpf_way_too_large"><code>test_jumpf_way_too_large()</code><a class="headerlink" href="#test_jumpf_way_too_large" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70b4ffa13ad63056e723dff7442d99df37651418/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L102"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_way_too_large@70b4ffa1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b15e18e54bf252698c06bbae1497369080c4eb74/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L237"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_way_too_large@b15e18e5</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_way_too_large --fork Osaka</span>
@@ -27117,20 +27186,20 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_jumpf_way_too_large</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_jumpf_way_too_large</span><span class="p">(</span>
     <span class="n">eof_state_test</span><span class="p">:</span> <span class="n">EOFStateTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests JUMPF jumping to uint64.MAX.&quot;&quot;&quot;</span>
