@@ -31,6 +31,8 @@ Release tarball changes:
 - 🔀 Update EIP-2935 according to [spec updates](https://github.com/ethereum/EIPs/pull/9144) ([#1046](https://github.com/ethereum/execution-spec-tests/pull/1046))
 - ✨ [EIP-7691](https://eips.ethereum.org/EIPS/eip-7691) Blob throughput increase tests by parametrization of existing EIP-4844 tests ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023), [#1082](https://github.com/ethereum/execution-spec-tests/pull/1082))
 - 🔀 Update EIP-7702 test expectations according to [spec updates](https://github.com/ethereum/EIPs/pull/9248) ([#1129](https://github.com/ethereum/execution-spec-tests/pull/1129))
+- ✨ Port [calldatacopy test](https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml) ([#1056](https://github.com/ethereum/execution-spec-tests/pull/1056)).
+- ✨ [EIP-152](https://eips.ethereum.org/EIPS/eip-152) Add tests for Blake2 compression function `F` precompile ([#1067](https://github.com/ethereum/execution-spec-tests/pull/1067))
 
 ### 🛠️ Framework
 
@@ -83,6 +85,7 @@ Release tarball changes:
 - ✨ Modify `valid_at_transition_to` marker to add keyword arguments `subsequent_transitions` and `until` to fill a test using multiple transition forks ([#1081](https://github.com/ethereum/execution-spec-tests/pull/1081)).
 - 🐞 fix(consume): use `"HIVE_CHECK_LIVE_PORT"` to signal hive to wait for port 8551 (Engine API port) instead of the 8545 port when running `consume engine` ([#1095](https://github.com/ethereum/execution-spec-tests/pull/1095)).
 - ✨ `state_test`, `blockchain_test` and `blockchain_test_engine` fixtures now contain the `blobSchedule` from [EIP-7840](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7840.md), only for tests filled for Cancun and Prague forks ([#1040](https://github.com/ethereum/execution-spec-tests/pull/1040)).
+- 🔀 Change `--dist` flag to the default value, `load`, for better parallelism handling during test filling ([#1118](https://github.com/ethereum/execution-spec-tests/pull/1118))
 
 ### 🔧 EVM Tools
 
@@ -104,6 +107,7 @@ Release tarball changes:
 - ✨ Use self-hosted runners for fixture building in CI ([#1051](https://github.com/ethereum/execution-spec-tests/pull/1051)).
 - ✨ Release tarballs now contain fixtures filled for all forks, not only the fork under active development and the fork currently deployed on mainnet ([#1053](https://github.com/ethereum/execution-spec-tests/pull/1053)).
 - ✨ `StateTest` fixture format now contains `state` field in each network post result, containing the decoded post allocation that results from the transaction execution ([#1064](https://github.com/ethereum/execution-spec-tests/pull/1064)).
+- ✨ Include EELS fork resolution information in filled json test fixtures ([#1123](https://github.com/ethereum/execution-spec-tests/pull/1123)).
 
 ### 💥 Breaking Change
 

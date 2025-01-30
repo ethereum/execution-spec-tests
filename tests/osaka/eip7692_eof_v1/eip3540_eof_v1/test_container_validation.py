@@ -144,7 +144,7 @@ def test_valid_containers(
         container.validity_error is None
     ), f"Valid container with validity error: {container.validity_error}"
     eof_test(
-        data=bytes(container),
+        container=bytes(container),
     )
 
 
@@ -354,6 +354,60 @@ def test_valid_containers(
             name="data_section_size_incomplete_with_container_section",
             raw_bytes="ef00 01 01 0004 02 0001 0001 03 0001 0001 04 00",
             validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            # EOF code missing mandatory type section
+            name="EOF1I4750_0001",
+            raw_bytes="ef000102000100010400000000800000fe",
+            validity_error=EOFException.MISSING_TYPE_HEADER,
+        ),
+        Container(
+            # EOF code containing multiple type headers
+            name="multiple_type_headers_1",  # EOF1I4750_0002
+            raw_bytes="ef00010100040100040400000000800000fe",
+            validity_error=EOFException.MISSING_CODE_HEADER,
+        ),
+        Container(
+            # EOF code containing multiple type headers, second one matches code length
+            name="multiple_type_headers_2",
+            raw_bytes="ef00010100040100010400000000800000fe",
+            validity_error=EOFException.MISSING_CODE_HEADER,
+        ),
+        Container(
+            # EOF code containing type section size (Size 1)
+            name="EOF1I4750_0003",
+            raw_bytes="ef000101000102000100010400000000800000fe",
+            validity_error=EOFException.INVALID_TYPE_SECTION_SIZE,
+        ),
+        Container(
+            # EOF code containing type section size (Size 8 - 1 Code section)
+            name="EOF1I4750_0004",
+            raw_bytes="ef000101000802000100010400000000800000fe",
+            validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
+        ),
+        Container(
+            # EOF code containing type section size (Size 8 - 3 Code sections)
+            name="EOF1I4750_0005",
+            raw_bytes="ef0001010008020003000100010001040000000080000000800000fefefe",
+            validity_error=EOFException.INVALID_TYPE_SECTION_SIZE,
+        ),
+        Container(
+            # EOF code containing invalid first section type (1,0)
+            name="EOF1I4750_0006",
+            raw_bytes="ef000101000402000100010400000001000000fe",
+            validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
+        ),
+        Container(
+            # EOF code containing invalid first section type (0,1)
+            name="EOF1I4750_0007",
+            raw_bytes="ef000101000402000100010400000000010000fe",
+            validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
+        ),
+        Container(
+            # EOF code containing invalid first section type (2,3)
+            name="EOF1I4750_0008",
+            raw_bytes="ef000101000402000100010400000002030000fe",
+            validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
         ),
         Container(
             name="no_sections",
@@ -1066,7 +1120,7 @@ def test_invalid_containers(
     """
     assert container.validity_error is not None, "Invalid container without validity error"
     eof_test(
-        data=bytes(container),
+        container=bytes(container),
         expect_exception=container.validity_error,
     )
 
@@ -1085,7 +1139,7 @@ def test_magic_validation(
     code[0] = magic_0
     code[1] = magic_1
     eof_test(
-        data=bytes(code),
+        container=bytes(code),
         expect_exception=None if magic_0 == 0xEF and magic_1 == 0 else EOFException.INVALID_MAGIC,
     )
 
@@ -1101,7 +1155,7 @@ def test_version_validation(
     code = bytearray(bytes(VALID_CONTAINER))
     code[2] = version
     eof_test(
-        data=bytes(code),
+        container=bytes(code),
         expect_exception=None if version == 1 else EOFException.INVALID_VERSION,
     )
 
@@ -1129,7 +1183,7 @@ def test_single_code_section(
     if plus_data:
         sections.append(Section.Data(data=b"\0"))
     eof_test(
-        data=Container(
+        container=Container(
             name="single_code_section",
             sections=sections,
             kind=ContainerKind.INITCODE if plus_container else ContainerKind.RUNTIME,
@@ -1170,7 +1224,7 @@ def test_max_code_sections(
     if plus_data:
         sections.append(Section.Data(data=b"\0"))
     eof_test(
-        data=Container(
+        container=Container(
             name="max_code_sections",
             sections=sections,
             kind=ContainerKind.INITCODE if plus_container else ContainerKind.RUNTIME,
