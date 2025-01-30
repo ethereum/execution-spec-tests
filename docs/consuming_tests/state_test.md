@@ -66,7 +66,13 @@ Chain configuration object.
 
 ### `FixtureConfig`
 
-At the moment this object can contain only the `blobSchedule` that is necessary to apply the correct cap to the maximum amount of blobs that a transaction can have. Otherwise, in forks prior to Cancun for example, it will be an empty JSON object.
+#### - `network`: [`Fork`](./common_types.md#fork)
+
+Fork configuration for the test. It is guaranteed that this field contains the same value as the sole key of the [`post`](#-post-mappingforklist-fixtureforkpost) object.
+
+#### - `chainid`: `int`
+
+Chain ID configuration for the test.
 
 #### - `blobSchedule`: [`BlobSchedule`](./common_types.md#blobschedule-mappingforkforkblobschedule)
 
