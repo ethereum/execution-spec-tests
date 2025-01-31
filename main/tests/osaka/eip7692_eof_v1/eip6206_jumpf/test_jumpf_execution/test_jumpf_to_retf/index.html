@@ -27167,7 +27167,7 @@
 
 
 <h1 id="test_jumpf_to_retf"><code>test_jumpf_to_retf()</code><a class="headerlink" href="#test_jumpf_to_retf" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b22e90185bb699a5873e27e5629250807f9b3cc2/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L39"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf@b22e9018</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/59ae588e42e06c60b610a7697a3e3c4f0f03d14e/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py#L39"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf@59ae588e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf --fork Osaka</span>
@@ -27186,51 +27186,89 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -27262,6 +27300,44 @@
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;equal_outputs&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">value_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">slot_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;compatible_outputs&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">value_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPF</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">slot_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
@@ -27346,6 +27422,24 @@
             </td>
                         <td>backward</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-eof_test-equal_outputs]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-eof_test-equal_outputs]">
+                    ...fork_Osaka-eof_test-equal_outputs
+                </abbr>
+            </td>
+                        <td>equal_outputs</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-eof_test-compatible_outputs]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-eof_test-compatible_outputs]">
+                    ...fork_Osaka-eof_test-compatible_outputs
+                </abbr>
+            </td>
+                        <td>compatible_outputs</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27364,6 +27458,24 @@
             </td>
                         <td>backward</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-state_test-equal_outputs]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-state_test-equal_outputs]">
+                    ...fork_Osaka-state_test-equal_outputs
+                </abbr>
+            </td>
+                        <td>equal_outputs</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-state_test-compatible_outputs]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-state_test-compatible_outputs]">
+                    ...fork_Osaka-state_test-compatible_outputs
+                </abbr>
+            </td>
+                        <td>compatible_outputs</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27381,6 +27493,24 @@
                 </abbr>
             </td>
                         <td>backward</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-blockchain_test-equal_outputs]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-blockchain_test-equal_outputs]">
+                    ...fork_Osaka-blockchain_test-equal_outputs
+                </abbr>
+            </td>
+                        <td>equal_outputs</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-blockchain_test-compatible_outputs]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_execution.py::test_jumpf_to_retf[fork_Osaka-blockchain_test-compatible_outputs]">
+                    ...fork_Osaka-blockchain_test-compatible_outputs
+                </abbr>
+            </td>
+                        <td>compatible_outputs</td>
                     </tr>
             </tbody>
 </table>

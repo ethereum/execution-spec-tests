@@ -27167,7 +27167,7 @@
 
 
 <h1 id="test_jumpf_incompatible_outputs"><code>test_jumpf_incompatible_outputs()</code><a class="headerlink" href="#test_jumpf_incompatible_outputs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b22e90185bb699a5873e27e5629250807f9b3cc2/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py#L138"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs@b22e9018</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/59ae588e42e06c60b610a7697a3e3c4f0f03d14e/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py#L138"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs@59ae588e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs --fork Osaka</span>
@@ -27182,7 +27182,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip6206_jumpf.test_jumpf_stack.test_jumpf_incompatible_outputs"></a>
     <div class="doc doc-contents first">
 
-      <p>Tests jumpf into fuction with incorrect output sizes.</p>
+      <p>Tests JUMPF into a section with incorrect number of outputs.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py</code></summary>
@@ -27251,7 +27251,7 @@
     <span class="n">stack_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">expected_exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests jumpf into fuction with incorrect output sizes.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests JUMPF into a section with incorrect number of outputs.&quot;&quot;&quot;</span>
     <span class="n">current_section_outputs</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">current_section_outputs</span> <span class="o">+</span> <span class="n">target_inputs</span> <span class="o">-</span> <span class="n">target_outputs</span><span class="p">)</span> <span class="o">!=</span> <span class="n">stack_height</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">expected_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
