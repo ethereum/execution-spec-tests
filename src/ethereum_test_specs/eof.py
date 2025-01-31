@@ -14,14 +14,7 @@ from ethereum_clis import EvmoneExceptionMapper, TransitionTool
 from ethereum_test_base_types import Account, Bytes, HexNumber
 from ethereum_test_exceptions.exceptions import EOFExceptionInstanceOrList, to_pipe_str
 from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
-from ethereum_test_fixtures import (
-    BaseFixture,
-    BlockchainEngineFixture,
-    BlockchainFixture,
-    EOFFixture,
-    FixtureFormat,
-    StateFixture,
-)
+from ethereum_test_fixtures import BaseFixture, EOFFixture, FixtureFormat
 from ethereum_test_fixtures.eof import Result, Vector
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
@@ -141,7 +134,7 @@ class EOFParse:
 class EOFTest(BaseTest):
     """Filler type that tests EOF containers."""
 
-    container: Bytes
+    container: Container
     expect_exception: EOFExceptionInstanceOrList | None = None
     container_kind: ContainerKind | None = None
 
@@ -192,15 +185,16 @@ class EOFTest(BaseTest):
         eips: Optional[List[int]],
     ) -> EOFFixture:
         """Generate the EOF test fixture."""
-        if self.container in existing_tests:
+        container_bytes = Bytes(self.container)
+        if container_bytes in existing_tests:
             pytest.fail(
-                f"Duplicate EOF test: {self.container}, "
-                f"existing test: {existing_tests[self.container]}"
+                f"Duplicate EOF test: {container_bytes}, "
+                f"existing test: {existing_tests[container_bytes]}"
             )
-        existing_tests[self.container] = request.node.nodeid
+        existing_tests[container_bytes] = request.node.nodeid
         vectors = [
             Vector(
-                code=self.container,
+                code=container_bytes,
                 container_kind=self.container_kind,
                 results={
                     fork.blockchain_test_network_name(): Result(
@@ -297,11 +291,8 @@ class EOFStateTest(EOFTest, Transaction):
     post: Alloc | None = None
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
-        EOFFixture,
-        StateFixture,
-        BlockchainFixture,
-        BlockchainEngineFixture,
-    ]
+        EOFFixture
+    ] + StateTest.supported_fixture_formats
 
     @model_validator(mode="before")
     @classmethod
@@ -337,7 +328,7 @@ class EOFStateTest(EOFTest, Transaction):
         if self.expect_exception is not None:  # Invalid EOF
             self.to = None  # Make EIP-7698 create transaction
             self.data = Bytes(
-                self.container + self.data
+                bytes(self.container) + self.data
             )  # by concatenating container and tx data.
 
             # Run transaction model validation
@@ -347,7 +338,7 @@ class EOFStateTest(EOFTest, Transaction):
         elif self.deploy_tx:
             self.to = None  # Make EIP-7698 create transaction
             self.data = Bytes(
-                self.container + self.data
+                bytes(self.container) + self.data
             )  # by concatenating container and tx data.
 
             # Run transaction model validation
@@ -387,7 +378,7 @@ class EOFStateTest(EOFTest, Transaction):
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         if fixture_format == EOFFixture:
-            if self.container in existing_tests:
+            if Bytes(self.container) in existing_tests:
                 # Gracefully skip duplicate tests because one EOFStateTest can generate multiple
                 # state fixtures with the same data.
                 pytest.skip(f"Duplicate EOF container on EOFStateTest: {request.node.nodeid}")
