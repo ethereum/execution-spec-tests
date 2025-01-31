@@ -5,10 +5,10 @@ import warnings
 from pathlib import Path
 from shutil import which
 from subprocess import CompletedProcess
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Type
+from typing import Callable, ClassVar, Dict, Generator, List, Optional, Type
 
 import pytest
-from pydantic import Field, model_validator
+from pydantic import Field
 
 from ethereum_clis import EvmoneExceptionMapper, TransitionTool
 from ethereum_test_base_types import Account, Bytes, HexNumber
@@ -136,46 +136,39 @@ class EOFTest(BaseTest):
 
     container: Container
     expect_exception: EOFExceptionInstanceOrList | None = None
-    container_kind: ContainerKind | None = None
+    container_kind: ContainerKind = ContainerKind.RUNTIME
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         EOFFixture,
     ]
 
-    @model_validator(mode="before")
-    @classmethod
-    def check_container_exception(cls, data: Any) -> Any:
-        """Check if the container exception matches the expected exception."""
-        if isinstance(data, dict):
-            container = data.get("container")
-            expect_exception = data.get("expect_exception")
-            container_kind = data.get("container_kind")
-            if container is not None and isinstance(container, Container):
-                if (
-                    "validity_error" in container.model_fields_set
-                    and container.validity_error is not None
-                ):
-                    if expect_exception is not None:
-                        assert container.validity_error == expect_exception, (
-                            f"Container validity error {container.validity_error} "
-                            f"does not match expected exception {expect_exception}."
-                        )
-                    if expect_exception is None:
-                        data["expect_exception"] = container.validity_error
-                if "kind" in container.model_fields_set:
-                    if container_kind is not None:
-                        assert container.kind == container_kind, (
-                            f"Container kind type {str(container.kind)} "
-                            f"does not match test {container_kind}."
-                        )
-                    if container.kind != ContainerKind.RUNTIME:
-                        data["container_kind"] = container.kind
-        return data
-
     @classmethod
     def pytest_parameter_name(cls) -> str:
         """Workaround for pytest parameter name."""
         return "eof_test"
+
+    def model_post_init(self, __context):
+        """Prepare the test exception based on the container."""
+        if self.container.validity_error is not None:
+            if self.expect_exception is not None:
+                assert self.expect_exception == self.container.validity_error, (
+                    f"Container validity error {self.container.validity_error} "
+                    f"does not match expected exception {self.expect_exception}."
+                )
+            self.expect_exception = self.container.validity_error
+        if "kind" in self.container.model_fields_set or "container_kind" in self.model_fields_set:
+            if (
+                "kind" in self.container.model_fields_set
+                and "container_kind" in self.model_fields_set
+            ):
+                assert self.container.kind == self.container_kind, (
+                    f"Container kind type {str(self.container.kind)} "
+                    f"does not match test {self.container_kind}."
+                )
+            elif "kind" in self.container.model_fields_set:
+                self.container_kind = self.container.kind
+            elif "container_kind" in self.model_fields_set:
+                self.container.kind = self.container_kind
 
     def make_eof_test_fixture(
         self,
@@ -294,24 +287,6 @@ class EOFStateTest(EOFTest, Transaction):
         EOFFixture
     ] + StateTest.supported_fixture_formats
 
-    @model_validator(mode="before")
-    @classmethod
-    def check_container_type(cls, data: Any) -> Any:
-        """Check if the container exception matches the expected exception."""
-        if isinstance(data, dict):
-            container = data.get("container")
-            deploy_tx = data.get("deploy_tx")
-            container_kind = data.get("container_kind")
-            if deploy_tx is None:
-                if (
-                    container is not None
-                    and isinstance(container, Container)
-                    and "kind" in container.model_fields_set
-                    and container.kind == ContainerKind.INITCODE
-                ) or (container_kind is not None and container_kind == ContainerKind.INITCODE):
-                    data["deploy_tx"] = True
-        return data
-
     @classmethod
     def pytest_parameter_name(cls) -> str:
         """Workaround for pytest parameter name."""
@@ -320,6 +295,12 @@ class EOFStateTest(EOFTest, Transaction):
     def model_post_init(self, __context):
         """Prepare the transaction parameters required to fill the test."""
         assert self.pre is not None, "pre must be set to generate a StateTest."
+
+        EOFTest.model_post_init(self, __context)
+
+        if "deploy_tx" not in self.model_fields_set:
+            if self.container_kind == ContainerKind.INITCODE:
+                self.deploy_tx = True
 
         self.sender = self.pre.fund_eoa(amount=self.tx_sender_funding_amount)
         if self.post is None:
