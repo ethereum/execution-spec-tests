@@ -18,7 +18,8 @@ from ethereum_test_fixtures import BaseFixture, EOFFixture, FixtureFormat
 from ethereum_test_fixtures.eof import Result, Vector
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
-from ethereum_test_types.eof.v1 import Container, ContainerKind
+from ethereum_test_types.eof.v1 import Container, ContainerKind, Section
+from ethereum_test_vm import Opcodes as Op
 
 from .base import BaseTest
 from .state import StateTest
@@ -137,10 +138,12 @@ class EOFTest(BaseTest):
     container: Container
     expect_exception: EOFExceptionInstanceOrList | None = None
     container_kind: ContainerKind = ContainerKind.RUNTIME
+    pre: Alloc | None = None
+    post: Alloc | None = None
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
-        EOFFixture,
-    ]
+        EOFFixture
+    ] + StateTest.supported_fixture_formats
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -249,6 +252,63 @@ class EOFTest(BaseTest):
                     got=f"{actual_exception} ({actual_message})",
                 )
 
+    def generate_eof_contract_create_transaction(self) -> Transaction:
+        """Generate a transaction that creates a contract."""
+        assert self.pre is not None, "pre must be set to generate a StateTest."
+
+        sender = self.pre.fund_eoa()
+        if self.post is None:
+            self.post = Alloc()
+
+        initcode: Container
+        if self.container_kind == ContainerKind.INITCODE:
+            # The contract will be deployed as a EOF factory contract.
+            initcode = Container(
+                sections=[
+                    Section.Code(Op.RETURNCONTRACT[0](0, 0)),
+                    Section.Container(
+                        Container(
+                            sections=[
+                                Section.Code(Op.EOFCREATE[0](0, 0, 0, 0)),
+                                Section.Container(self.container),
+                            ]
+                        )
+                    ),
+                ]
+            )
+        else:
+            initcode = Container(
+                sections=[
+                    Section.Code(Op.RETURNCONTRACT[0](0, 0)),
+                    Section.Container(self.container),
+                ]
+            )
+
+        tx = Transaction(
+            sender=sender,
+            to=None,
+            gas_limit=10_000_000,
+            data=initcode,
+        )
+
+        if self.expect_exception is not None:
+            self.post[tx.created_contract] = None
+        else:
+            self.post[tx.created_contract] = Account(
+                code=self.container,
+            )
+        return tx
+
+    def generate_state_test(self, fork: Fork) -> StateTest:
+        """Generate the StateTest filler."""
+        return StateTest(
+            pre=self.pre,
+            tx=self.generate_eof_contract_create_transaction(),
+            env=Environment(),
+            post=self.post,
+            t8n_dump_dir=self.t8n_dump_dir,
+        )
+
     def generate(
         self,
         *,
@@ -262,10 +322,25 @@ class EOFTest(BaseTest):
         """Generate the BlockchainTest fixture."""
         if fixture_format == EOFFixture:
             return self.make_eof_test_fixture(request=request, fork=fork, eips=eips)
-
+        elif fixture_format in StateTest.supported_fixture_formats:
+            return self.generate_state_test(fork).generate(
+                request=request, t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips
+            )
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
-    # TODO: Implement execute method for EOF tests
+    def execute(
+        self,
+        *,
+        fork: Fork,
+        execute_format: ExecuteFormat,
+        eips: Optional[List[int]] = None,
+    ) -> BaseExecute:
+        """Generate the list of test fixtures."""
+        if execute_format == TransactionPost:
+            return self.generate_state_test(fork).execute(
+                fork=fork, execute_format=execute_format, eips=eips
+            )
+        raise Exception(f"Unsupported execute format: {execute_format}")
 
 
 EOFTestSpec = Callable[[str], Generator[EOFTest, None, None]]
@@ -280,12 +355,6 @@ class EOFStateTest(EOFTest, Transaction):
     tx_sender_funding_amount: int = 1_000_000_000_000_000_000_000
     env: Environment = Field(default_factory=Environment)
     container_post: Account = Field(default_factory=Account)
-    pre: Alloc | None = None
-    post: Alloc | None = None
-
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
-        EOFFixture
-    ] + StateTest.supported_fixture_formats
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -334,7 +403,7 @@ class EOFStateTest(EOFTest, Transaction):
 
             self.post[self.to] = self.container_post
 
-    def generate_state_test(self) -> StateTest:
+    def generate_state_test(self, fork: Fork) -> StateTest:
         """Generate the StateTest filler."""
         assert self.pre is not None, "pre must be set to generate a StateTest."
         assert self.post is not None, "post must be set to generate a StateTest."
@@ -365,25 +434,11 @@ class EOFStateTest(EOFTest, Transaction):
                 pytest.skip(f"Duplicate EOF container on EOFStateTest: {request.node.nodeid}")
             return self.make_eof_test_fixture(request=request, fork=fork, eips=eips)
         elif fixture_format in StateTest.supported_fixture_formats:
-            return self.generate_state_test().generate(
+            return self.generate_state_test(fork).generate(
                 request=request, t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips
             )
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
-
-    def execute(
-        self,
-        *,
-        fork: Fork,
-        execute_format: ExecuteFormat,
-        eips: Optional[List[int]] = None,
-    ) -> BaseExecute:
-        """Generate the list of test fixtures."""
-        if execute_format == TransactionPost:
-            return self.generate_state_test().execute(
-                fork=fork, execute_format=execute_format, eips=eips
-            )
-        raise Exception(f"Unsupported execute format: {execute_format}")
 
 
 EOFStateTestSpec = Callable[[str], Generator[EOFStateTest, None, None]]
