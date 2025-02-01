@@ -50,7 +50,31 @@ EEST uses pytest, a Python testing library, for testing Ethereum specifications,
 
 > See: 📄 [An example of a failing test coverage](https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481)
 
-If coverage fails, it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](./test_actions_locally.md)). This will produce a coverage report showing lost coverage for specific functions/lines when running on EVMONE compared to legacy tests. Use this report to identify areas to address coverage gaps.
+If coverage fails, it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](./test_actions_locally.md)), which should generate a `evmtest_coverage` directory:
+
+```console
+❯ tree evmtest_coverage  -L 2
+evmtest_coverage
+└── coverage
+    ├── BASE
+    ├── BASE_TESTS
+    ├── DIFF
+    ├── PATCH
+    └── PATCH_TESTS
+```
+
+Here `BASE`is legacy tests, `PATCH` is the ported test, and `DIFF` is the coverage difference on EVMONE. Open `evmtest_coverage/coverage/DIFF/index.html` in browser:
+
+![Annotated coverage](../img/annotated-coverage.jpg)
+
+| Label |                                   Description                                   |
+| ----- | :-----------------------------------------------------------------------------: |
+| `LBC` |    **Lost base coverage:** Code that was tested before, but is untested now.    |
+| `UBC` |  **Uncovered baseline code:** Code that was untested before and untested now.   |
+| `GBC` | **Gained baseline coverage:** Code that was untested before, but is tested now. |
+| `CBC` |    **Covered baseline code:** Code that was tested before and is tested now.    |
+
+Follow the hyperlinks for lost base coverage (`LBC`) to address coverage gaps. Here is an example coverage loss:
 
 ![Missing legacy coverage](../img/legacy-coverage-loss.png)
 
