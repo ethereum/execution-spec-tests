@@ -4,7 +4,7 @@
 
 EEST is the successor to [ethereum/tests](https://github.com/ethereum/tests) (aka "legacy tests"), a repository that defined EVM test cases from the [Frontier](https://ethereum.org/en/history/#frontier) phase up to and including [The Merge](https://ethereum.org/en/history/#paris). These test cases are specified as YAML (and occasionally JSON) files in the [`./src/`](https://github.com/ethereum/tests/tree/develop/src) sub-directory. JSON test fixtures, which are fully-populated tests that can be executed against clients, are generated using [ethereum/retesteth](https://github.com/ethereum/retesteth). These JSON artifacts are regenerated when needed and added to the repository, typically in the [`./GeneralStateTests/`](https://github.com/ethereum/tests/tree/develop/GeneralStateTests) sub-directory.
 
-From [Shanghai](https://ethereum.org/en/history/#shapella) onward, new test cases—especially for new features introduced in hard forks—are defined in Python within EEST. While the existing test cases remain important for client testing, porting ethereum/tests to EEST will help maintain and generate tests for newer forks. This also ensures feature parity, as client teams will only need to obtain test fixture releases from one source.
+From [Shanghai](https://ethereum.org/en/history/#shapella) onward, new test cases — especially for new features introduced in hard forks—are defined in Python within EEST. While the existing test cases remain important for client testing, porting ethereum/tests to EEST will help maintain and generate tests for newer forks. This also ensures feature parity, as client teams will only need to obtain test fixture releases from one source.
 
 While automating the conversion of the remaining YAML (or JSON) test cases to Python is possible, manually porting individual test cases offers several benefits:
 
@@ -44,13 +44,9 @@ By default, EVM logs are stored in the `logs` folder at the repository root. You
 
 ## Test coverage
 
-It's crucial that ported tests maintain coverage parity with legacy tests. This ensures that no critical functions are left untested and prevents introducing bugs. A CI workflow automatically checks for coverage, though some coverage loss may be expected.
+It's crucial that ported tests maintain coverage parity with legacy tests. This ensures that no critical functions are left untested and prevents introducing bugs. A CI workflow automatically checks for coverage.
 
-EEST uses pytest, a Python testing library, for testing Ethereum specifications, while legacy tests relied on the EVM to handle much of the execution. This difference can lead to coverage gaps. EEST favors dynamic contract creation for each test vector, while legacy tests preferred a single static contract with multiple test vectors determined by transaction input data.
-
-> See: 📄 [An example of a failing test coverage](https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481)
-
-If coverage fails, it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](./test_actions_locally.md)), which should generate a `evmtest_coverage` directory:
+If coverage action fails (See: 📄 [An example of a failing test coverage](https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481)), it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](./test_actions_locally.md)), which should generate a `evmtest_coverage` directory:
 
 ```console
 ❯ tree evmtest_coverage  -L 2
@@ -58,7 +54,10 @@ evmtest_coverage
 └── coverage
     ├── BASE
     ├── BASE_TESTS
+    ├── coverage_BASE.lcov
+    ├── coverage_PATCH.lcov
     ├── DIFF
+    ├── difflog.txt
     ├── PATCH
     └── PATCH_TESTS
 ```
@@ -78,6 +77,12 @@ Follow the hyperlinks for lost base coverage (`LBC`) to address coverage gaps. H
 
 ![Missing legacy coverage](../img/legacy-coverage-loss.png)
 
-> 📄 Lost line coverage from a coverage report. In this case, caused by a missing invocation of `CALLDATALOAD` opcode as [discussed here](https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289).
+> Lost line coverage from a coverage report. In this case, caused by a missing invocation of `CALLDATALOAD`.
 
-It's important to note that coverage helps identify missing test paths. If you believe the coverage loss is due to differences in "setup" code between frameworks and doesn't impact the feature you're testing, explain this in your PR. A team member can help with the review.
+!!! note "Expected coverage loss"
+
+    EEST uses [pytest](https://docs.pytest.org/en/stable/), a Python testing library, for testing Ethereum specifications, while legacy tests relied on the EVM to handle much of the execution. This difference can lead to coverage gaps. EEST favors dynamic contract creation for each test vector, while legacy tests preferred a single static contract with multiple test vectors determined by transaction input data.
+
+    It's important to note that coverage helps identify missing test paths. If you believe the coverage loss is due to differences in "setup" code between frameworks and doesn't impact the feature you're testing, explain this in your PR. A team member can help with the review.
+
+    For example, review the [discussion in this PR.](https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289)
