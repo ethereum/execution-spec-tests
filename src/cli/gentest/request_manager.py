@@ -55,11 +55,11 @@ class RPCRequest:
         block_number = res.block_number
         assert block_number is not None, "Transaction does not seem to be included in any block"
 
-        assert res.ty == 0, (
-            f"Transaction has type {res.ty}: Currently only type 0 transactions are supported."
-        )
+        assert res.ty < 4, f"Unsupported transaction type :{res.ty}"
 
-        return RPCRequest.RemoteTransaction(
+        # A base transaction is created first and then the it is updated
+        # with the specific fields based on the transaction type.
+        transaction = RPCRequest.RemoteTransaction(
             block_number=block_number,
             tx_hash=res.transaction_hash,
             ty=res.ty,
@@ -75,6 +75,18 @@ class RPCRequest:
             s=res.s,
             protected=True if res.v > 30 else False,
         )
+
+        # Optional access list implemented by EIP-2930
+        if res.ty >= 1 and res.access_list is not None:
+            transaction.access_list = res.access_list
+
+        # Fee market change implemented by EIP-1559
+        if res.ty >= 2:
+            transaction.gas_price = None
+            transaction.max_fee_per_gas = res.max_fee_per_gas
+            transaction.max_priority_fee_per_gas = res.max_priority_fee_per_gas
+
+        return transaction
 
     def eth_get_block_by_number(self, block_number: BlockNumberType) -> RemoteBlock:
         """Get block by number."""

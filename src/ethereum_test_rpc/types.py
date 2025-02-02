@@ -5,7 +5,7 @@ from typing import List
 
 from pydantic import Field
 
-from ethereum_test_base_types import Address, Bytes, CamelModel, Hash, HexNumber
+from ethereum_test_base_types import AccessList, Address, Bytes, CamelModel, Hash, HexNumber
 from ethereum_test_fixtures.blockchain import FixtureExecutionPayload
 from ethereum_test_types import Withdrawal
 
@@ -43,6 +43,7 @@ class TransactionByHashResponse(CamelModel):
     max_priority_fee_per_gas: HexNumber | None = None
     value: HexNumber
     data: Bytes = Field(..., alias="input")
+    access_list: List[AccessList] | None = None
     nonce: HexNumber
     v: HexNumber
     r: HexNumber
