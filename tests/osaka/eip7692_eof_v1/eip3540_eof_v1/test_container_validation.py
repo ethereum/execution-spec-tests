@@ -1180,12 +1180,12 @@ def test_valid_containers(
     ids=lambda c: c.name,
 )
 def test_invalid_containers(
-    eof_test: EOFTestFiller,
+    eof_test_only: EOFTestFiller,  # TODO: Disable specific tests by using pytest.mark.eof_only
     container: Container,
 ):
     """Test invalid containers."""
     assert container.validity_error is not None, "Invalid container without validity error"
-    eof_test(
+    eof_test_only(
         container=container,
         expect_exception=container.validity_error,
     )
