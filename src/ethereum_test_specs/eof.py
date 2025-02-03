@@ -355,6 +355,17 @@ EOFTestSpec = Callable[[str], Generator[EOFTest, None, None]]
 EOFTestFiller = Type[EOFTest]
 
 
+class EOFTestOnly(EOFTest):
+    """Filler type that tests EOF containers but does not generate a state/blockchain test."""
+
+    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [EOFFixture]
+
+    @classmethod
+    def pytest_parameter_name(cls) -> str:
+        """Workaround for pytest parameter name."""
+        return "eof_test_only"
+
+
 class EOFStateTest(EOFTest, Transaction):
     """Filler type that tests EOF containers and also generates a state/blockchain test."""
 
