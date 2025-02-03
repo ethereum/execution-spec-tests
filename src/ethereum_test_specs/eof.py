@@ -138,6 +138,7 @@ class EOFTest(BaseTest):
     container: Container
     expect_exception: EOFExceptionInstanceOrList | None = None
     container_kind: ContainerKind = ContainerKind.RUNTIME
+    deployed_container: Container | None = None
     pre: Alloc | None = None
     post: Alloc | None = None
 
@@ -261,21 +262,27 @@ class EOFTest(BaseTest):
             self.post = Alloc()
 
         initcode: Container
+        deployed_container: Container | None
         if self.container_kind == ContainerKind.INITCODE:
-            # The contract will be deployed as a EOF factory contract.
-            initcode = Container(
-                sections=[
-                    Section.Code(Op.RETURNCONTRACT[0](0, 0)),
-                    Section.Container(
-                        Container(
-                            sections=[
-                                Section.Code(Op.EOFCREATE[0](0, 0, 0, 0)),
-                                Section.Container(self.container),
-                            ]
-                        )
-                    ),
-                ]
-            )
+            if "deployed_container" in self.model_fields_set:
+                # In the case of an initcontainer where we know the deployed container,
+                # we can use the initcontainer as-is.
+                initcode = self.container
+                deployed_container = self.deployed_container
+            else:
+                # The contract will be deployed as a EOF factory contract.
+                deployed_container = Container(
+                    sections=[
+                        Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                        Section.Container(self.container),
+                    ]
+                )
+                initcode = Container(
+                    sections=[
+                        Section.Code(Op.RETURNCONTRACT[0](0, 0)),
+                        Section.Container(deployed_container),
+                    ]
+                )
         else:
             initcode = Container(
                 sections=[
@@ -283,6 +290,7 @@ class EOFTest(BaseTest):
                     Section.Container(self.container),
                 ]
             )
+            deployed_container = self.container
 
         tx = Transaction(
             sender=sender,
@@ -291,11 +299,11 @@ class EOFTest(BaseTest):
             data=initcode,
         )
 
-        if self.expect_exception is not None:
+        if self.expect_exception is not None or deployed_container is None:
             self.post[tx.created_contract] = None
         else:
             self.post[tx.created_contract] = Account(
-                code=self.container,
+                code=deployed_container,
             )
         return tx
 
