@@ -21,6 +21,7 @@ EOFTests/efValidation/dataloadn_.json
 EOFTests/efValidation/EOF1_embedded_container_.json
 EOFTests/efValidation/EOF1_eofcreate_valid_.json
 EOFTests/efValidation/EOF1_callf_truncated_.json
+EOFTests/efValidation/EOF1_code_section_missing_.json
 EOFTests/efValidation/EOF1_dataloadn_truncated_.json
 EOFTests/efValidation/EOF1_no_type_section_.json
 EOFTests/efValidation/EOF1_valid_rjump_.json
