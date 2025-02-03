@@ -108,6 +108,7 @@ Release tarball changes:
 - ✨ Release tarballs now contain fixtures filled for all forks, not only the fork under active development and the fork currently deployed on mainnet ([#1053](https://github.com/ethereum/execution-spec-tests/pull/1053)).
 - ✨ `StateTest` fixture format now contains `state` field in each network post result, containing the decoded post allocation that results from the transaction execution ([#1064](https://github.com/ethereum/execution-spec-tests/pull/1064)).
 - ✨ Include EELS fork resolution information in filled json test fixtures ([#1123](https://github.com/ethereum/execution-spec-tests/pull/1123)).
+- 🔀 Updates ruff from version 0.8.2 to 0.9.4 ([#1168](https://github.com/ethereum/execution-spec-tests/pull/1168)).
 
 ### 💥 Breaking Change
 
