@@ -1,11 +1,14 @@
 """Ethereum test fork definitions."""
 
 from .base_fork import Fork, ForkAttribute
-from .forks.forks import (
+from .forks.cancun import Cancun
+from .forks.osaka import Osaka
+from .forks.paris import Paris
+from .forks.prague import Prague
+from .forks.pre_merge import (
     ArrowGlacier,
     Berlin,
     Byzantium,
-    Cancun,
     Constantinople,
     ConstantinopleFix,
     Frontier,
@@ -14,11 +17,8 @@ from .forks.forks import (
     Istanbul,
     London,
     MuirGlacier,
-    Osaka,
-    Paris,
-    Prague,
-    Shanghai,
 )
+from .forks.shanghai import Shanghai
 from .forks.transition import (
     BerlinToLondonAt5,
     CancunToPragueAtTime15k,

@@ -25,8 +25,8 @@ from ethereum_clis.clis.evmone import EvmOneTransitionTool
 from ethereum_test_base_types import Bytes, EthereumTestRootModel
 from ethereum_test_base_types.conversions import to_hex
 from ethereum_test_fixtures.blockchain import FixtureBlock, InvalidFixtureBlock
-from ethereum_test_fixtures.file import Fixtures
-from ethereum_test_forks.forks.forks import Osaka
+from ethereum_test_fixtures.file import BaseFixturesRootModel, BlockchainFixtures
+from ethereum_test_forks import Osaka
 from ethereum_test_specs.blockchain import Block, BlockchainFixture, BlockchainTest
 from ethereum_test_specs.debugging import print_traces
 from ethereum_test_specs.eof import EOFParse

@@ -1,7 +1,11 @@
 """List of all transition fork definitions."""
 
 from ..transition_base_fork import transition_fork
-from .forks import Berlin, Cancun, London, Paris, Prague, Shanghai
+from .cancun import Cancun
+from .paris import Paris
+from .prague import Prague
+from .pre_merge import Berlin, London
+from .shanghai import Shanghai
 
 
 # Transition Forks

@@ -8,17 +8,17 @@ from semver import Version
 from ethereum_test_base_types import BlobSchedule
 
 from ..base_fork import Fork
-from ..forks.forks import (
+from ..forks.cancun import Cancun
+from ..forks.paris import Paris
+from ..forks.prague import Prague
+from ..forks.pre_merge import (
     Berlin,
-    Cancun,
     Frontier,
     Homestead,
     Istanbul,
     London,
-    Paris,
-    Prague,
-    Shanghai,
 )
+from ..forks.shanghai import Shanghai
 from ..forks.transition import (
     BerlinToLondonAt5,
     CancunToPragueAtTime15k,

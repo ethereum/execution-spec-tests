@@ -5,7 +5,8 @@ from typing import List, Optional, Set
 from semver import Version
 
 from .base_fork import BaseFork, Fork
-from .forks import forks, transition
+from .forks import cancun, custom, osaka, paris, prague, shanghai, transition
+from .forks import pre_merge as forks  # TODO: temporary fix
 from .transition_base_fork import TransitionBaseClass
 
 
@@ -26,12 +27,33 @@ def get_forks() -> List[Fork]:
     `ethereum_test_forks` ordered chronologically by deployment.
     """
     all_forks: List[Fork] = []
+
+    # Get pre-merge forks
     for fork_name in forks.__dict__:
         fork = forks.__dict__[fork_name]
         if not isinstance(fork, type):
             continue
         if issubclass(fork, BaseFork) and fork is not BaseFork:
             all_forks.append(fork)
+
+    # Add post-merge forks in chronological order
+    fork_modules = [
+        paris.Paris,
+        shanghai.Shanghai,
+        cancun.Cancun,
+        prague.Prague,
+        osaka.Osaka,
+    ]
+
+    # Add custom forks
+    custom_forks = [
+        custom.CancunEIP7692,
+    ]
+
+    # Extend the list with post-merge and custom forks
+    all_forks.extend(fork_modules)
+    all_forks.extend(custom_forks)
+
     return all_forks
 
 
