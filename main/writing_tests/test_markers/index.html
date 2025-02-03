@@ -27731,7 +27731,8 @@ Paris, Shanghai, Cancun, etc.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">693</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">692</span>
+<span class="normal">693</span>
 <span class="normal">694</span>
 <span class="normal">695</span>
 <span class="normal">696</span>
@@ -27758,8 +27759,7 @@ Paris, Shanghai, Cancun, etc.</p>
 <span class="normal">717</span>
 <span class="normal">718</span>
 <span class="normal">719</span>
-<span class="normal">720</span>
-<span class="normal">721</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ValidFrom</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
+<span class="normal">720</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ValidFrom</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Marker used to specify the fork from which the test is valid. The test will not be filled for</span>
 <span class="sd">    forks before the specified fork.</span>
@@ -27834,7 +27834,8 @@ Berlin, Istanbul, etc.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">724</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">723</span>
+<span class="normal">724</span>
 <span class="normal">725</span>
 <span class="normal">726</span>
 <span class="normal">727</span>
@@ -27861,8 +27862,7 @@ Berlin, Istanbul, etc.</p>
 <span class="normal">748</span>
 <span class="normal">749</span>
 <span class="normal">750</span>
-<span class="normal">751</span>
-<span class="normal">752</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ValidUntil</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
+<span class="normal">751</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ValidUntil</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Marker to specify the fork until which the test is valid. The test will not be filled for</span>
 <span class="sd">    forks after the specified fork.</span>
@@ -27959,7 +27959,8 @@ Prague.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">755</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">754</span>
+<span class="normal">755</span>
 <span class="normal">756</span>
 <span class="normal">757</span>
 <span class="normal">758</span>
@@ -28042,10 +28043,7 @@ Prague.</p>
 <span class="normal">835</span>
 <span class="normal">836</span>
 <span class="normal">837</span>
-<span class="normal">838</span>
-<span class="normal">839</span>
-<span class="normal">840</span>
-<span class="normal">841</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ValidAtTransitionTo</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="normal">838</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ValidAtTransitionTo</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Marker to specify that a test is only meant to be filled at the transition to the specified</span>
 <span class="sd">    fork.</span>
@@ -28108,14 +28106,12 @@ Prague.</p>
         <span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">forks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: Missing fork argument with &#39;valid_at_transition_to&#39; &quot;</span>
-                <span class="s2">&quot;marker.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: Missing fork argument with &#39;valid_at_transition_to&#39; marker.&quot;</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">forks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: Too many forks specified to &#39;valid_at_transition_to&#39; &quot;</span>
-                <span class="s2">&quot;marker.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: Too many forks specified to &#39;valid_at_transition_to&#39; marker.&quot;</span>
             <span class="p">)</span>
 
         <span class="n">resulting_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>

@@ -33220,9 +33220,9 @@ type tests.</p>
             <span class="n">return_cost_deducted_prior_execution</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
             <span class="k">assert</span> <span class="n">access_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Access list is not supported in </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">authorization_list_or_count</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Authorizations are not supported in </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">assert</span> <span class="n">authorization_list_or_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Authorizations are not supported in </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
             <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_TRANSACTION</span>
 
             <span class="k">if</span> <span class="n">contract_creation</span><span class="p">:</span>
@@ -34289,9 +34289,9 @@ depending on its contents.</p>
         <span class="n">return_cost_deducted_prior_execution</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">access_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Access list is not supported in </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">authorization_list_or_count</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Authorizations are not supported in </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">assert</span> <span class="n">authorization_list_or_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Authorizations are not supported in </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
         <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_TRANSACTION</span>
 
         <span class="k">if</span> <span class="n">contract_creation</span><span class="p">:</span>

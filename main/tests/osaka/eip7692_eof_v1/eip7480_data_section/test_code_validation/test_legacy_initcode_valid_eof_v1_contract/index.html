@@ -27167,7 +27167,7 @@
 
 
 <h1 id="test_legacy_initcode_valid_eof_v1_contract"><code>test_legacy_initcode_valid_eof_v1_contract()</code><a class="headerlink" href="#test_legacy_initcode_valid_eof_v1_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fef9a263f2a4c9cb7d6568b5dde1e0eea8fe1da1/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py#L141"><code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py::test_legacy_initcode_valid_eof_v1_contract@fef9a263</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cf35ae2290e5bdc3a4033d40188177f97153b6bf/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py#L141"><code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py::test_legacy_initcode_valid_eof_v1_contract@cf35ae22</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py::test_legacy_initcode_valid_eof_v1_contract --fork Osaka</span>
@@ -27218,9 +27218,9 @@ initcode and a contract creating transaction.</p>
 <span class="sd">    Test creating various types of valid EOF V1 contracts using legacy</span>
 <span class="sd">    initcode and a contract creating transaction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="p">(</span>
-        <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="ow">is</span> <span class="kc">None</span>
-    <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Valid container with validity error: </span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">validity_error</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">container</span><span class="o">.</span><span class="n">validity_error</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Valid container with validity error: </span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">validity_error</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
     <span class="p">)</span>

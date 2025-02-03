@@ -28776,12 +28776,12 @@ spec type as filler for the test.</p>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">FixtureBlock</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a genesis block from the blockchain test definition.&quot;&quot;&quot;</span>
         <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-        <span class="p">),</span> <span class="s2">&quot;withdrawals must be empty at genesis&quot;</span>
-        <span class="k">assert</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span> <span class="o">==</span> <span class="n">Hash</span><span class="p">(</span>
-            <span class="mi">0</span>
-        <span class="p">),</span> <span class="s2">&quot;parent_beacon_block_root must be empty at genesis&quot;</span>
+        <span class="k">assert</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+            <span class="s2">&quot;withdrawals must be empty at genesis&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span> <span class="o">==</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span>
+            <span class="s2">&quot;parent_beacon_block_root must be empty at genesis&quot;</span>
+        <span class="p">)</span>
 
         <span class="n">pre_alloc</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
             <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
@@ -28923,9 +28923,9 @@ spec type as filler for the test.</p>
 
         <span class="n">requests_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">requests</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="p">),</span> <span class="s2">&quot;Requests are required for this block&quot;</span>
+            <span class="k">assert</span> <span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">requests</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
+                <span class="s2">&quot;Requests are required for this block&quot;</span>
+            <span class="p">)</span>
             <span class="n">requests</span> <span class="o">=</span> <span class="n">Requests</span><span class="p">(</span><span class="n">requests_lists</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">requests</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">Hash</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span> <span class="o">!=</span> <span class="n">header</span><span class="o">.</span><span class="n">requests_hash</span><span class="p">:</span>
@@ -29114,19 +29114,19 @@ spec type as filler for the test.</p>
                 <span class="p">)</span>
 
         <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">fcu_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="p">),</span> <span class="s2">&quot;A hive fixture was requested but no forkchoice update is defined. The framework should&quot;</span>
-        <span class="s2">&quot; never try to execute this test case.&quot;</span>
+        <span class="k">assert</span> <span class="n">fcu_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
+            <span class="s2">&quot;A hive fixture was requested but no forkchoice update is defined.&quot;</span>
+            <span class="s2">&quot; The framework should never try to execute this test case.&quot;</span>
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">verify_post_state</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="o">=</span><span class="n">alloc</span><span class="p">)</span>
 
         <span class="n">sync_payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_sync</span><span class="p">:</span>
             <span class="c1"># Test is marked for syncing verification.</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">block_hash</span> <span class="o">!=</span> <span class="n">head_hash</span>
-            <span class="p">),</span> <span class="s2">&quot;Invalid payload tests negative test via sync is not supported yet.&quot;</span>
+            <span class="k">assert</span> <span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">block_hash</span> <span class="o">!=</span> <span class="n">head_hash</span><span class="p">,</span> <span class="p">(</span>
+                <span class="s2">&quot;Invalid payload tests negative test via sync is not supported yet.&quot;</span>
+            <span class="p">)</span>
 
             <span class="c1"># Most clients require the header to start the sync process, so we create an empty</span>
             <span class="c1"># block on top of the last block of the test to send it as new payload and trigger the</span>
@@ -29286,12 +29286,12 @@ spec type as filler for the test.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">FixtureBlock</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a genesis block from the blockchain test definition.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="p">(</span>
-        <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="p">),</span> <span class="s2">&quot;withdrawals must be empty at genesis&quot;</span>
-    <span class="k">assert</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span> <span class="o">==</span> <span class="n">Hash</span><span class="p">(</span>
-        <span class="mi">0</span>
-    <span class="p">),</span> <span class="s2">&quot;parent_beacon_block_root must be empty at genesis&quot;</span>
+    <span class="k">assert</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+        <span class="s2">&quot;withdrawals must be empty at genesis&quot;</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span> <span class="o">==</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span>
+        <span class="s2">&quot;parent_beacon_block_root must be empty at genesis&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">pre_alloc</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
         <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
@@ -29586,9 +29586,9 @@ spec type as filler for the test.</p>
 
     <span class="n">requests_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_requests_required</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">requests</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="p">),</span> <span class="s2">&quot;Requests are required for this block&quot;</span>
+        <span class="k">assert</span> <span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">requests</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
+            <span class="s2">&quot;Requests are required for this block&quot;</span>
+        <span class="p">)</span>
         <span class="n">requests</span> <span class="o">=</span> <span class="n">Requests</span><span class="p">(</span><span class="n">requests_lists</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">requests</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">Hash</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span> <span class="o">!=</span> <span class="n">header</span><span class="o">.</span><span class="n">requests_hash</span><span class="p">:</span>
@@ -30079,19 +30079,19 @@ spec type as filler for the test.</p>
             <span class="p">)</span>
 
     <span class="n">fcu_version</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">engine_forkchoice_updated_version</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="p">(</span>
-        <span class="n">fcu_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="p">),</span> <span class="s2">&quot;A hive fixture was requested but no forkchoice update is defined. The framework should&quot;</span>
-    <span class="s2">&quot; never try to execute this test case.&quot;</span>
+    <span class="k">assert</span> <span class="n">fcu_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span>
+        <span class="s2">&quot;A hive fixture was requested but no forkchoice update is defined.&quot;</span>
+        <span class="s2">&quot; The framework should never try to execute this test case.&quot;</span>
+    <span class="p">)</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">verify_post_state</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="o">=</span><span class="n">alloc</span><span class="p">)</span>
 
     <span class="n">sync_payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_sync</span><span class="p">:</span>
         <span class="c1"># Test is marked for syncing verification.</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">block_hash</span> <span class="o">!=</span> <span class="n">head_hash</span>
-        <span class="p">),</span> <span class="s2">&quot;Invalid payload tests negative test via sync is not supported yet.&quot;</span>
+        <span class="k">assert</span> <span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">block_hash</span> <span class="o">!=</span> <span class="n">head_hash</span><span class="p">,</span> <span class="p">(</span>
+            <span class="s2">&quot;Invalid payload tests negative test via sync is not supported yet.&quot;</span>
+        <span class="p">)</span>
 
         <span class="c1"># Most clients require the header to start the sync process, so we create an empty</span>
         <span class="c1"># block on top of the last block of the test to send it as new payload and trigger the</span>
@@ -31909,9 +31909,9 @@ only for the Engine API.</p>
 
     <span class="k">def</span> <span class="nf">_generate_blockchain_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the genesis environment for the BlockchainTest formatted test.&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="mi">1</span>
-        <span class="p">),</span> <span class="s2">&quot;genesis block number cannot be negative, set state test env.number to 1&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span>
+            <span class="s2">&quot;genesis block number cannot be negative, set state test env.number to 1&quot;</span>
+        <span class="p">)</span>
 
         <span class="c1"># Modify values to the proper values for the genesis block</span>
         <span class="c1"># TODO: All of this can be moved to a new method in `Fork`</span>

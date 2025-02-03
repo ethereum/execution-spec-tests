@@ -30541,12 +30541,12 @@ t8n or other tools.</p>
         <span class="c1"># Ensure that the subclass has properly defined _mapping_data before accessing it</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;_mapping_data must be defined in subclass&quot;</span>
 
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span>
-        <span class="p">),</span> <span class="s2">&quot;Duplicate exception in _mapping_data&quot;</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span>
-        <span class="p">),</span> <span class="s2">&quot;Duplicate message in _mapping_data&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">),</span> <span class="p">(</span>
+            <span class="s2">&quot;Duplicate exception in _mapping_data&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">),</span> <span class="p">(</span>
+            <span class="s2">&quot;Duplicate message in _mapping_data&quot;</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exception_to_message_map</span><span class="p">:</span> <span class="n">frozenbidict</span> <span class="o">=</span> <span class="n">frozenbidict</span><span class="p">(</span>
             <span class="p">{</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span> <span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">}</span>
         <span class="p">)</span>
@@ -30614,12 +30614,12 @@ t8n or other tools.</p>
     <span class="c1"># Ensure that the subclass has properly defined _mapping_data before accessing it</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;_mapping_data must be defined in subclass&quot;</span>
 
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span>
-    <span class="p">),</span> <span class="s2">&quot;Duplicate exception in _mapping_data&quot;</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span>
-    <span class="p">),</span> <span class="s2">&quot;Duplicate message in _mapping_data&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">),</span> <span class="p">(</span>
+        <span class="s2">&quot;Duplicate exception in _mapping_data&quot;</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">),</span> <span class="p">(</span>
+        <span class="s2">&quot;Duplicate message in _mapping_data&quot;</span>
+    <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">exception_to_message_map</span><span class="p">:</span> <span class="n">frozenbidict</span> <span class="o">=</span> <span class="n">frozenbidict</span><span class="p">(</span>
         <span class="p">{</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span> <span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">}</span>
     <span class="p">)</span>
@@ -34211,9 +34211,9 @@ when returning</p>
             <span class="n">exception_class</span> <span class="o">=</span> <span class="n">_exception_classes</span><span class="p">[</span><span class="n">class_name</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Otherwise, use the class that the method is called on</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">class_name</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Unexpected exception type: </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">, expected </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">class_name</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected exception type: </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">, expected </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
             <span class="n">exception_class</span> <span class="o">=</span> <span class="bp">cls</span>
 
         <span class="n">exception</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">exception_class</span><span class="p">,</span> <span class="n">enum_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -34376,9 +34376,9 @@ when returning</p>
         <span class="n">exception_class</span> <span class="o">=</span> <span class="n">_exception_classes</span><span class="p">[</span><span class="n">class_name</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Otherwise, use the class that the method is called on</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">class_name</span>
-        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Unexpected exception type: </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">, expected </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">class_name</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unexpected exception type: </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">, expected </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
         <span class="n">exception_class</span> <span class="o">=</span> <span class="bp">cls</span>
 
     <span class="n">exception</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">exception_class</span><span class="p">,</span> <span class="n">enum_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
