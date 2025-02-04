@@ -152,9 +152,20 @@ def test_payload_building_via_engine(
             with total_payload_timing.time(f"Step {i + 1} ({step.step_type})") as payload_timing:
                 if isinstance(step, FixtureSendTransactionWithPost):
                     with payload_timing.time("eth_sendRawTransaction"):
-                        tx_hash = eth_rpc.send_raw_transaction(step.rlp)
-                        assert tx_hash, "transaction hash is empty"
-                        assert step.hash == tx_hash, f"unexpected transaction hash: {tx_hash}"
+                        try:
+                            tx_hash = eth_rpc.send_raw_transaction(step.rlp)
+                            if step.error is not None:
+                                raise Exception(
+                                    "Client failed to raise expected RPC error code: "
+                                    f"{step.error}"
+                                )
+                            assert tx_hash, "transaction hash is empty"
+                            assert step.hash == tx_hash, f"unexpected transaction hash: {tx_hash}"
+
+                        except JSONRPCError as e:
+                            if step.error is None:
+                                raise Exception(f"unexpected error: {e.code}") from e
+
                 elif isinstance(step, FixturePayloadBuild):
                     payload_id: Bytes | None = None
                     with payload_timing.time(
