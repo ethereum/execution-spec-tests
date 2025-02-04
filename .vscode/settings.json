@@ -1,6 +1,5 @@
 {
-    // Static settings that users MUST adhere to when
-    // developing with the EEST repo.
+    // Settings that users SHOULD adhere to when developing with the EEST repo.
     "cSpell.customDictionaries": {
         "project-words": {
             "name": "project-words",
@@ -20,10 +19,24 @@
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.codeActionsOnSave": {
             "source.organizeImports": "explicit"
-        }
+        },
     },
     "python.analysis.autoFormatStrings": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [
+        // To discover tests for a specic forks, use the `--fork` argument as following.
+        // "--fork=Shanghai",
+        // Hopefully vscode-python will support multiple test framework environments sooon, see
+        // https://github.com/microsoft/vscode-python/issues/12075
+        // For now, to toggle between running "framework tests" and "filling tests" comment/
+        // uncomment the relevant line below to select the correct pytest*.ini file.
+        "-c",
+        // "pytest-framework.ini",
+        "pytest.ini", "--fork=Prague",
+        // "-vv"
+    ],
     "ruff.enable": true,
     "ruff.lint.args": ["--line-length", "99", "--fix"],
-    "extensions.ignoreRecommendations": false
+    "extensions.ignoreRecommendations": false,
 }
