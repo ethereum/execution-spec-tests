@@ -12,11 +12,17 @@ from ethereum_test_base_types import EthereumTestRootModel
 from .base import FixtureFormat
 from .blockchain import BlockchainEngineFixture, BlockchainFixture
 from .eof import Fixture as EOFFixture
+from .payload_building import PayloadBuildingFixture
 from .state import StateFixture
 from .transaction import Fixture as TransactionFixture
 
 FixtureModel = (
-    BlockchainFixture | BlockchainEngineFixture | StateFixture | EOFFixture | TransactionFixture
+    BlockchainFixture
+    | BlockchainEngineFixture
+    | StateFixture
+    | EOFFixture
+    | TransactionFixture
+    | PayloadBuildingFixture
 )
 
 
@@ -112,6 +118,7 @@ class BaseFixturesRootModel(EthereumTestRootModel):
             StateFixture: StateFixtures,
             TransactionFixture: TransactionFixtures,
             EOFFixture: EOFFixtures,
+            PayloadBuildingFixture: PayloadBuildingFixtures,
         }
 
         if fixture_format is not None:
@@ -144,7 +151,9 @@ class Fixtures(BaseFixturesRootModel):
             Annotated[BlockchainFixture, Tag(BlockchainFixture.fixture_format_name)]
             | Annotated[BlockchainEngineFixture, Tag(BlockchainEngineFixture.fixture_format_name)]
             | Annotated[StateFixture, Tag(StateFixture.fixture_format_name)]
-            | Annotated[TransactionFixture, Tag(TransactionFixture.fixture_format_name)],
+            | Annotated[TransactionFixture, Tag(TransactionFixture.fixture_format_name)]
+            | Annotated[EOFFixture, Tag(EOFFixture.fixture_format_name)]
+            | Annotated[PayloadBuildingFixture, Tag(PayloadBuildingFixture.fixture_format_name)],
             Discriminator(fixture_format_discriminator),
         ],
     ]
@@ -198,3 +207,13 @@ class EOFFixtures(BaseFixturesRootModel):
     """
 
     root: Dict[str, EOFFixture]
+
+
+class PayloadBuildingFixtures(BaseFixturesRootModel):
+    """
+    Defines a top-level model containing multiple payload building test fixtures in a
+    dictionary of (fixture-name, fixture) pairs. This is the format used in JSON
+    fixture files for payload building tests.
+    """
+
+    root: Dict[str, PayloadBuildingFixture]
