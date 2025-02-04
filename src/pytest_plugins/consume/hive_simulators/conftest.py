@@ -10,7 +10,7 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTest
 
 from ethereum_test_base_types import to_json
-from ethereum_test_fixtures import BlockchainFixtureCommon
+from ethereum_test_fixtures import BlockchainFixtureCommon, PayloadBuildingFixture
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_rpc import EthRPC
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
@@ -71,7 +71,7 @@ def eest_consume_commands(
 
 @pytest.fixture(scope="function")
 def test_case_description(
-    blockchain_fixture: BlockchainFixtureCommon,
+    fixture: BlockchainFixtureCommon | PayloadBuildingFixture,
     test_case: TestCaseIndexFile | TestCaseStream,
     hive_consume_command: str,
     eest_consume_commands: List[str],
@@ -81,12 +81,12 @@ def test_case_description(
     Includes reproducible commands to re-run the test case against the target client.
     """
     description = f"Test id: {test_case.id}"
-    if "url" in blockchain_fixture.info:
-        description += f"\n\nTest source: {blockchain_fixture.info['url']}"
-    if "description" not in blockchain_fixture.info:
+    if "url" in fixture.info:
+        description += f"\n\nTest source: {fixture.info['url']}"
+    if "description" not in fixture.info:
         description += "\n\nNo description field provided in the fixture's 'info' section."
     else:
-        description += f"\n\n{blockchain_fixture.info['description']}"
+        description += f"\n\n{fixture.info['description']}"
     description += (
         f"\n\nCommand to reproduce entirely in hive:\n<code>{hive_consume_command}</code>"
     )
@@ -113,10 +113,10 @@ def total_timing_data(request) -> Generator[TimingData, None, None]:
 
 @pytest.fixture(scope="function")
 @pytest.mark.usefixtures("total_timing_data")
-def client_genesis(blockchain_fixture: BlockchainFixtureCommon) -> dict:
+def client_genesis(fixture: BlockchainFixtureCommon | PayloadBuildingFixture) -> dict:
     """Convert the fixture genesis block header and pre-state to a client genesis state."""
-    genesis = to_json(blockchain_fixture.genesis)
-    alloc = to_json(blockchain_fixture.pre)
+    genesis = to_json(fixture.genesis)
+    alloc = to_json(fixture.pre)
     # NOTE: nethermind requires account keys without '0x' prefix
     genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
     return genesis
@@ -136,18 +136,16 @@ def check_live_port(test_suite_name: str) -> Literal[8545, 8551]:
 
 @pytest.fixture(scope="function")
 def environment(
-    blockchain_fixture: BlockchainFixtureCommon, check_live_port: Literal[8545, 8551]
+    fixture: BlockchainFixtureCommon | PayloadBuildingFixture, check_live_port: Literal[8545, 8551]
 ) -> dict:
     """Define the environment that hive will start the client with."""
-    assert blockchain_fixture.fork in ruleset, (
-        f"fork '{blockchain_fixture.fork}' missing in hive ruleset"
-    )
+    assert fixture.fork in ruleset, f"fork '{fixture.fork}' missing in hive ruleset"
     return {
         "HIVE_CHAIN_ID": "1",
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
         "HIVE_CHECK_LIVE_PORT": str(check_live_port),
-        **{k: f"{v:d}" for k, v in ruleset[blockchain_fixture.fork].items()},
+        **{k: f"{v:d}" for k, v in ruleset[fixture.fork].items()},
     }
 
 
