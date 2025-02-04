@@ -5,6 +5,7 @@ from typing import Annotated, ClassVar, List, Literal, Union
 from pydantic import Discriminator, Field
 
 from ethereum_test_base_types import Alloc, Bytes, CamelModel, Hash
+from ethereum_test_exceptions import TransactionException
 from ethereum_test_types.types import (
     Transaction,
 )
@@ -29,6 +30,10 @@ class FixtureSendTransactionWithPost(FixtureTransaction):
     hash: Hash
     """
     Transaction hash.
+    """
+    error: List[TransactionException] | TransactionException | None = Field(None)
+    """
+    Error that should be returned by the client when sending the transaction.
     """
 
     @classmethod
