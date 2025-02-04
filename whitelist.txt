@@ -1,3 +1,4 @@
+uv
 femtoether
 Picoether
 microether
@@ -89,6 +90,7 @@ coincurve
 commonpath
 compilable
 config
+configs
 conftest
 contractAddr
 controlflow
@@ -157,7 +159,6 @@ eofparse
 epilog
 esbenp
 eest
-EEST
 EEST's
 ERC
 eth

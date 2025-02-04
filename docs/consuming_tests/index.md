@@ -4,10 +4,10 @@
 
 | Format | Consumed by the client | Location in `.tar.gz` release |
 | --- | --- | --- |
-| [State Tests](./state_test.md) | directly via a `statetest`-like command<br/> (e.g., [go-ethereum/cmd/evm/staterunner.go](https://github.com/ethereum/go-ethereum/blob/509a64ffb9405942396276ae111d06f9bded9221/cmd/evm/staterunner.go#L35)) | `./fixtures/state_tests/` |
-| [Blockchain Tests](./blockchain_test.md) | directly via a `blocktest`-like command<br/> (e.g., [go-ethereum/cmd/evm/blockrunner.go](https://github.com/ethereum/go-ethereum/blob/509a64ffb9405942396276ae111d06f9bded9221/cmd/evm/blockrunner.go#L39)) | `./fixtures/blockchain_tests/` |
-| [Blockchain Engine Tests](./blockchain_test_engine.md) | in the [Hive `pyspec` simulator](https://github.com/ethereum/execution-spec-tests/blob/main/src/pytest_plugins/consume/hive_simulators/engine/test_via_engine.py) via the Engine API and other RPC endpoints  | `./fixtures/blockchain_tests_engine/` |
-| [Transaction Tests](./transaction_test.md) | directly via a `t9`-like command<br/> (e.g., [go-ethereum's `evm t9`](https://github.com/ethereum/go-ethereum/tree/67a3b087951a3f3a8e341ae32b6ec18f3553e5cc/cmd/evm#transaction-tool)) | `./fixtures/transaction_tests/` |
+| [State Tests](./test_formats/state_test.md) | directly via a `statetest`-like command<br/> (e.g., [go-ethereum/cmd/evm/staterunner.go](https://github.com/ethereum/go-ethereum/blob/509a64ffb9405942396276ae111d06f9bded9221/cmd/evm/staterunner.go#L35)) | `./fixtures/state_tests/` |
+| [Blockchain Tests](./test_formats/blockchain_test.md) | directly via a `blocktest`-like command<br/> (e.g., [go-ethereum/cmd/evm/blockrunner.go](https://github.com/ethereum/go-ethereum/blob/509a64ffb9405942396276ae111d06f9bded9221/cmd/evm/blockrunner.go#L39)) | `./fixtures/blockchain_tests/` |
+| [Blockchain Engine Tests](./test_formats/blockchain_test_engine.md) | in the [Hive `pyspec` simulator](https://github.com/ethereum/execution-spec-tests/blob/main/src/pytest_plugins/consume/hive_simulators/engine/test_via_engine.py) via the Engine API and other RPC endpoints  | `./fixtures/blockchain_tests_engine/` |
+| [Transaction Tests](./test_formats/transaction_test.md) | directly via a `t9`-like command<br/> (e.g., [go-ethereum's `evm t9`](https://github.com/ethereum/go-ethereum/tree/67a3b087951a3f3a8e341ae32b6ec18f3553e5cc/cmd/evm#transaction-tool)) | `./fixtures/transaction_tests/` |
 
 Here's a top-level comparison of the different methods of consuming tests:
 
