@@ -167,9 +167,9 @@ class Header(CamelModel):
                 assert baseline_value is not Header.REMOVE_FIELD, "invalid header"
                 value = getattr(target, field_name)
                 if baseline_value is Header.EMPTY_FIELD:
-                    assert value is None, (
-                        f"invalid header field {field_name}, got {value}, want None"
-                    )
+                    assert (
+                        value is None
+                    ), f"invalid header field {field_name}, got {value}, want None"
                     continue
                 assert value == baseline_value, (
                     f"invalid header field ({field_name}) value, "
@@ -295,22 +295,24 @@ class BlockchainTest(BaseTest):
         TransactionPost,
     ]
 
+    @staticmethod
     def make_genesis(
-        self,
+        genesis_environment: Environment,
+        pre: Alloc,
         fork: Fork,
     ) -> Tuple[Alloc, FixtureBlock]:
         """Create a genesis block from the blockchain test definition."""
-        env = self.genesis_environment.set_fork_requirements(fork)
-        assert env.withdrawals is None or len(env.withdrawals) == 0, (
-            "withdrawals must be empty at genesis"
-        )
-        assert env.parent_beacon_block_root is None or env.parent_beacon_block_root == Hash(0), (
-            "parent_beacon_block_root must be empty at genesis"
-        )
+        env = genesis_environment.set_fork_requirements(fork)
+        assert (
+            env.withdrawals is None or len(env.withdrawals) == 0
+        ), "withdrawals must be empty at genesis"
+        assert env.parent_beacon_block_root is None or env.parent_beacon_block_root == Hash(
+            0
+        ), "parent_beacon_block_root must be empty at genesis"
 
         pre_alloc = Alloc.merge(
             Alloc.model_validate(fork.pre_allocation_blockchain()),
-            self.pre,
+            pre,
         )
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
@@ -448,9 +450,9 @@ class BlockchainTest(BaseTest):
 
         requests_list: List[Bytes] | None = None
         if fork.header_requests_required(header.number, header.timestamp):
-            assert transition_tool_output.result.requests is not None, (
-                "Requests are required for this block"
-            )
+            assert (
+                transition_tool_output.result.requests is not None
+            ), "Requests are required for this block"
             requests = Requests(requests_lists=list(transition_tool_output.result.requests))
 
             if Hash(requests) != header.requests_hash:
@@ -480,7 +482,8 @@ class BlockchainTest(BaseTest):
             env,
         )
 
-    def network_info(self, fork: Fork, eips: Optional[List[int]] = None):
+    @staticmethod
+    def network_info(fork: Fork, eips: Optional[List[int]] = None):
         """Return fixture network information for the fork & EIP/s."""
         return (
             "+".join([fork.blockchain_test_network_name()] + [str(eip) for eip in eips])
@@ -509,7 +512,7 @@ class BlockchainTest(BaseTest):
         """Create a fixture from the blockchain test definition."""
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
-        pre, genesis = self.make_genesis(fork)
+        pre, genesis = BlockchainTest.make_genesis(self.genesis_environment, self.pre, fork)
 
         alloc = pre
         env = environment_from_parent_header(genesis.header)
@@ -576,7 +579,7 @@ class BlockchainTest(BaseTest):
                 )
 
         self.verify_post_state(t8n, t8n_state=alloc)
-        network_info = self.network_info(fork, eips)
+        network_info = BlockchainTest.network_info(fork, eips)
         return BlockchainFixture(
             fork=network_info,
             genesis=genesis.header,
@@ -601,7 +604,7 @@ class BlockchainTest(BaseTest):
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
-        pre, genesis = self.make_genesis(fork)
+        pre, genesis = BlockchainTest.make_genesis(self.genesis_environment, self.pre, fork)
         alloc = pre
         env = environment_from_parent_header(genesis.header)
         head_hash = genesis.header.block_hash
@@ -649,9 +652,9 @@ class BlockchainTest(BaseTest):
         sync_payload: Optional[FixtureEngineNewPayload] = None
         if self.verify_sync:
             # Test is marked for syncing verification.
-            assert genesis.header.block_hash != head_hash, (
-                "Invalid payload tests negative test via sync is not supported yet."
-            )
+            assert (
+                genesis.header.block_hash != head_hash
+            ), "Invalid payload tests negative test via sync is not supported yet."
 
             # Most clients require the header to start the sync process, so we create an empty
             # block on top of the last block of the test to send it as new payload and trigger the
@@ -674,7 +677,7 @@ class BlockchainTest(BaseTest):
                 error_code=None,
             )
 
-        network_info = self.network_info(fork, eips)
+        network_info = BlockchainTest.network_info(fork, eips)
         return BlockchainEngineFixture(
             fork=network_info,
             genesis=genesis.header,
