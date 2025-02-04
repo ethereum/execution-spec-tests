@@ -547,6 +547,7 @@ parametrized
 param
 params
 parametrize
+parametrizes
 parametrizer
 parametrizers
 parametrization
