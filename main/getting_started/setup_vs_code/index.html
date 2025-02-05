@@ -651,9 +651,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#additional-vs-code-extensions" class="md-nav__link">
+  <a href="#vs-code-extension-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Additional VS Code Extensions
+      VS Code Extension Configuration
     </span>
   </a>
   
@@ -27162,9 +27162,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#additional-vs-code-extensions" class="md-nav__link">
+  <a href="#vs-code-extension-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Additional VS Code Extensions
+      VS Code Extension Configuration
     </span>
   </a>
   
@@ -27212,37 +27212,31 @@
 <div class="highlight"><pre><span></span><code>📁 execution-test-specs/
 └──📁 .vscode/
     ├── 📄 settings.json
-    ├── 📄 settings.local.recommended.json
     ├── 📄 extensions.json
     └── 📄 launch.recommended.json
 </code></pre></div>
-<p>By default the repository settings are applied via <code>.vscode/settings.json</code>, if you want to add your own settings please edit <code>.vscode/settings.local.recommended.json</code>.</p>
-<p>To enable the recommended launch configurations:</p>
+<p>By default, the repository settings are applied via <code>.vscode/settings.json</code>.</p>
+<p>To enable the recommended launch configurations (that include some useful debugging configurations), copy the recommended launch configuration file to <code>.vscode/launch.json</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="go">cp .vscode/launch.recommended.json .vscode/launch.json</span>
 </code></pre></div>
-<p>To additionally use and add local settings please run the following first:</p>
-<div class="highlight"><pre><span></span><code><span class="go">cp .vscode/settings.local.recommended.json .vscode/settings.local.json</span>
-</code></pre></div>
-<h2 id="additional-vs-code-extensions">Additional VS Code Extensions<a class="headerlink" href="#additional-vs-code-extensions" title="Permanent link">&para;</a></h2>
-<p>Open the folder in VS Code where execution-spec-tests is cloned: VS Code should prompt to install the repository's required extensions from <code>.vscode/extensions.json</code>:</p>
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python"><code>ms-python.python</code></a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff"><code>charliermarsh.ruff</code></a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"><code>esbenp.prettier-vscode</code></a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker"><code>streetsidesoftware.code-spell-checker</code></a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml"><code>tamasfe.even-better-toml</code></a></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Workspace Trust</p>
-</div>
-<p>Trust the <code>execution-specs-test</code> repository when opening in VS Code to be prompted to install the plugins recommended via the <code>extensions.json</code> file.</p>
-<p>The <code>.vscode/extensions.json</code> additionally contains a list of extensions that should be disabled:</p>
+<h2 id="vs-code-extension-configuration">VS Code Extension Configuration<a class="headerlink" href="#vs-code-extension-configuration" title="Permanent link">&para;</a></h2>
+<p>The extensions listed in <code>.vscode/extensions.json</code> are required for a smooth developer experience.</p>
+<ol>
+<li>
+<p>Open the root folder of your local <code>execution-spec-tests</code> clone in VS Code, it will prompt you to install the repository's required extensions (from <code>.vscode/extensions.json</code> - you will be required to trust the <code>executions-spec-tests</code> repository first). These extensions are used to format, lint, type check and run tests on the codebase. After all the required extensions are installed a VS Code reload will be required.</p>
+</li>
+<li>
+<p>If previously installed, ensure that the following <code>ms-python</code> extensions are disabled for the <code>execution-spec-tests</code> workspace to ensure there are no conflicts with the <code>ruff</code> formatter. In the VS Code Extensions tab, search for the each of the extensions below, and if installed and enabled, open the "Disabled" menu and select "Disable (Workspace)". This ensures that the extensions will be available with other workspaces that may need them.</p>
 <ul>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.isort"><code>ms-python.isort</code></a></li>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.flake8"><code>ms-python.flake8</code></a></li>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter"><code>ms-python.black-formatter</code></a></li>
 </ul>
-<p>Please ensure that these are disabled for the repo if they are installed as part of your VS Code extensions.</p>
+<p><figure markdown>
+    <a class="glightbox" href="../img/vscode_extension_disable_for_workspace.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img align="center" alt="Disabling extensions for the current workspace" src="../img/vscode_extension_disable_for_workspace.png" width="auto" /></a>
+</figure></p>
+</li>
+</ol>
 <h2 id="configuration-for-testing-evm-features-under-active-development">Configuration for Testing EVM Features Under Active Development<a class="headerlink" href="#configuration-for-testing-evm-features-under-active-development" title="Permanent link">&para;</a></h2>
 <p>An additional step is required to enable fixture generations for features from forks that are under active development and have not been deployed to mainnet, see <a href="../../filling_tests/filling_tests_dev_fork/#vs-code-setup">Filling Tests for Features under Development</a>.</p>
 
