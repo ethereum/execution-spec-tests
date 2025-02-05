@@ -31,7 +31,7 @@ class FixtureSendTransactionWithPost(FixtureTransaction):
     """
     Transaction hash.
     """
-    error: List[TransactionException] | TransactionException | None = Field(None)
+    error: List[TransactionException] | TransactionException | None = None
     """
     Error that should be returned by the client when sending the transaction.
     """
@@ -52,7 +52,7 @@ class FixtureSendTransactionWithPost(FixtureTransaction):
         kwargs = tx.model_dump()
         if "post" in kwargs:
             kwargs.pop("post")
-        return cls(**kwargs, rlp=tx.rlp, hash=tx.hash, post=post)
+        return cls(**kwargs, rlp=tx.rlp, hash=tx.hash, post=post, error=tx.error)
 
 
 class FixturePayloadBuild(CamelModel):

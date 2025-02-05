@@ -14,7 +14,7 @@ from ethereum_test_fixtures.payload_building import (
     FixturePayloadBuild,
     FixtureSendTransactionWithPost,
 )
-from ethereum_test_rpc import EngineRPC, EthRPC
+from ethereum_test_rpc import EngineRPC, EthRPC, SendTransactionExceptionError
 from ethereum_test_rpc.types import (
     ForkchoiceState,
     GetPayloadResponse,
@@ -195,9 +195,9 @@ def test_payload_building_via_engine(
                             assert step.hash == tx_hash, f"unexpected transaction hash: {tx_hash}"
                             sent_transactions.append(step)
 
-                        except JSONRPCError as e:
+                        except SendTransactionExceptionError as e:
                             if step.error is None:
-                                raise Exception(f"unexpected error: {e.code}") from e
+                                raise Exception(f"unexpected error: {e}") from e
 
                 elif isinstance(step, FixturePayloadBuild):
                     payload_id: Bytes | None = None
