@@ -25,7 +25,7 @@ The components map as following:
 
 - `<python_test_module_path>` - the Python "module" (file) where the test is implemented `tests/istanbul/eip1344_chainid/test_chainid.py`,
 - `<python_test_function_name>` - the Python test function: `test_chainid`,
-- [<parameter_1_id>-...-<parameter_N_id] - the test parameters, this test case has the following parameters:
+- `[<parameter_1_id>-...-<parameter_N_id]` - the test parameters, this test case has the following parameters:
   - `fork_Cancun`, and,
   - `blockchain_test` (the test type).
 
@@ -60,7 +60,7 @@ Each Python test case is also typically parametrized by test type, respectively 
 
 ### All Test Cases generated for `test_chainid`
 
-To see all the test cases that get generated from London until Shanghai for `test_chainid`, we can execute:
+To see all the test cases that get generated from London until Shanghai for `test_chainid`, we can execute `fill` with the `--collect-only` flag:
 
 ```bash
 fill tests/istanbul/eip1344_chainid/test_chainid.py --from London --until Shanghai --collect-only -q 
