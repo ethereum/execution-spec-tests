@@ -26,8 +26,8 @@ The components map as following:
 - `<python_test_module_path>` - the Python "module" (file) where the test is implemented `tests/istanbul/eip1344_chainid/test_chainid.py`,
 - `<python_test_function_name>` - the Python test function: `test_chainid`,
 - `[<parameter_1_id>-...-<parameter_N_id]` - the test parameters, this test case has the following parameters:
-  - `fork_Cancun`, and,
-  - `blockchain_test` (the test type).
+    - `fork_Cancun`, to read "fork = Cancun", the fork the test case is filled for,
+    - `blockchain_test`, the test type.
 
 Although `test_chainid` is not directly parametrized on the test function level, the framework always parametrizes tests by fork and, if possible, by test type. If we inspect its function signature, we see that it's native test format is of type `StateTestFiller`:
 
