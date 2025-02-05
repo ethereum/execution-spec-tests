@@ -28067,7 +28067,8 @@
 <li>✨ Modify <code>valid_at_transition_to</code> marker to add keyword arguments <code>subsequent_transitions</code> and <code>until</code> to fill a test using multiple transition forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/1081">#1081</a>).</li>
 <li>🐞 fix(consume): use <code>"HIVE_CHECK_LIVE_PORT"</code> to signal hive to wait for port 8551 (Engine API port) instead of the 8545 port when running <code>consume engine</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1095">#1095</a>).</li>
 <li>✨ <code>state_test</code>, <code>blockchain_test</code> and <code>blockchain_test_engine</code> fixtures now contain the <code>blobSchedule</code> from <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7840.md">EIP-7840</a>, only for tests filled for Cancun and Prague forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/1040">#1040</a>).</li>
-<li>🔀 Change <code>--dist</code> flag to the default value, <code>load</code>, for better parallelism handling during test filling (<a href="https://github.com/ethereum/execution-spec-tests/pull/1118">#1118</a>)</li>
+<li>🔀 Change <code>--dist</code> flag to the default value, <code>load</code>, for better parallelism handling during test filling (<a href="https://github.com/ethereum/execution-spec-tests/pull/1118">#1118</a>).</li>
+<li>🔀 Refactor framework code to use the <a href="https://pypi.org/project/ethereum-rlp/"><code>ethereum-rlp</code></a> package instead of <code>ethereum.rlp</code>, previously available in ethereum/execution-specs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1180">#1180</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
 <ul>
