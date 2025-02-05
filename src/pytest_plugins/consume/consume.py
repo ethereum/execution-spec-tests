@@ -86,6 +86,18 @@ def pytest_addoption(parser):  # noqa: D103
         ),
     )
     consume_group.addoption(
+        "--cache-folder",
+        action="store",
+        dest="fixture_cache_folder",
+        default=CACHED_DOWNLOADS_DIRECTORY,
+        help=(
+            "Specify the path where the downloaded fixtures are cached. "
+            f"Defaults to the following directory: '{CACHED_DOWNLOADS_DIRECTORY}'."
+        ),
+    )
+    if "cache" in sys.argv:
+        return
+    consume_group.addoption(
         "--fork",
         action="store",
         dest="single_fork",
@@ -102,23 +114,6 @@ def pytest_addoption(parser):  # noqa: D103
             "The --html flag can be used to specify a different path."
         ),
     )
-    consume_group.addoption(
-        "--cache-folder",
-        action="store",
-        dest="fixture_cache_folder",
-        default=CACHED_DOWNLOADS_DIRECTORY,
-        help=(
-            "Specify the path where the downloaded fixtures should be cached. "
-            f"Defaults to the following directory: '{CACHED_DOWNLOADS_DIRECTORY}'."
-        ),
-    )
-    consume_group.addoption(
-        "--cache-only",
-        action="store_true",
-        dest="cache_only",
-        default=False,
-        help=("Do not run any tests, only cache the fixtures. "),
-    )
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -132,6 +127,8 @@ def pytest_configure(config):  # noqa: D103
     it uses the modified `htmlpath` option.
     """
     fixtures_source = config.getoption("fixtures_source")
+    if "cache" in sys.argv and not config.getoption("fixtures_source"):
+        pytest.exit("The --input flag is required when using the cache command.")
     config.fixture_source_flags = ["--input", fixtures_source]
 
     if fixtures_source is None:
@@ -169,7 +166,7 @@ def pytest_configure(config):  # noqa: D103
         )
     config.test_cases = TestCases.from_index_file(index_file)
 
-    if config.option.collectonly:
+    if config.option.collectonly or "cache" in sys.argv:
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
@@ -203,7 +200,7 @@ def pytest_generate_tests(metafunc):
     Generate test cases for every test fixture in all the JSON fixture files
     within the specified fixtures directory, or read from stdin if the directory is 'stdin'.
     """
-    if metafunc.config.getoption("cache_only"):
+    if "cache" in sys.argv:
         return
 
     fork = metafunc.config.getoption("single_fork")

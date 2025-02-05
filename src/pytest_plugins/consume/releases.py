@@ -140,21 +140,39 @@ def is_docker_or_ci() -> bool:
     return "GITHUB_ACTIONS" in os.environ or Path("/.dockerenv").exists()
 
 
-def parse_release_information(release_information: dict) -> List[ReleaseInformation]:
+def parse_release_information(release_information: List) -> List[ReleaseInformation]:
     """Parse the release information from the Github API."""
     return Releases.model_validate(release_information).root  # type: ignore
 
 
 def download_release_information(destination_file: Path | None) -> List[ReleaseInformation]:
-    """Download the latest stable and develop releases and optionally save them to a file."""
-    response = requests.get(RELEASE_INFORMATION_URL)
-    response.raise_for_status()
-    release_information = response.json()
-    if destination_file is not None:
+    """
+    Download all releases from the GitHub API, handling pagination properly.
+
+    GitHub's API returns releases in pages of 30 by default. This function
+    follows the pagination links to ensure we get every release, which is
+    crucial for finding older version or latest releases.
+    """
+    all_releases = []
+    current_url: str | None = RELEASE_INFORMATION_URL
+    max_pages = 2
+    while current_url and max_pages > 0:
+        max_pages -= 1
+        response = requests.get(current_url)
+        response.raise_for_status()
+        all_releases.extend(response.json())
+        current_url = None
+        if "link" in response.headers:
+            for link in requests.utils.parse_header_links(response.headers["link"]):
+                if link["rel"] == "next":
+                    current_url = link["url"]
+                    break
+
+    if destination_file:
         destination_file.parent.mkdir(parents=True, exist_ok=True)
         with open(destination_file, "w") as file:
-            json.dump(release_information, file)
-    return parse_release_information(release_information)
+            json.dump(all_releases, file)
+    return parse_release_information(all_releases)
 
 
 def parse_release_information_from_file(
@@ -187,7 +205,7 @@ def get_release_information() -> List[ReleaseInformation]:
     """
     if CACHED_RELEASE_INFORMATION_FILE.exists():
         last_modified = CACHED_RELEASE_INFORMATION_FILE.stat().st_mtime
-        if (datetime.now().timestamp() - last_modified) < 10 * 60 or is_docker_or_ci():
+        if (datetime.now().timestamp() - last_modified) < 4 * 60 * 60 or is_docker_or_ci():
             return parse_release_information_from_file(CACHED_RELEASE_INFORMATION_FILE)
         CACHED_RELEASE_INFORMATION_FILE.unlink()
     if not CACHED_RELEASE_INFORMATION_FILE.exists():
