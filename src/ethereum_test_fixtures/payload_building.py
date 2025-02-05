@@ -1,8 +1,8 @@
 """Fixtures for testing the payload building functions."""
 
-from typing import Annotated, ClassVar, List, Literal, Union
+from typing import Annotated, ClassVar, Dict, List, Literal, Union
 
-from pydantic import Discriminator, Field
+from pydantic import Discriminator, Field, field_serializer
 
 from ethereum_test_base_types import Alloc, Bytes, CamelModel, Hash
 from ethereum_test_exceptions import TransactionException
@@ -35,6 +35,14 @@ class FixtureSendTransactionWithPost(FixtureTransaction):
     """
     Error that should be returned by the client when sending the transaction.
     """
+
+    @field_serializer("post", when_used="json")
+    def post_accounts_remove_unset_fields(self, post: Alloc | Dict | None) -> Dict | None:
+        """Remove unset fields from post accounts in order to avoid checking them."""
+        if post is None:
+            return None
+        assert self.post is not None
+        return self.post.model_dump(mode="json", exclude_none=True, exclude_unset=True)
 
     @classmethod
     def from_transaction_with_post(
