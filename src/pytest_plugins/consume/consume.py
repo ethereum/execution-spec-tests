@@ -38,7 +38,7 @@ def default_html_report_file_path() -> str:
     Filepath (default) to store the generated HTML test report. Defined as a
     function to allow for easier testing.
     """
-    return "./report_consume.html"
+    return ".meta/report_consume.html"
 
 
 def is_url(string: str) -> bool:
