@@ -25,16 +25,32 @@
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": [
-        // To discover tests for a specic forks, use the `--fork` argument as following.
-        // "--fork=Shanghai",
-        // Hopefully vscode-python will support multiple test framework environments sooon, see
+        // The main cli tools (`fill`, `consume`, `execute`) in execution-spec-tests are based
+        // on pytest (a very popular Python unit testing framework). As such, EEST test cases for
+        // these tools can be explored, executed (and debugged!) via VS Code's "Testing" view 
+        // https://code.visualstudio.com/docs/editor/testing (just as for unit tests).
+        // 
+        // vscode-python only supports single framework environments, here is the issue to track
+        // multiple environments support:
         // https://github.com/microsoft/vscode-python/issues/12075
-        // For now, to toggle between running "framework tests" and "filling tests" comment/
-        // uncomment the relevant line below to select the correct pytest*.ini file.
-        "-c",
-        // "pytest-framework.ini",
-        "pytest.ini", "--fork=Prague",
-        // "-vv"
+        //
+        // For now, to switch between running the EEST "framework" tests (the actual unit tests 
+        // for EEST libraries and tools) and running the EEST's EL test cases via `fill`,
+        // `consume` and `execute`, specify the appropriate pytest*.ini file below and add
+        // command-line options as needed.
+        //
+        // * Framework tests:
+        // "-c", "pytest-framework.ini",
+        // 
+        // * Fill, see the output of:
+        //   `fill --help` for eest specific options, or,
+        //   `fill --pytest-help` for all pytest available options, or,
+        //   https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_command_line/
+        "-c", "pytest.ini", "--fork=Prague",
+        //
+        // * Consume (works, but the output of VS Code's Testing View is broken due to nested
+        // `[]` in the generated test IDs):
+        // "-c", "pytest-consume.ini", "--input=fixtures/", "src/pytest_plugins/consume/direct/test_via_direct.py", "--evm-bin=~/bin/evm"
     ],
     "ruff.enable": true,
     "ruff.lint.args": ["--line-length", "99", "--fix"],
