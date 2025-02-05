@@ -4,11 +4,13 @@ import pytest
 
 from ethereum_test_tools import (
     Account,
+    Address,
     Alloc,
     AuthorizationTuple,
     Payload,
     PayloadBuildingTestFiller,
     Storage,
+    TransactionException,
     TransactionWithPost,
 )
 from ethereum_test_tools import Opcodes as Op
@@ -24,7 +26,7 @@ pytestmark = pytest.mark.valid_from("Prague")
 def test_single_type_4_transaction(
     payload_building_test: PayloadBuildingTestFiller,
     pre: Alloc,
-) -> None:
+):
     """Test payload building with a single type-4 transaction."""
     storage = Storage()
 
@@ -73,5 +75,83 @@ def test_single_type_4_transaction(
             Payload(
                 sorted_transactions=[tx],
             ),
+        ],
+    )
+
+
+def test_accounts_with_delegation_set_can_only_have_one_in_flight_transaction(
+    payload_building_test: PayloadBuildingTestFiller,
+    pre: Alloc,
+):
+    """Test that an account with a delegation set can only have one in-flight transaction."""
+    storage = Storage()
+
+    auth_signer = pre.fund_eoa()
+    sender = pre.fund_eoa()
+
+    set_code = (
+        Op.SSTORE(storage.store_next(sender), Op.ORIGIN)
+        + Op.SSTORE(storage.store_next(sender), Op.CALLER)
+        + Op.SSTORE(storage.store_next(1), Op.CALLVALUE)
+        + Op.STOP
+    )
+    set_code_to_address = pre.deploy_contract(
+        set_code,
+    )
+
+    set_code_tx = TransactionWithPost(
+        gas_limit=500_000,
+        to=auth_signer,
+        value=1,
+        max_priority_fee_per_gas=1,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_to_address,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=sender,
+        post={
+            set_code_to_address: Account(
+                storage={k: 0 for k in storage},
+            ),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec.delegation_designation(set_code_to_address),
+                storage=storage,
+            ),
+        },
+    )
+
+    tx_from_set_code_1 = TransactionWithPost(
+        gas_limit=100_000,
+        to=Address(1),
+        value=0,
+        max_priority_fee_per_gas=1,
+        sender=auth_signer,
+        nonce=1,
+        post={},
+    )
+    tx_from_set_code_2 = TransactionWithPost(
+        gas_limit=100_000,
+        to=Address(2),
+        value=0,
+        max_priority_fee_per_gas=1,
+        sender=auth_signer,
+        error=TransactionException.SEND_RAW_TRANSACTION_ERROR,
+        nonce=2,
+        post={},
+    )
+
+    payload_building_test(
+        pre=pre,
+        steps=[
+            set_code_tx,
+            Payload(
+                sorted_transactions=[set_code_tx],
+            ),
+            tx_from_set_code_1,
+            tx_from_set_code_2,
         ],
     )
