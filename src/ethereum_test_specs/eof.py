@@ -171,6 +171,22 @@ class EOFTest(BaseTest):
         for execute_format in StateTest.supported_execute_formats
     ]
 
+    supported_markers: ClassVar[Dict[str, str]] = {
+        "eof_test_only": "Only generate an EOF test fixture",
+    }
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fixture_format: FixtureFormat,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard a fixture format from filling if the appropriate marker is used."""
+        if "eof_test_only" in [m.name for m in markers]:
+            return fixture_format != EOFFixture
+        return False
+
     @classmethod
     def pytest_parameter_name(cls) -> str:
         """Workaround for pytest parameter name."""
@@ -380,19 +396,6 @@ class EOFTest(BaseTest):
 
 EOFTestSpec = Callable[[str], Generator[EOFTest, None, None]]
 EOFTestFiller = Type[EOFTest]
-
-
-class EOFTestOnly(EOFTest):
-    """Filler type that tests EOF containers but does not generate a state/blockchain test."""
-
-    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
-        EOFFixture
-    ]
-
-    @classmethod
-    def pytest_parameter_name(cls) -> str:
-        """Workaround for pytest parameter name."""
-        return "eof_test_only"
 
 
 class EOFStateTest(EOFTest, Transaction):

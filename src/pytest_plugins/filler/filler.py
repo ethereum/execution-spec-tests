@@ -12,7 +12,7 @@ import os
 import tarfile
 import warnings
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Type
+from typing import Any, Dict, Generator, List, Tuple, Type
 
 import pytest
 import xdist
@@ -26,6 +26,7 @@ from ethereum_test_base_types import Alloc, ReferenceSpec
 from ethereum_test_fixtures import (
     BaseFixture,
     FixtureCollector,
+    FixtureFormat,
     FixtureFormatWithPytestID,
     TestInfo,
 )
@@ -762,6 +763,14 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
 
 
+def get_spec_fixture_type_for_item(params: Dict[str, Any]) -> Tuple[Type[BaseTest], FixtureFormat]:
+    """Return the spec type and fixture format for the given test item."""
+    for spec_type in SPEC_TYPES:
+        if spec_type.pytest_parameter_name() in params:
+            return spec_type, params[spec_type.pytest_parameter_name()]
+    raise ValueError("No spec fixture type and format found for the given test item.")
+
+
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """
     Remove pre-Paris tests parametrized to generate hive type fixtures; these
@@ -778,11 +787,15 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
             items.remove(item)
             continue
         fork: Fork = params["fork"]
-        for spec_name in [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]:
-            if spec_name in params and not params[spec_name].supports_fork(fork):
-                items.remove(item)
-                break
-        for marker in item.iter_markers():
+        spec_type, fixture_format = get_spec_fixture_type_for_item(params)
+        if not fixture_format.supports_fork(fork):
+            items.remove(item)
+            continue
+        markers = list(item.iter_markers())
+        if spec_type.discard_fixture_format_by_marks(fixture_format, fork, markers):
+            items.remove(item)
+            continue
+        for marker in markers:
             if marker.name == "fill":
                 for mark in marker.args:
                     item.add_marker(mark)

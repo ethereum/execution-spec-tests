@@ -59,6 +59,22 @@ class StateTest(BaseTest):
         TransactionPost,
     ]
 
+    supported_markers: ClassVar[Dict[str, str]] = {
+        "state_test_only": "Only generate a state test fixture",
+    }
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fixture_format: FixtureFormat,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard a fixture format from filling if the appropriate marker is used."""
+        if "state_test_only" in [m.name for m in markers]:
+            return fixture_format != StateFixture
+        return False
+
     def _generate_blockchain_genesis_environment(self, *, fork: Fork) -> Environment:
         """Generate the genesis environment for the BlockchainTest formatted test."""
         assert self.env.number >= 1, (
@@ -220,14 +236,6 @@ class StateTest(BaseTest):
                 post=self.post,
             )
         raise Exception(f"Unsupported execute format: {execute_format}")
-
-
-class StateTestOnly(StateTest):
-    """StateTest filler that only generates a state test fixture."""
-
-    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
-        StateFixture
-    ]
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]
