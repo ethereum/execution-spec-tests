@@ -1,7 +1,5 @@
 """EOF V1 Code Validation tests."""
 
-from typing import List
-
 import pytest
 
 from ethereum_test_tools import EOFException, EOFTestFiller
