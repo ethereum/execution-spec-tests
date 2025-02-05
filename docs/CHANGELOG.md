@@ -87,6 +87,7 @@ Release tarball changes:
 - ✨ `state_test`, `blockchain_test` and `blockchain_test_engine` fixtures now contain the `blobSchedule` from [EIP-7840](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7840.md), only for tests filled for Cancun and Prague forks ([#1040](https://github.com/ethereum/execution-spec-tests/pull/1040)).
 - 🔀 Change `--dist` flag to the default value, `load`, for better parallelism handling during test filling ([#1118](https://github.com/ethereum/execution-spec-tests/pull/1118)).
 - 🔀 Refactor framework code to use the [`ethereum-rlp`](https://pypi.org/project/ethereum-rlp/) package instead of `ethereum.rlp`, previously available in ethereum/execution-specs ([#1180](https://github.com/ethereum/execution-spec-tests/pull/1180)).
+- 🔀 Update EELS / execution-specs EEST dependency to [99238233](https://github.com/ethereum/execution-specs/commit/9923823367b5586228e590537d47aa9cc4c6a206) for EEST framework libraries and test case generation ([#1181](https://github.com/ethereum/execution-spec-tests/pull/1181)).
 
 ### 🔧 EVM Tools
 

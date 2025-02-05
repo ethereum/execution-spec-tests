@@ -102,7 +102,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ethereum/execution-specs
-          ref: 9b95554a88d2a8485f8180254d0f6a493a593fda
+          ref: 9923823367b5586228e590537d47aa9cc4c6a206
           path: execution-specs
           sparse-checkout: |
             src/ethereum
@@ -139,7 +139,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ethereum/execution-specs
-          ref: 9b95554a88d2a8485f8180254d0f6a493a593fda
+          ref: 9923823367b5586228e590537d47aa9cc4c6a206
           path: execution-specs
           sparse-checkout: |
             src/ethereum
