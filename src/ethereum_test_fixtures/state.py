@@ -98,6 +98,7 @@ class FixtureConfig(CamelModel):
     """Chain configuration for a fixture."""
 
     blob_schedule: FixtureBlobSchedule | None = None
+    chain_id: ZeroPaddedHexNumber = Field(..., alias="chainid")
 
 
 class StateFixture(BaseFixture):
