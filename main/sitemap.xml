@@ -2641,12 +2641,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation/test_legacy_initcode_invalid_eof_v1_contract/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation/test_invalid_containers_with_data_section/</loc>
          <lastmod>2025-02-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation/test_legacy_initcode_valid_eof_v1_contract/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation/test_valid_containers_with_data_section/</loc>
          <lastmod>2025-02-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2657,6 +2657,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes/test_data_section_succeed/</loc>
+         <lastmod>2025-02-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes/test_dataloadn/</loc>
          <lastmod>2025-02-05</lastmod>
          <changefreq>daily</changefreq>
     </url>

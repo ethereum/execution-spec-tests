@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation/test_dataloadn_truncated_immediate/">
       
       
-        <link rel="prev" href="../test_legacy_initcode_invalid_eof_v1_contract/">
+        <link rel="prev" href="../test_invalid_containers_with_data_section/">
       
       
         <link rel="next" href="../../test_data_opcodes/">
@@ -10247,11 +10247,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_legacy_initcode_valid_eof_v1_contract/" class="md-nav__link">
+      <a href="../test_valid_containers_with_data_section/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_legacy_initcode_valid_eof_v1_contract</code>
+    <code>test_valid_containers_with_data_section</code>
   </span>
   
 
@@ -10268,11 +10268,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_legacy_initcode_invalid_eof_v1_contract/" class="md-nav__link">
+      <a href="../test_invalid_containers_with_data_section/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_legacy_initcode_invalid_eof_v1_contract</code>
+    <code>test_invalid_containers_with_data_section</code>
   </span>
   
 
@@ -10384,6 +10384,8 @@
       
         
       
+        
+      
     
     
       
@@ -10423,6 +10425,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_data_opcodes/test_dataloadn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_dataloadn</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -27167,7 +27190,7 @@
 
 
 <h1 id="test_dataloadn_truncated_immediate"><code>test_dataloadn_truncated_immediate()</code><a class="headerlink" href="#test_dataloadn_truncated_immediate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/016bc4d28ccd6a9cb14a33a52b85ea671e1d41b1/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py#L182"><code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py::test_dataloadn_truncated_immediate@016bc4d2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/83942b0011e32625ec8e74598673b1cce7b3db16/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py#L235"><code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py::test_dataloadn_truncated_immediate@83942b00</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py::test_dataloadn_truncated_immediate --fork Osaka</span>
@@ -27186,49 +27209,49 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
