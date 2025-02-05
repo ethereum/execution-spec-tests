@@ -566,8 +566,9 @@ deep_container_parametrize = pytest.mark.parametrize(
 
 
 @deep_container_parametrize
+@pytest.mark.eof_test_only(reason="Initcontainer exceeds maximum")
 def test_deep_container(
-    eof_test_only: EOFTestFiller, deepest_container: Container, exception: EOFException | None
+    eof_test: EOFTestFiller, deepest_container: Container, exception: EOFException | None
 ):
     """
     Test a very deeply nested container.
@@ -596,7 +597,7 @@ def test_deep_container(
             ],
         )
 
-    eof_test_only(container=last_container, expect_exception=exception)
+    eof_test(container=last_container, expect_exception=exception)
 
 
 @deep_container_parametrize
@@ -652,16 +653,26 @@ def test_deep_container_initcode(
         pytest.param(256, None, id="256"),
         pytest.param(257, EOFException.TOO_MANY_CONTAINERS, id="257"),
         # TODO: Disable specific tests using pytest.mark.eof_only
-        pytest.param(0x8000, EOFException.CONTAINER_SIZE_ABOVE_LIMIT, id="negative_i16"),
-        pytest.param(0xFFFF, EOFException.CONTAINER_SIZE_ABOVE_LIMIT, id="max_u16"),
+        pytest.param(
+            0x8000,
+            EOFException.CONTAINER_SIZE_ABOVE_LIMIT,
+            marks=pytest.mark.eof_test_only(reason="int too big to convert"),
+            id="negative_i16",
+        ),
+        pytest.param(
+            0xFFFF,
+            EOFException.CONTAINER_SIZE_ABOVE_LIMIT,
+            marks=pytest.mark.eof_test_only(reason="int too big to convert"),
+            id="max_u16",
+        ),
     ],
 )
-def test_wide_container(eof_test_only: EOFTestFiller, width: int, exception: EOFException):
+def test_wide_container(eof_test: EOFTestFiller, width: int, exception: EOFException):
     """Test a container with the maximum number of sub-containers."""
     create_code: Bytecode = Op.STOP
     for x in range(0, 256):
         create_code = Op.EOFCREATE[x](0, 0, 0, 0) + create_code
-    eof_test_only(
+    eof_test(
         container=Container(
             sections=[
                 Section.Code(
