@@ -29,7 +29,7 @@ The components map as following:
   - `fork_Cancun`, and,
   - `blockchain_test` (the test type).
 
-Although, `test_chainid` is not directly parametrized on the test function level, the framework always parametrizes tests by fork and, if possible, by test type. If we inspect its function signature, we see that it's native test format is of type `StateTestFiller`:
+Although `test_chainid` is not directly parametrized on the test function level, the framework always parametrizes tests by fork and, if possible, by test type. If we inspect its function signature, we see that it's native test format is of type `StateTestFiller`:
 
 ```python
 @pytest.mark.valid_from("Istanbul")
@@ -58,9 +58,9 @@ Each Python test case is also typically parametrized by test type, respectively 
 - a `blockchain_test` which can be tested via the Hive `eest/consume-rlp` simulator (or directly via a dedicated client interface).
 - a `blockchain_engine_test` (for post-merge forks) which can be tested via the Hive `eest/consume-engine` simulator.
 
-### All Test Cases generated for `test_chainid`
+### Example: The Test IDs generated for `test_chainid`
 
-To see all the test cases that get generated from London until Shanghai for `test_chainid`, we can execute `fill` with the `--collect-only` flag:
+To see all the test cases and their IDs that get generated from London until Shanghai for `test_chainid`, we can execute `fill` with the `--collect-only -q` flags:
 
 ```bash
 fill tests/istanbul/eip1344_chainid/test_chainid.py --from London --until Shanghai --collect-only -q 
