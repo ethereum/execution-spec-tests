@@ -12,6 +12,7 @@ GeneralStateTests/stCreate2/call_then_create2_successful_then_returndatasize.jso
 ([#598](https://github.com/ethereum/execution-spec-tests/pull/598))
 EOFTests/EIP3540/validInvalid.json
 
+EOFTests/efExample/ymlExample.json
 EOFTests/EIP3670/validInvalid.json
 EOFTests/EIP4200/validInvalid.json
 EOFTests/EIP4750/validInvalid.json
@@ -40,6 +41,8 @@ EOFTests/efValidation/jumpf_equal_outputs_.json
 EOFTests/efValidation/jumpf_incompatible_outputs_.json
 EOFTests/efValidation/non_returning_status_.json
 EOFTests/efValidation/unreachable_code_sections_.json
+EOFTests/efValidation/validate_EOF_prefix_.json
+EOFTests/efValidation/validate_EOF_version_.json
 
 ([#647](https://github.com/ethereum/execution-spec-tests/pull/647))
 EOFTests/efValidation/EOF1_returncontract_invalid_.json
