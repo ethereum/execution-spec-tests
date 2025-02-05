@@ -8,13 +8,12 @@ Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID res
 import time
 from typing import Any, Dict, List
 
-from ethereum_test_base_types import Address, Bytes, Hash
+from ethereum_test_base_types import Address, Alloc, Bytes, Hash
 from ethereum_test_fixtures import BlockchainEngineFixture, PayloadBuildingFixture
 from ethereum_test_fixtures.payload_building import (
     FixturePayloadBuild,
     FixtureSendTransactionWithPost,
 )
-from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.types import (
     ForkchoiceState,
@@ -107,6 +106,38 @@ def test_blockchain_via_engine(
                         ), f"unexpected status: {forkchoice_response}"
 
 
+def check_post(expected_post: Alloc, eth_rpc: EthRPC):
+    """Check the post state against the expected post state."""
+    for address, account in expected_post.root.items():
+        balance = eth_rpc.get_balance(address)
+        code = eth_rpc.get_code(address)
+        nonce = eth_rpc.get_transaction_count(address)
+        if account is None:
+            assert balance == 0, f"Balance of {address} is {balance}, expected 0."
+            assert code == b"", f"Code of {address} is {code}, expected 0x."
+            assert nonce == 0, f"Nonce of {address} is {nonce}, expected 0."
+        else:
+            if "balance" in account.model_fields_set:
+                assert (
+                    balance == account.balance
+                ), f"Balance of {address} is {balance}, expected {account.balance}."
+            if "code" in account.model_fields_set:
+                assert (
+                    code == account.code
+                ), f"Code of {address} is {code}, expected {account.code}."
+            if "nonce" in account.model_fields_set:
+                assert (
+                    nonce == account.nonce
+                ), f"Nonce of {address} is {nonce}, expected {account.nonce}."
+            if "storage" in account.model_fields_set:
+                for key, value in account.storage.items():
+                    storage_value = eth_rpc.get_storage_at(address, Hash(key))
+                    assert storage_value == value, (
+                        f"Storage value at {key} of {address} is {storage_value},"
+                        f"expected {value}."
+                    )
+
+
 @fixture_format(PayloadBuildingFixture)
 def test_payload_building_via_engine(
     timing_data: TimingData,
@@ -148,6 +179,7 @@ def test_payload_building_via_engine(
             )
 
     with timing_data.time("Steps execution") as total_payload_timing:
+        sent_transactions: List[FixtureSendTransactionWithPost] = []
         for i, step in enumerate(fixture.steps):
             with total_payload_timing.time(f"Step {i + 1} ({step.step_type})") as payload_timing:
                 if isinstance(step, FixtureSendTransactionWithPost):
@@ -161,6 +193,7 @@ def test_payload_building_via_engine(
                                 )
                             assert tx_hash, "transaction hash is empty"
                             assert step.hash == tx_hash, f"unexpected transaction hash: {tx_hash}"
+                            sent_transactions.append(step)
 
                         except JSONRPCError as e:
                             if step.error is None:
@@ -197,6 +230,7 @@ def test_payload_building_via_engine(
                         assert payload_id, "payload id is empty"
 
                     new_payload: GetPayloadResponse
+                    collected_posts: List[Alloc] = []
                     with payload_timing.time(
                         f"engine_getPayloadV{fixture.engine_get_payload_version}"
                     ):
@@ -234,6 +268,13 @@ def test_payload_building_via_engine(
                                 f"{new_payload.execution_payload.transactions}"
                             )
 
+                        for included_tx in new_payload.execution_payload.transactions:
+                            for sent_tx in sent_transactions:
+                                if included_tx == sent_tx.rlp:
+                                    post = sent_tx.post
+                                    if post is not None:
+                                        collected_posts.append(post)
+
                     with payload_timing.time(
                         f"engine_newPayloadV{fixture.engine_new_payload_version}"
                     ):
@@ -270,4 +311,11 @@ def test_payload_building_via_engine(
                         )
                         assert (
                             forkchoice_response.payload_status.status == PayloadStatusEnum.VALID
-                        ), f"unexpected status on forkchoice updated to step: {forkchoice_response}"
+                        ), (
+                            "unexpected status on forkchoice updated to step: "
+                            f"{forkchoice_response}"
+                        )
+
+                    with payload_timing.time("Check post allocation"):
+                        for post in collected_posts:
+                            check_post(post, eth_rpc)
