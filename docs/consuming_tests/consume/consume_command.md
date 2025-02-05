@@ -30,9 +30,10 @@ The command supports four consumption methods:
 All consumption methods support these basic options:
 
 - `--input INPUT`: Specify the JSON test fixtures source
-  - Local directory (default: './fixtures')
-  - URL pointing to a fixtures.tar.gz archive
-  - Special keywords: 'stdin', 'latest-stable', 'latest-develop'
+    - Local directory (default: './fixtures')
+    - URL pointing to a fixtures.tar.gz archive
+    - Special keywords: 'stdin', 'latest-stable', 'latest-develop'
+
 - `--fork FORK`: Only consume tests for the specified fork
 - `--no-html`: Don't generate an HTML test report
 
