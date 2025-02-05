@@ -42,7 +42,7 @@ class TransactionWithPost(Transaction):
     being included in a block.
     """
 
-    post: Alloc
+    post: Alloc | None = None
 
 
 class Payload(CamelModel):

@@ -19,7 +19,7 @@ class FixtureSendTransactionWithPost(FixtureTransaction):
 
     step_type: Literal["transaction_send"] = "transaction_send"
 
-    post: Alloc | None
+    post: Alloc | None = None
     """
     Expected resulting post allocation of the transaction being included in a block.
     """
