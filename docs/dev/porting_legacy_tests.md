@@ -85,6 +85,6 @@ Follow the hyperlinks for lost base coverage (`LBC`) to address coverage gaps. H
 
     It's important to note that coverage helps identify missing test paths. If you believe the coverage loss is due to differences in "setup" code between frameworks and doesn't impact the feature you're testing, explain this in your PR. A team member can help with the review.
 
-    Also note that yul tests and possibly other tests used calldataload that might no longer needed when designing a test with python. But we must always investigate if an opcode is not covered anymore to see if its okay.
+    Also note that yul tests and possibly other tests used `CALLDATALOAD` that might no longer needed when designing a test with python. But we must always investigate if an opcode is not covered anymore to see if its okay.
 
     For example, review the [discussion in this PR.](https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289)
