@@ -124,7 +124,7 @@ class PayloadBuildingTest(BaseTest):
                     )
                 )
             elif isinstance(step, Payload):
-                next_id = len(fixture_steps)
+                next_id = len(payloads) + 1
                 parent_id = next_id - 1
                 if step.parent is not None:
                     if step.parent not in payloads:
