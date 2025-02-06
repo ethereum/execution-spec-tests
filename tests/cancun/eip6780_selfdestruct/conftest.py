@@ -1,7 +1,5 @@
 """Pytest (plugin) definitions local to EIP-6780 tests."""
 
-import random
-
 import pytest
 
 from ethereum_test_tools import EOA, Address, Alloc, Environment
@@ -20,6 +18,6 @@ def env() -> Environment:
 
 
 @pytest.fixture
-def selfdestruct_recipient_address() -> Address:
+def selfdestruct_recipient_address(pre: Alloc) -> Address:
     """Address that can receive a SELFDESTRUCT operation."""
-    return Address("0x" + "".join(["{:02x}".format(random.randint(0, 255)) for _ in range(20)]))
+    return pre.fund_eoa(amount=0)

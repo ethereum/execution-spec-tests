@@ -24,14 +24,6 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
 REFERENCE_SPEC_VERSION = "2f8299df31bb8173618901a03a8366a3183479b0"
 
 
-def construct_call_op(call_type: Op, money: int, address_to: Address):
-    """Return call op based on call_type and address_to."""
-    if call_type in [Op.CALLCODE, Op.CALL]:
-        return call_type(Op.GAS, address_to, money, 0, 0, 0, 0)
-    else:
-        return call_type(Op.GAS, address_to, money, 0, 0, 0)
-
-
 @pytest.fixture
 def selfdestruct_contract_bytecode(selfdestruct_recipient_address: Address) -> Bytecode:
     """Contract code that performs a SELFDESTRUCT operation."""
@@ -61,8 +53,8 @@ def executor_contract_bytecode(
 ) -> Bytecode:
     """Contract code that performs a selfdestruct call then revert."""
     return (
-        Op.SSTORE(1, construct_call_op(first_suicide, 0, selfdestruct_contract_address))
-        + Op.SSTORE(2, Op.CALL(Op.GAS, revert_contract_address, 0, 0, 0, 0, 0))
+        Op.SSTORE(1, first_suicide(address=selfdestruct_contract_address, value=0))
+        + Op.SSTORE(2, Op.CALL(address=revert_contract_address))
         + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE())
         + Op.SSTORE(3, Op.MLOAD(0))
     )
@@ -103,7 +95,7 @@ def revert_contract_bytecode(
     selfdestruct_contract_address: Address,
 ) -> Bytecode:
     """Contract code that performs a call and then reverts."""
-    call_op = construct_call_op(second_suicide, 100, selfdestruct_contract_address)
+    call_op = second_suicide(address=selfdestruct_contract_address, value=100)
     return Op.MSTORE(0, Op.ADD(15, call_op)) + Op.REVERT(0, 32)
 
 
@@ -206,8 +198,7 @@ def test_reentrancy_selfdestruct_revert(
     tx = Transaction(
         sender=sender,
         to=executor_contract_address,
-        data="",
-        gas_limit=500000,
+        gas_limit=500_000,
         value=0,
     )
 
