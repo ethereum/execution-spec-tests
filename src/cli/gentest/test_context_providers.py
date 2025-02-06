@@ -19,7 +19,6 @@ from typing import Any, Dict, Optional
 from pydantic import BaseModel
 
 from ethereum_test_base_types import Account, Hash
-from ethereum_test_rpc.types import TransactionByHashResponse
 from ethereum_test_tools import Environment, Transaction
 
 from .request_manager import RPCRequest
@@ -40,7 +39,7 @@ class StateTestProvider(Provider):
 
     transaction_hash: Hash
     block: Optional[Environment] = None
-    transaction: Optional[TransactionByHashResponse] = None
+    transaction: Optional[Transaction] = None
     state: Optional[Dict[str, Dict]] = None
 
     def _make_rpc_calls(self):
