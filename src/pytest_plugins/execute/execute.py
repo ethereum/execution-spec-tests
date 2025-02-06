@@ -289,32 +289,35 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 collector.collect(request.node.nodeid, execute)
 
         sender_start_balance = eth_rpc.get_balance(pre._sender)
+        try:
+            yield BaseTestWrapper
+        except Exception as e:
+            print(f"Exception occurred during test execution: {str(e)}")
+            raise e
+        finally:
+            # Refund all EOAs (regardless of whether the test passed or failed)
+            refund_txs = []
+            for eoa in pre._funded_eoa:
+                remaining_balance = eth_rpc.get_balance(eoa)
+                eoa.nonce = Number(eth_rpc.get_transaction_count(eoa))
+                refund_gas_limit = 21_000
+                tx_cost = refund_gas_limit * default_gas_price
+                if remaining_balance < tx_cost:
+                    continue
+                refund_txs.append(
+                    Transaction(
+                        sender=eoa,
+                        to=pre._sender,
+                        gas_limit=21_000,
+                        gas_price=default_gas_price,
+                        value=remaining_balance - tx_cost,
+                    ).with_signature_and_sender()
+                )
+            eth_rpc.send_wait_transactions(refund_txs)
 
-        yield BaseTestWrapper
-
-        # Refund all EOAs (regardless of whether the test passed or failed)
-        refund_txs = []
-        for eoa in pre._funded_eoa:
-            remaining_balance = eth_rpc.get_balance(eoa)
-            eoa.nonce = Number(eth_rpc.get_transaction_count(eoa))
-            refund_gas_limit = 21_000
-            tx_cost = refund_gas_limit * default_gas_price
-            if remaining_balance < tx_cost:
-                continue
-            refund_txs.append(
-                Transaction(
-                    sender=eoa,
-                    to=pre._sender,
-                    gas_limit=21_000,
-                    gas_price=default_gas_price,
-                    value=remaining_balance - tx_cost,
-                ).with_signature_and_sender()
-            )
-        eth_rpc.send_wait_transactions(refund_txs)
-
-        sender_end_balance = eth_rpc.get_balance(pre._sender)
-        used_balance = sender_start_balance - sender_end_balance
-        print(f"Used balance={used_balance / 10**18:.18f}")
+            sender_end_balance = eth_rpc.get_balance(pre._sender)
+            used_balance = sender_start_balance - sender_end_balance
+            print(f"Used balance={used_balance / 10**18:.18f}")
 
     return base_test_parametrizer_func
 
