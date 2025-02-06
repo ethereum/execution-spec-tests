@@ -27,6 +27,7 @@ class BlockchainTestFixtureModel(BaseModel):
 
     info: dict = Field(alias="_info")
     network: str
+    config: dict
     genesisBlockHeader: dict  # noqa: N815
     pre: dict
     postState: dict  # noqa: N815
