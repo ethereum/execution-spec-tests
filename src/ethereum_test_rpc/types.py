@@ -1,9 +1,9 @@
 """Types used in the RPC module for `eth` and `engine` namespaces' requests."""
 
 from enum import Enum
-from typing import List
+from typing import Any, List
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from ethereum_test_base_types import Address, Bytes, CamelModel, Hash, HexNumber
 from ethereum_test_fixtures.blockchain import FixtureExecutionPayload
@@ -35,6 +35,19 @@ class TransactionByHashResponse(Transaction):
     transaction_hash: Hash = Field(..., alias="hash")
     from_address: Address = Field(..., alias="from")
     to_address: Address | None = Field(..., alias="to")
+
+    @model_validator(mode="before")
+    @classmethod
+    def adapt_clients_response(cls, data: Any) -> Any:
+        """
+        Perform modifications necessary to adapt the response returned by clients
+        so it can be parsed by our model.
+        """
+        if isinstance(data, dict):
+            if "gasPrice" in data and "maxFeePerGas" in data:
+                # Keep only one of the gas price fields.
+                del data["gasPrice"]
+        return data
 
 
 class ForkchoiceState(CamelModel):
