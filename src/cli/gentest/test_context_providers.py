@@ -19,6 +19,7 @@ from typing import Any, Dict, Optional
 from pydantic import BaseModel
 
 from ethereum_test_base_types import Account, Hash
+from ethereum_test_rpc.types import TransactionByHashResponse
 from ethereum_test_tools import Environment, Transaction
 
 from .request_manager import RPCRequest
@@ -38,8 +39,8 @@ class StateTestProvider(Provider):
     """Provides context required to generate a `state_test` using pytest."""
 
     transaction_hash: Hash
-    block: Optional[RPCRequest.RemoteBlock] = None
-    transaction: Optional[RPCRequest.RemoteTransaction] = None
+    block: Optional[Environment] = None
+    transaction: Optional[TransactionByHashResponse] = None
     state: Optional[Dict[str, Dict]] = None
 
     def _make_rpc_calls(self):
@@ -60,7 +61,7 @@ class StateTestProvider(Provider):
 
     def _get_environment(self) -> Environment:
         assert self.block is not None
-        return Environment(**self.block.model_dump())
+        return self.block
 
     def _get_pre_state(self) -> Dict[str, Account]:
         assert self.state is not None
@@ -79,7 +80,7 @@ class StateTestProvider(Provider):
 
     def _get_transaction(self) -> Transaction:
         assert self.transaction is not None
-        return Transaction(**self.transaction.model_dump())
+        return self.transaction
 
     def get_context(self) -> Dict[str, Any]:
         """
