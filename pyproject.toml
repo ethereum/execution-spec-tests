@@ -51,6 +51,7 @@ dependencies = [
     "questionary @ git+https://github.com/tmbo/questionary@ff22aeae1cd9c1c734f14329934e349bec7873bc",
     "prompt_toolkit>=3.0.48,<4", # ensure we have a new enough version for ipython
     "ethereum-rlp>=0.1.3,<0.2",
+    "pytest-regex>=0.2.0,<0.3",
 ]
 
 [project.urls]
