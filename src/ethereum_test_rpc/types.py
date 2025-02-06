@@ -3,7 +3,7 @@
 from enum import Enum
 from typing import Any, List
 
-from pydantic import Field, model_validator
+from pydantic import AliasChoices, Field, model_validator
 
 from ethereum_test_base_types import Address, Bytes, CamelModel, Hash, HexNumber
 from ethereum_test_fixtures.blockchain import FixtureExecutionPayload
@@ -37,6 +37,8 @@ class TransactionByHashResponse(Transaction):
     from_address: Address = Field(..., alias="from")
     to_address: Address | None = Field(..., alias="to")
 
+    v: HexNumber | None = Field(None, validation_alias=AliasChoices("v", "yParity"))
+
     @model_validator(mode="before")
     @classmethod
     def adapt_clients_response(cls, data: Any) -> Any:
@@ -48,10 +50,6 @@ class TransactionByHashResponse(Transaction):
             if "gasPrice" in data and "maxFeePerGas" in data:
                 # Keep only one of the gas price fields.
                 del data["gasPrice"]
-            if "yParity" in data:
-                # Rename yParity to v.
-                data["v"] = data["yParity"]
-                del data["yParity"]
         return data
 
     def model_post_init(self, __context):
