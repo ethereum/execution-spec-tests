@@ -32,6 +32,7 @@ class TransactionByHashResponse(Transaction):
     block_hash: Hash | None = None
     block_number: HexNumber | None = None
 
+    gas_limit: HexNumber = Field(HexNumber(21_000), alias="gas")
     transaction_hash: Hash = Field(..., alias="hash")
     from_address: Address = Field(..., alias="from")
     to_address: Address | None = Field(..., alias="to")
@@ -47,7 +48,19 @@ class TransactionByHashResponse(Transaction):
             if "gasPrice" in data and "maxFeePerGas" in data:
                 # Keep only one of the gas price fields.
                 del data["gasPrice"]
+            if "yParity" in data:
+                # Rename yParity to v.
+                data["v"] = data["yParity"]
+                del data["yParity"]
         return data
+
+    def model_post_init(self, __context):
+        """
+        Check that the transaction hash returned by the client matches the one calculated by
+        us.
+        """
+        Transaction.model_post_init(self, __context)
+        assert self.transaction_hash == self.hash
 
 
 class ForkchoiceState(CamelModel):
