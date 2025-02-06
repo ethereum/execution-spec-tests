@@ -1,6 +1,7 @@
 """CLI entry point for the `consume` pytest-based command."""
 
 import os
+import re
 import sys
 import warnings
 from pathlib import Path
@@ -12,14 +13,38 @@ import pytest
 from .common import common_click_options, handle_help_flags
 
 
+def process_sim_limit(pattern: str) -> str:
+    """
+    Process hive's `--sim.limit` argument.
+
+    If the user passes a test id (either by explicit prefix 'id:' or by heuristically
+    detecting a pytest node id, i.e. containing '::'), then escape any special regex
+    characters in the expression.
+    """
+    prefix = "id:"
+    if pattern.startswith(prefix):
+        literal_id = pattern[len(prefix) :]
+        return re.escape(literal_id)
+    elif "::" in pattern:
+        return re.sub(r"([\[\]])", r"\\\1", pattern)
+    else:
+        return pattern  # user-provided regex
+
+
 def handle_hive_env_flags(args: List[str]) -> List[str]:
     """Convert hive environment variables into pytest flags."""
     env_var_mappings = {
-        "HIVE_TEST_PATTERN": ["-k"],
-        "HIVE_PARALLELISM": ["-n"],
+        "HIVE_TEST_PATTERN": ["--regex"],  # --sim.limit
+        "HIVE_PARALLELISM": ["-n"],  # --sim.parallelism
     }
     for env_var, pytest_flag in env_var_mappings.items():
         value = os.getenv(env_var)
+        if env_var == "HIVE_TEST_PATTERN" and value is not None:
+            value = process_sim_limit(value)
+        if env_var == "HIVE_PARALLELISM" and value not in ["1", None]:
+            value = str(value)
+        else:
+            value = None
         if value is not None:
             args.extend(pytest_flag + [value])
     if os.getenv("HIVE_RANDOM_SEED") is not None:
