@@ -27188,7 +27188,7 @@
 
 
 <h1 id="test_selfdestruct_created_in_same_tx_with_revert"><code>test_selfdestruct_created_in_same_tx_with_revert()</code><a class="headerlink" href="#test_selfdestruct_created_in_same_tx_with_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/83942b0011e32625ec8e74598673b1cce7b3db16/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py#L200"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert@83942b00</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/03ca2a43e91077e2a8b1ea47c6935e43ecb24d5a/tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py#L192"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert@03ca2a43</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert --fork Prague</span>
@@ -27214,7 +27214,15 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">200</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
@@ -27315,14 +27323,12 @@
 <span class="normal">298</span>
 <span class="normal">299</span>
 <span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">301</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;same_tx&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="kc">True</span><span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;same_tx&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;selfdestruct_on_outer_call&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span>
@@ -27334,8 +27340,9 @@
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_selfdestruct_created_in_same_tx_with_revert</span><span class="p">(</span>  <span class="c1"># noqa SC200</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">entry_code_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">selfdestruct_on_outer_call</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">selfdestruct_with_transfer_contract_code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
@@ -27417,17 +27424,12 @@
         <span class="p">)</span>
         <span class="n">post</span><span class="p">[</span><span class="n">selfdestruct_recipient_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>  <span class="c1"># type: ignore</span>
 
-    <span class="n">nonce</span> <span class="o">=</span> <span class="n">count</span><span class="p">()</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">entry_code</span><span class="p">,</span>
-        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">nonce</span><span class="p">),</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000_000</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">20_000_000</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
@@ -27482,170 +27484,189 @@
         <tr>
             <th>Test ID (Abbreviated)</th>
                         <th>selfdestruct_on_outer_call</th>
+                        <th>same_tx</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-no_outer_selfdestruct]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-no_outer_selfdestruct]">
-                    ...fork_Cancun-blockchain_test-no_outer_selfdestruct
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-no_outer_selfdestruct-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-no_outer_selfdestruct-same_tx]">
+                    ...fork_Cancun-blockchain_test-no_outer_selfdestruct-same_tx
                 </abbr>
             </td>
                         <td>0</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_before_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_before_inner_call]">
-                    ...fork_Cancun-blockchain_test-outer_selfdestruct_before_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_before_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_before_inner_call-same_tx]">
+                    ...fork_Cancun-blockchain_test-outer_selfdestruct_before_inner_call-same_tx
                 </abbr>
             </td>
                         <td>1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_after_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_after_inner_call]">
-                    ...fork_Cancun-blockchain_test-outer_selfdestruct_after_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_after_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-blockchain_test-outer_selfdestruct_after_inner_call-same_tx]">
+                    ...fork_Cancun-blockchain_test-outer_selfdestruct_after_inner_call-same_tx
                 </abbr>
             </td>
                         <td>2</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-no_outer_selfdestruct]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-no_outer_selfdestruct]">
-                    ...fork_Cancun-state_test-no_outer_selfdestruct
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-no_outer_selfdestruct-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-no_outer_selfdestruct-same_tx]">
+                    ...fork_Cancun-state_test-no_outer_selfdestruct-same_tx
                 </abbr>
             </td>
                         <td>0</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_before_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_before_inner_call]">
-                    ...fork_Cancun-state_test-outer_selfdestruct_before_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_before_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_before_inner_call-same_tx]">
+                    ...fork_Cancun-state_test-outer_selfdestruct_before_inner_call-same_tx
                 </abbr>
             </td>
                         <td>1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_after_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_after_inner_call]">
-                    ...fork_Cancun-state_test-outer_selfdestruct_after_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_after_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Cancun-state_test-outer_selfdestruct_after_inner_call-same_tx]">
+                    ...fork_Cancun-state_test-outer_selfdestruct_after_inner_call-same_tx
                 </abbr>
             </td>
                         <td>2</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-no_outer_selfdestruct]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-no_outer_selfdestruct]">
-                    ...fork_Prague-blockchain_test-no_outer_selfdestruct
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-no_outer_selfdestruct-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-no_outer_selfdestruct-same_tx]">
+                    ...fork_Prague-blockchain_test-no_outer_selfdestruct-same_tx
                 </abbr>
             </td>
                         <td>0</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-outer_selfdestruct_before_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-outer_selfdestruct_before_inner_call]">
-                    ...fork_Prague-blockchain_test-outer_selfdestruct_before_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-outer_selfdestruct_before_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-outer_selfdestruct_before_inner_call-same_tx]">
+                    ...fork_Prague-blockchain_test-outer_selfdestruct_before_inner_call-same_tx
                 </abbr>
             </td>
                         <td>1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-outer_selfdestruct_after_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-outer_selfdestruct_after_inner_call]">
-                    ...fork_Prague-blockchain_test-outer_selfdestruct_after_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-outer_selfdestruct_after_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-blockchain_test-outer_selfdestruct_after_inner_call-same_tx]">
+                    ...fork_Prague-blockchain_test-outer_selfdestruct_after_inner_call-same_tx
                 </abbr>
             </td>
                         <td>2</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-no_outer_selfdestruct]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-no_outer_selfdestruct]">
-                    ...fork_Prague-state_test-no_outer_selfdestruct
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-no_outer_selfdestruct-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-no_outer_selfdestruct-same_tx]">
+                    ...fork_Prague-state_test-no_outer_selfdestruct-same_tx
                 </abbr>
             </td>
                         <td>0</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-outer_selfdestruct_before_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-outer_selfdestruct_before_inner_call]">
-                    ...fork_Prague-state_test-outer_selfdestruct_before_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-outer_selfdestruct_before_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-outer_selfdestruct_before_inner_call-same_tx]">
+                    ...fork_Prague-state_test-outer_selfdestruct_before_inner_call-same_tx
                 </abbr>
             </td>
                         <td>1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-outer_selfdestruct_after_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-outer_selfdestruct_after_inner_call]">
-                    ...fork_Prague-state_test-outer_selfdestruct_after_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-outer_selfdestruct_after_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Prague-state_test-outer_selfdestruct_after_inner_call-same_tx]">
+                    ...fork_Prague-state_test-outer_selfdestruct_after_inner_call-same_tx
                 </abbr>
             </td>
                         <td>2</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-no_outer_selfdestruct]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-no_outer_selfdestruct]">
-                    ...fork_Osaka-blockchain_test-no_outer_selfdestruct
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-no_outer_selfdestruct-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-no_outer_selfdestruct-same_tx]">
+                    ...fork_Osaka-blockchain_test-no_outer_selfdestruct-same_tx
                 </abbr>
             </td>
                         <td>0</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-outer_selfdestruct_before_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-outer_selfdestruct_before_inner_call]">
-                    ...fork_Osaka-blockchain_test-outer_selfdestruct_before_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-outer_selfdestruct_before_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-outer_selfdestruct_before_inner_call-same_tx]">
+                    ...fork_Osaka-blockchain_test-outer_selfdestruct_before_inner_call-same_tx
                 </abbr>
             </td>
                         <td>1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-outer_selfdestruct_after_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-outer_selfdestruct_after_inner_call]">
-                    ...fork_Osaka-blockchain_test-outer_selfdestruct_after_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-outer_selfdestruct_after_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-blockchain_test-outer_selfdestruct_after_inner_call-same_tx]">
+                    ...fork_Osaka-blockchain_test-outer_selfdestruct_after_inner_call-same_tx
                 </abbr>
             </td>
                         <td>2</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-no_outer_selfdestruct]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-no_outer_selfdestruct]">
-                    ...fork_Osaka-state_test-no_outer_selfdestruct
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-no_outer_selfdestruct-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-no_outer_selfdestruct-same_tx]">
+                    ...fork_Osaka-state_test-no_outer_selfdestruct-same_tx
                 </abbr>
             </td>
                         <td>0</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-outer_selfdestruct_before_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-outer_selfdestruct_before_inner_call]">
-                    ...fork_Osaka-state_test-outer_selfdestruct_before_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-outer_selfdestruct_before_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-outer_selfdestruct_before_inner_call-same_tx]">
+                    ...fork_Osaka-state_test-outer_selfdestruct_before_inner_call-same_tx
                 </abbr>
             </td>
                         <td>1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-outer_selfdestruct_after_inner_call]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-outer_selfdestruct_after_inner_call]">
-                    ...fork_Osaka-state_test-outer_selfdestruct_after_inner_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-outer_selfdestruct_after_inner_call-same_tx]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct_revert.py::test_selfdestruct_created_in_same_tx_with_revert[fork_Osaka-state_test-outer_selfdestruct_after_inner_call-same_tx]">
+                    ...fork_Osaka-state_test-outer_selfdestruct_after_inner_call-same_tx
                 </abbr>
             </td>
                         <td>2</td>
+                        <td>True</td>
                     </tr>
             </tbody>
 </table>
