@@ -87,11 +87,10 @@ def output_metadata_dir_with_teardown(request):
     yield
     try:
         output_metadata_dir = request.getfixturevalue("output_metadata_dir")
+        if output_metadata_dir.name == "stdout":
+            return
     except pytest.FixtureLookupError:
         output_metadata_dir = None
-
-    if output_metadata_dir.name == "stdout":
-        return
 
     eels_resolutions_file = getattr(request.config, "_eels_resolutions_file", None)
     if output_metadata_dir and eels_resolutions_file:
