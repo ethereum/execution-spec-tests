@@ -224,7 +224,6 @@ def test_invalid_containers_with_data_section(
     eof_test: EOFTestFiller,
     container: Container,
 ):
-
     """Test EOF validation of invalid containers with data sections."""
     assert container.validity_error is not None, "Invalid container without validity error"
     eof_test(
