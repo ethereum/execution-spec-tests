@@ -1,10 +1,9 @@
-"""Shanghai fork implementation."""
+"""Shanghai fork definition."""
 
 from typing import List, Optional
 
+from ethereum_test_forks import Paris
 from ethereum_test_vm import Opcodes
-
-from .paris import Paris
 
 
 class Shanghai(Paris):

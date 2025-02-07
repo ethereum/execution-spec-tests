@@ -5,8 +5,9 @@ from typing import List, Optional, Set
 from semver import Version
 
 from .base_fork import BaseFork, Fork
-from .forks import cancun, custom, osaka, paris, prague, shanghai, transition
+from .forks import cancun, custom, osaka, paris, prague, shanghai
 from .forks import pre_merge as forks  # TODO: temporary fix
+from .forks import transition as transition_fork
 from .transition_base_fork import TransitionBaseClass
 
 
@@ -110,8 +111,8 @@ def get_transition_forks() -> Set[Fork]:
     """Return all the transition forks."""
     transition_forks: Set[Fork] = set()
 
-    for fork_name in transition.__dict__:
-        fork = transition.__dict__[fork_name]
+    for fork_name in transition_fork.__dict__:
+        fork = transition_fork.__dict__[fork_name]
         if not isinstance(fork, type):
             continue
         if issubclass(fork, TransitionBaseClass) and issubclass(fork, BaseFork):
@@ -230,3 +231,23 @@ def forks_from(fork: Fork, deployed_only: bool = True) -> List[Fork]:
     else:
         latest_fork = get_forks()[-1]
     return forks_from_until(fork, latest_fork)
+
+
+def ceiling_division(a: int, b: int) -> int:
+    """
+    Calculate the ceil without using floating point.
+    Used by many of the EVM's formulas.
+    """
+    return -(a // -b)
+
+
+def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
+    """Calculate the blob gas cost."""
+    i = 1
+    output = 0
+    numerator_accumulator = factor * denominator
+    while numerator_accumulator > 0:
+        output += numerator_accumulator
+        numerator_accumulator = (numerator_accumulator * numerator) // (denominator * i)
+        i += 1
+    return output // denominator

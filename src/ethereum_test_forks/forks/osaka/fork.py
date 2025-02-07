@@ -1,12 +1,11 @@
-"""Osaka fork implementation."""
+"""Osaka fork definition."""
 
 from typing import List, Tuple
 
 from semver import Version
 
+from ethereum_test_forks.forks.prague import Prague
 from ethereum_test_vm import EVMCodeType, Opcodes
-
-from .prague import Prague
 
 
 class Osaka(Prague, solc_name="cancun"):

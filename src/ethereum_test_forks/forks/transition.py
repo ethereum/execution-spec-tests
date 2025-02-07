@@ -1,14 +1,17 @@
 """List of all transition fork definitions."""
 
+from ethereum_test_forks.forks import (
+    Berlin,
+    Cancun,
+    London,
+    Paris,
+    Prague,
+    Shanghai,
+)
+
 from ..transition_base_fork import transition_fork
-from .cancun import Cancun
-from .paris import Paris
-from .prague import Prague
-from .pre_merge import Berlin, London
-from .shanghai import Shanghai
 
 
-# Transition Forks
 @transition_fork(to_fork=London, at_block=5)
 class BerlinToLondonAt5(Berlin):
     """Berlin to London transition at Block 5."""
