@@ -44,7 +44,7 @@ By default, EVM logs are stored in the `logs` folder at the repository root. You
 
 ## Test coverage
 
-It's crucial that ported tests maintain coverage parity with _original tests_. This ensures that no critical functions are left untested and prevents introducing bugs. A CI workflow automatically checks for coverage.
+It's crucial that ported tests maintain coverage parity with _original tests_. This ensures that no critical functions are left untested and prevents the introduction of bugs. A CI workflow automatically checks for coverage.
 
 If coverage action fails (See: 📄 [An example of a failing test coverage](https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481)), it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](./test_actions_locally.md)), which should generate a `evmtest_coverage` directory:
 
