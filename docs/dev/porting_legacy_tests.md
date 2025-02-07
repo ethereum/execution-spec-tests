@@ -21,8 +21,8 @@ While automating the conversion of the remaining YAML (or JSON) test cases to Py
 
 3. Submit a PR with the ported tests:
 
-   1. Add the list of ported YAML files to [`converted-ethereum-tests.txt`](https://github.com/ethereum/execution-spec-tests/blob/1b30c336eae6b0746ea4db441ac74406f2fb2322/converted-ethereum-tests.txt).
-   2. Open a PR to remove the ported tests from the _original tests_ repository.
+     1. Add the list of ported YAML files to [`converted-ethereum-tests.txt`](https://github.com/ethereum/execution-spec-tests/blob/1b30c336eae6b0746ea4db441ac74406f2fb2322/converted-ethereum-tests.txt).
+     2. Open a PR to remove the ported tests from the _original tests_ repository.
 
 > See also: 📄 [Getting started with EEST.](../getting_started/repository_overview.md)
 
