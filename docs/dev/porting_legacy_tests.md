@@ -81,7 +81,7 @@ Follow the hyperlinks for lost base coverage (`LBC`) to address coverage gaps. H
 
 !!! note "Expected coverage loss"
 
-    EEST uses [pytest](https://docs.pytest.org/en/stable/), a Python testing library, for testing Ethereum specifications, while _original tests_ relied on the EVM to handle much of the execution. This difference can lead to coverage gaps. EEST favors dynamic contract creation for each test vector, while _original tests_ preferred a single static contract with multiple test vectors determined by transaction input data.
+    EEST uses [pytest](https://docs.pytest.org/en/stable/), a popular Python testing framework, to help orchestrate testing Ethereum specifications, while _original tests_ relied on large, static contracts and the EVM to handle much of the execution. This difference can lead to coverage gaps. EEST favors dynamic contract creation for each test vector, while _original tests_ preferred a single static contract with multiple test vectors determined by transaction input data.
 
     It's important to note that coverage helps identify missing test paths. If you believe the coverage loss is due to differences in "setup" code between frameworks and doesn't impact the feature you're testing, explain this in your PR. A team member can help with the review.
 
