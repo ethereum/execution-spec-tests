@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_single_code_section"><code>test_single_code_section()</code><a class="headerlink" href="#test_single_code_section" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1157"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_single_code_section@9872dc61</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08e854b373606745f3e5faea4441ea81a9b4333b/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1156"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_single_code_section@08e854b3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_single_code_section --fork Osaka</span>
@@ -27209,7 +27209,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1157</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1156</span>
+<span class="normal">1157</span>
 <span class="normal">1158</span>
 <span class="normal">1159</span>
 <span class="normal">1160</span>
@@ -27236,8 +27237,7 @@
 <span class="normal">1181</span>
 <span class="normal">1182</span>
 <span class="normal">1183</span>
-<span class="normal">1184</span>
-<span class="normal">1185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="normal">1184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_container&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_single_code_section</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>

@@ -28093,6 +28093,8 @@
 <li>🔀 Change <code>--dist</code> flag to the default value, <code>load</code>, for better parallelism handling during test filling (<a href="https://github.com/ethereum/execution-spec-tests/pull/1118">#1118</a>).</li>
 <li>🔀 Refactor framework code to use the <a href="https://pypi.org/project/ethereum-rlp/"><code>ethereum-rlp</code></a> package instead of <code>ethereum.rlp</code>, previously available in ethereum/execution-specs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1180">#1180</a>).</li>
 <li>🔀 Update EELS / execution-specs EEST dependency to <a href="https://github.com/ethereum/execution-specs/commit/9923823367b5586228e590537d47aa9cc4c6a206">99238233</a> for EEST framework libraries and test case generation (<a href="https://github.com/ethereum/execution-spec-tests/pull/1181">#1181</a>).</li>
+<li>✨ Add the <code>consume cache</code> command to cache fixtures before running consume commands (<a href="https://github.com/ethereum/execution-spec-tests/pull/1044">#1044</a>).</li>
+<li>✨ The <code>--input</code> flag of the consume commands now supports parsing of tagged release names in the format <code>&lt;RELEASE_NAME&gt;@&lt;RELEASE_VERSION&gt;</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1044">#1044</a>).</li>
 <li>🐞 Fix stdout output when using the <code>fill</code> command (<a href="https://github.com/ethereum/execution-spec-tests/pull/1188">#1188</a>).</li>
 </ul>
 <h3 id="evm-tools">🔧 EVM Tools<a class="headerlink" href="#evm-tools" title="Permanent link">&para;</a></h3>
@@ -28125,6 +28127,7 @@
 <li>Remove redundant tests within stable and develop fixture releases, moving them to a separate legacy release (<a href="https://github.com/ethereum/execution-spec-tests/pull/788">#788</a>).</li>
 <li>Ruff now replaces Flake8, Isort and Black resulting in significant changes to the entire code base including its usage (<a href="https://github.com/ethereum/execution-spec-tests/pull/922">#922</a>).</li>
 <li><code>state_test</code>, <code>blockchain_test</code> and <code>blockchain_test_engine</code> fixtures now contain a <code>config</code> field, which contains an object that contains a <code>blobSchedule</code> field. On the <code>blockchain_test</code> and <code>blockchain_test_engine</code> fixtures, the object also contains a duplicate of the <code>network</code> root field. The root's <code>network</code> field will be eventually deprecated (<a href="https://github.com/ethereum/execution-spec-tests/pull/1040">#1040</a>).</li>
+<li><code>latest-stable-release</code> and <code>latest-develop-release</code> keywords for the <code>--input</code> flag in consume commands have been replaced with <code>stable@latest</code> and <code>develop@latest</code> respectively (<a href="https://github.com/ethereum/execution-spec-tests/pull/1044">#1044</a>).</li>
 </ul>
 <h2 id="v300-2024-07-22"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0">v3.0.0</a> - 2024-07-22<a class="headerlink" href="#v300-2024-07-22" title="Permanent link">&para;</a></h2>
 <h3 id="test-cases_1">🧪 Test Cases<a class="headerlink" href="#test-cases_1" title="Permanent link">&para;</a></h3>

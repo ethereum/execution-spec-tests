@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_max_code_sections"><code>test_max_code_sections()</code><a class="headerlink" href="#test_max_code_sections" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1188"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_max_code_sections@9872dc61</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08e854b373606745f3e5faea4441ea81a9b4333b/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1187"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_max_code_sections@08e854b3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_max_code_sections --fork Osaka</span>
@@ -27209,7 +27209,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1188</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1187</span>
+<span class="normal">1188</span>
 <span class="normal">1189</span>
 <span class="normal">1190</span>
 <span class="normal">1191</span>
@@ -27246,8 +27247,7 @@
 <span class="normal">1222</span>
 <span class="normal">1223</span>
 <span class="normal">1224</span>
-<span class="normal">1225</span>
-<span class="normal">1226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="normal">1225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_data&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;plus_container&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_max_code_sections</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
