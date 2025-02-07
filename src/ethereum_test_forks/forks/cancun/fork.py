@@ -1,15 +1,15 @@
-"""Cancun fork implementation."""
+"""Cancun fork definition."""
 
 from typing import List, Mapping, Optional
 
 from semver import Version
 
 from ethereum_test_base_types import Address, BlobSchedule, ForkBlobSchedule
+from ethereum_test_forks.forks.shanghai import Shanghai
 from ethereum_test_vm import Opcodes
 
-from ..base_fork import BlobGasPriceCalculator, ExcessBlobGasCalculator
-from .helpers import fake_exponential
-from .shanghai import Shanghai
+from ...base_fork import BlobGasPriceCalculator, ExcessBlobGasCalculator
+from ...helpers import fake_exponential
 
 
 class Cancun(Shanghai):

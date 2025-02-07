@@ -1,4 +1,4 @@
-"""Paris (Merge) fork implementation."""
+"""Paris (Merge) fork definition."""
 
 from typing import Optional
 
