@@ -44,7 +44,7 @@ def test_valid(
     post: dict,
     tx: Transaction,
 ):
-    """Test the BLS12_G1MSM precompile."""
+    """Test the BLS12_G1MSM precompile (valid)."""
     state_test(
         env=Environment(),
         pre=pre,
@@ -106,7 +106,7 @@ def test_invalid(
     post: dict,
     tx: Transaction,
 ):
-    """Test the BLS12_G1MSM precompile."""
+    """Test the BLS12_G1MSM precompile (invalid)."""
     state_test(
         env=Environment(),
         pre=pre,
