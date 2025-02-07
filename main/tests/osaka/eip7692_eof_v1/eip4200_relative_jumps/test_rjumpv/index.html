@@ -27132,7 +27132,7 @@
 
 
 <h1 id="test-rjumpv">Test RJUMPV<a class="headerlink" href="#test-rjumpv" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9586dd9c8fd08a22a17d54253f26e594028fc5e2/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L20"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py@9586dd9c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L20"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py@9872dc61</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py --fork Osaka</span>
@@ -27194,7 +27194,7 @@
 <td><a href="test_rjumpv_backwards_onto_dup/"><code>test_rjumpv_backwards_onto_dup</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Backwards jump vector onto a dup.</td>
+<td>Backwards jumpv vector onto a dup.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_backwards_large_table/"><code>test_rjumpv_backwards_large_table</code></a></td>
@@ -27320,7 +27320,7 @@
 <td><a href="test_rjumpv_into_push_n/"><code>test_rjumpv_into_push_n</code></a></td>
 <td>eof_test</td>
 <td>372</td>
-<td>EOF1I4200_0039 (Invalid) EOF code containing RJUMPV with target PUSH1 immediate.</td>
+<td>EOF1I4200_0039 (Invalid) EOF code containing RJUMPV with target PUSHN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_into_rjumpv/"><code>test_rjumpv_into_rjumpv</code></a></td>
@@ -27338,19 +27338,19 @@
 <td><a href="test_rjumpv_into_dupn/"><code>test_rjumpv_into_dupn</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>EOF code containing RJUMP with target DUPN immediate.</td>
+<td>EOF code containing RJUMPV with target DUPN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_into_swapn/"><code>test_rjumpv_into_swapn</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>EOF code containing RJUMP with target SWAPN immediate.</td>
+<td>EOF code containing RJUMPV with target SWAPN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_into_exchange/"><code>test_rjumpv_into_exchange</code></a></td>
 <td>eof_test</td>
 <td>3</td>
-<td>EOF code containing RJUMP with target EXCHANGE immediate.</td>
+<td>EOF code containing RJUMPV with target EXCHANGE immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpv_into_eofcreate/"><code>test_rjumpv_into_eofcreate</code></a></td>
@@ -27386,7 +27386,7 @@
 <td><a href="test_rjumpv_rjumpi_backwards_min_stack_wrong/"><code>test_rjumpv_rjumpi_backwards_min_stack_wrong</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Backwards rjumpv where min_stack does not match.</td>
+<td>Backwards rjumpv rjumpi where min_stack does not match.</td>
 </tr>
 <tr>
 <td><a href="test_double_rjumpv/"><code>test_double_rjumpv</code></a></td>

@@ -27188,7 +27188,7 @@
 
 
 <h1 id="test_set_code_to_system_contract"><code>test_set_code_to_system_contract()</code><a class="headerlink" href="#test_set_code_to_system_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9586dd9c8fd08a22a17d54253f26e594028fc5e2/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2596"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@9586dd9c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2596"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@9872dc61</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract --fork Prague</span>
@@ -27203,7 +27203,7 @@
 <a id="tests.prague.eip7702_set_code_tx.test_set_code_txs.test_set_code_to_system_contract"></a>
     <div class="doc doc-contents first">
 
-      <p>Test setting the code of an account to a pre-compile address.</p>
+      <p>Test setting the code of an account to a system contract.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
@@ -27350,7 +27350,7 @@
     <span class="n">system_contract</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test setting the code of an account to a pre-compile address.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test setting the code of an account to a system contract.&quot;&quot;&quot;</span>
     <span class="n">caller_code_storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">()</span>
     <span class="n">call_return_code_slot</span> <span class="o">=</span> <span class="n">caller_code_storage</span><span class="o">.</span><span class="n">store_next</span><span class="p">(</span>
         <span class="n">call_return_code</span><span class="p">(</span>

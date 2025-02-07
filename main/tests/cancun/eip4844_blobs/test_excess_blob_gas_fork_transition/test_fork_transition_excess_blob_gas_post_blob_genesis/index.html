@@ -27188,7 +27188,7 @@
 
 
 <h1 id="test_fork_transition_excess_blob_gas_post_blob_genesis"><code>test_fork_transition_excess_blob_gas_post_blob_genesis()</code><a class="headerlink" href="#test_fork_transition_excess_blob_gas_post_blob_genesis" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9586dd9c8fd08a22a17d54253f26e594028fc5e2/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L336"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_fork_transition_excess_blob_gas_post_blob_genesis@9586dd9c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L336"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_fork_transition_excess_blob_gas_post_blob_genesis@9872dc61</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_fork_transition_excess_blob_gas_post_blob_genesis --fork Prague</span>
@@ -27204,8 +27204,6 @@
     <div class="doc doc-contents first">
 
       <p>Test <code>excessBlobGas</code> calculation in the header when the fork is activated.</p>
-<p>Also produce enough blocks to test the blob gas price increase when the block is full with
-<code>SpecHelpers.max_blobs_per_block()</code> blobs.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
@@ -27270,12 +27268,7 @@
 <span class="normal">394</span>
 <span class="normal">395</span>
 <span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">397</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;post_fork_block_count,pre_fork_blobs_per_block,post_fork_blobs_per_block&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="p">[</span>
@@ -27330,12 +27323,7 @@
     <span class="n">post_fork_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Address</span><span class="p">,</span> <span class="n">Account</span><span class="p">],</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test `excessBlobGas` calculation in the header when the fork is activated.</span>
-
-<span class="sd">    Also produce enough blocks to test the blob gas price increase when the block is full with</span>
-<span class="sd">    `SpecHelpers.max_blobs_per_block()` blobs.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test `excessBlobGas` calculation in the header when the fork is activated.&quot;&quot;&quot;</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>

@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_double_rjumpi_invalid_max_stack_height"><code>test_double_rjumpi_invalid_max_stack_height()</code><a class="headerlink" href="#test_double_rjumpi_invalid_max_stack_height" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9586dd9c8fd08a22a17d54253f26e594028fc5e2/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L977"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height@9586dd9c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L980"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height@9872dc61</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height --fork Osaka</span>
@@ -27210,10 +27210,7 @@ targeted by two RJUMPIs with the non-uniform stack height range.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 977</span>
-<span class="normal"> 978</span>
-<span class="normal"> 979</span>
-<span class="normal"> 980</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 980</span>
 <span class="normal"> 981</span>
 <span class="normal"> 982</span>
 <span class="normal"> 983</span>
@@ -27233,7 +27230,10 @@ targeted by two RJUMPIs with the non-uniform stack height range.</p>
 <span class="normal"> 997</span>
 <span class="normal"> 998</span>
 <span class="normal"> 999</span>
-<span class="normal">1000</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_double_rjumpi_invalid_max_stack_height</span><span class="p">(</span>
+<span class="normal">1000</span>
+<span class="normal">1001</span>
+<span class="normal">1002</span>
+<span class="normal">1003</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_double_rjumpi_invalid_max_stack_height</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

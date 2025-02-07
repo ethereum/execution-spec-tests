@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_data_section_succeed"><code>test_data_section_succeed()</code><a class="headerlink" href="#test_data_section_succeed" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9586dd9c8fd08a22a17d54253f26e594028fc5e2/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py#L86"><code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed@9586dd9c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py#L86"><code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed@9872dc61</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py::test_data_section_succeed --fork Osaka</span>
@@ -27205,7 +27205,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7480_data_section.test_data_opcodes.test_data_section_succeed"></a>
     <div class="doc doc-contents first">
 
-      <p>Test simple contracts that are simply expected to succeed on call.</p>
+      <p>Test simple contracts that simply expect data section to succeed.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7480_data_section/test_data_opcodes.py</code></summary>
@@ -27293,7 +27293,7 @@
     <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">datasize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test simple contracts that are simply expected to succeed on call.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test simple contracts that simply expect data section to succeed.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">expected_storage</span><span class="p">)</span> <span class="o">=</span> <span class="n">create_data_test</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">datasize</span><span class="p">)</span>

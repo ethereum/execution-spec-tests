@@ -27132,7 +27132,7 @@
 
 
 <h1 id="test-rjumpi">Test RJUMPI<a class="headerlink" href="#test-rjumpi" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9586dd9c8fd08a22a17d54253f26e594028fc5e2/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L38"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py@9586dd9c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L38"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py@9872dc61</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py --fork Osaka</span>
@@ -27176,7 +27176,7 @@
 <td><a href="test_rjumpi_condition_forwards/"><code>test_rjumpi_condition_forwards</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test RJUMPI contract switching based on external input.</td>
+<td>Test RJUMPI contract switching based on external input (forwards).</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_condition_backwards/"><code>test_rjumpi_condition_backwards</code></a></td>
@@ -27188,7 +27188,7 @@
 <td><a href="test_rjumpi_condition_zero/"><code>test_rjumpi_condition_zero</code></a></td>
 <td>state_test</td>
 <td>2</td>
-<td>Test RJUMPI contract switching based on external input.</td>
+<td>Test RJUMPI contract switching based on external input (condition zero).</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_forwards/"><code>test_rjumpi_forwards</code></a></td>
@@ -27272,7 +27272,7 @@
 <td><a href="test_rjumpi_into_self_data_portion/"><code>test_rjumpi_into_self_data_portion</code></a></td>
 <td>eof_test</td>
 <td>2</td>
-<td>EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate.</td>
+<td>EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_self/"><code>test_rjumpi_into_self</code></a></td>
@@ -27338,19 +27338,19 @@
 <td><a href="test_rjumpi_into_dupn/"><code>test_rjumpi_into_dupn</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target DUPN immediate.</td>
+<td>EOF code containing RJUMPI with target DUPN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_swapn/"><code>test_rjumpi_into_swapn</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target SWAPN immediate.</td>
+<td>EOF code containing RJUMPI with target SWAPN immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_exchange/"><code>test_rjumpi_into_exchange</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>EOF code containing RJUMP with target EXCHANGE immediate.</td>
+<td>EOF code containing RJUMPI with target EXCHANGE immediate.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_into_eofcreate/"><code>test_rjumpi_into_eofcreate</code></a></td>
@@ -27404,7 +27404,7 @@
 <td><a href="test_rjumpi_rjumpv_backwards_min_stack_wrong/"><code>test_rjumpi_rjumpv_backwards_min_stack_wrong</code></a></td>
 <td>eof_test</td>
 <td>1</td>
-<td>Backwards rjumpv where min_stack does not match.</td>
+<td>Backwards rjumpi rjumpv where min_stack does not match.</td>
 </tr>
 <tr>
 <td><a href="test_double_rjumpi_stack_underflow/"><code>test_double_rjumpi_stack_underflow</code></a></td>

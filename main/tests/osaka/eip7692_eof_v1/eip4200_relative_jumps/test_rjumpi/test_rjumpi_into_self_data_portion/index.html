@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_rjumpi_into_self_data_portion"><code>test_rjumpi_into_self_data_portion()</code><a class="headerlink" href="#test_rjumpi_into_self_data_portion" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9586dd9c8fd08a22a17d54253f26e594028fc5e2/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L409"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_self_data_portion@9586dd9c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L409"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_self_data_portion@9872dc61</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_self_data_portion --fork Osaka</span>
@@ -27205,7 +27205,8 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_into_self_data_portion"></a>
     <div class="doc doc-contents first">
 
-      <p>EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate.</p>
+      <p>EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate
+(with offset).</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
@@ -27224,12 +27225,18 @@
 <span class="normal">421</span>
 <span class="normal">422</span>
 <span class="normal">423</span>
-<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;offset&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="o">.</span><span class="n">data_portion_length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;offset&quot;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="o">.</span><span class="n">data_portion_length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">test_rjumpi_into_self_data_portion</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate</span>
+<span class="sd">    (with offset).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>

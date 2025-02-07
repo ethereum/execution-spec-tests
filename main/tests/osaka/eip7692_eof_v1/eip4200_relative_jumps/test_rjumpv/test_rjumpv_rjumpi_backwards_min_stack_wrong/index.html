@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_rjumpv_rjumpi_backwards_min_stack_wrong"><code>test_rjumpv_rjumpi_backwards_min_stack_wrong()</code><a class="headerlink" href="#test_rjumpv_rjumpi_backwards_min_stack_wrong" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9586dd9c8fd08a22a17d54253f26e594028fc5e2/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1131"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_rjumpi_backwards_min_stack_wrong@9586dd9c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9872dc618567f51a9a6a88a85ceb6e9f61b9e2ef/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1131"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_rjumpi_backwards_min_stack_wrong@9872dc61</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_rjumpi_backwards_min_stack_wrong --fork Osaka</span>
@@ -27205,7 +27205,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpv.test_rjumpv_rjumpi_backwards_min_stack_wrong"></a>
     <div class="doc doc-contents first">
 
-      <p>Backwards rjumpv where min_stack does not match.</p>
+      <p>Backwards rjumpv rjumpi where min_stack does not match.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py</code></summary>
@@ -27231,7 +27231,7 @@
 <span class="normal">1150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpv_rjumpi_backwards_min_stack_wrong</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards rjumpv where min_stack does not match.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards rjumpv rjumpi where min_stack does not match.&quot;&quot;&quot;</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>  <span class="c1"># (0, 0)</span>
