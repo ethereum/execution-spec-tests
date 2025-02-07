@@ -88,6 +88,8 @@ Release tarball changes:
 - 🔀 Change `--dist` flag to the default value, `load`, for better parallelism handling during test filling ([#1118](https://github.com/ethereum/execution-spec-tests/pull/1118)).
 - 🔀 Refactor framework code to use the [`ethereum-rlp`](https://pypi.org/project/ethereum-rlp/) package instead of `ethereum.rlp`, previously available in ethereum/execution-specs ([#1180](https://github.com/ethereum/execution-spec-tests/pull/1180)).
 - 🔀 Update EELS / execution-specs EEST dependency to [99238233](https://github.com/ethereum/execution-specs/commit/9923823367b5586228e590537d47aa9cc4c6a206) for EEST framework libraries and test case generation ([#1181](https://github.com/ethereum/execution-spec-tests/pull/1181)).
+- ✨ Add the `consume cache` command to cache fixtures before running consume commands ([#1044](https://github.com/ethereum/execution-spec-tests/pull/1044)).
+- ✨ The `--input` flag of the consume commands now supports parsing of tagged release names in the format `<RELEASE_NAME>@<RELEASE_VERSION>` ([#1044](https://github.com/ethereum/execution-spec-tests/pull/1044)).
 - 🐞 Fix stdout output when using the `fill` command ([#1188](https://github.com/ethereum/execution-spec-tests/pull/1188)).
 
 ### 🔧 EVM Tools
@@ -120,6 +122,7 @@ Release tarball changes:
 - Remove redundant tests within stable and develop fixture releases, moving them to a separate legacy release ([#788](https://github.com/ethereum/execution-spec-tests/pull/788)).
 - Ruff now replaces Flake8, Isort and Black resulting in significant changes to the entire code base including its usage ([#922](https://github.com/ethereum/execution-spec-tests/pull/922)).
 - `state_test`, `blockchain_test` and `blockchain_test_engine` fixtures now contain a `config` field, which contains an object that contains a `blobSchedule` field. On the `blockchain_test` and `blockchain_test_engine` fixtures, the object also contains a duplicate of the `network` root field. The root's `network` field will be eventually deprecated ([#1040](https://github.com/ethereum/execution-spec-tests/pull/1040)).
+- `latest-stable-release` and `latest-develop-release` keywords for the `--input` flag in consume commands have been replaced with `stable@latest` and `develop@latest` respectively ([#1044](https://github.com/ethereum/execution-spec-tests/pull/1044)).
 
 ## [v3.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2024-07-22
 

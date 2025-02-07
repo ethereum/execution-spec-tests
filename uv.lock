@@ -735,7 +735,7 @@ wheels = [
 [[package]]
 name = "hive-py"
 version = "0.1.0"
-source = { git = "https://github.com/marioevz/hive.py#1a546d06ae72e83c8d41fcaaba005c579ccd1d6a" }
+source = { git = "https://github.com/marioevz/hive.py#8874cb30904b00098bb6b696b2fd3c0f5a12e119" }
 dependencies = [
     { name = "requests" },
 ]
