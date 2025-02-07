@@ -90,6 +90,7 @@ Release tarball changes:
 - 🔀 Update EELS / execution-specs EEST dependency to [99238233](https://github.com/ethereum/execution-specs/commit/9923823367b5586228e590537d47aa9cc4c6a206) for EEST framework libraries and test case generation ([#1181](https://github.com/ethereum/execution-spec-tests/pull/1181)).
 - ✨ Add the `consume cache` command to cache fixtures before running consume commands ([#1044](https://github.com/ethereum/execution-spec-tests/pull/1044)).
 - ✨ The `--input` flag of the consume commands now supports parsing of tagged release names in the format `<RELEASE_NAME>@<RELEASE_VERSION>` ([#1044](https://github.com/ethereum/execution-spec-tests/pull/1044)).
+- 🐞 Fix stdout output when using the `fill` command ([#1188](https://github.com/ethereum/execution-spec-tests/pull/1188)).
 
 ### 🔧 EVM Tools
 

@@ -411,6 +411,7 @@ StateTestFiller
 StateTests
 staticcalled
 stdin
+stdout
 stExample
 str
 streetsidesoftware
