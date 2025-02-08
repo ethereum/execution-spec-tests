@@ -1,25 +1,49 @@
 """
 A State test for the set of `SWAP*` opcodes.
-Ported from: https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/VMTests/vmTests/swapFiller.yml.
+Ported from: https://github.com/ethereum/tests/
+blob/develop/src/GeneralStateTestsFiller/VMTests/vmTests/swapFiller.yml.
 """
 
 import pytest
 
 from ethereum_test_forks import Fork, Frontier, Homestead
-from ethereum_test_tools import Account, Alloc, Environment
+from ethereum_test_tools import (
+    Account,
+    Alloc,
+    Bytecode,
+    Environment,
+    StateTestFiller,
+    Transaction,
+)
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import StateTestFiller, Storage, Transaction, Bytecode
+
+
+def sstore(storage, key, value, debug_hint=None):
+    
+    """
+    Helper function to update storage with a debug hint.
+    """
+    storage[key] = value
+    if debug_hint:
+        print(f"Debug: {debug_hint} - Updated key {key} with value {value}")
+    return storage
 
 
 @pytest.mark.parametrize(
     "swap_opcode",
-    [getattr(Op, f"SWAP{i}") for i in range(1, 17)],  # Dynamically parametrize SWAP opcodes (SWAP1 to SWAP16)
+    [getattr(Op, f"SWAP{i}") for i in range(1, 17)],
     ids=lambda op: str(op),
 )
 @pytest.mark.valid_from("Frontier")
-def test_swap(state_test: StateTestFiller, fork: Fork, pre: Alloc, swap_opcode: Op):
+def test_swap(
+    state_test: StateTestFiller,
+    fork: Fork,
+    pre: Alloc,
+    swap_opcode: Op
+):
     """
-    The set of `SWAP*` opcodes swaps the top of the stack with a specific element.
+    The set of `SWAP*` opcodes swaps the top of the stack with a specific
+    element.
 
     In this test, we ensure that the set of `SWAP*` opcodes correctly swaps
     the top element with the nth element and stores the result in storage.
@@ -30,10 +54,6 @@ def test_swap(state_test: StateTestFiller, fork: Fork, pre: Alloc, swap_opcode: 
     swap_pos = swap_opcode.int() - 0x90 + 1
 
     # Generate stack values
-    # We'll use position numbers as values to make it clear what's being swapped
-    # For SWAP1: [1, 0]
-    # For SWAP2: [2, 1, 0]
-    # etc.
     stack_values = list(range(swap_pos + 1))
 
     # Push the stack values onto the stack (in reverse order).
@@ -63,7 +83,9 @@ def test_swap(state_test: StateTestFiller, fork: Fork, pre: Alloc, swap_opcode: 
 
     # Define the expected post-state.
     post = {}
-    post[contract] = Account(storage={0: expected_value})
+    storage = {}
+    sstore(storage, 0, expected_value, f"SWAP{swap_pos} result")
+    post[contract] = Account(storage=storage)
 
     # Run the state test.
     state_test(env=env, pre=pre, post=post, tx=tx)
@@ -74,14 +96,18 @@ def test_swap(state_test: StateTestFiller, fork: Fork, pre: Alloc, swap_opcode: 
     [getattr(Op, f"SWAP{i}") for i in range(1, 17)],
     ids=lambda op: str(op),
 )
-@pytest.mark.parametrize("stack_height", range(1022, 1024))  # Test stack underflow conditions
+@pytest.mark.parametrize("stack_height", range(1022, 1024))
 @pytest.mark.valid_from("Frontier")
 def test_stack_underflow(
-    state_test: StateTestFiller, fork: Fork, pre: Alloc, swap_opcode: Op, stack_height: int
+    state_test: StateTestFiller,
+    fork: Fork,
+    pre: Alloc,
+    swap_opcode: Op,
+    stack_height: int
 ):
     """
-    A test to ensure that the stack underflow when there are not enough elements
-    for the `SWAP*` opcode to operate.
+    A test to ensure that the stack underflow when there are not enough
+    elements for the `SWAP*` opcode to operate.
     """
     env = Environment()
 
@@ -90,9 +116,8 @@ def test_stack_underflow(
 
     # Push values onto the stack
     contract_code = Bytecode()
-    # Push stack_height number of values, using the position as the value
     for i in range(stack_height):
-        contract_code += Op.PUSH1(i % 256)  # Use modulo to keep values in byte range
+        contract_code += Op.PUSH1(i % 256)
 
     # Attempt to perform the SWAP operation
     contract_code += swap_opcode
@@ -113,18 +138,21 @@ def test_stack_underflow(
 
     # Define the expected post-state.
     post = {}
-    
-    # The SWAP operation requires swap_pos + 1 items on the stack
-    # Plus one more space for the SSTORE operation
+    storage = {}
     MAX_STACK = 1024
-    
+
     if stack_height >= (swap_pos + 1) and (MAX_STACK - stack_height) >= 1:
         # If the operation succeeds, the value at swap_pos will be at the top
         swapped_value = (stack_height - swap_pos - 1) % 256
-        post[contract] = Account(storage={0: swapped_value})
+        sstore(storage,
+               0,
+               swapped_value,
+               f"SWAP{swap_pos} result (stack_height={stack_height})")
     else:
         # Operation should fail with no storage update
-        post[contract] = Account(storage={})
+        sstore(storage, 0, 0, "SWAP failed due to stack underflow")
+
+    post[contract] = Account(storage=storage)
 
     # Run the state test.
     state_test(env=env, pre=pre, post=post, tx=tx)
