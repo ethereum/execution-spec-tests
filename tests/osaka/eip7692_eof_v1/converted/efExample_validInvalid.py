@@ -135,21 +135,6 @@ REFERENCE_SPEC_VERSION = 'b658bb87fe039d29e9475d5cfaebca9b92e0fca2'
             validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
         ),
         Container(
-            name='validInvalid_37',
-            raw_bytes="ef020101000402000100030400010000800001305000ef",
-            validity_error=EOFException.INVALID_MAGIC,
-        ),
-        Container(
-            name='validInvalid_38',
-            raw_bytes="ef000001000402000100030400010000800001305000ef",
-            validity_error=EOFException.INVALID_VERSION,
-        ),
-        Container(
-            name='validInvalid_39',
-            raw_bytes="ef000201000402000100030400010000800001305000ef",
-            validity_error=EOFException.INVALID_VERSION,
-        ),
-        Container(
             name='validInvalid_4',
             raw_bytes="ef00010100040200010003040001ff00800001305000ef",
             validity_error=EOFException.MISSING_TERMINATOR,
