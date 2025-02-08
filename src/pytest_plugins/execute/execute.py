@@ -7,11 +7,10 @@ from typing import Any, Dict, Generator, List, Type
 import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
-from ethereum_test_base_types import Number
 from ethereum_test_execution import EXECUTE_FORMATS, BaseExecute
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
-from ethereum_test_tools import SPEC_TYPES, BaseTest, TestInfo, Transaction
+from ethereum_test_tools import SPEC_TYPES, BaseTest, TestInfo
 from ethereum_test_types import TransactionDefaults
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
@@ -251,7 +250,6 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         eips: List[int],
         eth_rpc: EthRPC,
         collector: Collector,
-        default_gas_price: int,
     ):
         """
         Fixture used to instantiate an auto-fillable BaseTest object from within
@@ -296,33 +294,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 execute.execute(eth_rpc)
                 collector.collect(request.node.nodeid, execute)
 
-        sender_start_balance = eth_rpc.get_balance(pre._sender)
-
-        yield BaseTestWrapper
-
-        # Refund all EOAs (regardless of whether the test passed or failed)
-        refund_txs = []
-        for eoa in pre._funded_eoa:
-            remaining_balance = eth_rpc.get_balance(eoa)
-            eoa.nonce = Number(eth_rpc.get_transaction_count(eoa))
-            refund_gas_limit = 21_000
-            tx_cost = refund_gas_limit * default_gas_price
-            if remaining_balance < tx_cost:
-                continue
-            refund_txs.append(
-                Transaction(
-                    sender=eoa,
-                    to=pre._sender,
-                    gas_limit=21_000,
-                    gas_price=default_gas_price,
-                    value=remaining_balance - tx_cost,
-                ).with_signature_and_sender()
-            )
-        eth_rpc.send_wait_transactions(refund_txs)
-
-        sender_end_balance = eth_rpc.get_balance(pre._sender)
-        used_balance = sender_start_balance - sender_end_balance
-        print(f"Used balance={used_balance / 10**18:.18f}")
+        return BaseTestWrapper
 
     return base_test_parametrizer_func
 
