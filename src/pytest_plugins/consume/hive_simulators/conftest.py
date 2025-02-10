@@ -9,7 +9,7 @@ import rich
 from hive.client import Client, ClientType
 from hive.testing import HiveTest
 
-from ethereum_test_base_types import to_json
+from ethereum_test_base_types import Number, to_json
 from ethereum_test_fixtures import BlockchainFixtureCommon
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_rpc import EthRPC
