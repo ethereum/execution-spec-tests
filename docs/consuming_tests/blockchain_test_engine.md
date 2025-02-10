@@ -36,8 +36,8 @@ For each [`HiveFixture`](#hivefixture) test object in the JSON fixture file, per
     2. If [`errorCode`](#-errorcode-optionalnumber) is present:
         - Verify the directive returns an error, and the error code matches the one in [`errorCode`](#-errorcode-optionalnumber), otherwise fail the test.
         - Proceed to the next payload.
-    3. If [`valid`](#-valid-bool) is `false`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `INVALID`, otherwise fail the test.
-    4. If [`valid`](#-valid-bool) is `true`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `VALID`, otherwise fail the test.
+    3. If `valid` is `false`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `INVALID`, otherwise fail the test.
+    4. If `valid` is `true`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `VALID`, otherwise fail the test.
 
 ## Structures
 
