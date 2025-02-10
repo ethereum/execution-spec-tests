@@ -28581,8 +28581,8 @@
 <li>
 <p>Determine whether the current block is valid or invalid:</p>
 <ol>
-<li>If the <a href="#expectexception-str"><code>expectException</code></a> field is not present, it is valid, and object must be decoded as a <a href="#fixtureblock"><code>FixtureBlock</code></a>.</li>
-<li>If the <a href="#expectexception-str"><code>expectException</code></a> field is present, it is invalid, and object must be decoded as a <a href="#invalidfixtureblock"><code>InvalidFixtureBlock</code></a>.</li>
+<li>If the <a href="#-expectexception-transactionexceptionblockexception"><code>expectException</code></a> field is not present, it is valid, and object must be decoded as a <a href="#fixtureblock"><code>FixtureBlock</code></a>.</li>
+<li>If the <a href="#-expectexception-transactionexceptionblockexception"><code>expectException</code></a> field is present, it is invalid, and object must be decoded as a <a href="#invalidfixtureblock"><code>InvalidFixtureBlock</code></a>.</li>
 </ol>
 </li>
 <li>
@@ -28690,7 +28690,7 @@
 <p>Root hash of the parent beacon block.</p>
 <h3 id="fixtureblock"><code>FixtureBlock</code><a class="headerlink" href="#fixtureblock" title="Permanent link">&para;</a></h3>
 <h4 id="-rlp-bytes">- <code>rlp</code>: <a href="../common_types/#bytes"><code>Bytes</code></a><a class="headerlink" href="#-rlp-bytes" title="Permanent link">&para;</a></h4>
-<p>RLP serialized version of the block. Field is only optional when embedded in a <a href="#invalidfixtureblock"><code>InvalidFixtureBlock</code></a> as the <a href="#rlp_decoded-optionalfixtureblock"><code>rlp_decoded</code></a> field.</p>
+<p>RLP serialized version of the block. Field is only optional when embedded in a <a href="#invalidfixtureblock"><code>InvalidFixtureBlock</code></a> as the <a href="#-rlp_decoded-optionalfixtureblock"><code>rlp_decoded</code></a> field.</p>
 <h4 id="-blockheader-fixtureheader">- <code>blockHeader</code>: <a href="#fixtureheader"><code>FixtureHeader</code></a><a class="headerlink" href="#-blockheader-fixtureheader" title="Permanent link">&para;</a></h4>
 <p>Decoded block header fields included in the block RLP.</p>
 <h4 id="-blocknumber-number">- <code>blocknumber</code>: <a href="../common_types/#number"><code>Number</code></a><a class="headerlink" href="#-blocknumber-number" title="Permanent link">&para;</a></h4>
@@ -28779,6 +28779,7 @@
     </span>
     <nav>
       
+        <a href="mailto:felix314159@users.noreply.github.com">Felix</a>, 
         <a href="mailto:48196632+gurukamath@users.noreply.github.com">Guruprasad Kamath</a>, 
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>
     </nav>
