@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_magic_validation"><code>test_magic_validation()</code><a class="headerlink" href="#test_magic_validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1d686c8c14e77d93621579c3a158ac925978102a/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1164"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_magic_validation@1d686c8c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2f06eca80b844a76632a911a49eb5170d11f35af/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1176"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_magic_validation@2f06eca8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_magic_validation --fork Osaka</span>
@@ -27209,22 +27209,22 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1164</span>
-<span class="normal">1165</span>
-<span class="normal">1166</span>
-<span class="normal">1167</span>
-<span class="normal">1168</span>
-<span class="normal">1169</span>
-<span class="normal">1170</span>
-<span class="normal">1171</span>
-<span class="normal">1172</span>
-<span class="normal">1173</span>
-<span class="normal">1174</span>
-<span class="normal">1175</span>
-<span class="normal">1176</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1176</span>
 <span class="normal">1177</span>
 <span class="normal">1178</span>
-<span class="normal">1179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1179</span>
+<span class="normal">1180</span>
+<span class="normal">1181</span>
+<span class="normal">1182</span>
+<span class="normal">1183</span>
+<span class="normal">1184</span>
+<span class="normal">1185</span>
+<span class="normal">1186</span>
+<span class="normal">1187</span>
+<span class="normal">1188</span>
+<span class="normal">1189</span>
+<span class="normal">1190</span>
+<span class="normal">1191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;magic&quot;</span><span class="p">,</span>
     <span class="nb">set</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mh">0x60</span><span class="p">,</span> <span class="mh">0xEE</span><span class="p">,</span> <span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0xF0</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">]))</span>
     <span class="o">-</span> <span class="p">{(</span><span class="mh">0xEF</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>

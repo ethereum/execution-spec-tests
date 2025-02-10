@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_invalid_containers"><code>test_invalid_containers()</code><a class="headerlink" href="#test_invalid_containers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1d686c8c14e77d93621579c3a158ac925978102a/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L150"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@1d686c8c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2f06eca80b844a76632a911a49eb5170d11f35af/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L150"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@2f06eca8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers --fork Osaka</span>
@@ -28220,7 +28220,19 @@
 <span class="normal">1158</span>
 <span class="normal">1159</span>
 <span class="normal">1160</span>
-<span class="normal">1161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1161</span>
+<span class="normal">1162</span>
+<span class="normal">1163</span>
+<span class="normal">1164</span>
+<span class="normal">1165</span>
+<span class="normal">1166</span>
+<span class="normal">1167</span>
+<span class="normal">1168</span>
+<span class="normal">1169</span>
+<span class="normal">1170</span>
+<span class="normal">1171</span>
+<span class="normal">1172</span>
+<span class="normal">1173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -29008,9 +29020,21 @@
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;empty_type_section&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;empty_type_section_empty_code&quot;</span><span class="p">,</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">),</span>
+                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(),</span>
+            <span class="p">],</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0000 02 0001 0000 04 0000 00&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
+                <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;empty_type_section_with_code&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0000 02 0001 0001 04 0000 00 00&quot;</span><span class="p">,</span>
@@ -30150,11 +30174,20 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-empty_type_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-empty_type_section]">
-                    ...fork_Osaka-eof_test-empty_type_section
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-empty_type_section_empty_code]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-empty_type_section_empty_code]">
+                    ...fork_Osaka-eof_test-empty_type_section_empty_code
                 </abbr>
             </td>
-                        <td>empty_type_section</td>
+                        <td>empty_type_section_empty_code</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-empty_type_section_with_code]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-empty_type_section_with_code]">
+                    ...fork_Osaka-eof_test-empty_type_section_with_code
+                </abbr>
+            </td>
+                        <td>empty_type_section_with_code</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
