@@ -3,8 +3,9 @@
 from typing import List, Mapping
 
 from ethereum_test_base_types import Address
-from ethereum_test_forks.base_eip import EIP, BaseEIP
-from ethereum_test_forks.eips import EIP7685
+
+from ....base_eip import EIP, BaseEIP
+from .eip7685 import EIP7685
 
 
 class EIP7002(BaseEIP, fork="Prague"):

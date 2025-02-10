@@ -1,6 +1,6 @@
 """List of all transition fork definitions."""
 
-from ethereum_test_forks.forks import (
+from ..forks import (
     Berlin,
     Cancun,
     London,
@@ -8,7 +8,6 @@ from ethereum_test_forks.forks import (
     Prague,
     Shanghai,
 )
-
 from ..transition_base_fork import transition_fork
 
 

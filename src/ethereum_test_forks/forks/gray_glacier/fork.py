@@ -1,6 +1,6 @@
 """Gray Glacier fork definition."""
 
-from ethereum_test_forks.forks.arrow_glacier.fork import ArrowGlacier
+from ..arrow_glacier.fork import ArrowGlacier
 
 
 # Glacier forks skipped, unless explicitly specified.

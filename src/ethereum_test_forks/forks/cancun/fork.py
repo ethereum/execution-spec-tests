@@ -5,11 +5,10 @@ from typing import List, Mapping, Optional
 from semver import Version
 
 from ethereum_test_base_types import Address, BlobSchedule, ForkBlobSchedule
-from ethereum_test_forks.forks.shanghai import Shanghai
 from ethereum_test_vm import Opcodes
 
 from ...base_fork import BlobGasPriceCalculator, ExcessBlobGasCalculator
-from ...helpers import fake_exponential
+from ..shanghai.fork import Shanghai
 
 
 class Cancun(Shanghai):
@@ -189,3 +188,15 @@ class Cancun(Shanghai):
             Opcodes.TSTORE,
             Opcodes.MCOPY,
         ] + super().valid_opcodes()
+
+
+def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
+    """Calculate the blob gas cost."""
+    i = 1
+    output = 0
+    numerator_accumulator = factor * denominator
+    while numerator_accumulator > 0:
+        output += numerator_accumulator
+        numerator_accumulator = (numerator_accumulator * numerator) // (denominator * i)
+        i += 1
+    return output // denominator

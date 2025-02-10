@@ -4,11 +4,12 @@ from typing import List, Sized, Tuple
 
 from ethereum_test_base_types import AccessList, Address
 from ethereum_test_base_types.conversions import BytesConvertible
-from ethereum_test_forks.base_fork import (
+from ethereum_test_vm import EVMCodeType, Opcodes
+
+from ...base_fork import (
     TransactionIntrinsicCostCalculator,
 )
-from ethereum_test_forks.forks.frontier.fork import Frontier
-from ethereum_test_vm import EVMCodeType, Opcodes
+from ..frontier.fork import Frontier
 
 
 class Homestead(Frontier):

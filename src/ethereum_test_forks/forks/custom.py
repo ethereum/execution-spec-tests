@@ -4,8 +4,9 @@ from typing import List, Tuple
 
 from semver import Version
 
-from ethereum_test_forks.forks.cancun import Cancun
 from ethereum_test_vm import EVMCodeType, Opcodes
+
+from .cancun.fork import Cancun
 
 
 class CancunEIP7692(  # noqa: SC200

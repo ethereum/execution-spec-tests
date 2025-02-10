@@ -4,9 +4,10 @@ from dataclasses import replace
 from typing import List
 
 from ethereum_test_base_types import Address
-from ethereum_test_forks.forks.constantinople_fix.fork import ConstantinopleFix
-from ethereum_test_forks.gas_costs import GasCosts
 from ethereum_test_vm import Opcodes
+
+from ...gas_costs import GasCosts
+from ..constantinople_fix.fork import ConstantinopleFix
 
 
 class Istanbul(ConstantinopleFix):

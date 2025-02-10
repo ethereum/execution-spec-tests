@@ -1,6 +1,6 @@
 """Constantinople Fix fork definition."""
 
-from ethereum_test_forks.forks.constantinople.fork import Constantinople
+from ..constantinople.fork import Constantinople
 
 
 class ConstantinopleFix(Constantinople, solc_name="constantinople"):

@@ -2,7 +2,7 @@
 
 from typing import Optional
 
-from .pre_merge import London
+from ..london.fork import London
 
 
 class Paris(

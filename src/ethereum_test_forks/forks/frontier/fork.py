@@ -6,7 +6,9 @@ from semver import Version
 
 from ethereum_test_base_types import AccessList, Address, BlobSchedule, Bytes
 from ethereum_test_base_types.conversions import BytesConvertible
-from ethereum_test_forks.base_fork import (
+from ethereum_test_vm import EVMCodeType, Opcodes
+
+from ...base_fork import (
     BaseFork,
     BlobGasPriceCalculator,
     CalldataGasCalculator,
@@ -15,9 +17,7 @@ from ethereum_test_forks.base_fork import (
     TransactionDataFloorCostCalculator,
     TransactionIntrinsicCostCalculator,
 )
-from ethereum_test_forks.gas_costs import GasCosts
-from ethereum_test_forks.helpers import ceiling_division
-from ethereum_test_vm import EVMCodeType, Opcodes
+from ...gas_costs import GasCosts
 
 
 class Frontier(BaseFork, solc_name="homestead"):
@@ -532,3 +532,11 @@ class Frontier(BaseFork, solc_name="homestead"):
         Frontier does not require pre-allocated accounts
         """
         return {}
+
+
+def ceiling_division(a: int, b: int) -> int:
+    """
+    Calculate the ceil without using floating point.
+    Used by many of the EVM's formulas.
+    """
+    return -(a // -b)

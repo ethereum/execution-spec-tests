@@ -1,6 +1,6 @@
 """Muir Glacier fork definition."""
 
-from ethereum_test_forks.forks.istanbul.fork import Istanbul
+from ..istanbul.fork import Istanbul
 
 
 # Glacier forks skipped, unless explicitly specified.
