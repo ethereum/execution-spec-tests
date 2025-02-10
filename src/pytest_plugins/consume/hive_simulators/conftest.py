@@ -172,7 +172,7 @@ def environment(
         f"fork '{blockchain_fixture.fork}' missing in hive ruleset"
     )
     return {
-        "HIVE_CHAIN_ID": blockchain_fixture.config.chain_id,
+        "HIVE_CHAIN_ID": str(Number(blockchain_fixture.config.chain_id)),
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
         "HIVE_CHECK_LIVE_PORT": str(check_live_port),
