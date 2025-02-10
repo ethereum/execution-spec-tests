@@ -1,10 +1,11 @@
-"""Prague fork definition."""
+"""Prague fork definition including transition fork from Cancun."""
 
 from typing import Optional
 
 from semver import Version
 
 from ...compose_fork import compose_fork
+from ...transition_base_fork import transition_fork
 from ..cancun.fork import Cancun
 from .eips import (
     EIP2537,
@@ -37,7 +38,7 @@ class Prague(Cancun):
         return Version.parse("1.0.0")  # set a high version; currently unknown
 
     @classmethod
-    def header_requests_required(cls) -> bool:
+    def header_requests_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """
         Prague requires that the execution layer header contains the beacon chain
         requests hash.
@@ -45,17 +46,21 @@ class Prague(Cancun):
         return True
 
     @classmethod
-    def engine_new_payload_version(cls) -> Optional[int]:
+    def engine_new_payload_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
         """From Prague, new payload calls must use version 4."""
         return 4
 
     @classmethod
-    def engine_forkchoice_updated_version(cls) -> Optional[int]:
+    def engine_forkchoice_updated_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
         """At Prague, version number of NewPayload and ForkchoiceUpdated diverge."""
         return 3
 
     @classmethod
-    def max_request_type(cls) -> int:
+    def max_request_type(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """At Prague, three request types are introduced, hence the max request type is 2."""
         request_types = [
             int(EIP6110.DEPOSIT_REQUEST_TYPE),
@@ -63,3 +68,10 @@ class Prague(Cancun):
             int(EIP7251.CONSOLIDATION_REQUEST_TYPE),
         ]
         return max(request_types)
+
+
+@transition_fork(to_fork=Prague, at_timestamp=15_000)
+class CancunToPragueAtTime15k(Cancun):
+    """Cancun to Prague transition fork."""
+
+    pass

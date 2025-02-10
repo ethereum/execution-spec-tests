@@ -12,10 +12,11 @@ from .eips import (
     EIP7702,
     EIP7840,
 )
-from .fork import Prague
+from .fork import CancunToPragueAtTime15k, Prague
 
 __all__ = [
     "Prague",
+    "CancunToPragueAtTime15k",
     "EIP2537",
     "EIP2935",
     "EIP6110",

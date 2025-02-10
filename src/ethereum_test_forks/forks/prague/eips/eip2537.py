@@ -23,7 +23,7 @@ class EIP2537(BaseEIP, fork="Prague"):
     BLS12_MAP_FP2_TO_G2 = Address(0x11)
 
     @classmethod
-    def precompiles(cls) -> List[Address]:
+    def eip_precompiles(cls) -> List[Address]:
         """Return the BLS operation precompiles (0x0B through 0x11)."""
         return [
             cls.BLS12_G1ADD,

@@ -1,4 +1,4 @@
-"""Cancun fork definition."""
+"""Cancun fork definition including transition fork from Shanghai."""
 
 from typing import List, Mapping, Optional
 
@@ -8,6 +8,7 @@ from ethereum_test_base_types import Address, BlobSchedule, ForkBlobSchedule
 from ethereum_test_vm import Opcodes
 
 from ...base_fork import BlobGasPriceCalculator, ExcessBlobGasCalculator
+from ...transition_base_fork import transition_fork
 from ..shanghai.fork import Shanghai
 
 
@@ -200,3 +201,10 @@ def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
         numerator_accumulator = (numerator_accumulator * numerator) // (denominator * i)
         i += 1
     return output // denominator
+
+
+@transition_fork(to_fork=Cancun, at_timestamp=15_000)
+class ShanghaiToCancunAtTime15k(Shanghai):
+    """Shanghai to Cancun transition at Timestamp 15k."""
+
+    pass

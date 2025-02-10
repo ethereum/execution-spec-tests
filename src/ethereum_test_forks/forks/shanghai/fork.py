@@ -1,9 +1,10 @@
-"""Shanghai fork definition."""
+"""Shanghai fork definition including transition fork from Paris."""
 
 from typing import List, Optional
 
 from ethereum_test_vm import Opcodes
 
+from ...transition_base_fork import transition_fork
 from ..paris.fork import Paris
 
 
@@ -29,3 +30,10 @@ class Shanghai(Paris):
         Shanghai adds PUSH0 opcode.
         """
         return [Opcodes.PUSH0] + super().valid_opcodes()
+
+
+@transition_fork(to_fork=Shanghai, at_timestamp=15_000)
+class ParisToShanghaiAtTime15k(Paris, blockchain_test_network_name="ParisToShanghaiAtTime15k"):
+    """Paris to Shanghai transition fork."""
+
+    pass

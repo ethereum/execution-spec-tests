@@ -8,9 +8,11 @@ from .base_fork import BaseFork, Fork
 from .forks import (
     ArrowGlacier,
     Berlin,
+    BerlinToLondonAt5,
     Byzantium,
     Cancun,
     CancunEIP7692,
+    CancunToPragueAtTime15k,
     Constantinople,
     ConstantinopleFix,
     Frontier,
@@ -21,10 +23,11 @@ from .forks import (
     MuirGlacier,
     Osaka,
     Paris,
+    ParisToShanghaiAtTime15k,
     Prague,
     Shanghai,
+    ShanghaiToCancunAtTime15k,
 )
-from .forks import transition as transition_fork
 from .transition_base_fork import TransitionBaseClass
 
 
@@ -120,14 +123,12 @@ def get_closest_fork_with_solc_support(fork: Fork, solc_version: Version) -> Opt
 def get_transition_forks() -> Set[Fork]:
     """Return all the transition forks."""
     transition_forks: Set[Fork] = set()
-
-    for fork_name in transition_fork.__dict__:
-        fork = transition_fork.__dict__[fork_name]
-        if not isinstance(fork, type):
-            continue
-        if issubclass(fork, TransitionBaseClass) and issubclass(fork, BaseFork):
-            transition_forks.add(fork)
-
+    transition_forks = {
+        BerlinToLondonAt5,
+        CancunToPragueAtTime15k,
+        ParisToShanghaiAtTime15k,
+        ShanghaiToCancunAtTime15k,
+    }
     return transition_forks
 
 
@@ -241,23 +242,3 @@ def forks_from(fork: Fork, deployed_only: bool = True) -> List[Fork]:
     else:
         latest_fork = get_forks()[-1]
     return forks_from_until(fork, latest_fork)
-
-
-def ceiling_division(a: int, b: int) -> int:
-    """
-    Calculate the ceil without using floating point.
-    Used by many of the EVM's formulas.
-    """
-    return -(a // -b)
-
-
-def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
-    """Calculate the blob gas cost."""
-    i = 1
-    output = 0
-    numerator_accumulator = factor * denominator
-    while numerator_accumulator > 0:
-        output += numerator_accumulator
-        numerator_accumulator = (numerator_accumulator * numerator) // (denominator * i)
-        i += 1
-    return output // denominator

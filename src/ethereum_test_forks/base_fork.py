@@ -556,5 +556,5 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         return base_class
 
 
-# Fork Type
+# Fork Type Alias
 Fork = Type[BaseFork]
