@@ -28,8 +28,8 @@ For each [`Fixture`](#fixture) test object in the JSON fixture file, perform the
 
     1. Determine whether the current block is valid or invalid:
 
-        1. If the [`expectException`](#expectexception-str) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock).
-        2. If the [`expectException`](#expectexception-str) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock).
+        1. If the [`expectException`](#-expectexception-transactionexceptionblockexception) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock).
+        2. If the [`expectException`](#-expectexception-transactionexceptionblockexception) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock).
 
     2. Attempt to decode field [`rlp`](#-rlp-bytes) as the current block
         1. If the block cannot be decoded:
@@ -192,7 +192,7 @@ Root hash of the parent beacon block.
 
 #### - `rlp`: [`Bytes`](./common_types.md#bytes)
 
-RLP serialized version of the block. Field is only optional when embedded in a [`InvalidFixtureBlock`](#invalidfixtureblock) as the [`rlp_decoded`](#rlp_decoded-optionalfixtureblock) field.
+RLP serialized version of the block. Field is only optional when embedded in a [`InvalidFixtureBlock`](#invalidfixtureblock) as the [`rlp_decoded`](#-rlp_decoded-optionalfixtureblock) field.
 
 #### - `blockHeader`: [`FixtureHeader`](#fixtureheader)
 
