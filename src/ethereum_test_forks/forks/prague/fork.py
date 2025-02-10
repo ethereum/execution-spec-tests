@@ -4,9 +4,9 @@ from typing import Optional
 
 from semver import Version
 
-from ethereum_test_forks.compose_fork import compose_fork
-from ethereum_test_forks.forks.cancun import Cancun
-from ethereum_test_forks.forks.prague.eips import (
+from ...compose_fork import compose_fork
+from ..cancun.fork import Cancun
+from .eips import (
     EIP2537,
     EIP2935,
     EIP6110,
@@ -58,8 +58,8 @@ class Prague(Cancun):
     def max_request_type(cls) -> int:
         """At Prague, three request types are introduced, hence the max request type is 2."""
         request_types = [
-            int.from_bytes(EIP6110.DEPOSIT_REQUEST_TYPE, "big"),
-            int.from_bytes(EIP7002.WITHDRAWAL_REQUEST_TYPE, "big"),
-            int.from_bytes(EIP7251.CONSOLIDATION_REQUEST_TYPE, "big"),
+            int(EIP6110.DEPOSIT_REQUEST_TYPE),
+            int(EIP7002.WITHDRAWAL_REQUEST_TYPE),
+            int(EIP7251.CONSOLIDATION_REQUEST_TYPE),
         ]
         return max(request_types)

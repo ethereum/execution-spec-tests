@@ -3,13 +3,19 @@
 from typing import List, Type
 
 from ethereum_test_base_types import Address
-from ethereum_test_forks.base_eip import EIP
-from ethereum_test_forks.base_fork import BaseFork, Fork
-from ethereum_test_forks.compose_fork import ComposingFork
-from ethereum_test_forks.gas_costs import GasCosts
+
+from .base_eip import EIP, BaseEIP, BaseEIPMeta
+from .base_fork import BaseFork, BaseForkMeta, Fork
+from .gas_costs import GasCosts
 
 
-class ComposeFork(BaseFork):
+class CompositeMeta(BaseForkMeta, BaseEIPMeta):
+    """A metaclass that combines BaseForkMeta and BaseEIPMeta."""
+
+    pass
+
+
+class ComposeFork(BaseFork, metaclass=CompositeMeta):
     """
     A base class that automatically composes all EIPs found in the MRO (method resolution order).
     Any fork inheriting from this class will automatically merge the EIP deltas for precompiles,
@@ -17,13 +23,13 @@ class ComposeFork(BaseFork):
     """
 
     @classmethod
-    def all_eips(cls) -> List[Type[EIP]]:
+    def all_eips(cls) -> List[Type[BaseEIP]]:
         """Return a list of all EIPs found in the MRO of the class."""
         eips = []
         for base in cls.__mro__:
             if base is BaseFork:
                 break
-            if issubclass(base, EIP) and base is not EIP:
+            if isinstance(base, type) and issubclass(base, BaseEIP) and base is not BaseEIP:
                 eips.append(base)
         return eips
 
@@ -71,8 +77,8 @@ def compose_fork(*eips: Type[EIP]) -> Type[Fork]:
     def decorator(original_fork_cls: Type[BaseFork]) -> Type[BaseFork]:
         """Return the decorator that creates a new class."""
         original_bases = original_fork_cls.__bases__
-        new_bases = (ComposingFork,) + original_bases + eips
-        new_class = type(
+        new_bases = (ComposeFork,) + original_bases + eips
+        new_class = CompositeMeta(
             original_fork_cls.__name__,
             new_bases,
             dict(original_fork_cls.__dict__),

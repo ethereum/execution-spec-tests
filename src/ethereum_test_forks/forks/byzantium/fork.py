@@ -3,8 +3,9 @@
 from typing import List, Tuple
 
 from ethereum_test_base_types import Address
-from ethereum_test_forks.forks.homestead.fork import Homestead
 from ethereum_test_vm import EVMCodeType, Opcodes
+
+from ..homestead.fork import Homestead
 
 
 class Byzantium(Homestead):

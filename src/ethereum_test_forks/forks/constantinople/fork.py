@@ -2,8 +2,9 @@
 
 from typing import List, Tuple
 
-from ethereum_test_forks.forks.byzantium.fork import Byzantium
 from ethereum_test_vm import EVMCodeType, Opcodes
+
+from ..byzantium.fork import Byzantium
 
 
 class Constantinople(Byzantium):

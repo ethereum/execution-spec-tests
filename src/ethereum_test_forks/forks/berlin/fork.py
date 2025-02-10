@@ -4,10 +4,11 @@ from typing import List, Sized
 
 from ethereum_test_base_types import AccessList
 from ethereum_test_base_types.conversions import BytesConvertible
-from ethereum_test_forks.base_fork import (
+
+from ...base_fork import (
     TransactionIntrinsicCostCalculator,
 )
-from ethereum_test_forks.forks.istanbul.fork import Istanbul
+from ..istanbul.fork import Istanbul
 
 
 class Berlin(Istanbul):

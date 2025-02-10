@@ -2,8 +2,9 @@
 
 from typing import List
 
-from ethereum_test_forks.forks.berlin.fork import Berlin
 from ethereum_test_vm import Opcodes
+
+from ..berlin.fork import Berlin
 
 
 class London(Berlin):

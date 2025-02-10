@@ -1,6 +1,6 @@
 """Arrow Glacier fork definition."""
 
-from ethereum_test_forks.forks.london import London
+from ..london.fork import London
 
 
 # Glacier forks skipped, unless explicitly specified.
