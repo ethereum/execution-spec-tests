@@ -1,18 +1,31 @@
 """A fork class and decorator that are used to create a fork with a set of EIPs."""
 
-from typing import List, Type
+from typing import Any, Dict, List, Type
 
 from ethereum_test_base_types import Address
 
-from .base_eip import EIP, BaseEIP, BaseEIPMeta
+from .base_eip import BaseEIP, BaseEIPMeta
 from .base_fork import BaseFork, BaseForkMeta, Fork
 from .gas_costs import GasCosts
 
 
 class CompositeMeta(BaseForkMeta, BaseEIPMeta):
-    """A metaclass that combines BaseForkMeta and BaseEIPMeta."""
+    """A metaclass that handles both Fork and EIP functionality."""
 
-    pass
+    def __new__(mcs, name: str, bases: tuple, namespace: Dict[str, Any], **kwargs) -> Any:
+        """Create a new class with the combined metaclass functionality."""
+        fork_kwargs = {
+            "transition_tool_name": kwargs.pop("transition_tool_name", None),
+            "blockchain_test_network_name": kwargs.pop("blockchain_test_network_name", None),
+            "solc_name": kwargs.pop("solc_name", None),
+            "ignore": kwargs.pop("ignore", False),
+        }
+        cls = super().__new__(mcs, name, bases, namespace, **kwargs)
+        cls._transition_tool_name = fork_kwargs["transition_tool_name"]
+        cls._blockchain_test_network_name = fork_kwargs["blockchain_test_network_name"]
+        cls._solc_name = fork_kwargs["solc_name"]
+        cls._ignore = fork_kwargs["ignore"]
+        return cls
 
 
 class ComposeFork(BaseFork, metaclass=CompositeMeta):
@@ -24,12 +37,21 @@ class ComposeFork(BaseFork, metaclass=CompositeMeta):
 
     @classmethod
     def all_eips(cls) -> List[Type[BaseEIP]]:
-        """Return a list of all EIPs found in the MRO of the class."""
+        """
+        Return a list of all EIPs found in the MRO of the class.
+        Skips the BaseFork, BaseEIP, and ComposeFork classes so only the EIPs are returned.
+        """
         eips = []
+        seen = set()
         for base in cls.__mro__:
-            if base is BaseFork:
-                break
-            if isinstance(base, type) and issubclass(base, BaseEIP) and base is not BaseEIP:
+            if base in seen:
+                continue
+            seen.add(base)
+            if base is BaseFork or base is BaseEIP or base is ComposeFork:
+                continue
+            if issubclass(base, ComposeFork):
+                continue
+            if isinstance(base, type) and issubclass(base, BaseEIP):
                 eips.append(base)
         return eips
 
@@ -38,7 +60,8 @@ class ComposeFork(BaseFork, metaclass=CompositeMeta):
         """Return the precompiles for the fork and all EIPs."""
         base_pre = super().precompiles(block_number, timestamp)
         for eip_cls in cls.all_eips():
-            base_pre.extend(eip_cls.eip_precompiles())
+            if hasattr(eip_cls, "eip_precompiles"):
+                base_pre.extend(eip_cls.eip_precompiles())
         return base_pre
 
     @classmethod
@@ -46,7 +69,8 @@ class ComposeFork(BaseFork, metaclass=CompositeMeta):
         """Return the system contracts for the fork and all EIPs."""
         base_sys = super().system_contracts(block_number, timestamp)
         for eip_cls in cls.all_eips():
-            base_sys.extend(eip_cls.eip_system_contracts())
+            if hasattr(eip_cls, "eip_system_contracts"):
+                base_sys.extend(eip_cls.eip_system_contracts())
         return base_sys
 
     @classmethod
@@ -54,7 +78,8 @@ class ComposeFork(BaseFork, metaclass=CompositeMeta):
         """Return the transaction types for the fork and all EIPs."""
         base_types = super().tx_types(block_number, timestamp)
         for eip_cls in cls.all_eips():
-            base_types.extend(eip_cls.eip_tx_types())
+            if hasattr(eip_cls, "eip_tx_types"):
+                base_types.extend(eip_cls.eip_tx_types())
         return list(dict.fromkeys(base_types))
 
     @classmethod
@@ -62,13 +87,14 @@ class ComposeFork(BaseFork, metaclass=CompositeMeta):
         """Return the gas costs for the fork and all EIPs."""
         costs = super().gas_costs(block_number, timestamp)
         for eip_cls in reversed(cls.all_eips()):
-            costs = eip_cls.eip_gas_costs_override(
-                costs, block_number=block_number, timestamp=timestamp
-            )
+            if hasattr(eip_cls, "eip_gas_costs_override"):
+                costs = eip_cls.eip_gas_costs_override(
+                    costs, block_number=block_number, timestamp=timestamp
+                )
         return costs
 
 
-def compose_fork(*eips: Type[EIP]) -> Type[Fork]:
+def compose_fork(*eips: Type[BaseEIP]) -> Type[Fork]:
     """
     Class decorator that dynamically creates a new class inheriting from, `ComposeFork` and the
     the original fork class and all given EIPs in order.
@@ -78,10 +104,10 @@ def compose_fork(*eips: Type[EIP]) -> Type[Fork]:
         """Return the decorator that creates a new class."""
         original_bases = original_fork_cls.__bases__
         new_bases = (ComposeFork,) + original_bases + eips
+
+        # Create new class with the composite metaclass
         new_class = CompositeMeta(
-            original_fork_cls.__name__,
-            new_bases,
-            dict(original_fork_cls.__dict__),
+            original_fork_cls.__name__, new_bases, dict(original_fork_cls.__dict__)
         )
         new_class.__module__ = original_fork_cls.__module__
         return new_class

@@ -1,9 +1,10 @@
-"""London fork definition."""
+"""London fork definition including transition from Berlin."""
 
 from typing import List
 
 from ethereum_test_vm import Opcodes
 
+from ...transition_base_fork import transition_fork
 from ..berlin.fork import Berlin
 
 
@@ -31,3 +32,10 @@ class London(Berlin):
     ) -> List[Opcodes]:
         """Return list of Opcodes that are valid to work on this fork."""
         return [Opcodes.BASEFEE] + super(London, cls).valid_opcodes()
+
+
+@transition_fork(to_fork=London, at_block=5)
+class BerlinToLondonAt5(Berlin):
+    """Berlin to London transition fork."""
+
+    pass

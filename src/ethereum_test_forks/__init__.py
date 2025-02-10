@@ -4,9 +4,11 @@ from .base_fork import Fork, ForkAttribute
 from .forks import (
     ArrowGlacier,
     Berlin,
+    BerlinToLondonAt5,
     Byzantium,
     Cancun,
     CancunEIP7692,
+    CancunToPragueAtTime15k,
     Constantinople,
     ConstantinopleFix,
     Frontier,
@@ -17,13 +19,9 @@ from .forks import (
     MuirGlacier,
     Osaka,
     Paris,
+    ParisToShanghaiAtTime15k,
     Prague,
     Shanghai,
-)
-from .forks.transition import (
-    BerlinToLondonAt5,
-    CancunToPragueAtTime15k,
-    ParisToShanghaiAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
 from .gas_costs import GasCosts

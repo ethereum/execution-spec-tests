@@ -1,7 +1,8 @@
 """London hard fork definition."""
 
-from .fork import London
+from .fork import BerlinToLondonAt5, London
 
 __all__ = [
     "London",
+    "BerlinToLondonAt5",
 ]
