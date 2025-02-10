@@ -689,7 +689,7 @@ class EthRPC(BaseEthRPC):
         return self.wait_for_transactions([transaction])[0]
 
     def wait_for_transactions(
-        self, transactions: List[Transaction]
+        self, transactions: List[Transaction], resend: bool = False
     ) -> List[TransactionByHashResponse]:
         """
         Wait for all transactions in the provided list to be included in a block.
@@ -700,6 +700,7 @@ class EthRPC(BaseEthRPC):
 
         Args:
             transactions: A list of transactions to track.
+            resend: If True, resend transactions when the client returns `None` for a transaction.
 
         Returns:
             A list of transaction details after they are included in a block.
