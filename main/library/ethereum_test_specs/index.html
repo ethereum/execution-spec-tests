@@ -28775,7 +28775,9 @@ spec type as filler for the test.</p>
 <span class="normal">723</span>
 <span class="normal">724</span>
 <span class="normal">725</span>
-<span class="normal">726</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -29086,6 +29088,7 @@ spec type as filler for the test.</p>
             <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
                 <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
                 <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
+                <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
@@ -29184,6 +29187,7 @@ spec type as filler for the test.</p>
             <span class="n">last_block_hash</span><span class="o">=</span><span class="n">head_hash</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
                 <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+                <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
                 <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
             <span class="p">),</span>
         <span class="p">)</span>
@@ -29840,7 +29844,8 @@ spec type as filler for the test.</p>
 <span class="normal">589</span>
 <span class="normal">590</span>
 <span class="normal">591</span>
-<span class="normal">592</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">592</span>
+<span class="normal">593</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -29929,6 +29934,7 @@ spec type as filler for the test.</p>
         <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
+            <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -29957,8 +29963,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">594</span>
-<span class="normal">595</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">595</span>
 <span class="normal">596</span>
 <span class="normal">597</span>
 <span class="normal">598</span>
@@ -30054,7 +30059,9 @@ spec type as filler for the test.</p>
 <span class="normal">688</span>
 <span class="normal">689</span>
 <span class="normal">690</span>
-<span class="normal">691</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -30149,6 +30156,7 @@ spec type as filler for the test.</p>
         <span class="n">last_block_hash</span><span class="o">=</span><span class="n">head_hash</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+            <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
         <span class="p">),</span>
     <span class="p">)</span>
@@ -30178,9 +30186,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">695</span>
 <span class="normal">696</span>
 <span class="normal">697</span>
 <span class="normal">698</span>
@@ -30193,7 +30199,9 @@ spec type as filler for the test.</p>
 <span class="normal">705</span>
 <span class="normal">706</span>
 <span class="normal">707</span>
-<span class="normal">708</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -30235,9 +30243,7 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">710</span>
-<span class="normal">711</span>
-<span class="normal">712</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">712</span>
 <span class="normal">713</span>
 <span class="normal">714</span>
 <span class="normal">715</span>
@@ -30251,7 +30257,9 @@ spec type as filler for the test.</p>
 <span class="normal">723</span>
 <span class="normal">724</span>
 <span class="normal">725</span>
-<span class="normal">726</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -30309,15 +30317,15 @@ only for the Engine API.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">735</span>
 <span class="normal">736</span>
 <span class="normal">737</span>
 <span class="normal">738</span>
 <span class="normal">739</span>
 <span class="normal">740</span>
-<span class="normal">741</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTestEngine</span><span class="p">(</span><span class="n">BlockchainTest</span><span class="p">):</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTestEngine</span><span class="p">(</span><span class="n">BlockchainTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that tests multiple blocks (valid or invalid) in a chain,</span>
 <span class="sd">    only for the Engine API.</span>
@@ -31909,7 +31917,8 @@ only for the Engine API.</p>
 <span class="normal">212</span>
 <span class="normal">213</span>
 <span class="normal">214</span>
-<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">215</span>
+<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests transactions over the period of a single block.&quot;&quot;&quot;</span>
 
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">Environment</span><span class="p">)</span>
@@ -32055,6 +32064,7 @@ only for the Engine API.</p>
             <span class="n">transaction</span><span class="o">=</span><span class="n">FixtureTransaction</span><span class="o">.</span><span class="n">from_transaction</span><span class="p">(</span><span class="n">tx</span><span class="p">),</span>
             <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
                 <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
+                <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
@@ -32232,7 +32242,8 @@ only for the Engine API.</p>
 <span class="normal">179</span>
 <span class="normal">180</span>
 <span class="normal">181</span>
-<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_state_test_fixture</span><span class="p">(</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_state_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -32302,6 +32313,7 @@ only for the Engine API.</p>
         <span class="n">transaction</span><span class="o">=</span><span class="n">FixtureTransaction</span><span class="o">.</span><span class="n">from_transaction</span><span class="p">(</span><span class="n">tx</span><span class="p">),</span>
         <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
+            <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -32330,8 +32342,7 @@ only for the Engine API.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
-<span class="normal">185</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
@@ -32346,7 +32357,8 @@ only for the Engine API.</p>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
-<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">200</span>
+<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -32389,8 +32401,7 @@ only for the Engine API.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
-<span class="normal">203</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span>
@@ -32402,7 +32413,8 @@ only for the Engine API.</p>
 <span class="normal">212</span>
 <span class="normal">213</span>
 <span class="normal">214</span>
-<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">215</span>
+<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -32456,10 +32468,10 @@ only for the Engine API.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
-<span class="normal">219</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
 <span class="normal">220</span>
-<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateTestOnly</span><span class="p">(</span><span class="n">StateTest</span><span class="p">):</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateTestOnly</span><span class="p">(</span><span class="n">StateTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;StateTest filler that only generates a state test fixture.&quot;&quot;&quot;</span>
 
     <span class="n">supported_fixture_formats</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FixtureFormat</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">StateFixture</span><span class="p">]</span>
