@@ -27190,7 +27190,7 @@
 
 
 <h1 id="test_invalid_containers"><code>test_invalid_containers()</code><a class="headerlink" href="#test_invalid_containers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/093d119e804ae4b0e99701214b252579bd39b8d8/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L150"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@093d119e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8397062390a2c27466e35cd32d7216b4144755e5/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L150"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@83970623</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers --fork Osaka</span>
@@ -28243,7 +28243,16 @@
 <span class="normal">1181</span>
 <span class="normal">1182</span>
 <span class="normal">1183</span>
-<span class="normal">1184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1184</span>
+<span class="normal">1185</span>
+<span class="normal">1186</span>
+<span class="normal">1187</span>
+<span class="normal">1188</span>
+<span class="normal">1189</span>
+<span class="normal">1190</span>
+<span class="normal">1191</span>
+<span class="normal">1192</span>
+<span class="normal">1193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -28311,6 +28320,15 @@
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_code_header_3&quot;</span><span class="p">,</span>
             <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">([</span><span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">]),</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_code_header_4&quot;</span><span class="p">,</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;00800000&quot;</span><span class="p">),</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;da&quot;</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 010004 040001 00 00800000 da&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -29418,6 +29436,15 @@
                 </abbr>
             </td>
                         <td>no_code_header_3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-no_code_header_4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-no_code_header_4]">
+                    ...fork_Osaka-eof_test-no_code_header_4
+                </abbr>
+            </td>
+                        <td>no_code_header_4</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
