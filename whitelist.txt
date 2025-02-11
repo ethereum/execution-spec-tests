@@ -832,3 +832,5 @@ EF
 F6
 FC
 ef01
+abstractmethods
+popleft
