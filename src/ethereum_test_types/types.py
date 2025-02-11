@@ -729,12 +729,13 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
                 self.ty = 4
             elif self.max_fee_per_blob_gas is not None or self.blob_kzg_commitments is not None:
                 self.ty = 3
-            elif self.max_fee_per_gas is not None or self.max_priority_fee_per_gas is not None:
-                self.ty = 2
-            elif self.access_list is not None:
-                self.ty = 1
+            elif self.gas_price is not None:
+                if self.access_list is not None:
+                    self.ty = 1
+                else:
+                    self.ty = 0
             else:
-                self.ty = 0
+                self.ty = 2
 
         if self.v is not None and self.secret_key is not None:
             raise Transaction.InvalidSignaturePrivateKeyError()
