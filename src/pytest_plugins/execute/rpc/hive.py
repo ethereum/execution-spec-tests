@@ -689,7 +689,7 @@ class EthRPC(BaseEthRPC):
         return self.wait_for_transactions([transaction])[0]
 
     def wait_for_transactions(
-        self, transactions: List[Transaction], resend: bool = False
+        self, transactions: List[Transaction]
     ) -> List[TransactionByHashResponse]:
         """
         Wait for all transactions in the provided list to be included in a block.
@@ -700,7 +700,6 @@ class EthRPC(BaseEthRPC):
 
         Args:
             transactions: A list of transactions to track.
-            resend: If True, resend transactions when the client returns `None` for a transaction.
 
         Returns:
             A list of transaction details after they are included in a block.
@@ -722,6 +721,7 @@ class EthRPC(BaseEthRPC):
             while tx_id < len(tx_hashes):
                 tx_hash = tx_hashes[tx_id]
                 tx = self.get_transaction_by_hash(tx_hash)
+                assert tx is not None, f"Transaction {tx_hash} not found"
                 if tx.block_number is not None:
                     responses.append(tx)
                     tx_hashes.pop(tx_id)
