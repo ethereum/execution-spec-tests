@@ -669,6 +669,10 @@ class EOFException(ExceptionBase):
     """
     EOF container header has too many code sections.
     """
+    EOF_CREATE_WITH_TRUNCATED_CONTAINER = auto()
+    """
+    EOF Create has truncated container.
+    """
     MISSING_STOP_OPCODE = auto()
     """
     EOF container's code missing STOP bytecode at it's end.
@@ -766,7 +770,6 @@ class EOFException(ExceptionBase):
     """
     EOFCREATE with truncated container
     """
-
 
 """
 Pydantic Annotated Types
