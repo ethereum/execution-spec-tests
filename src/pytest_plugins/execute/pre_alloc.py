@@ -7,7 +7,7 @@ from typing import Generator, Iterator, List, Literal, Tuple
 import pytest
 from pydantic import PrivateAttr
 
-from ethereum_test_base_types import Number, StorageRootType, ZeroPaddedHexNumber
+from ethereum_test_base_types import Bytes, Number, StorageRootType, ZeroPaddedHexNumber
 from ethereum_test_base_types.conversions import (
     BytesConvertible,
     FixedSizeBytesConvertible,
@@ -150,6 +150,10 @@ class Alloc(BaseAlloc):
         label: str | None = None,
     ) -> Address:
         """Deploy a contract to the allocation."""
+        if evm_code_type is None:
+            evm_code_type = (
+                EVMCodeType.EOF_V1 if Bytes(code).startswith(b"\xef\x00") else EVMCodeType.LEGACY
+            )
         if storage is None:
             storage = {}
         assert address is None, "address parameter is not supported"
