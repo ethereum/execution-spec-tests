@@ -1,7 +1,9 @@
 """Abstract base class for Ethereum forks."""
 
+import re
 from abc import ABC, ABCMeta, abstractmethod
-from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Sized, Tuple, Type
+from collections import defaultdict, deque
+from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Set, Sized, Tuple, Type
 
 from semver import Version
 
@@ -103,6 +105,62 @@ class ExcessBlobGasCalculator(Protocol):
 
 class BaseForkMeta(ABCMeta):
     """Metaclass for BaseFork."""
+
+    _base_forks_registry: ClassVar[Set[Type["BaseFork"]]] = set()
+    _transition_forks_registry: ClassVar[Set[Type["BaseFork"]]] = set()
+
+    def __new__(cls, name, bases, namespace, **kwargs):
+        """Register the fork in the appropriate registry."""
+        new_class = super().__new__(cls, name, bases, namespace, **kwargs)
+        if getattr(new_class, "__abstractmethods__", False) or name == "NewTransitionClass":
+            return new_class
+        if is_transition_fork_by_heuristic(name):
+            cls._transition_forks_registry.add(new_class)
+        else:
+            cls._base_forks_registry.add(new_class)
+
+        return new_class
+
+    @classmethod
+    def forks(cls, fork_type: str = "all") -> List[Type["BaseFork"]]:
+        """
+        Return an ordered list of forks, maintaining chronological order from Frontier.
+        Set `fork_type` to "base" to get only base forks, "transition" for transition forks.
+        """
+        if fork_type == "base":
+            selected = list(cls._base_forks_registry)
+        elif fork_type == "transition":
+            selected = list(cls._transition_forks_registry)
+        elif fork_type == "all":
+            selected = list(cls._base_forks_registry | cls._transition_forks_registry)
+        else:
+            raise ValueError(f"Unknown fork_type: {fork_type!r}")
+
+        # Build dependency graph for topological sorting
+        graph = defaultdict(list)
+        in_degree = {fork: 0 for fork in selected}
+        for fork in selected:
+            parent = fork.parent()
+            if parent and parent in selected:
+                graph[parent].append(fork)
+                in_degree[fork] += 1
+
+        frontier_candidates = [f for f in selected if in_degree[f] == 0]
+        if not frontier_candidates:
+            raise ValueError("No starting fork found - circular dependency detected")
+        queue = deque(sorted(frontier_candidates, key=lambda f: len(f.__mro__)))
+
+        # Perform topological sort maintaining chronological order
+        result: List[Type["BaseFork"]] = []
+        while queue:
+            node = queue.popleft()
+            result.append(node)
+            children = sorted(graph[node], key=lambda f: f.name())
+            for child in children:
+                in_degree[child] -= 1
+                if in_degree[child] == 0:
+                    queue.append(child)
+        return result
 
     @abstractmethod
     def name(cls) -> str:
@@ -558,3 +616,15 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
 # Fork Type Alias
 Fork = Type[BaseFork]
+
+
+def is_transition_fork_by_heuristic(name: str) -> bool:
+    """Return True if 'name' strongly suggests a 'transition' fork."""
+    segments = re.findall(r"[A-Z][a-z0-9]*", name)
+    if len(segments) < 3:
+        return False
+    middle = segments[1:-1]
+    bridge_tokens = {"To", "At", "From"}
+    if not any(s in bridge_tokens for s in middle):
+        return False
+    return True

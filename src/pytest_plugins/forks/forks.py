@@ -16,8 +16,8 @@ from pytest import Mark, Metafunc
 from ethereum_clis import TransitionTool
 from ethereum_test_forks import (
     Fork,
+    get_base_forks,
     get_deployed_forks,
-    get_forks,
     get_forks_with_no_parents,
     get_from_until_fork_set,
     get_last_descendants,
@@ -418,11 +418,11 @@ def pytest_configure(config: pytest.Config):
     for d in fork_covariant_decorators:
         config.addinivalue_line("markers", f"{d.marker_name}: {d.description}")
 
-    forks = {fork for fork in get_forks() if not fork.ignore()}
+    forks = {fork for fork in get_base_forks() if not fork.ignore()}
     config.all_forks = forks  # type: ignore
     config.all_forks_by_name = {fork.name(): fork for fork in forks}  # type: ignore
     config.all_forks_with_transitions = {  # type: ignore
-        fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
+        fork for fork in set(get_base_forks()) | set(get_transition_forks()) if not fork.ignore()
     }
 
     available_forks_help = textwrap.dedent(
@@ -451,7 +451,7 @@ def pytest_configure(config: pytest.Config):
 
         resulting_forks = set()
 
-        for fork in get_forks():
+        for fork in get_base_forks():
             if fork.name() in forks_str:
                 resulting_forks.add(fork)
 

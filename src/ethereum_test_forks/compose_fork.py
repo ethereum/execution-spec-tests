@@ -101,15 +101,18 @@ def compose_fork(*eips: Type[BaseEIP]) -> Type[Fork]:
     """
 
     def decorator(original_fork_cls: Type[BaseFork]) -> Type[BaseFork]:
-        """Return the decorator that creates a new class."""
         original_bases = original_fork_cls.__bases__
-        new_bases = (ComposeFork,) + original_bases + eips
-
-        # Create new class with the composite metaclass
+        new_bases = original_bases + (ComposeFork,) + eips
         new_class = CompositeMeta(
             original_fork_cls.__name__, new_bases, dict(original_fork_cls.__dict__)
         )
         new_class.__module__ = original_fork_cls.__module__
+
+        # Remove the original class from the registry so only the composite remains.
+        from .base_fork import BaseForkMeta
+
+        if original_fork_cls in BaseForkMeta._base_forks_registry:
+            BaseForkMeta._base_forks_registry.remove(original_fork_cls)
         return new_class
 
     return decorator

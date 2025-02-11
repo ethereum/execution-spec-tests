@@ -5,29 +5,6 @@ from typing import List, Optional, Set
 from semver import Version
 
 from .base_fork import BaseFork, Fork
-from .forks import (
-    ArrowGlacier,
-    Berlin,
-    BerlinToLondonAt5,
-    Byzantium,
-    Cancun,
-    CancunEIP7692,
-    CancunToPragueAtTime15k,
-    Constantinople,
-    ConstantinopleFix,
-    Frontier,
-    GrayGlacier,
-    Homestead,
-    Istanbul,
-    London,
-    MuirGlacier,
-    Osaka,
-    Paris,
-    ParisToShanghaiAtTime15k,
-    Prague,
-    Shanghai,
-    ShanghaiToCancunAtTime15k,
-)
 from .transition_base_fork import TransitionBaseClass
 
 
@@ -42,33 +19,28 @@ class InvalidForkError(Exception):
         super().__init__(message)
 
 
-def get_forks() -> List[Fork]:
+def get_all_forks() -> List[Fork]:
     """
-    Return list of all the fork classes implemented by
-    `ethereum_test_forks` ordered chronologically by deployment.
+    Return list of all the fork classes implemented by `ethereum_test_forks`
+    ordered chronologically by deployment.
     """
-    all_forks: List[Fork] = []
-    fork_modules = [
-        Frontier,
-        Homestead,
-        Byzantium,
-        Constantinople,
-        ConstantinopleFix,
-        Istanbul,
-        Berlin,
-        London,
-        MuirGlacier,
-        ArrowGlacier,
-        GrayGlacier,
-        Paris,
-        Shanghai,
-        Cancun,
-        Prague,
-        CancunEIP7692,
-        Osaka,
-    ]
-    all_forks.extend(fork_modules)
-    return all_forks
+    return BaseFork.forks("all")
+
+
+def get_base_forks() -> List[Fork]:
+    """
+    Return list of all the base fork classes implemented by `ethereum_test_forks`
+    ordered chronologically by deployment.
+    """
+    return BaseFork.forks("base")
+
+
+def get_transition_forks() -> List[Fork]:
+    """
+    Return list of all the transition fork classes implemented by `ethereum_test_forks`
+    ordered chronologically by deployment.
+    """
+    return BaseFork.forks("transition")
 
 
 def get_deployed_forks() -> List[Fork]:
@@ -76,7 +48,7 @@ def get_deployed_forks() -> List[Fork]:
     Return list of all the fork classes implemented by `ethereum_test_forks`
     that have been deployed to mainnet, chronologically ordered by deployment.
     """
-    return [fork for fork in get_forks() if fork.is_deployed()]
+    return [fork for fork in get_base_forks() if fork.is_deployed()]
 
 
 def get_development_forks() -> List[Fork]:
@@ -85,7 +57,7 @@ def get_development_forks() -> List[Fork]:
     that have been not yet deployed to mainnet and are currently under
     development. The list is ordered by their planned deployment date.
     """
-    return [fork for fork in get_forks() if not fork.is_deployed()]
+    return [fork for fork in get_base_forks() if not fork.is_deployed()]
 
 
 def get_parent_fork(fork: Fork) -> Fork:
@@ -98,12 +70,12 @@ def get_parent_fork(fork: Fork) -> Fork:
 
 def get_forks_with_solc_support(solc_version: Version) -> List[Fork]:
     """Return list of all fork classes that are supported by solc."""
-    return [fork for fork in get_forks() if solc_version >= fork.solc_min_version()]
+    return [fork for fork in get_base_forks() if solc_version >= fork.solc_min_version()]
 
 
 def get_forks_without_solc_support(solc_version: Version) -> List[Fork]:
     """Return list of all fork classes that aren't supported by solc."""
-    return [fork for fork in get_forks() if solc_version < fork.solc_min_version()]
+    return [fork for fork in get_base_forks() if solc_version < fork.solc_min_version()]
 
 
 def get_closest_fork_with_solc_support(fork: Fork, solc_version: Version) -> Optional[Fork]:
@@ -118,18 +90,6 @@ def get_closest_fork_with_solc_support(fork: Fork, solc_version: Version) -> Opt
         if solc_version >= fork.solc_min_version()
         else get_closest_fork_with_solc_support(get_parent_fork(fork), solc_version)
     )
-
-
-def get_transition_forks() -> Set[Fork]:
-    """Return all the transition forks."""
-    transition_forks: Set[Fork] = set()
-    transition_forks = {
-        BerlinToLondonAt5,
-        CancunToPragueAtTime15k,
-        ParisToShanghaiAtTime15k,
-        ShanghaiToCancunAtTime15k,
-    }
-    return transition_forks
 
 
 def get_from_until_fork_set(
@@ -240,5 +200,5 @@ def forks_from(fork: Fork, deployed_only: bool = True) -> List[Fork]:
     if deployed_only:
         latest_fork = get_deployed_forks()[-1]
     else:
-        latest_fork = get_forks()[-1]
+        latest_fork = get_base_forks()[-1]
     return forks_from_until(fork, latest_fork)
