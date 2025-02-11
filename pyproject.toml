@@ -63,7 +63,7 @@ Changelog = "https://ethereum.github.io/execution-spec-tests/main/CHANGELOG/"
 [project.optional-dependencies]
 test = ["pytest-cov>=4.1.0,<5"]
 lint = [
-    "ruff==0.9.4",
+    "ruff>=0.9.4",
     "mypy==0.991; implementation_name == 'cpython'",
     "types-requests"
 ]
@@ -109,13 +109,10 @@ exclude = ["*tests*"]
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
 
-[tool.ruff]
-line-length = 99
-
 [tool.ruff.lint]
 select = ["E", "F", "B", "W", "I", "A", "N", "D", "C"]
 fixable = ["I", "B", "E", "F", "W", "D", "C"]
-ignore = ["D205", "D203", "D212", "D415", "C901", "A005"] 
+ignore = ["D205", "D203", "D212", "D415", "C901", "A005", "E501"] 
 
 
 [tool.mypy]
@@ -124,3 +121,8 @@ plugins = ["pydantic.mypy"]
 
 [tool.uv.sources]
 ethereum = { git = "https://github.com/ethereum/execution-specs", rev = "9923823367b5586228e590537d47aa9cc4c6a206" }
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.4",
+]
