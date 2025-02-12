@@ -9,6 +9,7 @@ src/pytest_plugins/filler/gen_test_doc.py.
 import importlib
 import logging
 import sys
+from os import getenv
 
 import pytest
 from click.testing import CliRunner
@@ -24,6 +25,19 @@ GENERATE_UNTIL_FORK = DocsConfig().GENERATE_UNTIL_FORK
 
 logger = logging.getLogger("mkdocs")
 
+
+# if docs are generated while FAST_DOCS is true, then use "tests/frontier" otherwise use "tests"
+# USAGE 1 (use fast mode):
+#       export FAST_DOCS=true && uv run mkdocs serve
+# USAGE 2 (use fast mode + hide side-effect warnings):
+#       export FAST_DOCS=true && uv run mkdocs serve 2>&1 | sed '/is not found among documentation files/d' # noqa: E501
+test_arg = "tests"
+fast_mode = getenv("FAST_DOCS")
+if fast_mode is not None:
+    if fast_mode.lower() == "true":
+        print("-" * 40, "\nWill generate docs using FAST_DOCS mode.\n" + "-" * 40)
+        test_arg = "tests/frontier"
+
 args = [
     "--override-ini",
     "filterwarnings=ignore::pytest.PytestAssertRewriteWarning",  # suppress warnings due to reload
@@ -36,10 +50,7 @@ args = [
     "-m",
     "(not blockchain_test_engine) and (not eip_version_check)",
     "-s",
-    "tests",
-    # "tests/shanghai",
-    # "tests/osaka/eip7692_eof_v1",  # noqa: SC100
-    # "tests/prague/eip2537_bls_12_381_precompiles",  # noqa: SC100
+    test_arg,
 ]
 
 runner = CliRunner()
