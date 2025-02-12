@@ -15,7 +15,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools.code.generators import Conditional
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-UPPER_BOUND = 0x101
+UPPER_BOUND = 0xFF
 NUM_UNSUPPORTED_PRECOMPILES = 1
 
 
@@ -67,20 +67,45 @@ def test_precompiles(
     """
     env = Environment()
 
+    slot_precompile_call_gas = 0x00
+    slot_empty_address_call_gas = 0x20
+
     account = pre.deploy_contract(
-        Op.MSTORE(0x00, Op.GAS)
-        + Op.CALL(address=address)
-        + Op.MSTORE(0x00, Op.SUB(Op.MLOAD(0x00), Op.GAS))
-        + Op.MSTORE(0x20, Op.GAS)
-        + Op.CALL(address=0x10000)
-        + Op.MSTORE(0x20, Op.SUB(Op.MLOAD(0x20), Op.GAS))
+        Op.MSTORE(slot_precompile_call_gas, Op.GAS)
+        + Op.CALL(
+            address=address,
+            value=0,
+            args_offset=0,
+            args_size=32,
+            output_offset=32,
+            output_size=32,
+        )
+        + Op.MSTORE(slot_precompile_call_gas, Op.SUB(Op.MLOAD(slot_precompile_call_gas), Op.GAS))
+        + Op.MSTORE(slot_empty_address_call_gas, Op.GAS)
+        + Op.CALL(
+            address=0x10000,
+            value=0,
+            args_offset=0,
+            args_size=32,
+            output_offset=32,
+            output_size=32,
+        )
+        + Op.MSTORE(
+            slot_empty_address_call_gas, Op.SUB(Op.MLOAD(slot_empty_address_call_gas), Op.GAS)
+        )
         + Op.SSTORE(
             0,
             Op.LT(
                 Conditional(
-                    condition=Op.GT(Op.MLOAD(0x00), Op.MLOAD(0x20)),
-                    if_true=Op.SUB(Op.MLOAD(0x00), Op.MLOAD(0x20)),
-                    if_false=Op.SUB(Op.MLOAD(0x20), Op.MLOAD(0x00)),
+                    condition=Op.GT(
+                        Op.MLOAD(slot_precompile_call_gas), Op.MLOAD(slot_empty_address_call_gas)
+                    ),
+                    if_true=Op.SUB(
+                        Op.MLOAD(slot_precompile_call_gas), Op.MLOAD(slot_empty_address_call_gas)
+                    ),
+                    if_false=Op.SUB(
+                        Op.MLOAD(slot_empty_address_call_gas), Op.MLOAD(slot_precompile_call_gas)
+                    ),
                 ),
                 0x1A4,
             ),
