@@ -17,7 +17,7 @@ from ethereum_test_fixtures import (
     FixtureFormat,
 )
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
-from ethereum_test_fixtures.file import FixtureLoaderMapping
+from ethereum_test_fixtures.file import Fixtures
 from ethereum_test_rpc import EthRPC
 from pytest_plugins.consume.consume import FixturesSource
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
@@ -242,20 +242,18 @@ def fixture(
     is taking input on stdin) or loaded from the fixture json file if taking
     input from disk (fixture directory with index file).
     """
+    fixture: BaseFixture
     if fixtures_source == "stdin":
         assert isinstance(test_case, TestCaseStream), "Expected a stream test case"
-        assert isinstance(test_case.fixture, fixture_format), (
-            f"Expected a {fixture_format.__name__} test fixture"
-        )
-        return test_case.fixture
+        fixture = test_case.fixture
     else:
         assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
         # TODO: Optimize, json files will be loaded multiple times. This pytest fixture
         # is executed per test case, and a fixture json will contain multiple test cases.
-        assert fixture_format in FixtureLoaderMapping, (
-            f"Fixture format '{fixture_format}' not supported."
-        )
-        fixtures = FixtureLoaderMapping[fixture_format].from_file(
-            Path(fixtures_source) / test_case.json_path
-        )
-        return fixtures[test_case.id]
+        fixtures_file_path = Path(fixtures_source) / test_case.json_path
+        fixtures: Fixtures = Fixtures.model_validate_json(fixtures_file_path.read_text())
+        fixture = fixtures[test_case.id]
+    assert isinstance(fixture, fixture_format), (
+        f"Expected a {fixture_format.__name__} test fixture"
+    )
+    return fixture

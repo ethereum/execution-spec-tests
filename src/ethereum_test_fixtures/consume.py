@@ -10,8 +10,8 @@ from pydantic import BaseModel, PlainSerializer, PlainValidator, RootModel
 from ethereum_test_base_types import HexNumber
 from ethereum_test_fixtures import FIXTURE_FORMATS, FixtureFormat
 
-from .blockchain import BlockchainEngineFixture
-from .file import FixtureModel, Fixtures
+from .base import BaseFixture
+from .file import Fixtures
 
 
 class TestCaseBase(BaseModel):
@@ -31,7 +31,7 @@ class TestCaseBase(BaseModel):
 class TestCaseStream(TestCaseBase):
     """The test case model used to load test cases from a stream (stdin)."""
 
-    fixture: FixtureModel
+    fixture: BaseFixture
     __test__ = False  # stop pytest from collecting this class as a test
 
 
@@ -115,26 +115,21 @@ class TestCases(RootModel):
     @classmethod
     def from_stream(cls, fd: TextIO) -> "TestCases":
         """Create a TestCases object from a stream."""
-        fixtures = Fixtures.from_json_data(json.load(fd))
-        test_cases = []
-        for fixture_name, fixture in fixtures.items():
-            # TODO: remove hard-coded skip for engine fixture
-            if fixture == BlockchainEngineFixture:
-                print("Skipping engine fixture", fixture_name)
-            test_cases.append(
-                TestCaseStream(
-                    id=fixture_name,
-                    fixture_hash=fixture.hash,
-                    fork=fixture.get_fork(),
-                    format=fixture.__class__,
-                    fixture=fixture,
-                )
+        fixtures: Fixtures = Fixtures.model_validate_json(fd.read())
+        test_cases = [
+            TestCaseStream(
+                id=fixture_name,
+                fixture_hash=fixture.hash,
+                fork=fixture.get_fork(),
+                format=fixture.__class__,
+                fixture=fixture,
             )
+            for fixture_name, fixture in fixtures.items()
+        ]
         return cls(root=test_cases)
 
     @classmethod
     def from_index_file(cls, index_file: Path) -> "TestCases":
         """Create a TestCases object from an index file."""
-        with open(index_file, "r") as fd:
-            index: IndexFile = IndexFile.model_validate_json(fd.read())
+        index: IndexFile = IndexFile.model_validate_json(index_file.read_text())
         return cls(root=index.test_cases)
