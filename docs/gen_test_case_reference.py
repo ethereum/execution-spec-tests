@@ -30,7 +30,7 @@ logger = logging.getLogger("mkdocs")
 # USAGE 1 (use fast mode):
 #       export FAST_DOCS=true && uv run mkdocs serve
 # USAGE 2 (use fast mode + hide side-effect warnings):
-#       export FAST_DOCS=true && uv run mkdocs serve 2>&1 | sed '/is not found among documentation files/d'
+#       export FAST_DOCS=true && uv run mkdocs serve 2>&1 | sed '/is not found among documentation files/d' # noqa: E501
 test_arg = "tests"
 fast_mode = getenv("FAST_DOCS")
 if fast_mode is not None:
