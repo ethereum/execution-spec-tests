@@ -142,9 +142,7 @@ def test_valid_containers(
     assert container.validity_error is None, (
         f"Valid container with validity error: {container.validity_error}"
     )
-    eof_test(
-        container=bytes(container),
-    )
+    eof_test(container=container)
 
 
 @pytest.mark.parametrize(
@@ -1173,13 +1171,13 @@ def test_valid_containers(
     ids=lambda c: c.name,
 )
 def test_invalid_containers(
-    eof_test: EOFTestFiller,
+    eof_test_only: EOFTestFiller,  # TODO: Disable specific tests by using pytest.mark.eof_only
     container: Container,
 ):
     """Test invalid containers."""
     assert container.validity_error is not None, "Invalid container without validity error"
-    eof_test(
-        container=bytes(container),
+    eof_test_only(
+        container=container,
         expect_exception=container.validity_error,
     )
 
@@ -1197,7 +1195,7 @@ def test_magic_validation(
     code = bytearray(bytes(VALID_CONTAINER))
     code[0:2] = magic
     eof_test(
-        container=bytes(code),
+        container=Container(raw_bytes=bytes(code)),
         expect_exception=EOFException.INVALID_MAGIC,
     )
 
@@ -1211,7 +1209,7 @@ def test_version_validation(
     code = bytearray(bytes(VALID_CONTAINER))
     code[2] = version
     eof_test(
-        container=bytes(code),
+        container=Container(raw_bytes=bytes(code)),
         expect_exception=EOFException.INVALID_VERSION,
     )
 
