@@ -3,7 +3,7 @@
 import io
 import json
 from pathlib import Path
-from typing import Generator, List, Literal, cast
+from typing import Dict, Generator, List, Literal, cast
 
 import pytest
 import rich
@@ -226,17 +226,40 @@ def timing_data(
         yield timing_data
 
 
-TestCase = TestCaseIndexFile | TestCaseStream
+class FixturesDict(Dict[Path, Fixtures]):
+    """
+    A dictionary caches loaded fixture files to avoid reloading the same file
+    multiple times.
+    """
+
+    def __init__(self) -> None:
+        """Initialize the dictionary that caches loaded fixture files."""
+        self._fixtures: Dict[Path, Fixtures] = {}
+
+    def __getitem__(self, key: Path) -> Fixtures:
+        """Return the fixtures from the index file, if not found, load from disk."""
+        assert key.is_file(), f"Expected a file path, got '{key}'"
+        if key not in self._fixtures:
+            self._fixtures[key] = Fixtures.model_validate_json(key.read_text())
+        return self._fixtures[key]
+
+
+@pytest.fixture(scope="session")
+def fixture_file_loader() -> Dict[Path, Fixtures]:
+    """Return a singleton dictionary that caches loaded fixture files used in all tests."""
+    return FixturesDict()
 
 
 @pytest.fixture(scope="function")
 def fixture(
-    fixture_format: FixtureFormat,
     fixtures_source: FixturesSource,
-    test_case: TestCase,
+    fixture_format: FixtureFormat,
+    fixture_file_loader: Dict[Path, Fixtures],
+    test_case: TestCaseIndexFile | TestCaseStream,
 ) -> BaseFixture:
     """
-    Create the blockchain engine fixture pydantic model for the current test case.
+    Load the fixture from a file or from stream in any of the supported
+    fixture formats.
 
     The fixture is either already available within the test case (if consume
     is taking input on stdin) or loaded from the fixture json file if taking
@@ -248,10 +271,8 @@ def fixture(
         fixture = test_case.fixture
     else:
         assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
-        # TODO: Optimize, json files will be loaded multiple times. This pytest fixture
-        # is executed per test case, and a fixture json will contain multiple test cases.
         fixtures_file_path = Path(fixtures_source) / test_case.json_path
-        fixtures: Fixtures = Fixtures.model_validate_json(fixtures_file_path.read_text())
+        fixtures: Fixtures = fixture_file_loader[fixtures_file_path]
         fixture = fixtures[test_case.id]
     assert isinstance(fixture, fixture_format), (
         f"Expected a {fixture_format.__name__} test fixture"
