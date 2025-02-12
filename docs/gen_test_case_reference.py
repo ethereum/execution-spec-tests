@@ -51,9 +51,6 @@ args = [
     "(not blockchain_test_engine) and (not eip_version_check)",
     "-s",
     test_arg,
-    # "tests/shanghai",
-    # "tests/osaka/eip7692_eof_v1",  # noqa: SC100
-    # "tests/prague/eip2537_bls_12_381_precompiles",  # noqa: SC100
 ]
 
 runner = CliRunner()
