@@ -3,14 +3,19 @@
 import pytest
 
 from ethereum_test_fixtures import LabeledFixtureFormat
-from ethereum_test_forks import ArrowGlacier, forks_from_until, get_deployed_forks, get_forks
+from ethereum_test_forks import (
+    ArrowGlacier,
+    forks_from_until,
+    get_base_forks,
+    get_deployed_forks,
+)
 from ethereum_test_tools import StateTest
 
 
 @pytest.fixture
 def fork_map():
     """Lookup fork.name() : fork class."""
-    return {fork.name(): fork for fork in get_forks()}
+    return {fork.name(): fork for fork in get_base_forks()}
 
 
 def test_no_options_no_validity_marker(pytester):

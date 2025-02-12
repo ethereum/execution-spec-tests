@@ -418,23 +418,25 @@ def pytest_configure(config: pytest.Config):
     for d in fork_covariant_decorators:
         config.addinivalue_line("markers", f"{d.marker_name}: {d.description}")
 
-    forks = {fork for fork in get_base_forks() if not fork.ignore()}
-    config.all_forks = forks  # type: ignore
-    config.all_forks_by_name = {fork.name(): fork for fork in forks}  # type: ignore
-    config.all_forks_with_transitions = {  # type: ignore
-        fork for fork in set(get_base_forks()) | set(get_transition_forks()) if not fork.ignore()
-    }
+    forks = [fork for fork in reversed(get_base_forks()) if not fork.ignore()]
+    config.all_forks = forks
+    config.all_forks_by_name = {fork.name(): fork for fork in forks}
+    transition_forks = [fork for fork in reversed(get_transition_forks()) if not fork.ignore()]
+    config.all_forks_with_transitions = [
+        fork for fork in (forks + transition_forks) if not fork.ignore()
+    ]
 
     available_forks_help = textwrap.dedent(
         f"""\
-        Available forks:
+        Available base forks:
         {", ".join(fork.name() for fork in forks)}
         """
     )
+    available_forks_help += "\n"
     available_forks_help += textwrap.dedent(
         f"""\
         Available transition forks:
-        {", ".join([fork.name() for fork in get_transition_forks()])}
+        {", ".join([fork.name() for fork in transition_forks])}
         """
     )
 
@@ -474,9 +476,13 @@ def pytest_configure(config: pytest.Config):
 
     dev_forks_help = textwrap.dedent(
         "To run tests for a fork under active development, it must be "
-        "specified explicitly via --until=FORK.\n"
+        "specified explicitly via --fork=FORK or --until=FORK.\n"
         "Tests are only ran for deployed mainnet forks by default, i.e., "
         f"until {get_deployed_forks()[-1].name()}.\n"
+        "\n"
+        "To run only transition forks it must be ran as part of a base fork.\n"
+        "For only ShanghaiToCancunAtTime15k it must be ran within --fork=Cancun and "
+        "isolated using -k TRANSITION_FORK.\n"
     )
     if show_fork_help:
         print(available_forks_help)
@@ -841,18 +847,18 @@ class ValidAtTransitionTo(ValidityMarker, mutually_exclusive=True):
 def pytest_generate_tests(metafunc: pytest.Metafunc):
     """Pytest hook used to dynamically generate test cases."""
     test_name = metafunc.function.__name__
-
     validity_markers: List[ValidityMarker] = ValidityMarker.get_all_validity_markers(metafunc)
 
     if not validity_markers:
         # Limit to non-transition forks if no validity markers were applied
-        test_fork_set: Set[Fork] = metafunc.config.all_forks  # type: ignore
+        test_fork_set: Set[Fork] = set(metafunc.config.all_forks)
     else:
         # Start with all forks and transitions if any validity markers were applied
-        test_fork_set: Set[Fork] = metafunc.config.all_forks_with_transitions  # type: ignore
+        test_fork_set: Set[Fork] = set(metafunc.config.all_forks_with_transitions)
+
         for validity_marker in validity_markers:
-            # Apply the validity markers to the test function if applicable
-            test_fork_set = test_fork_set & validity_marker.process()
+            marker_result = validity_marker.process()
+            test_fork_set = test_fork_set & marker_result
 
     if not test_fork_set:
         pytest.fail(
@@ -863,8 +869,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             f"@pytest.mark.valid_until."
         )
 
-    intersection_set = test_fork_set & metafunc.config.selected_fork_set  # type: ignore
-
+    intersection_set = test_fork_set & metafunc.config.selected_fork_set
     if "fork" not in metafunc.fixturenames:
         return
 

@@ -32,6 +32,9 @@ def get_base_forks() -> List[Fork]:
     Return list of all the base fork classes implemented by `ethereum_test_forks`
     ordered chronologically by deployment.
     """
+    for fork_cls in BaseFork.forks("base"):
+        if fork_cls.__name__ == "Prague":
+            print(fork_cls, " -> MRO =", fork_cls.__mro__)
     return BaseFork.forks("base")
 
 
@@ -70,6 +73,8 @@ def get_parent_fork(fork: Fork) -> Fork:
 
 def get_forks_with_solc_support(solc_version: Version) -> List[Fork]:
     """Return list of all fork classes that are supported by solc."""
+    for fork in get_base_forks():
+        print(fork, solc_version, fork.solc_min_version())
     return [fork for fork in get_base_forks() if solc_version >= fork.solc_min_version()]
 
 
@@ -93,7 +98,7 @@ def get_closest_fork_with_solc_support(fork: Fork, solc_version: Version) -> Opt
 
 
 def get_from_until_fork_set(
-    forks: Set[Fork], forks_from: Set[Fork], forks_until: Set[Fork]
+    forks: List[Fork], forks_from: Set[Fork], forks_until: Set[Fork]
 ) -> Set[Fork]:
     """Get fork range from forks_from to forks_until."""
     resulting_set = set()
@@ -105,32 +110,34 @@ def get_from_until_fork_set(
     return resulting_set
 
 
-def get_forks_with_no_parents(forks: Set[Fork]) -> Set[Fork]:
+def get_forks_with_no_parents(forks: List[Fork]) -> Set[Fork]:
     """Get forks with no parents in the inheritance hierarchy."""
-    resulting_forks: Set[Fork] = set()
+    resulting_forks = []
     for fork in forks:
         parents = False
-        for next_fork in forks - {fork}:
+        other_forks = [next_fork for next_fork in forks if next_fork != fork]
+        for next_fork in other_forks:
             if next_fork < fork:
                 parents = True
                 break
         if not parents:
-            resulting_forks = resulting_forks | {fork}
-    return resulting_forks
+            resulting_forks.append(fork)
+    return set(resulting_forks)
 
 
-def get_forks_with_no_descendants(forks: Set[Fork]) -> Set[Fork]:
+def get_forks_with_no_descendants(forks: List[Fork]) -> Set[Fork]:
     """Get forks with no descendants in the inheritance hierarchy."""
-    resulting_forks: Set[Fork] = set()
+    resulting_forks = []
     for fork in forks:
         descendants = False
-        for next_fork in forks - {fork}:
+        other_forks = [next_fork for next_fork in forks if next_fork != fork]
+        for next_fork in other_forks:
             if next_fork > fork:
                 descendants = True
                 break
         if not descendants:
-            resulting_forks = resulting_forks | {fork}
-    return resulting_forks
+            resulting_forks.append(fork)
+    return set(resulting_forks)
 
 
 def get_last_descendants(forks: Set[Fork], forks_from: Set[Fork]) -> Set[Fork]:
@@ -157,7 +164,6 @@ def transition_fork_from_to(fork_from: Fork, fork_to: Fork) -> Fork | None:
             and transition_fork.transitions_from() == fork_from
         ):
             return transition_fork
-
     return None
 
 
@@ -169,7 +175,6 @@ def transition_fork_to(fork_to: Fork) -> Set[Fork]:
             continue
         if transition_fork.transitions_to() == fork_to:
             transition_forks.add(transition_fork)
-
     return transition_forks
 
 
@@ -179,19 +184,13 @@ def forks_from_until(fork_from: Fork, fork_until: Fork) -> List[Fork]:
     second specified fork.
     """
     prev_fork = fork_until
-
     forks: List[Fork] = []
-
     while prev_fork != BaseFork and prev_fork != fork_from:
         forks.insert(0, prev_fork)
-
-        prev_fork = get_parent_fork(prev_fork)
-
+        prev_fork = prev_fork.__base__
     if prev_fork == BaseFork:
         return []
-
     forks.insert(0, fork_from)
-
     return forks
 
 
@@ -199,6 +198,8 @@ def forks_from(fork: Fork, deployed_only: bool = True) -> List[Fork]:
     """Return specified fork and all forks after it."""
     if deployed_only:
         latest_fork = get_deployed_forks()[-1]
+        print(latest_fork)
     else:
         latest_fork = get_base_forks()[-1]
+    print(latest_fork, forks_from_until(fork, latest_fork))
     return forks_from_until(fork, latest_fork)

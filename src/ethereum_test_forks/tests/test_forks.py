@@ -7,30 +7,28 @@ from semver import Version
 
 from ethereum_test_base_types import BlobSchedule
 
-from ..base_fork import Fork
-from ..forks.cancun import Cancun
-from ..forks.paris import Paris
-from ..forks.prague import Prague
-from ..forks.pre_merge import (
+from ..base_fork import BaseFork, Fork
+from ..forks import (
     Berlin,
+    BerlinToLondonAt5,
+    Cancun,
+    CancunToPragueAtTime15k,
     Frontier,
     Homestead,
     Istanbul,
     London,
-)
-from ..forks.shanghai import Shanghai
-from ..forks.transition import (
-    BerlinToLondonAt5,
-    CancunToPragueAtTime15k,
+    Paris,
     ParisToShanghaiAtTime15k,
+    Prague,
+    Shanghai,
     ShanghaiToCancunAtTime15k,
 )
 from ..helpers import (
     forks_from,
     forks_from_until,
+    get_base_forks,
     get_closest_fork_with_solc_support,
     get_deployed_forks,
-    get_forks,
     get_forks_with_solc_support,
     transition_fork_from_to,
     transition_fork_to,
@@ -208,7 +206,7 @@ def test_transition_fork_comparison():
 
 
 def test_get_forks():  # noqa: D103
-    all_forks = get_forks()
+    all_forks = get_base_forks()
     assert all_forks[0] == FIRST_DEPLOYED
     # assert all_forks[-1] == LAST_DEVELOPMENT  # Too flaky
 
@@ -219,7 +217,7 @@ def test_deployed_forks():  # noqa: D103
     assert deployed_forks[-1] == LAST_DEPLOYED
 
 
-class PrePreAllocFork(Shanghai):
+class PrePreAllocFork(BaseFork):
     """Dummy fork used for testing."""
 
     @classmethod
