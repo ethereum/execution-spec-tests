@@ -3,9 +3,9 @@ stable:
   repo: null
   ref: null
 develop:
-  impl: geth
-  repo: lightclient/go-ethereum
-  ref: prague-devnet-1
+  impl: eels
+  repo: null
+  ref: null
 eip7692:
   impl: evmone
   repo: ethereum/evmone
