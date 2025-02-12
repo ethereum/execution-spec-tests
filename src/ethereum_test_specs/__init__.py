@@ -16,6 +16,13 @@ from .eof import (
     EOFTestFiller,
     EOFTestSpec,
 )
+from .payload_building import (
+    Payload,
+    PayloadBuildingTest,
+    PayloadBuildingTestFiller,
+    PayloadBuildingTestSpec,
+    TransactionWithPost,
+)
 from .state import StateTest, StateTestFiller, StateTestSpec
 from .transaction import TransactionTest, TransactionTestFiller, TransactionTestSpec
 
@@ -23,6 +30,7 @@ SPEC_TYPES: List[Type[BaseTest]] = [
     BlockchainTest,
     EOFStateTest,
     EOFTest,
+    PayloadBuildingTest,
     StateTest,
     TransactionTest,
 ]
@@ -42,6 +50,10 @@ __all__ = (
     "EOFTest",
     "EOFTestFiller",
     "EOFTestSpec",
+    "Payload",
+    "PayloadBuildingTest",
+    "PayloadBuildingTestFiller",
+    "PayloadBuildingTestSpec",
     "StateTest",
     "StateTestFiller",
     "StateTestSpec",
@@ -49,4 +61,5 @@ __all__ = (
     "TransactionTest",
     "TransactionTestFiller",
     "TransactionTestSpec",
+    "TransactionWithPost",
 )

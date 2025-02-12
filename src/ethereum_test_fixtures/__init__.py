@@ -5,6 +5,7 @@ from .blockchain import BlockchainEngineFixture, BlockchainFixture, BlockchainFi
 from .collector import FixtureCollector, TestInfo
 from .consume import FixtureConsumer
 from .eof import EOFFixture
+from .payload_building import PayloadBuildingFixture
 from .state import StateFixture
 from .transaction import TransactionFixture
 
@@ -18,6 +19,7 @@ __all__ = [
     "FixtureConsumer",
     "FixtureFormat",
     "LabeledFixtureFormat",
+    "PayloadBuildingFixture",
     "StateFixture",
     "TestInfo",
     "TransactionFixture",
