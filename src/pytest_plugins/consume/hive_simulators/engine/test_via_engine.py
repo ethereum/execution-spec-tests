@@ -296,3 +296,7 @@ def test_payload_building_via_engine(
                     with payload_timing.time("Check post allocation"):
                         for post in collected_posts:
                             check_post(post, eth_rpc)
+        assert not valid_transactions, (
+            "Not all valid transactions were included: "
+            f"{[str(h) for h in valid_transactions.keys()]}"
+        )
