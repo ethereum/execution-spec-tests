@@ -81,7 +81,7 @@ def test_lecacy_cannot_create_eof(
         state_test: StateTestFiller,
         pre: Alloc,
 ):
-    """Test that a legacy contract creation initcode cannot deploy an EOF contract"""
+    """Test that a legacy contract creation initcode cannot deploy an EOF contract."""
     env = Environment()
     sender = pre.fund_eoa()
 
