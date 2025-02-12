@@ -3,7 +3,6 @@ Perform sanity checks on the framework's pydantic serialization and
 deserialization using generated json fixtures files.
 """
 
-import json
 from pathlib import Path
 from typing import Generator
 
@@ -37,7 +36,7 @@ def check_json(json_file_path: Path):
         a. Compare the newly calculated hashes from step 2. and 3. and
         b. If present, compare info["hash"] with the calculated hash from step 2.
     """
-    fixtures: Fixtures = Fixtures.model_validate(json.loads(json_file_path.read_text()))
+    fixtures: Fixtures = Fixtures.model_validate_json(json_file_path.read_text())
     fixtures_json = to_json(fixtures)
     fixtures_deserialized: Fixtures = Fixtures.model_validate(fixtures_json)
     for fixture_name, fixture in fixtures.items():
@@ -134,7 +133,6 @@ def check_fixtures(input_str: str, quiet_mode: bool, stop_on_error: bool):
                 else:
                     progress.console.print(f"\nError checking {json_file_path}:")
                     progress.console.print(f"  {e}")
-                    progress.console.print(f"  {e.__context__}")
 
         reward_string = "🦄" if success else "🐢"
         progress.update(
