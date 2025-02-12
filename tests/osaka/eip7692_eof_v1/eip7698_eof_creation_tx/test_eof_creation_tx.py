@@ -78,8 +78,8 @@ def test_eof_creation_tx_context(
 
 
 def test_lecacy_cannot_create_eof(
-        state_test: StateTestFiller,
-        pre: Alloc,
+    state_test: StateTestFiller,
+    pre: Alloc,
 ):
     """Test that a legacy contract creation initcode cannot deploy an EOF contract."""
     env = Environment()
