@@ -1,6 +1,6 @@
 """Ethereum test fixture format definitions."""
 
-from .base import FIXTURE_FORMATS, BaseFixture, FixtureFormat
+from .base import BaseFixture, FixtureFormat
 from .blockchain import BlockchainEngineFixture, BlockchainFixture, BlockchainFixtureCommon
 from .collector import FixtureCollector, TestInfo
 from .eof import EOFFixture
@@ -9,7 +9,6 @@ from .transaction import TransactionFixture
 from .verify import FixtureVerifier
 
 __all__ = [
-    "FIXTURE_FORMATS",
     "BaseFixture",
     "BlockchainEngineFixture",
     "BlockchainFixture",
