@@ -998,3 +998,43 @@ def test_self_set_code_cost(
             ),
         },
     )
+
+
+def test_call_to_pre_authorized_oog(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Test additional cost of delegation contract access in call instructions."""
+    # Delegation contract. It should never be reached by a call.
+    delegation_code = Op.SSTORE(0, 1)
+    delegation = pre.deploy_contract(delegation_code)
+
+    # Delegate to the delegation contract.
+    auth_signer = pre.fund_eoa(0, delegation=delegation)
+
+    # Callee tries to call the auth_signer which delegates
+    # to the delegation contract. The call instruction should out-of-gas
+    # because of the addition cost of the delegation account access.
+    callee_code = Bytecode(
+        Op.SSTORE(0, Op.CALL(gas=0, address=auth_signer)),
+    )
+    callee_storage = Storage()
+    callee_storage[0] = 0xFF  # Value other than 0 or 1. Should not be changed.
+    callee_address = pre.deploy_contract(callee_code, storage=callee_storage)
+
+    tx = Transaction(
+        gas_limit=26220,  # Specific gas to trigger CALL out-of-gas.
+        to=callee_address,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            callee_address: Account(storage=callee_storage),
+            auth_signer: Account(code=Spec.delegation_designation(delegation)),
+            delegation: Account(storage=Storage()),
+        },
+    )
