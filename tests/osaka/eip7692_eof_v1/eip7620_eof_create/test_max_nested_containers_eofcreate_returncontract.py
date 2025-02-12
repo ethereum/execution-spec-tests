@@ -1,7 +1,9 @@
 """EOF v1 validation code - Exported from evmone unit tests."""
 
 import pytest
-from ethereum_test_tools import EOFTestFiller, Opcodes as Op
+
+from ethereum_test_tools import EOFTestFiller
+from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_types.eof.v1.constants import MAX_INITCODE_SIZE
 
@@ -28,7 +30,7 @@ while len(nextcode) < MAX_INITCODE_SIZE:
         sections=[
             Section.Code(code=Op.PUSH0 * 2 + Op.RETURNCONTRACT[0]),
             Section.Container(container=nextcode),
-        ]
+        ],
     )
     if len(initcode) > 0xFFFF:
         break
@@ -37,7 +39,7 @@ while len(nextcode) < MAX_INITCODE_SIZE:
         sections=[
             Section.Code(code=Op.PUSH0 * 4 + Op.EOFCREATE[0] + Op.INVALID),
             Section.Container(container=initcode),
-        ]
+        ],
     )
     c += 1
 
@@ -48,9 +50,8 @@ max_nested_containers_eofcreate_returncontract_0 = code
     "container",
     [
         max_nested_containers_eofcreate_returncontract_0,
-
     ],
-    ids = lambda c: c.name,
+    ids=lambda c: c.name,
 )
 def test_max_nested_containers_eofcreate_returncontract(
     eof_test: EOFTestFiller,

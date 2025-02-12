@@ -181,14 +181,17 @@ class EvmoneExceptionMapper(ExceptionMapper):
             ),
             ExceptionMessage(EOFException.STACK_HEIGHT_MISMATCH, "err: stack_height_mismatch"),
             ExceptionMessage(EOFException.TOO_MANY_CONTAINERS, "err: too_many_container_sections"),
-            ExceptionMessage(EOFException.EOF_CREATE_WITH_TRUNCATED_CONTAINER,
-                             "err: eofcreate_with_truncated_container"),
+            ExceptionMessage(
+                EOFException.EOF_CREATE_WITH_TRUNCATED_CONTAINER,
+                "err: eofcreate_with_truncated_container",
+            ),
             ExceptionMessage(
                 EOFException.INVALID_CODE_SECTION_INDEX, "err: invalid_code_section_index"
             ),
             ExceptionMessage(
                 EOFException.CALLF_TO_NON_RETURNING, "err: callf_to_non_returning_function"
             ),
-            ExceptionMessage(EOFException.AMBIGUOUS_CONTAINER_KIND,
-                             "err: ambiguous_container_kind"),
+            ExceptionMessage(
+                EOFException.AMBIGUOUS_CONTAINER_KIND, "err: ambiguous_container_kind"
+            ),
         ]

@@ -481,6 +481,7 @@ def test_truncated_data_portion_opcodes(
         expect_exception=EOFException.TRUNCATED_INSTRUCTION,
     )
 
+
 @pytest.mark.parametrize(
     "opcode",
     sorted(invalid_eof_opcodes),

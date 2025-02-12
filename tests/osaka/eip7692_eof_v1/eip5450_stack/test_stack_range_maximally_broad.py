@@ -1,8 +1,10 @@
 """EOF v1 validation code - Exported from evmone unit tests."""
 
 import pytest
-from ethereum_test_tools import EOFTestFiller, EOFException, Opcodes as Op
-from ethereum_test_tools.eof.v1 import Container, Section, ContainerKind
+
+from ethereum_test_tools import EOFException, EOFTestFiller
+from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools.eof.v1 import Container, ContainerKind, Section
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-5450.md"
 REFERENCE_SPEC_VERSION = "f20b164b00ae5553f7536a6d7a83a0f254455e09"
@@ -23,7 +25,7 @@ invalid_1024_rjumpis = Container(
         Section.Code(code=rjumpis_1024, max_stack_height=1023),
     ],
     kind=ContainerKind.RUNTIME,
-    validity_error = [
+    validity_error=[
         EOFException.INVALID_MAX_STACK_HEIGHT,
     ],
 )
@@ -44,9 +46,8 @@ valid_1023_rjumpis = Container(
     [
         invalid_1024_rjumpis,
         valid_1023_rjumpis,
-
     ],
-    ids = lambda c: c.name,
+    ids=lambda c: c.name,
 )
 def test_stack_range_maximally_broad(
     eof_test: EOFTestFiller,
