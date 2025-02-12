@@ -10,9 +10,8 @@ from pydantic import BaseModel, PlainSerializer, PlainValidator, RootModel
 from ethereum_test_base_types import HexNumber
 from ethereum_test_fixtures import FIXTURE_FORMATS, FixtureFormat
 
-from .blockchain import BlockchainEngineFixture, BlockchainFixture
-from .file import Fixtures
-from .state import StateFixture
+from .blockchain import BlockchainEngineFixture
+from .file import FixtureModel, Fixtures
 
 
 class TestCaseBase(BaseModel):
@@ -32,7 +31,7 @@ class TestCaseBase(BaseModel):
 class TestCaseStream(TestCaseBase):
     """The test case model used to load test cases from a stream (stdin)."""
 
-    fixture: StateFixture | BlockchainFixture
+    fixture: FixtureModel
     __test__ = False  # stop pytest from collecting this class as a test
 
 
@@ -119,6 +118,7 @@ class TestCases(RootModel):
         fixtures = Fixtures.from_json_data(json.load(fd))
         test_cases = []
         for fixture_name, fixture in fixtures.items():
+            # TODO: remove hard-coded skip for engine fixture
             if fixture == BlockchainEngineFixture:
                 print("Skipping engine fixture", fixture_name)
             test_cases.append(

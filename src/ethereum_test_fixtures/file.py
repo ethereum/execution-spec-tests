@@ -2,14 +2,14 @@
 
 import json
 from pathlib import Path
-from typing import Annotated, Any, Dict, Optional
+from typing import Annotated, Any, Dict, Mapping, Optional, Type, Union
 
 from filelock import FileLock
 from pydantic import Discriminator, Tag
 
 from ethereum_test_base_types import EthereumTestRootModel
 
-from .base import FixtureFormat
+from .base import BaseFixture, FixtureFormat
 from .blockchain import BlockchainEngineFixture, BlockchainFixture
 from .eof import Fixture as EOFFixture
 from .state import StateFixture
@@ -106,18 +106,10 @@ class BaseFixturesRootModel(EthereumTestRootModel):
         If json_data only contains fixtures of one model type, specifying the
         fixture_format will provide a speed-up.
         """
-        model_mapping = {
-            BlockchainFixture: BlockchainFixtures,
-            BlockchainEngineFixture: BlockchainEngineFixtures,
-            StateFixture: StateFixtures,
-            TransactionFixture: TransactionFixtures,
-            EOFFixture: EOFFixtures,
-        }
-
         if fixture_format is not None:
-            if fixture_format not in model_mapping:
+            if fixture_format not in FixtureLoaderMapping:
                 raise TypeError(f"Unsupported fixture format: {fixture_format}")
-            model_class = model_mapping[fixture_format]
+            model_class = FixtureLoaderMapping[fixture_format]
         else:
             model_class = cls
 
@@ -135,19 +127,19 @@ def fixture_format_discriminator(v: Any) -> str | None:
     return info_dict.get("fixture_format")
 
 
+TaggedTypes = Union[
+    Annotated[BlockchainFixture, Tag(BlockchainFixture.fixture_format_name)],
+    Annotated[BlockchainEngineFixture, Tag(BlockchainEngineFixture.fixture_format_name)],
+    Annotated[StateFixture, Tag(StateFixture.fixture_format_name)],
+    Annotated[TransactionFixture, Tag(TransactionFixture.fixture_format_name)],
+    Annotated[EOFFixture, Tag(EOFFixture.fixture_format_name)],
+]
+
+
 class Fixtures(BaseFixturesRootModel):
     """A model that can contain any fixture type."""
 
-    root: Dict[
-        str,
-        Annotated[
-            Annotated[BlockchainFixture, Tag(BlockchainFixture.fixture_format_name)]
-            | Annotated[BlockchainEngineFixture, Tag(BlockchainEngineFixture.fixture_format_name)]
-            | Annotated[StateFixture, Tag(StateFixture.fixture_format_name)]
-            | Annotated[TransactionFixture, Tag(TransactionFixture.fixture_format_name)],
-            Discriminator(fixture_format_discriminator),
-        ],
-    ]
+    root: Dict[str, Annotated[TaggedTypes, Discriminator(fixture_format_discriminator)]]
 
 
 class BlockchainFixtures(BaseFixturesRootModel):
@@ -198,3 +190,12 @@ class EOFFixtures(BaseFixturesRootModel):
     """
 
     root: Dict[str, EOFFixture]
+
+
+FixtureLoaderMapping: Mapping[Type[BaseFixture], Type[BaseFixturesRootModel]] = {
+    BlockchainFixture: BlockchainFixtures,
+    BlockchainEngineFixture: BlockchainEngineFixtures,
+    StateFixture: StateFixtures,
+    TransactionFixture: TransactionFixtures,
+    EOFFixture: EOFFixtures,
+}

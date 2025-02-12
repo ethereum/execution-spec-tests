@@ -2,6 +2,7 @@
 
 import io
 import json
+from pathlib import Path
 from typing import Generator, List, Literal, cast
 
 import pytest
@@ -10,9 +11,15 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTest
 
 from ethereum_test_base_types import Number, to_json
-from ethereum_test_fixtures import BlockchainFixtureCommon
+from ethereum_test_fixtures import (
+    BaseFixture,
+    BlockchainFixtureCommon,
+    FixtureFormat,
+)
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
+from ethereum_test_fixtures.file import FixtureLoaderMapping
 from ethereum_test_rpc import EthRPC
+from pytest_plugins.consume.consume import FixturesSource
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
 from pytest_plugins.pytest_hive.hive_info import ClientInfo
 
@@ -97,7 +104,7 @@ def eest_consume_command(
 
 @pytest.fixture(scope="function")
 def test_case_description(
-    blockchain_fixture: BlockchainFixtureCommon,
+    fixture: BaseFixture,
     test_case: TestCaseIndexFile | TestCaseStream,
     hive_consume_command: List[str],
     hive_dev_command: List[str],
@@ -108,12 +115,12 @@ def test_case_description(
     Includes reproducible commands to re-run the test case against the target client.
     """
     description = f"Test id: {test_case.id}"
-    if "url" in blockchain_fixture.info:
-        description += f"\n\nTest source: {blockchain_fixture.info['url']}"
-    if "description" not in blockchain_fixture.info:
+    if "url" in fixture.info:
+        description += f"\n\nTest source: {fixture.info['url']}"
+    if "description" not in fixture.info:
         description += "\n\nNo description field provided in the fixture's 'info' section."
     else:
-        description += f"\n\n{blockchain_fixture.info['description']}"
+        description += f"\n\n{fixture.info['description']}"
     description += (
         f"\n\nCommand to reproduce entirely in hive:"
         f"\n<code>{' '.join(hive_consume_command)}</code>"
@@ -142,10 +149,10 @@ def total_timing_data(request) -> Generator[TimingData, None, None]:
 
 @pytest.fixture(scope="function")
 @pytest.mark.usefixtures("total_timing_data")
-def client_genesis(blockchain_fixture: BlockchainFixtureCommon) -> dict:
+def client_genesis(fixture: BlockchainFixtureCommon) -> dict:
     """Convert the fixture genesis block header and pre-state to a client genesis state."""
-    genesis = to_json(blockchain_fixture.genesis)
-    alloc = to_json(blockchain_fixture.pre)
+    genesis = to_json(fixture.genesis)
+    alloc = to_json(fixture.pre)
     # NOTE: nethermind requires account keys without '0x' prefix
     genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
     return genesis
@@ -165,18 +172,17 @@ def check_live_port(test_suite_name: str) -> Literal[8545, 8551]:
 
 @pytest.fixture(scope="function")
 def environment(
-    blockchain_fixture: BlockchainFixtureCommon, check_live_port: Literal[8545, 8551]
+    fixture: BlockchainFixtureCommon,
+    check_live_port: Literal[8545, 8551],
 ) -> dict:
     """Define the environment that hive will start the client with."""
-    assert blockchain_fixture.fork in ruleset, (
-        f"fork '{blockchain_fixture.fork}' missing in hive ruleset"
-    )
+    assert fixture.fork in ruleset, f"fork '{fixture.fork}' missing in hive ruleset"
     return {
-        "HIVE_CHAIN_ID": str(Number(blockchain_fixture.config.chain_id)),
+        "HIVE_CHAIN_ID": str(Number(fixture.config.chain_id)),
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
         "HIVE_CHECK_LIVE_PORT": str(check_live_port),
-        **{k: f"{v:d}" for k, v in ruleset[blockchain_fixture.fork].items()},
+        **{k: f"{v:d}" for k, v in ruleset[fixture.fork].items()},
     }
 
 
@@ -218,3 +224,38 @@ def timing_data(
     """Record timing data for the main execution of the test case."""
     with total_timing_data.time("Test case execution") as timing_data:
         yield timing_data
+
+
+TestCase = TestCaseIndexFile | TestCaseStream
+
+
+@pytest.fixture(scope="function")
+def fixture(
+    fixture_format: FixtureFormat,
+    fixtures_source: FixturesSource,
+    test_case: TestCase,
+) -> BaseFixture:
+    """
+    Create the blockchain engine fixture pydantic model for the current test case.
+
+    The fixture is either already available within the test case (if consume
+    is taking input on stdin) or loaded from the fixture json file if taking
+    input from disk (fixture directory with index file).
+    """
+    if fixtures_source == "stdin":
+        assert isinstance(test_case, TestCaseStream), "Expected a stream test case"
+        assert isinstance(test_case.fixture, fixture_format), (
+            f"Expected a {fixture_format.__name__} test fixture"
+        )
+        return test_case.fixture
+    else:
+        assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
+        # TODO: Optimize, json files will be loaded multiple times. This pytest fixture
+        # is executed per test case, and a fixture json will contain multiple test cases.
+        assert fixture_format in FixtureLoaderMapping, (
+            f"Fixture format '{fixture_format}' not supported."
+        )
+        fixtures = FixtureLoaderMapping[fixture_format].from_file(
+            Path(fixtures_source) / test_case.json_path
+        )
+        return fixtures[test_case.id]

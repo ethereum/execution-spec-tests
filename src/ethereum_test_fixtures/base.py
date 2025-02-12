@@ -26,6 +26,14 @@ class BaseFixture(CamelModel):
         """Return name of the subdirectory where this type of fixture should be dumped to."""
         return cls.fixture_format_name.replace("test", "tests")
 
+    def __init_subclass__(cls):
+        """
+        Register all subclasses of BaseFixture with a fixture format name set
+        as possible fixture formats.
+        """
+        if cls.fixture_format_name != "unset":
+            FIXTURE_FORMATS[cls.fixture_format_name] = cls
+
     @cached_property
     def json_dict(self) -> Dict[str, Any]:
         """Returns the JSON representation of the fixture."""
@@ -82,3 +90,5 @@ class BaseFixture(CamelModel):
 
 # Type alias for a base fixture class
 FixtureFormat = Type[BaseFixture]
+
+FIXTURE_FORMATS: Dict[str, FixtureFormat] = {}
