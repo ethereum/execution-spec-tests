@@ -30,7 +30,8 @@ class BaseEIPMeta(ABCMeta):
         Extract the EIP number from the class name (by parsing out digits).
         Override this if your EIP class name is not EIP-<digits>.
         """
-        return int("".join(filter(str.isdigit, cls.__name__)))
+        eip_id = "".join(filter(str.isdigit, cls.__name__))
+        return int(eip_id) if eip_id else None
 
     def __repr__(cls) -> str:
         """Print the EIP ID instead of the class name."""
@@ -64,6 +65,7 @@ class BaseEIP(ABC, metaclass=BaseEIPMeta):
     def __init_subclass__(cls, *, fork: Optional[str] = None) -> None:
         """Initialize new EIP and register it in the registry."""
         cls._fork = fork
+        print(f"Registering EIP-{cls.eip_id} ({cls.__name__})")
         BaseEIPMeta.register_eip(cls)
 
     @classmethod
@@ -132,6 +134,30 @@ class BaseEIP(ABC, metaclass=BaseEIPMeta):
         Override in subclasses to mutate 'costs' for your EIP.
         """
         return costs
+
+    @classmethod
+    def eip_blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        Return the base fee update fraction introduced by this EIP.
+        Override in subclasses to return the actual base fee update fraction.
+        """
+        return 0
+
+    @classmethod
+    def eip_target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        Return the target blobs per block introduced by this EIP.
+        Override in subclasses to return the actual target blobs per block.
+        """
+        return 0
+
+    @classmethod
+    def eip_max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """
+        Return the max blobs per block introduced by this EIP.
+        Override in subclasses to return the actual max blobs per block.
+        """
+        return 0
 
 
 # EIP Type Alias

@@ -104,19 +104,23 @@ class ExcessBlobGasCalculator(Protocol):
 
 
 class BaseForkMeta(ABCMeta):
-    """Metaclass for BaseFork."""
+    """Metaclass for BaseFork that manages fork registration and discovery."""
 
     _base_forks_registry: ClassVar[Set[Type["BaseFork"]]] = set()
     _transition_forks_registry: ClassVar[Set[Type["BaseFork"]]] = set()
 
     def __new__(cls, name, bases, namespace, **kwargs):
-        """Register the fork in the appropriate registry."""
+        """Create and register new fork classes."""
         new_class = super().__new__(cls, name, bases, namespace, **kwargs)
-        if getattr(new_class, "__abstractmethods__", False) or name == "NewTransitionClass":
+        if getattr(new_class, "__abstractmethods__", False):
             return new_class
-        if is_transition_fork_by_heuristic(name):
+        if new_class.__name__ == "NewTransitionClass" and any(
+            base.__name__ == "TransitionBaseClass" for base in bases
+        ):
             cls._transition_forks_registry.add(new_class)
-        else:
+        elif not is_transition_fork_by_heuristic(new_class.__name__):
+            if new_class.__name__ == "Prague":
+                print(new_class.__name__, bases, namespace)
             cls._base_forks_registry.add(new_class)
 
         return new_class

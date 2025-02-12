@@ -52,6 +52,8 @@ class ComposeFork(BaseFork, metaclass=CompositeMeta):
             if issubclass(base, ComposeFork):
                 continue
             if isinstance(base, type) and issubclass(base, BaseEIP):
+                if base.eip_id is None:
+                    continue
                 eips.append(base)
         return eips
 
@@ -93,6 +95,33 @@ class ComposeFork(BaseFork, metaclass=CompositeMeta):
                 )
         return costs
 
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the target blobs per block for the fork and all EIPs."""
+        val = super().target_blobs_per_block(block_number, timestamp)
+        for eip_cls in cls.all_eips():
+            if hasattr(eip_cls, "eip_target_blobs_per_block"):
+                val = eip_cls.eip_target_blobs_per_block()
+        return val
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the max blobs per block for the fork and all EIPs."""
+        val = super().max_blobs_per_block(block_number, timestamp)
+        for eip_cls in cls.all_eips():
+            if hasattr(eip_cls, "eip_max_blobs_per_block"):
+                val = eip_cls.eip_max_blobs_per_block()
+        return val
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the blob base fee update fraction for the fork and all EIPs."""
+        val = super().blob_base_fee_update_fraction(block_number, timestamp)
+        for eip_cls in cls.all_eips():
+            if hasattr(eip_cls, "eip_blob_base_fee_update_fraction"):
+                val = eip_cls.eip_blob_base_fee_update_fraction()
+        return val
+
 
 def compose_fork(*eips: Type[BaseEIP]) -> Type[Fork]:
     """
@@ -107,6 +136,8 @@ def compose_fork(*eips: Type[BaseEIP]) -> Type[Fork]:
             original_fork_cls.__name__, new_bases, dict(original_fork_cls.__dict__)
         )
         new_class.__module__ = original_fork_cls.__module__
+
+        new_class.blob_schedule = ComposeFork.blob_schedule
 
         # Remove the original class from the registry so only the composite remains.
         from .base_fork import BaseForkMeta
