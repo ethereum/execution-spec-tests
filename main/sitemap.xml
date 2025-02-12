@@ -3026,6 +3026,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx/test_lecacy_cannot_create_eof/</loc>
+         <lastmod>2025-02-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/paris/</loc>
          <lastmod>2025-02-12</lastmod>
          <changefreq>daily</changefreq>
