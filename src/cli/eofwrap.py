@@ -80,7 +80,7 @@ def eof_wrap(input_path: str, output_dir: str, traces: bool):
 class BlockchainFixtures(EthereumTestRootModel):
     """
     Class needed due to some of the `ethereum/tests` fixtures not having the
-    `info` field in the JSON files.
+    `_info.fixture_format` field in the JSON files.
     """
 
     root: Dict[str, BlockchainFixture]
