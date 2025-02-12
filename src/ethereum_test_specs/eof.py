@@ -141,10 +141,13 @@ class EOFTest(BaseTest):
     deployed_container: Container | None = None
     pre: Alloc | None = None
     post: Alloc | None = None
+    tx: Transaction | None = None
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         EOFFixture
     ] + StateTest.supported_fixture_formats
+
+    supported_execute_formats: ClassVar[List[ExecuteFormat]] = StateTest.supported_execute_formats
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -173,6 +176,56 @@ class EOFTest(BaseTest):
                 self.container_kind = self.container.kind
             elif "container_kind" in self.model_fields_set:
                 self.container.kind = self.container_kind
+
+        assert self.pre is not None, "pre must be set to generate a StateTest."
+        sender = self.pre.fund_eoa()
+        if self.post is None:
+            self.post = Alloc()
+
+        initcode: Container
+        deployed_container: Container | None
+        if self.container_kind == ContainerKind.INITCODE:
+            if "deployed_container" in self.model_fields_set:
+                # In the case of an initcontainer where we know the deployed container,
+                # we can use the initcontainer as-is.
+                initcode = self.container
+                deployed_container = self.deployed_container
+            else:
+                # The contract will be deployed as a EOF factory contract.
+                deployed_container = Container(
+                    sections=[
+                        Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+                        Section.Container(self.container),
+                    ]
+                )
+                initcode = Container(
+                    sections=[
+                        Section.Code(Op.RETURNCONTRACT[0](0, 0)),
+                        Section.Container(deployed_container),
+                    ]
+                )
+        else:
+            initcode = Container(
+                sections=[
+                    Section.Code(Op.RETURNCONTRACT[0](0, 0)),
+                    Section.Container(self.container),
+                ]
+            )
+            deployed_container = self.container
+
+        self.tx = Transaction(
+            sender=sender,
+            to=None,
+            gas_limit=10_000_000,
+            data=initcode,
+        )
+
+        if self.expect_exception is not None or deployed_container is None:
+            self.post[self.tx.created_contract] = None
+        else:
+            self.post[self.tx.created_contract] = Account(
+                code=deployed_container,
+            )
 
     def make_eof_test_fixture(
         self,
@@ -253,65 +306,11 @@ class EOFTest(BaseTest):
                     got=f"{actual_exception} ({actual_message})",
                 )
 
-    def generate_eof_contract_create_transaction(self) -> Transaction:
-        """Generate a transaction that creates a contract."""
-        assert self.pre is not None, "pre must be set to generate a StateTest."
-
-        sender = self.pre.fund_eoa()
-        if self.post is None:
-            self.post = Alloc()
-
-        initcode: Container
-        deployed_container: Container | None
-        if self.container_kind == ContainerKind.INITCODE:
-            if "deployed_container" in self.model_fields_set:
-                # In the case of an initcontainer where we know the deployed container,
-                # we can use the initcontainer as-is.
-                initcode = self.container
-                deployed_container = self.deployed_container
-            else:
-                # The contract will be deployed as a EOF factory contract.
-                deployed_container = Container(
-                    sections=[
-                        Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
-                        Section.Container(self.container),
-                    ]
-                )
-                initcode = Container(
-                    sections=[
-                        Section.Code(Op.RETURNCONTRACT[0](0, 0)),
-                        Section.Container(deployed_container),
-                    ]
-                )
-        else:
-            initcode = Container(
-                sections=[
-                    Section.Code(Op.RETURNCONTRACT[0](0, 0)),
-                    Section.Container(self.container),
-                ]
-            )
-            deployed_container = self.container
-
-        tx = Transaction(
-            sender=sender,
-            to=None,
-            gas_limit=10_000_000,
-            data=initcode,
-        )
-
-        if self.expect_exception is not None or deployed_container is None:
-            self.post[tx.created_contract] = None
-        else:
-            self.post[tx.created_contract] = Account(
-                code=deployed_container,
-            )
-        return tx
-
     def generate_state_test(self, fork: Fork) -> StateTest:
         """Generate the StateTest filler."""
         return StateTest(
             pre=self.pre,
-            tx=self.generate_eof_contract_create_transaction(),
+            tx=self.tx,
             env=Environment(),
             post=self.post,
             t8n_dump_dir=self.t8n_dump_dir,
