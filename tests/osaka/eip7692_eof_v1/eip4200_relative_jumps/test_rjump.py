@@ -235,6 +235,21 @@ def test_rjump_into_self_data_portion(
         expect_exception=EOFException.INVALID_RJUMP_DESTINATION,
     )
 
+def test_rjump_loop(
+    eof_test: EOFTestFiller,
+):
+    """Test EOF contracts containing unreachable instructions."""
+    eof_test(
+        container=Container(
+            name="unreachable_instructions_0",
+            sections=[
+                Section.Code(code=Op.RJUMP[1] + Op.STOP + Op.RJUMP[-4],
+                    max_stack_height=0),
+            ],
+            expected_bytecode="ef000101000402000100070400000000800000e0000100e0fffc",
+          ),
+        expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS,
+    )
 
 def test_rjump_into_self_remaining_code(
     eof_test: EOFTestFiller,
