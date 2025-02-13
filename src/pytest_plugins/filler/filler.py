@@ -729,6 +729,16 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
                         pytest.param(
                             format_with_or_without_id.format,
                             id=format_with_or_without_id.pytest_id,
+                            marks=[
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.format.fixture_format_name.lower(),
+                                ),
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.pytest_id.lower(),
+                                ),
+                            ],
                         )
                     )
                 else:
@@ -736,6 +746,12 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
                         pytest.param(
                             format_with_or_without_id,
                             id=format_with_or_without_id.fixture_format_name.lower(),
+                            marks=[
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.fixture_format_name.lower(),
+                                )
+                            ],
                         )
                     )
             metafunc.parametrize(
