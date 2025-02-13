@@ -404,6 +404,14 @@ class EOFStateTest(EOFTest, Transaction):
     env: Environment = Field(default_factory=Environment)
     container_post: Account = Field(default_factory=Account)
 
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
+        EOFFixture
+    ] + list(StateTest.supported_fixture_formats)
+
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | ExecuteFormatWithPytestID]] = (
+        StateTest.supported_execute_formats
+    )
+
     @classmethod
     def pytest_parameter_name(cls) -> str:
         """Workaround for pytest parameter name."""
