@@ -101,3 +101,77 @@ def test_lecacy_cannot_create_eof(
         post=post,
         tx=tx,
     )
+
+
+def test_invalid_container(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Verify nonce is not incremented when an invalid container deployment is attempted."""
+    env = Environment()
+    sender = pre.fund_eoa()
+
+    tx = Transaction(
+        sender=sender,
+        to=None,
+        gas_limit=100000,
+        data=bytes.fromhex(
+            "ef000101000402000100060300010021040000000080000260006000ee00ef0001010008020002000600020400000000800002000000025f5fe300010001e4"
+        ),
+    )
+
+    destination_contract_address = compute_create_address(address=sender, nonce=sender.nonce)
+    post = {
+        destination_contract_address: Account.NONEXISTENT,
+        sender: Account(
+            nonce=sender.nonce,
+        ),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+def test_short_data_subcontainer(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Deploy a subcontainer where the data is "short" and filled by deployment code."""
+    env = Environment()
+    sender = pre.fund_eoa()
+
+    destination_contract_address = compute_create_address(address=sender, nonce=sender.nonce)
+    tx = Transaction(
+        sender=sender,
+        to=None,
+        gas_limit=100000,
+        data=Container(
+            name="Runtime Subcontainer with truncated data",
+            sections=[
+                Section.Code(code=Op.RETURNCONTRACT[0](0, 1)),
+                Section.Container(
+                    Container(
+                        sections=[
+                            Section.Code(Op.STOP),
+                            Section.Data(data="001122", custom_size=4),
+                        ]
+                    )
+                ),
+            ],
+        ),
+    )
+
+    post = {
+        destination_contract_address: Account(nonce=1),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
