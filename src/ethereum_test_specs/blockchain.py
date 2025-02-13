@@ -1,7 +1,7 @@
 """Ethereum blockchain test spec definition and filler."""
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Tuple, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
 
 import pytest
 from pydantic import ConfigDict, Field, field_validator
@@ -293,11 +293,11 @@ class BlockchainTest(BaseTest):
     verify_sync: bool = False
     chain_id: int = 1
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
         BlockchainFixture,
         BlockchainEngineFixture,
     ]
-    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = [
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | ExecuteFormatWithPytestID]] = [
         TransactionPost,
     ]
 
@@ -744,7 +744,7 @@ class BlockchainTestEngine(BlockchainTest):
     only for the Engine API.
     """
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
         BlockchainEngineFixture,
     ]
 

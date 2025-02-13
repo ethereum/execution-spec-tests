@@ -5,7 +5,7 @@ import warnings
 from pathlib import Path
 from shutil import which
 from subprocess import CompletedProcess
-from typing import Callable, ClassVar, Dict, Generator, List, Optional, Type
+from typing import Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
 
 import pytest
 from pydantic import Field
@@ -153,13 +153,23 @@ class EOFTest(BaseTest):
     post: Alloc | None = None
     sender: EOA | None = None
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
         EOFFixture
-    ] + StateTest.supported_fixture_formats
+    ] + [
+        FixtureFormatWithPytestID(
+            fixture_format,
+            f"{fixture_format.fixture_format_name}_from_eof_test",
+        )
+        for fixture_format in StateTest.supported_fixture_formats
+    ]
 
-    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = (
-        StateTest.supported_execute_formats
-    )
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | ExecuteFormatWithPytestID]] = [
+        ExecuteFormatWithPytestID(
+            execute_format,
+            f"{execute_format.execute_format_name}_from_eof_test",
+        )
+        for execute_format in StateTest.supported_execute_formats
+    ]
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -375,7 +385,7 @@ EOFTestFiller = Type[EOFTest]
 class EOFTestOnly(EOFTest):
     """Filler type that tests EOF containers but does not generate a state/blockchain test."""
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
         EOFFixture
     ]
 

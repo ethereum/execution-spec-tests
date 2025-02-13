@@ -1,7 +1,7 @@
 """Ethereum state test spec definition and filler."""
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
 
 import pytest
 from pydantic import Field
@@ -50,12 +50,12 @@ class StateTest(BaseTest):
     blockchain_test_rlp_modifier: Optional[Header] = None
     chain_id: int = 1
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
         BlockchainFixture,
         BlockchainEngineFixture,
         StateFixture,
     ]
-    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = [
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | ExecuteFormatWithPytestID]] = [
         TransactionPost,
     ]
 
@@ -225,7 +225,7 @@ class StateTest(BaseTest):
 class StateTestOnly(StateTest):
     """StateTest filler that only generates a state test fixture."""
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
         StateFixture
     ]
 

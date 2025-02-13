@@ -2,7 +2,6 @@
 
 import hashlib
 import json
-from dataclasses import dataclass
 from functools import cached_property
 from typing import Any, ClassVar, Dict, Type
 
@@ -81,12 +80,27 @@ class BaseFixture(CamelModel):
         return True
 
 
-@dataclass
 class FixtureFormatWithPytestID:
     """Represents a fixture format with a custom pytest id."""
 
     format: Type[BaseFixture]
     pytest_id: str
+
+    def __init__(
+        self, fixture_format: "Type[BaseFixture] | FixtureFormatWithPytestID", pytest_id: str
+    ):
+        """Initialize the fixture format with a custom pytest id."""
+        self.format = (
+            fixture_format.format
+            if isinstance(fixture_format, FixtureFormatWithPytestID)
+            else fixture_format
+        )
+        self.pytest_id = pytest_id
+
+    @property
+    def fixture_format_name(self) -> str:
+        """Get the execute format name."""
+        return self.format.fixture_format_name
 
 
 # Type alias for a base fixture class

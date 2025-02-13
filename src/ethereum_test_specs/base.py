@@ -5,7 +5,7 @@ from functools import reduce
 from itertools import count
 from os import path
 from pathlib import Path
-from typing import Callable, ClassVar, Generator, Iterator, List, Optional
+from typing import Callable, ClassVar, Generator, Iterator, List, Optional, Sequence
 
 import pytest
 from pydantic import BaseModel, Field
@@ -51,8 +51,8 @@ class BaseTest(BaseModel):
     t8n_dump_dir: Path | None = Field(None, exclude=True)
     _t8n_call_counter: Iterator[int] = count(0)
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = []
-    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = []
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = []
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | ExecuteFormatWithPytestID]] = []
 
     @abstractmethod
     def generate(

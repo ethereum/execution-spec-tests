@@ -1,6 +1,6 @@
 """Ethereum transaction test spec definition and filler."""
 
-from typing import Callable, ClassVar, Generator, List, Optional, Type
+from typing import Callable, ClassVar, Generator, List, Optional, Sequence, Type
 
 import pytest
 
@@ -30,10 +30,10 @@ class TransactionTest(BaseTest):
     tx: Transaction
     pre: Alloc | None = None
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
         TransactionFixture,
     ]
-    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = [
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | ExecuteFormatWithPytestID]] = [
         TransactionPost,
     ]
 
