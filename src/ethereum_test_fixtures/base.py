@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from dataclasses import dataclass
 from functools import cached_property
 from typing import Any, ClassVar, Dict, Type
 
@@ -78,6 +79,14 @@ class BaseFixture(CamelModel):
         By default, all fixtures support all forks.
         """
         return True
+
+
+@dataclass
+class FixtureFormatWithPytestID:
+    """Represents a fixture format with a custom pytest id."""
+
+    format: Type[BaseFixture]
+    pytest_id: str
 
 
 # Type alias for a base fixture class

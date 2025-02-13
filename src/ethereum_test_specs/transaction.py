@@ -5,8 +5,18 @@ from typing import Callable, ClassVar, Generator, List, Optional, Type
 import pytest
 
 from ethereum_clis import TransitionTool
-from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
-from ethereum_test_fixtures import BaseFixture, FixtureFormat, TransactionFixture
+from ethereum_test_execution import (
+    BaseExecute,
+    ExecuteFormat,
+    ExecuteFormatWithPytestID,
+    TransactionPost,
+)
+from ethereum_test_fixtures import (
+    BaseFixture,
+    FixtureFormat,
+    FixtureFormatWithPytestID,
+    TransactionFixture,
+)
 from ethereum_test_fixtures.transaction import Fixture, FixtureResult
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Transaction
@@ -20,10 +30,10 @@ class TransactionTest(BaseTest):
     tx: Transaction
     pre: Alloc | None = None
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
+    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
         TransactionFixture,
     ]
-    supported_execute_formats: ClassVar[List[ExecuteFormat]] = [
+    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = [
         TransactionPost,
     ]
 

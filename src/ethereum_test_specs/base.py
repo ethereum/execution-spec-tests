@@ -12,8 +12,8 @@ from pydantic import BaseModel, Field
 
 from ethereum_clis import Result, TransitionTool
 from ethereum_test_base_types import to_hex
-from ethereum_test_execution import BaseExecute, ExecuteFormat
-from ethereum_test_fixtures import BaseFixture, FixtureFormat
+from ethereum_test_execution import BaseExecute, ExecuteFormat, ExecuteFormatWithPytestID
+from ethereum_test_fixtures import BaseFixture, FixtureFormat, FixtureFormatWithPytestID
 from ethereum_test_forks import Fork
 from ethereum_test_types import Environment, Withdrawal
 
@@ -51,8 +51,8 @@ class BaseTest(BaseModel):
     t8n_dump_dir: Path | None = Field(None, exclude=True)
     _t8n_call_counter: Iterator[int] = count(0)
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = []
-    supported_execute_formats: ClassVar[List[ExecuteFormat]] = []
+    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = []
+    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = []
 
     @abstractmethod
     def generate(

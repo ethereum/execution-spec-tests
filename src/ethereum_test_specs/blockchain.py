@@ -20,12 +20,18 @@ from ethereum_test_base_types import (
     Number,
 )
 from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
-from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
+from ethereum_test_execution import (
+    BaseExecute,
+    ExecuteFormat,
+    ExecuteFormatWithPytestID,
+    TransactionPost,
+)
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
     BlockchainFixture,
     FixtureFormat,
+    FixtureFormatWithPytestID,
 )
 from ethereum_test_fixtures.blockchain import (
     FixtureBlock,
@@ -287,11 +293,11 @@ class BlockchainTest(BaseTest):
     verify_sync: bool = False
     chain_id: int = 1
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
+    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
         BlockchainFixture,
         BlockchainEngineFixture,
     ]
-    supported_execute_formats: ClassVar[List[ExecuteFormat]] = [
+    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = [
         TransactionPost,
     ]
 
@@ -738,7 +744,7 @@ class BlockchainTestEngine(BlockchainTest):
     only for the Engine API.
     """
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
+    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
         BlockchainEngineFixture,
     ]
 

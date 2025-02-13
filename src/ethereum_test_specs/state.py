@@ -8,12 +8,18 @@ from pydantic import Field
 
 from ethereum_clis import TransitionTool
 from ethereum_test_exceptions import EngineAPIError
-from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
+from ethereum_test_execution import (
+    BaseExecute,
+    ExecuteFormat,
+    ExecuteFormatWithPytestID,
+    TransactionPost,
+)
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
     BlockchainFixture,
     FixtureFormat,
+    FixtureFormatWithPytestID,
     StateFixture,
 )
 from ethereum_test_fixtures.common import FixtureBlobSchedule
@@ -44,12 +50,12 @@ class StateTest(BaseTest):
     blockchain_test_rlp_modifier: Optional[Header] = None
     chain_id: int = 1
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
+    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
         BlockchainFixture,
         BlockchainEngineFixture,
         StateFixture,
     ]
-    supported_execute_formats: ClassVar[List[ExecuteFormat]] = [
+    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = [
         TransactionPost,
     ]
 
@@ -219,7 +225,9 @@ class StateTest(BaseTest):
 class StateTestOnly(StateTest):
     """StateTest filler that only generates a state test fixture."""
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [StateFixture]
+    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+        StateFixture
+    ]
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]

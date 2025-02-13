@@ -2,7 +2,7 @@
 
 from typing import Dict
 
-from .base import BaseFixture, FixtureFormat
+from .base import BaseFixture, FixtureFormat, FixtureFormatWithPytestID
 from .blockchain import BlockchainEngineFixture, BlockchainFixture, BlockchainFixtureCommon
 from .collector import FixtureCollector, TestInfo
 from .eof import Fixture as EOFFixture
@@ -23,12 +23,13 @@ FIXTURE_FORMATS: Dict[str, FixtureFormat] = {
 __all__ = [
     "FIXTURE_FORMATS",
     "BaseFixture",
+    "BlockchainEngineFixture",
     "BlockchainFixture",
     "BlockchainFixtureCommon",
-    "BlockchainEngineFixture",
     "EOFFixture",
     "FixtureCollector",
     "FixtureFormat",
+    "FixtureFormatWithPytestID",
     "FixtureVerifier",
     "StateFixture",
     "TestInfo",

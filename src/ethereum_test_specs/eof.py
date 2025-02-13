@@ -13,8 +13,18 @@ from pydantic import Field
 from ethereum_clis import EvmoneExceptionMapper, TransitionTool
 from ethereum_test_base_types import Account, Bytes, HexNumber
 from ethereum_test_exceptions.exceptions import EOFExceptionInstanceOrList, to_pipe_str
-from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
-from ethereum_test_fixtures import BaseFixture, EOFFixture, FixtureFormat
+from ethereum_test_execution import (
+    BaseExecute,
+    ExecuteFormat,
+    ExecuteFormatWithPytestID,
+    TransactionPost,
+)
+from ethereum_test_fixtures import (
+    BaseFixture,
+    EOFFixture,
+    FixtureFormat,
+    FixtureFormatWithPytestID,
+)
 from ethereum_test_fixtures.eof import Result, Vector
 from ethereum_test_forks import Fork
 from ethereum_test_types import EOA, Alloc, Environment, Transaction
@@ -143,11 +153,13 @@ class EOFTest(BaseTest):
     post: Alloc | None = None
     sender: EOA | None = None
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
+    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
         EOFFixture
     ] + StateTest.supported_fixture_formats
 
-    supported_execute_formats: ClassVar[List[ExecuteFormat]] = StateTest.supported_execute_formats
+    supported_execute_formats: ClassVar[List[ExecuteFormat | ExecuteFormatWithPytestID]] = (
+        StateTest.supported_execute_formats
+    )
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -363,7 +375,9 @@ EOFTestFiller = Type[EOFTest]
 class EOFTestOnly(EOFTest):
     """Filler type that tests EOF containers but does not generate a state/blockchain test."""
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [EOFFixture]
+    supported_fixture_formats: ClassVar[List[FixtureFormat | FixtureFormatWithPytestID]] = [
+        EOFFixture
+    ]
 
     @classmethod
     def pytest_parameter_name(cls) -> str:

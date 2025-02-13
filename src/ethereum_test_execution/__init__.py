@@ -2,7 +2,7 @@
 
 from typing import Dict
 
-from .base import BaseExecute, ExecuteFormat
+from .base import BaseExecute, ExecuteFormat, ExecuteFormatWithPytestID
 from .transaction_post import TransactionPost
 
 EXECUTE_FORMATS: Dict[str, ExecuteFormat] = {
@@ -14,6 +14,7 @@ EXECUTE_FORMATS: Dict[str, ExecuteFormat] = {
 __all__ = [
     "BaseExecute",
     "ExecuteFormat",
+    "ExecuteFormatWithPytestID",
     "TransactionPost",
     "EXECUTE_FORMATS",
 ]
