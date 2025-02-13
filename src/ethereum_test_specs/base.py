@@ -5,7 +5,7 @@ from functools import reduce
 from itertools import count
 from os import path
 from pathlib import Path
-from typing import Callable, ClassVar, Generator, Iterator, List, Optional, Sequence
+from typing import Callable, ClassVar, Dict, Generator, Iterator, List, Optional, Sequence
 
 import pytest
 from pydantic import BaseModel, Field
@@ -53,6 +53,28 @@ class BaseTest(BaseModel):
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = []
     supported_execute_formats: ClassVar[Sequence[ExecuteFormat | ExecuteFormatWithPytestID]] = []
+
+    supported_markers: ClassVar[Dict[str, str]] = {}
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fixture_format: FixtureFormat,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard a fixture format from filling if the appropriate marker is used."""
+        return False
+
+    @classmethod
+    def discard_execute_format_by_marks(
+        cls,
+        execute_format: ExecuteFormat,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard an execute format from executing if the appropriate marker is used."""
+        return False
 
     @abstractmethod
     def generate(

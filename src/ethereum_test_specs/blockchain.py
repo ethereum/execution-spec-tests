@@ -301,6 +301,25 @@ class BlockchainTest(BaseTest):
         TransactionPost,
     ]
 
+    supported_markers: ClassVar[Dict[str, str]] = {
+        "blockchain_test_engine_only": "Only generate a blockchain test engine fixture",
+        "blockchain_test_only": "Only generate a blockchain test fixture",
+    }
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fixture_format: FixtureFormat,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard a fixture format from filling if the appropriate marker is used."""
+        if "blockchain_test_only" in [m.name for m in markers]:
+            return fixture_format != BlockchainFixture
+        if "blockchain_test_engine_only" in [m.name for m in markers]:
+            return fixture_format != BlockchainEngineFixture
+        return False
+
     def make_genesis(
         self,
         fork: Fork,
@@ -736,18 +755,3 @@ class BlockchainTest(BaseTest):
 
 BlockchainTestSpec = Callable[[str], Generator[BlockchainTest, None, None]]
 BlockchainTestFiller = Type[BlockchainTest]
-
-
-class BlockchainTestEngine(BlockchainTest):
-    """
-    Filler type that tests multiple blocks (valid or invalid) in a chain,
-    only for the Engine API.
-    """
-
-    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | FixtureFormatWithPytestID]] = [
-        BlockchainEngineFixture,
-    ]
-
-
-BlockchainTestEngineSpec = Callable[[str], Generator[BlockchainTestEngine, None, None]]
-BlockchainTestEngineFiller = Type[BlockchainTestEngine]

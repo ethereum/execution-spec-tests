@@ -257,19 +257,25 @@ def test_valid_containers(
             raw_bytes=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0xFF, 0xFF]),
             validity_error=EOFException.TOO_MANY_CODE_SECTIONS,
         ),
-        Container(
-            name="code_section_count_0x8000",
-            raw_bytes=bytes(
-                [0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0x80, 0x00] + [0x00, 0x01] * 0x8000
+        pytest.param(
+            Container(
+                name="code_section_count_0x8000",
+                raw_bytes=bytes(
+                    [0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0x80, 0x00] + [0x00, 0x01] * 0x8000
+                ),
+                validity_error=EOFException.CONTAINER_SIZE_ABOVE_LIMIT,
             ),
-            validity_error=EOFException.CONTAINER_SIZE_ABOVE_LIMIT,
+            marks=pytest.mark.eof_test_only(reason="initcode too large"),
         ),
-        Container(
-            name="code_section_count_0xFFFF",
-            raw_bytes=bytes(
-                [0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0xFF, 0xFF] + [0x00, 0x01] * 0xFFFF
+        pytest.param(
+            Container(
+                name="code_section_count_0xFFFF",
+                raw_bytes=bytes(
+                    [0xEF, 0x00, 0x01, 0x01, 0x00, 0x04, 0x02, 0xFF, 0xFF] + [0x00, 0x01] * 0xFFFF
+                ),
+                validity_error=EOFException.CONTAINER_SIZE_ABOVE_LIMIT,
             ),
-            validity_error=EOFException.CONTAINER_SIZE_ABOVE_LIMIT,
+            marks=pytest.mark.eof_test_only(reason="initcode too large"),
         ),
         Container(
             name="code_section_size_0x8000_truncated",
@@ -1180,12 +1186,12 @@ def test_valid_containers(
     ids=lambda c: c.name,
 )
 def test_invalid_containers(
-    eof_test_only: EOFTestFiller,  # TODO: Disable specific tests by using pytest.mark.eof_only
+    eof_test: EOFTestFiller,
     container: Container,
 ):
     """Test invalid containers."""
     assert container.validity_error is not None, "Invalid container without validity error"
-    eof_test_only(
+    eof_test(
         container=container,
         expect_exception=container.validity_error,
     )
