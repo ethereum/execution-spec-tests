@@ -17,7 +17,7 @@ from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
 from ethereum_test_fixtures import BaseFixture, EOFFixture, FixtureFormat
 from ethereum_test_fixtures.eof import Result, Vector
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types import EOA, Alloc, Environment, Transaction
 from ethereum_test_types.eof.v1 import Container, ContainerKind, Section
 from ethereum_test_vm import Opcodes as Op
 
@@ -141,10 +141,13 @@ class EOFTest(BaseTest):
     deployed_container: Container | None = None
     pre: Alloc | None = None
     post: Alloc | None = None
+    sender: EOA | None = None
 
     supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
         EOFFixture
     ] + StateTest.supported_fixture_formats
+
+    supported_execute_formats: ClassVar[List[ExecuteFormat]] = StateTest.supported_execute_formats
 
     @classmethod
     def pytest_parameter_name(cls) -> str:
@@ -173,6 +176,11 @@ class EOFTest(BaseTest):
                 self.container_kind = self.container.kind
             elif "container_kind" in self.model_fields_set:
                 self.container.kind = self.container_kind
+
+        assert self.pre is not None, "pre must be set to generate a StateTest."
+        self.sender = self.pre.fund_eoa()
+        if self.post is None:
+            self.post = Alloc()
 
     def make_eof_test_fixture(
         self,
@@ -255,11 +263,8 @@ class EOFTest(BaseTest):
 
     def generate_eof_contract_create_transaction(self) -> Transaction:
         """Generate a transaction that creates a contract."""
-        assert self.pre is not None, "pre must be set to generate a StateTest."
-
-        sender = self.pre.fund_eoa()
-        if self.post is None:
-            self.post = Alloc()
+        assert self.sender is not None, "sender must be set to generate a StateTest."
+        assert self.post is not None, "post must be set to generate a StateTest."
 
         initcode: Container
         deployed_container: Container | None
@@ -293,7 +298,7 @@ class EOFTest(BaseTest):
             deployed_container = self.container
 
         tx = Transaction(
-            sender=sender,
+            sender=self.sender,
             to=None,
             gas_limit=10_000_000,
             data=initcode,
