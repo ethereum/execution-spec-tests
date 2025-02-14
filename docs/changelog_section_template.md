@@ -4,10 +4,10 @@ The following can be copy-pasted into the `CHANGELOG.md` file for a new release.
 
 ## 🔜 [Unreleased]
 
-### 🧪 Test Cases
+### 💥 Breaking Change
 
 ### 🛠️ Framework
 
-### 🔧 EVM Tools
-
 ### 📋 Misc
+
+### 🧪 Test Cases
