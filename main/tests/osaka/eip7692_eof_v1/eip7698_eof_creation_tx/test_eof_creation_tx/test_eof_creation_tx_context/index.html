@@ -12454,6 +12454,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -12586,6 +12590,48 @@
   
   <span class="md-ellipsis">
     <code>test_lecacy_cannot_create_eof</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_invalid_container_deployment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_container_deployment</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_short_data_subcontainer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_short_data_subcontainer</code>
   </span>
   
 
@@ -27213,7 +27259,7 @@
 
 
 <h1 id="test_eof_creation_tx_context"><code>test_eof_creation_tx_context()</code><a class="headerlink" href="#test_eof_creation_tx_context" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2e1d3a0c7ec7a2f02fd7b9ad4900f79e323910f1/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py#L21"><code>tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py::test_eof_creation_tx_context@2e1d3a0c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/464292a2c00c84ed848bfc186f97d9b7086457de/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py#L28"><code>tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py::test_eof_creation_tx_context@464292a2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py::test_eof_creation_tx_context --fork Osaka</span>
@@ -27232,14 +27278,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
@@ -27288,7 +27327,14 @@
 <span class="normal">74</span>
 <span class="normal">75</span>
 <span class="normal">76</span>
-<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;destination_code&quot;</span><span class="p">,</span> <span class="s2">&quot;expected_result&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">,</span> <span class="s2">&quot;destination&quot;</span><span class="p">),</span>
@@ -27317,9 +27363,9 @@
         <span class="p">]</span>
     <span class="p">)</span>
 
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="n">sender</span><span class="o">.</span><span class="n">nonce</span><span class="p">)</span>
-
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="n">initcode</span><span class="p">)</span>
+
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span>
 
     <span class="n">expected_bytes</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="nb">int</span>
     <span class="k">if</span> <span class="n">expected_result</span> <span class="o">==</span> <span class="s2">&quot;destination&quot;</span><span class="p">:</span>

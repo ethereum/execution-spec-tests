@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_eof_creation_tx_context/">
       
       
-        <link rel="next" href="../../../../../prague/">
+        <link rel="next" href="../test_invalid_container_deployment/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -12454,6 +12454,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -12590,6 +12594,48 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_invalid_container_deployment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_container_deployment</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_short_data_subcontainer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_short_data_subcontainer</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27213,7 +27259,7 @@
 
 
 <h1 id="test_lecacy_cannot_create_eof"><code>test_lecacy_cannot_create_eof()</code><a class="headerlink" href="#test_lecacy_cannot_create_eof" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2e1d3a0c7ec7a2f02fd7b9ad4900f79e323910f1/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py#L80"><code>tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py::test_lecacy_cannot_create_eof@2e1d3a0c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/464292a2c00c84ed848bfc186f97d9b7086457de/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py#L87"><code>tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py::test_lecacy_cannot_create_eof@464292a2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py::test_lecacy_cannot_create_eof --fork Osaka</span>
@@ -27232,14 +27278,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 87</span>
 <span class="normal"> 88</span>
 <span class="normal"> 89</span>
 <span class="normal"> 90</span>
@@ -27255,7 +27294,14 @@
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_lecacy_cannot_create_eof</span><span class="p">(</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_lecacy_cannot_create_eof</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -27265,9 +27311,9 @@
 
     <span class="n">initcode</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">smallest_runtime_subcontainer</span><span class="p">)</span>
 
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="n">sender</span><span class="o">.</span><span class="n">nonce</span><span class="p">)</span>
-
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">)</span>
+
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
