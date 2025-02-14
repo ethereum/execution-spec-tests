@@ -8,7 +8,7 @@ import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from ethereum_test_base_types import Number
-from ethereum_test_execution import BaseExecute
+from ethereum_test_execution import BaseExecute, LabeledExecuteFormat
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import SPEC_TYPES, BaseTest, TestInfo, Transaction
@@ -340,16 +340,41 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in SPEC_TYPES:
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
+            parameters = []
+            for format_with_or_without_id in test_type.supported_execute_formats:
+                if isinstance(format_with_or_without_id, LabeledExecuteFormat):
+                    parameters.append(
+                        pytest.param(
+                            format_with_or_without_id.format,
+                            id=format_with_or_without_id.label,
+                            marks=[
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.format.execute_format_name.lower(),
+                                ),
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.label.lower(),
+                                ),
+                            ],
+                        )
+                    )
+                else:
+                    parameters.append(
+                        pytest.param(
+                            format_with_or_without_id,
+                            id=format_with_or_without_id.execute_format_name.lower(),
+                            marks=[
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.execute_format_name.lower(),
+                                )
+                            ],
+                        )
+                    )
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
-                [
-                    pytest.param(
-                        execute_format,
-                        id=execute_format.execute_format_name.lower(),
-                        marks=[getattr(pytest.mark, execute_format.execute_format_name.lower())],
-                    )
-                    for execute_format in test_type.supported_execute_formats
-                ],
+                parameters,
                 scope="function",
                 indirect=True,
             )

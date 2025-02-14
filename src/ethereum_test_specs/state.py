@@ -1,19 +1,23 @@
 """Ethereum state test spec definition and filler."""
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
 
 import pytest
 from pydantic import Field
 
 from ethereum_clis import TransitionTool
 from ethereum_test_exceptions import EngineAPIError
-from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
+from ethereum_test_execution import (
+    BaseExecute,
+    ExecuteFormat,
+    LabeledExecuteFormat,
+    TransactionPost,
+)
 from ethereum_test_fixtures import (
     BaseFixture,
-    BlockchainEngineFixture,
-    BlockchainFixture,
     FixtureFormat,
+    LabeledFixtureFormat,
     StateFixture,
 )
 from ethereum_test_fixtures.common import FixtureBlobSchedule
@@ -44,12 +48,16 @@ class StateTest(BaseTest):
     blockchain_test_rlp_modifier: Optional[Header] = None
     chain_id: int = 1
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
-        BlockchainFixture,
-        BlockchainEngineFixture,
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         StateFixture,
+    ] + [
+        LabeledFixtureFormat(
+            fixture_format,
+            f"{fixture_format.fixture_format_name}_from_state_test",
+        )
+        for fixture_format in BlockchainTest.supported_fixture_formats
     ]
-    supported_execute_formats: ClassVar[List[ExecuteFormat]] = [
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | LabeledExecuteFormat]] = [
         TransactionPost,
     ]
 
@@ -219,7 +227,9 @@ class StateTest(BaseTest):
 class StateTestOnly(StateTest):
     """StateTest filler that only generates a state test fixture."""
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [StateFixture]
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
+        StateFixture
+    ]
 
 
 StateTestSpec = Callable[[str], Generator[StateTest, None, None]]
