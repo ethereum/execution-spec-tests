@@ -23,7 +23,12 @@ from cli.gen_index import generate_fixtures_index
 from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_fixtures import BaseFixture, FixtureCollector, TestInfo
+from ethereum_test_fixtures import (
+    BaseFixture,
+    FixtureCollector,
+    LabeledFixtureFormat,
+    TestInfo,
+)
 from ethereum_test_forks import Fork
 from ethereum_test_specs import SPEC_TYPES, BaseTest
 from ethereum_test_tools.utility.versioning import (
@@ -717,16 +722,41 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in SPEC_TYPES:
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
+            parameters = []
+            for format_with_or_without_id in test_type.supported_fixture_formats:
+                if isinstance(format_with_or_without_id, LabeledFixtureFormat):
+                    parameters.append(
+                        pytest.param(
+                            format_with_or_without_id.format,
+                            id=format_with_or_without_id.label,
+                            marks=[
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.format.fixture_format_name.lower(),
+                                ),
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.label.lower(),
+                                ),
+                            ],
+                        )
+                    )
+                else:
+                    parameters.append(
+                        pytest.param(
+                            format_with_or_without_id,
+                            id=format_with_or_without_id.fixture_format_name.lower(),
+                            marks=[
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.fixture_format_name.lower(),
+                                )
+                            ],
+                        )
+                    )
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
-                [
-                    pytest.param(
-                        fixture_format,
-                        id=fixture_format.fixture_format_name.lower(),
-                        marks=[getattr(pytest.mark, fixture_format.fixture_format_name.lower())],
-                    )
-                    for fixture_format in test_type.supported_fixture_formats
-                ],
+                parameters,
                 scope="function",
                 indirect=True,
             )
