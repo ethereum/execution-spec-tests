@@ -192,58 +192,58 @@ total_test_count = test_count_paris + test_count_shanghai
             ["--single-fixture-per-file"],
             [
                 Path(
-                    "fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Paris_blockchain_test.json"
+                    "fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Paris_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "fixtures/state_tests/paris/module_paris/paris_one__fork_Paris_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests_engine/paris/module_paris/paris_one__fork_Paris_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/paris/module_paris/paris_one__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Shanghai_blockchain_test.json"
+                    "fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Shanghai_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "fixtures/state_tests/paris/module_paris/paris_one__fork_Shanghai_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests_engine/paris/module_paris/paris_one__fork_Shanghai_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/paris/module_paris/paris_one__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests/paris/module_paris/paris_two__fork_Paris_blockchain_test.json"
+                    "fixtures/blockchain_tests/paris/module_paris/paris_two__fork_Paris_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "fixtures/state_tests/paris/module_paris/paris_two__fork_Paris_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests_engine/paris/module_paris/paris_two__fork_Paris_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/paris/module_paris/paris_two__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests/paris/module_paris/paris_two__fork_Shanghai_blockchain_test.json"
+                    "fixtures/blockchain_tests/paris/module_paris/paris_two__fork_Shanghai_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "fixtures/state_tests/paris/module_paris/paris_two__fork_Shanghai_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests_engine/paris/module_paris/paris_two__fork_Shanghai_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/paris/module_paris/paris_two__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one__fork_Paris_blockchain_test.json"
+                    "fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one__fork_Paris_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "fixtures/state_tests/shanghai/module_shanghai/shanghai_one__fork_Paris_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one__fork_Paris_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one__fork_Shanghai_blockchain_test.json"
+                    "fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one__fork_Shanghai_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "fixtures/state_tests/shanghai/module_shanghai/shanghai_one__fork_Shanghai_state_test.json"
                 ),
                 Path(
-                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one__fork_Shanghai_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
                     "fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_two__fork_Paris_blockchain_test_x_1.json"
@@ -307,58 +307,58 @@ total_test_count = test_count_paris + test_count_shanghai
             ["--single-fixture-per-file", "--output", "other_fixtures"],
             [
                 Path(
-                    "other_fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Paris_blockchain_test.json"
+                    "other_fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Paris_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "other_fixtures/state_tests/paris/module_paris/paris_one__fork_Paris_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests_engine/paris/module_paris/paris_one__fork_Paris_blockchain_test_engine.json"
+                    "other_fixtures/blockchain_tests_engine/paris/module_paris/paris_one__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Shanghai_blockchain_test.json"
+                    "other_fixtures/blockchain_tests/paris/module_paris/paris_one__fork_Shanghai_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "other_fixtures/state_tests/paris/module_paris/paris_one__fork_Shanghai_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests_engine/paris/module_paris/paris_one__fork_Shanghai_blockchain_test_engine.json"
+                    "other_fixtures/blockchain_tests_engine/paris/module_paris/paris_one__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests/paris/module_paris/paris_two__fork_Paris_blockchain_test.json"
+                    "other_fixtures/blockchain_tests/paris/module_paris/paris_two__fork_Paris_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "other_fixtures/state_tests/paris/module_paris/paris_two__fork_Paris_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests_engine/paris/module_paris/paris_two__fork_Paris_blockchain_test_engine.json"
+                    "other_fixtures/blockchain_tests_engine/paris/module_paris/paris_two__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests/paris/module_paris/paris_two__fork_Shanghai_blockchain_test.json"
+                    "other_fixtures/blockchain_tests/paris/module_paris/paris_two__fork_Shanghai_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "other_fixtures/state_tests/paris/module_paris/paris_two__fork_Shanghai_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests_engine/paris/module_paris/paris_two__fork_Shanghai_blockchain_test_engine.json"
+                    "other_fixtures/blockchain_tests_engine/paris/module_paris/paris_two__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one__fork_Paris_blockchain_test.json"
+                    "other_fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one__fork_Paris_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "other_fixtures/state_tests/shanghai/module_shanghai/shanghai_one__fork_Paris_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one__fork_Paris_blockchain_test_engine.json"
+                    "other_fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one__fork_Shanghai_blockchain_test.json"
+                    "other_fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_one__fork_Shanghai_blockchain_test_from_state_test.json"
                 ),
                 Path(
                     "other_fixtures/state_tests/shanghai/module_shanghai/shanghai_one__fork_Shanghai_state_test.json"
                 ),
                 Path(
-                    "other_fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one__fork_Shanghai_blockchain_test_engine.json"
+                    "other_fixtures/blockchain_tests_engine/shanghai/module_shanghai/shanghai_one__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
                     "other_fixtures/blockchain_tests/shanghai/module_shanghai/shanghai_two__fork_Paris_blockchain_test_x_1.json"
@@ -421,35 +421,47 @@ total_test_count = test_count_paris + test_count_shanghai
         pytest.param(
             ["--flat-output", "--single-fixture-per-file"],
             [
-                Path("fixtures/blockchain_tests/paris_one__fork_Paris_blockchain_test.json"),
+                Path(
+                    "fixtures/blockchain_tests/paris_one__fork_Paris_blockchain_test_from_state_test.json"
+                ),
                 Path("fixtures/state_tests/paris_one__fork_Paris_state_test.json"),
                 Path(
-                    "fixtures/blockchain_tests_engine/paris_one__fork_Paris_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/paris_one__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
-                Path("fixtures/blockchain_tests/paris_one__fork_Shanghai_blockchain_test.json"),
+                Path(
+                    "fixtures/blockchain_tests/paris_one__fork_Shanghai_blockchain_test_from_state_test.json"
+                ),
                 Path("fixtures/state_tests/paris_one__fork_Shanghai_state_test.json"),
                 Path(
-                    "fixtures/blockchain_tests_engine/paris_one__fork_Shanghai_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/paris_one__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
-                Path("fixtures/blockchain_tests/paris_two__fork_Paris_blockchain_test.json"),
+                Path(
+                    "fixtures/blockchain_tests/paris_two__fork_Paris_blockchain_test_from_state_test.json"
+                ),
                 Path("fixtures/state_tests/paris_two__fork_Paris_state_test.json"),
                 Path(
-                    "fixtures/blockchain_tests_engine/paris_two__fork_Paris_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/paris_two__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
-                Path("fixtures/blockchain_tests/paris_two__fork_Shanghai_blockchain_test.json"),
+                Path(
+                    "fixtures/blockchain_tests/paris_two__fork_Shanghai_blockchain_test_from_state_test.json"
+                ),
                 Path("fixtures/state_tests/paris_two__fork_Shanghai_state_test.json"),
                 Path(
-                    "fixtures/blockchain_tests_engine/paris_two__fork_Shanghai_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/paris_two__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
-                Path("fixtures/blockchain_tests/shanghai_one__fork_Paris_blockchain_test.json"),
+                Path(
+                    "fixtures/blockchain_tests/shanghai_one__fork_Paris_blockchain_test_from_state_test.json"
+                ),
                 Path("fixtures/state_tests/shanghai_one__fork_Paris_state_test.json"),
                 Path(
-                    "fixtures/blockchain_tests_engine/shanghai_one__fork_Paris_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/shanghai_one__fork_Paris_blockchain_test_engine_from_state_test.json"
                 ),
-                Path("fixtures/blockchain_tests/shanghai_one__fork_Shanghai_blockchain_test.json"),
+                Path(
+                    "fixtures/blockchain_tests/shanghai_one__fork_Shanghai_blockchain_test_from_state_test.json"
+                ),
                 Path("fixtures/state_tests/shanghai_one__fork_Shanghai_state_test.json"),
                 Path(
-                    "fixtures/blockchain_tests_engine/shanghai_one__fork_Shanghai_blockchain_test_engine.json"
+                    "fixtures/blockchain_tests_engine/shanghai_one__fork_Shanghai_blockchain_test_engine_from_state_test.json"
                 ),
                 Path(
                     "fixtures/blockchain_tests/shanghai_two__fork_Paris_blockchain_test_x_1.json"
