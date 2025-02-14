@@ -17120,6 +17120,8 @@
       
         
       
+        
+      
     
     
       
@@ -17236,6 +17238,27 @@
   
   <span class="md-ellipsis">
     <code>test_self_set_code_cost</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_gas/test_call_to_pre_authorized_oog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_call_to_pre_authorized_oog</code>
   </span>
   
 
@@ -29474,7 +29497,15 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
 <span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
-<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">(</span><span class="n">ExceptionMapper</span><span class="p">):</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">(</span><span class="n">ExceptionMapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Translate between EEST exceptions and error strings returned by Evmone.&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -29535,6 +29566,14 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
             <span class="n">ExceptionMessage</span><span class="p">(</span>
                 <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_ZERO_BLOBS</span><span class="p">,</span>
                 <span class="s2">&quot;empty blob hashes list&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">NONCE_MISMATCH_TOO_LOW</span><span class="p">,</span>
+                <span class="s2">&quot;nonce too low&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">ExceptionMessage</span><span class="p">(</span>
+                <span class="n">TransactionException</span><span class="o">.</span><span class="n">NONCE_MISMATCH_TOO_HIGH</span><span class="p">,</span>
+                <span class="s2">&quot;nonce too high&quot;</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="c1"># TODO EVMONE needs to differentiate when the section is missing in the header or body</span>
             <span class="n">ExceptionMessage</span><span class="p">(</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_STOP_OPCODE</span><span class="p">,</span> <span class="s2">&quot;err: no_terminating_instruction&quot;</span><span class="p">),</span>

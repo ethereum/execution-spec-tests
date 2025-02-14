@@ -16633,6 +16633,8 @@
       
         
       
+        
+      
     
     
       
@@ -16749,6 +16751,27 @@
   
   <span class="md-ellipsis">
     <code>test_self_set_code_cost</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_gas/test_call_to_pre_authorized_oog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_call_to_pre_authorized_oog</code>
   </span>
   
 
@@ -27259,7 +27282,7 @@
 
 
 <h1 id="test_returndatacopy_handling"><code>test_returndatacopy_handling()</code><a class="headerlink" href="#test_returndatacopy_handling" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6baa2aaf8b95d10822f09737923916990bc61de1/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py#L32"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_handling@6baa2aaf</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e51cb1aac2b57ab19402056ab59c364233b9f201/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py#L34"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_handling@e51cb1aa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_handling --fork Osaka</span>
@@ -27274,7 +27297,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip7069_extcall.test_returndataload.test_returndatacopy_handling"></a>
     <div class="doc doc-contents first">
 
-      <p>Tests ReturnDataLoad including multiple offset conditions and differeing legacy vs. eof
+      <p>Tests ReturnDataLoad including multiple offset conditions and differing legacy vs. eof
 boundary conditions.</p>
 <p>entrypoint creates a "0xff" test area of memory, delegate calls to caller.
 Caller is either EOF or legacy, as per parameter.  Calls returner and copies the return data
@@ -27283,9 +27306,7 @@ based on offset and size params.  Cases are expected to trigger boundary violati
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 32</span>
-<span class="normal"> 33</span>
-<span class="normal"> 34</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 34</span>
 <span class="normal"> 35</span>
 <span class="normal"> 36</span>
 <span class="normal"> 37</span>
@@ -27428,7 +27449,9 @@ based on offset and size params.  Cases are expected to trigger boundary violati
 <span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
-<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span>
@@ -27479,7 +27502,7 @@ based on offset and size params.  Cases are expected to trigger boundary violati
     <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tests ReturnDataLoad including multiple offset conditions and differeing legacy vs. eof</span>
+<span class="sd">    Tests ReturnDataLoad including multiple offset conditions and differing legacy vs. eof</span>
 <span class="sd">    boundary conditions.</span>
 
 <span class="sd">    entrypoint creates a &quot;0xff&quot; test area of memory, delegate calls to caller.</span>

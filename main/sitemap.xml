@@ -3621,6 +3621,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_gas/test_call_to_pre_authorized_oog/</loc>
+         <lastmod>2025-02-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_gas/test_gas_cost/</loc>
          <lastmod>2025-02-14</lastmod>
          <changefreq>daily</changefreq>

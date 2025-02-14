@@ -16633,6 +16633,8 @@
       
         
       
+        
+      
     
     
       
@@ -16749,6 +16751,27 @@
   
   <span class="md-ellipsis">
     <code>test_self_set_code_cost</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_gas/test_call_to_pre_authorized_oog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_call_to_pre_authorized_oog</code>
   </span>
   
 
@@ -27259,7 +27282,7 @@
 
 
 <h1 id="test_returndatacopy_oob"><code>test_returndatacopy_oob()</code><a class="headerlink" href="#test_returndatacopy_oob" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6baa2aaf8b95d10822f09737923916990bc61de1/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py#L271"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob@6baa2aaf</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e51cb1aac2b57ab19402056ab59c364233b9f201/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py#L273"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob@e51cb1aa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob --fork Osaka</span>
@@ -27280,9 +27303,7 @@ RETURNDATACOPY instance under test.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">273</span>
 <span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
@@ -27381,7 +27402,12 @@ RETURNDATACOPY instance under test.</p>
 <span class="normal">369</span>
 <span class="normal">370</span>
 <span class="normal">371</span>
-<span class="normal">372</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span>
@@ -27430,13 +27456,16 @@ RETURNDATACOPY instance under test.</p>
     <span class="p">)</span>
 
     <span class="n">storage_entry_point</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">(</span>
-        <span class="p">{</span>
-            <span class="n">slot_eof_target_call_status</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
-            <span class="n">slot_eof_target_returndata</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
-            <span class="n">slot_eof_target_returndatasize</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
-            <span class="n">slot_legacy_target_call_status</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
-            <span class="n">slot_legacy_target_returndatasize</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
-        <span class="p">}</span>
+        <span class="n">cast</span><span class="p">(</span>
+            <span class="n">Storage</span><span class="o">.</span><span class="n">StorageDictType</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="n">slot_eof_target_call_status</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
+                <span class="n">slot_eof_target_returndata</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
+                <span class="n">slot_eof_target_returndatasize</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
+                <span class="n">slot_legacy_target_call_status</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
+                <span class="n">slot_legacy_target_returndatasize</span><span class="p">:</span> <span class="n">value_exceptional_abort_canary</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
     <span class="p">)</span>
 
     <span class="n">address_entry_point</span> <span class="o">=</span> <span class="p">(</span>

@@ -16633,6 +16633,8 @@
       
         
       
+        
+      
     
     
       
@@ -16749,6 +16751,27 @@
   
   <span class="md-ellipsis">
     <code>test_self_set_code_cost</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../prague/eip7702_set_code_tx/test_gas/test_call_to_pre_authorized_oog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_call_to_pre_authorized_oog</code>
   </span>
   
 
@@ -27259,7 +27282,7 @@
 
 
 <h1 id="test_returndataload_handling"><code>test_returndataload_handling()</code><a class="headerlink" href="#test_returndataload_handling" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6baa2aaf8b95d10822f09737923916990bc61de1/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py#L180"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndataload_handling@6baa2aaf</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e51cb1aac2b57ab19402056ab59c364233b9f201/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py#L182"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndataload_handling@e51cb1aa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndataload_handling --fork Osaka</span>
@@ -27280,9 +27303,7 @@ The parameters offset and return data are configured to test boundary conditions
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
@@ -27368,7 +27389,9 @@ The parameters offset and return data are configured to test boundary conditions
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
-<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span>
