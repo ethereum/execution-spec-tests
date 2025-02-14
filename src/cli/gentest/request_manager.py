@@ -52,6 +52,7 @@ class RPCRequest:
     def eth_get_transaction_by_hash(self, transaction_hash: Hash) -> RemoteTransaction:
         """Get transaction data."""
         res = self.rpc.get_transaction_by_hash(transaction_hash)
+        assert res is not None, "Transaction not found"
         block_number = res.block_number
         assert block_number is not None, "Transaction does not seem to be included in any block"
 
