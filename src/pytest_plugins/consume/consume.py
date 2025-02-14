@@ -1,5 +1,6 @@
 """A pytest plugin providing common functionality for consuming test fixtures."""
 
+import re
 import sys
 import tarfile
 from dataclasses import dataclass
@@ -127,6 +128,51 @@ def download_and_extract(url: str, base_directory: Path) -> Tuple[bool, Path]:
     return already_cached, extract_to / "fixtures"
 
 
+@dataclass
+class SimLimitBehavior:
+    """Stores options derived from the `--sim.limit` argument."""
+
+    collectonly: bool = False
+    pattern: str = ".*"
+
+
+def process_sim_limit(pattern: str) -> SimLimitBehavior:
+    """
+    Process the `--sim.limit` argument to determine test filtering behavior.
+
+    The function handles three cases:
+    1. If the value is exactly "collectonly", enable collection mode without
+        filtering.
+    2. If the value starts with "collectonly:", enable collection mode and use the
+        rest as a regex pattern.
+    3. If the (possibly transformed) value starts with "id:", treat the rest as a
+        literal test ID and escape special regex characters.
+
+    Args:
+        pattern: The raw string passed to the --sim.limit option.
+
+    Returns:
+        A SimLimitBehavior object with appropriate settings.
+
+    """
+    if pattern == "collectonly":
+        return SimLimitBehavior(collectonly=True)
+
+    sim_limit = SimLimitBehavior(pattern=pattern)
+
+    collect_only_prefix = "collectonly:"
+    if sim_limit.pattern.startswith(collect_only_prefix):
+        sim_limit.collectonly = True
+        sim_limit.pattern = sim_limit.pattern[len(collect_only_prefix) :]
+
+    id_prefix = "id:"
+    if sim_limit.pattern.startswith(id_prefix):
+        literal_id = sim_limit.pattern[len(id_prefix) :]
+        assert literal_id, "Empty literal ID provided."
+        sim_limit.pattern = re.escape(literal_id)
+    return sim_limit
+
+
 def pytest_addoption(parser):  # noqa: D103
     consume_group = parser.getgroup(
         "consume", "Arguments related to consuming fixtures via a client"
@@ -171,6 +217,21 @@ def pytest_addoption(parser):  # noqa: D103
         help=(
             "Don't generate an HTML test report (in the output directory). "
             "The --html flag can be used to specify a different path."
+        ),
+    )
+    consume_group.addoption(
+        "--sim.limit",
+        action="store",
+        dest="sim_limit",
+        default=None,
+        help=(
+            "Filter tests by either a regex pattern or a literal test case ID. To match a "
+            "test case by its exact ID, prefix the ID with `id:`. The string following `id:` "
+            "will be automatically escaped so that all special regex characters are treated as "
+            "literals. Without the `id:` prefix, the argument is interpreted as a Python regex "
+            "pattern. To see which test cases are matched, without executing them, prefix with "
+            "`collectonly:`, e.g. `--sim.limit collectonly:.*eip4788.*fork_Prague.*`. "
+            "To list all available test case IDs, set the value to `collectonly`."
         ),
     )
 
@@ -230,6 +291,18 @@ def pytest_configure(config):  # noqa: D103
             disable_infer_format=False,
         )
     config.test_cases = TestCases.from_index_file(index_file)
+
+    if config.option.sim_limit:
+        if config.option.dest_regex != ".*":
+            pytest.exit(
+                "Both the --sim.limit (via env var?) and the --regex flags are set. "
+                "Please only set one of them."
+            )
+        sim_limit = process_sim_limit(config.option.sim_limit)
+        config.option.dest_regex = sim_limit.pattern
+        if sim_limit.collectonly:
+            config.option.collectonly = True
+            config.option.verbose = -1  # equivalent to -q; only print test ids
 
     if config.option.collectonly:
         return
