@@ -203,14 +203,14 @@ def container_name(c: Container):
     ids=container_name,
 )
 def test_valid_containers_with_data_section(
-    eof_test: EOFTestFiller,
+    eof_test_only: EOFTestFiller,  # TODO: Disable specific tests using pytest.mark.eof_only
     container: Container,
 ):
     """Test EOF validation of valid containers with data sections."""
     assert container.validity_error is None, (
         f"Valid container with validity error: {container.validity_error}"
     )
-    eof_test(
+    eof_test_only(
         container=container,
     )
 
@@ -221,12 +221,12 @@ def test_valid_containers_with_data_section(
     ids=container_name,
 )
 def test_invalid_containers_with_data_section(
-    eof_test: EOFTestFiller,
+    eof_test_only: EOFTestFiller,  # TODO: Disable specific tests using pytest.mark.eof_only
     container: Container,
 ):
     """Test EOF validation of invalid containers with data sections."""
     assert container.validity_error is not None, "Invalid container without validity error"
-    eof_test(
+    eof_test_only(
         container=container,
         expect_exception=container.validity_error,
     )
