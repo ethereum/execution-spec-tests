@@ -80,7 +80,7 @@ def test_returndatacopy_handling(
     size: int,
 ):
     """
-    Tests ReturnDataLoad including multiple offset conditions and differeing legacy vs. eof
+    Tests ReturnDataLoad including multiple offset conditions and differing legacy vs. eof
     boundary conditions.
 
     entrypoint creates a "0xff" test area of memory, delegate calls to caller.
