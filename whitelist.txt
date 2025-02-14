@@ -5,6 +5,8 @@ milliether
 milli
 nanoether
 0xaa
+0x0000
+0x0001
 AccessListType
 Account1
 Account2
@@ -49,6 +51,7 @@ blockhash
 blockhashes
 blocknum
 blocktest
+blocknumber
 bls
 bls12
 blueswen
@@ -188,6 +191,7 @@ fp2
 fromhex
 frozenbidict
 func
+fullmatch
 g1
 g1add
 g1msm
@@ -218,7 +222,10 @@ Golang
 gwei
 hacky
 hardfork
+hash8
 hash32
+hash20
+hash256
 Hashable
 hasher
 HeaderNonce
