@@ -40,6 +40,7 @@
     * [Coding Style](dev/coding_style.md)
     * [Enabling Precommit Checks](dev/precommit.md)
     * [Running Github Actions Locally](dev/test_actions_locally.md)
+    * [Porting Legacy Tests](dev/porting_legacy_tests.md)
   * [Changelog](CHANGELOG.md)
   * [Library Reference](library/index.md)
     * [EEST CLI Tools](library/cli/index.md)
