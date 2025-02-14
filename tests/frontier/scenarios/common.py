@@ -13,6 +13,15 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 @dataclass
+class SpecialAddress:
+    """Special values that are re-directed to test generated contracts."""
+
+    GAS_HASH_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE
+    EXTERNAL_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    INVALID_CALL_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD
+
+
+@dataclass
 class ScenarioDebug:
     """Debug selector for the development."""
 
@@ -172,7 +181,7 @@ def translate_result(
 
 
 def replace_special_calls_in_operation(
-    pre: Alloc, operation: Bytecode, external_address: Address
+    pre: Alloc, fork: Fork, operation: Bytecode, external_address: Address
 ) -> Bytecode:
     """
     Run find replace of some special calls to the contracts that we don't know at compile time
@@ -180,39 +189,33 @@ def replace_special_calls_in_operation(
     replace special call to 0xfff..ffe address to gas_hash_address contract.
     """
     gas_hash_address = make_gas_hash_contract(pre)
-    invalid_opcode_contract = make_invalid_opcode_contract(pre)
+    invalid_opcode_contract = make_invalid_opcode_contract(pre, fork)
 
-    """Replace Op.CALL(Op.GAS, 0xfff..ffe, 0, 64, 32, 0, 0) to gas_hash_address"""
-    """Replace Op.CALL(1000, 0xfff..ffd, 0, 64, 32, 0, 0) to invalid_opcode_contract"""
-    """Replace BALANCE(0xfff..fff) to BALANCE(external_address) in operation"""
-    """Replace EXTCODESIZE(0xfff..fff) to EXTCODESIZE(external_address) in operation"""
-    """Replace EXTCODEHASH(0xfff..fff) to EXTCODEHASH(external_address) in operation"""
-    """Replace EXTCODECOPY(0xfff..fff, ...) to EXTCODECOPY(external_address, ...)"""
     replace_list: List[Tuple[str, str]] = [
         (
-            "600060006020604060007ffffffffffffffffffffffffffffffffffffffffffffffff"
-            "ffffffffffffffffd620186a0f1",
-            Op.CALL(10000, invalid_opcode_contract, 0, 64, 32, 0, 0).hex(),
+            "602060646020604060007f"
+            + hex(SpecialAddress.INVALID_CALL_ADDRESS)[2:].lower()
+            + "611388f1",
+            Op.CALL(Op.SUB(Op.GAS, 200000), invalid_opcode_contract, 0, 64, 32, 100, 32).hex(),
         ),
         (
-            "600060006020604060007ffffffffffffffffffffffffffffffffffffffffffffffff"
-            "ffffffffffffffffe5af1",
+            "600060006020604060007f" + hex(SpecialAddress.GAS_HASH_ADDRESS)[2:].lower() + "5af1",
             Op.CALL(Op.SUB(Op.GAS, 200000), gas_hash_address, 0, 64, 32, 0, 0).hex(),
         ),
         (
-            "7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff31",
+            "7f" + hex(SpecialAddress.EXTERNAL_ADDRESS)[2:].lower() + "31",
             Op.BALANCE(external_address).hex(),
         ),
         (
-            "7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3b",
+            "7f" + hex(SpecialAddress.EXTERNAL_ADDRESS)[2:].lower() + "3b",
             Op.EXTCODESIZE(external_address).hex(),
         ),
         (
-            "7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3f",
+            "7f" + hex(SpecialAddress.EXTERNAL_ADDRESS)[2:].lower() + "3f",
             Op.EXTCODEHASH(external_address).hex(),
         ),
         (
-            "7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff3c",
+            "7f" + hex(SpecialAddress.EXTERNAL_ADDRESS)[2:].lower() + "3c",
             "3c".join(Op.BALANCE(external_address).hex().rsplit("31", 1)),
         ),
     ]
@@ -256,20 +259,44 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
     return gas_hash_address
 
 
-def make_invalid_opcode_contract(pre: Alloc) -> Address:
+def make_invalid_opcode_contract(pre: Alloc, fork: Fork) -> Address:
     """
     Deploy a contract that will execute any asked byte as an opcode from calldataload
-    With 0-ed input stack of 10 elements, valid for opcodes starting at 0x0C.
+    Deploy 20 empty stack elements. Jump to opcode instruction. if worked, return 0.
     """
     invalid_opcode_caller = pre.deploy_contract(
-        code=Op.PUSH0 * 10
-        + Op.JUMP(Op.SUB(Op.MUL(2, Op.CALLDATALOAD(0)), 1))  # here pc is 19
-        + Op.JUMPDEST * 4
+        code=Op.PUSH1(0) * 20
+        + Op.JUMP(Op.ADD(Op.MUL(7, Op.CALLDATALOAD(0)), 20 * 2 + 10))
         + sum(
             [
-                Bytecode(bytes([opcode]), popped_stack_items=0, pushed_stack_items=0) + Op.JUMPDEST
-                for opcode in range(0x0C, 0xFF)
+                Op.JUMPDEST
+                + Bytecode(bytes([opcode]), popped_stack_items=0, pushed_stack_items=0)
+                + Op.RETURN(0, 0)
+                for opcode in range(0x00, 0xFF)
             ],
         )
     )
-    return invalid_opcode_caller
+
+    invalid_opcodes = []
+    valid_opcode_values = [opcode.int() for opcode in fork.valid_opcodes()]
+
+    for op in range(0x00, 0xFF):
+        if op not in valid_opcode_values:
+            invalid_opcodes.append(op)
+
+    code = Bytecode(
+        sum(
+            Op.MSTORE(64, opcode)
+            + Op.MSTORE(
+                32,
+                Op.CALL(gas=50000, address=invalid_opcode_caller, args_offset=64, args_size=32),
+            )
+            + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), Op.MLOAD(32)))
+            for opcode in invalid_opcodes
+        )
+        # If any of invalid instructions works, mstore[0] will be > 1
+        + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), 1))
+        + Op.RETURN(0, 32)
+    )
+
+    return pre.deploy_contract(code=code)
