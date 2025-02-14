@@ -230,7 +230,7 @@ def pytest_addoption(parser):  # noqa: D103
             "will be automatically escaped so that all special regex characters are treated as "
             "literals. Without the `id:` prefix, the argument is interpreted as a Python regex "
             "pattern. To see which test cases are matched, without executing them, prefix with "
-            "`collectonly:`, e.g. `--sim.limit collectonly:.*eip4788.*fork_Prague.*`. "
+            '`collectonly:`, e.g. `--sim.limit "collectonly:.*eip4788.*fork_Prague.*"`. '
             "To list all available test case IDs, set the value to `collectonly`."
         ),
     )
