@@ -54,6 +54,8 @@ def pytest_addoption(parser):  # noqa: D103
 
 
 def pytest_configure(config):  # noqa: D103
+    if config.option.collectonly:
+        return
     evm = TransitionTool.from_binary_path(
         binary_path=config.getoption("evm_bin"),
         # TODO: The verify_fixture() method doesn't currently use this option.
