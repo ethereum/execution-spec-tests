@@ -5,15 +5,15 @@ from functools import reduce
 from itertools import count
 from os import path
 from pathlib import Path
-from typing import Callable, ClassVar, Generator, Iterator, List, Optional
+from typing import Callable, ClassVar, Generator, Iterator, List, Optional, Sequence
 
 import pytest
 from pydantic import BaseModel, Field
 
 from ethereum_clis import Result, TransitionTool
 from ethereum_test_base_types import to_hex
-from ethereum_test_execution import BaseExecute, ExecuteFormat
-from ethereum_test_fixtures import BaseFixture, FixtureFormat
+from ethereum_test_execution import BaseExecute, ExecuteFormat, LabeledExecuteFormat
+from ethereum_test_fixtures import BaseFixture, FixtureFormat, LabeledFixtureFormat
 from ethereum_test_forks import Fork
 from ethereum_test_types import Environment, Withdrawal
 
@@ -51,8 +51,8 @@ class BaseTest(BaseModel):
     t8n_dump_dir: Path | None = Field(None, exclude=True)
     _t8n_call_counter: Iterator[int] = count(0)
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = []
-    supported_execute_formats: ClassVar[List[ExecuteFormat]] = []
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = []
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | LabeledExecuteFormat]] = []
 
     @abstractmethod
     def generate(

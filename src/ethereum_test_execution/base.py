@@ -35,6 +35,32 @@ class BaseExecute(CamelModel):
         pass
 
 
+class LabeledExecuteFormat:
+    """
+    Represents an execution format with a custom label.
+
+    This label will be used in the test id and also will be added as a marker to the
+    generated test case when executing the test.
+    """
+
+    format: Type[BaseExecute]
+    label: str
+
+    def __init__(self, execute_format: "Type[BaseExecute] | LabeledExecuteFormat", label: str):
+        """Initialize the execute format with a custom label."""
+        self.format = (
+            execute_format.format
+            if isinstance(execute_format, LabeledExecuteFormat)
+            else execute_format
+        )
+        self.label = label
+
+    @property
+    def execute_format_name(self) -> str:
+        """Get the execute format name."""
+        return self.format.execute_format_name
+
+
 # Type alias for a base execute class
 ExecuteFormat = Annotated[
     Type[BaseExecute],
