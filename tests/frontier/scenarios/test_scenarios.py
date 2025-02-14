@@ -94,7 +94,7 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
     external_balance = 123
     external_address = pre.deploy_contract(code=Op.ADD(1, 1), balance=external_balance)
 
-    operation = replace_special_calls_in_operation(pre, operation, external_address)
+    operation = replace_special_calls_in_operation(pre, fork, operation, external_address)
 
     combinations_input: ScenarioGeneratorInput = ScenarioGeneratorInput(
         fork=fork,
@@ -134,6 +134,7 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
     # select program to debug (program, "scenario_name")
     # program=None select all programs
     # scenario_name="" select all scenarios
+    # Example: [ScenarioDebug(test_param=program_invalid, scenario_name="scenario_CALL_CALL")],
     "debug",
     [ScenarioDebug(test_param=None, scenario_name="")],
     ids=["debug"],

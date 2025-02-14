@@ -5,7 +5,7 @@ import pytest
 from ethereum_test_forks import Byzantium, Cancun, Constantinople, Istanbul, London, Shanghai
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ..common import ProgramResult, ScenarioExpectOpcode
+from ..common import ProgramResult, ScenarioExpectOpcode, SpecialAddress
 
 # Check that ADDRESS is really the code execution address in all scenarios
 program_address = pytest.param(
@@ -16,8 +16,7 @@ program_address = pytest.param(
 
 # Check the BALANCE in all execution contexts
 program_balance = pytest.param(
-    Op.MSTORE(0, Op.BALANCE(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF))
-    + Op.RETURN(0, 32),
+    Op.MSTORE(0, Op.BALANCE(SpecialAddress.EXTERNAL_ADDRESS)) + Op.RETURN(0, 32),
     ProgramResult(result=ScenarioExpectOpcode.BALANCE),
     id="program_BALANCE",
 )
@@ -81,10 +80,8 @@ program_gasprice = pytest.param(
 
 # Check that extcodesize and extcodecopy of pre deployed contract stay the same in all contexts
 program_ext_codecopy_codesize = pytest.param(
-    Op.MSTORE(
-        0, Op.EXTCODESIZE(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)
-    )
-    + Op.EXTCODECOPY(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 0, 0, 30)
+    Op.MSTORE(0, Op.EXTCODESIZE(SpecialAddress.EXTERNAL_ADDRESS))
+    + Op.EXTCODECOPY(SpecialAddress.EXTERNAL_ADDRESS, 0, 0, 30)
     + Op.RETURN(0, 32),
     ProgramResult(result=0x6001600101000000000000000000000000000000000000000000000000000005),
     id="program_EXTCODECOPY_EXTCODESIZE",
@@ -112,10 +109,7 @@ program_returndatacopy = pytest.param(
 
 # Check that extcodehash stays the same in all contexts
 program_extcodehash = pytest.param(
-    Op.MSTORE(
-        0, Op.EXTCODEHASH(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)
-    )
-    + Op.RETURN(0, 32),
+    Op.MSTORE(0, Op.EXTCODEHASH(SpecialAddress.EXTERNAL_ADDRESS)) + Op.RETURN(0, 32),
     ProgramResult(
         result=0x8C634A8B28DD46F5DCB9A9F5DA1FAED26D0FB5ED98F3873A29AD27AAAFFDE0E4,
         from_fork=Constantinople,
@@ -128,9 +122,7 @@ program_extcodehash = pytest.param(
 program_blockhash = pytest.param(
     # Calculate gas hash of Op.BLOCKHASH(0) value
     Op.MSTORE(64, Op.BLOCKHASH(0))
-    + Op.CALL(
-        Op.GAS, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE, 0, 64, 32, 0, 0
-    )
+    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
     + Op.MSTORE(0, 1)
     + Op.RETURN(0, 32),
     ProgramResult(result=1),
@@ -160,9 +152,7 @@ program_difficulty_randao = pytest.param(
     # Calculate gas hash of DIFFICULTY value
     Op.MSTORE(0, Op.PREVRANDAO)
     + Op.MSTORE(64, Op.PREVRANDAO)
-    + Op.CALL(
-        Op.GAS, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE, 0, 64, 32, 0, 0
-    )
+    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
     + Op.MSTORE(0, 1)
     + Op.RETURN(0, 32),
     ProgramResult(result=1),
@@ -192,9 +182,7 @@ program_selfbalance = pytest.param(
 program_basefee = pytest.param(
     # Calculate gas hash of BASEFEE value
     Op.MSTORE(64, Op.BASEFEE)
-    + Op.CALL(
-        Op.GAS, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE, 0, 64, 32, 0, 0
-    )
+    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
     + Op.MSTORE(0, 1)
     + Op.RETURN(0, 32),
     ProgramResult(result=1, from_fork=London),
@@ -210,9 +198,7 @@ program_blobhash = pytest.param(
 program_blobbasefee = pytest.param(
     # Calculate gas hash of BLOBBASEFEE value
     Op.MSTORE(64, Op.BLOBBASEFEE)
-    + Op.CALL(
-        Op.GAS, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE, 0, 64, 32, 0, 0
-    )
+    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
     + Op.MSTORE(0, 1)
     + Op.RETURN(0, 32),
     ProgramResult(result=1, from_fork=Cancun),
