@@ -3,6 +3,8 @@ abstract: Tests [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org
     Tests for the RETURNDATALOAD instruction.
 """  # noqa: E501
 
+from typing import cast
+
 import pytest
 
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Storage, Transaction
@@ -317,13 +319,16 @@ def test_returndatacopy_oob(
     )
 
     storage_entry_point = Storage(
-        {
-            slot_eof_target_call_status: value_exceptional_abort_canary,
-            slot_eof_target_returndata: value_exceptional_abort_canary,
-            slot_eof_target_returndatasize: value_exceptional_abort_canary,
-            slot_legacy_target_call_status: value_exceptional_abort_canary,
-            slot_legacy_target_returndatasize: value_exceptional_abort_canary,
-        }
+        cast(
+            Storage.StorageDictType,
+            {
+                slot_eof_target_call_status: value_exceptional_abort_canary,
+                slot_eof_target_returndata: value_exceptional_abort_canary,
+                slot_eof_target_returndatasize: value_exceptional_abort_canary,
+                slot_legacy_target_call_status: value_exceptional_abort_canary,
+                slot_legacy_target_returndatasize: value_exceptional_abort_canary,
+            },
+        )
     )
 
     address_entry_point = (
