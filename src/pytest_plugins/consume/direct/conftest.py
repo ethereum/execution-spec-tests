@@ -16,8 +16,7 @@ from ethereum_clis import TransitionTool
 from ethereum_test_base_types import to_json
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_fixtures.file import Fixtures
-
-from ..consume import FixturesSource
+from pytest_plugins.consume.consume import FixturesSource
 
 
 def pytest_addoption(parser):  # noqa: D103
