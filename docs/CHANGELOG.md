@@ -116,6 +116,7 @@ Release tarball changes:
 - ✨ Include EELS fork resolution information in filled json test fixtures ([#1123](https://github.com/ethereum/execution-spec-tests/pull/1123)).
 - 🔀 Updates ruff from version 0.8.2 to 0.9.4 ([#1168](https://github.com/ethereum/execution-spec-tests/pull/1168)).
 - 🔀 Update `uv.lock` to be compatible with `uv>=0.5.22` ([#1178](https://github.com/ethereum/execution-spec-tests/pull/1178)).
+- 🔀 Update `mypy` from version `0.991` to `1.15` ([#1209](https://github.com/ethereum/execution-spec-tests/pull/1209)).
 
 ### 💥 Breaking Change
 
