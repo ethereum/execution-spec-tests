@@ -17,6 +17,7 @@ from .eof import (
     EOFStateTestSpec,
     EOFTest,
     EOFTestFiller,
+    EOFTestOnly,
     EOFTestSpec,
 )
 from .state import StateTest, StateTestFiller, StateTestOnly, StateTestSpec
@@ -27,6 +28,7 @@ SPEC_TYPES: List[Type[BaseTest]] = [
     BlockchainTestEngine,
     EOFStateTest,
     EOFTest,
+    EOFTestOnly,
     StateTest,
     StateTestOnly,
     TransactionTest,
