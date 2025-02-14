@@ -16,8 +16,7 @@ from ethereum_clis import TransitionTool
 from ethereum_test_base_types import to_json
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_fixtures.file import Fixtures
-
-from ..consume import FixturesSource
+from pytest_plugins.consume.consume import FixturesSource
 
 
 def pytest_addoption(parser):  # noqa: D103
@@ -55,6 +54,8 @@ def pytest_addoption(parser):  # noqa: D103
 
 
 def pytest_configure(config):  # noqa: D103
+    if config.option.collectonly:
+        return
     evm = TransitionTool.from_binary_path(
         binary_path=config.getoption("evm_bin"),
         # TODO: The verify_fixture() method doesn't currently use this option.
