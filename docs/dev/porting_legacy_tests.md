@@ -28,10 +28,10 @@ While automating the conversion of the remaining YAML (or JSON) test cases to Py
 
 ## Filling tests
 
-EEST uses pytest to run tests against EELS (an EVM implementation for testing). This process is known as "filling" and verifies the assertions in your tests. You can use the fill CLI for this. For example, see how to fill the `PUSH` opcode.
+EEST uses pytest to run tests against [EELS (an EVM implementation for testing)](https://github.com/ethereum/execution-specs). This process is known as "filling" and verifies the assertions in your tests. You can use the fill CLI for this. For example, see how to fill the `PUSH` opcode.
 
 ```shell
-uv run tests/frontier/opcodes/test_push.py
+uv run fill tests/frontier/opcodes/test_push.py
 ```
 
 See also: 📄 [Documentation for the `fill` command.](../filling_tests/filling_tests_command_line.md)
@@ -40,7 +40,7 @@ See also: 📄 [Documentation for the `fill` command.](../filling_tests/filling_
 
 ## Debugging tests
 
-By default, EVM logs are stored in the `logs` folder at the repository root. You can check the `output` folder to review transaction results. If needed, review a previous PR that ported tests (e.g., [the PR porting the `PUSH` opcode](https://github.com/ethereum/execution-spec-tests/pull/975)).
+By default, EVM logs are stored in the `logs` folder at the repository root. You can check the `output` folder to review transaction results. If needed, review a previous PR that ported tests (e.g., [the PR porting the `PUSH` opcode](https://github.com/ethereum/execution-spec-tests/pull/975), and [other port PRs](https://github.com/ethereum/execution-spec-tests/pulls?q=is%3Apr+label%3Aport)).
 
 ## Test coverage
 
