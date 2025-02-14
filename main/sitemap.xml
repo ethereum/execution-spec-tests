@@ -91,6 +91,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/dev/porting_legacy_tests/</loc>
+         <lastmod>2025-02-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/dev/precommit/</loc>
          <lastmod>2025-02-14</lastmod>
          <changefreq>daily</changefreq>
