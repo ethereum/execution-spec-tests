@@ -9,3 +9,4 @@ This documentation is aimed at maintainers of `execution-spec-tests` but may be 
 - [Coding style](./coding_style.md): Standards and best practices for code formatting and to maintain consistency across the repository.
 - [Enabling pre-commit checks](./precommit.md): A guide for setting up pre-commit hooks to enforce code quality before commits.
 - [Running github actions locally](./test_actions_locally.md): Instructions for testing GitHub Actions workflows on your local machine to streamline development and debugging.
+- [Porting tests](./porting_legacy_tests.md): A guide to porting legacy ethereum tests to EEST.
