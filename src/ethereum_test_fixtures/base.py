@@ -144,6 +144,32 @@ class BaseFixture(CamelModel):
         return True
 
 
+class LabeledFixtureFormat:
+    """
+    Represents a fixture format with a custom label.
+
+    This label will be used in the test id and also will be added as a marker to the
+    generated test case when filling the test.
+    """
+
+    format: Type[BaseFixture]
+    label: str
+
+    def __init__(self, fixture_format: "Type[BaseFixture] | LabeledFixtureFormat", label: str):
+        """Initialize the fixture format with a custom label."""
+        self.format = (
+            fixture_format.format
+            if isinstance(fixture_format, LabeledFixtureFormat)
+            else fixture_format
+        )
+        self.label = label
+
+    @property
+    def fixture_format_name(self) -> str:
+        """Get the execute format name."""
+        return self.format.fixture_format_name
+
+
 # Annotated type alias for a base fixture class
 FixtureFormat = Annotated[
     Type[BaseFixture],

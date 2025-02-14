@@ -1,7 +1,7 @@
 """Ethereum blockchain test spec definition and filler."""
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Tuple, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
 
 import pytest
 from pydantic import ConfigDict, Field, field_validator
@@ -20,12 +20,18 @@ from ethereum_test_base_types import (
     Number,
 )
 from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
-from ethereum_test_execution import BaseExecute, ExecuteFormat, TransactionPost
+from ethereum_test_execution import (
+    BaseExecute,
+    ExecuteFormat,
+    LabeledExecuteFormat,
+    TransactionPost,
+)
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
     BlockchainFixture,
     FixtureFormat,
+    LabeledFixtureFormat,
 )
 from ethereum_test_fixtures.blockchain import (
     FixtureBlock,
@@ -287,11 +293,11 @@ class BlockchainTest(BaseTest):
     verify_sync: bool = False
     chain_id: int = 1
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         BlockchainFixture,
         BlockchainEngineFixture,
     ]
-    supported_execute_formats: ClassVar[List[ExecuteFormat]] = [
+    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | LabeledExecuteFormat]] = [
         TransactionPost,
     ]
 
@@ -741,7 +747,7 @@ class BlockchainTestEngine(BlockchainTest):
     only for the Engine API.
     """
 
-    supported_fixture_formats: ClassVar[List[FixtureFormat]] = [
+    supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         BlockchainEngineFixture,
     ]
 
