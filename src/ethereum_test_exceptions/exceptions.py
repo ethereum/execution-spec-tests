@@ -593,6 +593,10 @@ class EOFException(ExceptionBase):
     """
     EOF container's section has non-returning flag set incorrectly.
     """
+    CALLF_TO_NON_RETURNING_FUNCTION = auto()
+    """
+    EOF container's section has CALLF instruction to non-returning function.
+    """
     INVALID_RJUMP_DESTINATION = auto()
     """
     Code has RJUMP instruction with invalid parameters.
@@ -668,6 +672,10 @@ class EOFException(ExceptionBase):
     TOO_MANY_CODE_SECTIONS = auto()
     """
     EOF container header has too many code sections.
+    """
+    EOF_CREATE_WITH_TRUNCATED_CONTAINER = auto()
+    """
+    EOF Create has truncated container.
     """
     MISSING_STOP_OPCODE = auto()
     """
@@ -757,6 +765,10 @@ class EOFException(ExceptionBase):
     CALLF_TO_NON_RETURNING = auto()
     """
     CALLF instruction targeting a non-returning code section
+    """
+    AMBIGUOUS_CONTAINER_KIND = auto()
+    """
+    Container referenced by eofcreate and returncontract.
     """
 
 
