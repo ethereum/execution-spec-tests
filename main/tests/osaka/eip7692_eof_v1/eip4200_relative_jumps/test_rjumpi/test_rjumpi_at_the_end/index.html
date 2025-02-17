@@ -27305,7 +27305,7 @@
 
 
 <h1 id="test_rjumpi_at_the_end"><code>test_rjumpi_at_the_end()</code><a class="headerlink" href="#test_rjumpi_at_the_end" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49a16facf4f9d60a9fcb5e9250879583f22b6d35/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L834"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_at_the_end@49a16fac</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d035ad4e262c9820335f712e66d43aa70970aab7/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L834"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_at_the_end@d035ad4e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_at_the_end --fork Osaka</span>
@@ -27320,8 +27320,9 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_at_the_end"></a>
     <div class="doc doc-contents first">
 
-      <p><a href="https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation">https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation</a> 4.i:
-This implies that the last instruction may be a terminating instruction or RJUMPI.</p>
+      <p>Test invalid RJUMPI as the end of a code section.
+<a href="https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation">https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation</a> 4.i:
+This implies that the last instruction must be a terminating instruction or RJUMP.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
@@ -27341,18 +27342,20 @@ This implies that the last instruction may be a terminating instruction or RJUMP
 <span class="normal">847</span>
 <span class="normal">848</span>
 <span class="normal">849</span>
-<span class="normal">850</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_at_the_end</span><span class="p">(</span>
+<span class="normal">850</span>
+<span class="normal">851</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_at_the_end</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test invalid RJUMPI as the end of a code section.</span>
 <span class="sd">    https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation 4.i:</span>
-<span class="sd">    This implies that the last instruction may be a terminating instruction or RJUMPI.</span>
+<span class="sd">    This implies that the last instruction must be a terminating instruction or RJUMP.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">],</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">],</span>
                 <span class="p">)</span>
             <span class="p">],</span>
         <span class="p">),</span>
