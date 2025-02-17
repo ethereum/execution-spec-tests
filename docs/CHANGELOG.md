@@ -11,6 +11,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 🛠️ Framework
 
 - 🔀 Make `BaseFixture` able to parse any fixture format such as `BlockchainFixture` ([#1210](https://github.com/ethereum/execution-spec-tests/pull/1210)).
+- ✨ Blockchain and Blockchain-Engine tests now have a marker to specify that they were generated from a state test, which can be used with `-m blockchain_test_from_state_test` and `-m blockchain_test_engine_from_state_test` respectively ([#1220](https://github.com/ethereum/execution-spec-tests/pull/1220)).
+- ✨ Blockchain and Blockchain-Engine tests that were generated from a state test now have `blockchain_test_from_state_test` or `blockchain_test_engine_from_state_test` as part of their test IDs ([#1220](https://github.com/ethereum/execution-spec-tests/pull/1220)).
 
 ### 📋 Misc
 
