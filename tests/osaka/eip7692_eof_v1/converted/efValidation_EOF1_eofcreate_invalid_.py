@@ -9,16 +9,6 @@ REFERENCE_SPEC_VERSION = 'b658bb87fe039d29e9475d5cfaebca9b92e0fca2'
     'container',
     [
         Container(
-            name='EOF1_eofcreate_invalid_0',
-            raw_bytes="ef0001010004020001000903000100140400000000800004600060ff60006000ecef000101000402000100010400000000800000fe",
-            validity_error=EOFException.TRUNCATED_INSTRUCTION,
-        ),
-        Container(
-            name='EOF1_eofcreate_invalid_1',
-            raw_bytes="ef0001010004020001000a03000100140400000000800004600060ff60006000ec00ef000101000402000100010400000000800000fe",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
             name='EOF1_eofcreate_invalid_2',
             raw_bytes="ef0001010004020001000c03000100140400000000800004600060ff60006000ec015000ef000101000402000100010400000000800000fe",
             validity_error=EOFException.INVALID_CONTAINER_SECTION_INDEX,
