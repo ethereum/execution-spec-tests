@@ -12,9 +12,10 @@ from ethereum_test_tools import (
     Account,
     Address,
     Alloc,
+    Block,
+    BlockchainTestFiller,
     Bytecode,
     Environment,
-    StateTestFiller,
     Storage,
     Transaction,
 )
@@ -77,26 +78,12 @@ REFERENCE_SPEC_VERSION = "N/A"
 
 
 @pytest.fixture
-def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug) -> List[Scenario]:
-    """
-    Define list of contracts that execute scenarios for a given operation.
-    This is the main parametrization vector.
-    """
-    scenarios_list: List[Scenario] = []
-
-    """select only debug program if set"""
-    if debug.test_param is not None:
-        debug_program = debug.test_param.values[0]
-        if hasattr(debug_program, "hex") and operation.hex() != debug_program.hex():
-            return scenarios_list
-
-    """Deploy external address to test ext opcodes"""
+def scenario_input(fork: Fork, pre: Alloc, operation: Bytecode) -> ScenarioGeneratorInput:
+    """Prepare the state for scenario."""
     external_balance = 123
     external_address = pre.deploy_contract(code=Op.ADD(1, 1), balance=external_balance)
-
     operation = replace_special_calls_in_operation(pre, fork, operation, external_address)
-
-    combinations_input: ScenarioGeneratorInput = ScenarioGeneratorInput(
+    return ScenarioGeneratorInput(
         fork=fork,
         pre=pre,
         operation_code=operation,
@@ -104,27 +91,23 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
         external_balance=external_balance,
     )
 
-    call_combinations = ScenariosCallCombinations(combinations_input).generate()
-    for combination in call_combinations:
-        if not debug.scenario_name or combination.name == debug.scenario_name:
-            scenarios_list.append(combination)
 
-    call_combinations = scenarios_create_combinations(combinations_input)
-    for combination in call_combinations:
-        if not debug.scenario_name or combination.name == debug.scenario_name:
-            scenarios_list.append(combination)
+@pytest.fixture
+def scenarios(scenario_input: ScenarioGeneratorInput) -> List[Scenario]:
+    """Define fixture vectors of all possible scenarios, given the current pre state input."""
+    scenarios_list: List[Scenario] = []
 
-    revert_combinations = scenarios_revert_combinations(combinations_input)
+    call_combinations = ScenariosCallCombinations(scenario_input).generate()
+    for combination in call_combinations:
+        scenarios_list.append(combination)
+
+    call_combinations = scenarios_create_combinations(scenario_input)
+    for combination in call_combinations:
+        scenarios_list.append(combination)
+
+    revert_combinations = scenarios_revert_combinations(scenario_input)
     for combination in revert_combinations:
-        if not debug.scenario_name or combination.name == debug.scenario_name:
-            scenarios_list.append(combination)
-
-    """
-        // 21. 0x00FD  Run the code, call a contract that reverts, then run again
-        // 22. 0x00FE  Run the code, call a contract that goes out of gas, then run again
-        // 23. 0x00FF  Run the code, call a contract that self-destructs, then run again
-        // 34. 0x60BACCFA57 Call recurse to the limit
-    """
+        scenarios_list.append(combination)
 
     return scenarios_list
 
@@ -136,6 +119,7 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
     # scenario_name="" select all scenarios
     # Example: [ScenarioDebug(test_param=program_invalid, scenario_name="scenario_CALL_CALL")],
     "debug",
+    # [ScenarioDebug(test_param=program_invalid, scenario_name="scenario_CALL_CALL")],
     [ScenarioDebug(test_param=None, scenario_name="")],
     ids=["debug"],
 )
@@ -184,10 +168,12 @@ def scenarios(fork: Fork, pre: Alloc, operation: Bytecode, debug: ScenarioDebug)
     ],
 )
 def test_scenarios(
-    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     expected_result: ProgramResult,
+    debug: ScenarioDebug,
+    operation: Bytecode,
     scenarios,
 ):
     """
@@ -199,64 +185,74 @@ def test_scenarios(
     Generate one test file for [each operation] * [each scenario] to save space
     As well as operations will be complex too
     """
-    # Skip disabled scenarios in debug mode
-    if len(scenarios) == 0:
-        return
-
     tx_env = Environment()
-    post = Storage()
-    result_slot = post.store_next(1, hint="runner_result")
-
     tx_origin: Address = pre.fund_eoa()
-    tx_gasprice: int = 10
-    exec_env = ExecutionEnvironment(
-        fork=fork,
-        origin=tx_origin,
-        gasprice=tx_gasprice,
-        timestamp=tx_env.timestamp,
-        number=tx_env.number,
-        gaslimit=tx_env.gas_limit,
-        coinbase=tx_env.fee_recipient,
-    )
 
-    def make_result(scenario: Scenario) -> int:
-        """Make Scenario post result."""
-        if scenario.halts:
-            return post.store_next(0, hint=scenario.name)
-        else:
-            return post.store_next(
-                translate_result(expected_result, scenario.env, exec_env), hint=scenario.name
-            )
+    blocks: List[Block] = []
+    post: dict = {}
+    for scenario in scenarios:
+        if debug.scenario_name and scenario.name != debug.scenario_name:
+            continue
 
-    runner_contract = pre.deploy_contract(
-        code=sum(
-            Op.MSTORE(0, 0)
-            + Op.CALL(10000000, scenario.code, 0, 0, 0, 0, 32)
-            + Op.SSTORE(make_result(scenario), Op.MLOAD(0))
-            for scenario in scenarios
+        if debug.test_param is not None:
+            debug_program = debug.test_param.values[0]
+            if hasattr(debug_program, "hex") and operation.hex() != debug_program.hex():
+                continue
+
+        post_storage = Storage()
+        result_slot = post_storage.store_next(1, hint=f"runner result {scenario.name}")
+
+        tx_max_gas = (
+            7_000_000
+            if hasattr(program_invalid.values[0], "hex")
+            and operation.hex() == program_invalid.values[0].hex()
+            else 1_000_000
         )
-        + Op.SSTORE(result_slot, 1),
-        storage={
-            result_slot: 0xFFFF,
-        },
-    )
+        tx_gasprice: int = 10
+        exec_env = ExecutionEnvironment(
+            fork=fork,
+            origin=tx_origin,
+            gasprice=tx_gasprice,
+            timestamp=tx_env.timestamp,  # we can't know timestamp before head, use gas hash
+            number=len(blocks) + 1,
+            gaslimit=tx_env.gas_limit,
+            coinbase=tx_env.fee_recipient,
+        )
 
-    tx = Transaction(
-        sender=tx_origin,
-        gas_limit=500_000_000,
-        gas_price=tx_gasprice,
-        to=runner_contract,
-        data=bytes.fromhex("11223344"),
-        value=0,
-        protected=False,
-    )
-    state_test(
-        env=tx_env,
+        def make_result(scenario: Scenario, exec_env: ExecutionEnvironment, post: Storage) -> int:
+            """Make Scenario post result."""
+            if scenario.halts:
+                return post.store_next(0, hint=scenario.name)
+            else:
+                return post.store_next(
+                    translate_result(expected_result, scenario.env, exec_env), hint=scenario.name
+                )
+
+        runner_contract = pre.deploy_contract(
+            code=Op.MSTORE(0, 0)
+            + Op.CALL(tx_max_gas, scenario.code, 0, 0, 0, 0, 32)
+            + Op.SSTORE(make_result(scenario, exec_env, post_storage), Op.MLOAD(0))
+            + Op.SSTORE(result_slot, 1),
+            storage={
+                result_slot: 0xFFFF,
+            },
+        )
+
+        tx = Transaction(
+            sender=tx_origin,
+            gas_limit=tx_max_gas + 100_000,
+            gas_price=tx_gasprice,
+            to=runner_contract,
+            data=bytes.fromhex("11223344"),
+            value=0,
+            protected=False,
+        )
+
+        post[runner_contract] = Account(storage=post_storage)
+        blocks.append(Block(txs=[tx], post=post))
+
+    blockchain_test(
         pre=pre,
-        post={
-            runner_contract: Account(
-                storage=post,
-            )
-        },
-        tx=tx,
+        blocks=blocks,
+        post=post,
     )
