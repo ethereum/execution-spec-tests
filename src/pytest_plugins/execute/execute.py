@@ -2,13 +2,13 @@
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Type
+from typing import Any, Dict, Generator, List, Tuple, Type
 
 import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from ethereum_test_base_types import Number
-from ethereum_test_execution import BaseExecute, LabeledExecuteFormat
+from ethereum_test_execution import BaseExecute, ExecuteFormat, LabeledExecuteFormat
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import SPEC_TYPES, BaseTest, TestInfo, Transaction
@@ -380,6 +380,16 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
 
 
+def get_spec_execute_format_for_item(
+    params: Dict[str, Any],
+) -> Tuple[Type[BaseTest], ExecuteFormat]:
+    """Return the spec type and execute format for the given test item."""
+    for spec_type in SPEC_TYPES:
+        if spec_type.pytest_parameter_name() in params:
+            return spec_type, params[spec_type.pytest_parameter_name()]
+    raise ValueError("No spec type found in the test item.")
+
+
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """
     Remove pre-Paris tests parametrized to generate hive type fixtures; these
@@ -391,7 +401,17 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
     for item in items[:]:  # use a copy of the list, as we'll be modifying it
         if isinstance(item, EIPSpecTestItem):
             continue
-        for marker in item.iter_markers():
+        params: Dict[str, Any] = item.callspec.params  # type: ignore
+        if "fork" not in params or params["fork"] is None:
+            items.remove(item)
+            continue
+        fork: Fork = params["fork"]
+        spec_type, execute_format = get_spec_execute_format_for_item(params)
+        markers = list(item.iter_markers())
+        if spec_type.discard_execute_format_by_marks(execute_format, fork, markers):
+            items.remove(item)
+            continue
+        for marker in markers:
             if marker.name == "execute":
                 for mark in marker.args:
                     item.add_marker(mark)
