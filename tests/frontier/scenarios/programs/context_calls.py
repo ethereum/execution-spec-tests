@@ -137,8 +137,11 @@ program_coinbase = pytest.param(
 )
 
 program_timestamp = pytest.param(
-    Op.MSTORE(0, Op.TIMESTAMP) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.TIMESTAMP),
+    Op.MSTORE(64, Op.TIMESTAMP)
+    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
+    + Op.MSTORE(0, 1)
+    + Op.RETURN(0, 32),
+    ProgramResult(result=1),
     id="program_TIMESTAMP",
 )
 
