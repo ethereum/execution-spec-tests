@@ -48,6 +48,13 @@ def pytest_configure(config: pytest.Config):
     else:
         raise Exception("Neither the filler nor the execute plugin is loaded.")
 
+    for spec_type in SPEC_TYPES:
+        for marker, description in spec_type.supported_markers.items():
+            config.addinivalue_line(
+                "markers",
+                (f"{marker}: {description}"),
+            )
+
     config.addinivalue_line(
         "markers",
         "yul_test: a test case that compiles Yul code.",
