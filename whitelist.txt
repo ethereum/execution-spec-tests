@@ -396,6 +396,7 @@ sha
 SHA
 sharding
 SignerType
+simlimit
 solc
 soliditylang
 Spec4844
