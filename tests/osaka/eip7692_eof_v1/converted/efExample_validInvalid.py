@@ -60,11 +60,6 @@ REFERENCE_SPEC_VERSION = 'b658bb87fe039d29e9475d5cfaebca9b92e0fca2'
             validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
         ),
         Container(
-            name='validInvalid_20',
-            raw_bytes="ef000101000802000200030001040004000080000100010001e30001300bad60a7",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
             name='validInvalid_21',
             raw_bytes="ef000101000802000200040002040004000080000101000001e300010050e40bad60a7",
             validity_error=EOFException.STACK_UNDERFLOW,

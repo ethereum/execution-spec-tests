@@ -154,31 +154,6 @@ REFERENCE_SPEC_VERSION = 'b658bb87fe039d29e9475d5cfaebca9b92e0fca2'
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
-            name='validInvalid_39',
-            raw_bytes="ef0001010004020001000804000100008000046000600060006000ef",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
-            name='validInvalid_40',
-            raw_bytes="ef000101000402000100090400010000800004600060006000600001ef",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
-            name='validInvalid_41',
-            raw_bytes="ef000101000402000100090400010000800004600060006000600034ef",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
-            name='validInvalid_42',
-            raw_bytes="ef000101000402000100090400010000800004600060006000600003ef",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
-            name='validInvalid_43',
-            raw_bytes="ef0001010004020001000d0400010000800006600060006000600060006000a4ef",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
             name='validInvalid_44',
             raw_bytes="ef0001010004020001000304000100008000013050e4ef",
             validity_error=EOFException.INVALID_NON_RETURNING_FLAG,

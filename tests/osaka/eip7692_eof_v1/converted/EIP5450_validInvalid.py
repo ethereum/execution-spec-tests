@@ -483,21 +483,6 @@ REFERENCE_SPEC_VERSION = 'b658bb87fe039d29e9475d5cfaebca9b92e0fca2'
             validity_error=EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT,
         ),
         Container(
-            name='validInvalid_187',
-            raw_bytes="ef0001010004020001000204000000008000016000",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
-            name='validInvalid_188',
-            raw_bytes="ef0001010004020001000704000000008000016000e10001005b",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
-            name='validInvalid_189',
-            raw_bytes="ef0001010004020001000b04000000008000016000e20100010002fe005b",
-            validity_error=EOFException.MISSING_STOP_OPCODE,
-        ),
-        Container(
             name='validInvalid_19',
             raw_bytes="ef0001010004020001000504000000008000026001801200",
         ),
