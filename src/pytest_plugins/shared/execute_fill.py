@@ -37,13 +37,13 @@ def pytest_configure(config: pytest.Config):
         for fixture_format in BaseFixture.formats.values():
             config.addinivalue_line(
                 "markers",
-                (f"{fixture_format.fixture_format_name.lower()}: {fixture_format.description}"),
+                (f"{fixture_format.format_name.lower()}: {fixture_format.description}"),
             )
     elif config.pluginmanager.has_plugin("pytest_plugins.execute.execute"):
         for execute_format in BaseExecute.formats.values():
             config.addinivalue_line(
                 "markers",
-                (f"{execute_format.execute_format_name.lower()}: {execute_format.description}"),
+                (f"{execute_format.format_name.lower()}: {execute_format.description}"),
             )
     else:
         raise Exception("Neither the filler nor the execute plugin is loaded.")

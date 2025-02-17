@@ -304,7 +304,7 @@ class EOFStateTest(EOFTest, Transaction):
     ] + [
         LabeledFixtureFormat(
             fixture_format,
-            f"eof_{fixture_format.fixture_format_name}",
+            f"eof_{fixture_format.format_name}",
         )
         for fixture_format in StateTest.supported_fixture_formats
     ]
@@ -312,7 +312,7 @@ class EOFStateTest(EOFTest, Transaction):
     supported_execute_formats: ClassVar[Sequence[ExecuteFormat | LabeledExecuteFormat]] = [
         LabeledExecuteFormat(
             execute_format,
-            f"eof_{execute_format.execute_format_name}",
+            f"eof_{execute_format.format_name}",
         )
         for execute_format in StateTest.supported_execute_formats
     ]
