@@ -12,7 +12,7 @@ import os
 import tarfile
 import warnings
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Type
+from typing import Any, Dict, Generator, List, Tuple, Type
 
 import pytest
 import xdist
@@ -23,7 +23,13 @@ from cli.gen_index import generate_fixtures_index
 from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_fixtures import BaseFixture, FixtureCollector, TestInfo
+from ethereum_test_fixtures import (
+    BaseFixture,
+    FixtureCollector,
+    FixtureFormat,
+    LabeledFixtureFormat,
+    TestInfo,
+)
 from ethereum_test_forks import Fork
 from ethereum_test_specs import SPEC_TYPES, BaseTest
 from ethereum_test_tools.utility.versioning import (
@@ -717,19 +723,52 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in SPEC_TYPES:
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
+            parameters = []
+            for format_with_or_without_id in test_type.supported_fixture_formats:
+                if isinstance(format_with_or_without_id, LabeledFixtureFormat):
+                    parameters.append(
+                        pytest.param(
+                            format_with_or_without_id.format,
+                            id=format_with_or_without_id.label,
+                            marks=[
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.format.fixture_format_name.lower(),
+                                ),
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.label.lower(),
+                                ),
+                            ],
+                        )
+                    )
+                else:
+                    parameters.append(
+                        pytest.param(
+                            format_with_or_without_id,
+                            id=format_with_or_without_id.fixture_format_name.lower(),
+                            marks=[
+                                getattr(
+                                    pytest.mark,
+                                    format_with_or_without_id.fixture_format_name.lower(),
+                                )
+                            ],
+                        )
+                    )
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
-                [
-                    pytest.param(
-                        fixture_format,
-                        id=fixture_format.fixture_format_name.lower(),
-                        marks=[getattr(pytest.mark, fixture_format.fixture_format_name.lower())],
-                    )
-                    for fixture_format in test_type.supported_fixture_formats
-                ],
+                parameters,
                 scope="function",
                 indirect=True,
             )
+
+
+def get_spec_fixture_type_for_item(params: Dict[str, Any]) -> Tuple[Type[BaseTest], FixtureFormat]:
+    """Return the spec type and fixture format for the given test item."""
+    for spec_type in SPEC_TYPES:
+        if spec_type.pytest_parameter_name() in params:
+            return spec_type, params[spec_type.pytest_parameter_name()]
+    raise ValueError("No spec fixture type and format found for the given test item.")
 
 
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
@@ -748,11 +787,15 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
             items.remove(item)
             continue
         fork: Fork = params["fork"]
-        for spec_name in [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]:
-            if spec_name in params and not params[spec_name].supports_fork(fork):
-                items.remove(item)
-                break
-        for marker in item.iter_markers():
+        spec_type, fixture_format = get_spec_fixture_type_for_item(params)
+        if not fixture_format.supports_fork(fork):
+            items.remove(item)
+            continue
+        markers = list(item.iter_markers())
+        if spec_type.discard_fixture_format_by_marks(fixture_format, fork, markers):
+            items.remove(item)
+            continue
+        for marker in markers:
             if marker.name == "fill":
                 for mark in marker.args:
                     item.add_marker(mark)
