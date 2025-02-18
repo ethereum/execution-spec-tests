@@ -1,10 +1,13 @@
 """Helpers for pytest plugins."""
 
+from typing import Any, Dict, Tuple, Type
+
 import pytest
 from _pytest.mark.structures import ParameterSet
 
 from ethereum_test_execution import ExecuteFormat, LabeledExecuteFormat
 from ethereum_test_fixtures import FixtureFormat, LabeledFixtureFormat
+from ethereum_test_tools import SPEC_TYPES, BaseTest
 
 
 def labeled_format_parameter_set(
@@ -48,3 +51,13 @@ def labeled_format_parameter_set(
                 )
             ],
         )
+
+
+def get_spec_format_for_item(
+    params: Dict[str, Any],
+) -> Tuple[Type[BaseTest], Any]:
+    """Return the spec type and execute format for the given test item."""
+    for spec_type in SPEC_TYPES:
+        if spec_type.pytest_parameter_name() in params:
+            return spec_type, params[spec_type.pytest_parameter_name()]
+    raise ValueError("No spec type format found in the test item.")

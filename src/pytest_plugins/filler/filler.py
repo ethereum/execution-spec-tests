@@ -12,7 +12,7 @@ import os
 import tarfile
 import warnings
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Tuple, Type
+from typing import Any, Dict, Generator, List, Type
 
 import pytest
 import xdist
@@ -23,7 +23,7 @@ from cli.gen_index import generate_fixtures_index
 from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureFormat, TestInfo
+from ethereum_test_fixtures import BaseFixture, FixtureCollector, TestInfo
 from ethereum_test_forks import Fork
 from ethereum_test_specs import SPEC_TYPES, BaseTest
 from ethereum_test_tools.utility.versioning import (
@@ -32,7 +32,7 @@ from ethereum_test_tools.utility.versioning import (
 )
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
-from ..shared.helpers import labeled_format_parameter_set
+from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
 
 
 def default_output_directory() -> str:
@@ -730,14 +730,6 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
 
 
-def get_spec_fixture_type_for_item(params: Dict[str, Any]) -> Tuple[Type[BaseTest], FixtureFormat]:
-    """Return the spec type and fixture format for the given test item."""
-    for spec_type in SPEC_TYPES:
-        if spec_type.pytest_parameter_name() in params:
-            return spec_type, params[spec_type.pytest_parameter_name()]
-    raise ValueError("No spec fixture type and format found for the given test item.")
-
-
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """
     Remove pre-Paris tests parametrized to generate hive type fixtures; these
@@ -754,7 +746,8 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
             items.remove(item)
             continue
         fork: Fork = params["fork"]
-        spec_type, fixture_format = get_spec_fixture_type_for_item(params)
+        spec_type, fixture_format = get_spec_format_for_item(params)
+        assert issubclass(fixture_format, BaseFixture)
         if not fixture_format.supports_fork(fork):
             items.remove(item)
             continue

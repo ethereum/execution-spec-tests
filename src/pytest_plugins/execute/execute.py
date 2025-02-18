@@ -2,20 +2,20 @@
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Tuple, Type
+from typing import Any, Dict, Generator, List, Type
 
 import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from ethereum_test_base_types import Number
-from ethereum_test_execution import BaseExecute, ExecuteFormat
+from ethereum_test_execution import BaseExecute
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import SPEC_TYPES, BaseTest, TestInfo, Transaction
 from ethereum_test_types import TransactionDefaults
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
-from ..shared.helpers import labeled_format_parameter_set
+from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
 from .pre_alloc import Alloc
 
 
@@ -352,16 +352,6 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
 
 
-def get_spec_execute_format_for_item(
-    params: Dict[str, Any],
-) -> Tuple[Type[BaseTest], ExecuteFormat]:
-    """Return the spec type and execute format for the given test item."""
-    for spec_type in SPEC_TYPES:
-        if spec_type.pytest_parameter_name() in params:
-            return spec_type, params[spec_type.pytest_parameter_name()]
-    raise ValueError("No spec type found in the test item.")
-
-
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """
     Remove pre-Paris tests parametrized to generate hive type fixtures; these
@@ -378,7 +368,8 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
             items.remove(item)
             continue
         fork: Fork = params["fork"]
-        spec_type, execute_format = get_spec_execute_format_for_item(params)
+        spec_type, execute_format = get_spec_format_for_item(params)
+        assert issubclass(execute_format, BaseExecute)
         markers = list(item.iter_markers())
         if spec_type.discard_execute_format_by_marks(execute_format, fork, markers):
             items.remove(item)
