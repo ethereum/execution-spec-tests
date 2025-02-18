@@ -49,7 +49,7 @@ class TransitionTool(EthereumCLI):
     registered_tools: List[Type["TransitionTool"]] = []
     default_tool: Optional[Type["TransitionTool"]] = None
 
-    t8n_subcommand: Optional[str] = None
+    subcommand: Optional[str] = None
     cached_version: Optional[str] = None
     t8n_use_stream: bool = False
     t8n_use_server: bool = False
@@ -420,8 +420,8 @@ class TransitionTool(EthereumCLI):
     ) -> List[str]:
         """Construct arguments for t8n interaction via streams."""
         command: list[str] = [str(self.binary)]
-        if self.t8n_subcommand:
-            command.append(self.t8n_subcommand)
+        if self.subcommand:
+            command.append(self.subcommand)
 
         args = command + [
             "--input.alloc=stdin",

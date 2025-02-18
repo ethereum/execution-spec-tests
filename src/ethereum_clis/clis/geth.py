@@ -223,14 +223,14 @@ class GethEvm(EthereumCLI):
 class GethTransitionTool(GethEvm, TransitionTool):
     """go-ethereum `evm` Transition tool interface wrapper class."""
 
-    t8n_subcommand: Optional[str] = "t8n"
+    subcommand: Optional[str] = "t8n"
     trace: bool
     t8n_use_stream = True
 
     def __init__(self, *, binary: Path, trace: bool = False):
         """Initialize the GethTransitionTool class."""
         super().__init__(binary=binary, trace=trace)
-        help_command = [str(self.binary), str(self.t8n_subcommand), "--help"]
+        help_command = [str(self.binary), str(self.subcommand), "--help"]
         result = self._run_command(help_command)
         self.help_string = result.stdout
 
