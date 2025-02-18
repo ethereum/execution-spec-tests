@@ -33629,7 +33629,7 @@ as <code>currentTimestamp</code> when it is serialized to json.</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="ethereum_test_types.types.EnvironmentGeneric">EnvironmentGeneric</span>[<a class="autorefs autorefs-internal" title="ethereum_test_base_types.Number" href="../ethereum_test_base_types/#ethereum_test_base_types.Number">Number</a>]</code></p>
+              Bases: <code><span title="ethereum_test_types.types.EnvironmentGeneric">EnvironmentGeneric</span>[<a class="autorefs autorefs-internal" title="ethereum_test_base_types.HexNumber" href="../ethereum_test_base_types/#ethereum_test_base_types.HexNumber">HexNumber</a>]</code></p>
 
 
       <p>Structure used to keep track of the context in which a block
@@ -33712,16 +33712,16 @@ must be executed.</p>
 <span class="normal">426</span>
 <span class="normal">427</span>
 <span class="normal">428</span>
-<span class="normal">429</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="n">EnvironmentGeneric</span><span class="p">[</span><span class="n">Number</span><span class="p">]):</span>
+<span class="normal">429</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="n">EnvironmentGeneric</span><span class="p">[</span><span class="n">HexNumber</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Structure used to keep track of the context in which a block</span>
 <span class="sd">    must be executed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">blob_gas_used</span><span class="p">:</span> <span class="n">Number</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;currentBlobGasUsed&quot;</span><span class="p">)</span>
+    <span class="n">blob_gas_used</span><span class="p">:</span> <span class="n">HexNumber</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;currentBlobGasUsed&quot;</span><span class="p">)</span>
     <span class="n">parent_ommers_hash</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Hash</span><span class="p">(</span><span class="n">EmptyOmmersRoot</span><span class="p">),</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;parentUncleHash&quot;</span><span class="p">)</span>
-    <span class="n">parent_blob_gas_used</span><span class="p">:</span> <span class="n">Number</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">parent_excess_blob_gas</span><span class="p">:</span> <span class="n">Number</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parent_blob_gas_used</span><span class="p">:</span> <span class="n">HexNumber</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parent_excess_blob_gas</span><span class="p">:</span> <span class="n">HexNumber</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">parent_beacon_block_root</span><span class="p">:</span> <span class="n">Hash</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="n">block_hashes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">Hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
