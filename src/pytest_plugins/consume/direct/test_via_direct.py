@@ -12,8 +12,7 @@ import pytest
 from ethereum_clis import TransitionTool
 from ethereum_test_fixtures import BlockchainFixture, FixtureFormat, StateFixture
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
-
-from ..decorator import fixture_format
+from pytest_plugins.consume.decorator import fixture_format
 
 statetest_results: dict[Path, List[dict[str, Any]]] = {}
 
