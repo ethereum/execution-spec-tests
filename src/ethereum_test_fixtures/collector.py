@@ -14,8 +14,8 @@ from typing import Dict, Literal, Optional, Tuple
 from ethereum_test_base_types import to_json
 
 from .base import BaseFixture
+from .consume import FixtureConsumer
 from .file import Fixtures
-from .fixture_consumer import FixtureConsumer
 
 
 def strip_test_prefix(name: str) -> str:

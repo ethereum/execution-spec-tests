@@ -3,8 +3,8 @@
 from .base import BaseFixture, FixtureFormat, LabeledFixtureFormat
 from .blockchain import BlockchainEngineFixture, BlockchainFixture, BlockchainFixtureCommon
 from .collector import FixtureCollector, TestInfo
+from .consume import FixtureConsumer
 from .eof import EOFFixture
-from .fixture_consumer import FixtureConsumer
 from .state import StateFixture
 from .transaction import TransactionFixture
 
