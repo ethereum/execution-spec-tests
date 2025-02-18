@@ -11129,6 +11129,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -11392,6 +11396,48 @@
   
   <span class="md-ellipsis">
     <code>test_eofcreate_invalid_index</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eip7620_eof_create/test_eofcreate/test_eofcreate_invalid_truncated_immediate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_eofcreate_invalid_truncated_immediate</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eip7620_eof_create/test_eofcreate/test_eofcreate_truncated_container/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_eofcreate_truncated_container</code>
   </span>
   
 
@@ -28076,7 +28122,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Markdown Content</p>
-<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/b76d6c77330f11d687333babcf1c3d55851e8d37/tests/osaka/eip7692_eof_v1/eof_tracker.md"><code>tests/osaka/eip7692_eof_v1/eof_tracker.md@b76d6c77</code></a>.</p>
+<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/c03c6b7288689841ce91e69862e98800a8051a82/tests/osaka/eip7692_eof_v1/eof_tracker.md"><code>tests/osaka/eip7692_eof_v1/eof_tracker.md@c03c6b72</code></a>.</p>
 </div>
 <h1 id="eof-testing-coverage-tracker">EOF Testing Coverage Tracker<a class="headerlink" href="#eof-testing-coverage-tracker" title="Permanent link">&para;</a></h1>
 <ul class="task-list">
@@ -28495,10 +28541,10 @@
 <h3 id="validation_8">Validation<a class="headerlink" href="#validation_8" title="Permanent link">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid EOFCREATEs referring to various container numbers (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_valid_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Truncated before EOFCREATE immediate (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> EOFCREATE is not a valid terminating instruction (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> EOFCREATE immediate referring to non-existing container (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> EOFCREATE immediate referring to container with truncated data (ethereum/tests: ./src/EOFTestsFiller/efValidation/EOF1_eofcreate_invalid_Copier.json)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Truncated before EOFCREATE immediate (<a href="../eip7620_eof_create/test_eofcreate/"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></a><code>-k test_eofcreate_invalid_truncated_immediate</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> EOFCREATE is not a valid terminating instruction</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EOFCREATE immediate referring to non-existing container (<a href="../eip7620_eof_create/test_eofcreate/"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></a><code>-k test_eofcreate_invalid_index</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EOFCREATE immediate referring to container with truncated data (<a href="../eip7620_eof_create/test_eofcreate/"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></a><code>-k test_eofcreate_truncated_container</code>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid RETURNCONTRACTs referring to various container numbers (<a href="../eip7620_eof_create/test_returncontract/"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py</code></a><code>-k test_returncontract_valid_index</code>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Truncated before RETURNCONTRACT immediate (<a href="../eip7620_eof_create/test_returncontract/test_returncontract_invalid_truncated_immediate/"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py::test_returncontract_invalid_truncated_immediate</code></a>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> RETURNCONTRACT immediate referring to non-existing container (<a href="../eip7620_eof_create/test_returncontract/"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_returncontract.py</code></a><code>-k test_returncontract_invalid_index</code>)</li>
