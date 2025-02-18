@@ -41,8 +41,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -60,24 +60,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-blockchain_test-store_from_push]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-blockchain_test-store_from_push]">
-                    ...fork_Osaka-blockchain_test-store_from_push
-                </abbr>
-            </td>
-                        <td>store_from_push</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-blockchain_test-store_with_data]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-blockchain_test-store_with_data]">
-                    ...fork_Osaka-blockchain_test-store_with_data
-                </abbr>
-            </td>
-                        <td>store_with_data</td>
-                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -92,6 +74,24 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-state_test-store_with_data]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-state_test-store_with_data]">
                     ...fork_Osaka-state_test-store_with_data
+                </abbr>
+            </td>
+                        <td>store_with_data</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-blockchain_test_from_state_test-store_from_push]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-blockchain_test_from_state_test-store_from_push]">
+                    ...fork_Osaka-blockchain_test_from_state_test-store_from_push
+                </abbr>
+            </td>
+                        <td>store_from_push</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-blockchain_test_from_state_test-store_with_data]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_execution.py::test_eof_execution[fork_Osaka-blockchain_test_from_state_test-store_with_data]">
+                    ...fork_Osaka-blockchain_test_from_state_test-store_with_data
                 </abbr>
             </td>
                         <td>store_with_data</td>

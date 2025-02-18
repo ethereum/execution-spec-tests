@@ -27305,7 +27305,7 @@
 
 
 <h1 id="test_calldata_remains_after_subcall"><code>test_calldata_remains_after_subcall()</code><a class="headerlink" href="#test_calldata_remains_after_subcall" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py#L295"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py#L295"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall --fork Osaka</span>
@@ -27678,8 +27678,8 @@ returns. Target writes calldata to storage.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27697,69 +27697,6 @@ returns. Target writes calldata to storage.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_CALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_CALL]">
-                    ...fork_Osaka-blockchain_test-opcode_CALL
-                </abbr>
-            </td>
-                        <td>CALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_CALLCODE]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_CALLCODE]">
-                    ...fork_Osaka-blockchain_test-opcode_CALLCODE
-                </abbr>
-            </td>
-                        <td>CALLCODE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_DELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_DELEGATECALL]">
-                    ...fork_Osaka-blockchain_test-opcode_DELEGATECALL
-                </abbr>
-            </td>
-                        <td>DELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_STATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_STATICCALL]">
-                    ...fork_Osaka-blockchain_test-opcode_STATICCALL
-                </abbr>
-            </td>
-                        <td>STATICCALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test-opcode_EXTCALL
-                </abbr>
-            </td>
-                        <td>EXTCALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test-opcode_EXTDELEGATECALL
-                </abbr>
-            </td>
-                        <td>EXTDELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test-opcode_EXTSTATICCALL
-                </abbr>
-            </td>
-                        <td>EXTSTATICCALL</td>
-                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27819,6 +27756,69 @@ returns. Target writes calldata to storage.</p>
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-state_test-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-state_test-opcode_EXTSTATICCALL]">
                     ...fork_Osaka-state_test-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_CALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_CALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_CALL
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_CALLCODE]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_CALLCODE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_CALLCODE
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_DELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_DELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_STATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_STATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_STATICCALL
+                </abbr>
+            </td>
+                        <td>STATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calldata.py::test_calldata_remains_after_subcall[fork_Osaka-blockchain_test_from_state_test-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>EXTSTATICCALL</td>

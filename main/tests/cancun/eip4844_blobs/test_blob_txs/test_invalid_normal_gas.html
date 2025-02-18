@@ -43,8 +43,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -63,16 +63,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Cancun-blockchain_test-insufficient_max_fee_per_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Cancun-blockchain_test-insufficient_max_fee_per_gas]">
-                    ...fork_Cancun-blockchain_test-insufficient_max_fee_per_gas
-                </abbr>
-            </td>
-                        <td>6</td>
-                        <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS</td>
-                    </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -83,11 +73,11 @@
                         <td>6</td>
                         <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Prague-blockchain_test-insufficient_max_fee_per_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Prague-blockchain_test-insufficient_max_fee_per_gas]">
-                    ...fork_Prague-blockchain_test-insufficient_max_fee_per_gas
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Cancun-blockchain_test_from_state_test-insufficient_max_fee_per_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Cancun-blockchain_test_from_state_test-insufficient_max_fee_per_gas]">
+                    ...fork_Cancun-blockchain_test_from_state_test-insufficient_max_fee_per_gas
                 </abbr>
             </td>
                         <td>6</td>
@@ -103,11 +93,11 @@
                         <td>6</td>
                         <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Osaka-blockchain_test-insufficient_max_fee_per_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Osaka-blockchain_test-insufficient_max_fee_per_gas]">
-                    ...fork_Osaka-blockchain_test-insufficient_max_fee_per_gas
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Prague-blockchain_test_from_state_test-insufficient_max_fee_per_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Prague-blockchain_test_from_state_test-insufficient_max_fee_per_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-insufficient_max_fee_per_gas
                 </abbr>
             </td>
                         <td>6</td>
@@ -118,6 +108,16 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Osaka-state_test-insufficient_max_fee_per_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Osaka-state_test-insufficient_max_fee_per_gas]">
                     ...fork_Osaka-state_test-insufficient_max_fee_per_gas
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Osaka-blockchain_test_from_state_test-insufficient_max_fee_per_gas]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_normal_gas[fork_Osaka-blockchain_test_from_state_test-insufficient_max_fee_per_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-insufficient_max_fee_per_gas
                 </abbr>
             </td>
                         <td>6</td>

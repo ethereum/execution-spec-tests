@@ -27305,7 +27305,7 @@
 
 
 <h1 id="test_callf_sneaky_stack_overflow"><code>test_callf_sneaky_stack_overflow()</code><a class="headerlink" href="#test_callf_sneaky_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L482"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L482"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow --fork Osaka</span>
@@ -27551,8 +27551,8 @@ Code Section 3 - Writes canary values</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27571,26 +27571,6 @@ Code Section 3 - Writes canary values</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-blockchain_test-no_overflow]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-blockchain_test-no_overflow]">
-                    ...fork_Osaka-blockchain_test-no_overflow
-                </abbr>
-            </td>
-                        <td>1020</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-blockchain_test-with_overflow]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-blockchain_test-with_overflow]">
-                    ...fork_Osaka-blockchain_test-with_overflow
-                </abbr>
-            </td>
-                        <td>1021</td>
-                        <td>True</td>
-                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27606,6 +27586,26 @@ Code Section 3 - Writes canary values</p>
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-state_test-with_overflow]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-state_test-with_overflow]">
                     ...fork_Osaka-state_test-with_overflow
+                </abbr>
+            </td>
+                        <td>1021</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-blockchain_test_from_state_test-no_overflow]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-blockchain_test_from_state_test-no_overflow]">
+                    ...fork_Osaka-blockchain_test_from_state_test-no_overflow
+                </abbr>
+            </td>
+                        <td>1020</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-blockchain_test_from_state_test-with_overflow]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow[fork_Osaka-blockchain_test_from_state_test-with_overflow]">
+                    ...fork_Osaka-blockchain_test_from_state_test-with_overflow
                 </abbr>
             </td>
                         <td>1021</td>

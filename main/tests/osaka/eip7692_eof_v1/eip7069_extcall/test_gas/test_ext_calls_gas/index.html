@@ -27305,7 +27305,7 @@
 
 
 <h1 id="test_ext_calls_gas"><code>test_ext_calls_gas()</code><a class="headerlink" href="#test_ext_calls_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py#L42"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py#L42"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas --fork Osaka</span>
@@ -27562,8 +27562,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27586,454 +27586,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>EXTCALL</td>
-                        <td>PUSH0</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_with_value]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_with_value]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_with_value
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>EXTCALL</td>
-                        <td></td>
-                        <td>11600</td>
-                        <td>9100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTDELEGATECALL
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>EXTDELEGATECALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTSTATICCALL
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>EXTSTATICCALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_new_acc
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>EXTCALL</td>
-                        <td>PUSH0</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_with_value_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_with_value_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTCALL_with_value_new_acc
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>EXTCALL</td>
-                        <td></td>
-                        <td>36600</td>
-                        <td>34100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTDELEGATECALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTDELEGATECALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTDELEGATECALL_new_acc
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>EXTDELEGATECALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTSTATICCALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_0-EXTSTATICCALL_new_acc
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>EXTSTATICCALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>EXTCALL</td>
-                        <td>PUSH0</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_with_value]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_with_value]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_with_value
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>EXTCALL</td>
-                        <td></td>
-                        <td>11600</td>
-                        <td>9100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTDELEGATECALL
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>EXTDELEGATECALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTSTATICCALL
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>EXTSTATICCALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_new_acc
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>EXTCALL</td>
-                        <td>PUSH0</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_with_value_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_with_value_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTCALL_with_value_new_acc
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>EXTCALL</td>
-                        <td></td>
-                        <td>36600</td>
-                        <td>34100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTDELEGATECALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTDELEGATECALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTDELEGATECALL_new_acc
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>EXTDELEGATECALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTSTATICCALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_1-EXTSTATICCALL_new_acc
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>EXTSTATICCALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL
-                </abbr>
-            </td>
-                        <td>32</td>
-                        <td>EXTCALL</td>
-                        <td>PUSH0</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_with_value]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_with_value]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_with_value
-                </abbr>
-            </td>
-                        <td>32</td>
-                        <td>EXTCALL</td>
-                        <td></td>
-                        <td>11600</td>
-                        <td>9100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTDELEGATECALL
-                </abbr>
-            </td>
-                        <td>32</td>
-                        <td>EXTDELEGATECALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTSTATICCALL
-                </abbr>
-            </td>
-                        <td>32</td>
-                        <td>EXTSTATICCALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_new_acc
-                </abbr>
-            </td>
-                        <td>32</td>
-                        <td>EXTCALL</td>
-                        <td>PUSH0</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_with_value_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_with_value_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTCALL_with_value_new_acc
-                </abbr>
-            </td>
-                        <td>32</td>
-                        <td>EXTCALL</td>
-                        <td></td>
-                        <td>36600</td>
-                        <td>34100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTDELEGATECALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTDELEGATECALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTDELEGATECALL_new_acc
-                </abbr>
-            </td>
-                        <td>32</td>
-                        <td>EXTDELEGATECALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTSTATICCALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_32-EXTSTATICCALL_new_acc
-                </abbr>
-            </td>
-                        <td>32</td>
-                        <td>EXTSTATICCALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL
-                </abbr>
-            </td>
-                        <td>33</td>
-                        <td>EXTCALL</td>
-                        <td>PUSH0</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_with_value]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_with_value]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_with_value
-                </abbr>
-            </td>
-                        <td>33</td>
-                        <td>EXTCALL</td>
-                        <td></td>
-                        <td>11600</td>
-                        <td>9100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTDELEGATECALL
-                </abbr>
-            </td>
-                        <td>33</td>
-                        <td>EXTDELEGATECALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTSTATICCALL
-                </abbr>
-            </td>
-                        <td>33</td>
-                        <td>EXTSTATICCALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_new_acc
-                </abbr>
-            </td>
-                        <td>33</td>
-                        <td>EXTCALL</td>
-                        <td>PUSH0</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_with_value_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_with_value_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTCALL_with_value_new_acc
-                </abbr>
-            </td>
-                        <td>33</td>
-                        <td>EXTCALL</td>
-                        <td></td>
-                        <td>36600</td>
-                        <td>34100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTDELEGATECALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTDELEGATECALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTDELEGATECALL_new_acc
-                </abbr>
-            </td>
-                        <td>33</td>
-                        <td>EXTDELEGATECALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc]">
-                    ...fork_Osaka-blockchain_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc
-                </abbr>
-            </td>
-                        <td>33</td>
-                        <td>EXTSTATICCALL</td>
-                        <td>JUMPDEST</td>
-                        <td>2600</td>
-                        <td>100</td>
-                        <td>True</td>
-                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28473,6 +28025,454 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-state_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-state_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc]">
                     ...fork_Osaka-state_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc
+                </abbr>
+            </td>
+                        <td>33</td>
+                        <td>EXTSTATICCALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EXTCALL</td>
+                        <td>PUSH0</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_with_value]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_with_value]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_with_value
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EXTCALL</td>
+                        <td></td>
+                        <td>11600</td>
+                        <td>9100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EXTDELEGATECALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EXTSTATICCALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_new_acc
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EXTCALL</td>
+                        <td>PUSH0</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_with_value_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_with_value_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTCALL_with_value_new_acc
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EXTCALL</td>
+                        <td></td>
+                        <td>36600</td>
+                        <td>34100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTDELEGATECALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTDELEGATECALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTDELEGATECALL_new_acc
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EXTDELEGATECALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTSTATICCALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_0-EXTSTATICCALL_new_acc
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EXTSTATICCALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EXTCALL</td>
+                        <td>PUSH0</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_with_value]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_with_value]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_with_value
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EXTCALL</td>
+                        <td></td>
+                        <td>11600</td>
+                        <td>9100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EXTDELEGATECALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EXTSTATICCALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_new_acc
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EXTCALL</td>
+                        <td>PUSH0</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_with_value_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_with_value_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTCALL_with_value_new_acc
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EXTCALL</td>
+                        <td></td>
+                        <td>36600</td>
+                        <td>34100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTDELEGATECALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTDELEGATECALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTDELEGATECALL_new_acc
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EXTDELEGATECALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTSTATICCALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_1-EXTSTATICCALL_new_acc
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EXTSTATICCALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL
+                </abbr>
+            </td>
+                        <td>32</td>
+                        <td>EXTCALL</td>
+                        <td>PUSH0</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_with_value]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_with_value]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_with_value
+                </abbr>
+            </td>
+                        <td>32</td>
+                        <td>EXTCALL</td>
+                        <td></td>
+                        <td>11600</td>
+                        <td>9100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>32</td>
+                        <td>EXTDELEGATECALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>32</td>
+                        <td>EXTSTATICCALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_new_acc
+                </abbr>
+            </td>
+                        <td>32</td>
+                        <td>EXTCALL</td>
+                        <td>PUSH0</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_with_value_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_with_value_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTCALL_with_value_new_acc
+                </abbr>
+            </td>
+                        <td>32</td>
+                        <td>EXTCALL</td>
+                        <td></td>
+                        <td>36600</td>
+                        <td>34100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTDELEGATECALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTDELEGATECALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTDELEGATECALL_new_acc
+                </abbr>
+            </td>
+                        <td>32</td>
+                        <td>EXTDELEGATECALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTSTATICCALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_32-EXTSTATICCALL_new_acc
+                </abbr>
+            </td>
+                        <td>32</td>
+                        <td>EXTSTATICCALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL
+                </abbr>
+            </td>
+                        <td>33</td>
+                        <td>EXTCALL</td>
+                        <td>PUSH0</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_with_value]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_with_value]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_with_value
+                </abbr>
+            </td>
+                        <td>33</td>
+                        <td>EXTCALL</td>
+                        <td></td>
+                        <td>11600</td>
+                        <td>9100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>33</td>
+                        <td>EXTDELEGATECALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>33</td>
+                        <td>EXTSTATICCALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_new_acc
+                </abbr>
+            </td>
+                        <td>33</td>
+                        <td>EXTCALL</td>
+                        <td>PUSH0</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_with_value_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_with_value_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTCALL_with_value_new_acc
+                </abbr>
+            </td>
+                        <td>33</td>
+                        <td>EXTCALL</td>
+                        <td></td>
+                        <td>36600</td>
+                        <td>34100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTDELEGATECALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTDELEGATECALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTDELEGATECALL_new_acc
+                </abbr>
+            </td>
+                        <td>33</td>
+                        <td>EXTDELEGATECALL</td>
+                        <td>JUMPDEST</td>
+                        <td>2600</td>
+                        <td>100</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_gas.py::test_ext_calls_gas[fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mem_expansion_bytes_33-EXTSTATICCALL_new_acc
                 </abbr>
             </td>
                         <td>33</td>

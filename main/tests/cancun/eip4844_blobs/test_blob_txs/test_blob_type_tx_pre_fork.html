@@ -41,8 +41,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -63,30 +63,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test-no_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test-no_blob_tx]">
-                    ...fork_ShanghaiToCancunAtTime15k-blockchain_test-no_blob_tx
-                </abbr>
-            </td>
-                        <td>[0]</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
-                    </tr>
-                <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test-one_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test-one_blob_tx]">
-                    ...fork_ShanghaiToCancunAtTime15k-blockchain_test-one_blob_tx
-                </abbr>
-            </td>
-                        <td>[1]</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>TransactionException.TYPE_3_TX_PRE_FORK</td>
-                    </tr>
                 <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -104,6 +80,30 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-state_test-one_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-state_test-one_blob_tx]">
                     ...fork_ShanghaiToCancunAtTime15k-state_test-one_blob_tx
+                </abbr>
+            </td>
+                        <td>[1]</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>TransactionException.TYPE_3_TX_PRE_FORK</td>
+                    </tr>
+                <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-no_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-no_blob_tx]">
+                    ...fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-no_blob_tx
+                </abbr>
+            </td>
+                        <td>[0]</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
+                    </tr>
+                <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-one_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-one_blob_tx]">
+                    ...fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-one_blob_tx
                 </abbr>
             </td>
                         <td>[1]</td>

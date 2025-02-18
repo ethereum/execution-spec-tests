@@ -41,8 +41,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -60,24 +60,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-blockchain_test-opcode_CALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-blockchain_test-opcode_CALL]">
-                    ...fork_Osaka-blockchain_test-opcode_CALL
-                </abbr>
-            </td>
-                        <td>CALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-blockchain_test-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-blockchain_test-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test-opcode_EXTCALL
-                </abbr>
-            </td>
-                        <td>EXTCALL</td>
-                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -92,6 +74,24 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-state_test-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-state_test-opcode_EXTCALL]">
                     ...fork_Osaka-state_test-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-blockchain_test_from_state_test-opcode_CALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-blockchain_test_from_state_test-opcode_CALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_CALL
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-blockchain_test_from_state_test-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_returndataload.py::test_returndatacopy_oob[fork_Osaka-blockchain_test_from_state_test-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>EXTCALL</td>

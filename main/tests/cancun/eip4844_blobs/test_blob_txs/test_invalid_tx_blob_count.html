@@ -43,8 +43,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -63,16 +63,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Cancun-too_few_blobs-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Cancun-too_few_blobs-blockchain_test]">
-                    ...fork_Cancun-too_few_blobs-blockchain_test
-                </abbr>
-            </td>
-                        <td>[0]</td>
-                        <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
-                    </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -86,12 +76,12 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Cancun-too_many_blobs-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Cancun-too_many_blobs-blockchain_test]">
-                    ...fork_Cancun-too_many_blobs-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Cancun-too_few_blobs-blockchain_test_from_state_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Cancun-too_few_blobs-blockchain_test_from_state_test]">
+                    ...fork_Cancun-too_few_blobs-blockchain_test_from_state_test
                 </abbr>
             </td>
-                        <td>[7]</td>
-                        <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[0]</td>
+                        <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -103,15 +93,15 @@
                         <td>[7]</td>
                         <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Prague-too_few_blobs-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Prague-too_few_blobs-blockchain_test]">
-                    ...fork_Prague-too_few_blobs-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Cancun-too_many_blobs-blockchain_test_from_state_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Cancun-too_many_blobs-blockchain_test_from_state_test]">
+                    ...fork_Cancun-too_many_blobs-blockchain_test_from_state_test
                 </abbr>
             </td>
-                        <td>[0]</td>
-                        <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
+                        <td>[7]</td>
+                        <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -126,12 +116,12 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Prague-too_many_blobs-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Prague-too_many_blobs-blockchain_test]">
-                    ...fork_Prague-too_many_blobs-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Prague-too_few_blobs-blockchain_test_from_state_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Prague-too_few_blobs-blockchain_test_from_state_test]">
+                    ...fork_Prague-too_few_blobs-blockchain_test_from_state_test
                 </abbr>
             </td>
-                        <td>[10]</td>
-                        <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[0]</td>
+                        <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -143,15 +133,15 @@
                         <td>[10]</td>
                         <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_few_blobs-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_few_blobs-blockchain_test]">
-                    ...fork_Osaka-too_few_blobs-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Prague-too_many_blobs-blockchain_test_from_state_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Prague-too_many_blobs-blockchain_test_from_state_test]">
+                    ...fork_Prague-too_many_blobs-blockchain_test_from_state_test
                 </abbr>
             </td>
-                        <td>[0]</td>
-                        <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
+                        <td>[10]</td>
+                        <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -166,18 +156,28 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_many_blobs-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_many_blobs-blockchain_test]">
-                    ...fork_Osaka-too_many_blobs-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_few_blobs-blockchain_test_from_state_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_few_blobs-blockchain_test_from_state_test]">
+                    ...fork_Osaka-too_few_blobs-blockchain_test_from_state_test
                 </abbr>
             </td>
-                        <td>[10]</td>
-                        <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                        <td>[0]</td>
+                        <td>TransactionException.TYPE_3_TX_ZERO_BLOBS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_many_blobs-state_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_many_blobs-state_test]">
                     ...fork_Osaka-too_many_blobs-state_test
+                </abbr>
+            </td>
+                        <td>[10]</td>
+                        <td>TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_many_blobs-blockchain_test_from_state_test]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_tx_blob_count[fork_Osaka-too_many_blobs-blockchain_test_from_state_test]">
+                    ...fork_Osaka-too_many_blobs-blockchain_test_from_state_test
                 </abbr>
             </td>
                         <td>[10]</td>

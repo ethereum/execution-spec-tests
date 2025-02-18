@@ -27303,7 +27303,7 @@
 
 
 <h1 id="test_blob_type_tx_pre_fork"><code>test_blob_type_tx_pre_fork()</code><a class="headerlink" href="#test_blob_type_tx_pre_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/cancun/eip4844_blobs/test_blob_txs.py#L1317"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/cancun/eip4844_blobs/test_blob_txs.py#L1318"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork --fork Prague</span>
@@ -27324,8 +27324,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1317</span>
-<span class="normal">1318</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1318</span>
 <span class="normal">1319</span>
 <span class="normal">1320</span>
 <span class="normal">1321</span>
@@ -27360,7 +27359,8 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 <span class="normal">1350</span>
 <span class="normal">1351</span>
 <span class="normal">1352</span>
-<span class="normal">1353</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1353</span>
+<span class="normal">1354</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
@@ -27430,8 +27430,8 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27452,30 +27452,6 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test-no_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test-no_blob_tx]">
-                    ...fork_ShanghaiToCancunAtTime15k-blockchain_test-no_blob_tx
-                </abbr>
-            </td>
-                        <td>[0]</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
-                    </tr>
-                <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test-one_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test-one_blob_tx]">
-                    ...fork_ShanghaiToCancunAtTime15k-blockchain_test-one_blob_tx
-                </abbr>
-            </td>
-                        <td>[1]</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>TransactionException.TYPE_3_TX_PRE_FORK</td>
-                    </tr>
                 <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27493,6 +27469,30 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-state_test-one_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-state_test-one_blob_tx]">
                     ...fork_ShanghaiToCancunAtTime15k-state_test-one_blob_tx
+                </abbr>
+            </td>
+                        <td>[1]</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>TransactionException.TYPE_3_TX_PRE_FORK</td>
+                    </tr>
+                <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-no_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-no_blob_tx]">
+                    ...fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-no_blob_tx
+                </abbr>
+            </td>
+                        <td>[0]</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
+                    </tr>
+                <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-one_blob_tx]" title="tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork[fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-one_blob_tx]">
+                    ...fork_ShanghaiToCancunAtTime15k-blockchain_test_from_state_test-one_blob_tx
                 </abbr>
             </td>
                         <td>[1]</td>

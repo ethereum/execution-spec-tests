@@ -27303,7 +27303,7 @@
 
 
 <h1 id="test_no_memory_corruption_on_upper_create_stack_levels"><code>test_no_memory_corruption_on_upper_create_stack_levels()</code><a class="headerlink" href="#test_no_memory_corruption_on_upper_create_stack_levels" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/cancun/eip5656_mcopy/test_mcopy_contexts.py#L185"><code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/cancun/eip5656_mcopy/test_mcopy_contexts.py#L185"><code>tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels --fork Prague</span>
@@ -27416,8 +27416,8 @@ and verify that the caller's memory is unaffected:
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27435,24 +27435,6 @@ and verify that the caller's memory is unaffected:
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Cancun-blockchain_test-call_opcode_CREATE]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Cancun-blockchain_test-call_opcode_CREATE]">
-                    ...fork_Cancun-blockchain_test-call_opcode_CREATE
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Cancun-blockchain_test-call_opcode_CREATE2]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Cancun-blockchain_test-call_opcode_CREATE2]">
-                    ...fork_Cancun-blockchain_test-call_opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                    </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27471,20 +27453,20 @@ and verify that the caller's memory is unaffected:
             </td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Prague-blockchain_test-call_opcode_CREATE]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Prague-blockchain_test-call_opcode_CREATE]">
-                    ...fork_Prague-blockchain_test-call_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Cancun-blockchain_test_from_state_test-call_opcode_CREATE]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Cancun-blockchain_test_from_state_test-call_opcode_CREATE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-call_opcode_CREATE
                 </abbr>
             </td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Prague-blockchain_test-call_opcode_CREATE2]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Prague-blockchain_test-call_opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test-call_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Cancun-blockchain_test_from_state_test-call_opcode_CREATE2]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Cancun-blockchain_test_from_state_test-call_opcode_CREATE2]">
+                    ...fork_Cancun-blockchain_test_from_state_test-call_opcode_CREATE2
                 </abbr>
             </td>
                         <td>CREATE2</td>
@@ -27507,20 +27489,20 @@ and verify that the caller's memory is unaffected:
             </td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-blockchain_test-call_opcode_CREATE]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-blockchain_test-call_opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test-call_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Prague-blockchain_test_from_state_test-call_opcode_CREATE]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Prague-blockchain_test_from_state_test-call_opcode_CREATE]">
+                    ...fork_Prague-blockchain_test_from_state_test-call_opcode_CREATE
                 </abbr>
             </td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-blockchain_test-call_opcode_CREATE2]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-blockchain_test-call_opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test-call_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Prague-blockchain_test_from_state_test-call_opcode_CREATE2]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Prague-blockchain_test_from_state_test-call_opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test_from_state_test-call_opcode_CREATE2
                 </abbr>
             </td>
                         <td>CREATE2</td>
@@ -27539,6 +27521,24 @@ and verify that the caller's memory is unaffected:
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-state_test-call_opcode_CREATE2]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-state_test-call_opcode_CREATE2]">
                     ...fork_Osaka-state_test-call_opcode_CREATE2
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-blockchain_test_from_state_test-call_opcode_CREATE]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-blockchain_test_from_state_test-call_opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-call_opcode_CREATE
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-blockchain_test_from_state_test-call_opcode_CREATE2]" title="tests/cancun/eip5656_mcopy/test_mcopy_contexts.py::test_no_memory_corruption_on_upper_create_stack_levels[fork_Osaka-blockchain_test_from_state_test-call_opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-call_opcode_CREATE2
                 </abbr>
             </td>
                         <td>CREATE2</td>

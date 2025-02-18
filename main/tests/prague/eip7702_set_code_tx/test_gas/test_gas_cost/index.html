@@ -27303,7 +27303,7 @@
 
 
 <h1 id="test_gas_cost"><code>test_gas_cost()</code><a class="headerlink" href="#test_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/prague/eip7702_set_code_tx/test_gas.py#L653"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/prague/eip7702_set_code_tx/test_gas.py#L653"><code>tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost --fork Prague</span>
@@ -27547,8 +27547,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27575,546 +27575,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_single_signer]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_single_signer
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_chain_specific_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_chain_specific_authorization_single_signer]">
-                    ...fork_Prague-blockchain_test-single_valid_chain_specific_authorization_single_signer
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.CHAIN_SPECIFIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_valid_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_valid_authorizations_single_signer]">
-                    ...fork_Prague-blockchain_test-multiple_valid_authorizations_single_signer
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_invalid_nonce_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_invalid_nonce_authorization_single_signer]">
-                    ...fork_Prague-blockchain_test-single_invalid_nonce_authorization_single_signer
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_invalid_authorization_invalid_chain_id_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_invalid_authorization_invalid_chain_id_single_signer]">
-                    ...fork_Prague-blockchain_test-single_invalid_authorization_invalid_chain_id_single_signer
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_invalid_nonce_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_invalid_nonce_authorizations_single_signer]">
-                    ...fork_Prague-blockchain_test-multiple_invalid_nonce_authorizations_single_signer
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_invalid_nonce_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_invalid_nonce_authorizations_multiple_signers]">
-                    ...fork_Prague-blockchain_test-multiple_invalid_nonce_authorizations_multiple_signers
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.MULTIPLE_SIGNERS</td>
-                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_invalid_chain_id_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_invalid_chain_id_authorizations_single_signer]">
-                    ...fork_Prague-blockchain_test-multiple_invalid_chain_id_authorizations_single_signer
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_valid_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_valid_authorizations_multiple_signers]">
-                    ...fork_Prague-blockchain_test-multiple_valid_authorizations_multiple_signers
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.MULTIPLE_SIGNERS</td>
-                        <td>None</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-first_valid_then_single_repeated_nonce_authorization]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-first_valid_then_single_repeated_nonce_authorization]">
-                    ...fork_Prague-blockchain_test-first_valid_then_single_repeated_nonce_authorization
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers]">
-                    ...fork_Prague-blockchain_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.MULTIPLE_SIGNERS</td>
-                        <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
-                        <td>4</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_to_eoa]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_to_eoa]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_to_eoa
-                </abbr>
-            </td>
-                        <td>AddressType.EOA</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_to_contract]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_to_contract]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_to_contract
-                </abbr>
-            </td>
-                        <td>AddressType.CONTRACT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_authority_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_authority_in_access_list]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_with_authority_in_access_list
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.CONTAINS_AUTHORITY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_set_code_address_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_set_code_address_in_access_list]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_with_set_code_address_in_access_list
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_eoa_authority]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_eoa_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EOA</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_re_authorization_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_re_authorization_eoa_authority]">
-                    ...fork_Prague-blockchain_test-single_valid_re_authorization_eoa_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>True</td>
-                        <td>AddressType.EOA_WITH_SET_CODE</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_valid_authorizations_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_valid_authorizations_eoa_authority]">
-                    ...fork_Prague-blockchain_test-multiple_valid_authorizations_eoa_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EOA</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_eoa_self_sponsored_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_eoa_self_sponsored_authority]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_eoa_self_sponsored_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>AddressType.EOA</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_valid_authorizations_eoa_self_sponsored_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_valid_authorizations_eoa_self_sponsored_authority]">
-                    ...fork_Prague-blockchain_test-multiple_valid_authorizations_eoa_self_sponsored_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>AddressType.EOA</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_invalid_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_invalid_contract_authority]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_invalid_contract_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.CONTRACT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_authorizations_empty_account_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_authorizations_empty_account_then_contract_authority]">
-                    ...fork_Prague-blockchain_test-multiple_authorizations_empty_account_then_contract_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.MULTIPLE_SIGNERS</td>
-                        <td>None</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>[<AddressType.EMPTY_ACCOUNT: 1>, <AddressType.CONTRACT: 4>]</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_authorizations_eoa_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_authorizations_eoa_then_contract_authority]">
-                    ...fork_Prague-blockchain_test-multiple_authorizations_eoa_then_contract_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.MULTIPLE_SIGNERS</td>
-                        <td>None</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>[<AddressType.EOA: 2>, <AddressType.CONTRACT: 4>]</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority]">
-                    ...fork_Prague-blockchain_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.MULTIPLE_SIGNERS</td>
-                        <td>None</td>
-                        <td>2</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>True</td>
-                        <td>False</td>
-                        <td>[<AddressType.EOA: 2>, <AddressType.CONTRACT: 4>]</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_single_non_zero_byte_data]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_single_non_zero_byte_data]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_with_single_non_zero_byte_data
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td><code>01</code></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_single_zero_byte_data]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-single_valid_authorization_with_single_zero_byte_data]">
-                    ...fork_Prague-blockchain_test-single_valid_authorization_with_single_zero_byte_data
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>1</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td><code>00</code></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-many_valid_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-many_valid_authorizations_single_signer]">
-                    ...fork_Prague-blockchain_test-many_valid_authorizations_single_signer
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>None</td>
-                        <td>5000</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-many_valid_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-many_valid_authorizations_multiple_signers]">
-                    ...fork_Prague-blockchain_test-many_valid_authorizations_multiple_signers
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.MULTIPLE_SIGNERS</td>
-                        <td>None</td>
-                        <td>5000</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-first_valid_then_many_duplicate_authorizations]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test-first_valid_then_many_duplicate_authorizations]">
-                    ...fork_Prague-blockchain_test-first_valid_then_many_duplicate_authorizations
-                </abbr>
-            </td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td>SignerType.SINGLE_SIGNER</td>
-                        <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
-                        <td>5000</td>
-                        <td>ChainIDType.GENERIC</td>
-                        <td>AccessListType.EMPTY</td>
-                        <td>False</td>
-                        <td>False</td>
-                        <td>AddressType.EMPTY_ACCOUNT</td>
-                        <td></td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28655,11 +28115,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_single_signer]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_single_signer
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_single_signer]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_single_signer
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28673,11 +28133,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_chain_specific_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_chain_specific_authorization_single_signer]">
-                    ...fork_Osaka-blockchain_test-single_valid_chain_specific_authorization_single_signer
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_chain_specific_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_chain_specific_authorization_single_signer]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_chain_specific_authorization_single_signer
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28691,11 +28151,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_valid_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_valid_authorizations_single_signer]">
-                    ...fork_Osaka-blockchain_test-multiple_valid_authorizations_single_signer
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_single_signer]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_single_signer
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28709,11 +28169,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_invalid_nonce_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_invalid_nonce_authorization_single_signer]">
-                    ...fork_Osaka-blockchain_test-single_invalid_nonce_authorization_single_signer
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_invalid_nonce_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_invalid_nonce_authorization_single_signer]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_invalid_nonce_authorization_single_signer
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28727,11 +28187,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_invalid_authorization_invalid_chain_id_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_invalid_authorization_invalid_chain_id_single_signer]">
-                    ...fork_Osaka-blockchain_test-single_invalid_authorization_invalid_chain_id_single_signer
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_invalid_authorization_invalid_chain_id_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_invalid_authorization_invalid_chain_id_single_signer]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_invalid_authorization_invalid_chain_id_single_signer
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28745,11 +28205,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_invalid_nonce_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_invalid_nonce_authorizations_single_signer]">
-                    ...fork_Osaka-blockchain_test-multiple_invalid_nonce_authorizations_single_signer
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_single_signer]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_single_signer
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28763,11 +28223,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_invalid_nonce_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_invalid_nonce_authorizations_multiple_signers]">
-                    ...fork_Osaka-blockchain_test-multiple_invalid_nonce_authorizations_multiple_signers
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_multiple_signers]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_multiple_signers
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28781,11 +28241,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_invalid_chain_id_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_invalid_chain_id_authorizations_single_signer]">
-                    ...fork_Osaka-blockchain_test-multiple_invalid_chain_id_authorizations_single_signer
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_invalid_chain_id_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_invalid_chain_id_authorizations_single_signer]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_invalid_chain_id_authorizations_single_signer
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28799,11 +28259,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_valid_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_valid_authorizations_multiple_signers]">
-                    ...fork_Osaka-blockchain_test-multiple_valid_authorizations_multiple_signers
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_multiple_signers]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_multiple_signers
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28817,11 +28277,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-first_valid_then_single_repeated_nonce_authorization]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-first_valid_then_single_repeated_nonce_authorization]">
-                    ...fork_Osaka-blockchain_test-first_valid_then_single_repeated_nonce_authorization
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorization]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorization]">
+                    ...fork_Prague-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorization
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28835,11 +28295,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers]">
-                    ...fork_Osaka-blockchain_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers]">
+                    ...fork_Prague-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28853,11 +28313,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_to_eoa]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_to_eoa]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_to_eoa
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_to_eoa]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_to_eoa]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_to_eoa
                 </abbr>
             </td>
                         <td>AddressType.EOA</td>
@@ -28871,11 +28331,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_to_contract]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_to_contract]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_to_contract
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_to_contract]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_to_contract]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_to_contract
                 </abbr>
             </td>
                         <td>AddressType.CONTRACT</td>
@@ -28889,11 +28349,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_authority_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_authority_in_access_list]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_with_authority_in_access_list
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_authority_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_authority_in_access_list]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_authority_in_access_list
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28907,11 +28367,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_set_code_address_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_set_code_address_in_access_list]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_with_set_code_address_in_access_list
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_set_code_address_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_set_code_address_in_access_list]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_set_code_address_in_access_list
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28925,11 +28385,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28943,11 +28403,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_eoa_authority]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_eoa_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_eoa_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_eoa_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28961,11 +28421,11 @@
                         <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_re_authorization_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_re_authorization_eoa_authority]">
-                    ...fork_Osaka-blockchain_test-single_valid_re_authorization_eoa_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_re_authorization_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_re_authorization_eoa_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_re_authorization_eoa_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28979,11 +28439,11 @@
                         <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_valid_authorizations_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_valid_authorizations_eoa_authority]">
-                    ...fork_Osaka-blockchain_test-multiple_valid_authorizations_eoa_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -28997,11 +28457,11 @@
                         <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_eoa_self_sponsored_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_eoa_self_sponsored_authority]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_eoa_self_sponsored_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_eoa_self_sponsored_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_eoa_self_sponsored_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_eoa_self_sponsored_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29015,11 +28475,11 @@
                         <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_valid_authorizations_eoa_self_sponsored_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_valid_authorizations_eoa_self_sponsored_authority]">
-                    ...fork_Osaka-blockchain_test-multiple_valid_authorizations_eoa_self_sponsored_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_self_sponsored_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_self_sponsored_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_self_sponsored_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29033,11 +28493,11 @@
                         <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_invalid_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_invalid_contract_authority]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_invalid_contract_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_invalid_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_invalid_contract_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_invalid_contract_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29051,11 +28511,11 @@
                         <td>AddressType.CONTRACT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_authorizations_empty_account_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_authorizations_empty_account_then_contract_authority]">
-                    ...fork_Osaka-blockchain_test-multiple_authorizations_empty_account_then_contract_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_authorizations_empty_account_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_authorizations_empty_account_then_contract_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_authorizations_empty_account_then_contract_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29069,11 +28529,11 @@
                         <td>[<AddressType.EMPTY_ACCOUNT: 1>, <AddressType.CONTRACT: 4>]</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_authorizations_eoa_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_authorizations_eoa_then_contract_authority]">
-                    ...fork_Osaka-blockchain_test-multiple_authorizations_eoa_then_contract_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_authorizations_eoa_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_authorizations_eoa_then_contract_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_authorizations_eoa_then_contract_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29087,11 +28547,11 @@
                         <td>[<AddressType.EOA: 2>, <AddressType.CONTRACT: 4>]</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority]">
-                    ...fork_Osaka-blockchain_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29105,11 +28565,11 @@
                         <td>[<AddressType.EOA: 2>, <AddressType.CONTRACT: 4>]</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_single_non_zero_byte_data]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_single_non_zero_byte_data]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_with_single_non_zero_byte_data
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_single_non_zero_byte_data]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_single_non_zero_byte_data]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_single_non_zero_byte_data
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29123,11 +28583,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td><code>01</code></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_single_zero_byte_data]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-single_valid_authorization_with_single_zero_byte_data]">
-                    ...fork_Osaka-blockchain_test-single_valid_authorization_with_single_zero_byte_data
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_single_zero_byte_data]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_single_zero_byte_data]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_valid_authorization_with_single_zero_byte_data
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29141,11 +28601,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td><code>00</code></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-many_valid_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-many_valid_authorizations_single_signer]">
-                    ...fork_Osaka-blockchain_test-many_valid_authorizations_single_signer
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-many_valid_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-many_valid_authorizations_single_signer]">
+                    ...fork_Prague-blockchain_test_from_state_test-many_valid_authorizations_single_signer
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29159,11 +28619,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-many_valid_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-many_valid_authorizations_multiple_signers]">
-                    ...fork_Osaka-blockchain_test-many_valid_authorizations_multiple_signers
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-many_valid_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-many_valid_authorizations_multiple_signers]">
+                    ...fork_Prague-blockchain_test_from_state_test-many_valid_authorizations_multiple_signers
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29177,11 +28637,11 @@
                         <td>AddressType.EMPTY_ACCOUNT</td>
                         <td></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-first_valid_then_many_duplicate_authorizations]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test-first_valid_then_many_duplicate_authorizations]">
-                    ...fork_Osaka-blockchain_test-first_valid_then_many_duplicate_authorizations
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-first_valid_then_many_duplicate_authorizations]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Prague-blockchain_test_from_state_test-first_valid_then_many_duplicate_authorizations]">
+                    ...fork_Prague-blockchain_test_from_state_test-first_valid_then_many_duplicate_authorizations
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
@@ -29722,6 +29182,546 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-state_test-first_valid_then_many_duplicate_authorizations]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-state_test-first_valid_then_many_duplicate_authorizations]">
                     ...fork_Osaka-state_test-first_valid_then_many_duplicate_authorizations
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
+                        <td>5000</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_single_signer]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_single_signer
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_chain_specific_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_chain_specific_authorization_single_signer]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_chain_specific_authorization_single_signer
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.CHAIN_SPECIFIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_single_signer]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_single_signer
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_invalid_nonce_authorization_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_invalid_nonce_authorization_single_signer]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_invalid_nonce_authorization_single_signer
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_invalid_authorization_invalid_chain_id_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_invalid_authorization_invalid_chain_id_single_signer]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_invalid_authorization_invalid_chain_id_single_signer
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_single_signer]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_single_signer
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_multiple_signers]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_invalid_nonce_authorizations_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_invalid_chain_id_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_invalid_chain_id_authorizations_single_signer]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_invalid_chain_id_authorizations_single_signer
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_multiple_signers]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>None</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorization]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorization]">
+                    ...fork_Osaka-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorization
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers]">
+                    ...fork_Osaka-blockchain_test_from_state_test-first_valid_then_single_repeated_nonce_authorizations_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
+                        <td>4</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_to_eoa]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_to_eoa]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_to_eoa
+                </abbr>
+            </td>
+                        <td>AddressType.EOA</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_to_contract]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_to_contract]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_to_contract
+                </abbr>
+            </td>
+                        <td>AddressType.CONTRACT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_authority_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_authority_in_access_list]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_authority_in_access_list
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.CONTAINS_AUTHORITY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_set_code_address_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_set_code_address_in_access_list]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_set_code_address_in_access_list
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_authority_and_set_code_address_in_access_list
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_eoa_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_eoa_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_re_authorization_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_re_authorization_eoa_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_re_authorization_eoa_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_eoa_self_sponsored_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_eoa_self_sponsored_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_eoa_self_sponsored_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_self_sponsored_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_self_sponsored_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_valid_authorizations_eoa_self_sponsored_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_invalid_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_invalid_contract_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_invalid_contract_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.CONTRACT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_empty_account_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_empty_account_then_contract_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_empty_account_then_contract_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>None</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>[<AddressType.EMPTY_ACCOUNT: 1>, <AddressType.CONTRACT: 4>]</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_eoa_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_eoa_then_contract_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_eoa_then_contract_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>None</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>[<AddressType.EOA: 2>, <AddressType.CONTRACT: 4>]</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>None</td>
+                        <td>2</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>[<AddressType.EOA: 2>, <AddressType.CONTRACT: 4>]</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_single_non_zero_byte_data]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_single_non_zero_byte_data]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_single_non_zero_byte_data
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_single_zero_byte_data]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_single_zero_byte_data]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_valid_authorization_with_single_zero_byte_data
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td><code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-many_valid_authorizations_single_signer]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-many_valid_authorizations_single_signer]">
+                    ...fork_Osaka-blockchain_test_from_state_test-many_valid_authorizations_single_signer
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.SINGLE_SIGNER</td>
+                        <td>None</td>
+                        <td>5000</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-many_valid_authorizations_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-many_valid_authorizations_multiple_signers]">
+                    ...fork_Osaka-blockchain_test_from_state_test-many_valid_authorizations_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>None</td>
+                        <td>5000</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-first_valid_then_many_duplicate_authorizations]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_gas_cost[fork_Osaka-blockchain_test_from_state_test-first_valid_then_many_duplicate_authorizations]">
+                    ...fork_Osaka-blockchain_test_from_state_test-first_valid_then_many_duplicate_authorizations
                 </abbr>
             </td>
                         <td>AddressType.EMPTY_ACCOUNT</td>

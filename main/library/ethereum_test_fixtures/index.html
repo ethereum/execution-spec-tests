@@ -1916,6 +1916,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.LabeledFixtureFormat" class="md-nav__link">
+    <span class="md-ellipsis">
+      LabeledFixtureFormat
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LabeledFixtureFormat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.LabeledFixtureFormat.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.LabeledFixtureFormat.format_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      format_name
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_fixtures.BlockchainEngineFixture" class="md-nav__link">
     <span class="md-ellipsis">
       BlockchainEngineFixture
@@ -27702,6 +27735,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.LabeledFixtureFormat" class="md-nav__link">
+    <span class="md-ellipsis">
+      LabeledFixtureFormat
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LabeledFixtureFormat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.LabeledFixtureFormat.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.LabeledFixtureFormat.format_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      format_name
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_fixtures.BlockchainEngineFixture" class="md-nav__link">
     <span class="md-ellipsis">
       BlockchainEngineFixture
@@ -28184,14 +28250,14 @@
     <span class="n">info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;_info&quot;</span><span class="p">)</span>
 
     <span class="c1"># Fixture format properties</span>
-    <span class="n">fixture_format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unset&quot;</span>
+    <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">output_file_extension</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;.json&quot;</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Unknown fixture format; it has not been set.&quot;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">output_base_dir_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return name of the subdirectory where this type of fixture should be dumped to.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fixture_format_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">__pydantic_init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -28199,17 +28265,17 @@
 <span class="sd">        Register all subclasses of BaseFixture with a fixture format name set</span>
 <span class="sd">        as possible fixture formats.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fixture_format_name</span> <span class="o">!=</span> <span class="s2">&quot;unset&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="p">:</span>
             <span class="c1"># Register the new fixture format</span>
-            <span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">fixture_format_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
+            <span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats_type_adapter</span> <span class="o">=</span> <span class="n">TypeAdapter</span><span class="p">(</span>
                     <span class="n">Annotated</span><span class="p">[</span>
                         <span class="n">Union</span><span class="p">[</span>
                             <span class="nb">tuple</span><span class="p">(</span>
-                                <span class="n">Annotated</span><span class="p">[</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="n">fixture_format_name</span><span class="p">)]</span>
+                                <span class="n">Annotated</span><span class="p">[</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="n">format_name</span><span class="p">)]</span>
                                 <span class="k">for</span> <span class="p">(</span>
-                                    <span class="n">fixture_format_name</span><span class="p">,</span>
+                                    <span class="n">format_name</span><span class="p">,</span>
                                     <span class="n">fixture_format</span><span class="p">,</span>
                                 <span class="p">)</span> <span class="ow">in</span> <span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                             <span class="p">)</span>
@@ -28262,7 +28328,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;filling-transition-tool&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t8n_version</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_case_description</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixture_source_url</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;fixture_format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixture_format_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;fixture_format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_name</span>
         <span class="k">if</span> <span class="n">ref_spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ref_spec</span><span class="o">.</span><span class="n">write_info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_info_metadata</span><span class="p">:</span>
@@ -28318,7 +28384,7 @@
 <span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">output_base_dir_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return name of the subdirectory where this type of fixture should be dumped to.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fixture_format_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -28381,17 +28447,17 @@ as possible fixture formats.</p>
 <span class="sd">    Register all subclasses of BaseFixture with a fixture format name set</span>
 <span class="sd">    as possible fixture formats.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fixture_format_name</span> <span class="o">!=</span> <span class="s2">&quot;unset&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="p">:</span>
         <span class="c1"># Register the new fixture format</span>
-        <span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">fixture_format_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
+        <span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats_type_adapter</span> <span class="o">=</span> <span class="n">TypeAdapter</span><span class="p">(</span>
                 <span class="n">Annotated</span><span class="p">[</span>
                     <span class="n">Union</span><span class="p">[</span>
                         <span class="nb">tuple</span><span class="p">(</span>
-                            <span class="n">Annotated</span><span class="p">[</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="n">fixture_format_name</span><span class="p">)]</span>
+                            <span class="n">Annotated</span><span class="p">[</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">Tag</span><span class="p">(</span><span class="n">format_name</span><span class="p">)]</span>
                             <span class="k">for</span> <span class="p">(</span>
-                                <span class="n">fixture_format_name</span><span class="p">,</span>
+                                <span class="n">format_name</span><span class="p">,</span>
                                 <span class="n">fixture_format</span><span class="p">,</span>
                             <span class="p">)</span> <span class="ow">in</span> <span class="n">BaseFixture</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                         <span class="p">)</span>
@@ -28552,7 +28618,7 @@ as possible fixture formats.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;filling-transition-tool&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t8n_version</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_case_description</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixture_source_url</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;fixture_format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixture_format_name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;fixture_format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_name</span>
     <span class="k">if</span> <span class="n">ref_spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ref_spec</span><span class="o">.</span><span class="n">write_info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">_info_metadata</span><span class="p">:</span>
@@ -28658,6 +28724,162 @@ as possible fixture formats.</p>
 
 
 
+<h2 id="ethereum_test_fixtures.LabeledFixtureFormat" class="doc doc-heading">
+            <code>LabeledFixtureFormat</code>
+
+
+<a href="#ethereum_test_fixtures.LabeledFixtureFormat" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+      <p>Represents a fixture format with a custom label.</p>
+<p>This label will be used in the test id and also will be added as a marker to the
+generated test case when filling the test.</p>
+
+              <details class="quote">
+                <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">LabeledFixtureFormat</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a fixture format with a custom label.</span>
+
+<span class="sd">    This label will be used in the test id and also will be added as a marker to the</span>
+<span class="sd">    generated test case when filling the test.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">format</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseFixture</span><span class="p">]</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">:</span> <span class="s2">&quot;Type[BaseFixture] | LabeledFixtureFormat&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the fixture format with a custom label.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">fixture_format</span><span class="o">.</span><span class="n">format</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">LabeledFixtureFormat</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">fixture_format</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">format_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the execute format name.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="o">.</span><span class="n">format_name</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_fixtures.LabeledFixtureFormat.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_fixtures.LabeledFixtureFormat.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize the fixture format with a custom label.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">:</span> <span class="s2">&quot;Type[BaseFixture] | LabeledFixtureFormat&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the fixture format with a custom label.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">fixture_format</span><span class="o">.</span><span class="n">format</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">LabeledFixtureFormat</span><span class="p">)</span>
+        <span class="k">else</span> <span class="n">fixture_format</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_fixtures.LabeledFixtureFormat.format_name" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">format_name</span><span class="p">:</span> <span class="nb">str</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#ethereum_test_fixtures.LabeledFixtureFormat.format_name" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Get the execute format name.</p>
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
 <h2 id="ethereum_test_fixtures.BlockchainEngineFixture" class="doc doc-heading">
             <code>BlockchainEngineFixture</code>
 
@@ -28695,7 +28917,7 @@ as possible fixture formats.</p>
 <span class="normal">477</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainEngineFixture</span><span class="p">(</span><span class="n">BlockchainFixtureCommon</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Engine specific test fixture information.&quot;&quot;&quot;</span>
 
-    <span class="n">fixture_format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blockchain_test_engine&quot;</span>
+    <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blockchain_test_engine&quot;</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;Tests that generate a blockchain test fixture in Engine API format.&quot;</span>
     <span class="p">)</span>
@@ -28810,7 +29032,7 @@ as possible fixture formats.</p>
 <span class="normal">456</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainFixture</span><span class="p">(</span><span class="n">BlockchainFixtureCommon</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cross-client specific blockchain test model use in JSON fixtures.&quot;&quot;&quot;</span>
 
-    <span class="n">fixture_format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blockchain_test&quot;</span>
+    <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blockchain_test&quot;</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Tests that generate a blockchain test fixture.&quot;</span>
 
     <span class="n">genesis_rlp</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;genesisRLP&quot;</span><span class="p">)</span>
@@ -29794,7 +30016,7 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 <span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFFixture</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture for a single EOFTest.&quot;&quot;&quot;</span>
 
-    <span class="n">fixture_format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;eof_test&quot;</span>
+    <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;eof_test&quot;</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Tests that generate an EOF test fixture.&quot;</span>
 
     <span class="n">vectors</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">Vector</span><span class="p">]</span>
@@ -29894,7 +30116,7 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 <span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateFixture</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture for a single StateTest.&quot;&quot;&quot;</span>
 
-    <span class="n">fixture_format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;state_test&quot;</span>
+    <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;state_test&quot;</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Tests that generate a state test fixture.&quot;</span>
 
     <span class="n">env</span><span class="p">:</span> <span class="n">FixtureEnvironment</span>
@@ -30001,7 +30223,7 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
 <span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransactionFixture</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture for a single TransactionTest.&quot;&quot;&quot;</span>
 
-    <span class="n">fixture_format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;transaction_test&quot;</span>
+    <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;transaction_test&quot;</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Tests that generate a transaction test fixture.&quot;</span>
 
     <span class="n">result</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FixtureResult</span><span class="p">]</span>

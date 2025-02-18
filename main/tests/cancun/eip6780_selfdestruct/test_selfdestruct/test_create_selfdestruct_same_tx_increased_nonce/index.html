@@ -27303,7 +27303,7 @@
 
 
 <h1 id="test_create_selfdestruct_same_tx_increased_nonce"><code>test_create_selfdestruct_same_tx_increased_nonce()</code><a class="headerlink" href="#test_create_selfdestruct_same_tx_increased_nonce" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L1181"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/cancun/eip6780_selfdestruct/test_selfdestruct.py#L1181"><code>tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce --fork Prague</span>
@@ -27688,8 +27688,8 @@ its nonce has been increased due to contract creation.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27710,102 +27710,6 @@ its nonce has been increased due to contract creation.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
-                    ...fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
-                </abbr>
-            </td>
-                        <td>['pre_deploy_contract_1']</td>
-                        <td>1</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
-                    ...fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>['pre_deploy_contract_1']</td>
-                        <td>1</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
-                    ...fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
-                </abbr>
-            </td>
-                        <td>['pre_deploy_contract_1']</td>
-                        <td>1</td>
-                        <td>100000</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
-                    ...fork_Shanghai-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>['pre_deploy_contract_1']</td>
-                        <td>1</td>
-                        <td>100000</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
-                    ...fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
-                </abbr>
-            </td>
-                        <td>['pre_deploy_contract_1']</td>
-                        <td>5</td>
-                        <td>0</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
-                    ...fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>['pre_deploy_contract_1']</td>
-                        <td>5</td>
-                        <td>0</td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
-                    ...fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
-                </abbr>
-            </td>
-                        <td>['pre_deploy_contract_1']</td>
-                        <td>5</td>
-                        <td>100000</td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
-                    ...fork_Shanghai-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>['pre_deploy_contract_1']</td>
-                        <td>5</td>
-                        <td>100000</td>
-                        <td>CREATE2</td>
-                    </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27902,11 +27806,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
-                    ...fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -27914,11 +27818,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
-                    ...fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -27926,11 +27830,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
-                    ...fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -27938,11 +27842,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
-                    ...fork_Cancun-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -27950,11 +27854,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
-                    ...fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -27962,11 +27866,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
-                    ...fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -27974,11 +27878,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
-                    ...fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -27986,11 +27890,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
-                    ...fork_Cancun-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28094,11 +27998,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
-                    ...fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28106,11 +28010,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
+                    ...fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28118,11 +28022,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
-                    ...fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28130,11 +28034,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
+                    ...fork_Cancun-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28142,11 +28046,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
-                    ...fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28154,11 +28058,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
+                    ...fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28166,11 +28070,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
-                    ...fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28178,11 +28082,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
+                    ...fork_Cancun-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28286,11 +28190,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28298,11 +28202,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28310,11 +28214,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28322,11 +28226,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28334,11 +28238,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28346,11 +28250,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28358,11 +28262,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>0</td>
                         <td>CREATE2</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28370,11 +28274,11 @@ its nonce has been increased due to contract creation.</p>
                         <td>100000</td>
                         <td>CREATE</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
+                    ...fork_Prague-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>
@@ -28471,6 +28375,102 @@ its nonce has been increased due to contract creation.</p>
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
                     ...fork_Osaka-state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
+                </abbr>
+            </td>
+                        <td>['pre_deploy_contract_1']</td>
+                        <td>5</td>
+                        <td>100000</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
+                </abbr>
+            </td>
+                        <td>['pre_deploy_contract_1']</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
+                </abbr>
+            </td>
+                        <td>['pre_deploy_contract_1']</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
+                </abbr>
+            </td>
+                        <td>['pre_deploy_contract_1']</td>
+                        <td>1</td>
+                        <td>100000</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_call-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
+                </abbr>
+            </td>
+                        <td>['pre_deploy_contract_1']</td>
+                        <td>1</td>
+                        <td>100000</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE
+                </abbr>
+            </td>
+                        <td>['pre_deploy_contract_1']</td>
+                        <td>5</td>
+                        <td>0</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_0-create_opcode_CREATE2
+                </abbr>
+            </td>
+                        <td>['pre_deploy_contract_1']</td>
+                        <td>5</td>
+                        <td>0</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE
+                </abbr>
+            </td>
+                        <td>['pre_deploy_contract_1']</td>
+                        <td>5</td>
+                        <td>100000</td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]" title="tests/cancun/eip6780_selfdestruct/test_selfdestruct.py::test_create_selfdestruct_same_tx_increased_nonce[fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-multiple_calls_single beneficiary-selfdestruct_contract_initial_balance_100000-create_opcode_CREATE2
                 </abbr>
             </td>
                         <td>['pre_deploy_contract_1']</td>

@@ -27321,7 +27321,7 @@
 
 
 <h1 id="test_create_opcode_initcode"><code>test_create_opcode_initcode()</code><a class="headerlink" href="#test_create_opcode_initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/shanghai/eip3860_initcode/test_initcode.py#L476"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/shanghai/eip3860_initcode/test_initcode.py#L476"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode --fork Prague</span>
@@ -27978,8 +27978,8 @@ initcode that is on/over the max allowed limit.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27998,206 +27998,6 @@ initcode that is on/over the max allowed limit.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-max_size_zeros]">
-                    ...fork_Shanghai-blockchain_test-create-max_size_zeros
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>max_size_zeros</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-max_size_ones]">
-                    ...fork_Shanghai-blockchain_test-create-max_size_ones
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>max_size_ones</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-over_limit_zeros]">
-                    ...fork_Shanghai-blockchain_test-create-over_limit_zeros
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>over_limit_zeros</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-over_limit_ones]">
-                    ...fork_Shanghai-blockchain_test-create-over_limit_ones
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>over_limit_ones</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-empty]">
-                    ...fork_Shanghai-blockchain_test-create-empty
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>empty</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-single_byte]">
-                    ...fork_Shanghai-blockchain_test-create-single_byte
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>single_byte</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-32_bytes]">
-                    ...fork_Shanghai-blockchain_test-create-32_bytes
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>32_bytes</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-33_bytes]">
-                    ...fork_Shanghai-blockchain_test-create-33_bytes
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>33_bytes</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-49120_bytes]">
-                    ...fork_Shanghai-blockchain_test-create-49120_bytes
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>49120_bytes</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create-49121_bytes]">
-                    ...fork_Shanghai-blockchain_test-create-49121_bytes
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                        <td>49121_bytes</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-max_size_zeros]">
-                    ...fork_Shanghai-blockchain_test-create2-max_size_zeros
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>max_size_zeros</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-max_size_ones]">
-                    ...fork_Shanghai-blockchain_test-create2-max_size_ones
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>max_size_ones</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-over_limit_zeros]">
-                    ...fork_Shanghai-blockchain_test-create2-over_limit_zeros
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>over_limit_zeros</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-over_limit_ones]">
-                    ...fork_Shanghai-blockchain_test-create2-over_limit_ones
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>over_limit_ones</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-empty]">
-                    ...fork_Shanghai-blockchain_test-create2-empty
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>empty</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-single_byte]">
-                    ...fork_Shanghai-blockchain_test-create2-single_byte
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>single_byte</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-32_bytes]">
-                    ...fork_Shanghai-blockchain_test-create2-32_bytes
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>32_bytes</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-33_bytes]">
-                    ...fork_Shanghai-blockchain_test-create2-33_bytes
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>33_bytes</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-49120_bytes]">
-                    ...fork_Shanghai-blockchain_test-create2-49120_bytes
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>49120_bytes</td>
-                    </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test-create2-49121_bytes]">
-                    ...fork_Shanghai-blockchain_test-create2-49121_bytes
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                        <td>49121_bytes</td>
-                    </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28398,201 +28198,201 @@ initcode that is on/over the max allowed limit.</p>
                         <td>CREATE2</td>
                         <td>49121_bytes</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-max_size_zeros]">
-                    ...fork_Cancun-blockchain_test-create-max_size_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-max_size_zeros]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-max_size_zeros
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>max_size_zeros</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-max_size_ones]">
-                    ...fork_Cancun-blockchain_test-create-max_size_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-max_size_ones]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-max_size_ones
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>max_size_ones</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-over_limit_zeros]">
-                    ...fork_Cancun-blockchain_test-create-over_limit_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-over_limit_zeros]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-over_limit_zeros
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>over_limit_zeros</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-over_limit_ones]">
-                    ...fork_Cancun-blockchain_test-create-over_limit_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-over_limit_ones]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-over_limit_ones
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>over_limit_ones</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-empty]">
-                    ...fork_Cancun-blockchain_test-create-empty
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-empty]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-empty
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>empty</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-single_byte]">
-                    ...fork_Cancun-blockchain_test-create-single_byte
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-single_byte]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-single_byte
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>single_byte</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-32_bytes]">
-                    ...fork_Cancun-blockchain_test-create-32_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-32_bytes]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-32_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>32_bytes</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-33_bytes]">
-                    ...fork_Cancun-blockchain_test-create-33_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-33_bytes]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-33_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>33_bytes</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-49120_bytes]">
-                    ...fork_Cancun-blockchain_test-create-49120_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-49120_bytes]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-49120_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>49120_bytes</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create-49121_bytes]">
-                    ...fork_Cancun-blockchain_test-create-49121_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create-49121_bytes]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create-49121_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>49121_bytes</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-max_size_zeros]">
-                    ...fork_Cancun-blockchain_test-create2-max_size_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-max_size_zeros]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-max_size_zeros
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>max_size_zeros</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-max_size_ones]">
-                    ...fork_Cancun-blockchain_test-create2-max_size_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-max_size_ones]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-max_size_ones
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>max_size_ones</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-over_limit_zeros]">
-                    ...fork_Cancun-blockchain_test-create2-over_limit_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-over_limit_zeros]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-over_limit_zeros
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>over_limit_zeros</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-over_limit_ones]">
-                    ...fork_Cancun-blockchain_test-create2-over_limit_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-over_limit_ones]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-over_limit_ones
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>over_limit_ones</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-empty]">
-                    ...fork_Cancun-blockchain_test-create2-empty
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-empty]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-empty
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>empty</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-single_byte]">
-                    ...fork_Cancun-blockchain_test-create2-single_byte
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-single_byte]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-single_byte
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>single_byte</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-32_bytes]">
-                    ...fork_Cancun-blockchain_test-create2-32_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-32_bytes]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-32_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>32_bytes</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-33_bytes]">
-                    ...fork_Cancun-blockchain_test-create2-33_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-33_bytes]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-33_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>33_bytes</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-49120_bytes]">
-                    ...fork_Cancun-blockchain_test-create2-49120_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-49120_bytes]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-49120_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>49120_bytes</td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test-create2-49121_bytes]">
-                    ...fork_Cancun-blockchain_test-create2-49121_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Shanghai-blockchain_test_from_state_test-create2-49121_bytes]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-create2-49121_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
@@ -28798,201 +28598,201 @@ initcode that is on/over the max allowed limit.</p>
                         <td>CREATE2</td>
                         <td>49121_bytes</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-max_size_zeros]">
-                    ...fork_Prague-blockchain_test-create-max_size_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-max_size_zeros]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-max_size_zeros
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>max_size_zeros</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-max_size_ones]">
-                    ...fork_Prague-blockchain_test-create-max_size_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-max_size_ones]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-max_size_ones
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>max_size_ones</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-over_limit_zeros]">
-                    ...fork_Prague-blockchain_test-create-over_limit_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-over_limit_zeros]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-over_limit_zeros
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>over_limit_zeros</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-over_limit_ones]">
-                    ...fork_Prague-blockchain_test-create-over_limit_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-over_limit_ones]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-over_limit_ones
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>over_limit_ones</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-empty]">
-                    ...fork_Prague-blockchain_test-create-empty
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-empty]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-empty
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>empty</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-single_byte]">
-                    ...fork_Prague-blockchain_test-create-single_byte
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-single_byte]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-single_byte
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>single_byte</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-32_bytes]">
-                    ...fork_Prague-blockchain_test-create-32_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-32_bytes]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-32_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>32_bytes</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-33_bytes]">
-                    ...fork_Prague-blockchain_test-create-33_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-33_bytes]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-33_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>33_bytes</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-49120_bytes]">
-                    ...fork_Prague-blockchain_test-create-49120_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-49120_bytes]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-49120_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>49120_bytes</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create-49121_bytes]">
-                    ...fork_Prague-blockchain_test-create-49121_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create-49121_bytes]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create-49121_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>49121_bytes</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-max_size_zeros]">
-                    ...fork_Prague-blockchain_test-create2-max_size_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-max_size_zeros]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-max_size_zeros
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>max_size_zeros</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-max_size_ones]">
-                    ...fork_Prague-blockchain_test-create2-max_size_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-max_size_ones]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-max_size_ones
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>max_size_ones</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-over_limit_zeros]">
-                    ...fork_Prague-blockchain_test-create2-over_limit_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-over_limit_zeros]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-over_limit_zeros
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>over_limit_zeros</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-over_limit_ones]">
-                    ...fork_Prague-blockchain_test-create2-over_limit_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-over_limit_ones]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-over_limit_ones
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>over_limit_ones</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-empty]">
-                    ...fork_Prague-blockchain_test-create2-empty
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-empty]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-empty
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>empty</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-single_byte]">
-                    ...fork_Prague-blockchain_test-create2-single_byte
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-single_byte]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-single_byte
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>single_byte</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-32_bytes]">
-                    ...fork_Prague-blockchain_test-create2-32_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-32_bytes]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-32_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>32_bytes</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-33_bytes]">
-                    ...fork_Prague-blockchain_test-create2-33_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-33_bytes]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-33_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>33_bytes</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-49120_bytes]">
-                    ...fork_Prague-blockchain_test-create2-49120_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-49120_bytes]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-49120_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>49120_bytes</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test-create2-49121_bytes]">
-                    ...fork_Prague-blockchain_test-create2-49121_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Cancun-blockchain_test_from_state_test-create2-49121_bytes]">
+                    ...fork_Cancun-blockchain_test_from_state_test-create2-49121_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
@@ -29198,201 +28998,201 @@ initcode that is on/over the max allowed limit.</p>
                         <td>CREATE2</td>
                         <td>49121_bytes</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-max_size_zeros]">
-                    ...fork_Osaka-blockchain_test-create-max_size_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-max_size_zeros]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-max_size_zeros
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>max_size_zeros</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-max_size_ones]">
-                    ...fork_Osaka-blockchain_test-create-max_size_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-max_size_ones]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-max_size_ones
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>max_size_ones</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-over_limit_zeros]">
-                    ...fork_Osaka-blockchain_test-create-over_limit_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-over_limit_zeros]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-over_limit_zeros
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>over_limit_zeros</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-over_limit_ones]">
-                    ...fork_Osaka-blockchain_test-create-over_limit_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-over_limit_ones]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-over_limit_ones
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>over_limit_ones</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-empty]">
-                    ...fork_Osaka-blockchain_test-create-empty
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-empty]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-empty
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>empty</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-single_byte]">
-                    ...fork_Osaka-blockchain_test-create-single_byte
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-single_byte]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-single_byte
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>single_byte</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-32_bytes]">
-                    ...fork_Osaka-blockchain_test-create-32_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-32_bytes]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-32_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>32_bytes</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-33_bytes]">
-                    ...fork_Osaka-blockchain_test-create-33_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-33_bytes]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-33_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>33_bytes</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-49120_bytes]">
-                    ...fork_Osaka-blockchain_test-create-49120_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-49120_bytes]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-49120_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>49120_bytes</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create-49121_bytes]">
-                    ...fork_Osaka-blockchain_test-create-49121_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create-49121_bytes]">
+                    ...fork_Prague-blockchain_test_from_state_test-create-49121_bytes
                 </abbr>
             </td>
                         <td>CREATE</td>
                         <td>49121_bytes</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-max_size_zeros]">
-                    ...fork_Osaka-blockchain_test-create2-max_size_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-max_size_zeros]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-max_size_zeros
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>max_size_zeros</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-max_size_ones]">
-                    ...fork_Osaka-blockchain_test-create2-max_size_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-max_size_ones]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-max_size_ones
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>max_size_ones</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-over_limit_zeros]">
-                    ...fork_Osaka-blockchain_test-create2-over_limit_zeros
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-over_limit_zeros]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-over_limit_zeros
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>over_limit_zeros</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-over_limit_ones]">
-                    ...fork_Osaka-blockchain_test-create2-over_limit_ones
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-over_limit_ones]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-over_limit_ones
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>over_limit_ones</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-empty]">
-                    ...fork_Osaka-blockchain_test-create2-empty
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-empty]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-empty
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>empty</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-single_byte]">
-                    ...fork_Osaka-blockchain_test-create2-single_byte
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-single_byte]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-single_byte
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>single_byte</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-32_bytes]">
-                    ...fork_Osaka-blockchain_test-create2-32_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-32_bytes]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-32_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>32_bytes</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-33_bytes]">
-                    ...fork_Osaka-blockchain_test-create2-33_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-33_bytes]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-33_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>33_bytes</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-49120_bytes]">
-                    ...fork_Osaka-blockchain_test-create2-49120_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-49120_bytes]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-49120_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
                         <td>49120_bytes</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test-create2-49121_bytes]">
-                    ...fork_Osaka-blockchain_test-create2-49121_bytes
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Prague-blockchain_test_from_state_test-create2-49121_bytes]">
+                    ...fork_Prague-blockchain_test_from_state_test-create2-49121_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>
@@ -29593,6 +29393,206 @@ initcode that is on/over the max allowed limit.</p>
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-state_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-state_test-create2-49121_bytes]">
                     ...fork_Osaka-state_test-create2-49121_bytes
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>49121_bytes</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-max_size_zeros]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-max_size_zeros
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>max_size_zeros</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-max_size_ones]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-max_size_ones
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>max_size_ones</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-over_limit_zeros]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-over_limit_zeros
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>over_limit_zeros</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-over_limit_ones]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-over_limit_ones
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>over_limit_ones</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-empty]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-empty
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>empty</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-single_byte]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-single_byte
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>single_byte</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-32_bytes]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-32_bytes
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>32_bytes</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-33_bytes]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-33_bytes
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>33_bytes</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-49120_bytes]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-49120_bytes
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>49120_bytes</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create-49121_bytes]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create-49121_bytes
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>49121_bytes</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-max_size_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-max_size_zeros]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-max_size_zeros
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>max_size_zeros</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-max_size_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-max_size_ones]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-max_size_ones
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>max_size_ones</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-over_limit_zeros]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-over_limit_zeros]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-over_limit_zeros
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>over_limit_zeros</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-over_limit_ones]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-over_limit_ones]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-over_limit_ones
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>over_limit_ones</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-empty]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-empty]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-empty
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>empty</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-single_byte]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-single_byte]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-single_byte
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>single_byte</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-32_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-32_bytes]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-32_bytes
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>32_bytes</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-33_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-33_bytes]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-33_bytes
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>33_bytes</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-49120_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-49120_bytes]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-49120_bytes
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>49120_bytes</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-49121_bytes]" title="tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode[fork_Osaka-blockchain_test_from_state_test-create2-49121_bytes]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create2-49121_bytes
                 </abbr>
             </td>
                         <td>CREATE2</td>

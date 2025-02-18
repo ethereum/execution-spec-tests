@@ -42,8 +42,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -64,30 +64,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Prague-blockchain_test-extra_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Prague-blockchain_test-extra_gas-]">
-                    ...fork_Prague-blockchain_test-extra_gas-
-                </abbr>
-            </td>
-                        <td>FP(x=0)</td>
-                        <td>PointG1(x=2718523093224377422680924513836569955862094615601650617640302534610709548675950121390173489943242206205504662709269, y=1411717398097673129936182529224644864953905593399347218631786464447277645552464825136124091127047943658180991656243)</td>
-                        <td>1</td>
-                        <td>16</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Prague-blockchain_test-insufficient_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Prague-blockchain_test-insufficient_gas-]">
-                    ...fork_Prague-blockchain_test-insufficient_gas-
-                </abbr>
-            </td>
-                        <td>FP(x=0)</td>
-                        <td></td>
-                        <td>-1</td>
-                        <td>16</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -112,11 +88,11 @@
                         <td>-1</td>
                         <td>16</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-blockchain_test-extra_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-blockchain_test-extra_gas-]">
-                    ...fork_Osaka-blockchain_test-extra_gas-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Prague-blockchain_test_from_state_test-extra_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Prague-blockchain_test_from_state_test-extra_gas-]">
+                    ...fork_Prague-blockchain_test_from_state_test-extra_gas-
                 </abbr>
             </td>
                         <td>FP(x=0)</td>
@@ -124,11 +100,11 @@
                         <td>1</td>
                         <td>16</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-blockchain_test-insufficient_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-blockchain_test-insufficient_gas-]">
-                    ...fork_Osaka-blockchain_test-insufficient_gas-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Prague-blockchain_test_from_state_test-insufficient_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Prague-blockchain_test_from_state_test-insufficient_gas-]">
+                    ...fork_Prague-blockchain_test_from_state_test-insufficient_gas-
                 </abbr>
             </td>
                         <td>FP(x=0)</td>
@@ -153,6 +129,30 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-state_test-insufficient_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-state_test-insufficient_gas-]">
                     ...fork_Osaka-state_test-insufficient_gas-
+                </abbr>
+            </td>
+                        <td>FP(x=0)</td>
+                        <td></td>
+                        <td>-1</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-blockchain_test_from_state_test-extra_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-blockchain_test_from_state_test-extra_gas-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-extra_gas-
+                </abbr>
+            </td>
+                        <td>FP(x=0)</td>
+                        <td>PointG1(x=2718523093224377422680924513836569955862094615601650617640302534610709548675950121390173489943242206205504662709269, y=1411717398097673129936182529224644864953905593399347218631786464447277645552464825136124091127047943658180991656243)</td>
+                        <td>1</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-blockchain_test_from_state_test-insufficient_gas-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_gas[fork_Osaka-blockchain_test_from_state_test-insufficient_gas-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-insufficient_gas-
                 </abbr>
             </td>
                         <td>FP(x=0)</td>

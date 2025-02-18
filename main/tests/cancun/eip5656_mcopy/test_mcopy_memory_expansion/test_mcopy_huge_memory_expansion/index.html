@@ -27303,7 +27303,7 @@
 
 
 <h1 id="test_mcopy_huge_memory_expansion"><code>test_mcopy_huge_memory_expansion()</code><a class="headerlink" href="#test_mcopy_huge_memory_expansion" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py#L229"><code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py#L229"><code>tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion --fork Prague</span>
@@ -27479,8 +27479,8 @@ runs out of gas.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27504,276 +27504,6 @@ runs out of gas.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
-                        <td>0</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]">
-                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td></td>
-                        <td>False</td>
-                        <td>340282366920938463463374607431768211455</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
-                    </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28044,11 +27774,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28059,11 +27789,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28074,11 +27804,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28089,11 +27819,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28104,11 +27834,11 @@ runs out of gas.</p>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28119,11 +27849,11 @@ runs out of gas.</p>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28134,11 +27864,11 @@ runs out of gas.</p>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28149,11 +27879,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28164,11 +27894,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28179,11 +27909,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28194,11 +27924,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28209,11 +27939,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28224,11 +27954,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28239,11 +27969,11 @@ runs out of gas.</p>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28254,11 +27984,11 @@ runs out of gas.</p>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28269,11 +27999,11 @@ runs out of gas.</p>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28284,11 +28014,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28299,11 +28029,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]">
-                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion]">
+                    ...fork_Cancun-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28584,11 +28314,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28599,11 +28329,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28614,11 +28344,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28629,11 +28359,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28644,11 +28374,11 @@ runs out of gas.</p>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28659,11 +28389,11 @@ runs out of gas.</p>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28674,11 +28404,11 @@ runs out of gas.</p>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28689,11 +28419,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28704,11 +28434,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28719,11 +28449,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28734,11 +28464,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28749,11 +28479,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28764,11 +28494,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28779,11 +28509,11 @@ runs out of gas.</p>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28794,11 +28524,11 @@ runs out of gas.</p>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28809,11 +28539,11 @@ runs out of gas.</p>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                         <td>1</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28824,11 +28554,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -28839,11 +28569,11 @@ runs out of gas.</p>
                         <td>0</td>
                         <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion]">
+                    ...fork_Prague-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion
                 </abbr>
             </td>
                         <td>LEGACY</td>
@@ -29127,11 +28857,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29142,11 +28872,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29157,11 +28887,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29172,11 +28902,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29187,11 +28917,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29202,11 +28932,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29217,11 +28947,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_length_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29232,11 +28962,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--max_length_minus_one_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29247,11 +28977,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_existent_memory-successful_False--half_max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29262,11 +28992,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29277,11 +29007,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29292,11 +29022,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29307,11 +29037,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29322,11 +29052,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29337,11 +29067,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29352,11 +29082,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_length_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29367,11 +29097,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--max_length_minus_one_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29382,11 +29112,11 @@ runs out of gas.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test-from_empty_memory-successful_False--half_max_length_expansion
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion
                 </abbr>
             </td>
-                        <td>EOF_V1</td>
+                        <td>LEGACY</td>
                         <td></td>
                         <td>False</td>
                         <td>340282366920938463463374607431768211455</td>
@@ -29654,6 +29384,276 @@ runs out of gas.</p>
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-state_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-state_test-from_empty_memory-successful_False--half_max_length_expansion]">
                     ...fork_Osaka-evm_code_type_EOF_V1-state_test-from_empty_memory-successful_False--half_max_length_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--max_length_minus_one_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_existent_memory-successful_False--half_max_length_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td><code>000102030405060708090a0b0c0d0e0f</code> <code>101112131415161718191a1b1c1d1e1f</code> <code>202122232425262728292a2b2c2d2e2f</code> <code>303132333435363738393a3b3c3d3e3f</code> <code>404142434445464748494a4b4c4d4e4f</code> <code>505152535455565758595a5b5c5d5e5f</code> <code>606162636465666768696a6b6c6d6e6f</code> <code>707172737475767778797a7b7c7d7e7f</code> <code>808182838485868788898a8b8c8d8e8f</code> <code>909192939495969798999a9b9c9d9e9f</code> <code>a0a1a2a3a4a5a6a7a8a9aaabacadaeaf</code> <code>b0b1b2b3b4b5b6b7b8b9babbbcbdbebf</code> <code>c0c1c2c3c4c5c6c7c8c9cacbcccdcecf</code> <code>d0d1d2d3d4d5d6d7d8d9dadbdcdddedf</code> <code>e0e1e2e3e4e5e6e7e8e9eaebecedeeef</code> <code>f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff</code></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--max_length_minus_one_expansion
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td></td>
+                        <td>False</td>
+                        <td>340282366920938463463374607431768211455</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639934</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion]" title="tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-from_empty_memory-successful_False--half_max_length_expansion
                 </abbr>
             </td>
                         <td>EOF_V1</td>

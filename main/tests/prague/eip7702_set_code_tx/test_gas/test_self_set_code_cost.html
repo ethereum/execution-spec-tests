@@ -42,8 +42,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -61,24 +61,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Prague-blockchain_test-pre_authorized_True]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Prague-blockchain_test-pre_authorized_True]">
-                    ...fork_Prague-blockchain_test-pre_authorized_True
-                </abbr>
-            </td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Prague-blockchain_test-pre_authorized_False]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Prague-blockchain_test-pre_authorized_False]">
-                    ...fork_Prague-blockchain_test-pre_authorized_False
-                </abbr>
-            </td>
-                        <td>False</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -97,20 +79,20 @@
             </td>
                         <td>False</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-blockchain_test-pre_authorized_True]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-blockchain_test-pre_authorized_True]">
-                    ...fork_Osaka-blockchain_test-pre_authorized_True
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Prague-blockchain_test_from_state_test-pre_authorized_True]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Prague-blockchain_test_from_state_test-pre_authorized_True]">
+                    ...fork_Prague-blockchain_test_from_state_test-pre_authorized_True
                 </abbr>
             </td>
                         <td>True</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-blockchain_test-pre_authorized_False]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-blockchain_test-pre_authorized_False]">
-                    ...fork_Osaka-blockchain_test-pre_authorized_False
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Prague-blockchain_test_from_state_test-pre_authorized_False]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Prague-blockchain_test_from_state_test-pre_authorized_False]">
+                    ...fork_Prague-blockchain_test_from_state_test-pre_authorized_False
                 </abbr>
             </td>
                         <td>False</td>
@@ -129,6 +111,24 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-state_test-pre_authorized_False]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-state_test-pre_authorized_False]">
                     ...fork_Osaka-state_test-pre_authorized_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-blockchain_test_from_state_test-pre_authorized_True]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-blockchain_test_from_state_test-pre_authorized_True]">
+                    ...fork_Osaka-blockchain_test_from_state_test-pre_authorized_True
+                </abbr>
+            </td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-blockchain_test_from_state_test-pre_authorized_False]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_self_set_code_cost[fork_Osaka-blockchain_test_from_state_test-pre_authorized_False]">
+                    ...fork_Osaka-blockchain_test_from_state_test-pre_authorized_False
                 </abbr>
             </td>
                         <td>False</td>

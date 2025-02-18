@@ -27303,7 +27303,7 @@
 
 
 <h1 id="test_yul"><code>test_yul()</code><a class="headerlink" href="#test_yul" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/homestead/yul/test_yul_example.py#L16"><code>tests/homestead/yul/test_yul_example.py::test_yul@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/homestead/yul/test_yul_example.py#L16"><code>tests/homestead/yul/test_yul_example.py::test_yul@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/homestead/yul/test_yul_example.py::test_yul --fork Prague</span>
@@ -27447,8 +27447,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27465,14 +27465,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Homestead" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Homestead-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Homestead-blockchain_test]">
-                    ...fork_Homestead-blockchain_test
-                </abbr>
-            </td>
-                    </tr>
                 <tr data-fork="Homestead" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27481,11 +27473,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Byzantium" data-fixture="blockchain_test">
+                <tr data-fork="Homestead" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Byzantium-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Byzantium-blockchain_test]">
-                    ...fork_Byzantium-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Homestead-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Homestead-blockchain_test_from_state_test]">
+                    ...fork_Homestead-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27497,11 +27489,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Constantinople" data-fixture="blockchain_test">
+                <tr data-fork="Byzantium" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Constantinople-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Constantinople-blockchain_test]">
-                    ...fork_Constantinople-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Byzantium-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Byzantium-blockchain_test_from_state_test]">
+                    ...fork_Byzantium-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27513,11 +27505,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="ConstantinopleFix" data-fixture="blockchain_test">
+                <tr data-fork="Constantinople" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_ConstantinopleFix-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_ConstantinopleFix-blockchain_test]">
-                    ...fork_ConstantinopleFix-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Constantinople-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Constantinople-blockchain_test_from_state_test]">
+                    ...fork_Constantinople-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27529,11 +27521,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Istanbul" data-fixture="blockchain_test">
+                <tr data-fork="ConstantinopleFix" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Istanbul-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Istanbul-blockchain_test]">
-                    ...fork_Istanbul-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_ConstantinopleFix-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_ConstantinopleFix-blockchain_test_from_state_test]">
+                    ...fork_ConstantinopleFix-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27545,11 +27537,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Berlin" data-fixture="blockchain_test">
+                <tr data-fork="Istanbul" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Berlin-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Berlin-blockchain_test]">
-                    ...fork_Berlin-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Istanbul-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Istanbul-blockchain_test_from_state_test]">
+                    ...fork_Istanbul-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27561,11 +27553,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="London" data-fixture="blockchain_test">
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_London-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_London-blockchain_test]">
-                    ...fork_London-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Berlin-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Berlin-blockchain_test_from_state_test]">
+                    ...fork_Berlin-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27577,11 +27569,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Paris" data-fixture="blockchain_test">
+                <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Paris-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Paris-blockchain_test]">
-                    ...fork_Paris-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_London-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_London-blockchain_test_from_state_test]">
+                    ...fork_London-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27593,11 +27585,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+                <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Shanghai-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Shanghai-blockchain_test]">
-                    ...fork_Shanghai-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Paris-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Paris-blockchain_test_from_state_test]">
+                    ...fork_Paris-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27609,11 +27601,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Cancun-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Cancun-blockchain_test]">
-                    ...fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Shanghai-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Shanghai-blockchain_test_from_state_test]">
+                    ...fork_Shanghai-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27625,11 +27617,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Prague-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Prague-blockchain_test]">
-                    ...fork_Prague-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Cancun-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Cancun-blockchain_test_from_state_test]">
+                    ...fork_Cancun-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27641,11 +27633,11 @@
                 </abbr>
             </td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Osaka-blockchain_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Prague-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Prague-blockchain_test_from_state_test]">
+                    ...fork_Prague-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>
@@ -27654,6 +27646,14 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Osaka-state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Osaka-state_test]">
                     ...fork_Osaka-state_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/homestead/yul/test_yul_example.py::test_yul[fork_Osaka-blockchain_test_from_state_test]" title="tests/homestead/yul/test_yul_example.py::test_yul[fork_Osaka-blockchain_test_from_state_test]">
+                    ...fork_Osaka-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>

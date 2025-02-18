@@ -28232,6 +28232,8 @@
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🔀 Make <code>BaseFixture</code> able to parse any fixture format such as <code>BlockchainFixture</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1210">#1210</a>).</li>
+<li>✨ Blockchain and Blockchain-Engine tests now have a marker to specify that they were generated from a state test, which can be used with <code>-m blockchain_test_from_state_test</code> and <code>-m blockchain_test_engine_from_state_test</code> respectively (<a href="https://github.com/ethereum/execution-spec-tests/pull/1220">#1220</a>).</li>
+<li>✨ Blockchain and Blockchain-Engine tests that were generated from a state test now have <code>blockchain_test_from_state_test</code> or <code>blockchain_test_engine_from_state_test</code> as part of their test IDs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1220">#1220</a>).</li>
 </ul>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <ul>

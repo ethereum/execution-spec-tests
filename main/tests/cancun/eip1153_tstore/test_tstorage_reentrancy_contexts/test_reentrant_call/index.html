@@ -27303,7 +27303,7 @@
 
 
 <h1 id="test_reentrant_call"><code>test_reentrant_call()</code><a class="headerlink" href="#test_reentrant_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/16d4f3bda1b2fbcac32744191ebe0b9adc95e217/tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py#L278"><code>tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call@16d4f3bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/21fb11c81a05b4e978b99e249c05ccc8b7440395/tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py#L278"><code>tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call@21fb11c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call --fork Prague</span>
@@ -27394,8 +27394,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
-                                <option value="state_test" >state_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27414,106 +27414,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tstore_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tstore_in_reentrant_call]">
-                    ...fork_Cancun-blockchain_test-tstore_in_reentrant_call
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 1, 1: 256, 2: 256}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tload_after_reentrant_tstore]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tload_after_reentrant_tstore]">
-                    ...fork_Cancun-blockchain_test-tload_after_reentrant_tstore
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 1, 1: 256, 2: 257}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-manipulate_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-manipulate_in_reentrant_call]">
-                    ...fork_Cancun-blockchain_test-manipulate_in_reentrant_call
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 1, 1: 256, 2: 257, 3: 257}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tstore_in_call_then_tload_return_in_staticcall]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tstore_in_call_then_tload_return_in_staticcall]">
-                    ...fork_Cancun-blockchain_test-tstore_in_call_then_tload_return_in_staticcall
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 1, 1: 1, 2: 256, 3: 257, 4: 257}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tstore_before_revert_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tstore_before_revert_has_no_effect]">
-                    ...fork_Cancun-blockchain_test-tstore_before_revert_has_no_effect
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 0, 1: 256, 2: 256}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-revert_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-revert_undoes_all]">
-                    ...fork_Cancun-blockchain_test-revert_undoes_all
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 0, 1: 256, 2: 257}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-revert_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-revert_undoes_tstorage_after_successful_call]">
-                    ...fork_Cancun-blockchain_test-revert_undoes_tstorage_after_successful_call
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 0, 1: 1, 2: 256, 3: 256}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tstore_before_invalid_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-tstore_before_invalid_has_no_effect]">
-                    ...fork_Cancun-blockchain_test-tstore_before_invalid_has_no_effect
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 0, 1: 256, 2: 256}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-invalid_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-invalid_undoes_all]">
-                    ...fork_Cancun-blockchain_test-invalid_undoes_all
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 0, 1: 256, 2: 257}</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-invalid_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test-invalid_undoes_tstorage_after_successful_call]">
-                    ...fork_Cancun-blockchain_test-invalid_undoes_tstorage_after_successful_call
-                </abbr>
-            </td>
-                        <td></td>
-                        <td>{0: 0, 1: 0, 2: 256, 3: 256}</td>
-                    </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27614,101 +27514,101 @@
                         <td></td>
                         <td>{0: 0, 1: 0, 2: 256, 3: 256}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tstore_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tstore_in_reentrant_call]">
-                    ...fork_Prague-blockchain_test-tstore_in_reentrant_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tstore_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tstore_in_reentrant_call]">
+                    ...fork_Cancun-blockchain_test_from_state_test-tstore_in_reentrant_call
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 1, 1: 256, 2: 256}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tload_after_reentrant_tstore]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tload_after_reentrant_tstore]">
-                    ...fork_Prague-blockchain_test-tload_after_reentrant_tstore
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tload_after_reentrant_tstore]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tload_after_reentrant_tstore]">
+                    ...fork_Cancun-blockchain_test_from_state_test-tload_after_reentrant_tstore
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 1, 1: 256, 2: 257}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-manipulate_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-manipulate_in_reentrant_call]">
-                    ...fork_Prague-blockchain_test-manipulate_in_reentrant_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-manipulate_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-manipulate_in_reentrant_call]">
+                    ...fork_Cancun-blockchain_test_from_state_test-manipulate_in_reentrant_call
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 1, 1: 256, 2: 257, 3: 257}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tstore_in_call_then_tload_return_in_staticcall]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tstore_in_call_then_tload_return_in_staticcall]">
-                    ...fork_Prague-blockchain_test-tstore_in_call_then_tload_return_in_staticcall
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall]">
+                    ...fork_Cancun-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 1, 1: 1, 2: 256, 3: 257, 4: 257}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tstore_before_revert_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tstore_before_revert_has_no_effect]">
-                    ...fork_Prague-blockchain_test-tstore_before_revert_has_no_effect
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tstore_before_revert_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tstore_before_revert_has_no_effect]">
+                    ...fork_Cancun-blockchain_test_from_state_test-tstore_before_revert_has_no_effect
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 256, 2: 256}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-revert_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-revert_undoes_all]">
-                    ...fork_Prague-blockchain_test-revert_undoes_all
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-revert_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-revert_undoes_all]">
+                    ...fork_Cancun-blockchain_test_from_state_test-revert_undoes_all
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 256, 2: 257}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-revert_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-revert_undoes_tstorage_after_successful_call]">
-                    ...fork_Prague-blockchain_test-revert_undoes_tstorage_after_successful_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call]">
+                    ...fork_Cancun-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 1, 2: 256, 3: 256}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tstore_before_invalid_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-tstore_before_invalid_has_no_effect]">
-                    ...fork_Prague-blockchain_test-tstore_before_invalid_has_no_effect
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect]">
+                    ...fork_Cancun-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 256, 2: 256}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-invalid_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-invalid_undoes_all]">
-                    ...fork_Prague-blockchain_test-invalid_undoes_all
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-invalid_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-invalid_undoes_all]">
+                    ...fork_Cancun-blockchain_test_from_state_test-invalid_undoes_all
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 256, 2: 257}</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-invalid_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test-invalid_undoes_tstorage_after_successful_call]">
-                    ...fork_Prague-blockchain_test-invalid_undoes_tstorage_after_successful_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Cancun-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call]">
+                    ...fork_Cancun-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call
                 </abbr>
             </td>
                         <td></td>
@@ -27814,101 +27714,101 @@
                         <td></td>
                         <td>{0: 0, 1: 0, 2: 256, 3: 256}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tstore_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tstore_in_reentrant_call]">
-                    ...fork_Osaka-blockchain_test-tstore_in_reentrant_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tstore_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tstore_in_reentrant_call]">
+                    ...fork_Prague-blockchain_test_from_state_test-tstore_in_reentrant_call
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 1, 1: 256, 2: 256}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tload_after_reentrant_tstore]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tload_after_reentrant_tstore]">
-                    ...fork_Osaka-blockchain_test-tload_after_reentrant_tstore
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tload_after_reentrant_tstore]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tload_after_reentrant_tstore]">
+                    ...fork_Prague-blockchain_test_from_state_test-tload_after_reentrant_tstore
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 1, 1: 256, 2: 257}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-manipulate_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-manipulate_in_reentrant_call]">
-                    ...fork_Osaka-blockchain_test-manipulate_in_reentrant_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-manipulate_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-manipulate_in_reentrant_call]">
+                    ...fork_Prague-blockchain_test_from_state_test-manipulate_in_reentrant_call
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 1, 1: 256, 2: 257, 3: 257}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tstore_in_call_then_tload_return_in_staticcall]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tstore_in_call_then_tload_return_in_staticcall]">
-                    ...fork_Osaka-blockchain_test-tstore_in_call_then_tload_return_in_staticcall
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall]">
+                    ...fork_Prague-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 1, 1: 1, 2: 256, 3: 257, 4: 257}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tstore_before_revert_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tstore_before_revert_has_no_effect]">
-                    ...fork_Osaka-blockchain_test-tstore_before_revert_has_no_effect
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tstore_before_revert_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tstore_before_revert_has_no_effect]">
+                    ...fork_Prague-blockchain_test_from_state_test-tstore_before_revert_has_no_effect
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 256, 2: 256}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-revert_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-revert_undoes_all]">
-                    ...fork_Osaka-blockchain_test-revert_undoes_all
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-revert_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-revert_undoes_all]">
+                    ...fork_Prague-blockchain_test_from_state_test-revert_undoes_all
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 256, 2: 257}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-revert_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-revert_undoes_tstorage_after_successful_call]">
-                    ...fork_Osaka-blockchain_test-revert_undoes_tstorage_after_successful_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call]">
+                    ...fork_Prague-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 1, 2: 256, 3: 256}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tstore_before_invalid_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-tstore_before_invalid_has_no_effect]">
-                    ...fork_Osaka-blockchain_test-tstore_before_invalid_has_no_effect
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect]">
+                    ...fork_Prague-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 256, 2: 256}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-invalid_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-invalid_undoes_all]">
-                    ...fork_Osaka-blockchain_test-invalid_undoes_all
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-invalid_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-invalid_undoes_all]">
+                    ...fork_Prague-blockchain_test_from_state_test-invalid_undoes_all
                 </abbr>
             </td>
                         <td></td>
                         <td>{0: 0, 1: 256, 2: 257}</td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-invalid_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test-invalid_undoes_tstorage_after_successful_call]">
-                    ...fork_Osaka-blockchain_test-invalid_undoes_tstorage_after_successful_call
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Prague-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call]">
+                    ...fork_Prague-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call
                 </abbr>
             </td>
                         <td></td>
@@ -28009,6 +27909,106 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-state_test-invalid_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-state_test-invalid_undoes_tstorage_after_successful_call]">
                     ...fork_Osaka-state_test-invalid_undoes_tstorage_after_successful_call
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 0, 1: 0, 2: 256, 3: 256}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tstore_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tstore_in_reentrant_call]">
+                    ...fork_Osaka-blockchain_test_from_state_test-tstore_in_reentrant_call
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 1, 1: 256, 2: 256}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tload_after_reentrant_tstore]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tload_after_reentrant_tstore]">
+                    ...fork_Osaka-blockchain_test_from_state_test-tload_after_reentrant_tstore
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 1, 1: 256, 2: 257}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-manipulate_in_reentrant_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-manipulate_in_reentrant_call]">
+                    ...fork_Osaka-blockchain_test_from_state_test-manipulate_in_reentrant_call
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 1, 1: 256, 2: 257, 3: 257}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall]">
+                    ...fork_Osaka-blockchain_test_from_state_test-tstore_in_call_then_tload_return_in_staticcall
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 1, 1: 1, 2: 256, 3: 257, 4: 257}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tstore_before_revert_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tstore_before_revert_has_no_effect]">
+                    ...fork_Osaka-blockchain_test_from_state_test-tstore_before_revert_has_no_effect
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 0, 1: 256, 2: 256}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-revert_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-revert_undoes_all]">
+                    ...fork_Osaka-blockchain_test_from_state_test-revert_undoes_all
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 0, 1: 256, 2: 257}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call]">
+                    ...fork_Osaka-blockchain_test_from_state_test-revert_undoes_tstorage_after_successful_call
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 0, 1: 1, 2: 256, 3: 256}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect]">
+                    ...fork_Osaka-blockchain_test_from_state_test-tstore_before_invalid_has_no_effect
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 0, 1: 256, 2: 256}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-invalid_undoes_all]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-invalid_undoes_all]">
+                    ...fork_Osaka-blockchain_test_from_state_test-invalid_undoes_all
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>{0: 0, 1: 256, 2: 257}</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call]" title="tests/cancun/eip1153_tstore/test_tstorage_reentrancy_contexts.py::test_reentrant_call[fork_Osaka-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call]">
+                    ...fork_Osaka-blockchain_test_from_state_test-invalid_undoes_tstorage_after_successful_call
                 </abbr>
             </td>
                         <td></td>
