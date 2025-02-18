@@ -12,7 +12,7 @@ class FixtureConsumer(ABC):
 
     fixture_formats: List[FixtureFormat]
 
-    def is_consumable(
+    def can_consume(
         self,
         fixture_format: FixtureFormat,
     ) -> bool:

@@ -386,4 +386,6 @@ class GethFixtureConsumer(
                 debug_output_path=debug_output_path,
             )
         else:
-            raise Exception(f"Fixture format {fixture_format.fixture_format_name} not supported")
+            raise Exception(
+                f"Fixture format {fixture_format.format_name} not supported by {self.binary}"
+            )

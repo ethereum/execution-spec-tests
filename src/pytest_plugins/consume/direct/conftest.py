@@ -125,5 +125,5 @@ def pytest_collection_modifyitems(items: List):
     for item in items[:]:  # use a copy of the list, as we'll be modifying it
         fixture_consumer = item.callspec.params["fixture_consumer"]
         fixture_format = item.callspec.params["fixture_format"]
-        if not fixture_consumer.is_consumable(fixture_format):
+        if not fixture_consumer.can_consume(fixture_format):
             items.remove(item)

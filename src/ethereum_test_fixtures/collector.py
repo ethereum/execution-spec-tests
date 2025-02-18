@@ -158,7 +158,7 @@ class FixtureCollector:
         """Run `evm [state|block]test` on each fixture."""
         for fixture_path, name_fixture_dict in self.all_fixtures.items():
             for _fixture_name, fixture in name_fixture_dict.items():
-                if evm_fixture_verification.is_consumable(fixture.__class__):
+                if evm_fixture_verification.can_consume(fixture.__class__):
                     info = self.json_path_to_test_item[fixture_path]
                     consume_direct_dump_dir = self._get_consume_direct_dump_dir(info)
                     evm_fixture_verification.consume_fixture(
