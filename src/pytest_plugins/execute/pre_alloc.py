@@ -7,7 +7,7 @@ from typing import Generator, Iterator, List, Literal, Tuple
 import pytest
 from pydantic import PrivateAttr
 
-from ethereum_test_base_types import Number, StorageRootType, ZeroPaddedHexNumber
+from ethereum_test_base_types import Bytes, Number, StorageRootType, ZeroPaddedHexNumber
 from ethereum_test_base_types.conversions import (
     BytesConvertible,
     FixedSizeBytesConvertible,
@@ -94,7 +94,7 @@ class Alloc(BaseAlloc):
     _sender: EOA = PrivateAttr()
     _eth_rpc: EthRPC = PrivateAttr()
     _txs: List[Transaction] = PrivateAttr(default_factory=list)
-    _deployed_contracts: List[Tuple[Address, bytes]] = PrivateAttr(default_factory=list)
+    _deployed_contracts: List[Tuple[Address, Bytes]] = PrivateAttr(default_factory=list)
     _funded_eoa: List[EOA] = PrivateAttr(default_factory=list)
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
     _chain_id: int = PrivateAttr()
@@ -206,7 +206,7 @@ class Alloc(BaseAlloc):
         self._txs.append(deploy_tx)
 
         contract_address = deploy_tx.created_contract
-        self._deployed_contracts.append((contract_address, bytes(code)))
+        self._deployed_contracts.append((contract_address, Bytes(code)))
 
         assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
 

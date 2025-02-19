@@ -172,7 +172,9 @@ def pytest_html_report_title(report):
 @pytest.fixture(scope="session")
 def default_gas_price(request) -> int:
     """Return default gas price used for transactions."""
-    return request.config.getoption("default_gas_price")
+    gas_price = request.config.getoption("default_gas_price")
+    assert gas_price > 0, "Gas price must be greater than 0"
+    return gas_price
 
 
 @pytest.fixture(scope="session")
@@ -279,13 +281,14 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                 # wait for pre-requisite transactions to be included in blocks
                 pre.wait_for_transactions()
-                for deployed_contract, deployed_code in pre._deployed_contracts:
-                    if eth_rpc.get_code(deployed_contract) == deployed_code:
-                        pass
-                    else:
+                for deployed_contract, expected_code in pre._deployed_contracts:
+                    actual_code = eth_rpc.get_code(deployed_contract)
+                    if actual_code != expected_code:
                         raise Exception(
                             f"Deployed test contract didn't match expected code at address "
-                            f"{deployed_contract} (not enough gas_limit?)."
+                            f"{deployed_contract} (not enough gas_limit?).\n"
+                            f"Expected: {expected_code}\n"
+                            f"Actual: {actual_code}"
                         )
                 request.node.config.funded_accounts = ", ".join(
                     [str(eoa) for eoa in pre._funded_eoa]
