@@ -30,6 +30,15 @@ def pytest_addoption(parser):
     )
 
     sender_group.addoption(
+        "--sender-funding-txs-gas-price",
+        action="store",
+        dest="sender_funding_transactions_gas_price",
+        type=Wei,
+        default=None,
+        help=("Gas price set for the funding transactions of each worker's sender key."),
+    )
+
+    sender_group.addoption(
         "--sender-fund-refund-gas-limit",
         action="store",
         dest="sender_fund_refund_gas_limit",
@@ -37,6 +46,18 @@ def pytest_addoption(parser):
         default=21_000,
         help=("Gas limit set for the funding transactions of each worker's sender key."),
     )
+
+
+@pytest.fixture(scope="session")
+def sender_funding_transactions_gas_price(
+    request: pytest.FixtureRequest, default_gas_price: int
+) -> int:
+    """Get the gas price for the funding transactions."""
+    gas_price: int | None = request.config.option.sender_funding_transactions_gas_price
+    if gas_price is None:
+        gas_price = default_gas_price
+    assert gas_price > 0, "Gas price must be greater than 0"
+    return gas_price
 
 
 @pytest.fixture(scope="session")
@@ -57,7 +78,7 @@ def sender_key_initial_balance(
     eth_rpc: EthRPC,
     session_temp_folder: Path,
     worker_count: int,
-    default_gas_price: int,
+    sender_funding_transactions_gas_price: int,
     sender_fund_refund_gas_limit: int,
     seed_account_sweep_amount: int | None,
 ) -> int:
@@ -89,7 +110,7 @@ def sender_key_initial_balance(
             assert seed_sender_balance_per_worker > 100, "Seed sender balance too low"
             # Subtract the cost of the transaction that is going to be sent to the seed sender
             sender_key_initial_balance = seed_sender_balance_per_worker - (
-                sender_fund_refund_gas_limit * default_gas_price
+                sender_fund_refund_gas_limit * sender_funding_transactions_gas_price
             )
 
             with base_file.open("w") as f:
@@ -105,7 +126,7 @@ def sender_key(
     eoa_iterator: Iterator[EOA],
     eth_rpc: EthRPC,
     session_temp_folder: Path,
-    default_gas_price: int,
+    sender_funding_transactions_gas_price: int,
     sender_fund_refund_gas_limit: int,
 ) -> Generator[EOA, None, None]:
     """
@@ -132,7 +153,7 @@ def sender_key(
             sender=seed_sender,
             to=sender,
             gas_limit=sender_fund_refund_gas_limit,
-            gas_price=default_gas_price,
+            gas_price=sender_funding_transactions_gas_price,
             value=sender_key_initial_balance,
         ).with_signature_and_sender()
         eth_rpc.send_transaction(fund_tx)
@@ -153,7 +174,7 @@ def sender_key(
     refund_gas_limit = sender_fund_refund_gas_limit
     # double the gas price to ensure the transaction is included and overwrites any other
     # transaction that might have been sent by the sender.
-    refund_gas_price = default_gas_price * 2
+    refund_gas_price = sender_funding_transactions_gas_price * 2
     tx_cost = refund_gas_limit * refund_gas_price
 
     if (remaining_balance - 1) < tx_cost:
