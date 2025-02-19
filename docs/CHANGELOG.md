@@ -14,6 +14,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Blockchain and Blockchain-Engine tests now have a marker to specify that they were generated from a state test, which can be used with `-m blockchain_test_from_state_test` and `-m blockchain_test_engine_from_state_test` respectively ([#1220](https://github.com/ethereum/execution-spec-tests/pull/1220)).
 - ✨ Blockchain and Blockchain-Engine tests that were generated from a state test now have `blockchain_test_from_state_test` or `blockchain_test_engine_from_state_test` as part of their test IDs ([#1220](https://github.com/ethereum/execution-spec-tests/pull/1220)).
 - 🔀 Refactor `ethereum_test_fixtures` and `ethereum_clis` to create `FixtureConsumer` and `FixtureConsumerTool` classes which abstract away the consumption process used by `consume direct` ([#935](https://github.com/ethereum/execution-spec-tests/pull/935)).
+- ✨ EOF Container validation tests (`eof_test`) now generate container deployment state tests, by wrapping the EOF container in an init-container and sending a deploy transaction ([#783](https://github.com/ethereum/execution-spec-tests/pull/783)).
 
 ### 📋 Misc
 
