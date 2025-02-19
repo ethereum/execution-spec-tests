@@ -4007,6 +4007,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -4433,6 +4439,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../test_rjump_valid_forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjump_valid_forward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_rjump_valid_backward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjump_valid_backward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../test_rjump_into_stack_height_diff/" class="md-nav__link">
         
   
@@ -4459,6 +4507,27 @@
   
   <span class="md-ellipsis">
     <code>test_rjump_into_stack_height_diff_2</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_rjump_backward_invalid_max_stack_height/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjump_backward_invalid_max_stack_height</code>
   </span>
   
 
@@ -27374,7 +27443,7 @@
 
 
 <h1 id="test_rjump_into_rjump"><code>test_rjump_into_rjump()</code><a class="headerlink" href="#test_rjump_into_rjump" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L309"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_rjump@b92eb56f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bbd9f6923f044dcee16acb0395613619ef4a0045/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L740"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_rjump@bbd9f692</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_rjump --fork Osaka</span>
@@ -27393,14 +27462,14 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_into_rjump</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">740</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span>
+<span class="normal">744</span>
+<span class="normal">745</span>
+<span class="normal">746</span>
+<span class="normal">747</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjump_into_rjump</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF1I4200_0009 (Invalid) EOF code containing RJUMP with target other RJUMP immediate.&quot;&quot;&quot;</span>

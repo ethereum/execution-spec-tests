@@ -1511,6 +1511,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump/test_rjump_backward_invalid_max_stack_height/</loc>
+         <lastmod>2025-02-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump/test_rjump_backwards_illegal_stack_height/</loc>
          <lastmod>2025-02-19</lastmod>
          <changefreq>daily</changefreq>
@@ -1677,6 +1682,16 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump/test_rjump_unreachable_code/</loc>
+         <lastmod>2025-02-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump/test_rjump_valid_backward/</loc>
+         <lastmod>2025-02-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump/test_rjump_valid_forward/</loc>
          <lastmod>2025-02-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
