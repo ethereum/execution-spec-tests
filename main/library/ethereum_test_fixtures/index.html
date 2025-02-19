@@ -2108,6 +2108,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.FixtureConsumer" class="md-nav__link">
+    <span class="md-ellipsis">
+      FixtureConsumer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FixtureConsumer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.FixtureConsumer.can_consume" class="md-nav__link">
+    <span class="md-ellipsis">
+      can_consume
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.FixtureConsumer.consume_fixture" class="md-nav__link">
+    <span class="md-ellipsis">
+      consume_fixture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_fixtures.EOFFixture" class="md-nav__link">
     <span class="md-ellipsis">
       EOFFixture
@@ -2169,39 +2202,6 @@
   <a href="#ethereum_test_fixtures.TransactionFixture.get_fork" class="md-nav__link">
     <span class="md-ellipsis">
       get_fork
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ethereum_test_fixtures.FixtureVerifier" class="md-nav__link">
-    <span class="md-ellipsis">
-      FixtureVerifier
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="FixtureVerifier">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_fixtures.FixtureVerifier.is_verifiable" class="md-nav__link">
-    <span class="md-ellipsis">
-      is_verifiable
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_fixtures.FixtureVerifier.verify_fixture" class="md-nav__link">
-    <span class="md-ellipsis">
-      verify_fixture
     </span>
   </a>
   
@@ -27973,6 +27973,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.FixtureConsumer" class="md-nav__link">
+    <span class="md-ellipsis">
+      FixtureConsumer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FixtureConsumer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.FixtureConsumer.can_consume" class="md-nav__link">
+    <span class="md-ellipsis">
+      can_consume
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.FixtureConsumer.consume_fixture" class="md-nav__link">
+    <span class="md-ellipsis">
+      consume_fixture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_fixtures.EOFFixture" class="md-nav__link">
     <span class="md-ellipsis">
       EOFFixture
@@ -28044,39 +28077,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#ethereum_test_fixtures.FixtureVerifier" class="md-nav__link">
-    <span class="md-ellipsis">
-      FixtureVerifier
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="FixtureVerifier">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_fixtures.FixtureVerifier.is_verifiable" class="md-nav__link">
-    <span class="md-ellipsis">
-      is_verifiable
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_fixtures.FixtureVerifier.verify_fixture" class="md-nav__link">
-    <span class="md-ellipsis">
-      verify_fixture
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -28110,10 +28110,6 @@
 
 
   <div class="doc doc-children">
-
-
-
-
 
 
 
@@ -29481,21 +29477,21 @@ backwards compatibility.</p>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;All fixtures in a single file must have the same format.&quot;</span><span class="p">)</span>
             <span class="n">fixtures</span><span class="o">.</span><span class="n">collect_into_file</span><span class="p">(</span><span class="n">fixture_path</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureVerifier</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureConsumer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run `evm [state|block]test` on each fixture.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">name_fixture_dict</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">_fixture_name</span><span class="p">,</span> <span class="n">fixture</span> <span class="ow">in</span> <span class="n">name_fixture_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">is_verifiable</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">can_consume</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
                     <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_test_item</span><span class="p">[</span><span class="n">fixture_path</span><span class="p">]</span>
-                    <span class="n">verify_fixtures_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_verify_fixtures_dump_dir</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-                    <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">verify_fixture</span><span class="p">(</span>
+                    <span class="n">consume_direct_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_consume_direct_dump_dir</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+                    <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">consume_fixture</span><span class="p">(</span>
                         <span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
                         <span class="n">fixture_path</span><span class="p">,</span>
                         <span class="n">fixture_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">debug_output_path</span><span class="o">=</span><span class="n">verify_fixtures_dump_dir</span><span class="p">,</span>
+                        <span class="n">debug_output_path</span><span class="o">=</span><span class="n">consume_direct_dump_dir</span><span class="p">,</span>
                     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_verify_fixtures_dump_dir</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">_get_consume_direct_dump_dir</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">info</span><span class="p">:</span> <span class="n">TestInfo</span><span class="p">,</span>
     <span class="p">):</span>
@@ -29722,18 +29718,18 @@ backwards compatibility.</p>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureVerifier</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureConsumer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run `evm [state|block]test` on each fixture.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">name_fixture_dict</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">_fixture_name</span><span class="p">,</span> <span class="n">fixture</span> <span class="ow">in</span> <span class="n">name_fixture_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">is_verifiable</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">can_consume</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
                 <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_test_item</span><span class="p">[</span><span class="n">fixture_path</span><span class="p">]</span>
-                <span class="n">verify_fixtures_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_verify_fixtures_dump_dir</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-                <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">verify_fixture</span><span class="p">(</span>
+                <span class="n">consume_direct_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_consume_direct_dump_dir</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+                <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">consume_fixture</span><span class="p">(</span>
                     <span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
                     <span class="n">fixture_path</span><span class="p">,</span>
                     <span class="n">fixture_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">debug_output_path</span><span class="o">=</span><span class="n">verify_fixtures_dump_dir</span><span class="p">,</span>
+                    <span class="n">debug_output_path</span><span class="o">=</span><span class="n">consume_direct_dump_dir</span><span class="p">,</span>
                 <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -30009,6 +30005,185 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
     <span class="k">elif</span> <span class="n">level</span> <span class="o">==</span> <span class="s2">&quot;test_parameter&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_dump_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">flat_path</span> <span class="o">/</span> <span class="n">test_parameter_string</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unexpected level.&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_fixtures.FixtureConsumer" class="doc doc-heading">
+            <code>FixtureConsumer</code>
+
+
+<a href="#ethereum_test_fixtures.FixtureConsumer" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="abc.ABC">ABC</span></code></p>
+
+
+      <p>Abstract class for verifying Ethereum test fixtures.</p>
+
+              <details class="quote">
+                <summary>Source code in <code>src/ethereum_test_fixtures/consume.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FixtureConsumer</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract class for verifying Ethereum test fixtures.&quot;&quot;&quot;</span>
+
+    <span class="n">fixture_formats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureFormat</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">can_consume</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether the fixture format is consumable by this consumer.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixture_formats</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">consume_fixture</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
+        <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="n">fixture_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the client with the specified fixture using its direct consumer interface.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;The `consume_fixture()` function is not supported by this tool.&quot;</span>
+        <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_fixtures.FixtureConsumer.can_consume" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">can_consume</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_fixtures.FixtureConsumer.can_consume" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Return whether the fixture format is consumable by this consumer.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_fixtures/consume.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">can_consume</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether the fixture format is consumable by this consumer.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixture_formats</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_fixtures.FixtureConsumer.consume_fixture" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">consume_fixture</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">fixture_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+  </span>
+
+<a href="#ethereum_test_fixtures.FixtureConsumer.consume_fixture" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Test the client with the specified fixture using its direct consumer interface.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_fixtures/consume.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="k">def</span> <span class="nf">consume_fixture</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
+    <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">fixture_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the client with the specified fixture using its direct consumer interface.&quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+        <span class="s2">&quot;The `consume_fixture()` function is not supported by this tool.&quot;</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -30317,198 +30492,6 @@ test_push0_key_sstore[fork_Shanghai] -&gt; test_push0_key_sstore, fork_Shanghai<
     <span class="n">forks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">forks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Expected transaction test fixture with single fork&quot;</span>
     <span class="k">return</span> <span class="n">forks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="ethereum_test_fixtures.FixtureVerifier" class="doc doc-heading">
-            <code>FixtureVerifier</code>
-
-
-<a href="#ethereum_test_fixtures.FixtureVerifier" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><span title="abc.ABC">ABC</span></code></p>
-
-
-      <p>Abstract class for verifying Ethereum test fixtures.</p>
-
-              <details class="quote">
-                <summary>Source code in <code>src/ethereum_test_fixtures/verify.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FixtureVerifier</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract class for verifying Ethereum test fixtures.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">is_verifiable</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether the fixture format is verifiable by this verifier.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-        <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-        <span class="n">fixture_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Execute `evm [state|block]test` to verify the fixture at `fixture_path`.</span>
-
-<span class="sd">        Currently only implemented by geth&#39;s evm.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="s2">&quot;The `verify_fixture()` function is not supported by this tool. Use geth&#39;s evm tool.&quot;</span>
-        <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-              </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="ethereum_test_fixtures.FixtureVerifier.is_verifiable" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">is_verifiable</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">)</span></code>
-
-<a href="#ethereum_test_fixtures.FixtureVerifier.is_verifiable" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Return whether the fixture format is verifiable by this verifier.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_fixtures/verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_verifiable</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether the fixture format is verifiable by this verifier.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="kc">False</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="ethereum_test_fixtures.FixtureVerifier.verify_fixture" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">verify_fixture</span><span class="p">(</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">fixture_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-  </span>
-
-<a href="#ethereum_test_fixtures.FixtureVerifier.verify_fixture" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Execute <code>evm [state|block]test</code> to verify the fixture at <code>fixture_path</code>.</p>
-<p>Currently only implemented by geth's evm.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_fixtures/verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
-<span class="k">def</span> <span class="nf">verify_fixture</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-    <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-    <span class="n">fixture_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Execute `evm [state|block]test` to verify the fixture at `fixture_path`.</span>
-
-<span class="sd">    Currently only implemented by geth&#39;s evm.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-        <span class="s2">&quot;The `verify_fixture()` function is not supported by this tool. Use geth&#39;s evm tool.&quot;</span>
-    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

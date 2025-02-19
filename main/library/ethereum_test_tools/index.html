@@ -42254,21 +42254,21 @@ as possible fixture formats.</p>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;All fixtures in a single file must have the same format.&quot;</span><span class="p">)</span>
             <span class="n">fixtures</span><span class="o">.</span><span class="n">collect_into_file</span><span class="p">(</span><span class="n">fixture_path</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureVerifier</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureConsumer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run `evm [state|block]test` on each fixture.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">name_fixture_dict</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">_fixture_name</span><span class="p">,</span> <span class="n">fixture</span> <span class="ow">in</span> <span class="n">name_fixture_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">is_verifiable</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">can_consume</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
                     <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_test_item</span><span class="p">[</span><span class="n">fixture_path</span><span class="p">]</span>
-                    <span class="n">verify_fixtures_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_verify_fixtures_dump_dir</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-                    <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">verify_fixture</span><span class="p">(</span>
+                    <span class="n">consume_direct_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_consume_direct_dump_dir</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+                    <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">consume_fixture</span><span class="p">(</span>
                         <span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
                         <span class="n">fixture_path</span><span class="p">,</span>
                         <span class="n">fixture_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">debug_output_path</span><span class="o">=</span><span class="n">verify_fixtures_dump_dir</span><span class="p">,</span>
+                        <span class="n">debug_output_path</span><span class="o">=</span><span class="n">consume_direct_dump_dir</span><span class="p">,</span>
                     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_verify_fixtures_dump_dir</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">_get_consume_direct_dump_dir</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">info</span><span class="p">:</span> <span class="n">TestInfo</span><span class="p">,</span>
     <span class="p">):</span>
@@ -42495,18 +42495,18 @@ as possible fixture formats.</p>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureVerifier</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_fixture_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evm_fixture_verification</span><span class="p">:</span> <span class="n">FixtureConsumer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run `evm [state|block]test` on each fixture.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">name_fixture_dict</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fixtures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">_fixture_name</span><span class="p">,</span> <span class="n">fixture</span> <span class="ow">in</span> <span class="n">name_fixture_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">is_verifiable</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">can_consume</span><span class="p">(</span><span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
                 <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_path_to_test_item</span><span class="p">[</span><span class="n">fixture_path</span><span class="p">]</span>
-                <span class="n">verify_fixtures_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_verify_fixtures_dump_dir</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-                <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">verify_fixture</span><span class="p">(</span>
+                <span class="n">consume_direct_dump_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_consume_direct_dump_dir</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+                <span class="n">evm_fixture_verification</span><span class="o">.</span><span class="n">consume_fixture</span><span class="p">(</span>
                     <span class="n">fixture</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
                     <span class="n">fixture_path</span><span class="p">,</span>
                     <span class="n">fixture_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">debug_output_path</span><span class="o">=</span><span class="n">verify_fixtures_dump_dir</span><span class="p">,</span>
+                    <span class="n">debug_output_path</span><span class="o">=</span><span class="n">consume_direct_dump_dir</span><span class="p">,</span>
                 <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
