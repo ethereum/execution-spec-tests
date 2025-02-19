@@ -64,7 +64,7 @@ class LabeledExecuteFormat:
         """
         Check if two labeled execute formats are equal.
 
-        If the other object is a FixtureFormat type, the format of the labeled execute
+        If the other object is a ExecuteFormat type, the format of the labeled execute
         format will be compared with the format of the other object.
         """
         if isinstance(other, LabeledExecuteFormat):
