@@ -16,7 +16,15 @@ from typing import (
 
 import ethereum_rlp as eth_rlp
 from ethereum_types.numeric import Uint
-from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
+from pydantic import (
+    AliasChoices,
+    Field,
+    PlainSerializer,
+    ValidationInfo,
+    computed_field,
+    field_validator,
+    model_validator,
+)
 
 from ethereum_test_base_types import (
     Address,
@@ -32,7 +40,16 @@ from ethereum_test_base_types import (
     ZeroPaddedHexNumber,
 )
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
-from ethereum_test_forks import Fork, Paris
+from ethereum_test_forks import (
+    Cancun,
+    Constantinople,
+    Fork,
+    Frontier,
+    Homestead,
+    Istanbul,
+    Paris,
+    Prague,
+)
 from ethereum_test_types.types import (
     AuthorizationTupleGeneric,
     Transaction,
@@ -151,6 +168,12 @@ class FixtureHeader(CamelModel):
                     and getattr(self, field) is None
                 ):
                     raise ValueError(f"Field {field} is required for fork {self.fork}")
+
+                if (
+                    not header_fork_requirement.required(self.fork, block_number, timestamp)
+                    and getattr(self, field) is not None
+                ):
+                    raise ValueError(f"Field {field} is not required for fork {self.fork}")
 
     @cached_property
     def rlp_encode_list(self) -> List:
@@ -454,6 +477,33 @@ class BlockchainFixture(BlockchainFixtureCommon):
     genesis_rlp: Bytes = Field(..., alias="genesisRLP")
     blocks: List[FixtureBlock | InvalidFixtureBlock]
     seal_engine: Literal["NoProof"] = Field("NoProof")
+
+    @field_validator("blocks", mode="before")
+    @classmethod
+    def assign_fork(
+        cls, blocks: List[FixtureBlock | InvalidFixtureBlock], info: ValidationInfo
+    ) -> List[FixtureBlock | InvalidFixtureBlock]:
+        """Assign fork to blocks for model validation."""
+        for block in blocks:
+            if isinstance(block, dict) and "blockHeader" in block:
+                header = block.get("blockHeader")
+                if isinstance(header, dict):
+                    network = info.data.get("fork")
+                    if network == "Frontier":
+                        header["fork"] = Frontier
+                    elif network == "Homestead":
+                        header["fork"] = Homestead
+                    elif network == "Constantinople":
+                        header["fork"] = Constantinople
+                    elif network == "Istanbul":
+                        header["fork"] = Istanbul
+                    elif network == "Paris":
+                        header["fork"] = Paris
+                    elif network == "Cancun":
+                        header["fork"] = Cancun
+                    elif network == "Prague":
+                        header["fork"] = Prague
+        return blocks
 
 
 class BlockchainEngineFixture(BlockchainFixtureCommon):
