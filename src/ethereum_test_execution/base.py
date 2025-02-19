@@ -22,11 +22,11 @@ class BaseExecute(CamelModel):
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs):
         """
-        Register all subclasses of BaseFixture with a fixture format name set
-        as possible fixture formats.
+        Register all subclasses of BaseExecute with a execute format name set
+        as possible execute formats.
         """
         if cls.format_name:
-            # Register the new fixture format
+            # Register the new execute format
             BaseExecute.formats[cls.format_name] = cls
 
     @abstractmethod
@@ -62,9 +62,9 @@ class LabeledExecuteFormat:
 
     def __eq__(self, other: Any) -> bool:
         """
-        Check if two labeled fixture formats are equal.
+        Check if two labeled execute formats are equal.
 
-        If the other object is a FixtureFormat type, the format of the labeled fixture
+        If the other object is a FixtureFormat type, the format of the labeled execute
         format will be compared with the format of the other object.
         """
         if isinstance(other, LabeledExecuteFormat):
