@@ -12010,6 +12010,8 @@
       
         
       
+        
+      
     
     
       
@@ -12399,6 +12401,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7620_eof_create/test_subcontainer_validation/test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_jumpf_incompatible_outputs"><code>test_jumpf_incompatible_outputs()</code><a class="headerlink" href="#test_jumpf_incompatible_outputs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py#L138"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py#L138"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs --fork Osaka</span>
@@ -27491,6 +27514,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27576,6 +27601,150 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-eof_test-more_output]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-eof_test-more_output]">
                     ...fork_Osaka-eof_test-more_output
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-less_stack]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-less_stack]">
+                    ...fork_Osaka-state_test_from_eof_test-less_stack
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>EOFException.STACK_UNDERFLOW</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-same_stack]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-same_stack]">
+                    ...fork_Osaka-state_test_from_eof_test-same_stack
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-more_stack]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-more_stack]">
+                    ...fork_Osaka-state_test_from_eof_test-more_stack
+                </abbr>
+            </td>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-less_output]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-less_output]">
+                    ...fork_Osaka-state_test_from_eof_test-less_output
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-same_output]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-same_output]">
+                    ...fork_Osaka-state_test_from_eof_test-same_output
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-more_output]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-state_test_from_eof_test-more_output]">
+                    ...fork_Osaka-state_test_from_eof_test-more_output
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-less_stack]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-less_stack]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-less_stack
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>EOFException.STACK_UNDERFLOW</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-same_stack]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-same_stack]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-same_stack
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-more_stack]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-more_stack]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-more_stack
+                </abbr>
+            </td>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-less_output]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-less_output]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-less_output
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-same_output]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-same_output]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-same_output
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-more_output]" title="tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_incompatible_outputs[fork_Osaka-blockchain_test_from_eof_test-more_output]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-more_output
                 </abbr>
             </td>
                         <td>0</td>

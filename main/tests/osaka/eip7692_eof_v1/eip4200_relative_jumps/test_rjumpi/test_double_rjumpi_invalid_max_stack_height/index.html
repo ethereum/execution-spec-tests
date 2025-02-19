@@ -12010,6 +12010,8 @@
       
         
       
+        
+      
     
     
       
@@ -12399,6 +12401,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7620_eof_create/test_subcontainer_validation/test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_double_rjumpi_invalid_max_stack_height"><code>test_double_rjumpi_invalid_max_stack_height()</code><a class="headerlink" href="#test_double_rjumpi_invalid_max_stack_height" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L981"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L981"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height --fork Osaka</span>
@@ -27423,7 +27446,7 @@ targeted by two RJUMPIs with the non-uniform stack height range.</p>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork.</p>
+<p>This test case is only parametrized by fork and fixture format.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -27452,6 +27475,8 @@ targeted by two RJUMPIs with the non-uniform stack height range.</p>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27473,6 +27498,22 @@ targeted by two RJUMPIs with the non-uniform stack height range.</p>
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height[fork_Osaka-eof_test]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height[fork_Osaka-eof_test]">
                     ...fork_Osaka-eof_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height[fork_Osaka-state_test_from_eof_test]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height[fork_Osaka-state_test_from_eof_test]">
+                    ...fork_Osaka-state_test_from_eof_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height[fork_Osaka-blockchain_test_from_eof_test]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_double_rjumpi_invalid_max_stack_height[fork_Osaka-blockchain_test_from_eof_test]">
+                    ...fork_Osaka-blockchain_test_from_eof_test
                 </abbr>
             </td>
                     </tr>

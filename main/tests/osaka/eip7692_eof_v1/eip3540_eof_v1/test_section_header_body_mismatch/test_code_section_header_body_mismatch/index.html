@@ -12010,6 +12010,8 @@
       
         
       
+        
+      
     
     
       
@@ -12399,6 +12401,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7620_eof_create/test_subcontainer_validation/test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_code_section_header_body_mismatch"><code>test_code_section_header_body_mismatch()</code><a class="headerlink" href="#test_code_section_header_body_mismatch" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py#L18"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py#L18"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch --fork Osaka</span>
@@ -27651,6 +27674,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27748,6 +27773,174 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-eof_test-drop_everything]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-eof_test-drop_everything]">
                     ...fork_Osaka-eof_test-drop_everything
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>ef0001010004020001000304000400008000013050000bad60a7</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_code_section_and_header]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_code_section_and_header]">
+                    ...fork_Osaka-state_test_from_eof_test-drop_code_section_and_header
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>ef000101000802000100030400040000800001000000003050000bad60A7</td>
+                        <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_code_header]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_code_header]">
+                    ...fork_Osaka-state_test_from_eof_test-drop_code_header
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>ef000101000802000100030400040000800001000000003050003050000bad60A7</td>
+                        <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_code_section]">
+                    ...fork_Osaka-state_test_from_eof_test-drop_code_section
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>ef0001010008020002000300030400040000800001000000003050000bad60A7</td>
+                        <td>[<EOFException.UNREACHABLE_CODE_SECTIONS: 31>, <EOFException.TOPLEVEL_CONTAINER_TRUNCATED: 41>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-layout_ok_code_bad]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-layout_ok_code_bad]">
+                    ...fork_Osaka-state_test_from_eof_test-layout_ok_code_bad
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>ef0001010008020002000300030400040000800001000000003050003050000bad60A7</td>
+                        <td>EOFException.UNREACHABLE_CODE_SECTIONS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_types_header]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_types_header]">
+                    ...fork_Osaka-state_test_from_eof_test-drop_types_header
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>ef0001010008020001000304000400008000013050000bad60a7</td>
+                        <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_everything]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-state_test_from_eof_test-drop_everything]">
+                    ...fork_Osaka-state_test_from_eof_test-drop_everything
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>ef0001010004020001000304000400008000013050000bad60a7</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_code_section_and_header]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_code_section_and_header]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-drop_code_section_and_header
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>ef000101000802000100030400040000800001000000003050000bad60A7</td>
+                        <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_code_header]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_code_header]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-drop_code_header
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>ef000101000802000100030400040000800001000000003050003050000bad60A7</td>
+                        <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_code_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-drop_code_section
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>ef0001010008020002000300030400040000800001000000003050000bad60A7</td>
+                        <td>[<EOFException.UNREACHABLE_CODE_SECTIONS: 31>, <EOFException.TOPLEVEL_CONTAINER_TRUNCATED: 41>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-layout_ok_code_bad]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-layout_ok_code_bad]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-layout_ok_code_bad
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>ef0001010008020002000300030400040000800001000000003050003050000bad60A7</td>
+                        <td>EOFException.UNREACHABLE_CODE_SECTIONS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_types_header]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_types_header]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-drop_types_header
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>ef0001010008020001000304000400008000013050000bad60a7</td>
+                        <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_everything]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch[fork_Osaka-blockchain_test_from_eof_test-drop_everything]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-drop_everything
                 </abbr>
             </td>
                         <td>True</td>

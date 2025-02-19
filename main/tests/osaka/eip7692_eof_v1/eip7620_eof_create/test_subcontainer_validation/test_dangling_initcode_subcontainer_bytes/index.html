@@ -11952,6 +11952,8 @@
       
         
       
+        
+      
     
     
       
@@ -12341,6 +12343,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_dangling_initcode_subcontainer_bytes"><code>test_dangling_initcode_subcontainer_bytes()</code><a class="headerlink" href="#test_dangling_initcode_subcontainer_bytes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L790"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L860"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes --fork Osaka</span>
@@ -27370,24 +27393,24 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">790</span>
-<span class="normal">791</span>
-<span class="normal">792</span>
-<span class="normal">793</span>
-<span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span>
-<span class="normal">802</span>
-<span class="normal">803</span>
-<span class="normal">804</span>
-<span class="normal">805</span>
-<span class="normal">806</span>
-<span class="normal">807</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dangling_initcode_subcontainer_bytes</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">860</span>
+<span class="normal">861</span>
+<span class="normal">862</span>
+<span class="normal">863</span>
+<span class="normal">864</span>
+<span class="normal">865</span>
+<span class="normal">866</span>
+<span class="normal">867</span>
+<span class="normal">868</span>
+<span class="normal">869</span>
+<span class="normal">870</span>
+<span class="normal">871</span>
+<span class="normal">872</span>
+<span class="normal">873</span>
+<span class="normal">874</span>
+<span class="normal">875</span>
+<span class="normal">876</span>
+<span class="normal">877</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dangling_initcode_subcontainer_bytes</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initcode mode EOF Subcontainer test with subcontainer containing dangling bytes.&quot;&quot;&quot;</span>
@@ -27410,7 +27433,7 @@
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork.</p>
+<p>This test case is only parametrized by fork and fixture format.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -27439,6 +27462,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27460,6 +27485,22 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes[fork_Osaka-eof_test]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes[fork_Osaka-eof_test]">
                     ...fork_Osaka-eof_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes[fork_Osaka-state_test_from_eof_test]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes[fork_Osaka-state_test_from_eof_test]">
+                    ...fork_Osaka-state_test_from_eof_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes[fork_Osaka-blockchain_test_from_eof_test]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_initcode_subcontainer_bytes[fork_Osaka-blockchain_test_from_eof_test]">
+                    ...fork_Osaka-blockchain_test_from_eof_test
                 </abbr>
             </td>
                     </tr>

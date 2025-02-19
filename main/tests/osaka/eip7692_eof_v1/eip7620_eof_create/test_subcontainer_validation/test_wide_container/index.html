@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation/test_wide_container/">
       
       
-        <link rel="prev" href="../test_deep_container/">
+        <link rel="prev" href="../test_deep_container_initcode/">
       
       
         <link rel="next" href="../test_migrated_eofcreate/">
@@ -11952,6 +11952,8 @@
       
         
       
+        
+      
     
     
       
@@ -12341,6 +12343,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_wide_container"><code>test_wide_container()</code><a class="headerlink" href="#test_wide_container" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L592"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L652"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container --fork Osaka</span>
@@ -27370,51 +27393,71 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span>
-<span class="normal">620</span>
-<span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span>
+<span class="normal">669</span>
+<span class="normal">670</span>
+<span class="normal">671</span>
+<span class="normal">672</span>
+<span class="normal">673</span>
+<span class="normal">674</span>
+<span class="normal">675</span>
+<span class="normal">676</span>
+<span class="normal">677</span>
+<span class="normal">678</span>
+<span class="normal">679</span>
+<span class="normal">680</span>
+<span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span>
+<span class="normal">689</span>
+<span class="normal">690</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="s2">&quot;exception&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;256&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">257</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">TOO_MANY_CONTAINERS</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;257&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x8000</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">CONTAINER_SIZE_ABOVE_LIMIT</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;negative_i16&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0xFFFF</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">CONTAINER_SIZE_ABOVE_LIMIT</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;max_u16&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x8000</span><span class="p">,</span>
+            <span class="n">EOFException</span><span class="o">.</span><span class="n">CONTAINER_SIZE_ABOVE_LIMIT</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eof_test_only</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;int too big to convert&quot;</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;negative_i16&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0xFFFF</span><span class="p">,</span>
+            <span class="n">EOFException</span><span class="o">.</span><span class="n">CONTAINER_SIZE_ABOVE_LIMIT</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eof_test_only</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;int too big to convert&quot;</span><span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;max_u16&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_wide_container</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">EOFException</span><span class="p">):</span>
@@ -27481,6 +27524,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27538,6 +27583,46 @@
             </td>
                         <td>65535</td>
                         <td>EOFException.CONTAINER_SIZE_ABOVE_LIMIT</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-state_test_from_eof_test-256]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-state_test_from_eof_test-256]">
+                    ...fork_Osaka-state_test_from_eof_test-256
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-state_test_from_eof_test-257]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-state_test_from_eof_test-257]">
+                    ...fork_Osaka-state_test_from_eof_test-257
+                </abbr>
+            </td>
+                        <td>257</td>
+                        <td>EOFException.TOO_MANY_CONTAINERS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-blockchain_test_from_eof_test-256]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-blockchain_test_from_eof_test-256]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-256
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-blockchain_test_from_eof_test-257]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-blockchain_test_from_eof_test-257]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-257
+                </abbr>
+            </td>
+                        <td>257</td>
+                        <td>EOFException.TOO_MANY_CONTAINERS</td>
                     </tr>
             </tbody>
 </table>

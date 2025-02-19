@@ -12010,6 +12010,8 @@
       
         
       
+        
+      
     
     
       
@@ -12399,6 +12401,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7620_eof_create/test_subcontainer_validation/test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_migrated_valid_invalid"><code>test_migrated_valid_invalid()</code><a class="headerlink" href="#test_migrated_valid_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py#L21"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py#L21"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid --fork Osaka</span>
@@ -27657,7 +27680,19 @@
 <span class="normal">305</span>
 <span class="normal">306</span>
 <span class="normal">307</span>
-<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;eof_code,exception&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27694,91 +27729,95 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># No section terminator after data section size</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040200010001040002&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040200010001040002&quot;</span><span class="p">)),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0020_no_section_terminator_after_data_section_size&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># No type section contents</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001010004020001000104000200&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001010004020001000104000200&quot;</span><span class="p">)),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0021_no_type_section_contents&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Type section contents (no outputs and max stack)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400020000&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400020000&quot;</span><span class="p">)),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Type section contents (no max stack)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040200010001040002000000&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040200010001040002000000&quot;</span><span class="p">)),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0023_invalid_type_section_no_max_stack&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Type section contents (max stack incomplete)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001010004020001000104000200000000&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001010004020001000104000200000000&quot;</span><span class="p">)),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0024_invalid_type_section_max_stack_incomplete&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># No code section contents</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400020000000000&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400020000000000&quot;</span><span class="p">)),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0025_no_code_section_contents&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Code section contents incomplete</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001010004020001002904000000000000027f&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001010004020001002904000000000000027f&quot;</span><span class="p">)),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0026_code_section_contents_incomplete&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Trailing bytes after code section</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001 010004 0200010001 040000 00 00800000 fe aabbcc&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span>
+                <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001 010004 0200010001 040000 00 00800000 fe aabbcc&quot;</span><span class="p">)</span>
+            <span class="p">),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0027_trailing_bytes_after_code_section&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Trailing bytes after code section with wrong first section type</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001 010004 0200010001 040000 00 00000000 fe aabbcc&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span>
+                <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001 010004 0200010001 040000 00 00000000 fe aabbcc&quot;</span><span class="p">)</span>
+            <span class="p">),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Empty code section</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100000400000000000000&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100000400000000000000&quot;</span><span class="p">)),</span>
             <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0028_empty_code_section&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Code section preceding type section</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000102000100010100040400020000000000feaabb&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000102000100010100040400020000000000feaabb&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0030_code_section_preceding_type_section&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Data section preceding type section</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000104000201000402000100010000000000feaabb&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000104000201000402000100010000000000feaabb&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0031_data_section_preceding_type_section&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Data section preceding code section</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000404000202000100010000000000feaabb&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000404000202000100010000000000feaabb&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0032_data_section_preceding_code_section&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Data section without code section</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040400020000000000aabb&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040400020000000000aabb&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0033_data_section_without_code_section&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># No data section</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_DATA_SECTION</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0034_no_data_section&quot;</span><span class="p">,</span>
         <span class="p">),</span>
@@ -27797,91 +27836,99 @@
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Trailing bytes after data section with wrong first section type</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001 010004 0200010001 040002 00 00000000 fe aabbccdd&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span>
+                <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001 010004 0200010001 040002 00 00000000 fe aabbccdd&quot;</span><span class="p">)</span>
+            <span class="p">),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Multiple data sections</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400020400020000000000feaabbaabb&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span>
+                <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400020400020000000000feaabbaabb&quot;</span><span class="p">)</span>
+            <span class="p">),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0036_multiple_data_sections&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Multiple code and data sections</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000802000200010001040002040002000000000000000000fefeaabbaabb&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span>
+                <span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span>
+                    <span class="s2">&quot;ef000101000802000200010001040002040002000000000000000000fefeaabbaabb&quot;</span>
+                <span class="p">)</span>
+            <span class="p">),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0037_multiple_code_and_data_sections&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (at the beginning)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000105000101000402000100010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000105000101000402000100010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0038_unknown_section_id_at_the_beginning_05&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (at the beginning)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000106000101000402000100010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000106000101000402000100010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0039_unknown_section_id_at_the_beginning_06&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (at the beginning)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001ff000101000402000100010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001ff000101000402000100010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0040_unknown_section_id_at_the_beginning_ff&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after types section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000405000102000100010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000405000102000100010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0041_unknown_section_id_after_types_section_05&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after types section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000406000102000100010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000406000102000100010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0042_unknown_section_id_after_types_section_06&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after types section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001010004ff000102000100010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef0001010004ff000102000100010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0043_unknown_section_id_after_types_section_ff&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after code section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010500010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010500010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_DATA_SECTION</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0044_unknown_section_id_after_code_section_05&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after code section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010600010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010600010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_DATA_SECTION</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0045_unknown_section_id_after_code_section_06&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after code section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040200010001ff00010400000000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040200010001ff00010400000000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_DATA_SECTION</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0046_unknown_section_id_after_code_section_ff&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after data section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400000500010000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400000500010000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0047_unknown_section_id_after_data_section_05&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after data section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400000600010000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef000101000402000100010400000600010000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0048_unknown_section_id_after_data_section_06&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="c1"># Unknown section ID (after data section)</span>
-            <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040200010001040000ff00010000000000fe&quot;</span><span class="p">),</span>
+            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ef00010100040200010001040000ff00010000000000fe&quot;</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EOF1I3540_0049_unknown_section_id_after_data_section_ff&quot;</span><span class="p">,</span>
         <span class="p">),</span>
@@ -27937,7 +27984,7 @@
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_migrated_valid_invalid</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
-    <span class="n">eof_code</span><span class="p">:</span> <span class="n">Container</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span>
+    <span class="n">eof_code</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span>
     <span class="n">exception</span><span class="p">:</span> <span class="n">EOFExceptionInstanceOrList</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify EOF container construction and exception.&quot;&quot;&quot;</span>
@@ -27979,6 +28026,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -28034,7 +28083,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size
                 </abbr>
             </td>
-                        <td><code>ef00010100040200010001040002</code></td>
+                        <td>0xef00010100040200010001040002</td>
                         <td>EOFException.MISSING_HEADERS_TERMINATOR</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28044,7 +28093,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0021_no_type_section_contents
                 </abbr>
             </td>
-                        <td><code>ef0001010004020001000104000200</code></td>
+                        <td>0xef0001010004020001000104000200</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28054,7 +28103,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400020000</code></td>
+                        <td>0xef000101000402000100010400020000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28064,7 +28113,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400020000</code> <code>00</code></td>
+                        <td>0xef00010100040200010001040002000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28074,7 +28123,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400020000</code> <code>0000</code></td>
+                        <td>0xef0001010004020001000104000200000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28084,7 +28133,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0025_no_code_section_contents
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400020000</code> <code>000000</code></td>
+                        <td>0xef000101000402000100010400020000000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28094,7 +28143,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0026_code_section_contents_incomplete
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100290400000000</code> <code>0000027f</code></td>
+                        <td>0xef0001010004020001002904000000000000027f</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28104,7 +28153,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0027_trailing_bytes_after_code_section
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400000000</code> <code>800000feaabbcc</code></td>
+                        <td>0xef000101000402000100010400000000800000feaabbcc</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28114,7 +28163,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400000000</code> <code>000000feaabbcc</code></td>
+                        <td>0xef000101000402000100010400000000000000feaabbcc</td>
                         <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28124,7 +28173,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0028_empty_code_section
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100000400000000</code> <code>000000</code></td>
+                        <td>0xef000101000402000100000400000000000000</td>
                         <td>EOFException.ZERO_SECTION_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28134,7 +28183,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0030_code_section_preceding_type_section
                 </abbr>
             </td>
-                        <td><code>ef000102000100010100040400020000</code> <code>000000feaabb</code></td>
+                        <td>0xef000102000100010100040400020000000000feaabb</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28144,7 +28193,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0031_data_section_preceding_type_section
                 </abbr>
             </td>
-                        <td><code>ef000104000201000402000100010000</code> <code>000000feaabb</code></td>
+                        <td>0xef000104000201000402000100010000000000feaabb</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28154,7 +28203,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0032_data_section_preceding_code_section
                 </abbr>
             </td>
-                        <td><code>ef000101000404000202000100010000</code> <code>000000feaabb</code></td>
+                        <td>0xef000101000404000202000100010000000000feaabb</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28164,7 +28213,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0033_data_section_without_code_section
                 </abbr>
             </td>
-                        <td><code>ef00010100040400020000000000aabb</code></td>
+                        <td>0xef00010100040400020000000000aabb</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28174,7 +28223,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0034_no_data_section
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010000000000</code> <code>fe</code></td>
+                        <td>0xef000101000402000100010000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28194,7 +28243,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400020000</code> <code>000000feaabbccdd</code></td>
+                        <td>0xef000101000402000100010400020000000000feaabbccdd</td>
                         <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28204,7 +28253,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0036_multiple_data_sections
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400020400</code> <code>020000000000feaabbaabb</code></td>
+                        <td>0xef000101000402000100010400020400020000000000feaabbaabb</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28214,7 +28263,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0037_multiple_code_and_data_sections
                 </abbr>
             </td>
-                        <td><code>ef000101000802000200010001040002</code> <code>040002000000000000000000fefeaabb</code> <code>aabb</code></td>
+                        <td>0xef000101000802000200010001040002040002000000000000000000fefeaabbaabb</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28224,7 +28273,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05
                 </abbr>
             </td>
-                        <td><code>ef000105000101000402000100010400</code> <code>000000000000fe</code></td>
+                        <td>0xef000105000101000402000100010400000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28234,7 +28283,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06
                 </abbr>
             </td>
-                        <td><code>ef000106000101000402000100010400</code> <code>000000000000fe</code></td>
+                        <td>0xef000106000101000402000100010400000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28244,7 +28293,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff
                 </abbr>
             </td>
-                        <td><code>ef0001ff000101000402000100010400</code> <code>000000000000fe</code></td>
+                        <td>0xef0001ff000101000402000100010400000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28254,7 +28303,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05
                 </abbr>
             </td>
-                        <td><code>ef000101000405000102000100010400</code> <code>000000000000fe</code></td>
+                        <td>0xef000101000405000102000100010400000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28264,7 +28313,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06
                 </abbr>
             </td>
-                        <td><code>ef000101000406000102000100010400</code> <code>000000000000fe</code></td>
+                        <td>0xef000101000406000102000100010400000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28274,7 +28323,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff
                 </abbr>
             </td>
-                        <td><code>ef0001010004ff000102000100010400</code> <code>000000000000fe</code></td>
+                        <td>0xef0001010004ff000102000100010400000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28284,7 +28333,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010500010400</code> <code>000000000000fe</code></td>
+                        <td>0xef000101000402000100010500010400000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28294,7 +28343,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010600010400</code> <code>000000000000fe</code></td>
+                        <td>0xef000101000402000100010600010400000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28304,7 +28353,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff
                 </abbr>
             </td>
-                        <td><code>ef00010100040200010001ff00010400</code> <code>000000000000fe</code></td>
+                        <td>0xef00010100040200010001ff00010400000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28314,7 +28363,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400000500</code> <code>010000000000fe</code></td>
+                        <td>0xef000101000402000100010400000500010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28324,7 +28373,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06
                 </abbr>
             </td>
-                        <td><code>ef000101000402000100010400000600</code> <code>010000000000fe</code></td>
+                        <td>0xef000101000402000100010400000600010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28334,7 +28383,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff
                 </abbr>
             </td>
-                        <td><code>ef00010100040200010001040000ff00</code> <code>010000000000fe</code></td>
+                        <td>0xef00010100040200010001040000ff00010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -28392,6 +28441,806 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0008_invalid_incorrect_version_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0008_invalid_incorrect_version_ff]">
                     ...fork_Osaka-eof_test-EOF1I3540_0008_invalid_incorrect_version_ff
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0008</td>
+                        <td>EOFException.INVALID_VERSION</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1V3540_0001_deployed_code_without_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1V3540_0001_deployed_code_without_data_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1V3540_0001_deployed_code_without_data_section
+                </abbr>
+            </td>
+                        <td>EOF1V3540_0001</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1V3540_0002_deployed_code_with_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1V3540_0002_deployed_code_with_data_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1V3540_0002_deployed_code_with_data_section
+                </abbr>
+            </td>
+                        <td>EOF1V3540_0002</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section
+                </abbr>
+            </td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x00\x04\x00\x02\x00\x00\x00\x00\x00\xaa\xbb'</td>
+                        <td>EOFException.ZERO_SECTION_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size
+                </abbr>
+            </td>
+                        <td>0xef00010100040200010001040002</td>
+                        <td>EOFException.MISSING_HEADERS_TERMINATOR</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0021_no_type_section_contents]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0021_no_type_section_contents]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0021_no_type_section_contents
+                </abbr>
+            </td>
+                        <td>0xef0001010004020001000104000200</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400020000</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack
+                </abbr>
+            </td>
+                        <td>0xef00010100040200010001040002000000</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete
+                </abbr>
+            </td>
+                        <td>0xef0001010004020001000104000200000000</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0025_no_code_section_contents]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0025_no_code_section_contents]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0025_no_code_section_contents
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400020000000000</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0026_code_section_contents_incomplete]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0026_code_section_contents_incomplete]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0026_code_section_contents_incomplete
+                </abbr>
+            </td>
+                        <td>0xef0001010004020001002904000000000000027f</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400000000800000feaabbcc</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400000000000000feaabbcc</td>
+                        <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0028_empty_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0028_empty_code_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0028_empty_code_section
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100000400000000000000</td>
+                        <td>EOFException.ZERO_SECTION_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0030_code_section_preceding_type_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0030_code_section_preceding_type_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0030_code_section_preceding_type_section
+                </abbr>
+            </td>
+                        <td>0xef000102000100010100040400020000000000feaabb</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0031_data_section_preceding_type_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0031_data_section_preceding_type_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0031_data_section_preceding_type_section
+                </abbr>
+            </td>
+                        <td>0xef000104000201000402000100010000000000feaabb</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0032_data_section_preceding_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0032_data_section_preceding_code_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0032_data_section_preceding_code_section
+                </abbr>
+            </td>
+                        <td>0xef000101000404000202000100010000000000feaabb</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0033_data_section_without_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0033_data_section_without_code_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0033_data_section_without_code_section
+                </abbr>
+            </td>
+                        <td>0xef00010100040400020000000000aabb</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0034_no_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0034_no_data_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0034_no_data_section
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010000000000fe</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section
+                </abbr>
+            </td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x02\x00\x00\x80\x00\x00\xfe\xaa\xbb\xcc\xdd'</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400020000000000feaabbccdd</td>
+                        <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0036_multiple_data_sections]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0036_multiple_data_sections]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0036_multiple_data_sections
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400020400020000000000feaabbaabb</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0037_multiple_code_and_data_sections]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0037_multiple_code_and_data_sections]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0037_multiple_code_and_data_sections
+                </abbr>
+            </td>
+                        <td>0xef000101000802000200010001040002040002000000000000000000fefeaabbaabb</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05
+                </abbr>
+            </td>
+                        <td>0xef000105000101000402000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06
+                </abbr>
+            </td>
+                        <td>0xef000106000101000402000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff
+                </abbr>
+            </td>
+                        <td>0xef0001ff000101000402000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05
+                </abbr>
+            </td>
+                        <td>0xef000101000405000102000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06
+                </abbr>
+            </td>
+                        <td>0xef000101000406000102000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff
+                </abbr>
+            </td>
+                        <td>0xef0001010004ff000102000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010500010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010600010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff
+                </abbr>
+            </td>
+                        <td>0xef00010100040200010001ff00010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400000500010000000000fe</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400000600010000000000fe</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff
+                </abbr>
+            </td>
+                        <td>0xef00010100040200010001040000ff00010000000000fe</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0002_invalid_incorrect_magic_01]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0002_invalid_incorrect_magic_01]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0002_invalid_incorrect_magic_01
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0002 (Invalid) Invalid magic</td>
+                        <td>EOFException.INVALID_MAGIC</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0003_invalid_incorrect_magic_02]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0003_invalid_incorrect_magic_02]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0003_invalid_incorrect_magic_02
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0003</td>
+                        <td>EOFException.INVALID_MAGIC</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0004_invalid_incorrect_magic_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0004_invalid_incorrect_magic_ff]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0004_invalid_incorrect_magic_ff
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0004</td>
+                        <td>EOFException.INVALID_MAGIC</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0006_invalid_incorrect_version_00]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0006_invalid_incorrect_version_00]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0006_invalid_incorrect_version_00
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0006 (Invalid) Invalid version</td>
+                        <td>EOFException.INVALID_VERSION</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0007_invalid_incorrect_version_02]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0007_invalid_incorrect_version_02]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0007_invalid_incorrect_version_02
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0007</td>
+                        <td>EOFException.INVALID_VERSION</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0008_invalid_incorrect_version_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0008_invalid_incorrect_version_ff]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0008_invalid_incorrect_version_ff
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0008</td>
+                        <td>EOFException.INVALID_VERSION</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1V3540_0001_deployed_code_without_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1V3540_0001_deployed_code_without_data_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1V3540_0001_deployed_code_without_data_section
+                </abbr>
+            </td>
+                        <td>EOF1V3540_0001</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1V3540_0002_deployed_code_with_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1V3540_0002_deployed_code_with_data_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1V3540_0002_deployed_code_with_data_section
+                </abbr>
+            </td>
+                        <td>EOF1V3540_0002</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section
+                </abbr>
+            </td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x00\x04\x00\x02\x00\x00\x00\x00\x00\xaa\xbb'</td>
+                        <td>EOFException.ZERO_SECTION_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size
+                </abbr>
+            </td>
+                        <td>0xef00010100040200010001040002</td>
+                        <td>EOFException.MISSING_HEADERS_TERMINATOR</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0021_no_type_section_contents]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0021_no_type_section_contents]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0021_no_type_section_contents
+                </abbr>
+            </td>
+                        <td>0xef0001010004020001000104000200</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400020000</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack
+                </abbr>
+            </td>
+                        <td>0xef00010100040200010001040002000000</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete
+                </abbr>
+            </td>
+                        <td>0xef0001010004020001000104000200000000</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0025_no_code_section_contents]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0025_no_code_section_contents]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0025_no_code_section_contents
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400020000000000</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0026_code_section_contents_incomplete]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0026_code_section_contents_incomplete]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0026_code_section_contents_incomplete
+                </abbr>
+            </td>
+                        <td>0xef0001010004020001002904000000000000027f</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400000000800000feaabbcc</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400000000000000feaabbcc</td>
+                        <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0028_empty_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0028_empty_code_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0028_empty_code_section
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100000400000000000000</td>
+                        <td>EOFException.ZERO_SECTION_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0030_code_section_preceding_type_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0030_code_section_preceding_type_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0030_code_section_preceding_type_section
+                </abbr>
+            </td>
+                        <td>0xef000102000100010100040400020000000000feaabb</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0031_data_section_preceding_type_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0031_data_section_preceding_type_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0031_data_section_preceding_type_section
+                </abbr>
+            </td>
+                        <td>0xef000104000201000402000100010000000000feaabb</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0032_data_section_preceding_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0032_data_section_preceding_code_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0032_data_section_preceding_code_section
+                </abbr>
+            </td>
+                        <td>0xef000101000404000202000100010000000000feaabb</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0033_data_section_without_code_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0033_data_section_without_code_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0033_data_section_without_code_section
+                </abbr>
+            </td>
+                        <td>0xef00010100040400020000000000aabb</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0034_no_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0034_no_data_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0034_no_data_section
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010000000000fe</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section
+                </abbr>
+            </td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x02\x00\x00\x80\x00\x00\xfe\xaa\xbb\xcc\xdd'</td>
+                        <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400020000000000feaabbccdd</td>
+                        <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0036_multiple_data_sections]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0036_multiple_data_sections]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0036_multiple_data_sections
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400020400020000000000feaabbaabb</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0037_multiple_code_and_data_sections]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0037_multiple_code_and_data_sections]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0037_multiple_code_and_data_sections
+                </abbr>
+            </td>
+                        <td>0xef000101000802000200010001040002040002000000000000000000fefeaabbaabb</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05
+                </abbr>
+            </td>
+                        <td>0xef000105000101000402000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06
+                </abbr>
+            </td>
+                        <td>0xef000106000101000402000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff
+                </abbr>
+            </td>
+                        <td>0xef0001ff000101000402000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05
+                </abbr>
+            </td>
+                        <td>0xef000101000405000102000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06
+                </abbr>
+            </td>
+                        <td>0xef000101000406000102000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff
+                </abbr>
+            </td>
+                        <td>0xef0001010004ff000102000100010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010500010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010600010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff
+                </abbr>
+            </td>
+                        <td>0xef00010100040200010001ff00010400000000000000fe</td>
+                        <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400000500010000000000fe</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06
+                </abbr>
+            </td>
+                        <td>0xef000101000402000100010400000600010000000000fe</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff
+                </abbr>
+            </td>
+                        <td>0xef00010100040200010001040000ff00010000000000fe</td>
+                        <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 48>]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0002_invalid_incorrect_magic_01]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0002_invalid_incorrect_magic_01]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0002_invalid_incorrect_magic_01
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0002 (Invalid) Invalid magic</td>
+                        <td>EOFException.INVALID_MAGIC</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0003_invalid_incorrect_magic_02]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0003_invalid_incorrect_magic_02]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0003_invalid_incorrect_magic_02
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0003</td>
+                        <td>EOFException.INVALID_MAGIC</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0004_invalid_incorrect_magic_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0004_invalid_incorrect_magic_ff]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0004_invalid_incorrect_magic_ff
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0004</td>
+                        <td>EOFException.INVALID_MAGIC</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0006_invalid_incorrect_version_00]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0006_invalid_incorrect_version_00]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0006_invalid_incorrect_version_00
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0006 (Invalid) Invalid version</td>
+                        <td>EOFException.INVALID_VERSION</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0007_invalid_incorrect_version_02]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0007_invalid_incorrect_version_02]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0007_invalid_incorrect_version_02
+                </abbr>
+            </td>
+                        <td>EOF1I3540_0007</td>
+                        <td>EOFException.INVALID_VERSION</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0008_invalid_incorrect_version_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0008_invalid_incorrect_version_ff]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0008_invalid_incorrect_version_ff
                 </abbr>
             </td>
                         <td>EOF1I3540_0008</td>

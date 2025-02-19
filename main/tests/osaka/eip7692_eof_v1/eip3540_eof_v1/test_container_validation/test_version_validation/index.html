@@ -12010,6 +12010,8 @@
       
         
       
+        
+      
     
     
       
@@ -12399,6 +12401,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7620_eof_create/test_subcontainer_validation/test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_version_validation"><code>test_version_validation()</code><a class="headerlink" href="#test_version_validation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1214"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L1218"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation --fork Osaka</span>
@@ -27370,18 +27393,18 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1214</span>
-<span class="normal">1215</span>
-<span class="normal">1216</span>
-<span class="normal">1217</span>
-<span class="normal">1218</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1218</span>
 <span class="normal">1219</span>
 <span class="normal">1220</span>
 <span class="normal">1221</span>
 <span class="normal">1222</span>
 <span class="normal">1223</span>
 <span class="normal">1224</span>
-<span class="normal">1225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
+<span class="normal">1225</span>
+<span class="normal">1226</span>
+<span class="normal">1227</span>
+<span class="normal">1228</span>
+<span class="normal">1229</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_version_validation</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -27390,7 +27413,7 @@
     <span class="n">code</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">VALID_CONTAINER</span><span class="p">))</span>
     <span class="n">code</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">version</span>
     <span class="n">eof_test</span><span class="p">(</span>
-        <span class="n">container</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">code</span><span class="p">),</span>
+        <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">code</span><span class="p">)),</span>
         <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_VERSION</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -27427,6 +27450,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27485,6 +27510,96 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-eof_test-version_255]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-eof_test-version_255]">
                     ...fork_Osaka-eof_test-version_255
+                </abbr>
+            </td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_0]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_0]">
+                    ...fork_Osaka-state_test_from_eof_test-version_0
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_2]">
+                    ...fork_Osaka-state_test_from_eof_test-version_2
+                </abbr>
+            </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_239]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_239]">
+                    ...fork_Osaka-state_test_from_eof_test-version_239
+                </abbr>
+            </td>
+                        <td>239</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_254]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_254]">
+                    ...fork_Osaka-state_test_from_eof_test-version_254
+                </abbr>
+            </td>
+                        <td>254</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_255]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-state_test_from_eof_test-version_255]">
+                    ...fork_Osaka-state_test_from_eof_test-version_255
+                </abbr>
+            </td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_0]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-version_0
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_2]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-version_2
+                </abbr>
+            </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_239]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_239]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-version_239
+                </abbr>
+            </td>
+                        <td>239</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_254]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_254]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-version_254
+                </abbr>
+            </td>
+                        <td>254</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_255]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_version_validation[fork_Osaka-blockchain_test_from_eof_test-version_255]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-version_255
                 </abbr>
             </td>
                         <td>255</td>

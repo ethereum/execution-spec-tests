@@ -2986,6 +2986,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation/test_deep_container_initcode/</loc>
+         <lastmod>2025-02-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation/test_migrated_eofcreate/</loc>
          <lastmod>2025-02-19</lastmod>
          <changefreq>daily</changefreq>

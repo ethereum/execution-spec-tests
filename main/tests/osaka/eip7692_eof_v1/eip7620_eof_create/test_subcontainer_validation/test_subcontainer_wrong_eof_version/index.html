@@ -11952,6 +11952,8 @@
       
         
       
+        
+      
     
     
       
@@ -12399,6 +12401,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_subcontainer_wrong_eof_version"><code>test_subcontainer_wrong_eof_version()</code><a class="headerlink" href="#test_subcontainer_wrong_eof_version" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L498"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L503"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version --fork Osaka</span>
@@ -27370,12 +27393,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">503</span>
 <span class="normal">504</span>
 <span class="normal">505</span>
 <span class="normal">506</span>
@@ -27389,7 +27407,12 @@
 <span class="normal">514</span>
 <span class="normal">515</span>
 <span class="normal">516</span>
-<span class="normal">517</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_subcontainer_wrong_eof_version</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -27443,6 +27466,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27474,6 +27499,42 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-eof_test-255]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-eof_test-255]">
                     ...fork_Osaka-eof_test-255
+                </abbr>
+            </td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-state_test_from_eof_test-0]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-state_test_from_eof_test-0]">
+                    ...fork_Osaka-state_test_from_eof_test-0
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-state_test_from_eof_test-255]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-state_test_from_eof_test-255]">
+                    ...fork_Osaka-state_test_from_eof_test-255
+                </abbr>
+            </td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-blockchain_test_from_eof_test-0]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-blockchain_test_from_eof_test-0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-0
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-blockchain_test_from_eof_test-255]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version[fork_Osaka-blockchain_test_from_eof_test-255]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-255
                 </abbr>
             </td>
                         <td>255</td>

@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_subcontainer_wrong_size/">
       
       
-        <link rel="next" href="../test_wide_container/">
+        <link rel="next" href="../test_deep_container_initcode/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -11952,6 +11952,8 @@
       
         
       
+        
+      
     
     
       
@@ -12403,6 +12405,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_deep_container"><code>test_deep_container()</code><a class="headerlink" href="#test_deep_container" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L547"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_deep_container@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L570"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_deep_container@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_deep_container --fork Osaka</span>
@@ -27367,33 +27390,11 @@
     <div class="doc doc-contents first">
 
       <p>Test a very deeply nested container.</p>
+<p>This test skips generating a state test because the initcode size is too large.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">570</span>
 <span class="normal">571</span>
 <span class="normal">572</span>
 <span class="normal">573</span>
@@ -27412,26 +27413,29 @@
 <span class="normal">586</span>
 <span class="normal">587</span>
 <span class="normal">588</span>
-<span class="normal">589</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="p">[</span><span class="s2">&quot;deepest_container&quot;</span><span class="p">,</span> <span class="s2">&quot;exception&quot;</span><span class="p">],</span>
-    <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;valid&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">),</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_STOP_OPCODE</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;code-error&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;EF0100A94F5374FCE5EDBC8E2A8697C15331677E6EBF0B&quot;</span><span class="p">),</span>
-            <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAGIC</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;structure-error&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">],</span>
-<span class="p">)</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@deep_container_parametrize</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eof_test_only</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Initcontainer exceeds maximum&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_deep_container</span><span class="p">(</span>
-    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">deepest_container</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">EOFException</span>
+    <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">deepest_container</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">EOFException</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test a very deeply nested container.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test a very deeply nested container.</span>
+
+<span class="sd">    This test skips generating a state test because the initcode size is too large.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">deepest_container</span>
     <span class="n">last_container</span> <span class="o">=</span> <span class="n">deepest_container</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">container</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">MAX_INITCODE_SIZE</span><span class="p">:</span>

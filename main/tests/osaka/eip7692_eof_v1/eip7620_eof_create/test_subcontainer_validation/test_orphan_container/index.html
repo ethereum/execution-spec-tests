@@ -11952,6 +11952,8 @@
       
         
       
+        
+      
     
     
       
@@ -12399,6 +12401,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_orphan_container"><code>test_orphan_container()</code><a class="headerlink" href="#test_orphan_container" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L100"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L101"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container --fork Osaka</span>
@@ -27370,8 +27393,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
-<span class="normal">101</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
@@ -27401,7 +27423,8 @@
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">131</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;code_section,first_sub_container,container_kind&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">eofcreate_code_section</span><span class="p">,</span> <span class="n">returncontract_sub_container</span><span class="p">,</span> <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">),</span>
@@ -27467,6 +27490,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -27552,6 +27577,150 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-eof_test-returncontract-returncontract]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-eof_test-returncontract-returncontract]">
                     ...fork_Osaka-eof_test-returncontract-returncontract
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-stop-eofcreate]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-stop-eofcreate]">
+                    ...fork_Osaka-state_test_from_eof_test-stop-eofcreate
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-stop-returncontract]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-stop-returncontract]">
+                    ...fork_Osaka-state_test_from_eof_test-stop-returncontract
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-revert-eofcreate]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-revert-eofcreate]">
+                    ...fork_Osaka-state_test_from_eof_test-revert-eofcreate
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-revert-returncontract]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-revert-returncontract]">
+                    ...fork_Osaka-state_test_from_eof_test-revert-returncontract
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-returncontract-eofcreate]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-returncontract-eofcreate]">
+                    ...fork_Osaka-state_test_from_eof_test-returncontract-eofcreate
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-returncontract-returncontract]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-state_test_from_eof_test-returncontract-returncontract]">
+                    ...fork_Osaka-state_test_from_eof_test-returncontract-returncontract
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-stop-eofcreate]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-stop-eofcreate]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stop-eofcreate
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-stop-returncontract]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-stop-returncontract]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stop-returncontract
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-revert-eofcreate]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-revert-eofcreate]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-revert-eofcreate
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-revert-returncontract]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-revert-returncontract]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-revert-returncontract
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'a \x15`\x01U`\x00`\x00\xee\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>INITCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-returncontract-eofcreate]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-returncontract-eofcreate]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-returncontract-eofcreate
+                </abbr>
+            </td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x00`\x00`\x00`\x00\xec\x00a \x15`\x01U\x00' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>RUNTIME</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-returncontract-returncontract]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container[fork_Osaka-blockchain_test_from_eof_test-returncontract-returncontract]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-returncontract-returncontract
                 </abbr>
             </td>
                         <td>data=b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x06\x03\x00\x01\x00\x14\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xee\x00\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\x00' custom_size=0 kind=<SectionKind.CONTAINER: 3> force_type_listing=False code_inputs=0 code_outputs=128 max_stack_height=0 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>

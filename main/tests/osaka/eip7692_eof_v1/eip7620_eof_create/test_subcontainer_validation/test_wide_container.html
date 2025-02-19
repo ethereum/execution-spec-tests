@@ -42,6 +42,8 @@
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
                                                 <option value="eof_test" selected>eof_test</option>
+                                <option value="state_test" >state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -99,6 +101,46 @@
             </td>
                         <td>65535</td>
                         <td>EOFException.CONTAINER_SIZE_ABOVE_LIMIT</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-state_test_from_eof_test-256]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-state_test_from_eof_test-256]">
+                    ...fork_Osaka-state_test_from_eof_test-256
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-state_test_from_eof_test-257]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-state_test_from_eof_test-257]">
+                    ...fork_Osaka-state_test_from_eof_test-257
+                </abbr>
+            </td>
+                        <td>257</td>
+                        <td>EOFException.TOO_MANY_CONTAINERS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-blockchain_test_from_eof_test-256]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-blockchain_test_from_eof_test-256]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-256
+                </abbr>
+            </td>
+                        <td>256</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-blockchain_test_from_eof_test-257]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_wide_container[fork_Osaka-blockchain_test_from_eof_test-257]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-257
+                </abbr>
+            </td>
+                        <td>257</td>
+                        <td>EOFException.TOO_MANY_CONTAINERS</td>
                     </tr>
             </tbody>
 </table>    </div>

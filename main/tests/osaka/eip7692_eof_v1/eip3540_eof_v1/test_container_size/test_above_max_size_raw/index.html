@@ -12010,6 +12010,8 @@
       
         
       
+        
+      
     
     
       
@@ -12399,6 +12401,27 @@
   
   <span class="md-ellipsis">
     <code>test_deep_container</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7620_eof_create/test_subcontainer_validation/test_deep_container_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_deep_container_initcode</code>
   </span>
   
 
@@ -27351,7 +27374,7 @@
 
 
 <h1 id="test_above_max_size_raw"><code>test_above_max_size_raw()</code><a class="headerlink" href="#test_above_max_size_raw" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a1e031ca8489e925da760bea572af2524a7f941/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_size.py#L45"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_size.py::test_above_max_size_raw@2a1e031c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b92eb56f629b6178b194750c3bdce4e49954b97e/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_size.py#L46"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_size.py::test_above_max_size_raw@b92eb56f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_size.py::test_above_max_size_raw --fork Osaka</span>
@@ -27370,8 +27393,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
-<span class="normal">46</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
@@ -27383,10 +27405,13 @@
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;size&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">MAX_INITCODE_SIZE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_INITCODE_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">],</span>
 <span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eof_test_only</span>
 <span class="k">def</span> <span class="nf">test_above_max_size_raw</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -27394,7 +27419,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify EOF container invalid above maximum size, regardless of header contents.&quot;&quot;&quot;</span>
     <span class="n">code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span> <span class="o">*</span> <span class="n">size</span>
     <span class="n">eof_test</span><span class="p">(</span>
-        <span class="n">container</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">code</span><span class="p">),</span>
+        <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span><span class="n">raw_bytes</span><span class="o">=</span><span class="n">code</span><span class="p">),</span>
         <span class="n">expect_exception</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">CONTAINER_SIZE_ABOVE_LIMIT</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
