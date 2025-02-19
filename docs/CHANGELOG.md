@@ -20,6 +20,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Add a guide to the docs for porting tests from `ethereum/tests` to EEST ([#1165](https://github.com/ethereum/execution-spec-tests/pull/1165)).
 - ✨ Update `mypy` to latest release `>=1.15.0,<1.16` ([#1209](https://github.com/ethereum/execution-spec-tests/pull/1209)).
+- 🐞 Bug fix for filling with EELS for certain Python versions due to an issue with CPython ([#1231](https://github.com/ethereum/execution-spec-tests/pull/1231)).
 
 ### 🧪 Test Cases
 
