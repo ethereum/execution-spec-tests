@@ -1161,6 +1161,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/precompiles/test_precompiles/</loc>
+         <lastmod>2025-02-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/frontier/precompiles/test_precompiles/test_precompiles/</loc>
+         <lastmod>2025-02-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/homestead/</loc>
          <lastmod>2025-02-20</lastmod>
          <changefreq>daily</changefreq>
