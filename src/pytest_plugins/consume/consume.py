@@ -3,7 +3,6 @@
 import re
 import sys
 import tarfile
-from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
 from typing import List, Tuple
@@ -128,49 +127,54 @@ def download_and_extract(url: str, base_directory: Path) -> Tuple[bool, Path]:
     return already_cached, extract_to / "fixtures"
 
 
-@dataclass
 class SimLimitBehavior:
-    """Stores options derived from the `--sim.limit` argument."""
+    """Represents options derived from the `--sim.limit` argument."""
 
-    collectonly: bool = False
-    pattern: str = ".*"
+    def __init__(self, pattern: str, collectonly: bool = False):  # noqa: D107
+        self.pattern = pattern
+        self.collectonly = collectonly
 
+    @staticmethod
+    def _escape_id(pattern: str) -> str:
+        """
+        Escape regex char in the pattern; prepend and append '.*' (for `fill` IDs).
 
-def process_sim_limit(pattern: str) -> SimLimitBehavior:
-    """
-    Process the `--sim.limit` argument to determine test filtering behavior.
+        The `pattern` is prefixed and suffixed with a wildcard match to allow `fill`
+        test case IDs to be specified, otherwise the full `consume` test ID must be
+        specified.
+        """
+        return f".*{re.escape(pattern)}.*"
 
-    The function handles three cases:
-    1. If the value is exactly "collectonly", enable collection mode without
-        filtering.
-    2. If the value starts with "collectonly:", enable collection mode and use the
-        rest as a regex pattern.
-    3. If the (possibly transformed) value starts with "id:", treat the rest as a
-        literal test ID and escape special regex characters.
+    @classmethod
+    def from_string(cls, pattern: str) -> "SimLimitBehavior":
+        """
+        Parse the `--sim.limit` argument and return a `SimLimitBehavior` instance.
 
-    Args:
-        pattern: The raw string passed to the --sim.limit option.
+        If `pattern`:
+        - Is "collectonly", enable collection mode without filtering.
+        - Starts with "collectonly:", enable collection mode and use the rest as a regex pattern.
+        - Starts with "id:", treat the rest as a literal test ID and escape special regex chars.
+        - Starts with "collectonly:id:", enable collection mode with a literal test ID.
+        """
+        if pattern == "collectonly":
+            return cls(pattern=".*", collectonly=True)
 
-    Returns:
-        A SimLimitBehavior object with appropriate settings.
+        if pattern.startswith("collectonly:id:"):
+            literal_id = pattern[len("collectonly:id:") :]
+            if not literal_id:
+                raise ValueError("Empty literal ID provided.")
+            return cls(pattern=cls._escape_id(literal_id), collectonly=True)
 
-    """
-    if pattern == "collectonly":
-        return SimLimitBehavior(collectonly=True)
+        if pattern.startswith("collectonly:"):
+            return cls(pattern=pattern[len("collectonly:") :], collectonly=True)
 
-    sim_limit = SimLimitBehavior(pattern=pattern)
+        if pattern.startswith("id:"):
+            literal_id = pattern[len("id:") :]
+            if not literal_id:
+                raise ValueError("Empty literal ID provided.")
+            return cls(pattern=cls._escape_id(literal_id))
 
-    collect_only_prefix = "collectonly:"
-    if sim_limit.pattern.startswith(collect_only_prefix):
-        sim_limit.collectonly = True
-        sim_limit.pattern = sim_limit.pattern[len(collect_only_prefix) :]
-
-    id_prefix = "id:"
-    if sim_limit.pattern.startswith(id_prefix):
-        literal_id = sim_limit.pattern[len(id_prefix) :]
-        assert literal_id, "Empty literal ID provided."
-        sim_limit.pattern = re.escape(literal_id)
-    return sim_limit
+        return cls(pattern=pattern)
 
 
 def pytest_addoption(parser):  # noqa: D103
@@ -223,7 +227,8 @@ def pytest_addoption(parser):  # noqa: D103
         "--sim.limit",
         action="store",
         dest="sim_limit",
-        default=None,
+        type=SimLimitBehavior.from_string,
+        default=SimLimitBehavior(".*"),
         help=(
             "Filter tests by either a regex pattern or a literal test case ID. To match a "
             "test case by its exact ID, prefix the ID with `id:`. The string following `id:` "
@@ -298,9 +303,8 @@ def pytest_configure(config):  # noqa: D103
                 "Both the --sim.limit (via env var?) and the --regex flags are set. "
                 "Please only set one of them."
             )
-        sim_limit = process_sim_limit(config.option.sim_limit)
-        config.option.dest_regex = sim_limit.pattern
-        if sim_limit.collectonly:
+        config.option.dest_regex = config.option.sim_limit.pattern
+        if config.option.sim_limit.collectonly:
             config.option.collectonly = True
             config.option.verbose = -1  # equivalent to -q; only print test ids
 
