@@ -24,7 +24,7 @@ from ..consume import FixturesSource
 
 
 class CollectOnlyCLI(EthereumCLI):
-    """A dummy CLi for use with `--collect-only`."""
+    """A dummy CLI for use with `--collect-only`."""
 
     def __init__(self):  # noqa: D107
         pass
