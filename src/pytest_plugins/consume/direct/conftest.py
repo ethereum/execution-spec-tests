@@ -48,7 +48,7 @@ def pytest_addoption(parser):  # noqa: D103
         "--bin",
         action="append",
         dest="fixture_consumer_bin",
-        type=str,
+        type=Path,
         default=[],
         help=(
             "Path to a geth evm executable that provides `blocktest` or `statetest`. "
