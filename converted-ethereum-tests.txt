@@ -18,8 +18,12 @@ EOFTests/EIP4200/validInvalid.json
 EOFTests/EIP4750/validInvalid.json
 EOFTests/efStack/backwards_rjump_.json
 EOFTests/efStack/backwards_rjump_variable_stack_.json
+EOFTests/efStack/backwards_rjumpi_.json
+EOFTests/efStack/backwards_rjumpi_variable_stack_.json
 EOFTests/efStack/forwards_rjump_.json
 EOFTests/efStack/forwards_rjump_variable_stack_.json
+EOFTests/efStack/forwards_rjumpi_.json
+EOFTests/efStack/forwards_rjumpi_variable_stack_.json
 EOFTests/efValidation/callf_into_nonreturning_.json
 EOFTests/efValidation/dataloadn_.json
 EOFTests/efValidation/EOF1_embedded_container_.json
