@@ -28,7 +28,38 @@ template_env = jinja2.Environment(
     epilog=f"Further help: {DocsConfig().DOCS_URL__WRITING_TESTS}",
 )
 def test():
-    """Generate a new test file for an EIP."""
+    """
+    Generate a new test file for an EIP.
+
+    This function guides the user through a series of prompts to generate a test file
+    for Ethereum execution specifications. The user is prompted to select the type of test,
+    the fork to use, and to provide the EIP number and name. Based on the inputs, a test file
+    is created in the appropriate directory with a rendered template.
+
+    Prompts:
+
+    * Choose the type of test to generate (State or Blockchain)
+
+    * Select the fork where this functionality was introduced
+
+    * Enter the EIP number
+
+    * Enter the EIP name
+
+    Example:
+        uv run eest make test
+
+    \f
+    <figure class="video_container">
+        <video controls="true" allowfullscreen="true">
+            <source
+                src="/execution-spec-tests/writing_tests/img/eest_make_test.mp4"
+                type="video/mp4"
+            />
+        </video>
+    </figure>
+
+    """  # noqa: D301
     test_type = input_select(
         "Choose the type of test to generate", choices=["State", "Blockchain"]
     )
@@ -44,11 +75,12 @@ def test():
         choices=[
             {"name": "Use current location", "value": "current"},
             *existing_dirs,
-            {"name": "Create new sub-directory", "value": "new"},
+            {"name": "** Create new sub-directory **", "value": "new"},
         ],
     )
 
     if location_choice == "new":
+        # TODO: Perhaps get the EIP name from the number using an API?
         eip_number = input_text("Enter the EIP number").strip()
         eip_name = input_text("Enter the EIP name").strip()
         test_name = eip_name.lower().replace(" ", "_")
