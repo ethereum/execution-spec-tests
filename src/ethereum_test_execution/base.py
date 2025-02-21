@@ -45,8 +45,14 @@ class LabeledExecuteFormat:
 
     format: Type[BaseExecute]
     label: str
+    description: str
 
-    def __init__(self, execute_format: "Type[BaseExecute] | LabeledExecuteFormat", label: str):
+    def __init__(
+        self,
+        execute_format: "Type[BaseExecute] | LabeledExecuteFormat",
+        label: str,
+        description: str,
+    ):
         """Initialize the execute format with a custom label."""
         self.format = (
             execute_format.format
@@ -54,6 +60,7 @@ class LabeledExecuteFormat:
             else execute_format
         )
         self.label = label
+        self.description = description
 
     @property
     def format_name(self) -> str:
