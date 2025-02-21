@@ -53,6 +53,6 @@
         // "-c", "pytest-consume.ini", "--input=fixtures/", "src/pytest_plugins/consume/direct/test_via_direct.py", "--evm-bin=~/bin/evm"
     ],
     "ruff.enable": true,
-    "ruff.lint.args": ["--line-length", "99", "--fix"],
+    "ruff.lineLength": 99,
     "extensions.ignoreRecommendations": false,
 }
