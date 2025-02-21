@@ -203,9 +203,9 @@ def pytest_configure(config):  # noqa: D103
     if "cache" in sys.argv:
         reason = ""
         if config.fixtures_source.was_cached:
-            reason += "Fixtures already downloaded cached:"
+            reason += "Fixtures already cached."
         elif not config.fixtures_source.is_local:
-            reason += "Fixtures downloaded and cached:"
+            reason += "Fixtures downloaded and cached."
         reason += (
             f"\nPath: {config.fixtures_source.path}\n"
             f"Input: {config.fixtures_source.url or config.fixtures_source.path}\n"
