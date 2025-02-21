@@ -71,7 +71,7 @@ def fill_tests(
             # if we fill many tests, it might help to add -n 8/auto
         ],
     )
-    assert fill_result.exit_code == 0
+    assert fill_result.exit_code == 0, f"Fill command failed:\n{fill_result.output}"
 
 
 @pytest.fixture(autouse=True, scope="function")
