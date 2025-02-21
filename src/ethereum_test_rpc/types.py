@@ -7,7 +7,7 @@ from pydantic import Field
 
 from ethereum_test_base_types import Address, Bytes, CamelModel, Hash, HexNumber
 from ethereum_test_fixtures.blockchain import FixtureExecutionPayload
-from ethereum_test_types import Withdrawal
+from ethereum_test_types import Transaction, Withdrawal
 
 
 class JSONRPCError(Exception):
@@ -26,7 +26,7 @@ class JSONRPCError(Exception):
         return f"JSONRPCError(code={self.code}, message={self.message})"
 
 
-class TransactionByHashResponse(CamelModel):
+class TransactionByHashResponse(Transaction):
     """Represents the response of a transaction by hash request."""
 
     block_hash: Hash | None = None
@@ -35,18 +35,6 @@ class TransactionByHashResponse(CamelModel):
     transaction_hash: Hash = Field(..., alias="hash")
     from_address: Address = Field(..., alias="from")
     to_address: Address | None = Field(..., alias="to")
-
-    ty: HexNumber = Field(..., alias="type")
-    gas_limit: HexNumber = Field(..., alias="gas")
-    gas_price: HexNumber | None = None
-    max_fee_per_gas: HexNumber | None = None
-    max_priority_fee_per_gas: HexNumber | None = None
-    value: HexNumber
-    data: Bytes = Field(..., alias="input")
-    nonce: HexNumber
-    v: HexNumber
-    r: HexNumber
-    s: HexNumber
 
 
 class ForkchoiceState(CamelModel):
