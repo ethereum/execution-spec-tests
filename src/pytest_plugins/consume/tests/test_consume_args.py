@@ -24,12 +24,12 @@ def test_paths() -> list[Path]:
 def consume_test_case_ids() -> list[str]:
     """Hard-coded expected output of `consume direct --collectonly -q`."""
     return [
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_blocktest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test]-blockchain_test]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_blocktest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-blockchain_test]-blockchain_test]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_blocktest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-blockchain_test]-blockchain_test]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_statetest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-state_test]-state_test]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_statetest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-state_test]-state_test]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_statetest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-state_test]-state_test]",
+        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test_from_state_test]]",
+        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-blockchain_test_from_state_test]]",
+        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-blockchain_test_from_state_test]]",
+        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-state_test]]",
+        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-state_test]]",
+        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-state_test]]",
     ]
 
 
@@ -61,6 +61,8 @@ def fill_tests(
         [
             "-c=pytest.ini",
             "--skip-evm-dump",
+            "-m",
+            "not blockchain_test_engine_from_state_test",
             f"--from={fill_fork_from}",
             f"--until={fill_fork_until}",
             f"--output={str(fixtures_dir)}",
@@ -103,6 +105,9 @@ def copy_consume_test_paths(pytester: Pytester):
         shutil.move("conftest.py", target_dir / "conftest.py")
 
 
+single_test_id = "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-state_test]]"  # noqa: E501
+
+
 @pytest.mark.parametrize(
     "extra_args, expected_filter_pattern",
     [
@@ -126,24 +131,18 @@ def copy_consume_test_paths(pytester: Pytester):
                 "--collect-only",
                 "-q",
                 "--sim.limit",
-                "id:src/pytest_plugins/consume/direct/test_via_direct.py::test_blocktest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test]-blockchain_test]",
+                f"id:{single_test_id}",
             ],
-            re.compile(
-                re.escape(
-                    "src/pytest_plugins/consume/direct/test_via_direct.py::test_blocktest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test]-blockchain_test]"
-                )
-            ),
+            re.compile(re.escape(f"{single_test_id}")),
             id="sim_limit_id",
         ),
         pytest.param(
             [
                 "--sim.limit",
-                "collectonly:id:src/pytest_plugins/consume/direct/test_via_direct.py::test_blocktest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test]-blockchain_test]",
+                f"collectonly:id:{single_test_id}",
             ],
             re.compile(
-                re.escape(
-                    "src/pytest_plugins/consume/direct/test_via_direct.py::test_blocktest[tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test]-blockchain_test]"
-                )
+                re.compile(re.escape(f"{single_test_id}")),
             ),
             id="sim_limit_collect_only_id",
         ),
