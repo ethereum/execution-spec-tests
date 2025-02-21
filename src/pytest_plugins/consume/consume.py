@@ -5,7 +5,7 @@ import tarfile
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 from urllib.parse import urlparse
 
 import platformdirs
@@ -70,7 +70,7 @@ class FixturesSource:
     """Represents the source of test fixtures."""
 
     input_option: str
-    path: Optional[Path]
+    path: Path
     url: str = ""
     release_page: str = ""
     is_local: bool = True
@@ -81,7 +81,7 @@ class FixturesSource:
     def from_input(cls, input_source: str) -> "FixturesSource":
         """Determine the fixture source type and return an instance."""
         if input_source == "stdin":
-            return cls(input_option=input_source, path=None, is_local=False, is_stdin=True)
+            return cls(input_option=input_source, path=Path(), is_local=False, is_stdin=True)
         if is_url(input_source):
             return cls.from_url(input_source)
         if ReleaseTag.is_release_string(input_source):
