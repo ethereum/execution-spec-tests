@@ -224,7 +224,10 @@ def pytest_configure(config):  # noqa: D103
     if not index_file.exists():
         rich.print(f"Generating index file [bold cyan]{index_file}[/]...")
         generate_fixtures_index(
-            fixtures_source, quiet_mode=False, force_flag=False, disable_infer_format=False
+            config.fixtures_source.path,
+            quiet_mode=False,
+            force_flag=False,
+            disable_infer_format=False,
         )
     config.test_cases = TestCases.from_index_file(index_file)
 
