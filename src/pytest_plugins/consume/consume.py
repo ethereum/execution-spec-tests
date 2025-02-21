@@ -5,7 +5,7 @@ import tarfile
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 from urllib.parse import urlparse
 
 import platformdirs
@@ -70,7 +70,7 @@ class FixturesSource:
     """Represents the source of test fixtures."""
 
     input_option: str
-    path: Path
+    path: Optional[Path]
     url: str = ""
     release_page: str = ""
     is_local: bool = True
@@ -81,9 +81,7 @@ class FixturesSource:
     def from_input(cls, input_source: str) -> "FixturesSource":
         """Determine the fixture source type and return an instance."""
         if input_source == "stdin":
-            return cls(
-                input_option=input_source, path=Path("stdin"), is_local=False, is_stdin=True
-            )
+            return cls(input_option=input_source, path=None, is_local=False, is_stdin=True)
         if is_url(input_source):
             return cls.from_url(input_source)
         if ReleaseTag.is_release_string(input_source):
@@ -137,7 +135,7 @@ def pytest_addoption(parser):  # noqa: D103
         "--input",
         action="store",
         dest="fixtures_source",
-        default=FixturesSource(input_option=default_input(), path=Path(default_input())),
+        default=None,
         help=(
             "Specify the JSON test fixtures source. Can be a local directory, a URL pointing to a "
             " fixtures.tar.gz archive, a release name and version in the form of `NAME@v1.2.3` "
@@ -187,10 +185,16 @@ def pytest_configure(config):  # noqa: D103
     called before the pytest-html plugin's pytest_configure to ensure that
     it uses the modified `htmlpath` option.
     """
-    # NOTE: Setting `type=FixturesSource.from_input` in pytest_addoption() causes the option to be
-    # evaluated twice which breaks the result of `was_cached`; the work-around is to call it
-    # manually here.
-    config.fixtures_source = FixturesSource.from_input(config.option.fixtures_source)
+    if config.option.fixtures_source is None:
+        # NOTE: Setting the default value here is necessary for correct stdin/piping behavior.
+        config.fixtures_source = FixturesSource(
+            input_option=default_input(), path=Path(default_input())
+        )
+    else:
+        # NOTE: Setting `type=FixturesSource.from_input` in pytest_addoption() causes the option to
+        # be evaluated twice which breaks the result of `was_cached`; the work-around is to call it
+        # manually here.
+        config.fixtures_source = FixturesSource.from_input(config.option.fixtures_source)
     config.fixture_source_flags = ["--input", config.fixtures_source.input_option]
 
     if "cache" in sys.argv and not config.fixtures_source:

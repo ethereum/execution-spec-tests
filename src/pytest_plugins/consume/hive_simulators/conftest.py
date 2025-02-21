@@ -266,7 +266,7 @@ def fixture(
     input from disk (fixture directory with index file).
     """
     fixture: BaseFixture
-    if fixtures_source == "stdin":
+    if fixtures_source.is_stdin:
         assert isinstance(test_case, TestCaseStream), "Expected a stream test case"
         fixture = test_case.fixture
     else:
