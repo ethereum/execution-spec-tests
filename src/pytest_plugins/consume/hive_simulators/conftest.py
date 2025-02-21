@@ -271,7 +271,7 @@ def fixture(
         fixture = test_case.fixture
     else:
         assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
-        fixtures_file_path = Path(fixtures_source) / test_case.json_path
+        fixtures_file_path = fixtures_source.path / test_case.json_path
         fixtures: Fixtures = fixture_file_loader[fixtures_file_path]
         fixture = fixtures[test_case.id]
     assert isinstance(fixture, fixture_format), (

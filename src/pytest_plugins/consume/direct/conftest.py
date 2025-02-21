@@ -129,7 +129,7 @@ def fixture_path(test_case: TestCaseIndexFile | TestCaseStream, fixtures_source:
         temp_dir.cleanup()
     else:
         assert isinstance(test_case, TestCaseIndexFile)
-        yield fixtures_source / test_case.json_path
+        yield fixtures_source.path / test_case.json_path
 
 
 @pytest.fixture(scope="function")
