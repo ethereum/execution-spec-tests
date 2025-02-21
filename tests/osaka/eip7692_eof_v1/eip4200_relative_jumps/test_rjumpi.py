@@ -1705,13 +1705,12 @@ def test_double_rjumpi_invalid_max_stack_height(
                     code=Op.PUSH0
                     + Op.POP
                     + Op.PUSH1[0]
-                    + Op.RJUMPI[-7]
+                    + Op.RJUMPI[-6]
                     + Op.PUSH0
-                    + Op.RJUMP[-11],
+                    + Op.RJUMP[-10],
                     max_stack_height=1,
                 ),
             ],
-            expected_bytecode="ef0001010004020001000b04000000008000015f506000e1fff95fe0fff5",
         ),
         Container(
             name="backwards_rjumpi_9",
@@ -1793,6 +1792,25 @@ def test_double_rjumpi_invalid_max_stack_height(
             expected_bytecode="ef0001010004020001001004000000008000055f6000e100025f5f5f5f5f50e1fffc00",
         ),
         Container(
+            name="backwards_rjumpi_variable_stack_6a",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH0
+                    + Op.RJUMPI[-5]
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+        ),
+        Container(
             name="backwards_rjumpi_variable_stack_8",
             sections=[
                 Section.Code(
@@ -1804,13 +1822,12 @@ def test_double_rjumpi_invalid_max_stack_height(
                     + Op.PUSH0
                     + Op.POP
                     + Op.PUSH1[0]
-                    + Op.RJUMPI[-7]
+                    + Op.RJUMPI[-8]
                     + Op.PUSH0
-                    + Op.RJUMP[-11],
+                    + Op.RJUMP[-10],
                     max_stack_height=4,
                 ),
             ],
-            expected_bytecode="ef0001010004020001001304000000008000045f6000e100025f5f5f506000e1fff95fe0fff5",
         ),
     ],
     ids=lambda x: x.name,
