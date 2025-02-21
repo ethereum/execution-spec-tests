@@ -28530,6 +28530,7 @@
 <li>✨ Blockchain and Blockchain-Engine tests that were generated from a state test now have <code>blockchain_test_from_state_test</code> or <code>blockchain_test_engine_from_state_test</code> as part of their test IDs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1220">#1220</a>).</li>
 <li>🔀 Refactor <code>ethereum_test_fixtures</code> and <code>ethereum_clis</code> to create <code>FixtureConsumer</code> and <code>FixtureConsumerTool</code> classes which abstract away the consumption process used by <code>consume direct</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/935">#935</a>).</li>
 <li>✨ Allow <code>consume direct --collect-only</code> without specifying a fixture consumer binary on the command-line (<a href="https://github.com/ethereum/execution-spec-tests/pull/1237">#1237</a>).</li>
+<li>✨ Report the (resolved) fixture tarball URL and local fixture cache directory when <code>consume</code>'s <code>--input</code> flag is a release spec or URL  <a href="https://github.com/ethereum/execution-spec-tests/pull/1239">#1239</a>.</li>
 <li>✨ EOF Container validation tests (<code>eof_test</code>) now generate container deployment state tests, by wrapping the EOF container in an init-container and sending a deploy transaction (<a href="https://github.com/ethereum/execution-spec-tests/pull/783">#783</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1233">#1233</a>).</li>
 </ul>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
