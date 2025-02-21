@@ -3,6 +3,7 @@
 import re
 import sys
 import tarfile
+from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
 from typing import List, Tuple
