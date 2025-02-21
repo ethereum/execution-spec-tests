@@ -40,31 +40,6 @@ def default_html_report_file_path() -> str:
     return ".meta/report_consume.html"
 
 
-def is_url(string: str) -> bool:
-    """Check if a string is a remote URL."""
-    result = urlparse(string)
-    return all([result.scheme, result.netloc])
-
-
-def download_and_extract(url: str, base_directory: Path) -> Tuple[bool, Path]:
-    """Download the URL and extract it locally if it hasn't already been downloaded."""
-    parsed_url = urlparse(url)
-    filename = Path(parsed_url.path).name
-    version = Path(parsed_url.path).parts[-2]
-    extract_to = base_directory / version / filename.removesuffix(".tar.gz")
-    already_cached = extract_to.exists()
-    if already_cached:
-        return already_cached, extract_to / "fixtures"
-
-    extract_to.mkdir(parents=True, exist_ok=False)
-    response = requests.get(url)
-    response.raise_for_status()
-
-    with tarfile.open(fileobj=BytesIO(response.content), mode="r:gz") as tar:
-        tar.extractall(path=extract_to)
-    return already_cached, extract_to / "fixtures"
-
-
 @dataclass
 class FixturesSource:
     """Represents the source of test fixtures."""
@@ -125,6 +100,31 @@ class FixturesSource:
         if not any(path.glob("**/*.json")):
             pytest.exit(f"Specified fixture directory '{path}' does not contain any JSON files.")
         return FixturesSource(input_option=str(path), path=path)
+
+
+def is_url(string: str) -> bool:
+    """Check if a string is a remote URL."""
+    result = urlparse(string)
+    return all([result.scheme, result.netloc])
+
+
+def download_and_extract(url: str, base_directory: Path) -> Tuple[bool, Path]:
+    """Download the URL and extract it locally if it hasn't already been downloaded."""
+    parsed_url = urlparse(url)
+    filename = Path(parsed_url.path).name
+    version = Path(parsed_url.path).parts[-2]
+    extract_to = base_directory / version / filename.removesuffix(".tar.gz")
+    already_cached = extract_to.exists()
+    if already_cached:
+        return already_cached, extract_to / "fixtures"
+
+    extract_to.mkdir(parents=True, exist_ok=False)
+    response = requests.get(url)
+    response.raise_for_status()
+
+    with tarfile.open(fileobj=BytesIO(response.content), mode="r:gz") as tar:
+        tar.extractall(path=extract_to)
+    return already_cached, extract_to / "fixtures"
 
 
 def pytest_addoption(parser):  # noqa: D103
