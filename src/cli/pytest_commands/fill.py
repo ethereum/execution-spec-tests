@@ -1,6 +1,8 @@
 """CLI entry point for the `fill` pytest-based command."""
 
 import sys
+from os import getcwd, makedirs
+from os.path import join
 from typing import List
 
 import click
@@ -43,6 +45,10 @@ def handle_fill_command_flags(fill_args: List[str]) -> List[str]:
 @common_click_options
 def fill(pytest_args: List[str], **kwargs) -> None:
     """Entry point for the fill command."""
+    # create fixtures folder in repo rootdir if it doesn't exist already
+    fixtures_folder_path = join(getcwd(), "fixtures")
+    makedirs(fixtures_folder_path, exist_ok=True)
+
     result = pytest.main(
         handle_fill_command_flags(list(pytest_args)),
     )
