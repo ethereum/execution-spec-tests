@@ -28532,6 +28532,7 @@
 <li>✨ Allow <code>consume direct --collect-only</code> without specifying a fixture consumer binary on the command-line (<a href="https://github.com/ethereum/execution-spec-tests/pull/1237">#1237</a>).</li>
 <li>✨ Report the (resolved) fixture tarball URL and local fixture cache directory when <code>consume</code>'s <code>--input</code> flag is a release spec or URL  <a href="https://github.com/ethereum/execution-spec-tests/pull/1239">#1239</a>.</li>
 <li>✨ EOF Container validation tests (<code>eof_test</code>) now generate container deployment state tests, by wrapping the EOF container in an init-container and sending a deploy transaction (<a href="https://github.com/ethereum/execution-spec-tests/pull/783">#783</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1233">#1233</a>).</li>
+<li>✨ Use regexes for Hive's <code>--sim.limit</code> argument and don't use xdist if <code>--sim.parallelism==1</code> in the <code>eest/consume-rlp</code> and <code>eest/consume-rlp</code> simulators (<a href="https://github.com/ethereum/execution-spec-tests/pull/1220">#1220</a>).</li>
 </ul>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <ul>
@@ -28805,8 +28806,8 @@
 <li>🔀 Refactor <code>gentest</code> to use <code>ethereum_test_tools.rpc.rpc</code> by adding to <code>get_transaction_by_hash</code>, <code>debug_trace_call</code> to <code>EthRPC</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/568">#568</a>).</li>
 <li>✨ Write a properties file to the output directory and enable direct generation of a fixture tarball from <code>fill</code> via <code>--output=fixtures.tgz</code>(<a href="https://github.com/ethereum/execution-spec-tests/pull/627">#627</a>).</li>
 <li>🔀 <code>ethereum_test_tools</code> library has been split into multiple libraries (<a href="https://github.com/ethereum/execution-spec-tests/pull/645">#645</a>).</li>
-<li>✨ Add the consume engine simulator and refactor the consume simulator suite. (<a href="https://github.com/ethereum/execution-spec-tests/pull/691">#691</a>).</li>
-<li>🐞 Prevents forcing consume to use stdin as an input when running from hive. (<a href="https://github.com/ethereum/execution-spec-tests/pull/701">#701</a>).</li>
+<li>✨ Add the consume engine simulator and refactor the consume simulator suite (<a href="https://github.com/ethereum/execution-spec-tests/pull/691">#691</a>).</li>
+<li>🐞 Prevents forcing consume to use stdin as an input when running from hive (<a href="https://github.com/ethereum/execution-spec-tests/pull/701">#701</a>).</li>
 </ul>
 <h3 id="misc_2">📋 Misc<a class="headerlink" href="#misc_2" title="Permanent link">&para;</a></h3>
 <ul>
