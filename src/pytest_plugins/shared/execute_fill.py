@@ -5,8 +5,8 @@ from typing import List, cast
 
 import pytest
 
-from ethereum_test_execution import BaseExecute
-from ethereum_test_fixtures import BaseFixture
+from ethereum_test_execution import BaseExecute, LabeledExecuteFormat
+from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
 from ethereum_test_forks import (
     Fork,
     get_closest_fork_with_solc_support,
@@ -39,12 +39,30 @@ def pytest_configure(config: pytest.Config):
                 "markers",
                 (f"{fixture_format.format_name.lower()}: {fixture_format.description}"),
             )
+        for test_type in SPEC_TYPES:
+            for format_with_or_without_label in test_type.supported_fixture_formats:
+                # only add labels here, ignore cls.format_name, those are handled above
+                if not isinstance(format_with_or_without_label, LabeledFixtureFormat):
+                    continue
+                label = format_with_or_without_label.label
+                description = format_with_or_without_label.description
+                config.addinivalue_line("markers", f"{label}: {description}")
+
     elif config.pluginmanager.has_plugin("pytest_plugins.execute.execute"):
         for execute_format in BaseExecute.formats.values():
             config.addinivalue_line(
                 "markers",
                 (f"{execute_format.format_name.lower()}: {execute_format.description}"),
             )
+        for test_type in SPEC_TYPES:
+            for execute_format_with_or_without_label in test_type.supported_execute_formats:
+                # only add labels here, ignore cls.format_name, those are handled above
+                if not isinstance(execute_format_with_or_without_label, LabeledExecuteFormat):
+                    continue
+                label = execute_format_with_or_without_label.label
+                description = execute_format_with_or_without_label.description
+                config.addinivalue_line("markers", f"{label}: {description}")
+
     else:
         raise Exception("Neither the filler nor the execute plugin is loaded.")
 
