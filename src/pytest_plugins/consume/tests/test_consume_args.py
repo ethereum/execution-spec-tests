@@ -59,7 +59,8 @@ def fill_tests(
     fill_result = CliRunner().invoke(
         fill,
         [
-            "-c=pytest.ini",
+            "-c",
+            "pytest.ini",
             "--skip-evm-dump",
             "-m",
             "not blockchain_test_engine_from_state_test",
