@@ -5419,6 +5419,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -5619,6 +5625,48 @@
   
   <span class="md-ellipsis">
     <code>test_rjumpi_max_backward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_valid_forward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_backward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_valid_backward</code>
   </span>
   
 
@@ -6333,6 +6381,27 @@
   
   <span class="md-ellipsis">
     <code>test_double_rjumpi_invalid_max_stack_height</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_backward_invalid_max_stack_height/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_backward_invalid_max_stack_height</code>
   </span>
   
 
@@ -28301,7 +28370,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Markdown Content</p>
-<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/1e3a7216e11154341e216c3a6094690f2150a4ac/tests/osaka/eip7692_eof_v1/eof_tracker.md"><code>tests/osaka/eip7692_eof_v1/eof_tracker.md@1e3a7216</code></a>.</p>
+<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/e450665beffbcacf00df7dc80c542aaf038aeba0/tests/osaka/eip7692_eof_v1/eof_tracker.md"><code>tests/osaka/eip7692_eof_v1/eof_tracker.md@e450665b</code></a>.</p>
 </div>
 <h1 id="eof-testing-coverage-tracker">EOF Testing Coverage Tracker<a class="headerlink" href="#eof-testing-coverage-tracker" title="Permanent link">&para;</a></h1>
 <ul class="task-list">
@@ -28490,23 +28559,23 @@
 </ul>
 <h5 id="rjumpi">RJUMPI<a class="headerlink" href="#rjumpi" title="Permanent link">&para;</a></h5>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid RJUMPI backwards in a constant stack segment (ethereum/tests: src/EOFTestsFiller/efStack/backwards_rjumpi_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Invalid RJUMPI backwards with mismatching stack in a constant stack segment(ethereum/tests: src/EOFTestsFiller/efStack/backwards_rjumpi_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid RJUMPI backwards in a variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/backwards_rjumpi_variable_stack_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Invalid RJUMPI backwards with mismatching stack in a variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/backwards_rjumpi_variable_stack_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMPI forward with branches of equal stack height (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_Copier.json src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMPI forward with branches of equal stack height in a variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_variable_stack_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMPI forward with branches of different stack height (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_Copier.json src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMPI forward with branches of different stack height in a variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_variable_stack_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid loop using RJUMPI (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid loop with a break using RJUMPI - equal stack after break and normal loop end (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid loop with a break using RJUMPI - equal stack after break and normal loop end, variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_variable_stack_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid loop with a break using RJUMPI - different stack after break and normal loop end (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid loop with a break using RJUMPI - different stack after break and normal loop end, variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_variable_stack_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> If-then-else with equal stack height in branches (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> If-then-else with equal stack height in branches, variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_variable_stack_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> If-then-else with different stack height in branches (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_Copier.json)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> If-then-else with different stack height in branches, variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpi_variable_stack_Copier.json)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid RJUMPI backwards in a constant stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_backward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_backward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Invalid RJUMPI backwards with mismatching stack in a constant stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_backward_invalid_max_stack_height/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_backward_invalid_max_stack_height</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid RJUMPI backwards in a variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_backward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_backward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Invalid RJUMPI backwards with mismatching stack in a variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_backward_invalid_max_stack_height/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_backward_invalid_max_stack_height</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> RJUMPI forward with branches of equal stack height (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> RJUMPI forward with branches of equal stack height in a variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> RJUMPI forward with branches of different stack height (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> RJUMPI forward with branches of different stack height in a variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid loop using RJUMPI (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid loop with a break using RJUMPI - equal stack after break and normal loop end (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid loop with a break using RJUMPI - equal stack after break and normal loop end, variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid loop with a break using RJUMPI - different stack after break and normal loop end (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid loop with a break using RJUMPI - different stack after break and normal loop end, variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> If-then-else with equal stack height in branches (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> If-then-else with equal stack height in branches, variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> If-then-else with different stack height in branches (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> If-then-else with different stack height in branches, variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
 </ul>
 <h5 id="rjumpv">RJUMPV<a class="headerlink" href="#rjumpv" title="Permanent link">&para;</a></h5>
 <ul class="task-list">

@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi/test_rjumpi_max_bytecode_size/">
       
       
-        <link rel="prev" href="../test_rjumpi_max_backward/">
+        <link rel="prev" href="../test_rjumpi_valid_backward/">
       
       
         <link rel="next" href="../test_rjumpi_truncated/">
@@ -4978,6 +4978,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -5178,6 +5184,48 @@
   
   <span class="md-ellipsis">
     <code>test_rjumpi_max_backward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_rjumpi_valid_forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_valid_forward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_rjumpi_valid_backward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_valid_backward</code>
   </span>
   
 
@@ -5950,6 +5998,27 @@
   
   <span class="md-ellipsis">
     <code>test_double_rjumpi_invalid_max_stack_height</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_rjumpi_backward_invalid_max_stack_height/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_backward_invalid_max_stack_height</code>
   </span>
   
 
@@ -27530,7 +27599,7 @@
 
 
 <h1 id="test_rjumpi_max_bytecode_size"><code>test_rjumpi_max_bytecode_size()</code><a class="headerlink" href="#test_rjumpi_max_bytecode_size" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1e3a7216e11154341e216c3a6094690f2150a4ac/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L265"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_max_bytecode_size@1e3a7216</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e450665beffbcacf00df7dc80c542aaf038aeba0/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L907"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_max_bytecode_size@e450665b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_max_bytecode_size --fork Osaka</span>
@@ -27550,18 +27619,18 @@ bytecode size.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_max_bytecode_size</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">907</span>
+<span class="normal">908</span>
+<span class="normal">909</span>
+<span class="normal">910</span>
+<span class="normal">911</span>
+<span class="normal">912</span>
+<span class="normal">913</span>
+<span class="normal">914</span>
+<span class="normal">915</span>
+<span class="normal">916</span>
+<span class="normal">917</span>
+<span class="normal">918</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_rjumpi_max_bytecode_size</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

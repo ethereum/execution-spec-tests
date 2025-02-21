@@ -4978,6 +4978,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -5178,6 +5184,48 @@
   
   <span class="md-ellipsis">
     <code>test_rjumpi_max_backward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_rjumpi_valid_forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_valid_forward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_rjumpi_valid_backward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_valid_backward</code>
   </span>
   
 
@@ -5892,6 +5940,27 @@
   
   <span class="md-ellipsis">
     <code>test_double_rjumpi_invalid_max_stack_height</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_rjumpi_backward_invalid_max_stack_height/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpi_backward_invalid_max_stack_height</code>
   </span>
   
 
@@ -27472,7 +27541,7 @@
 
 
 <h1 id="test-rjumpi">Test RJUMPI<a class="headerlink" href="#test-rjumpi" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1e3a7216e11154341e216c3a6094690f2150a4ac/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L38"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py@1e3a7216</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e450665beffbcacf00df7dc80c542aaf038aeba0/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L38"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py@e450665b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py --fork Osaka</span>
@@ -27559,6 +27628,18 @@
 <td>eof_state_test</td>
 <td>0</td>
 <td>EOF with RJUMPI containing the maximum negative offset (-32768).</td>
+</tr>
+<tr>
+<td><a href="test_rjumpi_valid_forward/"><code>test_rjumpi_valid_forward</code></a></td>
+<td>eof_test</td>
+<td>26</td>
+<td>Validate a valid code section containing at least one forward RJUMPI.</td>
+</tr>
+<tr>
+<td><a href="test_rjumpi_valid_backward/"><code>test_rjumpi_valid_backward</code></a></td>
+<td>eof_test</td>
+<td>10</td>
+<td>Validate a valid code section containing at least one backward RJUMP.</td>
 </tr>
 <tr>
 <td><a href="test_rjumpi_max_bytecode_size/"><code>test_rjumpi_max_bytecode_size</code></a></td>
@@ -27763,6 +27844,12 @@
 <td>eof_test</td>
 <td>1</td>
 <td>Test max stack height of the final block</td>
+</tr>
+<tr>
+<td><a href="test_rjumpi_backward_invalid_max_stack_height/"><code>test_rjumpi_backward_invalid_max_stack_height</code></a></td>
+<td>eof_test</td>
+<td>10</td>
+<td>Validate a code section containing at least one backward RJUMP</td>
 </tr>
 </tbody>
 </table>
