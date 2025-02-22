@@ -80,25 +80,23 @@ def test():
     )
 
     if location_choice == "new":
-        # TODO: Perhaps get the EIP name from the number using an API?
         eip_number = input_text("Enter the EIP number").strip()
         eip_name = input_text("Enter the EIP name").strip()
-        test_name = eip_name.lower().replace(" ", "_")
-        dir_name = f"eip{eip_number}_{test_name}"
+        directory_name = input_text("Enter directory name").strip()
+        module_name = input_text("Enter module name (snake_case)").strip()
+        dir_name = f"eip{eip_number}_{directory_name}"
         directory_path = base_path / dir_name
     elif location_choice == "current":
-        eip_number = input_text("Enter the EIP number").strip()
-        eip_name = input_text("Enter the EIP name").strip()
-        test_name = input_text("Enter feature name (snake_case)").strip()
+        module_name = input_text("Enter module name (snake_case)").strip()
         directory_path = base_path
     else:
         dir_parts = location_choice.split("_")
         eip_number = dir_parts[0][3:]
         eip_name = " ".join(dir_parts[1:]).title()
-        test_name = "_".join(dir_parts[1:])
+        module_name = input_text("Enter module name (snake_case)").strip()
         directory_path = base_path / location_choice
 
-    file_name = f"test_{test_name}.py"
+    file_name = f"test_{module_name}.py"
 
     if (directory_path / file_name).exists():
         click.echo(
@@ -117,7 +115,7 @@ def test():
         fork=fork,
         eip_number=eip_number,
         eip_name=eip_name,
-        test_name=test_name,
+        module_name=module_name,
     )
 
     with open(directory_path / file_name, "w") as file:
