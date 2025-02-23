@@ -18,15 +18,40 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Opcodes as Op
 
 
-def sstore(storage, key, value, debug_hint=None):
-    
-    """
-    Helper function to update storage with a debug hint.
-    """
-    storage[key] = value
-    if debug_hint:
-        print(f"Debug: {debug_hint} - Updated key {key} with value {value}")
-    return storage
+class Storage:
+    def __init__(self):
+        self._data = {}  # Internal storage for key-value pairs
+
+    def store_next(
+        self, key: int, value: int, debug_hint: str | None = None
+    ) -> dict:
+        """
+        Store a value at the specified key in the storage.
+
+        Args:
+            key: The key where the value will be stored.
+            value: The value to store.
+            debug_hint: Optional debug hint to print when updating the storage.
+
+        Returns:
+            The updated storage.
+        """
+        self._data[key] = value  # Update the storage at the specified key
+
+        if debug_hint:
+            print(
+                f"Debug: {debug_hint} - Updated key {key} with value {value}"
+            )
+
+        return self._data  # Return the updated storage
+
+    def __getitem__(self, key):
+        """Allow accessing stored values using `storage[key]` syntax."""
+        return self._data[key]
+
+    def __setitem__(self, key, value):
+        """Allow updating stored values using `storage[key] = value` syntax."""
+        self._data[key] = value
 
 
 @pytest.mark.parametrize(
@@ -83,9 +108,9 @@ def test_swap(
 
     # Define the expected post-state.
     post = {}
-    storage = {}
-    sstore(storage, 0, expected_value, f"SWAP{swap_pos} result")
-    post[contract] = Account(storage=storage)
+    storage = Storage()
+    storage.store_next(0, expected_value, f"SWAP{swap_pos} result")
+    post[contract] = Account(storage=storage._data)
 
     # Run the state test.
     state_test(env=env, pre=pre, post=post, tx=tx)
@@ -138,21 +163,21 @@ def test_stack_underflow(
 
     # Define the expected post-state.
     post = {}
-    storage = {}
+    storage = Storage()
     MAX_STACK = 1024
 
     if stack_height >= (swap_pos + 1) and (MAX_STACK - stack_height) >= 1:
         # If the operation succeeds, the value at swap_pos will be at the top
         swapped_value = (stack_height - swap_pos - 1) % 256
-        sstore(storage,
-               0,
-               swapped_value,
-               f"SWAP{swap_pos} result (stack_height={stack_height})")
+        storage.store_next(
+            0,
+            swapped_value,
+            f"SWAP{swap_pos} result (stack_height={stack_height})")
     else:
         # Operation should fail with no storage update
-        sstore(storage, 0, 0, "SWAP failed due to stack underflow")
+        storage.store_next(0, 0, "SWAP failed due to stack underflow")
 
-    post[contract] = Account(storage=storage)
+    post[contract] = Account(storage=storage._data)
 
     # Run the state test.
     state_test(env=env, pre=pre, post=post, tx=tx)
