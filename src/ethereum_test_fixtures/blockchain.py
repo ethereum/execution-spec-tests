@@ -18,6 +18,7 @@ import ethereum_rlp as eth_rlp
 from ethereum_types.numeric import Uint
 from pydantic import (
     AliasChoices,
+    ConfigDict,
     Field,
     PlainSerializer,
     ValidationInfo,
@@ -40,16 +41,7 @@ from ethereum_test_base_types import (
     ZeroPaddedHexNumber,
 )
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
-from ethereum_test_forks import (
-    Cancun,
-    Constantinople,
-    Fork,
-    Frontier,
-    Homestead,
-    Istanbul,
-    Paris,
-    Prague,
-)
+from ethereum_test_forks import Fork, Paris, get_forks
 from ethereum_test_types.types import (
     AuthorizationTupleGeneric,
     Transaction,
@@ -95,6 +87,9 @@ class FixtureHeader(CamelModel):
     We combine the `Environment` and `Result` contents to create this model.
     """
 
+    model_config = ConfigDict(extra="forbid")
+
+    hash: Hash
     parent_hash: Hash
     ommers_hash: Hash = Field(Hash(EmptyOmmersRoot), alias="uncleHash")
     fee_recipient: Address = Field(
@@ -196,7 +191,7 @@ class FixtureHeader(CamelModel):
     @cached_property
     def block_hash(self) -> Hash:
         """Compute the RLP of the header."""
-        return self.rlp.keccak256()
+        return self.hash if self.hash is not None else self.rlp.keccak256()
 
 
 class FixtureExecutionPayload(CamelModel):
@@ -446,6 +441,18 @@ class BlockchainFixtureCommon(BaseFixture):
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
     config: FixtureConfig
 
+    @field_validator("genesis", mode="before")
+    @classmethod
+    def assign_fork_context_to_genesis(
+        cls, genesis: FixtureHeader, info: ValidationInfo
+    ) -> FixtureHeader:
+        """Assign fork to genesis for model validation."""
+        network = info.data.get("fork")
+        all_forks_by_name = {fork.name(): fork for fork in get_forks()}
+        if isinstance(genesis, dict):
+            genesis["fork"] = all_forks_by_name[network]
+        return genesis
+
     @model_validator(mode="before")
     @classmethod
     def config_defaults_for_backwards_compatibility(cls, data: Any) -> Any:
@@ -480,29 +487,17 @@ class BlockchainFixture(BlockchainFixtureCommon):
 
     @field_validator("blocks", mode="before")
     @classmethod
-    def assign_fork(
+    def assign_fork_context_to_blocks(
         cls, blocks: List[FixtureBlock | InvalidFixtureBlock], info: ValidationInfo
     ) -> List[FixtureBlock | InvalidFixtureBlock]:
         """Assign fork to blocks for model validation."""
+        network = info.data.get("fork")
+        all_forks_by_name = {fork.name(): fork for fork in get_forks()}
         for block in blocks:
             if isinstance(block, dict) and "blockHeader" in block:
                 header = block.get("blockHeader")
                 if isinstance(header, dict):
-                    network = info.data.get("fork")
-                    if network == "Frontier":
-                        header["fork"] = Frontier
-                    elif network == "Homestead":
-                        header["fork"] = Homestead
-                    elif network == "Constantinople":
-                        header["fork"] = Constantinople
-                    elif network == "Istanbul":
-                        header["fork"] = Istanbul
-                    elif network == "Paris":
-                        header["fork"] = Paris
-                    elif network == "Cancun":
-                        header["fork"] = Cancun
-                    elif network == "Prague":
-                        header["fork"] = Prague
+                    header["fork"] = all_forks_by_name[network]
         return blocks
 
 
