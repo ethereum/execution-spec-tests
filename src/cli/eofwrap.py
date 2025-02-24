@@ -228,6 +228,8 @@ class EofWrapper:
                 self.metrics[self.FIXTURES_CANT_GENERATE] += 1
                 self.metrics[self.ACCOUNTS_CANT_GENERATE] += len(fixture_eof_codes)
 
+                print(f"Exception {e} occurred during generation of {in_path}: {fixture_id}")
+
         if len(out_fixtures) == 0:
             self.metrics[self.FILES_SKIPPED] += 1
             return
