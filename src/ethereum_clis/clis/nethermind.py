@@ -174,6 +174,7 @@ class NethtestFixtureConsumer(
         )
 
         if fixture_name:
+            # TODO: this check is too fragile; extend for ethereum/tests?
             nethtest_suffix = "_d0g0v0_"
             assert all(
                 test_result["name"].endswith(nethtest_suffix) for test_result in file_results
@@ -231,11 +232,21 @@ class NethtestFixtureConsumer(
     ) -> Tuple[Dict[Any, Any], str, str]:
         """Consume an entire EOF fixture file."""
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
         pattern = re.compile(r"^(test_.+?)\s+(PASS|FAIL)$", re.MULTILINE)
         test_results = {
             match.group(1): match.group(2) == "PASS"  # Convert "PASS" to True and "FAIL" to False
             for match in pattern.finditer(result.stdout)
         }
+
+        if debug_output_path:
+            self._consume_debug_dump(command, result, fixture_path, debug_output_path)
+
+        if result.returncode != 0:
+            raise Exception(
+                f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
+            )
+
         return test_results, result.stdout, result.stderr
 
     def consume_eof_test(self, command, fixture_path, fixture_name, debug_output_path):
