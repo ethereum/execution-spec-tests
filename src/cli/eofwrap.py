@@ -313,6 +313,7 @@ class EofWrapper:
             fork=Osaka,
             fixture_format=BlockchainFixture,
         )
+        result.info["fixture_format"] = "blockchain_test"
         if traces:
             print_traces(t8n.get_traces())
         return result
