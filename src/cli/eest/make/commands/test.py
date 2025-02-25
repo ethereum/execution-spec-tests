@@ -131,7 +131,7 @@ def test():
 
     click.echo(
         click.style(
-            f"\n �� Success! Test file created at: {module_path}",
+            f"\n 🎉 Success! Test file created at: {module_path}",
             fg="green",
         )
     )
