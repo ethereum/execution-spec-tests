@@ -30378,7 +30378,8 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">816</span>
 <span class="normal">817</span>
 <span class="normal">818</span>
-<span class="normal">819</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">819</span>
+<span class="normal">820</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform session finish tasks.</span>
 
@@ -30390,7 +30391,8 @@ parametrization occurs in the forks plugin.</p>
         <span class="k">return</span>
 
     <span class="n">output</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">is_output_stdout</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
+    <span class="c1"># When using --collect-only it should not matter whether fixtures folder exists or not</span>
+    <span class="k">if</span> <span class="n">is_output_stdout</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="ow">or</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">option</span><span class="o">.</span><span class="n">collectonly</span><span class="p">:</span>
         <span class="k">return</span>
 
     <span class="n">output_dir</span> <span class="o">=</span> <span class="n">strip_output_tarball_suffix</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
