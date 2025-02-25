@@ -68,7 +68,9 @@ def test():
     fork = input_select("Select the fork", choices=fork_choices)
 
     base_path = Path("tests") / fork.lower()
-    existing_dirs = [d.name for d in base_path.iterdir() if d.is_dir()]
+    base_path.mkdir(parents=True, exist_ok=True)
+
+    existing_dirs = [d.name for d in base_path.iterdir() if d.is_dir() and d.name != "__pycache__"]
 
     location_choice = input_select(
         "Select test directory",
@@ -82,26 +84,32 @@ def test():
     if location_choice == "new":
         eip_number = input_text("Enter the EIP number").strip()
         eip_name = input_text("Enter the EIP name").strip()
-        directory_name = input_text("Enter directory name").strip()
-        module_name = input_text("Enter module name (snake_case)").strip()
+        directory_name = input_text("Enter directory name (part after eipXXXX_)").strip()
         dir_name = f"eip{eip_number}_{directory_name}"
         directory_path = base_path / dir_name
+        raw_module = input_text("Enter module name (snake_case)").strip()
+        module_name = raw_module if raw_module.startswith("test_") else f"test_{raw_module}"
     elif location_choice == "current":
-        module_name = input_text("Enter module name (snake_case)").strip()
+        eip_number = input_text("Enter the EIP number").strip()
+        eip_name = input_text("Enter the EIP name").strip()
+        raw_module = input_text("Enter module name (snake_case)").strip()
+        module_name = raw_module if raw_module.startswith("test_") else f"test_{raw_module}"
         directory_path = base_path
     else:
         dir_parts = location_choice.split("_")
         eip_number = dir_parts[0][3:]
         eip_name = " ".join(dir_parts[1:]).title()
-        module_name = input_text("Enter module name (snake_case)").strip()
+        raw_module = input_text("Enter module name (snake_case)").strip()
+        module_name = raw_module if raw_module.startswith("test_") else f"test_{raw_module}"
         directory_path = base_path / location_choice
 
-    file_name = f"test_{module_name}.py"
+    file_name = f"{module_name}.py"
+    module_path = directory_path / file_name
 
-    if (directory_path / file_name).exists():
+    if module_path.exists():
         click.echo(
             click.style(
-                f"\n 🛑 The target test module {directory_path / file_name} already exists!",
+                f"\n 🛑 The target test module {module_path} already exists!",
                 fg="red",
             ),
             err=True,
@@ -118,12 +126,12 @@ def test():
         module_name=module_name,
     )
 
-    with open(directory_path / file_name, "w") as file:
+    with open(module_path, "w") as file:
         file.write(rendered_template)
 
     click.echo(
         click.style(
-            f"\n 🎉 Success! Test file created at: {directory_path / file_name}",
+            f"\n �� Success! Test file created at: {module_path}",
             fg="green",
         )
     )
@@ -135,7 +143,7 @@ def test():
     click.echo(
         click.style(
             f"\n 📝 Get started with tests:  {DocsConfig().DOCS_URL__WRITING_TESTS}"
-            f"\n ⛽ To fill this test, run: `uv run fill {directory_path / file_name}{fork_option}`",
+            f"\n ⛽ To fill this test, run: `uv run fill {module_path}{fork_option}`",
             fg="cyan",
         )
     )
