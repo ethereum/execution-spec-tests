@@ -3,6 +3,7 @@
 from .base import BaseFixture, FixtureFormat, LabeledFixtureFormat
 from .blockchain import BlockchainEngineFixture, BlockchainFixture, BlockchainFixtureCommon
 from .collector import FixtureCollector, TestInfo
+from .config import ConfigFixture
 from .consume import FixtureConsumer
 from .eof import EOFFixture
 from .state import StateFixture
@@ -13,6 +14,7 @@ __all__ = [
     "BlockchainEngineFixture",
     "BlockchainFixture",
     "BlockchainFixtureCommon",
+    "ConfigFixture",
     "EOFFixture",
     "FixtureCollector",
     "FixtureConsumer",
