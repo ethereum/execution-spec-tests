@@ -23,6 +23,4 @@ def test_configuration(
 ):
     """Test configuration parsing in clients for each network."""
     assert fork <= Prague, "Test needs update for new forks"
-    config_test(
-        **fork.config(chain_id=chain_id).model_dump(exclude_none=True),
-    )
+    config_test(config=fork.config(chain_id=chain_id))

@@ -20,8 +20,11 @@ from ethereum_test_forks import Fork, ForkConfig
 from .base import BaseTest
 
 
-class ConfigTest(BaseTest, ForkConfig):
+class ConfigTest(BaseTest):
     """Filler type that tests multiple blocks (valid or invalid) in a chain."""
+
+    config: ForkConfig
+    """Configuration for the test."""
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         ConfigFixture,
@@ -31,7 +34,7 @@ class ConfigTest(BaseTest, ForkConfig):
     def make_config_fixture(self, fork: Fork) -> ConfigFixture:
         """Generate the config fixture."""
         fixture: ConfigFixture = ConfigFixture(
-            **self.model_dump(exclude_none=True),
+            config=self.config,
             fork=fork.blockchain_test_network_name(),
         )
         return fixture

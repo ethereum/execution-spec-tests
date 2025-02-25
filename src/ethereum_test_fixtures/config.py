@@ -13,7 +13,7 @@ from ethereum_test_forks import ForkConfig
 from .base import BaseFixture
 
 
-class ConfigFixture(BaseFixture, ForkConfig):
+class ConfigFixture(BaseFixture):
     """Represents a configuration test fixture."""
 
     fork: str
@@ -22,6 +22,9 @@ class ConfigFixture(BaseFixture, ForkConfig):
 
     Must be excluded from the hash computation and it's for reference only.
     """
+
+    config: ForkConfig
+    """Configuration for the test."""
 
     format_name: ClassVar[str] = "config_test"
     description: ClassVar[str] = "Tests that generate a config test fixture."
@@ -43,7 +46,7 @@ class ConfigFixture(BaseFixture, ForkConfig):
 
         The hash used is SHA-256.
         """
-        json_obj = self.model_dump(mode="json", by_alias=True, exclude_none=True, exclude={"hash"})
+        json_obj = self.config.model_dump(mode="json", by_alias=True, exclude_none=True)
         json_str = json.dumps(json_obj, sort_keys=True, separators=(",", ":"))
         return Hash(hashlib.sha256(json_str.encode("utf-8")).digest())
 
