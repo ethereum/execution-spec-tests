@@ -5,73 +5,17 @@ import json
 from functools import cached_property
 from typing import ClassVar
 
-from pydantic import Field, computed_field
+from pydantic import computed_field
 
-from ethereum_test_base_types import (
-    Address,
-    Alloc,
-    Bloom,
-    Bytes,
-    CamelModel,
-    EmptyOmmersRoot,
-    Hash,
-    Number,
-)
+from ethereum_test_base_types import Hash
+from ethereum_test_forks import ForkConfig
 
 from .base import BaseFixture
-from .common import FixtureBlobSchedule
 
 
-class ConfigFixture(BaseFixture):
+class ConfigFixture(BaseFixture, ForkConfig):
     """Represents a configuration test fixture."""
 
-    chain_id: Number
-    """
-    ID of the network this config is for.
-    """
-
-    homestead_block: Number | None = None
-    dao_fork_block: Number | None = None
-    dao_fork_support: bool | None = None
-
-    # EIP150 implements the Gas price changes (https://github.com/ethereum/EIPs/issues/150)
-    eip_150_block: Number | None = None
-    eip_155_block: Number | None = None
-    eip_158_block: Number | None = None
-
-    byzantium_block: Number | None = None
-    constantinople_block: Number | None = None
-    petersburg_block: Number | None = None
-    istanbul_block: Number | None = None
-    muir_glacier_block: Number | None = None
-    berlin_block: Number | None = None
-    london_block: Number | None = None
-    arrow_glacier_block: Number | None = None
-    gray_glacier_block: Number | None = None
-    merge_netsplit_block: Number | None = None
-
-    # Fork scheduling was switched from blocks to timestamps here
-
-    shanghai_time: Number | None = None
-    cancun_time: Number | None = None
-    prague_time: Number | None = None
-    osaka_time: Number | None = None
-
-    terminal_total_difficulty: Number | None = None
-
-    deposit_contract_address: Address | None = None
-
-    blob_schedule: FixtureBlobSchedule | None = None
-
-    network_name: str
-    """
-    Name of the network the fixture is for:
-    - mainnet
-    - holesky
-    - sepolia
-
-    Must be excluded from the hash computation and it's for reference only.
-    """
     fork: str
     """
     Fork of the network the fixture is for.
