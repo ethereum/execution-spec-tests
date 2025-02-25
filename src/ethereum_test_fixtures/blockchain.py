@@ -1,5 +1,6 @@
 """BlockchainTest types."""
 
+import json
 from functools import cached_property
 from typing import (
     Annotated,
@@ -89,13 +90,13 @@ class FixtureHeader(CamelModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    hash: Hash
+    hash: Hash | None
     parent_hash: Hash
-    ommers_hash: Hash = Field(Hash(EmptyOmmersRoot), alias="uncleHash")
+    ommers_hash: Hash = Field(..., alias="uncleHash")
     fee_recipient: Address = Field(
         ..., alias="coinbase", validation_alias=AliasChoices("coinbase", "miner")
     )
-    state_root: Hash
+    state_root: Hash = Field(..., alias="stateRoot")
     transactions_trie: Hash = Field(
         validation_alias=AliasChoices("transactionsTrie", "transactionsRoot")
     )

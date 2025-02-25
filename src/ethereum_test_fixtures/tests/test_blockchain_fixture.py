@@ -6,7 +6,9 @@ import os
 import pytest
 from pydantic import ValidationError
 
-from ..blockchain import BlockchainFixture
+from ethereum_test_forks import Cancun
+
+from ..blockchain import BlockchainFixture, FixtureHeader
 
 fixtures_file = os.path.join(
     "src", "ethereum_test_fixtures", "tests", "fixtures", "blockchain_fixture_invalid.json"
@@ -49,11 +51,16 @@ expected_errors: dict[str, list[str]] = {
     "blockchain_fixture_genesis_missing_hash": [
         "Field required: genesisBlockHeader->hash",
     ],
+    "blockchain_fixture_genesis_missing_uncle_hash": [
+        "Field required: genesisBlockHeader->uncleHash",
+    ],
 }
 
-# incorrect field values
+
 # verify fork == config fork and inside schedule
 # gas schedule for other than supported forks?
+# verify that the hash provided in input json is 32 byte length as well as validity of other fields
+# verify that post Merge difficulty is always 0
 
 
 def test_fixture_header_deserialization():
@@ -81,3 +88,49 @@ def test_fixture_header_deserialization():
                     pytest.fail(
                         f"Expected a ValidationError for fixture '{name}', but no error was raised."
                     )
+
+
+def no_duplicates_object_pairs_hook(pairs):
+    """Detect dublicated keys in json input str."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"Duplicate key detected: {key}")
+        result[key] = value
+    return result
+
+
+def test_fixture_header_serialization_cycle():
+    """Verify Fixture Header serialization cycle."""
+    json_data = {
+        "baseFeePerGas": "0x03a699d0",
+        "blobGasUsed": "0x00",
+        "coinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+        "difficulty": "0x00",
+        "bloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "excessBlobGas": "0x00",
+        "extraData": "0x42",
+        "gasLimit": "0x7fffffffffffffff",
+        "gasUsed": "0x0143a8",
+        "hash": "0x0aaaaa75110e5eb16e2df3466ce2b841834298beeefc31fd236ffe4515b530a9",
+        "mixHash": "0x0000000000000000000000000000000000000000000000000000000000020000",
+        "nonce": "0x0000000000000000",
+        "number": "0x01",
+        "parentBeaconBlockRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "parentHash": "0x3f820e969b47b806b306aaedf2ad93769b6e53c60d3dbc2af6693f9a2279ec43",
+        "receiptTrie": "0xccd78acb4b8076325dc580c8c1204c9361e2386a9aaaee95bb0acaa1c099fad0",
+        "stateRoot": "0x26eff4e421d2dd0a9ea7c9a110587500b3a6414d42d4bccf1c29abf7de987bab",
+        "timestamp": "0x079e",
+        "transactionsTrie": "0x91b7a6c2330ca44ce3895fd67915587a8900f8e807abec5ff5e299909d689162",
+        "uncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
+        "withdrawalsRoot": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+    }
+
+    header = FixtureHeader(**json_data)
+    header.fork = Cancun
+    re_serialized = json.loads(
+        header.model_dump_json(by_alias=True, exclude_none=True),
+        object_pairs_hook=no_duplicates_object_pairs_hook,
+    )
+
+    # verify the value of each field is intact, and the key name
