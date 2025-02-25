@@ -29,6 +29,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Add gas cost of delegation access in CALL opcode ([#1208](https://github.com/ethereum/execution-spec-tests/pull/1208)).
 - ✨ Add EIP-7698 failed nonce and short data tests ([#1211](https://github.com/ethereum/execution-spec-tests/pull/1211)).
+- ✨ Port [calldataload test](https://github.com/ethereum/tests/blob/2cd297403439b6eea6e0eb5c2fab2111cb210c6f/src/GeneralStateTestsFiller/VMTests/vmTests/calldataloadFiller.yml#L4) ([#1056](https://github.com/ethereum/execution-spec-tests/pull/1248)).
 
 ## [v4.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2025-02-14 - 💕
 
