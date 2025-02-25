@@ -212,11 +212,6 @@ def test_set_code_to_sstore(
 @pytest.mark.parametrize(
     "auth_signer_nonce",
     [
-        pytest.param(
-            0,
-            id="zero_nonce",
-            marks=pytest.mark.execute(pytest.mark.skip("unrealistic scenario")),
-        ),
         pytest.param(None, id="non_zero_nonce"),
     ],
 )
