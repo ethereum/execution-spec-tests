@@ -1,6 +1,9 @@
 ([#1056](https://github.com/ethereum/execution-spec-tests/pull/1056))
 GeneralStateTests/VMTests/vmTests/calldatacopy.json
 
+([#1248](https://github.com/ethereum/execution-spec-tests/pull/1248))
+GeneralStateTests/VMTests/vmTests/calldataload.json
+
 ([#748](https://github.com/ethereum/execution-spec-tests/pull/748))
 GeneralStateTests/stBadOpcode/badOpcodes.json
 GeneralStateTests/stBugs/evmBytecode.json
