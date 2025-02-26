@@ -1,5 +1,6 @@
 """
-A state test for [EIP-{{eip_number}} {{eip_name}}](https://eips.ethereum.org/EIPS/eip-{{eip_number}}).
+abstract: Tests [EIP-{{eip_number}} {{eip_name}}](https://eips.ethereum.org/EIPS/eip-{{eip_number}})
+    Test cases for [EIP-{{eip_number}} {{eip_name}}](https://eips.ethereum.org/EIPS/eip-{{eip_number}})].
 """
 
 import pytest
@@ -9,6 +10,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
 REFERENCE_SPEC_VERSION = "DUMMY_VERSION"
+
 
 @pytest.mark.valid_from("{{fork}}")
 def {{module_name}}(state_test: StateTestFiller, pre: Alloc):
