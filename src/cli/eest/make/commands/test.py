@@ -36,16 +36,6 @@ def test():
     the fork to use, and to provide the EIP number and name. Based on the inputs, a test file
     is created in the appropriate directory with a rendered template.
 
-    Prompts:
-
-    * Choose the type of test to generate (State or Blockchain)
-
-    * Select the fork where this functionality was introduced
-
-    * Enter the EIP number
-
-    * Enter the EIP name
-
     Example:
         uv run eest make test
 
