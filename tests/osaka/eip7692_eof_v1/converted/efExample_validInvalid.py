@@ -1,163 +1,165 @@
 import pytest
-from ethereum_test_exceptions import EOFException
-from ethereum_test_types.eof.v1 import Container, Section
 
-REFERENCE_SPEC_GIT_PATH = 'EIPS/eip-663.md'
-REFERENCE_SPEC_VERSION = 'b658bb87fe039d29e9475d5cfaebca9b92e0fca2'
+from ethereum_test_exceptions import EOFException
+from ethereum_test_types.eof.v1 import Container
+
+REFERENCE_SPEC_GIT_PATH = "EIPS/eip-663.md"
+REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
+
 
 @pytest.mark.parametrize(
-    'container',
+    "container",
     [
         Container(
-            name='validInvalid_0',
+            name="validInvalid_0",
             raw_bytes="ef000101000402000100030400010000800001305000ef",
         ),
         Container(
-            name='validInvalid_1',
+            name="validInvalid_1",
             raw_bytes="ef0001010004020001000304000400008000013050000bad",
             validity_error=EOFException.TOPLEVEL_CONTAINER_TRUNCATED,
         ),
         Container(
-            name='validInvalid_10',
+            name="validInvalid_10",
             raw_bytes="ef0001010004020001000d04000400008000016001e2020002ffff30503050000bad60a7",
             validity_error=EOFException.INVALID_RJUMP_DESTINATION,
         ),
         Container(
-            name='validInvalid_11',
+            name="validInvalid_11",
             raw_bytes="ef0001010004020001000804000400008000016001e10001305b000bad60a7",
         ),
         Container(
-            name='validInvalid_12',
+            name="validInvalid_12",
             raw_bytes="ef0001010004020001000a0400040000800000e00003e00002e0fffa000bad60a7",
             validity_error=EOFException.INVALID_RJUMP_DESTINATION,
         ),
         Container(
-            name='validInvalid_13',
+            name="validInvalid_13",
             raw_bytes="ef000101000402000100100400040000800003600060006000e10003e10002e1fffa000bad60a7",
             validity_error=EOFException.INVALID_RJUMP_DESTINATION,
         ),
         Container(
-            name='validInvalid_16',
+            name="validInvalid_16",
             raw_bytes="ef000101000402000100040400010000800007",
             validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
         ),
         Container(
-            name='validInvalid_17',
+            name="validInvalid_17",
             raw_bytes="ef0001010004020001000504000100008000016003565b00ef",
             validity_error=EOFException.UNDEFINED_INSTRUCTION,
         ),
         Container(
-            name='validInvalid_18',
+            name="validInvalid_18",
             raw_bytes="ef00010100080200020006000304000400008000010101000130e3000150005030e40bad60a7",
         ),
         Container(
-            name='validInvalid_19',
+            name="validInvalid_19",
             raw_bytes="ef000101000802000200040002040004000080000100010001e300010030e40bad60a7",
         ),
         Container(
-            name='validInvalid_2',
+            name="validInvalid_2",
             raw_bytes="ef0001010004020001000304000400008000013050000bad60a70bad",
             validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
         ),
         Container(
-            name='validInvalid_21',
+            name="validInvalid_21",
             raw_bytes="ef000101000802000200040002040004000080000101000001e300010050e40bad60a7",
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
-            name='validInvalid_22',
+            name="validInvalid_22",
             raw_bytes="ef000101000c0200030028000b001f04000400008003ff000a000a00640064e30002e30002e30002e30002e30002e30002e30002e30002e30002e30002e30001e300013030300030303030303030303030e4e30001e30001e30001e30001e30001e30001e30001e30001e30001e30001e40bad60a7",
         ),
         Container(
-            name='validInvalid_23',
+            name="validInvalid_23",
             raw_bytes="ef000101000c0200030029000b001f0400040000800400000a000a00640064e30002e30002e30002e30002e30002e30002e30002e30002e30002e30002e30001e30001303030300030303030303030303030e4e30001e30001e30001e30001e30001e30001e30001e30001e30001e30001e40bad60a7",
             validity_error=EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT,
         ),
         Container(
-            name='validInvalid_24',
+            name="validInvalid_24",
             raw_bytes="ef0001010010020004000b000300030003040004000080000101010001000000010101000130e30001e30003e30002005030e43050e45030e40bad60a7",
         ),
         Container(
-            name='validInvalid_25',
+            name="validInvalid_25",
             raw_bytes="ef00010100100200040015000500070007040004000080000100800002008000030080000130505f35e202000000030006e50001e50002e50003303050500030303050505000305030503050000bad60a7",
         ),
         Container(
-            name='validInvalid_26',
+            name="validInvalid_26",
             raw_bytes="ef00010100100200040010000300070007040004000080000100800000008000030080000130505f35e20100000003e50001e50003e5000230303050505000305030503050000bad60a7",
         ),
         Container(
-            name='validInvalid_27',
+            name="validInvalid_27",
             raw_bytes="ef00010100100200040015000300070007040004000080000100800000008000030080000130505f35e202000000030006e50001e50002e50003e5000f30303050505000305030503050000bad60a7",
             validity_error=EOFException.INVALID_CODE_SECTION_INDEX,
         ),
         Container(
-            name='validInvalid_28',
+            name="validInvalid_28",
             raw_bytes="ef0001010008020002000600030400040000800001028000023050e50001005050000bad60a7",
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
-            name='validInvalid_29',
+            name="validInvalid_29",
             raw_bytes="ef0001010008020002000600030400040000800001000100023050e30001003030e40bad60a7",
             validity_error=EOFException.STACK_HIGHER_THAN_OUTPUTS,
         ),
         Container(
-            name='validInvalid_30',
+            name="validInvalid_30",
             raw_bytes="ef0001010008020002000600030400040000800001010100023050e30001003091e40bad60a7",
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
-            name='validInvalid_31',
+            name="validInvalid_31",
             raw_bytes="ef0001010004020001000304000400000100013050fe0bad60a7",
             validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
         ),
         Container(
-            name='validInvalid_32',
+            name="validInvalid_32",
             raw_bytes="ef000101000802000200050003040004000080000202800002305fe500015050000bad60a7",
         ),
         Container(
-            name='validInvalid_33',
+            name="validInvalid_33",
             raw_bytes="ef0001010004020001000304000400018000013050fe0bad60a7",
             validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
         ),
         Container(
-            name='validInvalid_34',
+            name="validInvalid_34",
             raw_bytes="ef0001010004020001000304000400008000033050000bad60a7",
             validity_error=EOFException.INVALID_MAX_STACK_HEIGHT,
         ),
         Container(
-            name='validInvalid_35',
+            name="validInvalid_35",
             raw_bytes="ef00010100040200010001040004000080000530503050000bad60a7",
             validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
         ),
         Container(
-            name='validInvalid_4',
+            name="validInvalid_4",
             raw_bytes="ef00010100040200010003040001ff00800001305000ef",
             validity_error=EOFException.MISSING_TERMINATOR,
         ),
         Container(
-            name='validInvalid_41',
+            name="validInvalid_41",
             raw_bytes="ef000102000100030400010100040000800001305000ef",
             validity_error=EOFException.MISSING_TYPE_HEADER,
         ),
         Container(
-            name='validInvalid_5',
+            name="validInvalid_5",
             raw_bytes="ef0001010004020001000e04000400008000015fe10003e00003e00003e0fffa000bad60a7",
         ),
         Container(
-            name='validInvalid_6',
+            name="validInvalid_6",
             raw_bytes="ef000101000402000100050400040000800000e000015b000bad60a7",
             validity_error=EOFException.UNREACHABLE_INSTRUCTIONS,
         ),
         Container(
-            name='validInvalid_7',
+            name="validInvalid_7",
             raw_bytes="ef0001010004020001000704000400008000016001e100015b000bad60a7",
         ),
         Container(
-            name='validInvalid_8',
+            name="validInvalid_8",
             raw_bytes="ef0001010014020005001900030003000100010400040000800001008000020080000200800000000000005f35e2030000000300060009e50001e50002e50003e30004005f5ff35f5ffdfee40bad60a7",
         ),
         Container(
-            name='validInvalid_9',
+            name="validInvalid_9",
             raw_bytes="ef0001010004020001000d04000400008000016001e2010002000030503050000bad60a7",
         ),
     ],
