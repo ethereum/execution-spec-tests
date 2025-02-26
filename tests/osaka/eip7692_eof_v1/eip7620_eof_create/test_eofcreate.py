@@ -754,3 +754,61 @@ def test_eofcreate_context(
         post=post,
         tx=tx,
     )
+
+
+def test_eofcreate_memory_context(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Verifies an EOFCREATE frame enjoys a separate EVM memory from its caller frame."""
+    env = Environment()
+    initcontainer = Container(
+        sections=[
+            Section.Code(
+                Op.SSTORE(0, Op.MSIZE())
+                + Op.SSTORE(1, Op.MLOAD(0))
+                + Op.SSTORE(slot_code_worked, value_code_worked)
+                + Op.MSTORE(0, 2)
+                + Op.MSTORE(32, 2)
+                + Op.RETURNCONTRACT[0](0, 0)
+            ),
+            Section.Container(smallest_runtime_subcontainer),
+        ]
+    )
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    Op.MSTORE(0, 1)
+                    + Op.EOFCREATE[0](0, 0, 0, 0)
+                    + Op.SSTORE(0, Op.MSIZE())
+                    + Op.SSTORE(1, Op.MLOAD(32))
+                    + Op.SSTORE(2, Op.MLOAD(0))
+                    + Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.STOP,
+                ),
+                Section.Container(initcontainer),
+            ],
+        ),
+        storage={0: 0xB17D, 1: 0xB17D},  # a canary to be overwritten
+    )
+    destination_contract_address = compute_eofcreate_address(contract_address, 0, initcontainer)
+    post = {
+        contract_address: Account(
+            # Slot 0: 32 - memory size - only the local MSTORE
+            # Slot 1:  0 - no remote MSTORE effect
+            # Slot 2:  2 - local MSTORE not overwritten
+            storage={0: 32, 1: 0, 2: 1, slot_code_worked: value_code_worked},
+        ),
+        destination_contract_address: Account(
+            # Slot 0:  0 - memory size - no remote MSTORE effect
+            # Slot 1:  0 - no remote MSTORE effect
+            storage={0: 0, 1: 0, slot_code_worked: value_code_worked},
+        ),
+    }
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=10_000_000,
+        sender=pre.fund_eoa(),
+    )
+    state_test(env=env, pre=pre, post=post, tx=tx)
