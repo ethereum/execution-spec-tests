@@ -570,3 +570,23 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
         ],
     )
     eof_test(container=container, expect_exception=EOFException.STACK_OVERFLOW)
+
+
+def test_returning_section_aborts(
+    eof_test: EOFTestFiller,
+):
+    """
+    Test EOF container validation where in the same code section we have returning
+    and nonreturning terminating instructions.
+    """
+    container = Container(
+        name="returning_section_aborts",
+        sections=[
+            Section.Code(code=Op.PUSH0 + Op.CALLF[1] + Op.POP + Op.POP + Op.STOP),
+            Section.Code(
+                code=Op.PUSH0 * 2 + Op.RJUMPI[1] + Op.RETF + Op.INVALID,
+                code_outputs=1,
+            ),
+        ],
+    )
+    eof_test(container=container)
