@@ -755,3 +755,60 @@ def test_eof_eofcreate_msg_depth(
         post=post,
         tx=tx,
     )
+
+
+def test_reentrant_eofcreate(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Verifies a reentrant EOFCREATE case, where EIP-161 prevents conflict via nonce bump."""
+    env = Environment()
+    contract_address = Address(0x1000000)
+    # Calls into the factory contract with 1 as input.
+    reenter_code = Op.MSTORE(0, 1) + Op.EXTCALL(address=contract_address, args_size=32)
+    # Initcode: if given 0 as input will call into the factory again.
+    initcontainer = Container(
+        sections=[
+            Section.Code(
+                Op.CALLDATALOAD(0)
+                + Op.RJUMPI[len(reenter_code)]
+                + reenter_code
+                + Op.RETURNCONTRACT[0](0, 0)
+            ),
+            Section.Container(smallest_runtime_subcontainer),
+        ]
+    )
+    # Factory: Passes on its input into the initcode. It's 0 first time, 1 the second time.
+    #          Saves the result of deployment in slot 0 first time, 1 the second time.
+    pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    Op.CALLDATACOPY(0, 0, 32)
+                    + Op.SSTORE(Op.CALLDATALOAD(0), Op.EOFCREATE[0](input_size=32))
+                    + Op.STOP,
+                ),
+                Section.Container(initcontainer),
+            ],
+        ),
+        storage={0: 0xB17D, 1: 0xB17D},  # a canary to be overwritten
+        address=contract_address,
+    )
+    # Flow is: 0 -> factory -> 0 -> initcode -> reenter -> 1 -> factory -> 1 -> initcode -> stop,
+    # if the EIP-161 nonce bump is not implemented. If it is, it fails before second initcode.
+    # Storage in 0 should have the address for the outer EOFCREATE.
+    # Storage in 1 should have 0 the inner EOFCREATE.
+    post = {
+        contract_address: Account(
+            storage={
+                0: compute_eofcreate_address(contract_address, 0, initcontainer),
+                1: 0,
+            }
+        )
+    }
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=10_000_000,
+        sender=pre.fund_eoa(),
+    )
+    state_test(env=env, pre=pre, post=post, tx=tx)
