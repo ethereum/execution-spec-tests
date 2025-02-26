@@ -26,6 +26,9 @@ class ConfigTest(BaseTest):
     config: ForkConfig
     """Configuration for the test."""
 
+    network_name: str
+    """Name of the network the fixture is for."""
+
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         ConfigFixture,
     ]
@@ -35,6 +38,7 @@ class ConfigTest(BaseTest):
         """Generate the config fixture."""
         fixture: ConfigFixture = ConfigFixture(
             config=self.config,
+            network_name=self.network_name,
             fork=fork.blockchain_test_network_name(),
         )
         return fixture

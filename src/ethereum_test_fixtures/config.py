@@ -23,6 +23,9 @@ class ConfigFixture(BaseFixture):
     Must be excluded from the hash computation and it's for reference only.
     """
 
+    network_name: str
+    """Name of the network the fixture is for."""
+
     config: ForkConfig
     """Configuration for the test."""
 
