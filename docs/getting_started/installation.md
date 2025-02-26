@@ -42,7 +42,7 @@ Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) a
     cd execution-spec-tests
     uv sync --all-extras
     ```
-    Follow [this guide](./installation_troubleshooting.md#problem-exception-failed-to-compile-yul-source) to build the `solc` binary from source.
+    Then follow [this guide](./installation_troubleshooting.md#problem-exception-failed-to-compile-yul-source) to build the `solc` binary from source and copy it to the expected location.
 
 ## Installation Troubleshooting
 
