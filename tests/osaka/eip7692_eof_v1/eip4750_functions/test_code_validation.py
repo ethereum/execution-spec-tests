@@ -156,6 +156,38 @@ INVALID: List[Container] = [
         validity_error=EOFException.INVALID_MAX_STACK_HEIGHT,
     ),
     Container(
+        name="stack_shorter_than_code_outputs_1",
+        sections=[
+            Section.Code(
+                code=(Op.CALLF[1] + Op.STOP),
+                # max_stack_heights of sections aligned with actual stack
+                max_stack_height=1,
+            ),
+            Section.Code(
+                code=(Op.PUSH0 + Op.RETF),
+                code_outputs=2,
+                max_stack_height=1,
+            ),
+        ],
+        validity_error=EOFException.INVALID_MAX_STACK_HEIGHT,
+    ),
+    Container(
+        name="stack_shorter_than_code_outputs_2",
+        sections=[
+            Section.Code(
+                code=(Op.CALLF[1] + Op.STOP),
+                # max_stack_heights of sections aligned with declared outputs
+                max_stack_height=2,
+            ),
+            Section.Code(
+                code=(Op.PUSH0 + Op.RETF),
+                code_outputs=2,
+                max_stack_height=2,
+            ),
+        ],
+        validity_error=EOFException.STACK_UNDERFLOW,
+    ),
+    Container(
         name="overflow_code_sections_1",
         sections=[
             Section.Code(
