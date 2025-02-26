@@ -35,7 +35,7 @@ Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) a
     uv run solc-select use 0.8.24 --always-install
     ```
 
-=== "ARM64"
+=== "ARM64 Linux"
 
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
