@@ -24,6 +24,7 @@ EOFTests/efStack/forwards_rjump_.json
 EOFTests/efStack/forwards_rjump_variable_stack_.json
 EOFTests/efStack/forwards_rjumpi_.json
 EOFTests/efStack/forwards_rjumpi_variable_stack_.json
+EOFTests/efStack/unreachable_instructions_.json
 EOFTests/efValidation/callf_into_nonreturning_.json
 EOFTests/efValidation/dataloadn_.json
 EOFTests/efValidation/EOF1_embedded_container_.json
