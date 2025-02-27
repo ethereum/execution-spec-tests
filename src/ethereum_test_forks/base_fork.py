@@ -166,11 +166,6 @@ class BaseForkMeta(ABCMeta):
                     queue.append(child)
         return result
 
-    @abstractmethod
-    def name(cls) -> str:
-        """Return the name of the fork (e.g., Berlin), must be implemented by subclasses."""
-        pass
-
     def __repr__(cls) -> str:
         """Print the name of the fork, instead of the class."""
         return cls.name()
@@ -231,330 +226,6 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         cls._solc_name = solc_name
         cls._ignore = ignore
 
-    # Header information abstract methods
-    @classmethod
-    @abstractmethod
-    def header_base_fee_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the header must contain base fee."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_prev_randao_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the header must contain Prev Randao value."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_zero_difficulty_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the header must have difficulty zero."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_withdrawals_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the header must contain withdrawals."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_excess_blob_gas_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the header must contain excess blob gas."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_blob_gas_used_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the header must contain blob gas used."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_beacon_root_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the header must contain parent beacon block root."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def header_requests_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the header must contain beacon chain requests."""
-        pass
-
-    # Gas related abstract methods
-
-    @classmethod
-    @abstractmethod
-    def gas_costs(cls, block_number: int = 0, timestamp: int = 0) -> GasCosts:
-        """Return dataclass with the gas costs constants for the fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def memory_expansion_gas_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> MemoryExpansionGasCalculator:
-        """Return a callable that calculates the gas cost of memory expansion for the fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def calldata_gas_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> CalldataGasCalculator:
-        """
-        Return callable that calculates the transaction gas cost for its calldata
-        depending on its contents.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
-    def transaction_data_floor_cost_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> TransactionDataFloorCostCalculator:
-        """Return a callable that calculates the transaction floor cost due to its calldata."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def transaction_intrinsic_cost_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> TransactionIntrinsicCostCalculator:
-        """Return callable that calculates the intrinsic gas cost of a transaction for the fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def blob_gas_price_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> BlobGasPriceCalculator:
-        """Return a callable that calculates the blob gas price at a given fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def excess_blob_gas_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> ExcessBlobGasCalculator:
-        """Return a callable that calculates the excess blob gas for a block at a given fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def min_base_fee_per_blob_gas(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the minimum base fee per blob gas at a given fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def blob_gas_per_blob(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the amount of blob gas used per blob at a given fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the blob base fee update fraction at a given fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def supports_blobs(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return whether the given fork supports blobs or not."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the target blobs per block at a given fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the max blobs per block at a given fork."""
-        pass
-
-    @classmethod
-    @prefer_transition_to_method
-    @abstractmethod
-    def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
-        """Return the blob schedule up until the given fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return expected reward amount in wei of a given fork."""
-        pass
-
-    # Transaction related abstract methods
-
-    @classmethod
-    @abstractmethod
-    def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
-        """Return list of the transaction types supported by the fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def contract_creating_tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
-        """Return list of the transaction types supported by the fork that can create contracts."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
-        """Return list pre-compiles supported by the fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
-        """Return list system-contracts supported by the fork."""
-        pass
-
-    @classmethod
-    @prefer_transition_to_method
-    @abstractmethod
-    def pre_allocation(cls) -> Mapping:
-        """
-        Return required pre-allocation of accounts for any kind of test.
-
-        This method must always call the `fork_to` method when transitioning, because the
-        allocation can only be set at genesis, and thus cannot be changed at transition time.
-        """
-        pass
-
-    @classmethod
-    @prefer_transition_to_method
-    @abstractmethod
-    def pre_allocation_blockchain(cls) -> Mapping:
-        """
-        Return required pre-allocation of accounts for any blockchain tests.
-
-        This method must always call the `fork_to` method when transitioning, because the
-        allocation can only be set at genesis, and thus cannot be changed at transition time.
-        """
-        pass
-
-    # Engine API information abstract methods
-    @classmethod
-    @abstractmethod
-    def engine_new_payload_version(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> Optional[int]:
-        """
-        Return `None` if this fork's payloads cannot be sent over the engine API,
-        or the payload version if it can.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
-    def engine_new_payload_blob_hashes(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """
-        Return true if the engine api version requires new payload calls to include
-        blob hashes.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
-    def engine_new_payload_beacon_root(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """
-        Return true if the engine api version requires new payload calls to include a parent
-        beacon block root.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
-    def engine_new_payload_requests(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return true if the engine api version requires new payload calls to include requests."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def engine_new_payload_target_blobs_per_block(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
-        """
-        Return true if the engine api version requires new payload calls to include
-        target blobs per block.
-        """
-        pass
-
-    @classmethod
-    @abstractmethod
-    def engine_payload_attribute_target_blobs_per_block(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
-        """Return true if the payload attributes include the target blobs per block."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def engine_payload_attribute_max_blobs_per_block(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
-        """Return true if the payload attributes include the max blobs per block."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def engine_forkchoice_updated_version(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> Optional[int]:
-        """Return `None` if the forks canonical chain cannot be set using the forkchoice method."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def engine_get_payload_version(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> Optional[int]:
-        """Return `None` if the forks canonical chain cannot be set using the forkchoice method."""
-        pass
-
-    # EVM information abstract methods
-    @classmethod
-    @abstractmethod
-    def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
-        """Return list of EVM code types supported by the fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def call_opcodes(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> List[Tuple[Opcodes, EVMCodeType]]:
-        """Return list of tuples with the call opcodes and its corresponding EVM code type."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def valid_opcodes(
-        cls,
-    ) -> List[Opcodes]:
-        """Return list of Opcodes that are valid to work on this fork."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def create_opcodes(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> List[Tuple[Opcodes, EVMCodeType]]:
-        """Return list of tuples with the create opcodes and its corresponding EVM code type."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def max_request_type(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return max request type supported by the fork."""
-        pass
-
-    # Meta information about the fork
     @classmethod
     def name(cls) -> str:
         """Return name of the fork."""
@@ -616,6 +287,645 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         if base_class == BaseFork:
             return None
         return base_class
+
+    @classmethod
+    @abstractmethod
+    def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return expected reward amount in wei."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def header_base_fee_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain base fee."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def header_prev_randao_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain prev randao value."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def header_zero_difficulty_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must have difficulty zero."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def header_withdrawals_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain withdrawals."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def header_excess_blob_gas_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain excess blob gas."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def header_blob_gas_used_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain blob gas used."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def header_beacon_root_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain parent beacon block root."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def header_requests_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain beacon chain requests."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def gas_costs(cls, block_number: int = 0, timestamp: int = 0) -> GasCosts:
+        """Return dataclass with the gas costs constants."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def memory_expansion_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> MemoryExpansionGasCalculator:
+        """Return a callable that calculates the gas cost of memory expansion."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def calldata_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> CalldataGasCalculator:
+        """
+        Return callable that calculates the transaction gas cost for its calldata
+        depending on its contents.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def transaction_data_floor_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionDataFloorCostCalculator:
+        """Return a callable that calculates the transaction floor cost due to its calldata."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def transaction_intrinsic_cost_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> TransactionIntrinsicCostCalculator:
+        """Return callable that calculates the intrinsic gas cost of a transaction."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def blob_gas_price_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BlobGasPriceCalculator:
+        """Return a callable that calculates the blob gas price."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def excess_blob_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> ExcessBlobGasCalculator:
+        """Return a callable that calculates the excess blob gas."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def min_base_fee_per_blob_gas(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the minimum base fee per blob gas."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def blob_gas_per_blob(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the amount of blob gas used per blob."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the blob base fee update fraction."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def supports_blobs(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return whether blobs are supported or not."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the target blobs per block."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the max blobs per block."""
+        pass
+
+    @classmethod
+    @prefer_transition_to_method
+    @abstractmethod
+    def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> Optional[BlobSchedule]:
+        """Return the blob schedule."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+        """Return list of the supported transaction types."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def contract_creating_tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+        """Return list of the supported transaction types that can create contracts."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def max_request_type(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
+        """Return max request type supported by the fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+        """Return list of the supported precompiles."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+        """Return list of the supported system contracts."""
+        pass
+
+    @classmethod
+    @prefer_transition_to_method
+    @abstractmethod
+    def pre_allocation(cls) -> Mapping:
+        """
+        Return required pre-allocation of accounts for any kind of test.
+
+        This method must always call the `fork_to` method when transitioning, because the
+        allocation can only be set at genesis, and thus cannot be changed at transition time.
+        """
+        pass
+
+    @classmethod
+    @prefer_transition_to_method
+    @abstractmethod
+    def pre_allocation_blockchain(cls) -> Mapping:
+        """
+        Return required pre-allocation of accounts for any blockchain tests.
+
+        This method must always call the `fork_to` method when transitioning, because the
+        allocation can only be set at genesis, and thus cannot be changed at transition time.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
+        """Return list of EVM code types."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def call_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """Return list of tuples with the call opcodes and its corresponding EVM code type."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """Return list of supported opcodes."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """Return list of tuples with the create opcodes and its corresponding EVM code type."""
+        pass
+
+    # Engine API information abstract methods
+    @classmethod
+    @abstractmethod
+    def engine_new_payload_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """Return engine api new payload version."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_get_payload_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """Return engine api get payload version."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_forkchoice_updated_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """Return engine api forkchoice updated version."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_new_payload_blob_hashes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[bool]:
+        """Return whether engine api new payload calls should include blob hashes."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_new_payload_beacon_root(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[bool]:
+        """Return whether engine api new payload calls should include a beacon block root."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_new_payload_requests(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[bool]:
+        """Return whether engine api new payload calls should include target blobs per block."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_new_payload_target_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[bool]:
+        """Return whether engine api new payload calls should include target blobs per block."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_payload_attribute_target_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[bool]:
+        """Return whether engine api payload attributes should include target blobs per block."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_payload_attribute_max_blobs_per_block(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[bool]:
+        """Return whether engine api payload attributes should include max blobs per block."""
+        pass
+
+
+class GenesisBaseFork(BaseFork):
+    """
+    Implements all abstract methods from BaseFork with defaults.
+    Frontier must inherit from this class.
+    """
+
+    @classmethod
+    def get_reward(cls, block_number=0, timestamp=0) -> int:
+        """Return expected reward amount in wei of a given fork. Default is 0."""
+        return 0
+
+    @classmethod
+    def header_base_fee_required(cls, block_number=0, timestamp=0) -> bool:
+        """Return true if the header must contain base fee. Default is False."""
+        return False
+
+    @classmethod
+    def header_prev_randao_required(cls, block_number=0, timestamp=0) -> bool:
+        """Return true if the header must contain prev randao value. Default is False."""
+        return False
+
+    @classmethod
+    def header_zero_difficulty_required(cls, block_number=0, timestamp=0) -> bool:
+        """Return true if the header must have difficulty zero. Default is False."""
+        return False
+
+    @classmethod
+    def header_withdrawals_required(cls, block_number=0, timestamp=0) -> bool:
+        """Return true if the header must contain withdrawals. Default is False."""
+        return False
+
+    @classmethod
+    def header_excess_blob_gas_required(cls, block_number=0, timestamp=0) -> bool:
+        """Return true if the header must contain excess blob gas. Default is False."""
+        return False
+
+    @classmethod
+    def header_blob_gas_used_required(cls, block_number=0, timestamp=0) -> bool:
+        """Return true if the header must contain blob gas used. Default is False."""
+        return False
+
+    @classmethod
+    def header_beacon_root_required(cls, block_number=0, timestamp=0) -> bool:
+        """Return true if the header must contain parent beacon block root. Default is False."""
+        return False
+
+    @classmethod
+    def header_requests_required(cls, block_number=0, timestamp=0) -> bool:
+        """Return true if the header must contain beacon chain requests. Default is False."""
+        return False
+
+    @classmethod
+    def gas_costs(cls, block_number=0, timestamp=0) -> GasCosts:
+        """Return dataclass with the gas costs constants. Default is empty `GasCosts` dataclass."""
+        return GasCosts()
+
+    @classmethod
+    def memory_expansion_gas_calculator(
+        cls,
+        block_number: int = 0,
+        timestamp: int = 0,
+    ) -> MemoryExpansionGasCalculator:
+        """
+        Return a callable that calculates the gas cost of memory expansion.
+        Default callable returns 0.
+        """
+
+        def fn(*, new_bytes: int, previous_bytes: int = 0) -> int:
+            return 0
+
+        return fn
+
+    @classmethod
+    def calldata_gas_calculator(
+        cls,
+        block_number: int = 0,
+        timestamp: int = 0,
+    ) -> CalldataGasCalculator:
+        """
+        Return a callable that calculates the transaction gas cost for its calldata
+        depending on its contexts. Default callable returns 0.
+        """
+
+        def fn(*, data: BytesConvertible, floor: bool = False) -> int:
+            return 0
+
+        return fn
+
+    @classmethod
+    def transaction_data_floor_cost_calculator(
+        cls,
+        block_number: int = 0,
+        timestamp: int = 0,
+    ) -> TransactionDataFloorCostCalculator:
+        """
+        Return a callable that calculates the transaction floor cost due to its calldata.
+        Default callable returns 0.
+        """
+
+        def fn(*, data: BytesConvertible) -> int:
+            return 0
+
+        return fn
+
+    @classmethod
+    def transaction_intrinsic_cost_calculator(
+        cls,
+        block_number: int = 0,
+        timestamp: int = 0,
+    ) -> TransactionIntrinsicCostCalculator:
+        """
+        Return a callable that calculates the intrinsic gas cost of a transaction.
+        Default callable returns 0.
+        """
+
+        def fn(
+            *,
+            calldata: BytesConvertible = b"",
+            contract_creation: bool = False,
+            access_list: List[AccessList] | None = None,
+            authorization_list_or_count: Sized | int | None = None,
+            return_cost_deducted_prior_execution: bool = False,
+        ) -> int:
+            return 0
+
+        return fn
+
+    @classmethod
+    def blob_gas_price_calculator(
+        cls,
+        block_number: int = 0,
+        timestamp: int = 0,
+    ) -> BlobGasPriceCalculator:
+        """Return a callable that calculates the blob gas price. Default raises an error."""
+        raise NotImplementedError(f"Blob gas price calculator is not supported in {cls.name()}")
+
+    @classmethod
+    def excess_blob_gas_calculator(
+        cls,
+        block_number: int = 0,
+        timestamp: int = 0,
+    ) -> ExcessBlobGasCalculator:
+        """Return a callable that calculates the excess blob gas. Default callable returns 0."""
+
+        def fn(
+            *,
+            parent_excess_blob_gas: int | None = None,
+            parent_excess_blobs: int | None = None,
+            parent_blob_gas_used: int | None = None,
+            parent_blob_count: int | None = None,
+        ) -> int:
+            return 0
+
+        return fn
+
+    @classmethod
+    def min_base_fee_per_blob_gas(cls, block_number=0, timestamp=0) -> int:
+        """Return the minimum base fee per blob gas. Default is 0."""
+        return 0
+
+    @classmethod
+    def blob_gas_per_blob(cls, block_number=0, timestamp=0) -> int:
+        """Return the amount of blob gas used per blob. Default is 0."""
+        return 0
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number=0, timestamp=0) -> int:
+        """Return the blob base fee update fraction. Default is 0."""
+        return 0
+
+    @classmethod
+    def supports_blobs(cls, block_number=0, timestamp=0) -> bool:
+        """Return whether blobs are supported or not. Default is False."""
+        return False
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number=0, timestamp=0) -> int:
+        """Return the target blobs per block. Default is 0."""
+        return 0
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number=0, timestamp=0) -> int:
+        """Return the max blobs per block. Default is 0."""
+        return 0
+
+    @classmethod
+    def blob_schedule(cls, block_number=0, timestamp=0) -> Optional[BlobSchedule]:
+        """Return the blob schedule. Default is `None`."""
+        return None
+
+    @classmethod
+    def max_request_type(cls, block_number=0, timestamp=0) -> Optional[int]:
+        """Return max request type supported by the fork. Default is `None`."""
+        return None
+
+    @classmethod
+    def tx_types(cls, block_number=0, timestamp=0) -> List[int]:
+        """Return list of the supported transaction types. Default is empty."""
+        return []
+
+    @classmethod
+    def contract_creating_tx_types(cls, block_number=0, timestamp=0) -> List[int]:
+        """
+        Return list of the supported transaction types that can create contracts.
+        Default is empty.
+        """
+        return []
+
+    @classmethod
+    def precompiles(cls, block_number=0, timestamp=0) -> List[Address]:
+        """Return list of the supported precompiles. Default is empty."""
+        return []
+
+    @classmethod
+    def system_contracts(cls, block_number=0, timestamp=0) -> List[Address]:
+        """Return list of the supported system contracts. Default is empty."""
+        return []
+
+    @classmethod
+    def pre_allocation(cls) -> Mapping:
+        """Return required pre-allocation of accounts for any kind of test. Default is empty."""
+        return {}
+
+    @classmethod
+    def pre_allocation_blockchain(cls) -> Mapping:
+        """
+        Return required pre-allocation of accounts for any blockchain tests.
+        Default is empty.
+        """
+        return {}
+
+    @classmethod
+    def evm_code_types(cls, block_number=0, timestamp=0) -> List[EVMCodeType]:
+        """Return list of EVM code types. Default is empty."""
+        return []
+
+    @classmethod
+    def call_opcodes(cls, block_number=0, timestamp=0) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        Return list of tuples with the call opcodes and its corresponding EVM code type.
+        Default is empty.
+        """
+        return []
+
+    @classmethod
+    def valid_opcodes(cls) -> List[Opcodes]:
+        """Return list of of supported opcodes. Default is empty."""
+        return []
+
+    @classmethod
+    def create_opcodes(cls, block_number=0, timestamp=0) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """
+        Return list of tuples with the create opcodes and its corresponding EVM code type.
+        Default is empty.
+        """
+        return []
+
+    # Engine API information default methods
+    @classmethod
+    def engine_new_payload_version(cls, block_number=0, timestamp=0) -> Optional[int]:
+        """Return engine api new payload version. Default is `None`."""
+        return None
+
+    @classmethod
+    def engine_get_payload_version(cls, block_number=0, timestamp=0) -> Optional[int]:
+        """Return engine api get payload version. Default is `None`."""
+        return None
+
+    @classmethod
+    def engine_forkchoice_updated_version(cls, block_number=0, timestamp=0) -> Optional[int]:
+        """Return engine api forkchoice updated version. Default is `None`."""
+        return None
+
+    @classmethod
+    def engine_new_payload_blob_hashes(cls, block_number=0, timestamp=0) -> Optional[bool]:
+        """
+        Return whether engine api new payload calls should include blob hashes.
+        Default is `None`.
+        """
+        return None
+
+    @classmethod
+    def engine_new_payload_beacon_root(cls, block_number=0, timestamp=0) -> Optional[bool]:
+        """
+        Return whether engine api new payload calls should include a beacon block root.
+        Default is `None`.
+        """
+        return None
+
+    @classmethod
+    def engine_new_payload_requests(cls, block_number=0, timestamp=0) -> Optional[bool]:
+        """
+        Return whether engine api new payload calls should include requests.
+        Default is `None`.
+        """
+        return None
+
+    @classmethod
+    def engine_new_payload_target_blobs_per_block(
+        cls, block_number=0, timestamp=0
+    ) -> Optional[bool]:
+        """
+        Return whether engine api new payload calls should include target blobs per block.
+        Default is `None`.
+        """
+        return None
+
+    @classmethod
+    def engine_payload_attribute_target_blobs_per_block(
+        cls, block_number=0, timestamp=0
+    ) -> Optional[bool]:
+        """
+        Return whether engine api payload attributes should include target blobs per block.
+        Default is `None`.
+        """
+        return None
+
+    @classmethod
+    def engine_payload_attribute_max_blobs_per_block(
+        cls, block_number=0, timestamp=0
+    ) -> Optional[bool]:
+        """
+        Return whether engine api payload attributes should include max blobs per block.
+        Default is `None`.
+        """
+        return None
 
 
 # Fork Type Alias

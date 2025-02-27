@@ -173,9 +173,9 @@ class Header(CamelModel):
                 assert baseline_value is not Header.REMOVE_FIELD, "invalid header"
                 value = getattr(target, field_name)
                 if baseline_value is Header.EMPTY_FIELD:
-                    assert value is None, (
-                        f"invalid header field {field_name}, got {value}, want None"
-                    )
+                    assert (
+                        value is None
+                    ), f"invalid header field {field_name}, got {value}, want None"
                     continue
                 assert value == baseline_value, (
                     f"invalid header field ({field_name}) value, "
@@ -328,12 +328,12 @@ class BlockchainTest(BaseTest):
     ) -> Tuple[Alloc, FixtureBlock]:
         """Create a genesis block from the blockchain test definition."""
         env = genesis_environment.set_fork_requirements(fork)
-        assert env.withdrawals is None or len(env.withdrawals) == 0, (
-            "withdrawals must be empty at genesis"
-        )
-        assert env.parent_beacon_block_root is None or env.parent_beacon_block_root == Hash(0), (
-            "parent_beacon_block_root must be empty at genesis"
-        )
+        assert (
+            env.withdrawals is None or len(env.withdrawals) == 0
+        ), "withdrawals must be empty at genesis"
+        assert env.parent_beacon_block_root is None or env.parent_beacon_block_root == Hash(
+            0
+        ), "parent_beacon_block_root must be empty at genesis"
 
         pre_alloc = Alloc.merge(
             Alloc.model_validate(fork.pre_allocation_blockchain()),
@@ -475,9 +475,9 @@ class BlockchainTest(BaseTest):
 
         requests_list: List[Bytes] | None = None
         if fork.header_requests_required(header.number, header.timestamp):
-            assert transition_tool_output.result.requests is not None, (
-                "Requests are required for this block"
-            )
+            assert (
+                transition_tool_output.result.requests is not None
+            ), "Requests are required for this block"
             requests = Requests(requests_lists=list(transition_tool_output.result.requests))
 
             if Hash(requests) != header.requests_hash:
@@ -646,6 +646,7 @@ class BlockchainTest(BaseTest):
                 slow=slow,
             )
             if block.rlp is None:
+                print("block to payload")
                 fixture_payloads.append(
                     FixtureEngineNewPayload.from_fixture_header(
                         fork=fork,
@@ -678,9 +679,9 @@ class BlockchainTest(BaseTest):
         sync_payload: Optional[FixtureEngineNewPayload] = None
         if self.verify_sync:
             # Test is marked for syncing verification.
-            assert genesis.header.block_hash != head_hash, (
-                "Invalid payload tests negative test via sync is not supported yet."
-            )
+            assert (
+                genesis.header.block_hash != head_hash
+            ), "Invalid payload tests negative test via sync is not supported yet."
 
             # Most clients require the header to start the sync process, so we create an empty
             # block on top of the last block of the test to send it as new payload and trigger the

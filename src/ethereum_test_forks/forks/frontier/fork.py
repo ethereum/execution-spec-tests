@@ -9,10 +9,9 @@ from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
 from ...base_fork import (
-    BaseFork,
     BlobGasPriceCalculator,
     CalldataGasCalculator,
-    ExcessBlobGasCalculator,
+    GenesisBaseFork,
     MemoryExpansionGasCalculator,
     TransactionDataFloorCostCalculator,
     TransactionIntrinsicCostCalculator,
@@ -20,7 +19,7 @@ from ...base_fork import (
 from ...gas_costs import GasCosts
 
 
-class Frontier(BaseFork, solc_name="homestead"):
+class Frontier(GenesisBaseFork, solc_name="homestead"):
     """Frontier fork."""
 
     @classmethod
@@ -41,36 +40,6 @@ class Frontier(BaseFork, solc_name="homestead"):
     def solc_min_version(cls) -> Version:
         """Return minimum version of solc that supports this fork."""
         return Version.parse("0.8.20")
-
-    @classmethod
-    def header_base_fee_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, header must not contain base fee."""
-        return False
-
-    @classmethod
-    def header_prev_randao_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, header must not contain Prev Randao value."""
-        return False
-
-    @classmethod
-    def header_zero_difficulty_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, header must not have difficulty zero."""
-        return False
-
-    @classmethod
-    def header_withdrawals_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, header must not contain withdrawals."""
-        return False
-
-    @classmethod
-    def header_excess_blob_gas_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, header must not contain excess blob gas."""
-        return False
-
-    @classmethod
-    def header_blob_gas_used_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, header must not contain blob gas used."""
-        return False
 
     @classmethod
     def gas_costs(cls, block_number: int = 0, timestamp: int = 0) -> GasCosts:
@@ -187,9 +156,9 @@ class Frontier(BaseFork, solc_name="homestead"):
             return_cost_deducted_prior_execution: bool = False,
         ) -> int:
             assert access_list is None, f"Access list is not supported in {cls.name()}"
-            assert authorization_list_or_count is None, (
-                f"Authorizations are not supported in {cls.name()}"
-            )
+            assert (
+                authorization_list_or_count is None
+            ), f"Authorizations are not supported in {cls.name()}"
             intrinsic_cost: int = gas_costs.G_TRANSACTION
 
             if contract_creation:
@@ -209,119 +178,6 @@ class Frontier(BaseFork, solc_name="homestead"):
         raise NotImplementedError(f"Blob gas price calculator is not supported in {cls.name()}")
 
     @classmethod
-    def excess_blob_gas_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> ExcessBlobGasCalculator:
-        """Return a callable that calculates the excess blob gas for a block at a given fork."""
-        raise NotImplementedError(f"Excess blob gas calculator is not supported in {cls.name()}")
-
-    @classmethod
-    def min_base_fee_per_blob_gas(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the amount of blob gas used per blob at a given fork."""
-        raise NotImplementedError(f"Base fee per blob gas is not supported in {cls.name()}")
-
-    @classmethod
-    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the blob base fee update fraction at a given fork."""
-        raise NotImplementedError(
-            f"Blob base fee update fraction is not supported in {cls.name()}"
-        )
-
-    @classmethod
-    def blob_gas_per_blob(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the amount of blob gas used per blob at a given fork."""
-        return 0
-
-    @classmethod
-    def supports_blobs(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Blobs are not supported at Frontier."""
-        return False
-
-    @classmethod
-    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the target number of blobs per block at a given fork."""
-        raise NotImplementedError(f"Target blobs per block is not supported in {cls.name()}")
-
-    @classmethod
-    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Return the max number of blobs per block at a given fork."""
-        raise NotImplementedError(f"Max blobs per block is not supported in {cls.name()}")
-
-    @classmethod
-    def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
-        """At genesis, no blob schedule is used."""
-        return None
-
-    @classmethod
-    def header_requests_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, header must not contain beacon chain requests."""
-        return False
-
-    @classmethod
-    def engine_new_payload_version(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> Optional[int]:
-        """At genesis, payloads cannot be sent through the engine API."""
-        return None
-
-    @classmethod
-    def header_beacon_root_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, header must not contain parent beacon block root."""
-        return False
-
-    @classmethod
-    def engine_new_payload_blob_hashes(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, payloads do not have blob hashes."""
-        return False
-
-    @classmethod
-    def engine_new_payload_beacon_root(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, payloads do not have a parent beacon block root."""
-        return False
-
-    @classmethod
-    def engine_new_payload_requests(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """At genesis, payloads do not have requests."""
-        return False
-
-    @classmethod
-    def engine_new_payload_target_blobs_per_block(
-        cls,
-        block_number: int = 0,
-        timestamp: int = 0,
-    ) -> bool:
-        """At genesis, payloads do not have target blobs per block."""
-        return False
-
-    @classmethod
-    def engine_payload_attribute_target_blobs_per_block(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
-        """At genesis, payload attributes do not include the target blobs per block."""
-        return False
-
-    @classmethod
-    def engine_payload_attribute_max_blobs_per_block(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> bool:
-        """At genesis, payload attributes do not include the max blobs per block."""
-        return False
-
-    @classmethod
-    def engine_forkchoice_updated_version(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> Optional[int]:
-        """At genesis, forkchoice updates cannot be sent through the engine API."""
-        return cls.engine_new_payload_version(block_number, timestamp)
-
-    @classmethod
-    def engine_get_payload_version(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> Optional[int]:
-        """At genesis, payloads cannot be retrieved through the engine API."""
-        return cls.engine_new_payload_version(block_number, timestamp)
-
-    @classmethod
     def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """
         At Genesis the expected reward amount in wei is
@@ -338,16 +194,6 @@ class Frontier(BaseFork, solc_name="homestead"):
     def contract_creating_tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
         """At Genesis, only legacy transactions are allowed."""
         return [0]
-
-    @classmethod
-    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
-        """At Genesis, no pre-compiles are present."""
-        return []
-
-    @classmethod
-    def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
-        """At Genesis, no system-contracts are present."""
-        return []
 
     @classmethod
     def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
@@ -509,29 +355,6 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [
             (Opcodes.CREATE, EVMCodeType.LEGACY),
         ]
-
-    @classmethod
-    def max_request_type(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """At genesis, no request type is supported, signaled by -1."""
-        return -1
-
-    @classmethod
-    def pre_allocation(cls) -> Mapping:
-        """
-        Return whether the fork expects pre-allocation of accounts.
-
-        Frontier does not require pre-allocated accounts
-        """
-        return {}
-
-    @classmethod
-    def pre_allocation_blockchain(cls) -> Mapping:
-        """
-        Return whether the fork expects pre-allocation of accounts.
-
-        Frontier does not require pre-allocated accounts
-        """
-        return {}
 
 
 def ceiling_division(a: int, b: int) -> int:
