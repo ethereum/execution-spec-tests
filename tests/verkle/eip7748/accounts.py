@@ -22,101 +22,81 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7748.md"
 REFERENCE_SPEC_VERSION = "TODO"
 
 # List of addressed ordered by MPT tree key.
-# 03601462093b5945d1676df093446790fd31b20e7b12a2e8e5e09d068109616b
-Account0 = Address("0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b")
-# 0e195438d9f92eb191032b5f660d42a22255c9c417248f092c1f83f3a36b29ba
-Account1 = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0e")
-# 6a7fc6037f7a0dca7004c2cd41d87bfd929be7eb0d31903b238839e8e7aaf897
-Account2 = Address("0xa94f5374fce5edbc8e2a8697c15331677e6ebf0a")
-# 6a8737909ea3e92b0d47328d70aff338c526832b32362eca8692126c1f399846
-Account3 = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0d")
-# d3bd43970708294fd4d78893c4e7c2fed43c8cd505e9c9516e1f11e79f574598
-Account4 = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0f")
+accounts = [
+    # 03601462093b5945d1676df093446790fd31b20e7b12a2e8e5e09d068109616b
+    Address("0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b"),
+    # 1fe26fd0b8a197e7b85ed1ead2b52700041c5d465673aa744f3afc4704f83c03
+    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0d"),
+    # 257f371320e4696a5debc64a489e651fc4565eb07ce0e4d2ce5b6d5b1896d89a
+    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0f"),
+    # 6a7fc6037f7a0dca7004c2cd41d87bfd929be7eb0d31903b238839e8e7aaf897
+    Address("0xa94f5374fce5edbc8e2a8697c15331677e6ebf0a"),
+    # 85174d7e61a36094fc9b58640ad245d4ab61d888699f3659137171ff2910b6cb
+    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0e"),
+    # b4102152d5f5995b7a017c9db0e186028190faafa4326ac1ecfb2bc817c423c9
+    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf05"),
+    # e72525e3842ed775ed5c52ffc1520247deae64a217fcb3fb3ddbe59ffeb5949c
+    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf03"),
+]
 
-accounts = [Account0, Account1, Account2, Account3, Account4]
+
+class AccountConfig:
+    def __init__(self, code_length: int, storage_slot_count: int):
+        self.code_length = code_length
+        self.storage_slots_count = storage_slot_count
 
 
 @pytest.mark.valid_from("EIP6800Transition")
 @pytest.mark.parametrize(
-    "stride",
+    "account_configs",
     [
-        3,
+        [AccountConfig(0, 0)],
+        [AccountConfig(0, 0), AccountConfig(0, 0)],
+        [AccountConfig(0, 0), AccountConfig(0, 0), AccountConfig(0, 0)],
+    ],
+    ids=[
+        "One EOA",
+        "Two EOAs",
+        "Three EOAs",
     ],
 )
 @pytest.mark.parametrize(
-    "num_accounts",
+    "fill_first_block, stride",
     [
-        1,
-        2,
-        3,
-        4,
+        (False, 3),
+        (True, 3),
     ],
 )
-def test_eoa(blockchain_test: BlockchainTestFiller, stride: int, num_accounts: int):
+def test_conversions(
+    blockchain_test: BlockchainTestFiller,
+    account_configs: list[AccountConfig],
+    fill_first_block: bool,
+    stride: int,
+):
     """
-    Test only EOA account conversion.
+    Test conversion cases.
     """
+    conversion_units = 0
     pre_state = {}
-    for i in range(num_accounts):
-        pre_state[accounts[i]] = Account(balance=100 + 1000 * i)
+    if fill_first_block:
+        for i in range(stride):
+            conversion_units += 1
+            pre_state[accounts[i]] = Account(balance=100 + 1000 * i)
 
-    _state_conversion(blockchain_test, pre_state, stride, math.ceil(num_accounts / stride))
+    for i, account_config in enumerate(account_configs, start=len(pre_state)):
+        storage = {}
+        for j in range(account_config.storage_slots_count):
+            conversion_units += 1
+            storage[j] = j
 
+        pre_state[accounts[i]] = Account(
+            balance=100 + 1000 * i,
+            code=Op.STOP * account_config.code_length,
+            storage=storage,
+        )
+        conversion_units += 1 + math.ceil(account_config.code_length / 31) + len(storage)
 
-# @pytest.mark.skip("stride config not supported yet")
-# @pytest.mark.valid_from("EIP6800Transition")
-# @pytest.mark.parametrize(
-#     "contract_length",
-#     [
-#         0,
-#         1,
-#         128 * 31,
-#         130 * 31,
-#     ],
-#     ids=[
-#         "empty",
-#         "in_header",
-#         "header_perfect_fit",
-#         "bigger_than_header",
-#     ],
-# )
-# @pytest.mark.parametrize(
-#     "fcb, stride, num_expected_blocks",
-#     [
-#         (True, 1, 6),
-#         (True, 2, 3),
-#         (True, 3, 2),
-#         (True, 4, 2),
-#         (True, 5, 2),
-#         (True, 6, 1),
-#         (False, 1, 3),
-#         (False, 2, 2),
-#         (False, 3, 1),
-#     ],
-# )
-# def test_full_contract(
-#     blockchain_test: BlockchainTestFiller,
-#     contract_length: int,
-#     fcb: bool,
-#     stride: int,
-#     num_expected_blocks: int,
-# ):
-#     """
-#     Test contract account full/partial migration cases.
-#     """
-#     pre_state = {}
-#     if not fcb:
-#         pre_state[Account0] = Account(balance=1000)
-#         pre_state[Account1] = Account(balance=1001)
-#         pre_state[Account2] = Account(balance=1002)
-
-#     pre_state[Account3] = Account(
-#         balance=2000,
-#         code=Op.STOP * contract_length,
-#         storage={0: 0x1, 1: 0x2},
-#     )
-
-#     _state_conversion(blockchain_test, pre_state, stride, num_expected_blocks)
+    _state_conversion(blockchain_test, pre_state, stride, math.ceil(conversion_units / stride))
 
 
 # @pytest.mark.skip("stride config not supported yet")
