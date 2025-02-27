@@ -36,6 +36,8 @@ This page provides guidance on how to troubleshoot common issues that may arise 
 
 ## Problem: `solc` Installation issues
 
+### Problem: `CERTIFICATE_VERIFY_FAILED`
+
 !!! danger "Problem: `Failed to install solc ... CERTIFICATE_VERIFY_FAILED`"
     When running either `uv run solc-select use 0.8.24 --always-install` or `fill` you encounter the following error:
 
@@ -61,6 +63,32 @@ This page provides guidance on how to troubleshoot common issues that may arise 
         ```bash
         /Applications/Python\ 3.11/Install\ Certificates.command
         ```
+
+### Problem: `Exception: failed to compile yul source`
+
+!!! danger "Problem: `Running fill fails with tests that contain yul source code` on ARM platforms"
+    If you're using `x86_64`, try to manually run `solc-select` to install the required version of the `solc` binary:
+
+    ```shell
+    uv run solc-select use 0.8.24 --always-install
+    ```
+
+    Otherwise, this can happen when you're using an ARM64 OS but followed the x86-64 installation guide.
+    To resolve the issue you must build solidity from source (avoid 0.8.24 as it might require building z3 from source as well).
+
+!!! success "Solution: Build solc from source"
+    The following steps have been tested on Ubuntu 24.04.2 LTS ARM64:
+    ```bash
+    git clone --branch v0.8.28 --depth 1 https://github.com/ethereum/solidity.git
+    cd solidity && mkdir build && cd build
+    sudo apt install build-essential libboost-all-dev z3
+    cmake ..
+    make
+    mv $HOME/Documents/execution-spec-tests/.venv/bin/solc $HOME/Documents/execution-spec-tests/.venv/bin/solc-x86-64
+    cp ./solc/solc $HOME/Documents/execution-spec-tests/.venv/bin/
+    chmod +x $HOME/Documents/execution-spec-tests/.venv/bin/solc
+    ```
+    Running `uv run solc --version` should now return the expected version. Verify that `fill` works by running `uv run fill -m yul_test` in the execution-spec-tests root folder.
 
 ## Problem: `ValueError: unsupported hash type ripemd160`
 
