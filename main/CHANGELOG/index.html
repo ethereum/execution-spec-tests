@@ -28646,10 +28646,11 @@
 <li>🔀 Refactor <code>ethereum_test_fixtures</code> and <code>ethereum_clis</code> to create <code>FixtureConsumer</code> and <code>FixtureConsumerTool</code> classes which abstract away the consumption process used by <code>consume direct</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/935">#935</a>).</li>
 <li>✨ Allow <code>consume direct --collect-only</code> without specifying a fixture consumer binary on the command-line (<a href="https://github.com/ethereum/execution-spec-tests/pull/1237">#1237</a>).</li>
 <li>✨ Allow <code>fill --collect-only</code> without the need for existence of the folder `./fixtures'</li>
-<li>✨ Report the (resolved) fixture tarball URL and local fixture cache directory when <code>consume</code>'s <code>--input</code> flag is a release spec or URL  <a href="https://github.com/ethereum/execution-spec-tests/pull/1239">#1239</a>.</li>
+<li>✨ Report the (resolved) fixture tarball URL and local fixture cache directory when <code>consume</code>'s <code>--input</code> flag is a release spec or URL (<a href="https://github.com/ethereum/execution-spec-tests/pull/1239">#1239</a>).</li>
 <li>✨ EOF Container validation tests (<code>eof_test</code>) now generate container deployment state tests, by wrapping the EOF container in an init-container and sending a deploy transaction (<a href="https://github.com/ethereum/execution-spec-tests/pull/783">#783</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1233">#1233</a>).</li>
 <li>✨ Use regexes for Hive's <code>--sim.limit</code> argument and don't use xdist if <code>--sim.parallelism==1</code> in the <code>eest/consume-rlp</code> and <code>eest/consume-rlp</code> simulators (<a href="https://github.com/ethereum/execution-spec-tests/pull/1220">#1220</a>).</li>
 <li>🐞 Register generated test markers, e.g., <code>blockchain_test_from_state_test</code>, to prevent test session warnings (<a href="https://github.com/ethereum/execution-spec-tests/pull/1238">#1238</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1245">#1245</a>).</li>
+<li>🐞 Zero-pad <code>Environment</code> fields passed to <code>t8n</code> tools as required by <code>evmone-t8n</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1268">#1268</a>).</li>
 </ul>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <ul>
