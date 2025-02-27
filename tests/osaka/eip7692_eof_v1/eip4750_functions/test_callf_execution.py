@@ -16,7 +16,13 @@ from ..eip7620_eof_create.helpers import (
     value_canary_should_not_change,
     value_canary_to_be_overwritten,
 )
-from .helpers import slot_code_worked, slot_stack_canary, value_canary_written, value_code_worked
+from .helpers import (
+    slot_code_worked,
+    slot_stack_canary,
+    slots_extra,
+    value_canary_written,
+    value_code_worked,
+)
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4750.md"
 REFERENCE_SPEC_VERSION = "14400434e1199c57d912082127b1d22643788d11"
@@ -661,5 +667,55 @@ def test_callf_max_stack(
         to=contract_address,
         gas_limit=100_000,
         sender=sender,
+    )
+    state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+def test_callf_retf_memory_context(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Verifies CALLF and RETF don't corrupt memory."""
+    env = Environment()
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.MSTORE(0, 1)
+                    + Op.CALLF[1]
+                    + Op.SSTORE(slots_extra[0], Op.MSIZE())
+                    + Op.SSTORE(slots_extra[1], Op.MLOAD(32))
+                    + Op.SSTORE(slots_extra[2], Op.MLOAD(0))
+                    + Op.STOP,
+                ),
+                Section.Code(
+                    Op.SSTORE(slots_extra[3], Op.MSIZE())
+                    + Op.SSTORE(slots_extra[4], Op.MLOAD(0))
+                    + Op.MSTORE(0, 2)
+                    + Op.MSTORE(32, 3)
+                    + Op.RETF,
+                    code_outputs=0,
+                ),
+            ],
+        ),
+        storage={key: 0xB17D for key in slots_extra[:5]},
+    )
+    post = {
+        contract_address: Account(
+            storage={
+                slots_extra[0]: 64,  # memory size - two sections MSTORE
+                slots_extra[1]: 3,  # second section MSTORE
+                slots_extra[2]: 2,  # second section MSTORE overwrites
+                slots_extra[3]: 32,  # memory size - first section MSTORE
+                slots_extra[4]: 1,  # first section MSTORE
+                slot_code_worked: value_code_worked,
+            },
+        ),
+    }
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=10_000_000,
+        sender=pre.fund_eoa(),
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
