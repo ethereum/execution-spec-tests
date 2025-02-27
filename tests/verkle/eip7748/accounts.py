@@ -6,6 +6,8 @@ abstract: Tests [EIP-7748: State conversion to Verkle Tree]
 """
 
 import pytest
+import math
+import sys
 
 from ethereum_test_tools import (
     Account,
@@ -31,155 +33,166 @@ Account3 = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0d")
 # d3bd43970708294fd4d78893c4e7c2fed43c8cd505e9c9516e1f11e79f574598
 Account4 = Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0f")
 
+accounts = [Account0, Account1, Account2, Account3, Account4]
 
-@pytest.mark.valid_from("Verkle")
+
+@pytest.mark.valid_from("EIP6800Transition")
 @pytest.mark.parametrize(
-    "stride, num_expected_blocks",
+    "stride",
     [
-        (1, 3),
-        (2, 2),
-        (3, 1),
+        3,
     ],
 )
-def test_eoa(blockchain_test: BlockchainTestFiller, stride: int, num_expected_blocks: int):
+@pytest.mark.parametrize(
+    "num_accounts",
+    [
+        1,
+        2,
+        3,
+        4,
+    ],
+)
+def test_eoa(blockchain_test: BlockchainTestFiller, stride: int, num_accounts: int):
     """
     Test only EOA account conversion.
     """
-    pre_state = {
-        Account0: Account(balance=1000),
-        Account1: Account(balance=2000),
-        Account2: Account(balance=3000),
-    }
-    _state_conversion(blockchain_test, pre_state, stride, num_expected_blocks)
-
-
-@pytest.mark.valid_from("Verkle")
-@pytest.mark.parametrize(
-    "contract_length",
-    [
-        0,
-        1,
-        128 * 31,
-        130 * 31,
-    ],
-    ids=[
-        "empty",
-        "in_header",
-        "header_perfect_fit",
-        "bigger_than_header",
-    ],
-)
-@pytest.mark.parametrize(
-    "fcb, stride, num_expected_blocks",
-    [
-        (True, 1, 6),
-        (True, 2, 3),
-        (True, 3, 2),
-        (True, 4, 2),
-        (True, 5, 2),
-        (True, 6, 1),
-        (False, 1, 3),
-        (False, 2, 2),
-        (False, 3, 1),
-    ],
-)
-def test_full_contract(
-    blockchain_test: BlockchainTestFiller,
-    contract_length: int,
-    fcb: bool,
-    stride: int,
-    num_expected_blocks: int,
-):
-    """
-    Test contract account full/partial migration cases.
-    """
     pre_state = {}
-    if not fcb:
-        pre_state[Account0] = Account(balance=1000)
-        pre_state[Account1] = Account(balance=1001)
-        pre_state[Account2] = Account(balance=1002)
+    for i in range(num_accounts):
+        pre_state[accounts[i]] = Account(balance=100 + 1000 * i)
 
-    pre_state[Account3] = Account(
-        balance=2000,
-        code=Op.STOP * contract_length,
-        storage={0: 0x1, 1: 0x2},
-    )
-
-    _state_conversion(blockchain_test, pre_state, stride, num_expected_blocks)
+    _state_conversion(blockchain_test, pre_state, stride, math.ceil(num_accounts / stride))
 
 
-@pytest.mark.valid_from("Verkle")
-@pytest.mark.parametrize(
-    "fcb, stride, num_expected_blocks",
-    [
-        (True, 1, 2),
-        (True, 2, 1),
-        (False, 1, 1),
-        (False, 2, 1),
-    ],
-)
-def test_empty_account(
-    blockchain_test: BlockchainTestFiller,
-    fcb: bool,
-    stride: int,
-    num_expected_blocks: int,
-):
-    """
-    Test EIP-161 accounts.
-    """
-    pre_state = {}
-    if not fcb:
-        pre_state[Account0] = Account(balance=1000)
+# @pytest.mark.skip("stride config not supported yet")
+# @pytest.mark.valid_from("EIP6800Transition")
+# @pytest.mark.parametrize(
+#     "contract_length",
+#     [
+#         0,
+#         1,
+#         128 * 31,
+#         130 * 31,
+#     ],
+#     ids=[
+#         "empty",
+#         "in_header",
+#         "header_perfect_fit",
+#         "bigger_than_header",
+#     ],
+# )
+# @pytest.mark.parametrize(
+#     "fcb, stride, num_expected_blocks",
+#     [
+#         (True, 1, 6),
+#         (True, 2, 3),
+#         (True, 3, 2),
+#         (True, 4, 2),
+#         (True, 5, 2),
+#         (True, 6, 1),
+#         (False, 1, 3),
+#         (False, 2, 2),
+#         (False, 3, 1),
+#     ],
+# )
+# def test_full_contract(
+#     blockchain_test: BlockchainTestFiller,
+#     contract_length: int,
+#     fcb: bool,
+#     stride: int,
+#     num_expected_blocks: int,
+# ):
+#     """
+#     Test contract account full/partial migration cases.
+#     """
+#     pre_state = {}
+#     if not fcb:
+#         pre_state[Account0] = Account(balance=1000)
+#         pre_state[Account1] = Account(balance=1001)
+#         pre_state[Account2] = Account(balance=1002)
 
-    # Empty account (EIP-161)
-    pre_state[Account1] = Account(
-        balance=0,
-        nonce=0,
-        storage={0: 0x1, 1: 0x2},
-    )
+#     pre_state[Account3] = Account(
+#         balance=2000,
+#         code=Op.STOP * contract_length,
+#         storage={0: 0x1, 1: 0x2},
+#     )
 
-    pre_state[Account2] = Account(balance=1001)
-
-    _state_conversion(blockchain_test, pre_state, stride, num_expected_blocks)
+#     _state_conversion(blockchain_test, pre_state, stride, num_expected_blocks)
 
 
-@pytest.mark.valid_from("Verkle")
-@pytest.mark.parametrize(
-    "fcb, stride, num_expected_blocks",
-    [
-        (True, 1, 2),
-        (True, 2, 1),
-        (False, 1, 1),
-    ],
-)
-def test_last_conversion_block(
-    blockchain_test: BlockchainTestFiller,
-    fcb: bool,
-    stride: int,
-    num_expected_blocks: int,
-):
-    """
-    Test last conversion block scenario.
-    """
-    pre_state = {}
-    if not fcb:
-        pre_state[Account0] = Account(balance=1000)
+# @pytest.mark.skip("stride config not supported yet")
+# @pytest.mark.valid_from("EIP6800Transition")
+# @pytest.mark.parametrize(
+#     "fcb, stride, num_expected_blocks",
+#     [
+#         (True, 1, 2),
+#         (True, 2, 1),
+#         (False, 1, 1),
+#         (False, 2, 1),
+#     ],
+# )
+# def test_empty_account(
+#     blockchain_test: BlockchainTestFiller,
+#     fcb: bool,
+#     stride: int,
+#     num_expected_blocks: int,
+# ):
+#     """
+#     Test EIP-161 accounts.
+#     """
+#     pre_state = {}
+#     if not fcb:
+#         pre_state[Account0] = Account(balance=1000)
 
-    # Empty account (EIP-161)
-    pre_state[Account1] = Account(
-        balance=0,
-        nonce=0,
-        storage={0: 0x1, 1: 0x2},
-    )
+#     # Empty account (EIP-161)
+#     pre_state[Account1] = Account(
+#         balance=0,
+#         nonce=0,
+#         storage={0: 0x1, 1: 0x2},
+#     )
 
-    _state_conversion(blockchain_test, pre_state, stride, num_expected_blocks)
+#     pre_state[Account2] = Account(balance=1001)
+
+#     _state_conversion(blockchain_test, pre_state, stride, num_expected_blocks)
+
+
+# @pytest.mark.skip("stride config not supported yet")
+# @pytest.mark.valid_from("EIP6800Transition")
+# @pytest.mark.parametrize(
+#     "fcb, stride, num_expected_blocks",
+#     [
+#         (True, 1, 2),
+#         (True, 2, 1),
+#         (False, 1, 1),
+#     ],
+# )
+# def test_last_conversion_block(
+#     blockchain_test: BlockchainTestFiller,
+#     fcb: bool,
+#     stride: int,
+#     num_expected_blocks: int,
+# ):
+#     """
+#     Test last conversion block scenario.
+#     """
+#     pre_state = {}
+#     if not fcb:
+#         pre_state[Account0] = Account(balance=1000)
+
+#     # Empty account (EIP-161)
+#     pre_state[Account1] = Account(
+#         balance=0,
+#         nonce=0,
+#         storage={0: 0x1, 1: 0x2},
+#     )
+
+#     _state_conversion(blockchain_test, pre_state, stride, num_expected_blocks)
 
 
 def _state_conversion(
     blockchain_test: BlockchainTestFiller,
     pre_state: dict[Address, Account],
     stride: int,
-    num_expected_blocks: int,
+    num_blocks: int,
 ):
     # TODO: test library should allow passing stride
     env = Environment(
@@ -189,7 +202,7 @@ def _state_conversion(
     )
 
     blocks: list[Block] = []
-    for i in range(num_expected_blocks):
+    for i in range(num_blocks):
         blocks.append(Block(txs=[]))
 
     # TODO: witness assertion
