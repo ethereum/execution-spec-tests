@@ -8,6 +8,7 @@ from .blockchain import (
     BlockchainTestFiller,
     BlockchainTestSpec,
 )
+from .config import ConfigTest, ConfigTestFiller, ConfigTestSpec
 from .eof import (
     EOFStateTest,
     EOFStateTestFiller,
@@ -21,6 +22,7 @@ from .transaction import TransactionTest, TransactionTestFiller, TransactionTest
 
 SPEC_TYPES: List[Type[BaseTest]] = [
     BlockchainTest,
+    ConfigTest,
     EOFStateTest,
     EOFTest,
     StateTest,
@@ -36,6 +38,9 @@ __all__ = (
     "BlockchainTestEngineSpec",
     "BlockchainTestFiller",
     "BlockchainTestSpec",
+    "ConfigTest",
+    "ConfigTestFiller",
+    "ConfigTestSpec",
     "EOFStateTest",
     "EOFStateTestFiller",
     "EOFStateTestSpec",
