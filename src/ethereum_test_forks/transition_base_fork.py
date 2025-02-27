@@ -45,15 +45,38 @@ def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
             solc_name=cls._solc_name,
             ignore=cls._ignore,
         ):
-            pass
+            """Transition class that implements the fork transition."""
 
-        NewTransitionClass.name = lambda: transition_name  # type: ignore
+            @classmethod
+            def transitions_to(cls) -> Fork:
+                """Return the fork this transition moves to."""
+                return to_fork
+
+            @classmethod
+            def transitions_from(cls) -> Fork:
+                """Return the fork this transition starts from."""
+                return from_fork
+
+            @classmethod
+            def name(cls) -> str:
+                """Return the name of this transition fork."""
+                return transition_name
+
+            @classmethod
+            def fork_at(cls, block_number: int = 0, timestamp: int = 0) -> Fork:
+                """Return the appropriate fork based on block number and timestamp."""
+                return (
+                    to_fork
+                    if block_number >= at_block and timestamp >= at_timestamp
+                    else from_fork
+                )
 
         def make_transition_method(
             base_method: Callable,
             from_fork_method: Callable,
             to_fork_method: Callable,
         ):
+            """Create a transition method that switches between `from_fork` and `to_fork`."""
             base_method_parameters = signature(base_method).parameters
 
             def transition_method(
@@ -87,12 +110,6 @@ def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
                     getattr(to_fork, method_name),
                 ),
             )
-
-        NewTransitionClass.transitions_to = lambda: to_fork  # type: ignore
-        NewTransitionClass.transitions_from = lambda: from_fork  # type: ignore
-        NewTransitionClass.fork_at = lambda block_number=0, timestamp=0: (  # type: ignore
-            to_fork if block_number >= at_block and timestamp >= at_timestamp else from_fork
-        )
 
         return NewTransitionClass
 
