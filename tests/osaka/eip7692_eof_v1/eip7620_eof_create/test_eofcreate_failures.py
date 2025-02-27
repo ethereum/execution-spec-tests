@@ -218,9 +218,7 @@ def test_eofcreate_deploy_sizes(
     post = {
         contract_address: Account(
             storage={
-                slot_create_address: compute_eofcreate_address(
-                    contract_address, 0, initcode_subcontainer
-                )
+                slot_create_address: compute_eofcreate_address(contract_address, 0)
                 if target_deploy_size <= MAX_BYTECODE_SIZE
                 else EOFCREATE_FAILURE,
                 slot_code_worked: value_code_worked,
@@ -310,9 +308,7 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
     post = {
         contract_address: Account(
             storage={
-                slot_create_address: compute_eofcreate_address(
-                    contract_address, 0, initcode_subcontainer
-                )
+                slot_create_address: compute_eofcreate_address(contract_address, 0)
                 if deployed_container_size <= MAX_BYTECODE_SIZE
                 else 0,
                 slot_code_worked: value_code_worked,
@@ -373,7 +369,7 @@ def test_eofcreate_insufficient_stipend(
                 slot_code_worked: value_code_worked,
             }
         ),
-        compute_eofcreate_address(contract_address, 0, initcode_container): Account.NONEXISTENT,
+        compute_eofcreate_address(contract_address, 0): Account.NONEXISTENT,
     }
     tx = Transaction(
         to=contract_address,
@@ -432,7 +428,7 @@ def test_insufficient_initcode_gas(
                 slot_code_should_fail: value_canary_should_not_change,
             },
         ),
-        compute_eofcreate_address(contract_address, 0, initcode_container): Account.NONEXISTENT,
+        compute_eofcreate_address(contract_address, 0): Account.NONEXISTENT,
     }
     tx = Transaction(
         to=contract_address,
@@ -490,7 +486,7 @@ def test_insufficient_gas_memory_expansion(
                 slot_code_should_fail: value_canary_should_not_change,
             },
         ),
-        compute_eofcreate_address(contract_address, 0, initcode_container): Account.NONEXISTENT,
+        compute_eofcreate_address(contract_address, 0): Account.NONEXISTENT,
     }
     tx = Transaction(
         to=contract_address,
@@ -557,7 +553,7 @@ def test_insufficient_returncontract_auxdata_gas(
                 slot_code_should_fail: value_canary_should_not_change,
             },
         ),
-        compute_eofcreate_address(contract_address, 0, initcode_container): Account.NONEXISTENT,
+        compute_eofcreate_address(contract_address, 0): Account.NONEXISTENT,
     }
     tx = Transaction(
         to=contract_address,
