@@ -1,4 +1,4 @@
-"""Go-ethereum Transition tool interface."""
+"""Interfaces for Nethermind CLIs."""
 
 import json
 import re
@@ -141,7 +141,7 @@ class NethtestFixtureConsumer(
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         if debug_output_path:
-            self._consume_debug_dump(command, result, fixture_path, debug_output_path)
+            self._consume_debug_dump(command, result, debug_output_path)
 
         if result.returncode != 0:
             raise Exception(
@@ -212,7 +212,7 @@ class NethtestFixtureConsumer(
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         if debug_output_path:
-            self._consume_debug_dump(command, result, fixture_path, debug_output_path)
+            self._consume_debug_dump(command, result, debug_output_path)
 
         if result.returncode != 0:
             raise Exception(
@@ -239,7 +239,7 @@ class NethtestFixtureConsumer(
         }
 
         if debug_output_path:
-            self._consume_debug_dump(command, result, fixture_path, debug_output_path)
+            self._consume_debug_dump(command, result, debug_output_path)
 
         if result.returncode != 0:
             raise Exception(
