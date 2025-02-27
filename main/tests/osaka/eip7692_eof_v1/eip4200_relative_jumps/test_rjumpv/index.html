@@ -6065,6 +6065,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -6874,6 +6880,69 @@
   
   <span class="md-ellipsis">
     <code>test_double_rjumpv</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_rjumpv_valid_forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpv_valid_forward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_rjumpv_valid_backward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpv_valid_backward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_rjumpv_backward_invalid_max_stack_height/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpv_backward_invalid_max_stack_height</code>
   </span>
   
 
@@ -27656,7 +27725,7 @@
 
 
 <h1 id="test-rjumpv">Test RJUMPV<a class="headerlink" href="#test-rjumpv" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a771b663d446bb5f8acdd4b505951760db1dce8e/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L20"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py@a771b663</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c38722f151d2006c6e1a5f26e8e962f2c8c8e439/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L20"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py@c38722f1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py --fork Osaka</span>
@@ -27917,6 +27986,24 @@
 <td>eof_test</td>
 <td>1</td>
 <td>Two RJUMPVs, causing the min stack to underflow.</td>
+</tr>
+<tr>
+<td><a href="test_rjumpv_valid_forward/"><code>test_rjumpv_valid_forward</code></a></td>
+<td>eof_test</td>
+<td>20</td>
+<td>Validate a valid code section containing at least one forward RJUMPV.</td>
+</tr>
+<tr>
+<td><a href="test_rjumpv_valid_backward/"><code>test_rjumpv_valid_backward</code></a></td>
+<td>eof_test</td>
+<td>8</td>
+<td>Validate a valid code section containing at least one backward RJUMPV.</td>
+</tr>
+<tr>
+<td><a href="test_rjumpv_backward_invalid_max_stack_height/"><code>test_rjumpv_backward_invalid_max_stack_height</code></a></td>
+<td>eof_test</td>
+<td>8</td>
+<td>Validate a code section containing at least one backward RJUMPV</td>
 </tr>
 </tbody>
 </table>

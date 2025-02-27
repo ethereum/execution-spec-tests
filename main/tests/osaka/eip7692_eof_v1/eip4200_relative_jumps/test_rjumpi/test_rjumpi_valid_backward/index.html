@@ -6123,6 +6123,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -6932,6 +6938,69 @@
   
   <span class="md-ellipsis">
     <code>test_double_rjumpv</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_rjumpv/test_rjumpv_valid_forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpv_valid_forward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_rjumpv/test_rjumpv_valid_backward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpv_valid_backward</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_rjumpv/test_rjumpv_backward_invalid_max_stack_height/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_rjumpv_backward_invalid_max_stack_height</code>
   </span>
   
 
@@ -27714,7 +27783,7 @@
 
 
 <h1 id="test_rjumpi_valid_backward"><code>test_rjumpi_valid_backward()</code><a class="headerlink" href="#test_rjumpi_valid_backward" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a771b663d446bb5f8acdd4b505951760db1dce8e/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L738"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_backward@a771b663</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c38722f151d2006c6e1a5f26e8e962f2c8c8e439/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L738"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_backward@c38722f1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_backward --fork Osaka</span>
@@ -27729,7 +27798,7 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpi.test_rjumpi_valid_backward"></a>
     <div class="doc doc-contents first">
 
-      <p>Validate a valid code section containing at least one backward RJUMP.
+      <p>Validate a valid code section containing at least one backward RJUMPI.
 These tests exercise the stack height validation.</p>
 
             <details class="quote">
@@ -28063,7 +28132,7 @@ These tests exercise the stack height validation.</p>
     <span class="n">container</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Validate a valid code section containing at least one backward RJUMP.</span>
+<span class="sd">    Validate a valid code section containing at least one backward RJUMPI.</span>
 <span class="sd">    These tests exercise the stack height validation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span><span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">)</span>
