@@ -12184,6 +12184,8 @@
       
         
       
+        
+      
     
     
       
@@ -12447,6 +12449,27 @@
   
   <span class="md-ellipsis">
     <code>test_container_both_kinds_same_sub</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_container_ambiguous_kind/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_container_ambiguous_kind</code>
   </span>
   
 
@@ -27691,7 +27714,7 @@
 
 
 <h1 id="test_subcontainer_wrong_eof_version"><code>test_subcontainer_wrong_eof_version()</code><a class="headerlink" href="#test_subcontainer_wrong_eof_version" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7dc3b73b4014e8cd6d70f8c7a3702419e89c6e2d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L503"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version@7dc3b73b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8513a8e14b62394cbebb724b6fa9a6a124ac0b7d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L539"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version@8513a8e1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_subcontainer_wrong_eof_version --fork Osaka</span>
@@ -27710,26 +27733,26 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span>
-<span class="normal">507</span>
-<span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_subcontainer_wrong_eof_version</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">version</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>

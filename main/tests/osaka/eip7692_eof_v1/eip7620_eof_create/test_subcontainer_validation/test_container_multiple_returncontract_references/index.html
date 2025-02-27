@@ -12184,6 +12184,8 @@
       
         
       
+        
+      
     
     
       
@@ -12447,6 +12449,27 @@
   
   <span class="md-ellipsis">
     <code>test_container_both_kinds_same_sub</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_container_ambiguous_kind/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_container_ambiguous_kind</code>
   </span>
   
 
@@ -27691,7 +27714,7 @@
 
 
 <h1 id="test_container_multiple_returncontract_references"><code>test_container_multiple_returncontract_references()</code><a class="headerlink" href="#test_container_multiple_returncontract_references" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7dc3b73b4014e8cd6d70f8c7a3702419e89c6e2d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L484"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_container_multiple_returncontract_references@7dc3b73b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8513a8e14b62394cbebb724b6fa9a6a124ac0b7d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L520"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_container_multiple_returncontract_references@8513a8e1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_container_multiple_returncontract_references --fork Osaka</span>
@@ -27710,23 +27733,23 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_container_multiple_returncontract_references</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_container_multiple_returncontract_references</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test multiple references to the same subcontainer from a RETURNCONTACT operation.&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>

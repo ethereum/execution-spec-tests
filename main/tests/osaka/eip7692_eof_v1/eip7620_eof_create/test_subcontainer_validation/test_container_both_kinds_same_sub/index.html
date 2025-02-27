@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_container_combos_non_first_code_sections_invalid/">
       
       
-        <link rel="next" href="../test_container_both_kinds_different_sub/">
+        <link rel="next" href="../test_container_ambiguous_kind/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -12184,6 +12184,8 @@
       
         
       
+        
+      
     
     
       
@@ -12509,6 +12511,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_container_ambiguous_kind/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_container_ambiguous_kind</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27691,7 +27714,7 @@
 
 
 <h1 id="test_container_both_kinds_same_sub"><code>test_container_both_kinds_same_sub()</code><a class="headerlink" href="#test_container_both_kinds_same_sub" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7dc3b73b4014e8cd6d70f8c7a3702419e89c6e2d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L432"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_container_both_kinds_same_sub@7dc3b73b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8513a8e14b62394cbebb724b6fa9a6a124ac0b7d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L433"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_container_both_kinds_same_sub@8513a8e1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_container_both_kinds_same_sub --fork Osaka</span>
@@ -27710,8 +27733,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">432</span>
-<span class="normal">433</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">433</span>
 <span class="normal">434</span>
 <span class="normal">435</span>
 <span class="normal">436</span>
@@ -27725,7 +27747,8 @@
 <span class="normal">444</span>
 <span class="normal">445</span>
 <span class="normal">446</span>
-<span class="normal">447</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_container_both_kinds_same_sub</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+<span class="normal">447</span>
+<span class="normal">448</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_container_both_kinds_same_sub</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test subcontainer conflicts (both EOFCREATE and RETURNCONTRACT Reference).&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>

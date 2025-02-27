@@ -12184,6 +12184,8 @@
       
         
       
+        
+      
     
     
       
@@ -12505,6 +12507,27 @@
   
   <span class="md-ellipsis">
     <code>test_container_both_kinds_same_sub</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_container_ambiguous_kind/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_container_ambiguous_kind</code>
   </span>
   
 
@@ -27691,7 +27714,7 @@
 
 
 <h1 id="test_orphan_container"><code>test_orphan_container()</code><a class="headerlink" href="#test_orphan_container" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7dc3b73b4014e8cd6d70f8c7a3702419e89c6e2d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L101"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container@7dc3b73b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8513a8e14b62394cbebb724b6fa9a6a124ac0b7d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L102"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container@8513a8e1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_orphan_container --fork Osaka</span>
@@ -27710,8 +27733,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
-<span class="normal">102</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
@@ -27741,7 +27763,8 @@
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">132</span>
+<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;code_section,first_sub_container,container_kind&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">eofcreate_code_section</span><span class="p">,</span> <span class="n">returncontract_sub_container</span><span class="p">,</span> <span class="n">ContainerKind</span><span class="o">.</span><span class="n">RUNTIME</span><span class="p">),</span>

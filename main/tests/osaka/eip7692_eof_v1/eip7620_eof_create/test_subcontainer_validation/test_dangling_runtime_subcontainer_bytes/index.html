@@ -12184,6 +12184,8 @@
       
         
       
+        
+      
     
     
       
@@ -12447,6 +12449,27 @@
   
   <span class="md-ellipsis">
     <code>test_container_both_kinds_same_sub</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_container_ambiguous_kind/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_container_ambiguous_kind</code>
   </span>
   
 
@@ -27691,7 +27714,7 @@
 
 
 <h1 id="test_dangling_runtime_subcontainer_bytes"><code>test_dangling_runtime_subcontainer_bytes()</code><a class="headerlink" href="#test_dangling_runtime_subcontainer_bytes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7dc3b73b4014e8cd6d70f8c7a3702419e89c6e2d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L880"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_runtime_subcontainer_bytes@7dc3b73b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8513a8e14b62394cbebb724b6fa9a6a124ac0b7d/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py#L916"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_runtime_subcontainer_bytes@8513a8e1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py::test_dangling_runtime_subcontainer_bytes --fork Osaka</span>
@@ -27710,23 +27733,23 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_subcontainer_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">880</span>
-<span class="normal">881</span>
-<span class="normal">882</span>
-<span class="normal">883</span>
-<span class="normal">884</span>
-<span class="normal">885</span>
-<span class="normal">886</span>
-<span class="normal">887</span>
-<span class="normal">888</span>
-<span class="normal">889</span>
-<span class="normal">890</span>
-<span class="normal">891</span>
-<span class="normal">892</span>
-<span class="normal">893</span>
-<span class="normal">894</span>
-<span class="normal">895</span>
-<span class="normal">896</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dangling_runtime_subcontainer_bytes</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">916</span>
+<span class="normal">917</span>
+<span class="normal">918</span>
+<span class="normal">919</span>
+<span class="normal">920</span>
+<span class="normal">921</span>
+<span class="normal">922</span>
+<span class="normal">923</span>
+<span class="normal">924</span>
+<span class="normal">925</span>
+<span class="normal">926</span>
+<span class="normal">927</span>
+<span class="normal">928</span>
+<span class="normal">929</span>
+<span class="normal">930</span>
+<span class="normal">931</span>
+<span class="normal">932</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_dangling_runtime_subcontainer_bytes</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Runtime mode EOF Subcontainer test with subcontainer containing dangling bytes.&quot;&quot;&quot;</span>
