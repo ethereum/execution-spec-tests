@@ -676,6 +676,8 @@ def test_eofcreate_truncated_container(
         pytest.param(Op.CALLER, "caller"),
         pytest.param(Op.CALLVALUE, "eofcreate_value"),
         pytest.param(Op.ORIGIN, "sender"),
+        pytest.param(Op.SELFBALANCE, "selfbalance"),
+        pytest.param(Op.BALANCE(Op.CALLER), "factorybalance"),
     ],
 )
 def test_eofcreate_context(
@@ -699,7 +701,7 @@ def test_eofcreate_context(
         ]
     )
 
-    caller_contract = Container(
+    factory_contract = Container(
         sections=[
             Section.Code(
                 Op.SSTORE(slot_code_worked, value_code_worked)
@@ -709,21 +711,26 @@ def test_eofcreate_context(
             Section.Container(initcode),
         ]
     )
-    calling_contract_address = pre.deploy_contract(caller_contract)
+    factory_address = pre.deploy_contract(factory_contract)
 
-    destination_contract_address = compute_eofcreate_address(calling_contract_address, 0, initcode)
+    destination_contract_address = compute_eofcreate_address(factory_address, 0, initcode)
 
-    tx = Transaction(sender=sender, to=calling_contract_address, gas_limit=1000000, value=value)
+    tx = Transaction(sender=sender, to=factory_address, gas_limit=1000000, value=value)
 
     expected_bytes: Address | int
     if expected_result == "destination":
         expected_bytes = destination_contract_address
     elif expected_result == "caller":
-        expected_bytes = calling_contract_address
+        expected_bytes = factory_address
     elif expected_result == "sender":
         expected_bytes = sender
     elif expected_result == "eofcreate_value":
         expected_bytes = eofcreate_value
+    elif expected_result == "selfbalance":
+        expected_bytes = eofcreate_value
+    elif expected_result == "factorybalance":
+        # Factory receives value from sender and passes on eofcreate_value as endowment.
+        expected_bytes = value - eofcreate_value
     else:
         raise TypeError("Unexpected expected_result", expected_result)
 
@@ -735,8 +742,10 @@ def test_eofcreate_context(
     }
 
     post = {
-        calling_contract_address: Account(storage=calling_storage),
-        destination_contract_address: Account(storage=destination_contract_storage),
+        factory_address: Account(storage=calling_storage, balance=value - eofcreate_value),
+        destination_contract_address: Account(
+            storage=destination_contract_storage, balance=eofcreate_value
+        ),
     }
 
     state_test(
@@ -745,3 +754,61 @@ def test_eofcreate_context(
         post=post,
         tx=tx,
     )
+
+
+def test_eofcreate_memory_context(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Verifies an EOFCREATE frame enjoys a separate EVM memory from its caller frame."""
+    env = Environment()
+    initcontainer = Container(
+        sections=[
+            Section.Code(
+                Op.SSTORE(0, Op.MSIZE())
+                + Op.SSTORE(1, Op.MLOAD(0))
+                + Op.SSTORE(slot_code_worked, value_code_worked)
+                + Op.MSTORE(0, 2)
+                + Op.MSTORE(32, 2)
+                + Op.RETURNCONTRACT[0](0, 0)
+            ),
+            Section.Container(smallest_runtime_subcontainer),
+        ]
+    )
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    Op.MSTORE(0, 1)
+                    + Op.EOFCREATE[0](0, 0, 0, 0)
+                    + Op.SSTORE(0, Op.MSIZE())
+                    + Op.SSTORE(1, Op.MLOAD(32))
+                    + Op.SSTORE(2, Op.MLOAD(0))
+                    + Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.STOP,
+                ),
+                Section.Container(initcontainer),
+            ],
+        ),
+        storage={0: 0xB17D, 1: 0xB17D},  # a canary to be overwritten
+    )
+    destination_contract_address = compute_eofcreate_address(contract_address, 0, initcontainer)
+    post = {
+        contract_address: Account(
+            # Slot 0: 32 - memory size - only the local MSTORE
+            # Slot 1:  0 - no remote MSTORE effect
+            # Slot 2:  2 - local MSTORE not overwritten
+            storage={0: 32, 1: 0, 2: 1, slot_code_worked: value_code_worked},
+        ),
+        destination_contract_address: Account(
+            # Slot 0:  0 - memory size - no remote MSTORE effect
+            # Slot 1:  0 - no remote MSTORE effect
+            storage={0: 0, 1: 0, slot_code_worked: value_code_worked},
+        ),
+    }
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=10_000_000,
+        sender=pre.fund_eoa(),
+    )
+    state_test(env=env, pre=pre, post=post, tx=tx)
