@@ -72,16 +72,18 @@ def test():
     )
 
     if location_choice == "new":
-        eip_number = input_text("Enter the EIP number").strip()
-        eip_name = input_text("Enter the EIP name").strip()
-        directory_name = input_text("Enter directory name (part after eipXXXX_)").strip()
+        eip_number = input_text("Enter the EIP number (int)").strip()
+        eip_name = input_text("Enter the EIP name (spaces ok, only used in docstrings)").strip()
+        directory_name = input_text(
+            "Enter directory name (snake_case, part after eipXXXX_)"
+        ).strip()
         dir_name = f"eip{eip_number}_{directory_name}"
         directory_path = base_path / dir_name
         raw_module = input_text("Enter module name (snake_case)").strip()
         module_name = raw_module if raw_module.startswith("test_") else f"test_{raw_module}"
     elif location_choice == "current":
-        eip_number = input_text("Enter the EIP number").strip()
-        eip_name = input_text("Enter the EIP name").strip()
+        eip_number = input_text("Enter the EIP number (int)").strip()
+        eip_name = input_text("Enter the EIP name (spaces ok, only used in docstrings)").strip()
         raw_module = input_text("Enter module name (snake_case)").strip()
         module_name = raw_module if raw_module.startswith("test_") else f"test_{raw_module}"
         directory_path = base_path
