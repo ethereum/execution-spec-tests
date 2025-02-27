@@ -185,7 +185,7 @@ class NethtestFixtureConsumer(
                 test_result
                 for test_result in file_results
                 if test_result["name"].removesuffix(nethtest_suffix)
-                == f"{fixture_name.split('/')[-1]}"
+                == f"{fixture_name.split('.py::')[-1]}"
             ]
             assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
             assert len(test_result) == 1, f"Test result for {fixture_name} missing"
