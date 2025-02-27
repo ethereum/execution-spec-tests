@@ -52,8 +52,8 @@ class AccountConfig:
     [
         # [AccountConfig(0, 0)],
         # [AccountConfig(0, 0), AccountConfig(0, 0)],
-        [AccountConfig(0, 0), AccountConfig(0, 0), AccountConfig(0, 0)],
-        # [AccountConfig(15, 1)],
+        # [AccountConfig(0, 0), AccountConfig(0, 0), AccountConfig(0, 0)],
+        [AccountConfig(15, 1)],
     ],
     ids=[
         # "One EOA",
