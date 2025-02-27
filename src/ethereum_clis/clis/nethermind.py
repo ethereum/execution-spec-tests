@@ -32,7 +32,7 @@ class Nethtest(EthereumCLI):
         trace: bool = False,
         exception_mapper: ExceptionMapper | None = None,
     ):
-        """Initialize the GethEvm class."""
+        """Initialize the Nethtest class."""
         self.binary = binary
         self.trace = trace
         # TODO: Implement NethermindExceptionMapper
@@ -52,7 +52,6 @@ class Nethtest(EthereumCLI):
         self,
         command: Tuple[str, ...],
         result: subprocess.CompletedProcess,
-        fixture_path: Path,
         debug_output_path: Path,
     ):
         consume_direct_call = " ".join(command)
