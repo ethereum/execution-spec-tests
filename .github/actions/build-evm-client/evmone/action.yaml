@@ -25,11 +25,14 @@ runs:
         submodules: true
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v2
+    - name: "Install GMP"
+      shell: bash
+      run: sudo apt-get -q update && sudo apt-get -qy install libgmp-dev
     - name: Build evmone binary
       shell: bash
       run: |
         mkdir -p $GITHUB_WORKSPACE/bin
         cd $GITHUB_WORKSPACE/evmone
-        cmake -S . -B build -DEVMONE_TESTING=ON
+        cmake -S . -B build -DEVMONE_TESTING=ON -DEVMONE_PRECOMPILES_SILKPRE=1
         cmake --build build --parallel --target ${{ inputs.targets }}
         echo $GITHUB_WORKSPACE/evmone/build/bin/ >> $GITHUB_PATH
