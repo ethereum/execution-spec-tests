@@ -16,10 +16,11 @@ Test fixtures for use by clients are available for each release on the [Github r
 - 🔀 Refactor `ethereum_test_fixtures` and `ethereum_clis` to create `FixtureConsumer` and `FixtureConsumerTool` classes which abstract away the consumption process used by `consume direct` ([#935](https://github.com/ethereum/execution-spec-tests/pull/935)).
 - ✨ Allow `consume direct --collect-only` without specifying a fixture consumer binary on the command-line ([#1237](https://github.com/ethereum/execution-spec-tests/pull/1237)).
 - ✨ Allow `fill --collect-only` without the need for existence of the folder `./fixtures'
-- ✨ Report the (resolved) fixture tarball URL and local fixture cache directory when `consume`'s `--input` flag is a release spec or URL  [#1239](https://github.com/ethereum/execution-spec-tests/pull/1239).
+- ✨ Report the (resolved) fixture tarball URL and local fixture cache directory when `consume`'s `--input` flag is a release spec or URL ([#1239](https://github.com/ethereum/execution-spec-tests/pull/1239)).
 - ✨ EOF Container validation tests (`eof_test`) now generate container deployment state tests, by wrapping the EOF container in an init-container and sending a deploy transaction ([#783](https://github.com/ethereum/execution-spec-tests/pull/783), [#1233](https://github.com/ethereum/execution-spec-tests/pull/1233)).
 - ✨ Use regexes for Hive's `--sim.limit` argument and don't use xdist if `--sim.parallelism==1` in the `eest/consume-rlp` and `eest/consume-rlp` simulators ([#1220](https://github.com/ethereum/execution-spec-tests/pull/1220)).
 - 🐞 Register generated test markers, e.g., `blockchain_test_from_state_test`, to prevent test session warnings ([#1238](https://github.com/ethereum/execution-spec-tests/pull/1238), [#1245](https://github.com/ethereum/execution-spec-tests/pull/1245)).
+- 🐞 Zero-pad `Environment` fields passed to `t8n` tools as required by `evmone-t8n` ([#1268](https://github.com/ethereum/execution-spec-tests/pull/1268)).
 
 ### 📋 Misc
 
