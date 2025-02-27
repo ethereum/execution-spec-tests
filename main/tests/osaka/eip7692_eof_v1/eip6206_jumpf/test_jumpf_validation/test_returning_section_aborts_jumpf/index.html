@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_invalid_code_section_index/">
       
       
-        <link rel="next" href="../../test_nonreturning_validation/">
+        <link rel="next" href="../test_jumpf_self_stack_overflow/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -8406,6 +8406,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -8563,6 +8567,48 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_jumpf_self_stack_overflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_self_stack_overflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_jumpf_other_stack_overflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_other_stack_overflow</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27645,7 +27691,7 @@
 
 
 <h1 id="test_returning_section_aborts_jumpf"><code>test_returning_section_aborts_jumpf()</code><a class="headerlink" href="#test_returning_section_aborts_jumpf" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d27275d022ce652258b4d312afb2a4aac764e29f/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation.py#L117"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation.py::test_returning_section_aborts_jumpf@d27275d0</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/7dc3b73b4014e8cd6d70f8c7a3702419e89c6e2d/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation.py#L118"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation.py::test_returning_section_aborts_jumpf@7dc3b73b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation.py::test_returning_section_aborts_jumpf --fork Osaka</span>
@@ -27665,8 +27711,7 @@ and nonreturning terminating instructions.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
-<span class="normal">118</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
@@ -27686,7 +27731,8 @@ and nonreturning terminating instructions.</p>
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_returning_section_aborts_jumpf</span><span class="p">(</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_returning_section_aborts_jumpf</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
