@@ -69,6 +69,21 @@ def test_calldataload(
     This test verifies that `CALLDATALOAD` correctly retrieves a 32-byte word
     from calldata at different offsets, handling various edge cases.
 
+    Parameter:
+
+    calldataload_offset: int
+        The offset that determines the memory reading position, controlling whether the test case
+        retrieves a partial or full 32-byte word from calldata.
+    memory_preset_code: Bytecode
+        Simulates different memory layouts to test how `CALLDATALOAD` behaves when calldata
+        is smaller or larger than 32 bytes.
+    call_args_size: int
+        Specifies the number of bytes from `memory_preset_code` that are actually forwarded
+        as calldata during execution.
+    expected_calldataload_memory: int
+        Validates whether `CALLDATALOAD` correctly retrieves and zero-pads data by comparing
+        the stored result in contract storage with this expected reference value.
+
     Test Cases:
 
     calldata_short_start_0:
@@ -92,7 +107,7 @@ def test_calldataload(
     sender = pre.fund_eoa()
     post = {}
 
-    # Deploy the contract that will store the calldate
+    # Deploy the contract that will store the calldata
     sstore_contract = pre.deploy_contract(
         code=(Op.SSTORE(key=0x0, value=Op.CALLDATALOAD(offset=calldataload_offset)))
     )
