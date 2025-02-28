@@ -4,7 +4,7 @@ import math
 
 import pytest
 
-from ethereum_test_base_types import Hash
+from ethereum_test_base_types import Hash, Storage
 from ethereum_test_specs import StateTestFiller
 from ethereum_test_tools import Account, EOFStateTestFiller
 from ethereum_test_tools import Opcodes as Op
@@ -19,7 +19,6 @@ from ..eip7620_eof_create.helpers import (
 from .helpers import (
     slot_code_worked,
     slot_stack_canary,
-    slots_extra,
     value_canary_written,
     value_code_worked,
 )
@@ -677,21 +676,22 @@ def test_callf_retf_memory_context(
 ):
     """Verifies CALLF and RETF don't corrupt memory."""
     env = Environment()
+    storage = Storage()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
                 Section.Code(
-                    Op.SSTORE(slot_code_worked, value_code_worked)
+                    Op.SSTORE(storage.store_next(value_code_worked), value_code_worked)
                     + Op.MSTORE(0, 1)
                     + Op.CALLF[1]
-                    + Op.SSTORE(slots_extra[0], Op.MSIZE())
-                    + Op.SSTORE(slots_extra[1], Op.MLOAD(32))
-                    + Op.SSTORE(slots_extra[2], Op.MLOAD(0))
+                    + Op.SSTORE(storage.store_next(64), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(2), Op.MLOAD(0))
+                    + Op.SSTORE(storage.store_next(3), Op.MLOAD(32))
                     + Op.STOP,
                 ),
                 Section.Code(
-                    Op.SSTORE(slots_extra[3], Op.MSIZE())
-                    + Op.SSTORE(slots_extra[4], Op.MLOAD(0))
+                    Op.SSTORE(storage.store_next(32), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(1), Op.MLOAD(0))
                     + Op.MSTORE(0, 2)
                     + Op.MSTORE(32, 3)
                     + Op.RETF,
@@ -699,23 +699,13 @@ def test_callf_retf_memory_context(
                 ),
             ],
         ),
-        storage={key: 0xB17D for key in slots_extra[:5]},
     )
     post = {
-        contract_address: Account(
-            storage={
-                slots_extra[0]: 64,  # memory size - two sections MSTORE
-                slots_extra[1]: 3,  # second section MSTORE
-                slots_extra[2]: 2,  # second section MSTORE overwrites
-                slots_extra[3]: 32,  # memory size - first section MSTORE
-                slots_extra[4]: 1,  # first section MSTORE
-                slot_code_worked: value_code_worked,
-            },
-        ),
+        contract_address: Account(storage=storage),
     }
     tx = Transaction(
         to=contract_address,
-        gas_limit=10_000_000,
+        gas_limit=500_000,
         sender=pre.fund_eoa(),
     )
     state_test(env=env, pre=pre, post=post, tx=tx)

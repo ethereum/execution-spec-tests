@@ -2,6 +2,7 @@
 
 import pytest
 
+from ethereum_test_base_types import Storage
 from ethereum_test_specs import StateTestFiller
 from ethereum_test_tools import Account, Environment, EOFException, EOFStateTestFiller, Transaction
 from ethereum_test_tools.eof.v1 import Container, Section
@@ -13,7 +14,6 @@ from .. import EOF_FORK_NAME
 from .helpers import (
     slot_code_worked,
     slot_stack_canary,
-    slots_extra,
     value_canary_written,
     value_code_worked,
 )
@@ -640,33 +640,31 @@ def test_jumpf_memory_context(
 ):
     """Verifies JUMPF doesn't corrupt memory."""
     env = Environment()
+    storage = Storage()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
                 Section.Code(
-                    Op.SSTORE(slot_code_worked, value_code_worked) + Op.MSTORE(0, 1) + Op.JUMPF[1],
+                    Op.SSTORE(storage.store_next(value_code_worked), value_code_worked)
+                    + Op.MSTORE(0, 1)
+                    + Op.JUMPF[1],
                 ),
                 Section.Code(
-                    Op.SSTORE(slots_extra[3], Op.MSIZE())
-                    + Op.SSTORE(slots_extra[4], Op.MLOAD(0))
+                    Op.SSTORE(storage.store_next(32), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(1), Op.MLOAD(0))
                     + Op.STOP,
                 ),
             ],
         ),
-        storage={slots_extra[3]: 0xB17D, slots_extra[4]: 0xB17D},
     )
     post = {
         contract_address: Account(
-            storage={
-                slots_extra[3]: 32,  # memory size - first section MSTORE
-                slots_extra[4]: 1,  # first section MSTORE
-                slot_code_worked: value_code_worked,
-            },
+            storage=storage,
         ),
     }
     tx = Transaction(
         to=contract_address,
-        gas_limit=10_000_000,
+        gas_limit=500_000,
         sender=pre.fund_eoa(),
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
@@ -678,31 +676,32 @@ def test_callf_jumpf_retf_memory_context(
 ):
     """Verifies CALLF, JUMPF and RETF don't corrupt memory."""
     env = Environment()
+    storage = Storage()
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
                 Section.Code(
-                    Op.SSTORE(slot_code_worked, value_code_worked)
+                    Op.SSTORE(storage.store_next(value_code_worked), value_code_worked)
                     + Op.MSTORE(0, 1)
                     + Op.CALLF[1]
-                    + Op.SSTORE(slots_extra[0], Op.MSIZE())
-                    + Op.SSTORE(slots_extra[1], Op.MLOAD(0))
-                    + Op.SSTORE(slots_extra[2], Op.MLOAD(32))
-                    + Op.SSTORE(slots_extra[3], Op.MLOAD(64))
+                    + Op.SSTORE(storage.store_next(96), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(2), Op.MLOAD(0))
+                    + Op.SSTORE(storage.store_next(21), Op.MLOAD(32))
+                    + Op.SSTORE(storage.store_next(31), Op.MLOAD(64))
                     + Op.STOP,
                 ),
                 Section.Code(
-                    Op.SSTORE(slots_extra[4], Op.MSIZE())
-                    + Op.SSTORE(slots_extra[5], Op.MLOAD(0))
+                    Op.SSTORE(storage.store_next(32), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(1), Op.MLOAD(0))
                     + Op.MSTORE(0, 2)
                     + Op.MSTORE(32, 3)
                     + Op.JUMPF[2],
                     code_outputs=0,
                 ),
                 Section.Code(
-                    Op.SSTORE(slots_extra[6], Op.MSIZE())
-                    + Op.SSTORE(slots_extra[7], Op.MLOAD(0))
-                    + Op.SSTORE(slots_extra[8], Op.MLOAD(32))
+                    Op.SSTORE(storage.store_next(64), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(2), Op.MLOAD(0))
+                    + Op.SSTORE(storage.store_next(3), Op.MLOAD(32))
                     + Op.MSTORE(32, 21)
                     + Op.MSTORE(64, 31)
                     + Op.RETF,
@@ -710,21 +709,7 @@ def test_callf_jumpf_retf_memory_context(
                 ),
             ],
         ),
-        storage={key: 0xB17D for key in slots_extra[:9]},
     )
-    storage = {
-        slots_extra[0]: 96,  # memory size - three sections MSTOREs
-        slots_extra[1]: 2,  # second section MSTORE overwrites
-        slots_extra[2]: 21,  # third section MSTORE overwrites
-        slots_extra[3]: 31,  # third section MSTORE
-        slots_extra[4]: 32,  # memory size - first section MSTORE
-        slots_extra[5]: 1,  # first section MSTORE
-        slots_extra[6]: 64,  # memory size - first and second section MSTOREs
-        slots_extra[7]: 2,  # first section MSTORE overwritten
-        slots_extra[8]: 3,  # second section MSTORE overwritten
-        slot_code_worked: value_code_worked,
-    }
-    print(storage)
     post = {
         contract_address: Account(
             storage=storage,
@@ -732,7 +717,7 @@ def test_callf_jumpf_retf_memory_context(
     }
     tx = Transaction(
         to=contract_address,
-        gas_limit=10_000_000,
+        gas_limit=500_000,
         sender=pre.fund_eoa(),
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
