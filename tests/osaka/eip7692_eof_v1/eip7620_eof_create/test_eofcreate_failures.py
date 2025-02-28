@@ -765,8 +765,8 @@ def test_reentrant_eofcreate(
     env = Environment()
     # Calls into the factory contract with 1 as input.
     reenter_code = Op.MSTORE(0, 1) + Op.EXTCALL(address=Op.CALLDATALOAD(32), args_size=32)
-    # Initcode: if given 0 as 2nd word of input will call into the factory again.
-    #           1ts word of input is the address of the factory.
+    # Initcode: if given 0 as 1st word of input will call into the factory again.
+    #           2nd word of input is the address of the factory.
     initcontainer = Container(
         sections=[
             Section.Code(
@@ -797,7 +797,7 @@ def test_reentrant_eofcreate(
     )
     # Flow is: reenter flag 0 -> factory -> reenter flag 0 -> initcode -> reenter ->
     #          reenter flag 1 -> factory -> reenter flag 1 -> (!) initcode -> stop,
-    # If the EIP-161 nonce bump is not implemented. If it is, it fails before second
+    # if the EIP-161 nonce bump is not implemented. If it is, it fails before second
     # inicode marked (!).
     # Storage in 0 should have the address from the outer EOFCREATE.
     # Storage in 1 should have 0 from the inner EOFCREATE.
