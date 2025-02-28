@@ -715,7 +715,7 @@ def test_eofcreate_context(
 
     destination_contract_address = compute_eofcreate_address(factory_address, 0, initcode)
 
-    tx = Transaction(sender=sender, to=factory_address, gas_limit=1000000, value=value)
+    tx = Transaction(sender=sender, to=factory_address, gas_limit=200_000, value=value)
 
     expected_bytes: Address | int
     if expected_result == "destination":
@@ -808,7 +808,7 @@ def test_eofcreate_memory_context(
     }
     tx = Transaction(
         to=contract_address,
-        gas_limit=10_000_000,
+        gas_limit=200_000,
         sender=pre.fund_eoa(),
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
