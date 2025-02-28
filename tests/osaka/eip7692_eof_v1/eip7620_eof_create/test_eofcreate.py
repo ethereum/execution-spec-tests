@@ -2,6 +2,7 @@
 
 import pytest
 
+from ethereum_test_base_types import Storage
 from ethereum_test_base_types.base_types import Address
 from ethereum_test_exceptions import EOFException
 from ethereum_test_specs import EOFTestFiller
@@ -762,12 +763,14 @@ def test_eofcreate_memory_context(
 ):
     """Verifies an EOFCREATE frame enjoys a separate EVM memory from its caller frame."""
     env = Environment()
+    destination_storage = Storage()
+    contract_storage = Storage()
     initcontainer = Container(
         sections=[
             Section.Code(
-                Op.SSTORE(0, Op.MSIZE())
-                + Op.SSTORE(1, Op.MLOAD(0))
-                + Op.SSTORE(slot_code_worked, value_code_worked)
+                Op.SSTORE(destination_storage.store_next(value_code_worked), value_code_worked)
+                + Op.SSTORE(destination_storage.store_next(0), Op.MSIZE())
+                + Op.SSTORE(destination_storage.store_next(0), Op.MLOAD(0))
                 + Op.MSTORE(0, 2)
                 + Op.MSTORE(32, 2)
                 + Op.RETURNCONTRACT[0](0, 0)
@@ -779,32 +782,22 @@ def test_eofcreate_memory_context(
         code=Container(
             sections=[
                 Section.Code(
-                    Op.MSTORE(0, 1)
+                    Op.SSTORE(contract_storage.store_next(value_code_worked), value_code_worked)
+                    + Op.MSTORE(0, 1)
                     + Op.EOFCREATE[0](0, 0, 0, 0)
-                    + Op.SSTORE(0, Op.MSIZE())
-                    + Op.SSTORE(1, Op.MLOAD(32))
-                    + Op.SSTORE(2, Op.MLOAD(0))
-                    + Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.SSTORE(contract_storage.store_next(32), Op.MSIZE())
+                    + Op.SSTORE(contract_storage.store_next(1), Op.MLOAD(0))
+                    + Op.SSTORE(contract_storage.store_next(0), Op.MLOAD(32))
                     + Op.STOP,
                 ),
                 Section.Container(initcontainer),
             ],
         ),
-        storage={0: 0xB17D, 1: 0xB17D},  # a canary to be overwritten
     )
     destination_contract_address = compute_eofcreate_address(contract_address, 0, initcontainer)
     post = {
-        contract_address: Account(
-            # Slot 0: 32 - memory size - only the local MSTORE
-            # Slot 1:  0 - no remote MSTORE effect
-            # Slot 2:  2 - local MSTORE not overwritten
-            storage={0: 32, 1: 0, 2: 1, slot_code_worked: value_code_worked},
-        ),
-        destination_contract_address: Account(
-            # Slot 0:  0 - memory size - no remote MSTORE effect
-            # Slot 1:  0 - no remote MSTORE effect
-            storage={0: 0, 1: 0, slot_code_worked: value_code_worked},
-        ),
+        contract_address: Account(storage=contract_storage),
+        destination_contract_address: Account(storage=destination_storage),
     }
     tx = Transaction(
         to=contract_address,
