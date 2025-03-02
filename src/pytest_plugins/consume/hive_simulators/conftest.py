@@ -15,6 +15,7 @@ from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainFixtureCommon,
     FixtureFormat,
+    PayloadBuildingFixture,
 )
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_fixtures.file import Fixtures
@@ -104,7 +105,7 @@ def eest_consume_command(
 
 @pytest.fixture(scope="function")
 def test_case_description(
-    fixture: BaseFixture,
+    fixture: BlockchainFixtureCommon | PayloadBuildingFixture,
     test_case: TestCaseIndexFile | TestCaseStream,
     hive_consume_command: List[str],
     hive_dev_command: List[str],
@@ -149,7 +150,7 @@ def total_timing_data(request) -> Generator[TimingData, None, None]:
 
 @pytest.fixture(scope="function")
 @pytest.mark.usefixtures("total_timing_data")
-def client_genesis(fixture: BlockchainFixtureCommon) -> dict:
+def client_genesis(fixture: BlockchainFixtureCommon | PayloadBuildingFixture) -> dict:
     """Convert the fixture genesis block header and pre-state to a client genesis state."""
     genesis = to_json(fixture.genesis)
     alloc = to_json(fixture.pre)
@@ -172,7 +173,7 @@ def check_live_port(test_suite_name: str) -> Literal[8545, 8551]:
 
 @pytest.fixture(scope="function")
 def environment(
-    fixture: BlockchainFixtureCommon,
+    fixture: BlockchainFixtureCommon | PayloadBuildingFixture,
     check_live_port: Literal[8545, 8551],
 ) -> dict:
     """Define the environment that hive will start the client with."""
