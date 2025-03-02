@@ -7053,6 +7053,8 @@
       
         
       
+        
+      
     
     
       
@@ -7290,6 +7292,27 @@
   
   <span class="md-ellipsis">
     <code>test_callf_max_stack</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_callf_retf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_retf_memory_context</code>
   </span>
   
 
@@ -7865,6 +7888,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -8212,6 +8239,48 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_infinite_loop</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_execution/test_jumpf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_memory_context</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_execution/test_callf_jumpf_retf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_jumpf_retf_memory_context</code>
   </span>
   
 
@@ -11049,6 +11118,8 @@
       
         
       
+        
+      
     
     
       
@@ -11375,6 +11446,27 @@
   
   <span class="md-ellipsis">
     <code>test_eofcreate_context</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7620_eof_create/test_eofcreate/test_eofcreate_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_eofcreate_memory_context</code>
   </span>
   
 
@@ -27806,7 +27898,7 @@
 
 
 <h1 id="test_callf_sneaky_stack_overflow"><code>test_callf_sneaky_stack_overflow()</code><a class="headerlink" href="#test_callf_sneaky_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a0ffb92ce1d88686abd4b57bc0859ff184fcf70/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L482"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow@2a0ffb92</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/78f962ac7f4a482e02989aafd2853549d07c10b8/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L487"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow@78f962ac</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow --fork Osaka</span>
@@ -27830,12 +27922,7 @@ Code Section 3 - Writes canary values</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">487</span>
 <span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
@@ -27924,7 +28011,12 @@ Code Section 3 - Writes canary values</p>
 <span class="normal">573</span>
 <span class="normal">574</span>
 <span class="normal">575</span>
-<span class="normal">576</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">(</span><span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="s2">&quot;failure&quot;</span><span class="p">),</span>
     <span class="p">(</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1020</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no_overflow&quot;</span><span class="p">),</span>

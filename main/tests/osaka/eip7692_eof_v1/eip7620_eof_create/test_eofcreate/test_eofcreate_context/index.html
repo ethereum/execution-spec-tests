@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_eofcreate_truncated_container/">
       
       
-        <link rel="next" href="../../test_eofcreate_failures/">
+        <link rel="next" href="../test_eofcreate_memory_context/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -7049,6 +7049,8 @@
       
         
       
+        
+      
     
     
       
@@ -7228,6 +7230,27 @@
   
   <span class="md-ellipsis">
     <code>test_callf_max_stack</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip4750_functions/test_callf_execution/test_callf_retf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_retf_memory_context</code>
   </span>
   
 
@@ -7803,6 +7826,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -8150,6 +8177,48 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_infinite_loop</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_execution/test_jumpf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_memory_context</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_execution/test_callf_jumpf_retf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_jumpf_retf_memory_context</code>
   </span>
   
 
@@ -10991,6 +11060,8 @@
       
         
       
+        
+      
     
     
       
@@ -11379,6 +11450,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_eofcreate_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_eofcreate_memory_context</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27806,7 +27898,7 @@
 
 
 <h1 id="test_eofcreate_context"><code>test_eofcreate_context()</code><a class="headerlink" href="#test_eofcreate_context" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a0ffb92ce1d88686abd4b57bc0859ff184fcf70/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L672"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context@2a0ffb92</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/78f962ac7f4a482e02989aafd2853549d07c10b8/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L673"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context@78f962ac</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context --fork Osaka</span>
@@ -27825,8 +27917,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">672</span>
-<span class="normal">673</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">673</span>
 <span class="normal">674</span>
 <span class="normal">675</span>
 <span class="normal">676</span>
@@ -27900,13 +27991,25 @@
 <span class="normal">744</span>
 <span class="normal">745</span>
 <span class="normal">746</span>
-<span class="normal">747</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">747</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;destination_code&quot;</span><span class="p">,</span> <span class="s2">&quot;expected_result&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">,</span> <span class="s2">&quot;destination&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">,</span> <span class="s2">&quot;caller&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">,</span> <span class="s2">&quot;eofcreate_value&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ORIGIN</span><span class="p">,</span> <span class="s2">&quot;sender&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SELFBALANCE</span><span class="p">,</span> <span class="s2">&quot;selfbalance&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLER</span><span class="p">),</span> <span class="s2">&quot;factorybalance&quot;</span><span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_eofcreate_context</span><span class="p">(</span>
@@ -27930,7 +28033,7 @@
         <span class="p">]</span>
     <span class="p">)</span>
 
-    <span class="n">caller_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
+    <span class="n">factory_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                 <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
@@ -27940,21 +28043,26 @@
             <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">initcode</span><span class="p">),</span>
         <span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">calling_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">caller_contract</span><span class="p">)</span>
+    <span class="n">factory_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">factory_contract</span><span class="p">)</span>
 
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">initcode</span><span class="p">)</span>
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">factory_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">initcode</span><span class="p">)</span>
 
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="n">calling_contract_address</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="n">factory_address</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="mi">200_000</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">expected_bytes</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="nb">int</span>
     <span class="k">if</span> <span class="n">expected_result</span> <span class="o">==</span> <span class="s2">&quot;destination&quot;</span><span class="p">:</span>
         <span class="n">expected_bytes</span> <span class="o">=</span> <span class="n">destination_contract_address</span>
     <span class="k">elif</span> <span class="n">expected_result</span> <span class="o">==</span> <span class="s2">&quot;caller&quot;</span><span class="p">:</span>
-        <span class="n">expected_bytes</span> <span class="o">=</span> <span class="n">calling_contract_address</span>
+        <span class="n">expected_bytes</span> <span class="o">=</span> <span class="n">factory_address</span>
     <span class="k">elif</span> <span class="n">expected_result</span> <span class="o">==</span> <span class="s2">&quot;sender&quot;</span><span class="p">:</span>
         <span class="n">expected_bytes</span> <span class="o">=</span> <span class="n">sender</span>
     <span class="k">elif</span> <span class="n">expected_result</span> <span class="o">==</span> <span class="s2">&quot;eofcreate_value&quot;</span><span class="p">:</span>
         <span class="n">expected_bytes</span> <span class="o">=</span> <span class="n">eofcreate_value</span>
+    <span class="k">elif</span> <span class="n">expected_result</span> <span class="o">==</span> <span class="s2">&quot;selfbalance&quot;</span><span class="p">:</span>
+        <span class="n">expected_bytes</span> <span class="o">=</span> <span class="n">eofcreate_value</span>
+    <span class="k">elif</span> <span class="n">expected_result</span> <span class="o">==</span> <span class="s2">&quot;factorybalance&quot;</span><span class="p">:</span>
+        <span class="c1"># Factory receives value from sender and passes on eofcreate_value as endowment.</span>
+        <span class="n">expected_bytes</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="n">eofcreate_value</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected expected_result&quot;</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">)</span>
 
@@ -27966,8 +28074,10 @@
     <span class="p">}</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">calling_storage</span><span class="p">),</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">destination_contract_storage</span><span class="p">),</span>
+        <span class="n">factory_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">calling_storage</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="n">value</span> <span class="o">-</span> <span class="n">eofcreate_value</span><span class="p">),</span>
+        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">storage</span><span class="o">=</span><span class="n">destination_contract_storage</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="n">eofcreate_value</span>
+        <span class="p">),</span>
     <span class="p">}</span>
 
     <span class="n">state_test</span><span class="p">(</span>
@@ -28069,6 +28179,26 @@
                         <td>ORIGIN</td>
                         <td>sender</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context[fork_Osaka-state_test-destination_code_SELFBALANCE-expected_result_selfbalance]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context[fork_Osaka-state_test-destination_code_SELFBALANCE-expected_result_selfbalance]">
+                    ...fork_Osaka-state_test-destination_code_SELFBALANCE-expected_result_selfbalance
+                </abbr>
+            </td>
+                        <td>SELFBALANCE</td>
+                        <td>selfbalance</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context[fork_Osaka-state_test-destination_code_-expected_result_factorybalance]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context[fork_Osaka-state_test-destination_code_-expected_result_factorybalance]">
+                    ...fork_Osaka-state_test-destination_code_-expected_result_factorybalance
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>factorybalance</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28108,6 +28238,26 @@
             </td>
                         <td>ORIGIN</td>
                         <td>sender</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context[fork_Osaka-blockchain_test_from_state_test-destination_code_SELFBALANCE-expected_result_selfbalance]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context[fork_Osaka-blockchain_test_from_state_test-destination_code_SELFBALANCE-expected_result_selfbalance]">
+                    ...fork_Osaka-blockchain_test_from_state_test-destination_code_SELFBALANCE-expected_result_selfbalance
+                </abbr>
+            </td>
+                        <td>SELFBALANCE</td>
+                        <td>selfbalance</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context[fork_Osaka-blockchain_test_from_state_test-destination_code_-expected_result_factorybalance]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_context[fork_Osaka-blockchain_test_from_state_test-destination_code_-expected_result_factorybalance]">
+                    ...fork_Osaka-blockchain_test_from_state_test-destination_code_-expected_result_factorybalance
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>factorybalance</td>
                     </tr>
             </tbody>
 </table>

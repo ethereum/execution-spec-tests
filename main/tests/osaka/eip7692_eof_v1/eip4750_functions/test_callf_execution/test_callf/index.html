@@ -7053,6 +7053,8 @@
       
         
       
+        
+      
     
     
       
@@ -7290,6 +7292,27 @@
   
   <span class="md-ellipsis">
     <code>test_callf_max_stack</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_callf_retf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_retf_memory_context</code>
   </span>
   
 
@@ -7865,6 +7888,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -8212,6 +8239,48 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_infinite_loop</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_execution/test_jumpf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_memory_context</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_execution/test_callf_jumpf_retf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_jumpf_retf_memory_context</code>
   </span>
   
 
@@ -11049,6 +11118,8 @@
       
         
       
+        
+      
     
     
       
@@ -11375,6 +11446,27 @@
   
   <span class="md-ellipsis">
     <code>test_eofcreate_context</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7620_eof_create/test_eofcreate/test_eofcreate_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_eofcreate_memory_context</code>
   </span>
   
 
@@ -27806,7 +27898,7 @@
 
 
 <h1 id="test_callf"><code>test_callf()</code><a class="headerlink" href="#test_callf" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a0ffb92ce1d88686abd4b57bc0859ff184fcf70/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L113"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf@2a0ffb92</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/78f962ac7f4a482e02989aafd2853549d07c10b8/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L118"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf@78f962ac</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf --fork Osaka</span>
@@ -27825,12 +27917,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
@@ -27914,7 +28001,12 @@
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">(</span>
         <span class="n">Container</span><span class="p">(</span>

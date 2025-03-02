@@ -7049,6 +7049,8 @@
       
         
       
+        
+      
     
     
       
@@ -7228,6 +7230,27 @@
   
   <span class="md-ellipsis">
     <code>test_callf_max_stack</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip4750_functions/test_callf_execution/test_callf_retf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_retf_memory_context</code>
   </span>
   
 
@@ -7803,6 +7826,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -8150,6 +8177,48 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_infinite_loop</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_execution/test_jumpf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_memory_context</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_execution/test_callf_jumpf_retf_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_jumpf_retf_memory_context</code>
   </span>
   
 
@@ -10991,6 +11060,8 @@
       
         
       
+        
+      
     
     
       
@@ -11375,6 +11446,27 @@
   
   <span class="md-ellipsis">
     <code>test_eofcreate_context</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_eofcreate_memory_context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_eofcreate_memory_context</code>
   </span>
   
 
@@ -27806,7 +27898,7 @@
 
 
 <h1 id="test_eofcreate_invalid_index"><code>test_eofcreate_invalid_index()</code><a class="headerlink" href="#test_eofcreate_invalid_index" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a0ffb92ce1d88686abd4b57bc0859ff184fcf70/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L607"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_invalid_index@2a0ffb92</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/78f962ac7f4a482e02989aafd2853549d07c10b8/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L608"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_invalid_index@78f962ac</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_invalid_index --fork Osaka</span>
@@ -27825,8 +27917,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">607</span>
-<span class="normal">608</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">608</span>
 <span class="normal">609</span>
 <span class="normal">610</span>
 <span class="normal">611</span>
@@ -27838,7 +27929,8 @@
 <span class="normal">617</span>
 <span class="normal">618</span>
 <span class="normal">619</span>
-<span class="normal">620</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+<span class="normal">620</span>
+<span class="normal">621</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">255</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_eofcreate_invalid_index</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
