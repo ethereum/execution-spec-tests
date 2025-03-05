@@ -95,19 +95,18 @@ class DepositRequest(DepositRequestBase):
             bytes index
         );
         """
-        return (
-            b"\0" * (192)
-            + self.pubkey
-            + b"\0" * (48)
-            + self.withdrawal_credentials
-            + b"\0" * (32)
-            + (self.amount).to_bytes(8, byteorder="little")
-            + b"\0" * (56)
-            + self.signature
-            + b"\0" * (32)
-            + (self.index).to_bytes(8, byteorder="little")
-            + b"\0" * (24)
-        )
+        data = bytearray(576)
+        offset = 192
+        data[offset : offset + len(self.pubkey)] = self.pubkey
+        offset += 48 + len(self.pubkey)
+        data[offset : offset + len(self.withdrawal_credentials)] = self.withdrawal_credentials
+        offset += 32 + len(self.withdrawal_credentials)
+        data[offset : offset + 8] = (self.amount).to_bytes(8, byteorder="little")
+        offset += 56 + 8
+        data[offset : offset + len(self.signature)] = self.signature
+        offset += 32 + len(self.signature)
+        data[offset : offset + 8] = (self.index).to_bytes(8, byteorder="little")
+        return bytes(data)
 
     def with_source_address(self, source_address: Address) -> "DepositRequest":
         """Return a copy."""
