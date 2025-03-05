@@ -107,17 +107,41 @@ class DepositRequest(DepositRequestBase):
             bytes index
         );
         """
-        data = bytearray(576)
+        data = bytearray(
+            # Pre-populate with ABI encoding
+            bytes.fromhex(
+                "00000000000000000000000000000000000000000000000000000000000000a0"  # 0 - 32
+                "0000000000000000000000000000000000000000000000000000000000000100"  # 32 - 64
+                "0000000000000000000000000000000000000000000000000000000000000140"  # 64 - 96
+                "0000000000000000000000000000000000000000000000000000000000000180"  # 96 - 128
+                "0000000000000000000000000000000000000000000000000000000000000200"  # 128 - 160
+                "0000000000000000000000000000000000000000000000000000000000000030"  # 160 - 192
+                "0000000000000000000000000000000000000000000000000000000000000000"  # 192 - 224
+                "0000000000000000000000000000000000000000000000000000000000000000"  # 224 - 256
+                "0000000000000000000000000000000000000000000000000000000000000020"  # 256 - 288
+                "0000000000000000000000000000000000000000000000000000000000000000"  # 288 - 320
+                "0000000000000000000000000000000000000000000000000000000000000008"  # 320 - 352
+                "0000000000000000000000000000000000000000000000000000000000000000"  # 352 - 384
+                "0000000000000000000000000000000000000000000000000000000000000060"  # 384 - 416
+                "0000000000000000000000000000000000000000000000000000000000000000"  # 416 - 448
+                "0000000000000000000000000000000000000000000000000000000000000000"  # 448 - 480
+                "0000000000000000000000000000000000000000000000000000000000000000"  # 480 - 512
+                "0000000000000000000000000000000000000000000000000000000000000008"  # 512 - 544
+                "0000000000000000000000000000000000000000000000000000000000000000"  # 544 - 576
+            )
+        )
         offset = 192
-        data[offset : offset + len(self.pubkey)] = self.pubkey
+        data[offset : offset + len(self.pubkey)] = self.pubkey  # [192:240]
         offset += 48 + len(self.pubkey)
-        data[offset : offset + len(self.withdrawal_credentials)] = self.withdrawal_credentials
+        data[offset : offset + len(self.withdrawal_credentials)] = (
+            self.withdrawal_credentials
+        )  # [288:320]
         offset += 32 + len(self.withdrawal_credentials)
-        data[offset : offset + 8] = (self.amount).to_bytes(8, byteorder="little")
+        data[offset : offset + 8] = (self.amount).to_bytes(8, byteorder="little")  # [352:360]
         offset += 56 + 8
-        data[offset : offset + len(self.signature)] = self.signature
+        data[offset : offset + len(self.signature)] = self.signature  # [416:512]
         offset += 32 + len(self.signature)
-        data[offset : offset + 8] = (self.index).to_bytes(8, byteorder="little")
+        data[offset : offset + 8] = (self.index).to_bytes(8, byteorder="little")  # [544:552]
         return bytes(data)
 
     def with_source_address(self, source_address: Address) -> "DepositRequest":
