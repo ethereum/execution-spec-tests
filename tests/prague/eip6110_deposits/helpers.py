@@ -82,6 +82,33 @@ class DepositRequest(DepositRequestBase):
             + self.signature
         )
 
+    @cached_property
+    def log(self) -> bytes:
+        """
+        Returns the log data for the deposit event.
+
+        event DepositEvent(
+            bytes pubkey,
+            bytes withdrawal_credentials,
+            bytes amount,
+            bytes signature,
+            bytes index
+        );
+        """
+        return (
+            b"\0" * (192)
+            + self.pubkey
+            + b"\0" * (48)
+            + self.withdrawal_credentials
+            + b"\0" * (32)
+            + (self.amount).to_bytes(8, byteorder="little")
+            + b"\0" * (56)
+            + self.signature
+            + b"\0" * (32)
+            + (self.index).to_bytes(8, byteorder="little")
+            + b"\0" * (24)
+        )
+
     def with_source_address(self, source_address: Address) -> "DepositRequest":
         """Return a copy."""
         return self.copy()
