@@ -6,7 +6,11 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ## 🔜 [Unreleased](https://github.com/ethereum/execution-spec-tests/releases/tag/UNRELEASED) - 2025-XX-XX
 
-### 💥 Breaking Change
+### 💥 Breaking Changes
+
+The following changes may be potentially breaking (all clients were tested with these changes with the state test format, but not the blockchain test format):
+
+- 💥 Add a `yParity` field (that duplicates `v`) to transaction authorization tuples in fixture formats to have fields that conform to EIP-7702 spec, resolves [erigontech/erigon#14073](https://github.com/erigontech/erigon/issues/14073) ([#1286](https://github.com/ethereum/execution-spec-tests/pull/1286)).
 
 ### 🛠️ Framework
 
