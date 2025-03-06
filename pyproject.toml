@@ -36,7 +36,7 @@ dependencies = [
     "coincurve>=20.0.0,<21",
     "trie>=2.0.2,<3",
     "semver>=3.0.1,<4",
-    "pydantic>=2.9.0,<3",
+    "pydantic>=2.10.0,<3",
     "rich>=13.7.0,<14",
     "solc-select>=1.0.4,<2",
     "filelock>=3.15.1,<4",
@@ -44,6 +44,7 @@ dependencies = [
     "pyyaml>=6.0.2,<7",
     "types-pyyaml>=6.0.12.20240917,<7",
     "pytest-json-report>=1.5.0,<2",
+    "typing-extensions>=4.12.2,<5",
     # TODO: bump questionary to a newer release, when it becomes available.
     # The current release questionary 2.0.1 requires `prompt_toolkit = ">=2.0,<=3.0.36"`.
     # This conflicts with ipython; while not an EEST dependency, ipython a very useful tool:
