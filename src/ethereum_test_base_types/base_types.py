@@ -1,17 +1,16 @@
 """Basic type primitives used to define other types."""
 
 from hashlib import sha256
-from typing import Any, ClassVar, SupportsBytes, Type, TypeVar, Annotated, Type
+from typing import Annotated, Any, ClassVar, SupportsBytes, Type, TypeVar
 
-from typing_extensions import Self
 from Crypto.Hash import keccak
 from pydantic import GetCoreSchemaHandler, StringConstraints
 from pydantic_core.core_schema import (
     PlainValidatorFunctionSchema,
     no_info_plain_validator_function,
     to_string_ser_schema,
-    str_schema,
 )
+from typing_extensions import Self
 
 from .conversions import (
     BytesConvertible,
@@ -124,8 +123,11 @@ class HexNumber(Number):
         return no_info_plain_validator_function(
             source_type,
             serialization=to_string_ser_schema(),
-            json_schema_input_schema=handler(Annotated[str, StringConstraints(pattern=r'^0x[0-9a-fA-F]*$')]),
+            json_schema_input_schema=handler(
+                Annotated[str, StringConstraints(pattern=r"^0x[0-9a-fA-F]*$")]
+            ),
         )
+
 
 class ZeroPaddedHexNumber(HexNumber):
     """Class that helps represent zero padded hexadecimal numbers in tests."""
@@ -147,7 +149,9 @@ class ZeroPaddedHexNumber(HexNumber):
         return no_info_plain_validator_function(
             source_type,
             serialization=to_string_ser_schema(),
-            json_schema_input_schema=handler(Annotated[str, StringConstraints(pattern=r'^0x([0-9a-fA-F]{2})*$')]),
+            json_schema_input_schema=handler(
+                Annotated[str, StringConstraints(pattern=r"^0x([0-9a-fA-F]{2})*$")]
+            ),
         )
 
 
@@ -199,7 +203,9 @@ class Bytes(bytes, ToStringSchema):
         return no_info_plain_validator_function(
             source_type,
             serialization=to_string_ser_schema(),
-            json_schema_input_schema=handler(Annotated[str, StringConstraints(pattern=r'^0x([0-9a-fA-F]{2})*$')]),
+            json_schema_input_schema=handler(
+                Annotated[str, StringConstraints(pattern=r"^0x([0-9a-fA-F]{2})*$")]
+            ),
         )
 
 
