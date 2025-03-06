@@ -374,6 +374,7 @@ reentrant
 repo
 repo's
 repos
+returncode
 returncontract
 returndata
 returndatacopy
