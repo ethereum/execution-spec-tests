@@ -1,6 +1,4 @@
-"""
-Simple CLI tool that reads filler files in the `ethereum/tests` format.
-"""
+"""Simple CLI tool that reads filler files in the `ethereum/tests` format."""
 
 import argparse
 import json
@@ -16,9 +14,7 @@ from typing_extensions import Annotated
 
 
 def check_address(s: str | int) -> bytes:
-    """
-    Check if the given string is a valid address.
-    """
+    """Check if the given string is a valid address."""
     if isinstance(s, int):
         return s.to_bytes(20, "big")
     assert isinstance(s, str)
@@ -34,9 +30,7 @@ Address = Annotated[bytes, BeforeValidator(check_address)]
 
 
 def check_hex_number(i: int | str) -> int:
-    """
-    Check if the given string is a valid hex number.
-    """
+    """Check if the given string is a valid hex number."""
     if isinstance(i, int):
         return i
     if i.startswith("0x:bigint "):
@@ -48,9 +42,7 @@ HexNumber = Annotated[int, BeforeValidator(check_hex_number)]
 
 
 def check_hash(s: str | int) -> bytes:
-    """
-    Check if the given string is a valid hash.
-    """
+    """Check if the given string is a valid hash."""
     if isinstance(s, int):
         return s.to_bytes(32, "big")
     if s.startswith("0x"):
@@ -63,13 +55,11 @@ def check_hash(s: str | int) -> bytes:
 Hash = Annotated[bytes, BeforeValidator(check_hash)]
 
 
-def check_code(input: str | int) -> str:
-    """
-    Check if the given string is a valid code.
-    """
-    if isinstance(input, int):
-        return hex(input)
-    return input
+def check_code(input_code: str | int) -> str:
+    """Check if the given string is a valid code."""
+    if isinstance(input_code, int):
+        return hex(input_code)
+    return input_code
 
 
 Code = Annotated[str, BeforeValidator(check_code)]
@@ -83,9 +73,7 @@ CAMEL_CASE_CONFIG = ConfigDict(
 
 
 class Environment(BaseModel):
-    """
-    Class that represents an environment filler.
-    """
+    """Class that represents an environment filler."""
 
     current_coinbase: Address
     current_difficulty: HexNumber | None = Field(None)
@@ -100,17 +88,13 @@ class Environment(BaseModel):
 
 
 class Info(BaseModel):
-    """
-    Class that represents an info filler.
-    """
+    """Class that represents an info filler."""
 
     comment: str
 
 
 class RemovedAccount(BaseModel):
-    """
-    Class that represents an empty account filler.
-    """
+    """Class that represents an empty account filler."""
 
     should_not_exist: bool = Field(..., alias="shouldnotexist")
 
@@ -118,9 +102,7 @@ class RemovedAccount(BaseModel):
 
 
 class Account(BaseModel):
-    """
-    Class that represents an account filler.
-    """
+    """Class that represents an account filler."""
 
     balance: HexNumber | None = Field(None)
     code: Code | None = Field(None)
@@ -131,9 +113,7 @@ class Account(BaseModel):
 
 
 class AccessList(BaseModel):
-    """
-    Class that represents an access list.
-    """
+    """Class that represents an access list."""
 
     address: Address
     storage_keys: List[HexNumber]
@@ -142,9 +122,7 @@ class AccessList(BaseModel):
 
 
 class Data(BaseModel):
-    """
-    Class that represents the data portion of the test.
-    """
+    """Class that represents the data portion of the test."""
 
     data: str
     access_list: List[AccessList]
@@ -153,9 +131,7 @@ class Data(BaseModel):
 
 
 class Transaction(BaseModel):
-    """
-    Class that represents a transaction filler.
-    """
+    """Class that represents a transaction filler."""
 
     data: List[str | Data]
     gas_limit: List[HexNumber]
@@ -171,9 +147,7 @@ class Transaction(BaseModel):
 
 
 class Indexes(BaseModel):
-    """
-    Class that represents an index filler.
-    """
+    """Class that represents an index filler."""
 
     data: int | str | List[int | str] = Field(-1)
     gas: int | str | List[int | str] = Field(-1)
@@ -183,9 +157,7 @@ class Indexes(BaseModel):
 
 
 class Expect(BaseModel):
-    """
-    Class that represents an expect filler.
-    """
+    """Class that represents an expect filler."""
 
     indexes: Indexes = Field(Indexes(data=-1, gas=-1, value=-1))
     network: List[str]
@@ -196,9 +168,7 @@ class Expect(BaseModel):
 
 
 class StateTest(BaseModel):
-    """
-    Class that represents a state test filler.
-    """
+    """Class that represents a state test filler."""
 
     env: Environment
     info: Info | None = Field(None, alias="_info")
@@ -214,9 +184,7 @@ class StateTest(BaseModel):
 
 
 def remove_comments(d: dict) -> dict:
-    """
-    Remove comments from a dictionary.
-    """
+    """Remove comments from a dictionary."""
     result = {}
     for k, v in d.items():
         if isinstance(k, str) and k.startswith("//"):
@@ -230,35 +198,27 @@ def remove_comments(d: dict) -> dict:
 
 
 class StateFiller(BaseModel):
-    """
-    Class that represents a state test filler.
-    """
+    """Class that represents a state test filler."""
 
     tests: Dict[str, StateTest]
 
     @classmethod
     def from_json(cls, path: Path) -> None:
-        """
-        Read the state filler from a JSON file.
-        """
+        """Read the state filler from a JSON file."""
         with open(path, "r") as f:
             o = json.load(f)
             StateFiller(tests=remove_comments(o))
 
     @classmethod
     def from_yml(cls, path: Path) -> None:
-        """
-        Read the state filler from a YML file.
-        """
+        """Read the state filler from a YML file."""
         with open(path, "r") as f:
             o = yaml.load(f, Loader=yaml.FullLoader)
             StateFiller(tests=remove_comments(o))
 
 
 def main() -> None:
-    """
-    Main function.
-    """
+    """Run the main function."""
     parser = argparse.ArgumentParser(description="Filler parser.")
 
     parser.add_argument(
