@@ -3976,7 +3976,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_to_non_empty_storage/</loc>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_to_non_empty_storage_non_zero_nonce/</loc>
          <lastmod>2025-03-06</lastmod>
          <changefreq>daily</changefreq>
     </url>

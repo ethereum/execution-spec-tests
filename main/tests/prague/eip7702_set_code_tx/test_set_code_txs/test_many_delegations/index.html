@@ -17642,11 +17642,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_set_code_to_non_empty_storage/" class="md-nav__link">
+      <a href="../test_set_code_to_non_empty_storage_non_zero_nonce/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_set_code_to_non_empty_storage</code>
+    <code>test_set_code_to_non_empty_storage_non_zero_nonce</code>
   </span>
   
 
@@ -27919,7 +27919,7 @@
 
 
 <h1 id="test_many_delegations"><code>test_many_delegations()</code><a class="headerlink" href="#test_many_delegations" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6b208ac398fedc32ef3c0388fabf0be745657191/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3300"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations@6b208ac3</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/42a066aa65ef84d7bcf5707d0f0c604429999301/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3287"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations@42a066aa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations --fork Prague</span>
@@ -27942,7 +27942,20 @@ the code of the entry contract set to 1.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3300</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3287</span>
+<span class="normal">3288</span>
+<span class="normal">3289</span>
+<span class="normal">3290</span>
+<span class="normal">3291</span>
+<span class="normal">3292</span>
+<span class="normal">3293</span>
+<span class="normal">3294</span>
+<span class="normal">3295</span>
+<span class="normal">3296</span>
+<span class="normal">3297</span>
+<span class="normal">3298</span>
+<span class="normal">3299</span>
+<span class="normal">3300</span>
 <span class="normal">3301</span>
 <span class="normal">3302</span>
 <span class="normal">3303</span>
@@ -28012,20 +28025,7 @@ the code of the entry contract set to 1.</p>
 <span class="normal">3367</span>
 <span class="normal">3368</span>
 <span class="normal">3369</span>
-<span class="normal">3370</span>
-<span class="normal">3371</span>
-<span class="normal">3372</span>
-<span class="normal">3373</span>
-<span class="normal">3374</span>
-<span class="normal">3375</span>
-<span class="normal">3376</span>
-<span class="normal">3377</span>
-<span class="normal">3378</span>
-<span class="normal">3379</span>
-<span class="normal">3380</span>
-<span class="normal">3381</span>
-<span class="normal">3382</span>
-<span class="normal">3383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3370</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;signer_balance&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;empty_balance&quot;</span><span class="p">),</span>

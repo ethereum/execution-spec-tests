@@ -17642,11 +17642,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_set_code_to_non_empty_storage/" class="md-nav__link">
+      <a href="../test_set_code_to_non_empty_storage_non_zero_nonce/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_set_code_to_non_empty_storage</code>
+    <code>test_set_code_to_non_empty_storage_non_zero_nonce</code>
   </span>
   
 
@@ -27919,7 +27919,7 @@
 
 
 <h1 id="test_set_code_address_and_authority_warm_state_call_types"><code>test_set_code_address_and_authority_warm_state_call_types()</code><a class="headerlink" href="#test_set_code_address_and_authority_warm_state_call_types" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6b208ac398fedc32ef3c0388fabf0be745657191/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1273"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_address_and_authority_warm_state_call_types@6b208ac3</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/42a066aa65ef84d7bcf5707d0f0c604429999301/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1260"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_address_and_authority_warm_state_call_types@42a066aa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_address_and_authority_warm_state_call_types --fork Prague</span>
@@ -27940,7 +27940,20 @@ without using <code>GAS</code> opcode (unavailable in EOF).</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1273</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1260</span>
+<span class="normal">1261</span>
+<span class="normal">1262</span>
+<span class="normal">1263</span>
+<span class="normal">1264</span>
+<span class="normal">1265</span>
+<span class="normal">1266</span>
+<span class="normal">1267</span>
+<span class="normal">1268</span>
+<span class="normal">1269</span>
+<span class="normal">1270</span>
+<span class="normal">1271</span>
+<span class="normal">1272</span>
+<span class="normal">1273</span>
 <span class="normal">1274</span>
 <span class="normal">1275</span>
 <span class="normal">1276</span>
@@ -27997,20 +28010,7 @@ without using <code>GAS</code> opcode (unavailable in EOF).</p>
 <span class="normal">1327</span>
 <span class="normal">1328</span>
 <span class="normal">1329</span>
-<span class="normal">1330</span>
-<span class="normal">1331</span>
-<span class="normal">1332</span>
-<span class="normal">1333</span>
-<span class="normal">1334</span>
-<span class="normal">1335</span>
-<span class="normal">1336</span>
-<span class="normal">1337</span>
-<span class="normal">1338</span>
-<span class="normal">1339</span>
-<span class="normal">1340</span>
-<span class="normal">1341</span>
-<span class="normal">1342</span>
-<span class="normal">1343</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">()</span>
+<span class="normal">1330</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">()</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;set_code_address_first&quot;</span><span class="p">,</span>
     <span class="p">[</span>

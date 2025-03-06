@@ -17642,11 +17642,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_set_code_to_non_empty_storage/" class="md-nav__link">
+      <a href="../test_set_code_to_non_empty_storage_non_zero_nonce/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_set_code_to_non_empty_storage</code>
+    <code>test_set_code_to_non_empty_storage_non_zero_nonce</code>
   </span>
   
 
@@ -27919,7 +27919,7 @@
 
 
 <h1 id="test_creating_delegation_designation_contract"><code>test_creating_delegation_designation_contract()</code><a class="headerlink" href="#test_creating_delegation_designation_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6b208ac398fedc32ef3c0388fabf0be745657191/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3254"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract@6b208ac3</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/42a066aa65ef84d7bcf5707d0f0c604429999301/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3241"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract@42a066aa</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract --fork Prague</span>
@@ -27939,7 +27939,20 @@ Attempt to deploy contract with magic bytes result in no contract being created.
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3254</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3241</span>
+<span class="normal">3242</span>
+<span class="normal">3243</span>
+<span class="normal">3244</span>
+<span class="normal">3245</span>
+<span class="normal">3246</span>
+<span class="normal">3247</span>
+<span class="normal">3248</span>
+<span class="normal">3249</span>
+<span class="normal">3250</span>
+<span class="normal">3251</span>
+<span class="normal">3252</span>
+<span class="normal">3253</span>
+<span class="normal">3254</span>
 <span class="normal">3255</span>
 <span class="normal">3256</span>
 <span class="normal">3257</span>
@@ -27969,20 +27982,7 @@ Attempt to deploy contract with magic bytes result in no contract being created.
 <span class="normal">3281</span>
 <span class="normal">3282</span>
 <span class="normal">3283</span>
-<span class="normal">3284</span>
-<span class="normal">3285</span>
-<span class="normal">3286</span>
-<span class="normal">3287</span>
-<span class="normal">3288</span>
-<span class="normal">3289</span>
-<span class="normal">3290</span>
-<span class="normal">3291</span>
-<span class="normal">3292</span>
-<span class="normal">3293</span>
-<span class="normal">3294</span>
-<span class="normal">3295</span>
-<span class="normal">3296</span>
-<span class="normal">3297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
+<span class="normal">3284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_creating_delegation_designation_contract</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">create_opcode</span><span class="p">:</span> <span class="n">Op</span>
 <span class="p">):</span>
