@@ -1,0 +1,46 @@
+name: Verify t8n support
+
+on:
+  pull_request:
+
+jobs:
+  t8n-fill-support:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: ./.github/actions/setup-uv
+
+      - name: Set up Python
+        run: uv python install 3.10
+
+      - name: Install EEST
+        run: |
+          uv sync --no-progress
+          uv run python --version
+
+      - name: Verify EEST t8n fill
+        run: |
+          uv run fill tests/frontier/examples/test_t8n_structures.py
+
+      - name: Build EVMONE EVM
+        uses: ./.github/actions/build-evm-client/evmone
+        id: evm-builder2
+        with:
+          targets: "evmone-t8n"
+
+      - name: Verify EVMONE t8n fill
+        run: |
+          uv run fill tests/frontier/examples/test_t8n_structures.py --evm-bin=evmone-t8n
+
+      - name: Build GO EVM
+        uses: ./.github/actions/build-evm-client/geth
+
+      - name: Verify GETH t8n fill
+        run: |
+          uv run fill tests/frontier/examples/test_t8n_structures.py --evm-bin=evm
+
+
