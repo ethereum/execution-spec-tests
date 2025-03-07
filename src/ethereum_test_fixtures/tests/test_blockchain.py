@@ -61,7 +61,7 @@ fixture_header_ones = FixtureHeader(
     withdrawals_root=Hash(1),
     blob_gas_used=1,
     excess_blob_gas=1,
-    # hash=Hash(1),
+    hash=None,
 )
 
 
@@ -292,6 +292,7 @@ fixture_header_ones = FixtureHeader(
                 extra_data=Bytes([12]),
                 prev_randao=Hash(13),
                 nonce=HeaderNonce(14),
+                hash=None,
             ),
             {
                 "parentHash": Hash(0).hex(),
@@ -335,6 +336,7 @@ fixture_header_ones = FixtureHeader(
                 withdrawals_root=Hash(16),
                 blob_gas_used=17,
                 excess_blob_gas=18,
+                hash=None,
             ),
             {
                 "parentHash": Hash(0).hex(),
@@ -383,6 +385,7 @@ fixture_header_ones = FixtureHeader(
                     withdrawals_root=Hash(16),
                     blob_gas_used=17,
                     excess_blob_gas=18,
+                    hash=None,
                 ),
                 transactions=[
                     FixtureTransaction.from_transaction(Transaction().with_signature_and_sender())
@@ -455,6 +458,7 @@ fixture_header_ones = FixtureHeader(
                     withdrawals_root=Hash(16),
                     blob_gas_used=17,
                     excess_blob_gas=18,
+                    hash=None,
                 ),
                 transactions=[
                     FixtureTransaction.from_transaction(
@@ -582,6 +586,7 @@ fixture_header_ones = FixtureHeader(
                     withdrawals_root=Hash(16),
                     blob_gas_used=17,
                     excess_blob_gas=18,
+                    hash=None,
                 ),
                 transactions=[
                     Transaction(
@@ -667,6 +672,7 @@ fixture_header_ones = FixtureHeader(
                     excess_blob_gas=18,
                     parent_beacon_block_root=19,
                     requests_hash=20,
+                    hash=None,
                 ),
                 transactions=[
                     Transaction(
@@ -822,6 +828,7 @@ fixture_header_ones = FixtureHeader(
                     excess_blob_gas=18,
                     parent_beacon_block_root=19,
                     requests_hash=20,
+                    hash=None,
                 ),
                 transactions=[
                     Transaction(
@@ -1000,6 +1007,7 @@ EngineNewPayloadParametersAdapter = TypeAdapter(EngineNewPayloadParameters)  # t
                         withdrawals_root=Hash(16),
                         blob_gas_used=17,
                         excess_blob_gas=18,
+                        hash=None,
                     ),
                     transactions=[
                         Transaction(
@@ -1088,6 +1096,7 @@ EngineNewPayloadParametersAdapter = TypeAdapter(EngineNewPayloadParameters)  # t
                         withdrawals_root=Hash(16),
                         blob_gas_used=17,
                         excess_blob_gas=18,
+                        hash=None,
                     ),
                     transactions=[
                         Transaction(
@@ -1180,6 +1189,7 @@ EngineNewPayloadParametersAdapter = TypeAdapter(EngineNewPayloadParameters)  # t
                         withdrawals_root=Hash(16),
                         blob_gas_used=17,
                         excess_blob_gas=18,
+                        hash=None,
                     ),
                     transactions=[
                         Transaction(
