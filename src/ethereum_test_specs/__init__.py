@@ -3,6 +3,7 @@
 from typing import List, Type
 
 from .base import BaseTest, TestSpec
+from .base_json import BaseJSONTest
 from .blockchain import (
     BlockchainTest,
     BlockchainTestFiller,
@@ -17,6 +18,7 @@ from .eof import (
     EOFTestSpec,
 )
 from .state import StateTest, StateTestFiller, StateTestSpec
+from .state_json import StateFiller
 from .transaction import TransactionTest, TransactionTestFiller, TransactionTestSpec
 
 SPEC_TYPES: List[Type[BaseTest]] = [
@@ -30,6 +32,7 @@ SPEC_TYPES: List[Type[BaseTest]] = [
 
 __all__ = (
     "SPEC_TYPES",
+    "BaseJSONTest",
     "BaseTest",
     "BlockchainTest",
     "BlockchainTestEngineFiller",
@@ -42,6 +45,7 @@ __all__ = (
     "EOFTest",
     "EOFTestFiller",
     "EOFTestSpec",
+    "StateFiller",
     "StateTest",
     "StateTestFiller",
     "StateTestSpec",
