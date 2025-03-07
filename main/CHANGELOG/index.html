@@ -1662,9 +1662,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#breaking-change" class="md-nav__link">
+  <a href="#breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      💥 Breaking Change
+      💥 Breaking Changes
     </span>
   </a>
   
@@ -1722,7 +1722,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_1" class="md-nav__link">
+  <a href="#breaking-change" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -1800,7 +1800,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_2" class="md-nav__link">
+  <a href="#breaking-change_1" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -1935,7 +1935,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
+  <a href="#breaking-changes_1" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Changes
     </span>
@@ -2010,7 +2010,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_3" class="md-nav__link">
+  <a href="#breaking-change_2" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -2052,7 +2052,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_4" class="md-nav__link">
+  <a href="#breaking-change_3" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -28350,9 +28350,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#breaking-change" class="md-nav__link">
+  <a href="#breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      💥 Breaking Change
+      💥 Breaking Changes
     </span>
   </a>
   
@@ -28410,7 +28410,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_1" class="md-nav__link">
+  <a href="#breaking-change" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -28488,7 +28488,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_2" class="md-nav__link">
+  <a href="#breaking-change_1" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -28623,7 +28623,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
+  <a href="#breaking-changes_1" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Changes
     </span>
@@ -28698,7 +28698,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_3" class="md-nav__link">
+  <a href="#breaking-change_2" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -28740,7 +28740,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#breaking-change_4" class="md-nav__link">
+  <a href="#breaking-change_3" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Breaking Change
     </span>
@@ -28844,7 +28844,11 @@
 <p>Test fixtures for use by clients are available for each release on the <a href="https://github.com/ethereum/execution-spec-tests/releases">Github releases page</a>.</p>
 <p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed.</p>
 <h2 id="unreleased-2025-xx-xx">🔜 <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/UNRELEASED">Unreleased</a> - 2025-XX-XX<a class="headerlink" href="#unreleased-2025-xx-xx" title="Permanent link">&para;</a></h2>
-<h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-changes">💥 Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h3>
+<p>The following changes may be potentially breaking (all clients were tested with these changes with the state test format, but not the blockchain test format):</p>
+<ul>
+<li>💥 Add a <code>yParity</code> field (that duplicates <code>v</code>) to transaction authorization tuples in fixture formats to have fields that conform to EIP-7702 spec, resolves <a href="https://github.com/erigontech/erigon/issues/14073">erigontech/erigon#14073</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1286">#1286</a>).</li>
+</ul>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🔀 Make <code>BaseFixture</code> able to parse any fixture format such as <code>BlockchainFixture</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1210">#1210</a>).</li>
@@ -28878,7 +28882,7 @@
 <li>🔀 Initially we moved old fork configured tests within stable and develop fixture releases to a separate legacy release (<a href="https://github.com/ethereum/execution-spec-tests/pull/788">#788</a>).</li>
 <li>🔀 This was later reverted after some client teams preferred to keep them in all in the same releases (<a href="https://github.com/ethereum/execution-spec-tests/pull/1053">#1053</a>).</li>
 </ul>
-<h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
 <ul>
 <li>✨ Use uv for package management replacing pip (<a href="https://github.com/ethereum/execution-spec-tests/pull/777">#777</a>).</li>
 <li>✨ Ruff now replaces Flake8, Isort and Black resulting in significant changes to the entire code base including its usage (<a href="https://github.com/ethereum/execution-spec-tests/pull/922">#922</a>).</li>
@@ -29149,7 +29153,7 @@
 <li>✨ Releases now contain a <code>fixtures_eip7692.tar.gz</code> which contains all EOF fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/573">#573</a>).</li>
 <li>✨ Use <code>solc-select</code> for tox when running locally and within CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/604">#604</a>).</li>
 </ul>
-<h3 id="breaking-change_2">💥 Breaking Change<a class="headerlink" href="#breaking-change_2" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Cancun is now the latest deployed fork, and the development fork is now Prague (<a href="https://github.com/ethereum/execution-spec-tests/pull/489">#489</a>).</li>
 <li>Stable fixtures artifact <code>fixtures.tar.gz</code> has been renamed to <code>fixtures_stable.tar.gz</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/573">#573</a>)</li>
@@ -29251,7 +29255,7 @@
 <li>🐞 Docs: Fix incorrectly formatted nested lists in online doc (<a href="https://github.com/ethereum/execution-spec-tests/pull/403">#403</a>).</li>
 <li>🔀 CLI: <code>evm_bytes_to_python</code> is renamed to <code>evm_bytes</code> and now accepts flag <code>--assembly</code> to output the code in assembly format (<a href="https://github.com/ethereum/execution-spec-tests/pull/844">#844</a>)</li>
 </ul>
-<h3 id="breaking-changes">💥 Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-changes_1">💥 Breaking Changes<a class="headerlink" href="#breaking-changes_1" title="Permanent link">&para;</a></h3>
 <p>A concrete example of the test name renaming and change in directory structure is provided below.</p>
 <ol>
 <li>
@@ -29349,7 +29353,7 @@
 <li>✨ Docs: Add <a href="https://ethereum.github.io/execution-spec-tests/main/getting_started/using_fixtures/">a section explaining execution-spec-tests release artifacts</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/334">#334</a>).</li>
 <li>🔀 T8N Tool: Branch used to generate the tests for Cancun is now <a href="https://github.com/lightclient/go-ethereum/tree/devnet-10">lightclient/go-ethereum@devnet-10</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/336">#336</a>)</li>
 </ul>
-<h3 id="breaking-change_3">💥 Breaking Change<a class="headerlink" href="#breaking-change_3" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change_2">💥 Breaking Change<a class="headerlink" href="#breaking-change_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fixtures now use the Mainnet Trusted Setup merged on <a href="https://github.com/ethereum/consensus-specs/pull/3521">consensus-specs#3521</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/336">#336</a>)</li>
 </ul>
@@ -29366,7 +29370,7 @@
 <li>✨ CI/CD: Run development fork tests in Github Actions (<a href="https://github.com/ethereum/execution-spec-tests/pull/302">#302</a>).</li>
 <li>✨ CI/CD: Generate test JSON fixtures on push (<a href="https://github.com/ethereum/execution-spec-tests/pull/303">#303</a>).</li>
 </ul>
-<h3 id="breaking-change_4">💥 Breaking Change<a class="headerlink" href="#breaking-change_4" title="Permanent link">&para;</a></h3>
+<h3 id="breaking-change_3">💥 Breaking Change<a class="headerlink" href="#breaking-change_3" title="Permanent link">&para;</a></h3>
 <p>Please use development fixtures from now on when testing Cancun. These refer to changes that are currently under development within clients:</p>
 <ul>
 <li>fixtures: All tests until the last stable fork (Shanghai)</li>
