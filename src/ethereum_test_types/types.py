@@ -75,7 +75,11 @@ class Removable:
     (`None` normally means "do not modify").
     """
 
-    pass
+    def __eq__(self, other) -> bool:
+        """Return True for all Removable."""
+        if not isinstance(other, Removable):
+            return NotImplemented
+        return True
 
 
 class EOA(Address):
