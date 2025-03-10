@@ -27919,7 +27919,7 @@
 
 
 <h1 id="test_invalid"><code>test_invalid()</code><a class="headerlink" href="#test_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c9a08ea397870e96f6281d48de5a0348dcce21fc/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py#L56"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid@c9a08ea3</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9528ea1dc7d4e61f67154aa0eaff72028141aaf7/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py#L56"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid@9528ea1d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid --fork Prague</span>
@@ -27999,7 +27999,7 @@
 <span class="normal">114</span>
 <span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
-    <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;fail-multiexp_G1_bls.json&quot;</span><span class="p">)</span>
+    <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;fail-msm_G1_bls.json&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">PointG1</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -28116,8 +28116,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_empty_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_empty_input-]">
-                    ...fork_Prague-state_test---bls_g1multiexp_empty_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_empty_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_empty_input-]">
+                    ...fork_Prague-state_test---bls_g1msm_empty_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28128,8 +28128,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_short_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_short_input-]">
-                    ...fork_Prague-state_test---bls_g1multiexp_short_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_short_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_short_input-]">
+                    ...fork_Prague-state_test---bls_g1msm_short_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28140,8 +28140,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_long_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_long_input-]">
-                    ...fork_Prague-state_test---bls_g1multiexp_long_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_long_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_long_input-]">
+                    ...fork_Prague-state_test---bls_g1msm_long_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28152,8 +28152,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_invalid_field_element-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_invalid_field_element-]">
-                    ...fork_Prague-state_test---bls_g1multiexp_invalid_field_element-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_invalid_field_element-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_invalid_field_element-]">
+                    ...fork_Prague-state_test---bls_g1msm_invalid_field_element-
                 </abbr>
             </td>
                         <td></td>
@@ -28164,8 +28164,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_violate_top_bytes-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_violate_top_bytes-]">
-                    ...fork_Prague-state_test---bls_g1multiexp_violate_top_bytes-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_violate_top_bytes-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_violate_top_bytes-]">
+                    ...fork_Prague-state_test---bls_g1msm_violate_top_bytes-
                 </abbr>
             </td>
                         <td></td>
@@ -28176,8 +28176,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_point_not_on_curve-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_point_not_on_curve-]">
-                    ...fork_Prague-state_test---bls_g1multiexp_point_not_on_curve-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_point_not_on_curve-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_point_not_on_curve-]">
+                    ...fork_Prague-state_test---bls_g1msm_point_not_on_curve-
                 </abbr>
             </td>
                         <td></td>
@@ -28188,8 +28188,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_g1_not_in_correct_subgroup-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1multiexp_g1_not_in_correct_subgroup-]">
-                    ...fork_Prague-state_test---bls_g1multiexp_g1_not_in_correct_subgroup-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_g1_not_in_correct_subgroup-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-state_test---bls_g1msm_g1_not_in_correct_subgroup-]">
+                    ...fork_Prague-state_test---bls_g1msm_g1_not_in_correct_subgroup-
                 </abbr>
             </td>
                         <td></td>
@@ -28308,8 +28308,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_empty_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_empty_input-]">
-                    ...fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_empty_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_empty_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_empty_input-]">
+                    ...fork_Prague-blockchain_test_from_state_test---bls_g1msm_empty_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28320,8 +28320,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_short_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_short_input-]">
-                    ...fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_short_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_short_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_short_input-]">
+                    ...fork_Prague-blockchain_test_from_state_test---bls_g1msm_short_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28332,8 +28332,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_long_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_long_input-]">
-                    ...fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_long_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_long_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_long_input-]">
+                    ...fork_Prague-blockchain_test_from_state_test---bls_g1msm_long_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28344,8 +28344,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_invalid_field_element-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_invalid_field_element-]">
-                    ...fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_invalid_field_element-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_invalid_field_element-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_invalid_field_element-]">
+                    ...fork_Prague-blockchain_test_from_state_test---bls_g1msm_invalid_field_element-
                 </abbr>
             </td>
                         <td></td>
@@ -28356,8 +28356,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_violate_top_bytes-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_violate_top_bytes-]">
-                    ...fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_violate_top_bytes-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_violate_top_bytes-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_violate_top_bytes-]">
+                    ...fork_Prague-blockchain_test_from_state_test---bls_g1msm_violate_top_bytes-
                 </abbr>
             </td>
                         <td></td>
@@ -28368,8 +28368,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_point_not_on_curve-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_point_not_on_curve-]">
-                    ...fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_point_not_on_curve-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_point_not_on_curve-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_point_not_on_curve-]">
+                    ...fork_Prague-blockchain_test_from_state_test---bls_g1msm_point_not_on_curve-
                 </abbr>
             </td>
                         <td></td>
@@ -28380,8 +28380,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_g1_not_in_correct_subgroup-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_g1_not_in_correct_subgroup-]">
-                    ...fork_Prague-blockchain_test_from_state_test---bls_g1multiexp_g1_not_in_correct_subgroup-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_g1_not_in_correct_subgroup-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Prague-blockchain_test_from_state_test---bls_g1msm_g1_not_in_correct_subgroup-]">
+                    ...fork_Prague-blockchain_test_from_state_test---bls_g1msm_g1_not_in_correct_subgroup-
                 </abbr>
             </td>
                         <td></td>
@@ -28500,8 +28500,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_empty_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_empty_input-]">
-                    ...fork_Osaka-state_test---bls_g1multiexp_empty_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_empty_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_empty_input-]">
+                    ...fork_Osaka-state_test---bls_g1msm_empty_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28512,8 +28512,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_short_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_short_input-]">
-                    ...fork_Osaka-state_test---bls_g1multiexp_short_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_short_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_short_input-]">
+                    ...fork_Osaka-state_test---bls_g1msm_short_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28524,8 +28524,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_long_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_long_input-]">
-                    ...fork_Osaka-state_test---bls_g1multiexp_long_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_long_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_long_input-]">
+                    ...fork_Osaka-state_test---bls_g1msm_long_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28536,8 +28536,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_invalid_field_element-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_invalid_field_element-]">
-                    ...fork_Osaka-state_test---bls_g1multiexp_invalid_field_element-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_invalid_field_element-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_invalid_field_element-]">
+                    ...fork_Osaka-state_test---bls_g1msm_invalid_field_element-
                 </abbr>
             </td>
                         <td></td>
@@ -28548,8 +28548,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_violate_top_bytes-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_violate_top_bytes-]">
-                    ...fork_Osaka-state_test---bls_g1multiexp_violate_top_bytes-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_violate_top_bytes-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_violate_top_bytes-]">
+                    ...fork_Osaka-state_test---bls_g1msm_violate_top_bytes-
                 </abbr>
             </td>
                         <td></td>
@@ -28560,8 +28560,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_point_not_on_curve-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_point_not_on_curve-]">
-                    ...fork_Osaka-state_test---bls_g1multiexp_point_not_on_curve-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_point_not_on_curve-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_point_not_on_curve-]">
+                    ...fork_Osaka-state_test---bls_g1msm_point_not_on_curve-
                 </abbr>
             </td>
                         <td></td>
@@ -28572,8 +28572,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_g1_not_in_correct_subgroup-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1multiexp_g1_not_in_correct_subgroup-]">
-                    ...fork_Osaka-state_test---bls_g1multiexp_g1_not_in_correct_subgroup-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_g1_not_in_correct_subgroup-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-state_test---bls_g1msm_g1_not_in_correct_subgroup-]">
+                    ...fork_Osaka-state_test---bls_g1msm_g1_not_in_correct_subgroup-
                 </abbr>
             </td>
                         <td></td>
@@ -28692,8 +28692,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_empty_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_empty_input-]">
-                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_empty_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_empty_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_empty_input-]">
+                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1msm_empty_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28704,8 +28704,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_short_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_short_input-]">
-                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_short_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_short_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_short_input-]">
+                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1msm_short_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28716,8 +28716,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_long_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_long_input-]">
-                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_long_input-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_long_input-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_long_input-]">
+                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1msm_long_input-
                 </abbr>
             </td>
                         <td></td>
@@ -28728,8 +28728,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_invalid_field_element-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_invalid_field_element-]">
-                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_invalid_field_element-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_invalid_field_element-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_invalid_field_element-]">
+                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1msm_invalid_field_element-
                 </abbr>
             </td>
                         <td></td>
@@ -28740,8 +28740,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_violate_top_bytes-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_violate_top_bytes-]">
-                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_violate_top_bytes-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_violate_top_bytes-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_violate_top_bytes-]">
+                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1msm_violate_top_bytes-
                 </abbr>
             </td>
                         <td></td>
@@ -28752,8 +28752,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_point_not_on_curve-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_point_not_on_curve-]">
-                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_point_not_on_curve-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_point_not_on_curve-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_point_not_on_curve-]">
+                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1msm_point_not_on_curve-
                 </abbr>
             </td>
                         <td></td>
@@ -28764,8 +28764,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_g1_not_in_correct_subgroup-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_g1_not_in_correct_subgroup-]">
-                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1multiexp_g1_not_in_correct_subgroup-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_g1_not_in_correct_subgroup-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid[fork_Osaka-blockchain_test_from_state_test---bls_g1msm_g1_not_in_correct_subgroup-]">
+                    ...fork_Osaka-blockchain_test_from_state_test---bls_g1msm_g1_not_in_correct_subgroup-
                 </abbr>
             </td>
                         <td></td>
