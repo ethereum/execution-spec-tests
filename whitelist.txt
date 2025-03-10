@@ -211,6 +211,7 @@ GHSA
 git's
 github
 Github
+Github's
 glightbox
 globals
 go-ethereum's
