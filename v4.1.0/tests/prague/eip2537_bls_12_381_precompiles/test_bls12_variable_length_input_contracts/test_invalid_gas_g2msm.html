@@ -1,0 +1,181 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_invalid_gas_g2msm()</title>
+    <link rel="icon" href="/execution-spec-tests/v4.1.0/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/v4.1.0/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_invalid_gas_g2msm()</code></h1>
+        <p>Test the BLS12_G2MSM discount gas table in full, by expecting the call to fail for</p>
+    <p><a href="./test_invalid_gas_g2msm/">Back to <code>test_invalid_gas_g2msm()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="Prague" selected>Prague</option>
+                                <option value="Osaka" >Osaka</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>precompile_address</th>
+                        <th>tx_gas_limit</th>
+                        <th>expected_output</th>
+                        <th>precompile_gas_list</th>
+                        <th>precompile_data_length_list</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14---zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14---zero_gas_passed]">
+                    ...fork_Prague-state_test-precompile_address_14---zero_gas_passed
+                </abbr>
+            </td>
+                        <td>14</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[0]</td>
+                        <td>[288]</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14---insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14---insufficient_gas_full_discount_table]">
+                    ...fork_Prague-state_test-precompile_address_14---insufficient_gas_full_discount_table
+                </abbr>
+            </td>
+                        <td>14</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[22499, 44999, 62301, 79559, 96186, 112319, 127889, 143279, 158354, 173249, 187851, 202229, 216449, 230579, 244349, 258119, 271956, 285119, 298821, 311849, 325079, 338084, 351381, 363959, 376874, 389609, 402771, 415169, 427386, 440099, 452676, 465119, 477426, 489599, 501636, 513539, 526139, 537794, 550191, 561599, 573794, 585899, 597914, 608849, 620661, 632384, 644016, 655559, 668114, 679499, 690794, 701999, 713114, 725354, 736311, 747179, 759239, 769949, 781896, 792449, 804284, 814679, 826401, 838079, 848249, 859814, 871334, 881279, 892686, 904049, 915366, 925019, 936224, 947384, 958499, 969569, 980594, 991574, 1000731, 1011599, 1022421, 1033199, 1043931, 1054619, 1065261, 1075859, 1086411, 1096919, 1107381, 1117799, 1130219, 1140569, 1150874, 1161134, 1171349, 1181519, 1191644, 1201724, 1213986, 1223999, 1233966, 1243889, 1253766, 1265939, 1275749, 1285514, 1295234, 1304909, 1316991, 1326599, 1336161, 1348199, 1357694, 1367144, 1376549, 1388519, 1397856, 1407149, 1419074, 1428299, 1437479, 1449359, 1458471, 1467539, 1479374, 1488374, 1497329, 1509119]</td>
+                        <td>[288, 576, 864, 1152, 1440, 1728, 2016, 2304, 2592, 2880, 3168, 3456, 3744, 4032, 4320, 4608, 4896, 5184, 5472, 5760, 6048, 6336, 6624, 6912, 7200, 7488, 7776, 8064, 8352, 8640, 8928, 9216, 9504, 9792, 10080, 10368, 10656, 10944, 11232, 11520, 11808, 12096, 12384, 12672, 12960, 13248, 13536, 13824, 14112, 14400, 14688, 14976, 15264, 15552, 15840, 16128, 16416, 16704, 16992, 17280, 17568, 17856, 18144, 18432, 18720, 19008, 19296, 19584, 19872, 20160, 20448, 20736, 21024, 21312, 21600, 21888, 22176, 22464, 22752, 23040, 23328, 23616, 23904, 24192, 24480, 24768, 25056, 25344, 25632, 25920, 26208, 26496, 26784, 27072, 27360, 27648, 27936, 28224, 28512, 28800, 29088, 29376, 29664, 29952, 30240, 30528, 30816, 31104, 31392, 31680, 31968, 32256, 32544, 32832, 33120, 33408, 33696, 33984, 34272, 34560, 34848, 35136, 35424, 35712, 36000, 36288, 36576, 36864]</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed]">
+                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed
+                </abbr>
+            </td>
+                        <td>14</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[0]</td>
+                        <td>[288]</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table]">
+                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table
+                </abbr>
+            </td>
+                        <td>14</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[22499, 44999, 62301, 79559, 96186, 112319, 127889, 143279, 158354, 173249, 187851, 202229, 216449, 230579, 244349, 258119, 271956, 285119, 298821, 311849, 325079, 338084, 351381, 363959, 376874, 389609, 402771, 415169, 427386, 440099, 452676, 465119, 477426, 489599, 501636, 513539, 526139, 537794, 550191, 561599, 573794, 585899, 597914, 608849, 620661, 632384, 644016, 655559, 668114, 679499, 690794, 701999, 713114, 725354, 736311, 747179, 759239, 769949, 781896, 792449, 804284, 814679, 826401, 838079, 848249, 859814, 871334, 881279, 892686, 904049, 915366, 925019, 936224, 947384, 958499, 969569, 980594, 991574, 1000731, 1011599, 1022421, 1033199, 1043931, 1054619, 1065261, 1075859, 1086411, 1096919, 1107381, 1117799, 1130219, 1140569, 1150874, 1161134, 1171349, 1181519, 1191644, 1201724, 1213986, 1223999, 1233966, 1243889, 1253766, 1265939, 1275749, 1285514, 1295234, 1304909, 1316991, 1326599, 1336161, 1348199, 1357694, 1367144, 1376549, 1388519, 1397856, 1407149, 1419074, 1428299, 1437479, 1449359, 1458471, 1467539, 1479374, 1488374, 1497329, 1509119]</td>
+                        <td>[288, 576, 864, 1152, 1440, 1728, 2016, 2304, 2592, 2880, 3168, 3456, 3744, 4032, 4320, 4608, 4896, 5184, 5472, 5760, 6048, 6336, 6624, 6912, 7200, 7488, 7776, 8064, 8352, 8640, 8928, 9216, 9504, 9792, 10080, 10368, 10656, 10944, 11232, 11520, 11808, 12096, 12384, 12672, 12960, 13248, 13536, 13824, 14112, 14400, 14688, 14976, 15264, 15552, 15840, 16128, 16416, 16704, 16992, 17280, 17568, 17856, 18144, 18432, 18720, 19008, 19296, 19584, 19872, 20160, 20448, 20736, 21024, 21312, 21600, 21888, 22176, 22464, 22752, 23040, 23328, 23616, 23904, 24192, 24480, 24768, 25056, 25344, 25632, 25920, 26208, 26496, 26784, 27072, 27360, 27648, 27936, 28224, 28512, 28800, 29088, 29376, 29664, 29952, 30240, 30528, 30816, 31104, 31392, 31680, 31968, 32256, 32544, 32832, 33120, 33408, 33696, 33984, 34272, 34560, 34848, 35136, 35424, 35712, 36000, 36288, 36576, 36864]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14---zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14---zero_gas_passed]">
+                    ...fork_Osaka-state_test-precompile_address_14---zero_gas_passed
+                </abbr>
+            </td>
+                        <td>14</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[0]</td>
+                        <td>[288]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14---insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14---insufficient_gas_full_discount_table]">
+                    ...fork_Osaka-state_test-precompile_address_14---insufficient_gas_full_discount_table
+                </abbr>
+            </td>
+                        <td>14</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[22499, 44999, 62301, 79559, 96186, 112319, 127889, 143279, 158354, 173249, 187851, 202229, 216449, 230579, 244349, 258119, 271956, 285119, 298821, 311849, 325079, 338084, 351381, 363959, 376874, 389609, 402771, 415169, 427386, 440099, 452676, 465119, 477426, 489599, 501636, 513539, 526139, 537794, 550191, 561599, 573794, 585899, 597914, 608849, 620661, 632384, 644016, 655559, 668114, 679499, 690794, 701999, 713114, 725354, 736311, 747179, 759239, 769949, 781896, 792449, 804284, 814679, 826401, 838079, 848249, 859814, 871334, 881279, 892686, 904049, 915366, 925019, 936224, 947384, 958499, 969569, 980594, 991574, 1000731, 1011599, 1022421, 1033199, 1043931, 1054619, 1065261, 1075859, 1086411, 1096919, 1107381, 1117799, 1130219, 1140569, 1150874, 1161134, 1171349, 1181519, 1191644, 1201724, 1213986, 1223999, 1233966, 1243889, 1253766, 1265939, 1275749, 1285514, 1295234, 1304909, 1316991, 1326599, 1336161, 1348199, 1357694, 1367144, 1376549, 1388519, 1397856, 1407149, 1419074, 1428299, 1437479, 1449359, 1458471, 1467539, 1479374, 1488374, 1497329, 1509119]</td>
+                        <td>[288, 576, 864, 1152, 1440, 1728, 2016, 2304, 2592, 2880, 3168, 3456, 3744, 4032, 4320, 4608, 4896, 5184, 5472, 5760, 6048, 6336, 6624, 6912, 7200, 7488, 7776, 8064, 8352, 8640, 8928, 9216, 9504, 9792, 10080, 10368, 10656, 10944, 11232, 11520, 11808, 12096, 12384, 12672, 12960, 13248, 13536, 13824, 14112, 14400, 14688, 14976, 15264, 15552, 15840, 16128, 16416, 16704, 16992, 17280, 17568, 17856, 18144, 18432, 18720, 19008, 19296, 19584, 19872, 20160, 20448, 20736, 21024, 21312, 21600, 21888, 22176, 22464, 22752, 23040, 23328, 23616, 23904, 24192, 24480, 24768, 25056, 25344, 25632, 25920, 26208, 26496, 26784, 27072, 27360, 27648, 27936, 28224, 28512, 28800, 29088, 29376, 29664, 29952, 30240, 30528, 30816, 31104, 31392, 31680, 31968, 32256, 32544, 32832, 33120, 33408, 33696, 33984, 34272, 34560, 34848, 35136, 35424, 35712, 36000, 36288, 36576, 36864]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed]">
+                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed
+                </abbr>
+            </td>
+                        <td>14</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[0]</td>
+                        <td>[288]</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table]">
+                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table
+                </abbr>
+            </td>
+                        <td>14</td>
+                        <td>100000000</td>
+                        <td></td>
+                        <td>[22499, 44999, 62301, 79559, 96186, 112319, 127889, 143279, 158354, 173249, 187851, 202229, 216449, 230579, 244349, 258119, 271956, 285119, 298821, 311849, 325079, 338084, 351381, 363959, 376874, 389609, 402771, 415169, 427386, 440099, 452676, 465119, 477426, 489599, 501636, 513539, 526139, 537794, 550191, 561599, 573794, 585899, 597914, 608849, 620661, 632384, 644016, 655559, 668114, 679499, 690794, 701999, 713114, 725354, 736311, 747179, 759239, 769949, 781896, 792449, 804284, 814679, 826401, 838079, 848249, 859814, 871334, 881279, 892686, 904049, 915366, 925019, 936224, 947384, 958499, 969569, 980594, 991574, 1000731, 1011599, 1022421, 1033199, 1043931, 1054619, 1065261, 1075859, 1086411, 1096919, 1107381, 1117799, 1130219, 1140569, 1150874, 1161134, 1171349, 1181519, 1191644, 1201724, 1213986, 1223999, 1233966, 1243889, 1253766, 1265939, 1275749, 1285514, 1295234, 1304909, 1316991, 1326599, 1336161, 1348199, 1357694, 1367144, 1376549, 1388519, 1397856, 1407149, 1419074, 1428299, 1437479, 1449359, 1458471, 1467539, 1479374, 1488374, 1497329, 1509119]</td>
+                        <td>[288, 576, 864, 1152, 1440, 1728, 2016, 2304, 2592, 2880, 3168, 3456, 3744, 4032, 4320, 4608, 4896, 5184, 5472, 5760, 6048, 6336, 6624, 6912, 7200, 7488, 7776, 8064, 8352, 8640, 8928, 9216, 9504, 9792, 10080, 10368, 10656, 10944, 11232, 11520, 11808, 12096, 12384, 12672, 12960, 13248, 13536, 13824, 14112, 14400, 14688, 14976, 15264, 15552, 15840, 16128, 16416, 16704, 16992, 17280, 17568, 17856, 18144, 18432, 18720, 19008, 19296, 19584, 19872, 20160, 20448, 20736, 21024, 21312, 21600, 21888, 22176, 22464, 22752, 23040, 23328, 23616, 23904, 24192, 24480, 24768, 25056, 25344, 25632, 25920, 26208, 26496, 26784, 27072, 27360, 27648, 27936, 28224, 28512, 28800, 29088, 29376, 29664, 29952, 30240, 30528, 30816, 31104, 31392, 31680, 31968, 32256, 32544, 32832, 33120, 33408, 33696, 33984, 34272, 34560, 34848, 35136, 35424, 35712, 36000, 36288, 36576, 36864]</td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/v4.1.0/javascripts/site.js"></script>
