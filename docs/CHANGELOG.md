@@ -4,7 +4,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 **Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed.
 
-## 🔜 [Unreleased](https://github.com/ethereum/execution-spec-tests/releases/tag/UNRELEASED) - 2025-XX-XX
+## [v4.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0) - 2025-03-11
 
 ### 💥 Breaking Changes
 
@@ -42,7 +42,7 @@ The following changes may be potentially breaking (all clients were tested with 
 - ✨ Add EIP-7698 failed nonce and short data tests ([#1211](https://github.com/ethereum/execution-spec-tests/pull/1211)).
 - ✨ Add EIP-2537 additional pairing precompile tests cases, and then update all BLS12 test vectors ([#1275](https://github.com/ethereum/execution-spec-tests/pull/1275), [#1289](https://github.com/ethereum/execution-spec-tests/pull/1289)).
 
-## [v4.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2025-02-14 - 💕
+## [v4.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.0.0) - 2025-02-14 - 💕
 
 ### 📁 Fixture Releases
 
