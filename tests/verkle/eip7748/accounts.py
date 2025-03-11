@@ -50,23 +50,18 @@ class AccountConfig:
 @pytest.mark.parametrize(
     "account_configs",
     [
-        # [AccountConfig(0, 0)],
-        # [AccountConfig(0, 0), AccountConfig(0, 0)],
-        # [AccountConfig(0, 0), AccountConfig(0, 0), AccountConfig(0, 0)],
+        [AccountConfig(0, 0)],
+        [AccountConfig(0, 0), AccountConfig(0, 0)],
+        [AccountConfig(0, 0), AccountConfig(0, 0), AccountConfig(0, 0)],
         [AccountConfig(15, 1)],
     ],
-    ids=[
-        # "One EOA",
-        # "Two EOAs",
-        "Three EOAs",
-        # "Small contract"
-    ],
+    ids=["One EOA", "Two EOAs", "Three EOAs", "Small contract"],
 )
 @pytest.mark.parametrize(
     "fill_first_block, stride",
     [
         (False, 3),
-        # (True, 3),
+        (True, 3),
     ],
 )
 def test_conversions(
@@ -89,7 +84,7 @@ def test_conversions(
         storage = {}
         for j in range(account_config.storage_slots_count):
             conversion_units += 1
-            storage[j] = j
+            storage[j] = j + 1
 
         pre_state[accounts[i]] = Account(
             balance=100 + 1000 * i,
