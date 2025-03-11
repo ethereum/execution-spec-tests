@@ -1652,13 +1652,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased-2025-xx-xx" class="md-nav__link">
+  <a href="#v410-2025-03-11" class="md-nav__link">
     <span class="md-ellipsis">
-      🔜 Unreleased - 2025-XX-XX
+      v4.1.0 - 2025-03-11
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🔜 Unreleased - 2025-XX-XX">
+    <nav class="md-nav" aria-label="v4.1.0 - 2025-03-11">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -28340,13 +28340,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased-2025-xx-xx" class="md-nav__link">
+  <a href="#v410-2025-03-11" class="md-nav__link">
     <span class="md-ellipsis">
-      🔜 Unreleased - 2025-XX-XX
+      v4.1.0 - 2025-03-11
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🔜 Unreleased - 2025-XX-XX">
+    <nav class="md-nav" aria-label="v4.1.0 - 2025-03-11">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -28843,11 +28843,12 @@
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <p>Test fixtures for use by clients are available for each release on the <a href="https://github.com/ethereum/execution-spec-tests/releases">Github releases page</a>.</p>
 <p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed.</p>
-<h2 id="unreleased-2025-xx-xx">🔜 <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/UNRELEASED">Unreleased</a> - 2025-XX-XX<a class="headerlink" href="#unreleased-2025-xx-xx" title="Permanent link">&para;</a></h2>
+<h2 id="v410-2025-03-11"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0">v4.1.0</a> - 2025-03-11<a class="headerlink" href="#v410-2025-03-11" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-changes">💥 Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h3>
 <p>The following changes may be potentially breaking (all clients were tested with these changes with the state test format, but not the blockchain test format):</p>
 <ul>
 <li>💥 Add a <code>yParity</code> field (that duplicates <code>v</code>) to transaction authorization tuples in fixture formats to have fields that conform to EIP-7702 spec, resolves <a href="https://github.com/erigontech/erigon/issues/14073">erigontech/erigon#14073</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1286">#1286</a>).</li>
+<li>💥 Rename the recently introduced <code>_info</code> field <code>fixture_format</code> to <code>fixture-format</code> for consistency <a href="https://github.com/ethereum/execution-spec-tests/pull/1295">#1295</a>.</li>
 </ul>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <ul>
@@ -28870,6 +28871,7 @@
 <li>✨ Update <code>mypy</code> to latest release <code>&gt;=1.15.0,&lt;1.16</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1209">#1209</a>).</li>
 <li>🐞 Bug fix for filling with EELS for certain Python versions due to an issue with CPython (<a href="https://github.com/ethereum/execution-spec-tests/pull/1231">#1231</a>).</li>
 <li>🐞 Fix HTML site deployment due to the site's index file exceeding Github's max file size limit (<a href="https://github.com/ethereum/execution-spec-tests/pull/1292">#1292</a>).</li>
+<li>✨ Update the build fixtures workflow to use multiple self-hosted runners, remove <code>pectra-devnet-6</code> feature build (<a href="https://github.com/ethereum/execution-spec-tests/pull/1296">#1296</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
@@ -28877,7 +28879,7 @@
 <li>✨ Add EIP-7698 failed nonce and short data tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1211">#1211</a>).</li>
 <li>✨ Add EIP-2537 additional pairing precompile tests cases, and then update all BLS12 test vectors (<a href="https://github.com/ethereum/execution-spec-tests/pull/1275">#1275</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1289">#1289</a>).</li>
 </ul>
-<h2 id="v400-2025-02-14-"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0">v4.0.0</a> - 2025-02-14 - 💕<a class="headerlink" href="#v400-2025-02-14-" title="Permanent link">&para;</a></h2>
+<h2 id="v400-2025-02-14-"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.0.0">v4.0.0</a> - 2025-02-14 - 💕<a class="headerlink" href="#v400-2025-02-14-" title="Permanent link">&para;</a></h2>
 <h3 id="fixture-releases">📁 Fixture Releases<a class="headerlink" href="#fixture-releases" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🔀 Initially we moved old fork configured tests within stable and develop fixture releases to a separate legacy release (<a href="https://github.com/ethereum/execution-spec-tests/pull/788">#788</a>).</li>
