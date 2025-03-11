@@ -34,6 +34,7 @@ The following changes may be potentially breaking (all clients were tested with 
 - ✨ Update `mypy` to latest release `>=1.15.0,<1.16` ([#1209](https://github.com/ethereum/execution-spec-tests/pull/1209)).
 - 🐞 Bug fix for filling with EELS for certain Python versions due to an issue with CPython ([#1231](https://github.com/ethereum/execution-spec-tests/pull/1231)).
 - 🐞 Fix HTML site deployment due to the site's index file exceeding Github's max file size limit ([#1292](https://github.com/ethereum/execution-spec-tests/pull/1292)).
+- ✨ Update the build fixtures workflow to use multiple self-hosted runners, remove `pectra-devnet-6` feature build ([#1296](https://github.com/ethereum/execution-spec-tests/pull/1296)).
 
 ### 🧪 Test Cases
 
