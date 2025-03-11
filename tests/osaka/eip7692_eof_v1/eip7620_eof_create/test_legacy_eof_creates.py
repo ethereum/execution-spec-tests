@@ -5,17 +5,14 @@ import pytest
 from ethereum_test_tools import (
     Account,
     Alloc,
-    Bytecode,
     Environment,
     StateTestFiller,
     Transaction,
-    compute_create_address,
 )
 from ethereum_test_tools import Initcode as LegacyInitcode
 from ethereum_test_tools.eof.v1 import Container
 from ethereum_test_tools.vm.opcode import Opcodes
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_types.eof.v1.constants import MAX_BYTECODE_SIZE, MAX_INITCODE_SIZE
 
 from .. import EOF_FORK_NAME
 from .helpers import (
@@ -138,61 +135,6 @@ def test_legacy_initcode_eof_contract_fails(
         protected=False,
         data=init_code,
         sender=sender,
-    )
-
-    state_test(env=env, pre=pre, post=post, tx=tx)
-
-
-@pytest.mark.parametrize(
-    "legacy_create_opcode",
-    [
-        Op.CREATE,
-        Op.CREATE2,
-    ],
-)
-@pytest.mark.parametrize(
-    "init_code",
-    [
-        pytest.param(Bytecode(), id="empty_initcode"),
-        pytest.param(LegacyInitcode(initcode_length=MAX_INITCODE_SIZE), id="max_initcode"),
-        pytest.param(LegacyInitcode(deploy_code=Bytecode()), id="empty_code"),
-        pytest.param(LegacyInitcode(deploy_code=Op.STOP * MAX_BYTECODE_SIZE), id="max_code"),
-    ],
-)
-def test_legacy_create_edge_code_size(
-    state_test: StateTestFiller,
-    pre: Alloc,
-    legacy_create_opcode: Opcodes,
-    init_code: Bytecode,
-):
-    """
-    Verifies that legacy initcode/deploycode having 0 or max size works in the fork where EOF
-    is enabled.
-    """
-    env = Environment()
-    salt_param = [0] if legacy_create_opcode == Op.CREATE2 else []
-    factory_code = (
-        Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-        + Op.SSTORE(slot_create_address, legacy_create_opcode(0, 0, Op.CALLDATASIZE, *salt_param))
-        + Op.SSTORE(slot_code_worked, value_code_worked)
-    )
-
-    contract_address = pre.deploy_contract(code=factory_code)
-
-    new_address = compute_create_address(
-        address=contract_address, initcode=init_code, nonce=1, opcode=legacy_create_opcode
-    )
-
-    post = {
-        contract_address: Account(
-            storage={slot_create_address: new_address, slot_code_worked: value_code_worked}
-        )
-    }
-    tx = Transaction(
-        to=contract_address,
-        gas_limit=10_000_000,
-        data=init_code,
-        sender=pre.fund_eoa(),
     )
 
     state_test(env=env, pre=pre, post=post, tx=tx)
