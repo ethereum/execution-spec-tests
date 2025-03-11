@@ -21,23 +21,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7748.md"
 REFERENCE_SPEC_VERSION = "TODO"
 
-# List of addressed ordered by MPT tree key.
-accounts = [
-    # 03601462093b5945d1676df093446790fd31b20e7b12a2e8e5e09d068109616b
-    Address("0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b"),
-    # 1fe26fd0b8a197e7b85ed1ead2b52700041c5d465673aa744f3afc4704f83c03
-    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0d"),
-    # 257f371320e4696a5debc64a489e651fc4565eb07ce0e4d2ce5b6d5b1896d89a
-    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0f"),
-    # 6a7fc6037f7a0dca7004c2cd41d87bfd929be7eb0d31903b238839e8e7aaf897
-    Address("0xa94f5374fce5edbc8e2a8697c15331677e6ebf0a"),
-    # 85174d7e61a36094fc9b58640ad245d4ab61d888699f3659137171ff2910b6cb
-    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf0e"),
-    # b4102152d5f5995b7a017c9db0e186028190faafa4326ac1ecfb2bc817c423c9
-    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf05"),
-    # e72525e3842ed775ed5c52ffc1520247deae64a217fcb3fb3ddbe59ffeb5949c
-    Address("0xd94f5374fce5edbc8e2a8697c15331677e6ebf03"),
-]
+accounts = sorted([Address(i) for i in range(0, 50)], key=lambda x: x.keccak256())
 
 
 class AccountConfig:
@@ -51,28 +35,62 @@ class AccountConfig:
     "account_configs",
     [
         [AccountConfig(0, 0)],
-        [AccountConfig(0, 0), AccountConfig(0, 0)],
-        [AccountConfig(0, 0), AccountConfig(0, 0), AccountConfig(0, 0)],
-        [AccountConfig(15, 1)],
+        [AccountConfig(0, 0)] * 2,
+        [AccountConfig(0, 0)] * 7,
+        [AccountConfig(15, 2)],
+        [AccountConfig(31 * 2 + 1, 3)],  # 3 code-chunks + 3 slots + account data = 7
+        [AccountConfig(0, 0), AccountConfig(15, 2)],
+        [
+            AccountConfig(0, 0),
+            AccountConfig(31 + 1, 3),
+        ],
+        [
+            AccountConfig(15, 2),
+            AccountConfig(0, 0),
+        ],
+        [
+            AccountConfig(31 + 1, 3),
+            AccountConfig(0, 0),
+        ],
+        [
+            AccountConfig(5, 1),
+            AccountConfig(8, 1),
+        ],
+        [
+            AccountConfig(5, 2),
+            AccountConfig(8, 1),
+        ],
     ],
-    ids=["One EOA", "Two EOAs", "Three EOAs", "Small contract"],
+    ids=[
+        "EOA",
+        "EOAs under-fit",
+        "EOAs perfect-fit",
+        "Contract under-fit",
+        "Contract perfect-fit",
+        "EOA and Contract under-fit",
+        "EOA and Contract perfect-fit",
+        "Contract and EOA under-fit",
+        "Contract and EOA perfect-fit",
+        "Contract and Contract under-fit",
+        "Contract and Contract perfect-fit",
+    ],
 )
 @pytest.mark.parametrize(
-    "fill_first_block, stride",
+    "fill_first_block",
     [
-        (False, 3),
-        (True, 3),
+        False,
+        True,
     ],
 )
 def test_conversions(
     blockchain_test: BlockchainTestFiller,
     account_configs: list[AccountConfig],
     fill_first_block: bool,
-    stride: int,
 ):
     """
     Test conversion cases.
     """
+    stride = 7
     conversion_units = 0
     pre_state = {}
     if fill_first_block:
