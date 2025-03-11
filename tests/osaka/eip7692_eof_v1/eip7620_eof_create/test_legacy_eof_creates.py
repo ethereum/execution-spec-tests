@@ -159,13 +159,16 @@ def test_legacy_initcode_eof_contract_fails(
         pytest.param(LegacyInitcode(deploy_code=Op.STOP * MAX_BYTECODE_SIZE), id="max_code"),
     ],
 )
-def test_legacy_create_edge_code_size_works(
+def test_legacy_create_edge_code_size(
     state_test: StateTestFiller,
     pre: Alloc,
     legacy_create_opcode: Opcodes,
     init_code: Bytecode,
 ):
-    """Verifies that legacy initcode/deploycode having 0 or max size works with EOF enabled."""
+    """
+    Verifies that legacy initcode/deploycode having 0 or max size works in the fork where EOF
+    is enabled.
+    """
     env = Environment()
     salt_param = [0] if legacy_create_opcode == Op.CREATE2 else []
     factory_code = (
