@@ -855,3 +855,4 @@ ize
 nectos
 fibonacci
 CPython
+legacytests
