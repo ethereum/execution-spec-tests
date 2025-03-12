@@ -4,6 +4,20 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 **Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed.
 
+## 🔜 [Unreleased]
+
+### 💥 Breaking Change
+
+### 🛠️ Framework
+
+#### `consume`
+
+- 🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` [#1303](https://github.com/ethereum/execution-spec-tests/pull/1303).
+
+### 📋 Misc
+
+### 🧪 Test Cases
+
 ## [v4.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0) - 2025-03-11
 
 ### 💥 Breaking Changes
