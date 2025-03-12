@@ -4246,6 +4246,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/shanghai/eip3860_initcode/test_with_eof/</loc>
+         <lastmod>2025-03-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/shanghai/eip3860_initcode/test_with_eof/test_legacy_create_edge_code_size/</loc>
+         <lastmod>2025-03-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/shanghai/eip4895_withdrawals/</loc>
          <lastmod>2025-03-12</lastmod>
          <changefreq>daily</changefreq>
