@@ -8,7 +8,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 @pytest.mark.parametrize(
-    "mstore,args_size,code_for_200,tx_data,code_address_storage",
+    "mstore,args_size,code_for_address_a,tx_data,address_a_storage",
     [
         (
             (Op.MSTORE8(offset=0x0, value=0x25) + Op.MSTORE8(offset=0x1, value=0x60)),
@@ -61,25 +61,24 @@ def test_calldataload(
     state_test: StateTestFiller,
     mstore: Bytecode,
     args_size: int,
-    code_for_200: Bytecode,
+    code_for_address_a: Bytecode,
     fork: Fork,
     tx_data: bytes,
     pre: Alloc,
-    code_address_storage: Account,
+    address_a_storage: Account,
 ):
     """
     Test `CALLDATALOAD` opcode.
 
     Based on https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.ym
     """
-    code_200_address = pre.deploy_contract(code_for_200)
+    address_a = pre.deploy_contract(code_for_address_a)
 
-    code_1000_address = pre.deploy_contract(
+    address_b = pre.deploy_contract(
         mstore
         + Op.CALL(
-            # gas=0xFFFFFF,
             gas=Op.SUB(Op.GAS(), 0x100),
-            address=code_200_address,
+            address=address_a,
             value=0x0,
             args_offset=0x0,
             args_size=args_size,
@@ -92,10 +91,9 @@ def test_calldataload(
         code=(
             Op.ADD(0x1000, Op.CALLDATALOAD(offset=0x4))
             + Op.CALL(
-                # gas=0xFFFFFF,
                 gas=Op.SUB(Op.GAS(), 0x100),
                 # address=Op.ADD(0x1000, Op.CALLDATALOAD(offset=0x4)),
-                address=code_1000_address,
+                address=address_b,
                 value=0x0,
                 args_offset=0x0,
                 args_size=0x0,
@@ -115,5 +113,5 @@ def test_calldataload(
         to=to,
         value=0x01,
     )
-    post = {code_200_address: code_address_storage}
+    post = {address_a: address_a_storage}
     state_test(pre=pre, post=post, tx=tx)
