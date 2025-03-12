@@ -77,7 +77,8 @@ def test_calldataload(
     code_1000_address = pre.deploy_contract(
         mstore
         + Op.CALL(
-            gas=0xFFFFFF,
+            # gas=0xFFFFFF,
+            gas=Op.SUB(Op.GAS(), 0x100),
             address=code_200_address,
             value=0x0,
             args_offset=0x0,
@@ -91,7 +92,8 @@ def test_calldataload(
         code=(
             Op.ADD(0x1000, Op.CALLDATALOAD(offset=0x4))
             + Op.CALL(
-                gas=0xFFFFFF,
+                # gas=0xFFFFFF,
+                gas=Op.SUB(Op.GAS(), 0x100),
                 # address=Op.ADD(0x1000, Op.CALLDATALOAD(offset=0x4)),
                 address=code_1000_address,
                 value=0x0,
