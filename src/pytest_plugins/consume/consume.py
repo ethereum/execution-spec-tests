@@ -3,6 +3,7 @@
 import re
 import sys
 import tarfile
+import warnings
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
@@ -208,13 +209,6 @@ def pytest_addoption(parser):  # noqa: D103
     if "cache" in sys.argv:
         return
     consume_group.addoption(
-        "--fork",
-        action="store",
-        dest="single_fork",
-        default=None,
-        help="Only consume tests for the specified fork.",
-    )
-    consume_group.addoption(
         "--no-html",
         action="store_true",
         dest="disable_html",
@@ -298,6 +292,11 @@ def pytest_configure(config):  # noqa: D103
         )
     config.test_cases = TestCases.from_index_file(index_file)
 
+    # dynamically register fork marks
+    known_forks = {test_case.fork for test_case in config.test_cases}
+    for fork in known_forks:
+        config.addinivalue_line("markers", f"{fork}: Mark test for {fork} fork")
+
     if config.option.sim_limit:
         if config.option.dest_regex != ".*":
             pytest.exit(
@@ -309,7 +308,12 @@ def pytest_configure(config):  # noqa: D103
             config.option.collectonly = True
             config.option.verbose = -1  # equivalent to -q; only print test ids
 
-    if config.option.collectonly:
+    if config.option.markers and config.option.fixtures_source is None:
+        warnings.warn(
+            "Specify a fixtures source via --input to see all available markers.", stacklevel=0
+        )
+
+    if config.option.collectonly or config.option.markers:
         return
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
@@ -353,14 +357,17 @@ def pytest_generate_tests(metafunc):
     if "cache" in sys.argv:
         return
 
-    fork = metafunc.config.getoption("single_fork")
     metafunc.parametrize(
         "test_case,fixture_format",
         (
-            pytest.param(test_case, test_case.format, id=test_case.id)
+            pytest.param(
+                test_case,
+                test_case.format,
+                id=test_case.id,
+                marks=[getattr(pytest.mark, test_case.fork)],
+            )
             for test_case in metafunc.config.test_cases
             if test_case.format in metafunc.function.fixture_format
-            and (not fork or test_case.fork == fork)
         ),
     )
 
