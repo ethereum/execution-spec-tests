@@ -23,16 +23,6 @@ from ethereum_test_fixtures.file import Fixtures
 
 from .hasher import HashableItem
 
-# TODO: remove when these tests are ported or fixed within ethereum/tests.
-fixtures_to_skip = {
-    # These fixtures have invalid fields that we can't load into our pydantic models (bigint).
-    "BlockchainTests/GeneralStateTests/stTransactionTest/ValueOverflowParis.json",
-    "BlockchainTests/InvalidBlocks/bc4895-withdrawals/withdrawalsAmountBounds.json",
-    "BlockchainTests/InvalidBlocks/bc4895-withdrawals/withdrawalsIndexBounds.json",
-    "BlockchainTests/InvalidBlocks/bc4895-withdrawals/withdrawalsValidatorIndexBounds.json",
-    "BlockchainTests/InvalidBlocks/bc4895-withdrawals/withdrawalsAddressBounds.json",
-}
-
 
 def count_json_files_exclude_index(start_path: Path) -> int:
     """
@@ -155,9 +145,6 @@ def generate_fixtures_index(
         for file in input_path.rglob("*.json"):
             if file.name == "index.json" or ".meta" in file.parts:
                 continue
-            if any(fixture in str(file) for fixture in fixtures_to_skip):
-                rich.print(f"Skipping '{file}'")
-                continue
 
             try:
                 fixtures: Fixtures = Fixtures.model_validate_json(file.read_text())
@@ -171,7 +158,9 @@ def generate_fixtures_index(
                     TestCaseIndexFile(
                         id=fixture_name,
                         json_path=relative_file_path,
-                        fixture_hash=fixture.info.get("hash", None),
+                        # eest uses hash; ethereum/tests uses generatedTestHash
+                        fixture_hash=fixture.info.get("hash")
+                        or f"0x{fixture.info.get('generatedTestHash')}",
                         fork=fixture.get_fork(),
                         format=fixture.__class__,
                     )
