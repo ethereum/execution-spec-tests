@@ -16,7 +16,7 @@ import rich
 
 from cli.gen_index import generate_fixtures_index
 from ethereum_test_fixtures.consume import TestCases
-from ethereum_test_forks import get_forks, get_transition_forks
+from ethereum_test_forks import get_forks, get_relative_fork_markers, get_transition_forks
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
 from .releases import ReleaseTag, get_release_page_url, get_release_url
@@ -354,19 +354,19 @@ def pytest_generate_tests(metafunc):
     if "cache" in sys.argv:
         return
 
-    metafunc.parametrize(
-        "test_case,fixture_format",
-        (
-            pytest.param(
-                test_case,
-                test_case.format,
-                id=test_case.id,
-                marks=[getattr(pytest.mark, test_case.fork)],
-            )
-            for test_case in metafunc.config.test_cases
-            if test_case.format in metafunc.function.fixture_format
-        ),
-    )
+    test_cases = metafunc.config.test_cases
+    param_list = []
+    for test_case in test_cases:
+        fork_markers = get_relative_fork_markers(test_case.fork)
+        param = pytest.param(
+            test_case,
+            test_case.format,
+            id=test_case.id,
+            marks=[getattr(pytest.mark, m) for m in fork_markers],
+        )
+        param_list.append(param)
+
+    metafunc.parametrize("test_case,fixture_format", param_list)
 
     if "client_type" in metafunc.fixturenames:
         client_ids = [client.name for client in metafunc.config.hive_execution_clients]
