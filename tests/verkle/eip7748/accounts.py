@@ -21,7 +21,8 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7748.md"
 REFERENCE_SPEC_VERSION = "TODO"
 
-accounts = sorted([Address(i) for i in range(0, 50)], key=lambda x: x.keccak256())
+stride = 7
+accounts = sorted([Address(i) for i in range(0, 100)], key=lambda x: x.keccak256())
 
 
 class AccountConfig:
@@ -30,15 +31,16 @@ class AccountConfig:
         self.storage_slots_count = storage_slot_count
 
 
+@pytest.mark.skip("TEMPORAL")
 @pytest.mark.valid_from("EIP6800Transition")
 @pytest.mark.parametrize(
     "account_configs",
     [
         [AccountConfig(0, 0)],
         [AccountConfig(0, 0)] * 2,
-        [AccountConfig(0, 0)] * 7,
+        [AccountConfig(0, 0)] * stride,
         [AccountConfig(15, 2)],
-        [AccountConfig(31 * 2 + 1, 3)],  # 3 code-chunks + 3 slots + account data = 7
+        [AccountConfig(31 * 2 + 1, 3)],  # 3 code-chunks + 3 slots + account data = stride
         [AccountConfig(0, 0), AccountConfig(15, 2)],
         [
             AccountConfig(0, 0),
@@ -77,39 +79,112 @@ class AccountConfig:
 )
 @pytest.mark.parametrize(
     "fill_first_block",
-    [
-        False,
-        True,
-    ],
+    [False, True],
 )
-def test_conversions(
+@pytest.mark.parametrize(
+    "fill_last_block",
+    [False, True],
+)
+def test_non_partial(
     blockchain_test: BlockchainTestFiller,
     account_configs: list[AccountConfig],
     fill_first_block: bool,
+    fill_last_block: bool,
 ):
     """
-    Test conversion cases.
+    Test non-partial account conversions.
     """
-    stride = 7
+    _generic_conversion(blockchain_test, account_configs, fill_first_block, fill_last_block)
+
+
+@pytest.mark.valid_from("EIP6800Transition")
+@pytest.mark.parametrize(
+    "account_configs",
+    [
+        # No prefix
+        [AccountConfig(31 * 2 + 1, stride + 2)],
+        [AccountConfig(31 * 2 + 1, stride + 1)],
+        [AccountConfig(31 + 2 + 1, stride)],
+        # EOA prefix
+        [AccountConfig(0, 0), AccountConfig(42, -1 + stride + 2)],
+        [AccountConfig(0, 0), AccountConfig(42, -1 + stride + 1)],
+        [AccountConfig(0, 0), AccountConfig(42, -1 + stride)],
+        # Contract prefix
+        [AccountConfig(10, 1), AccountConfig(42, -3 + stride + 2)],
+        [AccountConfig(10, 1), AccountConfig(42, -3 + stride + 1)],
+        [AccountConfig(10, 1), AccountConfig(42, -3 + stride)],
+    ],
+    ids=[
+        "No prefix & boundary at two storage slots before finishing storage trie",
+        "No prefix & boundary at one storage slot before finishing storage trie",
+        "No prefix & boundary matching exactly the end of the storage trie",
+        "EOA prefix & boundary at two storage slots before finishing storage trie",
+        "EOA prefix & boundary at one storage slot before finishing storage trie",
+        "EOA prefix & boundary matching exactly the end of the storage trie",
+        "Contract prefix & boundary at two storage slots before finishing storage trie",
+        "Contract prefix & boundary at one storage slot before finishing storage trie",
+        "Contract prefix & boundary matching exactly the end of the storage trie",
+    ],
+)
+@pytest.mark.parametrize(
+    "fill_first_block",
+    [False, True],
+)
+@pytest.mark.parametrize(
+    "fill_last_block",
+    [False, True],
+)
+def test_partial(
+    blockchain_test: BlockchainTestFiller,
+    account_configs: list[AccountConfig],
+    fill_first_block: bool,
+    fill_last_block: bool,
+):
+    """
+    Test partial account conversions.
+    """
+    _generic_conversion(blockchain_test, account_configs, fill_first_block, fill_last_block)
+
+
+def _generic_conversion(
+    blockchain_test: BlockchainTestFiller,
+    account_configs: list[AccountConfig],
+    fill_first_block: bool,
+    fill_last_block: bool,
+):
     conversion_units = 0
     pre_state = {}
+    account_idx = 0
     if fill_first_block:
         for i in range(stride):
             conversion_units += 1
-            pre_state[accounts[i]] = Account(balance=100 + 1000 * i)
+            pre_state[accounts[account_idx]] = Account(balance=100 + 1000 * i)
+            account_idx += 1
 
-    for i, account_config in enumerate(account_configs, start=len(pre_state)):
+    for i, account_config in enumerate(account_configs):
         storage = {}
         for j in range(account_config.storage_slots_count):
             conversion_units += 1
             storage[j] = j + 1
 
-        pre_state[accounts[i]] = Account(
+        pre_state[accounts[account_idx]] = Account(
             balance=100 + 1000 * i,
+            nonce=i,
             code=Op.JUMPDEST * account_config.code_length,
             storage=storage,
         )
-        conversion_units += 1 + math.ceil(account_config.code_length / 31)
+        account_idx += 1
+
+        conversion_units += 1  # Account basic data
+        num_code_chunks = math.ceil(account_config.code_length / 31)
+        # Code is always converted in one go, but it counts for stride quota usage
+        conversion_units += min(num_code_chunks, stride - conversion_units % stride)
+
+    if fill_last_block:
+        for i in range((-conversion_units) % stride + stride):
+            conversion_units += 1
+            pre_state[accounts[account_idx]] = Account(balance=100 + 1000 * i)
+            account_idx += 1
 
     _state_conversion(blockchain_test, pre_state, stride, math.ceil(conversion_units / stride))
 

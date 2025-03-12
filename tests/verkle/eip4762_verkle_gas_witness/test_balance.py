@@ -57,7 +57,7 @@ def test_balance(blockchain_test: BlockchainTestFiller, fork: Fork, target, warm
     ],
 )
 @pytest.mark.parametrize(
-    " gas, exp_target_basic_data",
+    "gas, exp_target_basic_data",
     [
         (21_203 + 2099, False),
         (21_203 + 2100, True),
