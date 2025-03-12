@@ -31,7 +31,6 @@ class AccountConfig:
         self.storage_slots_count = storage_slot_count
 
 
-@pytest.mark.skip("TEMPORAL")
 @pytest.mark.valid_from("EIP6800Transition")
 @pytest.mark.parametrize(
     "account_configs",
@@ -142,6 +141,38 @@ def test_partial(
 ):
     """
     Test partial account conversions.
+    """
+    _generic_conversion(blockchain_test, account_configs, fill_first_block, fill_last_block)
+
+
+@pytest.mark.valid_from("EIP6800Transition")
+@pytest.mark.parametrize(
+    "account_configs",
+    [
+        [AccountConfig(31 * (stride + 10) + 1, 4)],
+        [AccountConfig(31 * (stride + 3), 1), AccountConfig(0, 0)],
+    ],
+    ids=[
+        "Stride overflow",
+        "Stride overflow followed by EOA",
+    ],
+)
+@pytest.mark.parametrize(
+    "fill_first_block",
+    [False, True],
+)
+@pytest.mark.parametrize(
+    "fill_last_block",
+    [False, True],
+)
+def test_codechunks_stride_overflow(
+    blockchain_test: BlockchainTestFiller,
+    account_configs: list[AccountConfig],
+    fill_first_block: bool,
+    fill_last_block: bool,
+):
+    """
+    Test code-chunks stride overflow.
     """
     _generic_conversion(blockchain_test, account_configs, fill_first_block, fill_last_block)
 
