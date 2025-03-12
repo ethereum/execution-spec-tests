@@ -3,7 +3,6 @@
 import re
 import sys
 import tarfile
-import warnings
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
@@ -17,6 +16,7 @@ import rich
 
 from cli.gen_index import generate_fixtures_index
 from ethereum_test_fixtures.consume import TestCases
+from ethereum_test_forks import get_forks, get_transition_forks
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
 from .releases import ReleaseTag, get_release_page_url, get_release_url
@@ -292,9 +292,11 @@ def pytest_configure(config):  # noqa: D103
         )
     config.test_cases = TestCases.from_index_file(index_file)
 
-    # dynamically register fork marks
-    known_forks = {test_case.fork for test_case in config.test_cases}
-    for fork in known_forks:
+    # register fork marks
+    all_forks_with_transitions = {  # type: ignore
+        fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
+    }
+    for fork in all_forks_with_transitions:
         config.addinivalue_line("markers", f"{fork}: Mark test for {fork} fork")
 
     if config.option.sim_limit:
@@ -307,11 +309,6 @@ def pytest_configure(config):  # noqa: D103
         if config.option.sim_limit.collectonly:
             config.option.collectonly = True
             config.option.verbose = -1  # equivalent to -q; only print test ids
-
-    if config.option.markers and config.option.fixtures_source is None:
-        warnings.warn(
-            "Specify a fixtures source via --input to see all available markers.", stacklevel=0
-        )
 
     if config.option.collectonly or config.option.markers:
         return
