@@ -292,7 +292,6 @@ def pytest_configure(config):  # noqa: D103
         )
     config.test_cases = TestCases.from_index_file(index_file)
 
-    # register fork marks
     all_forks_with_transitions = {  # type: ignore
         fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
     }
