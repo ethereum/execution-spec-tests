@@ -125,4 +125,4 @@ mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]
 plugins = ["pydantic.mypy"]
 
 [tool.uv.sources]
-ethereum = { git = "https://github.com/ethereum/execution-specs", rev = "78fb726158c69d8fa164e28f195fabf6ab59b915" }
+ethereum = { git = "https://github.com/ethereum/execution-specs", rev = "fa847a0e48309debee8edc510ceddb2fd5db2f2e" }
