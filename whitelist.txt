@@ -855,3 +855,5 @@ ize
 nectos
 fibonacci
 CPython
+abstractmethods
+popleft
