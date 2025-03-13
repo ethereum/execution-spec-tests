@@ -148,7 +148,13 @@ class NethtestFixtureConsumer(
                 f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
             )
 
-        result_json = json.loads(result.stdout)
+        try:
+            result_json = json.loads(result.stdout)
+        except json.JSONDecodeError as e:
+            raise Exception(
+                f"Failed to parse JSON output on stdout from nethtest:\n{result.stdout}"
+            ) from e
+
         if not isinstance(result_json, list):
             raise Exception(f"Unexpected result from evm statetest: {result_json}")
         return result_json, result.stderr
