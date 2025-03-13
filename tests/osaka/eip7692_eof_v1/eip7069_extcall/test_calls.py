@@ -729,6 +729,9 @@ def test_eof_calls_eof_then_fails(
         "EOFContract",
         "LegacyContractInvalid",
         "EOFContractInvalid",
+        "LegacyContractRevert",
+        "EOFContractRevert",
+        "identity_precompile",
     ),
     ids=lambda x: x,
 )
@@ -769,6 +772,16 @@ def test_eof_calls_clear_return_buffer(
             target_address = pre.deploy_contract(
                 code=Container.Code(Op.INVALID),
             )
+        case "LegacyContractRevert":
+            target_address = pre.deploy_contract(
+                code=Op.REVERT(0, 0),
+            )
+        case "EOFContractRevert":
+            target_address = pre.deploy_contract(
+                code=Container.Code(Op.REVERT(0, 0)),
+            )
+        case "identity_precompile":
+            target_address = identity
 
     caller_contract = Container.Code(
         # First fill the return buffer and sanity check
