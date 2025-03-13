@@ -27,6 +27,7 @@ eof1_embedded_container_invalid_8 = Container(
     ],
 )
 
+
 @pytest.mark.parametrize(
     "container",
     [
@@ -34,10 +35,17 @@ eof1_embedded_container_invalid_8 = Container(
             name="contract_with_invalid_embedded_container_0",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x06, #   Code Section 0 (Length: 6)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x06,  #   Code Section 0 (Length: 6)
                     # --- Error: Invalid Container Header ---#
                     0x03,
                 ]
@@ -49,10 +57,17 @@ eof1_embedded_container_invalid_8 = Container(
             name="contract_with_invalid_embedded_container_1",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x06, #   Code Section 0 (Length: 6)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x06,  #   Code Section 0 (Length: 6)
                     # --- Error: Invalid Container Header ---#
                     0x03,
                     0x00,
@@ -65,10 +80,17 @@ eof1_embedded_container_invalid_8 = Container(
             name="contract_with_invalid_embedded_container_2",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x06, #   Code Section 0 (Length: 6)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x06,  #   Code Section 0 (Length: 6)
                     # --- Error: Invalid Container Header ---#
                     0x03,
                     0x00,
@@ -82,10 +104,17 @@ eof1_embedded_container_invalid_8 = Container(
             name="contract_with_invalid_embedded_container_3",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x06, #   Code Section 0 (Length: 6)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x06,  #   Code Section 0 (Length: 6)
                     # --- Error: Invalid Container Header ---#
                     0x03,
                     0x00,
@@ -100,12 +129,22 @@ eof1_embedded_container_invalid_8 = Container(
             name="contract_with_invalid_embedded_container_4",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x06, #   Code Section 0 (Length: 6)
-                    0x03, 0x00, 0x01, # Container Sections (Length: 1)
-                          0x00, 0x14, #   Container Section 0 (Length: 20)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x06,  #   Code Section 0 (Length: 6)
+                    0x03,
+                    0x00,
+                    0x01,  # Container Sections (Length: 1)
+                    0x00,
+                    0x14,  #   Container Section 0 (Length: 20)
                     # --- Error: Invalid Data Header ---#
                 ]
             ),
@@ -116,10 +155,17 @@ eof1_embedded_container_invalid_8 = Container(
             name="contract_with_invalid_embedded_container_5",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x06, #   Code Section 0 (Length: 6)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x06,  #   Code Section 0 (Length: 6)
                     # --- Error: Invalid Container Header ---#
                     0x03,
                     0x00,
@@ -168,22 +214,38 @@ eof1_embedded_container_invalid_8 = Container(
             name="contract_with_invalid_embedded_container_7",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x06, #   Code Section 0 (Length: 6)
-                    0x03, 0x00, 0x01, # Container Sections (Length: 1)
-                          0x00, 0x14, #   Container Section 0 (Length: 20)
-                    0x04, 0x00, 0x00, # Data Length: 0
-                                0x00, # Terminator
-                                      # Code Section 0 types
-                                0x00, #   Inputs: 0
-                                0x80, #   Outputs: 0 (Non-returning function)
-                          0x00, 0x01, #   Max Stack Height: 1
-                                      # Code Section 0
-                           0x60,0x00, #  [0] PUSH1(0)
-                      0xE1,0x00,0x00, #  [2] RJUMPI(0)
-                                0x00, #  [5] STOP
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x06,  #   Code Section 0 (Length: 6)
+                    0x03,
+                    0x00,
+                    0x01,  # Container Sections (Length: 1)
+                    0x00,
+                    0x14,  #   Container Section 0 (Length: 20)
+                    0x04,
+                    0x00,
+                    0x00,  # Data Length: 0
+                    0x00,  # Terminator
+                    # Code Section 0 types
+                    0x00,  #   Inputs: 0
+                    0x80,  #   Outputs: 0 (Non-returning function)
+                    0x00,
+                    0x01,  #   Max Stack Height: 1
+                    # Code Section 0
+                    0x60,
+                    0x00,  #  [0] PUSH1(0)
+                    0xE1,
+                    0x00,
+                    0x00,  #  [2] RJUMPI(0)
+                    0x00,  #  [5] STOP
                     # --- Error: Invalid Container Content ---#
                 ]
             ),

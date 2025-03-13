@@ -201,7 +201,9 @@ def test_valid_containers(
             name="types_section_missing_0",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
                     # --- Error: Invalid Types Header ---#
                     0x02,
                     0x00,
@@ -219,7 +221,9 @@ def test_valid_containers(
             name="types_section_missing_1",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
                     # --- Error: Invalid Types Header ---#
                     0x02,
                     0x00,
@@ -291,8 +295,12 @@ def test_valid_containers(
             name="incomplete_section_size_0",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x01, 0x00, # Types Length: 256
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x01,
+                    0x00,  # Types Length: 256
                     # --- Error: Invalid Code Header ---#
                     0x02,
                     0x00,
@@ -654,12 +662,21 @@ def test_valid_containers(
             name="no_section_terminator_1",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x01, #   Code Section 0 (Length: 1)
-                    0x04, 0x00, 0x01, # Data Length: 1
-                    #--- Error: Invalid Terminator ---#
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x01,  #   Code Section 0 (Length: 1)
+                    0x04,
+                    0x00,
+                    0x01,  # Data Length: 1
+                    # --- Error: Invalid Terminator ---#
                 ]
             ),
             validity_error=EOFException.MISSING_HEADERS_TERMINATOR,
@@ -668,12 +685,21 @@ def test_valid_containers(
             name="no_section_terminator_2",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x01, #   Code Section 0 (Length: 1)
-                    0x04, 0x00, 0x01, # Data Length: 1
-                    #--- Error: Invalid Terminator ---#
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x01,  #   Code Section 0 (Length: 1)
+                    0x04,
+                    0x00,
+                    0x01,  # Data Length: 1
+                    # --- Error: Invalid Terminator ---#
                     0xFE,
                     0xAA,
                 ]
@@ -797,8 +823,12 @@ def test_valid_containers(
             name="multiple_type_sections_0",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
                     # --- Error: Invalid Code Header ---#
                     0x01,
                     0x00,
@@ -830,7 +860,9 @@ def test_valid_containers(
             name="multiple_type_sections_1",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
                     # --- Error: Invalid Types Header ---#
                     0x03,
                     0x00,
@@ -903,10 +935,17 @@ def test_valid_containers(
             name="multiple_code_headers_3",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x08, # Types Length: 8
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x04, #   Code Section 0 (Length: 4)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x08,  # Types Length: 8
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x04,  #   Code Section 0 (Length: 4)
                     # --- Error: Invalid Data Header ---#
                     0x02,
                     0x00,
@@ -943,12 +982,22 @@ def test_valid_containers(
             name="multiple_container_sections_0",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x01, #   Code Section 0 (Length: 1)
-                    0x03, 0x00, 0x01, # Container Sections (Length: 1)
-                          0x00, 0x01, #   Container Section 0 (Length: 1)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x01,  #   Code Section 0 (Length: 1)
+                    0x03,
+                    0x00,
+                    0x01,  # Container Sections (Length: 1)
+                    0x00,
+                    0x01,  #   Container Section 0 (Length: 1)
                     # --- Error: Invalid Data Header ---#
                     0x03,
                     0x00,
@@ -1521,6 +1570,8 @@ def test_max_code_sections(
             kind=ContainerKind.INITCODE if plus_container else ContainerKind.RUNTIME,
         ),
     )
+
+
 @pytest.mark.parametrize(
     "container",
     [
@@ -1528,8 +1579,12 @@ def test_max_code_sections(
             name="code_section_0_size_0",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
                     # --- Error: Invalid Code Header ---#
                     0x02,
                     0x00,
@@ -1544,8 +1599,12 @@ def test_max_code_sections(
             name="code_section_0_size_1",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
                     # --- Error: Invalid Code Header ---#
                     0x02,
                     0x00,

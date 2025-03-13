@@ -250,6 +250,8 @@ def test_rjump_loop(
         ),
         expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS,
     )
+
+
 def test_rjump_into_self_remaining_code(
     eof_test: EOFTestFiller,
 ):

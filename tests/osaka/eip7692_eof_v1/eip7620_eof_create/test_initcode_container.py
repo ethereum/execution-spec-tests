@@ -31,11 +31,11 @@ REFERENCE_SPEC_VERSION = "52ddbcdddcf72dd72427c319f2beddeb468e1737"
                 ),
                 Section.Container(
                     container=Container(
-                      name="initcode_container_return_1_D1I0",
-                      sections=[
-                          Section.Code(code=Op.PUSH1[0] * 2 + Op.RETURN, max_stack_height=2),
-                      ],
-                  )
+                        name="initcode_container_return_1_D1I0",
+                        sections=[
+                            Section.Code(code=Op.PUSH1[0] * 2 + Op.RETURN, max_stack_height=2),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000b030001001804000000008000046000600060006000ec0000ef00010100040200010005040000000080000260006000f3",
@@ -58,11 +58,11 @@ REFERENCE_SPEC_VERSION = "52ddbcdddcf72dd72427c319f2beddeb468e1737"
                 ),
                 Section.Container(
                     container=Container(
-                      name="initcode_container_revert_1_D1I0",
-                      sections=[
-                          Section.Code(code=Op.PUSH1[0] * 2 + Op.REVERT, max_stack_height=2),
-                      ],
-                  )
+                        name="initcode_container_revert_1_D1I0",
+                        sections=[
+                            Section.Code(code=Op.PUSH1[0] * 2 + Op.REVERT, max_stack_height=2),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000b030001001804000000008000046000600060006000ec0000ef00010100040200010005040000000080000260006000fd",
@@ -85,11 +85,11 @@ REFERENCE_SPEC_VERSION = "52ddbcdddcf72dd72427c319f2beddeb468e1737"
                 ),
                 Section.Container(
                     container=Container(
-                      name="initcode_container_stop_1_D1I0",
-                      sections=[
-                          Section.Code(code=Op.STOP),
-                      ],
-                  )
+                        name="initcode_container_stop_1_D1I0",
+                        sections=[
+                            Section.Code(code=Op.STOP),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000b030001001404000000008000046000600060006000ec0000ef00010100040200010001040000000080000000",

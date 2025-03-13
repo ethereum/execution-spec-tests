@@ -2,7 +2,8 @@
 
 import pytest
 
-from ethereum_test_tools import EOFTestFiller, Opcodes as Op
+from ethereum_test_tools import EOFTestFiller
+from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_types.eof.v1.constants import MAX_INITCODE_SIZE
 
@@ -66,6 +67,7 @@ while len(nextcode) < MAX_INITCODE_SIZE:
 
 max_nested_containers_eofcreate_0 = eofcreate_code
 max_nested_containers_eofcreate_returncontract_0 = returncontract_code
+
 
 @pytest.mark.parametrize(
     "container",

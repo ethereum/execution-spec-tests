@@ -17,11 +17,19 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
             name="minimal_valid_eof1_multiple_code_sections_0",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x08, # Types Length: 8
-                    0x02, 0x00, 0x02, # Code Sections (Length: 2)
-                          0x00, 0x01, #   Code Section 0 (Length: 1)
-                          0x00, 0x01, #   Code Section 1 (Length: 1)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x08,  # Types Length: 8
+                    0x02,
+                    0x00,
+                    0x02,  # Code Sections (Length: 2)
+                    0x00,
+                    0x01,  #   Code Section 0 (Length: 1)
+                    0x00,
+                    0x01,  #   Code Section 1 (Length: 1)
                     # --- Error: Invalid Data Header ---#
                     0x00,
                     0x00,

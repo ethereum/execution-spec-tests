@@ -501,6 +501,7 @@ def test_rjumpv_into_self(
         expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
     )
 
+
 def test_rjumpv_backwards_rjumpv_rjump_same_target_stack_mismatch(
     eof_test: EOFTestFiller,
 ):
@@ -518,6 +519,7 @@ def test_rjumpv_backwards_rjumpv_rjump_same_target_stack_mismatch(
         container=container,
         expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
     )
+
 
 @pytest.mark.parametrize(
     "table_size,invalid_index",
@@ -1694,6 +1696,8 @@ def test_rjumpv_valid_backward(
     These tests exercise the stack height validation.
     """
     eof_test(container=container)
+
+
 def test_rjumpv_backwards_rjumpv_variable_stack_invalid(
     eof_test: EOFTestFiller,
 ):
