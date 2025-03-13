@@ -480,3 +480,20 @@ def test_truncated_data_portion_opcodes(
         container=eof_code,
         expect_exception=EOFException.TRUNCATED_INSTRUCTION,
     )
+
+
+@pytest.mark.parametrize(
+    "opcode",
+    sorted(invalid_eof_opcodes),
+)
+def test_deprecated_instructions(eof_test: EOFTestFiller, opcode: Opcode):
+    """Test all deprecated instructions."""
+    bytecode = (
+        Op.PUSH0 * opcode.min_stack_height + opcode + Op.POP * opcode.pushed_stack_items + Op.STOP
+    )
+    sections = [Section.Code(code=bytecode)]
+    eof_code = Container(sections=sections)
+    eof_test(
+        container=eof_code,
+        expect_exception=EOFException.UNDEFINED_INSTRUCTION,
+    )

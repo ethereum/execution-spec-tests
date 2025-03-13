@@ -501,6 +501,23 @@ def test_rjumpv_into_self(
         expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
     )
 
+def test_rjumpv_backwards_rjumpv_rjump_same_target_stack_mismatch(
+    eof_test: EOFTestFiller,
+):
+    """EOF code with same target for RJUMPV and RJUMP."""
+    container = Container(
+        sections=[
+            Section.Code(
+                code=Op.PUSH0 + Op.POP + Op.PUSH1[0] + Op.RJUMPV[-8] + Op.PUSH0 + Op.RJUMP[-12],
+                max_stack_height=1,
+            ),
+        ],
+        expected_bytecode="ef0001010004020001000c04000000008000015f506000e200fff85fe0fff4",
+    )
+    eof_test(
+        container=container,
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
+    )
 
 @pytest.mark.parametrize(
     "table_size,invalid_index",
@@ -1677,6 +1694,31 @@ def test_rjumpv_valid_backward(
     These tests exercise the stack height validation.
     """
     eof_test(container=container)
+def test_rjumpv_backwards_rjumpv_variable_stack_invalid(
+    eof_test: EOFTestFiller,
+):
+    """EOF code stack height mismatch on backwards RJUMPV."""
+    container = Container(
+        sections=[
+            Section.Code(
+                code=Op.PUSH0
+                + Op.PUSH1[0]
+                + Op.RJUMPI[2]
+                + Op.PUSH0 * 3
+                + Op.POP
+                + Op.PUSH1[0]
+                + Op.RJUMPV[-8]
+                + Op.PUSH0
+                + Op.RJUMP[-12],
+                max_stack_height=4,
+            ),
+        ],
+        expected_bytecode="ef0001010004020001001404000000008000045f6000e100025f5f5f506000e200fff85fe0fff4",
+    )
+    eof_test(
+        container=container,
+        expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
+    )
 
 
 @pytest.mark.parametrize(
