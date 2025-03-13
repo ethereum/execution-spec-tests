@@ -31,10 +31,14 @@ from ethereum_test_specs import (
     EOFStateTestFiller,
     EOFTest,
     EOFTestFiller,
+    Payload,
+    PayloadBuildingTest,
+    PayloadBuildingTestFiller,
     StateTest,
     StateTestFiller,
     TransactionTest,
     TransactionTestFiller,
+    TransactionWithPost,
 )
 from ethereum_test_specs.blockchain import Block, Header
 from ethereum_test_types import (
@@ -124,6 +128,9 @@ __all__ = (
     "Opcode",
     "OpcodeCallArg",
     "Opcodes",
+    "Payload",
+    "PayloadBuildingTest",
+    "PayloadBuildingTestFiller",
     "ReferenceSpec",
     "ReferenceSpecTypes",
     "Removable",
@@ -143,6 +150,7 @@ __all__ = (
     "TransactionReceipt",
     "TransactionTest",
     "TransactionTestFiller",
+    "TransactionWithPost",
     "UndefinedOpcodes",
     "Withdrawal",
     "WithdrawalRequest",
