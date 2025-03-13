@@ -12,6 +12,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 #### `consume`
 
+- ✨ Add support for [ethereum/tests](https://github.com/ethereum/tests) and [ethereum/legacytests](https://github.com/ethereum/legacytests) release tarball download via URL to the `--input` flag of `consume` commands ([#1306](https://github.com/ethereum/execution-spec-tests/pull/1306)).
 - ✨ Add support for Nethermind's `nethtest` command to `consume direct` ([#1250](https://github.com/ethereum/execution-spec-tests/pull/1250)).
 - ✨ Allow filtering of test cases by fork via pytest marks (e.g., `-m "Cancun or Prague"`) ([#1304](https://github.com/ethereum/execution-spec-tests/pull/1304), [#1318](https://github.com/ethereum/execution-spec-tests/pull/1318)).
 - ✨ Allow filtering of test cases by fixture format via pytest marks (e.g., `-m blockchain_test`) ([#1314](https://github.com/ethereum/execution-spec-tests/pull/1314)).
