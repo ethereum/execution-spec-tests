@@ -13,10 +13,12 @@ Test fixtures for use by clients are available for each release on the [Github r
 #### `consume`
 
 - ✨ Add support for Nethermind's `nethtest` command to `consume direct` ([#1250](https://github.com/ethereum/execution-spec-tests/pull/1250)).
-- ✨ Allow filtering of test cases by fork via pytest marks (via, e.g., `-m "Cancun or Prague"`) [#1304](https://github.com/ethereum/execution-spec-tests/pull/1304).
-- 🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` [#1303](https://github.com/ethereum/execution-spec-tests/pull/1303).
+- ✨ Allow filtering of test cases by fork via pytest marks (via, e.g., `-m "Cancun or Prague"`) ([#1304](https://github.com/ethereum/execution-spec-tests/pull/1304)).
+- 🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` ([#1303](https://github.com/ethereum/execution-spec-tests/pull/1303)).
 
 ### 📋 Misc
+
+- Bump the version of `execution-specs` used by the framework to the package [`ethereum-execution==1.17.0rc6.dev1`](https://pypi.org/project/ethereum-execution/1.17.0rc6.dev1/); bump the version used for test fixture generation for forks < Prague to current `execution-specs` master, [fa847a0](https://github.com/ethereum/execution-specs/commit/fa847a0e48309debee8edc510ceddb2fd5db2f2e) ([#1310](https://github.com/ethereum/execution-spec-tests/pull/1310)).
 
 ### 🧪 Test Cases
 

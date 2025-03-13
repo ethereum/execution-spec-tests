@@ -16,9 +16,9 @@ classifiers = [
 ]
 dependencies = [
     "click>=8.1.0,<9",
-    "ethereum @ git+https://github.com/ethereum/execution-specs@78fb726158c69d8fa164e28f195fabf6ab59b915",
+    "ethereum-execution==1.17.0rc6.dev1",
     "hive.py @ git+https://github.com/marioevz/hive.py",
-    "ethereum-spec-evm-resolver @ git+https://github.com/petertdavies/ethereum-spec-evm-resolver",
+    "ethereum-spec-evm-resolver",
     "setuptools",
     "types-setuptools",
     "gitpython>=3.1.31,<4",
@@ -125,4 +125,4 @@ mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]
 plugins = ["pydantic.mypy"]
 
 [tool.uv.sources]
-ethereum = { git = "https://github.com/ethereum/execution-specs", rev = "78fb726158c69d8fa164e28f195fabf6ab59b915" }
+ethereum-spec-evm-resolver = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver", rev = "623ac4565025e72b65f45b926da2a3552041b469" }
