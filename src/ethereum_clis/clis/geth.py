@@ -15,7 +15,7 @@ from ethereum_test_exceptions import (
     ExceptionMessage,
     TransactionException,
 )
-from ethereum_test_fixtures import BlockchainFixture, FixtureFormat, StateFixture
+from ethereum_test_fixtures import BlockchainFixture, EOFFixture, FixtureFormat, StateFixture
 from ethereum_test_forks import Fork
 
 from ..ethereum_cli import EthereumCLI
@@ -246,10 +246,88 @@ class GethTransitionTool(GethEvm, TransitionTool):
 class GethFixtureConsumer(
     GethEvm,
     FixtureConsumerTool,
-    fixture_formats=[StateFixture, BlockchainFixture],
+    fixture_formats=[StateFixture, BlockchainFixture, EOFFixture],
 ):
     """Geth's implementation of the fixture consumer."""
 
+    # ------------------------------------ state test ---------------------------------------------
+    @cache  # noqa: B019
+    def consume_state_test_file(
+        self,
+        fixture_path: Path,
+        debug_output_path: Optional[Path] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        Consume an entire state test file.
+
+        The `evm statetest` will always execute all the tests contained in a file without the
+        possibility of selecting a single test, so this function is cached in order to only call
+        the command once and `consume_state_test` can simply select the result that
+        was requested.
+        """
+        subcommand = "statetest"
+        global_options: List[str] = []
+        subcommand_options: List[str] = []
+        if debug_output_path:
+            global_options += ["--verbosity", "100"]
+            subcommand_options += ["--trace"]
+
+        command = (
+            [str(self.binary)]
+            + global_options
+            + [subcommand]
+            + subcommand_options
+            + [str(fixture_path)]
+        )
+        result = self._run_command(command)
+
+        if debug_output_path:
+            self._consume_debug_dump(command, result, fixture_path, debug_output_path)
+
+        if result.returncode != 0:
+            raise Exception(
+                f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
+            )
+
+        result_json = json.loads(result.stdout)
+        print("Output from json.loads(result.stdout):", result_json)
+        if not isinstance(result_json, list):
+            raise Exception(f"Unexpected result from evm statetest: {result_json}")
+        return result_json
+
+    def consume_state_test(
+        self,
+        fixture_path: Path,
+        fixture_name: Optional[str] = None,
+        debug_output_path: Optional[Path] = None,
+    ):
+        """
+        Consume a single state test.
+
+        Uses the cached result from `consume_state_test_file` in order to not call the command
+        every time an select a single result from there.
+        """
+        file_results = self.consume_state_test_file(
+            fixture_path=fixture_path,
+            debug_output_path=debug_output_path,
+        )
+        if fixture_name:
+            test_result = [
+                test_result for test_result in file_results if test_result["name"] == fixture_name
+            ]
+            assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
+            assert len(test_result) == 1, f"Test result for {fixture_name} missing"
+            assert test_result[0]["pass"], f"State test failed: {test_result[0]['error']}"
+        else:
+            if any(not test_result["pass"] for test_result in file_results):
+                exception_text = "State test failed: \n" + "\n".join(
+                    f"{test_result['name']}: " + test_result["error"]
+                    for test_result in file_results
+                    if not test_result["pass"]
+                )
+                raise Exception(exception_text)
+
+    # ---------------------------------- blockchain test ------------------------------------------
     def consume_blockchain_test(
         self,
         fixture_path: Path,
@@ -290,26 +368,71 @@ class GethFixtureConsumer(
                 f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
             )
 
-    @cache  # noqa
-    def consume_state_test_file(
+    # ------------------------------------ eof test -----------------------------------------------
+    def extract_int_from_subprocess_string(
+        self, s: str, substring_of_interest_prefix: str
+    ) -> int | None:
+        """Hacky method to extract relevant substring from string returned by subprocess execution."""  # noqa: E501
+        # get everything after this substring occurrence, then remove everything not in [0,9]
+        relevant_substring = re.sub(r"\D", "", s.split('total executed"=', 1)[1])
+        if relevant_substring.isdigit():
+            return int(relevant_substring)
+        else:
+            return None
+
+    def eofparse_subprocess_output_to_dict(
+        self, process_result: str, fixture_name: str | None, fork_name: str
+    ) -> Dict:
+        """Take subprocess output from geth's eofparse, a fixture_name and a fork name and return relevant data as dict."""  # noqa: E501
+        #      remove whitespaces if more than 1 whitespace occurs at a time
+        process_result_cleaned: str = re.sub(r"\s+", " ", process_result).strip()
+
+        #       determine amount of total tests
+        total_tests_amount: int | None = self.extract_int_from_subprocess_string(
+            process_result_cleaned, 'total executed"='
+        )
+
+        #       determine amount of passed tests
+        passed_tests_amount: int | None = self.extract_int_from_subprocess_string(
+            process_result_cleaned, "tests passed="
+        )
+
+        #       determine if all tests of this test vector passed
+        all_tests_passed: bool = False
+        if total_tests_amount is not None and passed_tests_amount is not None:
+            if total_tests_amount == passed_tests_amount:
+                all_tests_passed = True
+
+        #       return relevant data as dict
+        return {
+            "name": fixture_name,
+            "pass": all_tests_passed,
+            "stateRoot": None,
+            "fork": fork_name,
+        }
+
+    @cache  # noqa: B019
+    def consume_eof_test_file(
         self,
         fixture_path: Path,
+        fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
     ) -> List[Dict[str, Any]]:
         """
-        Consume an entire state test file.
+        Consume an entire EOF validation test file.
 
-        The `evm statetest` will always execute all the tests contained in a file without the
-        possibility of selecting a single test, so this function is cached in order to only call
-        the command once and `consume_state_test` can simply select the result that
-        was requested.
+
+        The `evm eofparse` will always validate all the eof byte codes contained in a file without
+        the possibility of selecting a single test, so this function is cached in order to only
+        call the command once and `consume_eof_test` can simply select the result that was
+        requested.
         """
-        subcommand = "statetest"
-        global_options: List[str] = []
-        subcommand_options: List[str] = []
+        subcommand = "eofparse"
+        global_options = []
+        subcommand_options = ["--test"]
         if debug_output_path:
             global_options += ["--verbosity", "100"]
-            subcommand_options += ["--trace"]
+            # --trace does not exist for eofparse
 
         command = (
             [str(self.binary)]
@@ -318,6 +441,7 @@ class GethFixtureConsumer(
             + subcommand_options
             + [str(fixture_path)]
         )
+
         result = self._run_command(command)
 
         if debug_output_path:
@@ -328,25 +452,28 @@ class GethFixtureConsumer(
                 f"Unexpected exit code:\n{' '.join(command)}\n\n Error:\n{result.stderr}"
             )
 
-        result_json = json.loads(result.stdout)
+        result_json = [
+            self.eofparse_subprocess_output_to_dict(result.stderr, fixture_name, "Osaka")
+        ]
         if not isinstance(result_json, list):
-            raise Exception(f"Unexpected result from evm statetest: {result_json}")
+            raise Exception(f"Unexpected result from evm eofparse: {result_json}")
         return result_json
 
-    def consume_state_test(
+    def consume_eof_test(
         self,
         fixture_path: Path,
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
     ):
         """
-        Consume a single state test.
+        Consume a single eof test.
 
-        Uses the cached result from `consume_state_test_file` in order to not call the command
+        Uses the cached result from `consume_eof_test_file` in order to not call the command
         every time an select a single result from there.
         """
-        file_results = self.consume_state_test_file(
+        file_results = self.consume_eof_test_file(
             fixture_path=fixture_path,
+            fixture_name=fixture_name,
             debug_output_path=debug_output_path,
         )
         if fixture_name:
@@ -355,10 +482,10 @@ class GethFixtureConsumer(
             ]
             assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
             assert len(test_result) == 1, f"Test result for {fixture_name} missing"
-            assert test_result[0]["pass"], f"State test failed: {test_result[0]['error']}"
+            assert test_result[0]["pass"], f"EOF test failed: {test_result[0]['error']}"
         else:
             if any(not test_result["pass"] for test_result in file_results):
-                exception_text = "State test failed: \n" + "\n".join(
+                exception_text = "EOF test failed: \n" + "\n".join(
                     f"{test_result['name']}: " + test_result["error"]
                     for test_result in file_results
                     if not test_result["pass"]
@@ -381,6 +508,12 @@ class GethFixtureConsumer(
             )
         elif fixture_format == StateFixture:
             self.consume_state_test(
+                fixture_path=fixture_path,
+                fixture_name=fixture_name,
+                debug_output_path=debug_output_path,
+            )
+        elif fixture_format == EOFFixture:
+            self.consume_eof_test(
                 fixture_path=fixture_path,
                 fixture_name=fixture_name,
                 debug_output_path=debug_output_path,
