@@ -302,6 +302,7 @@ nav
 ncheck
 nektos
 nethermind
+Nethermind's
 nexternal
 nGo
 nJSON
