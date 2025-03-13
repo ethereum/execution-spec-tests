@@ -12,7 +12,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 #### `consume`
 
-- 🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` [#1303](https://github.com/ethereum/execution-spec-tests/pull/1303).
+- ✨ Add support for [ethereum/tests](https://github.com/ethereum/tests) and [ethereum/legacytests](https://github.com/ethereum/legacytests) release tarball download via URL to the `--input` flag of `consume` commands ([#1306](https://github.com/ethereum/execution-spec-tests/pull/1306)).
+- 🐞 Improve index generation of [ethereum/tests](https://github.com/ethereum/tests) fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` ([#1303](https://github.com/ethereum/execution-spec-tests/pull/1303)).
 
 ### 📋 Misc
 
