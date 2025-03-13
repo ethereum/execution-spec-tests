@@ -7,7 +7,6 @@ abstract: Tests [EIP-7748: State conversion to Verkle Tree]
 
 import pytest
 import math
-import sys
 
 from ethereum_test_tools import (
     Account,
