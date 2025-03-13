@@ -3311,6 +3311,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_forks.get_relative_fork_markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_relative_fork_markers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_forks.get_transition_forks" class="md-nav__link">
     <span class="md-ellipsis">
       get_transition_forks
@@ -30916,6 +30925,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ethereum_test_forks.get_relative_fork_markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_relative_fork_markers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ethereum_test_forks.get_transition_forks" class="md-nav__link">
     <span class="md-ellipsis">
       get_transition_forks
@@ -40838,6 +40856,80 @@ development. The list is ordered by their planned deployment date.</p>
             <span class="k">if</span> <span class="n">fork</span> <span class="o">&gt;=</span> <span class="n">fork_from</span><span class="p">:</span>
                 <span class="n">resulting_forks</span> <span class="o">=</span> <span class="n">resulting_forks</span> <span class="o">|</span> <span class="p">{</span><span class="n">fork</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">resulting_forks</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="ethereum_test_forks.get_relative_fork_markers" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_relative_fork_markers</span><span class="p">(</span><span class="n">fork_identifier</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_forks.get_relative_fork_markers" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Return a list of marker names for a given fork.
+For a base fork (e.g. <code>Shanghai</code>), return [ <code>Shanghai</code> ].
+For a transition fork (e.g. <code>ShanghaiToCancunAtTime15k</code> which transitions to <code>Cancun</code>),
+return [ <code>ShanghaiToCancunAtTime15k</code>, <code>Cancun</code> ].</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_forks/helpers.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_relative_fork_markers</span><span class="p">(</span><span class="n">fork_identifier</span><span class="p">:</span> <span class="n">Fork</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a list of marker names for a given fork.</span>
+<span class="sd">    For a base fork (e.g. `Shanghai`), return [ `Shanghai` ].</span>
+<span class="sd">    For a transition fork (e.g. `ShanghaiToCancunAtTime15k` which transitions to `Cancun`),</span>
+<span class="sd">    return [ `ShanghaiToCancunAtTime15k`, `Cancun` ].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_forks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">get_forks</span><span class="p">())</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">get_transition_forks</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fork_identifier</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">fork_class</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">all_forks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="n">fork_identifier</span><span class="p">:</span>
+                <span class="n">fork_class</span> <span class="o">=</span> <span class="n">candidate</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">fork_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fork: </span><span class="si">{</span><span class="n">fork_identifier</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fork_class</span> <span class="o">=</span> <span class="n">fork_identifier</span>
+
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">fork_class</span><span class="p">,</span> <span class="n">TransitionBaseClass</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">fork_class</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">fork_class</span><span class="o">.</span><span class="n">transitions_to</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">fork_class</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
