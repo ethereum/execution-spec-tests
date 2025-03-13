@@ -1,6 +1,7 @@
 """Ethereum test fork definitions."""
 
 from .base_fork import Fork, ForkAttribute
+from .config import ForkConfig
 from .forks.forks import (
     ArrowGlacier,
     Berlin,
@@ -55,6 +56,7 @@ __all__ = [
     "Byzantium",
     "Constantinople",
     "ConstantinopleFix",
+    "ForkConfig",
     "Frontier",
     "GrayGlacier",
     "Homestead",
