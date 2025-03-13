@@ -12,6 +12,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 #### `consume`
 
+- ✨ Allow filtering of test cases by fork via pytest marks (e.g., via -m "Cancun or Prague") [#1304](https://github.com/ethereum/execution-spec-tests/pull/1304).
 - 🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` [#1303](https://github.com/ethereum/execution-spec-tests/pull/1303).
 
 ### 📋 Misc
