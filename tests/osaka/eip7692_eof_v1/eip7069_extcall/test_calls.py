@@ -1104,3 +1104,102 @@ def test_eof_calls_msg_depth(
         post=post,
         tx=tx,
     )
+
+
+@pytest.mark.parametrize(
+    "target_account_type",
+    (
+        "empty",
+        "EOA",
+        "LegacyContract",
+        "EOFContract",
+        "LegacyContractInvalid",
+        "EOFContractInvalid",
+        "LegacyContractRevert",
+        "EOFContractRevert",
+        "identity_precompile",
+    ),
+    ids=lambda x: x,
+)
+@pytest.mark.parametrize("delegate", [True, False])
+def test_extdelegate_call_targets(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    target_account_type: str,
+    delegate: bool,
+):
+    """
+    Test EOF contracts extdelegatecalling various targets, especially resolved via 7702
+    delegation.
+    """
+    env = Environment()
+
+    target_address: Address
+    match target_account_type:
+        case "empty":
+            target_address = Address(b"\x78" * 20)
+        case "EOA":
+            target_address = pre.fund_eoa()
+        case "LegacyContract":
+            target_address = pre.deploy_contract(
+                code=Op.STOP,
+            )
+        case "EOFContract":
+            target_address = pre.deploy_contract(
+                code=Container.Code(Op.STOP),
+            )
+        case "LegacyContractInvalid":
+            target_address = pre.deploy_contract(
+                code=Op.INVALID,
+            )
+        case "EOFContractInvalid":
+            target_address = pre.deploy_contract(
+                code=Container.Code(Op.INVALID),
+            )
+        case "LegacyContractRevert":
+            target_address = pre.deploy_contract(
+                code=Op.REVERT(0, 0),
+            )
+        case "EOFContractRevert":
+            target_address = pre.deploy_contract(
+                code=Container.Code(Op.REVERT(0, 0)),
+            )
+        case "identity_precompile":
+            target_address = identity
+
+    if delegate:
+        target_address = pre.fund_eoa(0, delegation=target_address)
+
+    caller_contract = Container.Code(
+        Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.SSTORE(slot_call_result, Op.EXTDELEGATECALL(address=target_address))
+        + Op.STOP,
+    )
+
+    calling_contract_address = pre.deploy_contract(caller_contract)
+
+    tx = Transaction(
+        sender=pre.fund_eoa(),
+        to=Address(calling_contract_address),
+        gas_limit=2_000_000,
+    )
+
+    calling_storage = {
+        slot_code_worked: value_code_worked,
+        slot_call_result: EXTCALL_SUCCESS
+        if target_account_type == "EOFContract"
+        else EXTCALL_FAILURE
+        if target_account_type == "EOFContractInvalid"
+        else EXTCALL_REVERT,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
