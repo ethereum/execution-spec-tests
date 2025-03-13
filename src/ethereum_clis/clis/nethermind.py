@@ -111,6 +111,7 @@ class NethtestFixtureConsumer(
         if fixture_format is BlockchainFixture:
             command += ["--blockTest", "--filter", f"{re.escape(fixture_name)}"]
         elif fixture_format is StateFixture:
+            # TODO: consider using `--filter` here to readily access traces from the output
             pass  # no additional options needed
         elif fixture_format is EOFFixture:
             command += ["--eofTest"]
