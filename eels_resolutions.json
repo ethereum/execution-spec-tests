@@ -2,7 +2,7 @@
     "EELSMaster": {
         "git_url": "https://github.com/ethereum/execution-specs.git",
         "branch": "master",
-        "commit": "78fb726158c69d8fa164e28f195fabf6ab59b915"
+        "commit": "fa847a0e48309debee8edc510ceddb2fd5db2f2e"
     },
     "Frontier": {
         "same_as": "EELSMaster"
