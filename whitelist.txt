@@ -856,4 +856,3 @@ ize
 nectos
 fibonacci
 CPython
-pytest_report_collectionfinish
