@@ -105,7 +105,7 @@ def get_transition_fork_predecessor(transition_fork: Fork) -> Fork:
     return transition_fork.transitions_from()
 
 
-def get_fork_to_transition_fork(transition_fork: Fork) -> Fork:
+def get_transition_fork_successor(transition_fork: Fork) -> Fork:
     """Return the fork to which the transition fork transitions."""
     if not issubclass(transition_fork, TransitionBaseClass):
         raise Exception(f"{transition_fork} is not a transition fork.")
