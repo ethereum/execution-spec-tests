@@ -28521,6 +28521,14 @@ writes the generated fixtures to file.</p>
 
 
 
+
+
+
+
+
+
+
+
 <div class="doc doc-object doc-function">
 
 
@@ -30655,7 +30663,8 @@ test spec supports.</p>
 
       <p>Remove pre-Paris tests parametrized to generate hive type fixtures; these
 can't be used in the Hive Pyspec Simulator.</p>
-<p>This can't be handled in this plugins pytest_generate_tests() as the fork
+<p>Replaces the test ID for state tests that use a transition fork with the base fork.</p>
+<p>These can't be handled in this plugins pytest_generate_tests() as the fork
 parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
@@ -30690,12 +30699,29 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">778</span>
 <span class="normal">779</span>
 <span class="normal">780</span>
-<span class="normal">781</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">]):</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span>
+<span class="normal">786</span>
+<span class="normal">787</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove pre-Paris tests parametrized to generate hive type fixtures; these</span>
 <span class="sd">    can&#39;t be used in the Hive Pyspec Simulator.</span>
 
-<span class="sd">    This can&#39;t be handled in this plugins pytest_generate_tests() as the fork</span>
+<span class="sd">    Replaces the test ID for state tests that use a transition fork with the base fork.</span>
+
+<span class="sd">    These can&#39;t be handled in this plugins pytest_generate_tests() as the fork</span>
 <span class="sd">    parametrization occurs in the forks plugin.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[:]:</span>  <span class="c1"># use a copy of the list, as we&#39;ll be modifying it</span>
@@ -30721,6 +30747,19 @@ parametrization occurs in the forks plugin.</p>
                     <span class="n">item</span><span class="o">.</span><span class="n">add_marker</span><span class="p">(</span><span class="n">mark</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;yul&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">fixturenames</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
             <span class="n">item</span><span class="o">.</span><span class="n">add_marker</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">yul_test</span><span class="p">)</span>
+
+        <span class="c1"># Update test ID for state tests that use a transition fork</span>
+        <span class="k">if</span> <span class="n">fork</span> <span class="ow">in</span> <span class="n">get_transition_forks</span><span class="p">():</span>
+            <span class="n">has_state_test</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">marker</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;state_test&quot;</span> <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">)</span>
+            <span class="n">has_valid_transition</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+                <span class="n">marker</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;valid_at_transition_to&quot;</span> <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">markers</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">has_state_test</span> <span class="ow">and</span> <span class="n">has_valid_transition</span><span class="p">:</span>
+                <span class="n">base_fork</span> <span class="o">=</span> <span class="n">get_transition_fork_predecessor</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">_nodeid</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_nodeid</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;fork_</span><span class="si">{</span><span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;fork_</span><span class="si">{</span><span class="n">base_fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -30752,22 +30791,7 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">784</span>
-<span class="normal">785</span>
-<span class="normal">786</span>
-<span class="normal">787</span>
-<span class="normal">788</span>
-<span class="normal">789</span>
-<span class="normal">790</span>
-<span class="normal">791</span>
-<span class="normal">792</span>
-<span class="normal">793</span>
-<span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">799</span>
 <span class="normal">800</span>
 <span class="normal">801</span>
 <span class="normal">802</span>
@@ -30788,7 +30812,22 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">817</span>
 <span class="normal">818</span>
 <span class="normal">819</span>
-<span class="normal">820</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">820</span>
+<span class="normal">821</span>
+<span class="normal">822</span>
+<span class="normal">823</span>
+<span class="normal">824</span>
+<span class="normal">825</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform session finish tasks.</span>
 
