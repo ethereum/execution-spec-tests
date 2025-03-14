@@ -25,7 +25,7 @@ from ethereum_clis import TransitionTool
 from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
 from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureConsumer, TestInfo
-from ethereum_test_forks import Fork, get_fork_from_transition_fork, get_transition_forks
+from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import SPEC_TYPES, BaseTest
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
@@ -789,7 +789,7 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
                 marker.name == "valid_at_transition_to" for marker in markers
             )
             if has_state_test and has_valid_transition:
-                base_fork = get_fork_from_transition_fork(fork)
+                base_fork = get_transition_fork_predecessor(fork)
                 item._nodeid = item._nodeid.replace(
                     f"fork_{fork.name()}",
                     f"fork_{base_fork.name()}",
