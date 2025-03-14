@@ -17,11 +17,11 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Allow filtering of test cases by fixture format via pytest marks (e.g., `-m blockchain_test`) ([#1314](https://github.com/ethereum/execution-spec-tests/pull/1314)).
 - 🐞 Don't parametrize tests for unsupported fixture formats; improve `consume` test collection ([#1315](https://github.com/ethereum/execution-spec-tests/pull/1314)).
 - 🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` ([#1303](https://github.com/ethereum/execution-spec-tests/pull/1303)).
-- 🐞 Fix the node id for state tests marked by transition forks ([#1313](https://github.com/ethereum/execution-spec-tests/pull/1313)).
 
 #### `fill`
 
 - 🐞 Fix `--fork/from/until` for transition forks when using `fill` [#1311](https://github.com/ethereum/execution-spec-tests/pull/1311).
+- 🐞 Fix the node id for state tests marked by transition forks ([#1313](https://github.com/ethereum/execution-spec-tests/pull/1313)).
 
 ### 📋 Misc
 
