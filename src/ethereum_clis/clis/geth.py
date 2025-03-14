@@ -112,6 +112,7 @@ class GethEvm(EthereumCLI):
         self.binary = binary
         self.trace = trace
         self.exception_mapper = exception_mapper if exception_mapper else GethExceptionMapper()
+        self._info_metadata: Optional[Dict[str, Any]] = {}
 
     def _run_command(self, command: List[str]) -> subprocess.CompletedProcess:
         try:
