@@ -989,13 +989,13 @@ class Verkle(
         type tests.
         """
         new_allocation = {
-            Address(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE): {
-                "nonce": 1,
-                "code": (
-                    "0x60203611603157600143035f35116029575f35612000014311602957612000"
-                    "5f3506545f5260205ff35b5f5f5260205ff35b5f5ffd00"
-                ),
-            }
+            # Address(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE): {
+            #     "nonce": 1,
+            #     "code": (
+            #         "0x60203611603157600143035f35116029575f35612000014311602957612000"
+            #         "5f3506545f5260205ff35b5f5f5260205ff35b5f5ffd00"
+            #     ),
+            # }
         }
         # TODO: Utilize when testing for large init MPT
         # return VERKLE_PRE_ALLOCATION | super(Shanghai, cls).pre_allocation()
