@@ -21,6 +21,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 #### `fill`
 
 - 🐞 Fix `--fork/from/until` for transition forks when using `fill` [#1311](https://github.com/ethereum/execution-spec-tests/pull/1311).
+- 🐞 Fix the node id for state tests marked by transition forks ([#1313](https://github.com/ethereum/execution-spec-tests/pull/1313)).
 
 ### 📋 Misc
 
