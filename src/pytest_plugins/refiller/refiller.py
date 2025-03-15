@@ -5,11 +5,11 @@ fixtures.
 
 import json
 from pathlib import Path
-from typing import Iterable, Union
+from typing import Iterable, List, Union
 
 import pytest
 import yaml
-from _pytest.python import PyCollector
+from _pytest.python import FunctionDefinition
 
 from ethereum_test_specs import BaseJSONTest
 
@@ -40,6 +40,11 @@ def pytest_collect_file(file_path: Path, path, parent) -> pytest.Collector | Non
     return None
 
 
+class DynamicModule(pytest.Module):
+    def istestfunction(obj, *args) -> bool:
+        return True
+
+
 class FillerFile(pytest.File):
     """
     Pytest file class that reads test cases from JSON/YAML files and fills them into test
@@ -48,18 +53,40 @@ class FillerFile(pytest.File):
 
     def collect(self):
         """Load the test vectors using known filler formats."""
+        dict_values: List[List[Union[pytest.Item, pytest.Collector]]] = []
         with open(self.path, "r") as file:
             loaded_file = json.load(file) if self.path.suffix == ".json" else yaml.safe_load(file)
+            values: List[Union[pytest.Item, pytest.Collector]] = []
+            module = DynamicModule.from_parent(
+                parent=self,
+                fspath="/home/marioevz/Development/Eth/execution-spec-tests/src/pytest_plugins/refiller/refiller.py",
+            )
             for key in loaded_file:
                 filler = BaseJSONTest.model_validate(loaded_file[key])
-                yield filler.fill_function()
-                # PyCollector._genfunctions(filler.fill_function())
-                # yield pytest.Function.from_parent(
-                #     parent=self,
-                #     name=key,
-                #     callobj=filler.fill_function(),
-                # )
-                """ for test_case in filler.get_test_cases():
+                funcobj = filler.fill_function()
+                setattr(funcobj, "__test__", True)
+
+                ihook = self.ihook
+                res = ihook.pytest_pycollect_makeitem(collector=module, name=key, obj=funcobj)
+
+                if res is None:
+                    continue
+                elif isinstance(res, list):
+                    values.extend(res)
+                else:
+                    values.append(res)
+
+                # pytest_generate_tests impls call metafunc.parametrize() which fills
+                # metafunc._calls, the outcome of the hook.
+
+                """ 
+                yield pytest.Function.from_parent(
+                    parent=self,
+                    name=key,
+                    callspec=filler.fill_function_callspec(),
+                    callobj=funcobj,
+                )
+                for test_case in filler.get_test_cases():
                     yield FillerItem.from_parent(
                         self,
                         json_test=filler,
@@ -67,6 +94,11 @@ class FillerFile(pytest.File):
                         test_case=test_case,
                         path=self.path,
                     ) """
+            dict_values.append(values)
+        result = []
+        for values in reversed(dict_values):
+            result.extend(values)
+        return result
 
 
 """ 

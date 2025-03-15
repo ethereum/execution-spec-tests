@@ -198,7 +198,14 @@ class StateFiller(BaseJSONTest):
     @classmethod
     def fill_function_callspec(cls) -> CallSpec2:
         """Return the callspec for the test function."""
-        return {"n": 1}
+        return CallSpec2(
+            funcargs={
+                "state_test": StateTestFiller,
+                "fork": Fork,
+                "pre": Alloc,
+                "n": int,
+            },
+        )
 
     def fill_function(self) -> Callable:
         """Return the test function that can be used to fill the test."""
