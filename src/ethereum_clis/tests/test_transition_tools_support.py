@@ -1,5 +1,6 @@
 """Check T8N filling support."""
 
+import os
 from typing import Dict, Generator
 
 import pytest
@@ -55,13 +56,18 @@ test_transition_tools = [
 
 
 @pytest.fixture(scope="session")
+def running_in_ci() -> bool:
+    """Return whether the test is running in a CI environment."""
+    return "CI" in os.environ
+
+
+@pytest.fixture(scope="session")
 def all_t8n_instances() -> Generator[Dict[str, TransitionTool | Exception], None, None]:
     """Return all instantiated transition tools."""
     t8n_instances: Dict[str, TransitionTool | Exception] = {}
     for t8n_class in test_transition_tools:
         try:
-            instantiated_class = t8n_class()
-            t8n_instances[t8n_class.__name__] = instantiated_class
+            t8n_instances[t8n_class.__name__] = t8n_class()
         except Exception as e:
             # Record the exception in order to provide context when failing the appropriate test
             t8n_instances[t8n_class.__name__] = e
@@ -83,6 +89,18 @@ def t8n(
     if isinstance(t8n_instance_or_error, Exception):
         raise Exception(f"Failed to instantiate {t8n_class.__name__}") from t8n_instance_or_error
     return t8n_instance_or_error
+
+
+def test_ci_multi_t8n_support(running_in_ci: bool):
+    """Check that the instances of t8n we expect in CI environment were found."""
+    names = {transition_tool.__name__ for transition_tool in test_transition_tools}
+    expected_names = {"ExecutionSpecsTransitionTool"}
+    if running_in_ci:
+        expected_names.add("GethTransitionTool")
+        expected_names.add("EvmOneTransitionTool")
+    assert expected_names.issubset(names), (
+        f"Missing expected transition tools: {expected_names - names}"
+    )
 
 
 @pytest.mark.parametrize("fork", sorted(fork_set, key=lambda f: f.__name__))  # type: ignore
