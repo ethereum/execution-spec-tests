@@ -49,6 +49,8 @@ class TransitionTool(EthereumCLI):
     registered_tools: List[Type["TransitionTool"]] = []
     default_tool: Optional[Type["TransitionTool"]] = None
 
+    exception_mapper: ExceptionMapper
+
     subcommand: Optional[str] = None
     cached_version: Optional[str] = None
     t8n_use_stream: bool = False
@@ -65,6 +67,7 @@ class TransitionTool(EthereumCLI):
         trace: bool = False,
     ):
         """Abstract initialization method that all subclasses must implement."""
+        assert exception_mapper is not None
         self.exception_mapper = exception_mapper
         super().__init__(binary=binary)
         self.trace = trace
