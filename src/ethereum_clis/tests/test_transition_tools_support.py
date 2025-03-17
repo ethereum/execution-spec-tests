@@ -1,13 +1,12 @@
 """Check T8N filling support."""
 
-from pathlib import Path
+from typing import Dict, Generator
 
 import pytest
 
 from ethereum_clis import (
-    EvmOneTransitionTool,
+    BesuTransitionTool,
     ExecutionSpecsTransitionTool,
-    GethTransitionTool,
     TransitionTool,
 )
 from ethereum_test_base_types import Account, Address, TestAddress, TestPrivateKey
@@ -41,16 +40,56 @@ from ethereum_test_types import Alloc
 
 BLOB_COMMITMENT_VERSION_KZG = 1
 
+fork_set = set(get_deployed_forks())
+fork_set.add(Prague)
 
-@pytest.mark.parametrize("fork", get_deployed_forks() + [Prague])
+test_transition_tools = [
+    transition_tool
+    for transition_tool in TransitionTool.registered_tools
+    if (
+        transition_tool.is_installed()
+        # Currently, Besu has the same `default_binary` as Geth, so we can't test filling
+        and transition_tool != BesuTransitionTool
+    )
+]
+
+
+@pytest.fixture(scope="session")
+def all_t8n_instances() -> Generator[Dict[str, TransitionTool | Exception], None, None]:
+    """Return all instantiated transition tools."""
+    t8n_instances: Dict[str, TransitionTool | Exception] = {}
+    for t8n_class in test_transition_tools:
+        try:
+            instantiated_class = t8n_class()
+            t8n_instances[t8n_class.__name__] = instantiated_class
+        except Exception as e:
+            # Record the exception in order to provide context when failing the appropriate test
+            t8n_instances[t8n_class.__name__] = e
+    yield t8n_instances
+    for t8n_instance in t8n_instances.values():
+        if isinstance(t8n_instance, TransitionTool):
+            t8n_instance.shutdown()
+
+
+@pytest.fixture
+def t8n(
+    request: pytest.FixtureRequest, all_t8n_instances: Dict[str, TransitionTool | Exception]
+) -> TransitionTool:
+    """Return an instantiated transition tool."""
+    t8n_class = request.param
+    assert issubclass(t8n_class, TransitionTool)
+    assert t8n_class.__name__ in all_t8n_instances, f"{t8n_class.__name__} not instantiated"
+    t8n_instance_or_error = all_t8n_instances[t8n_class.__name__]
+    if isinstance(t8n_instance_or_error, Exception):
+        raise Exception(f"Failed to instantiate {t8n_class.__name__}") from t8n_instance_or_error
+    return t8n_instance_or_error
+
+
+@pytest.mark.parametrize("fork", fork_set)
 @pytest.mark.parametrize(
     "t8n",
-    [
-        ExecutionSpecsTransitionTool(),
-        EvmOneTransitionTool(),
-        GethTransitionTool(binary=Path("evm")),
-    ],
-    ids=["eels-t8n", "evmone-t8n", "geth-t8n"],
+    test_transition_tools,
+    indirect=True,
 )
 def test_t8n_support(fork: Fork, t8n: TransitionTool):
     """Stress test that sends all possible t8n interactions."""
