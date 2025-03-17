@@ -364,7 +364,7 @@ def pytest_generate_tests(metafunc):
     for test_case in test_cases:
         if test_case.format.format_name not in metafunc.config._supported_fixture_formats:
             continue
-        fork_markers = get_relative_fork_markers(test_case.fork)
+        fork_markers = get_relative_fork_markers(test_case.fork, strict_mode=False)
         param = pytest.param(
             test_case,
             id=test_case.id,
