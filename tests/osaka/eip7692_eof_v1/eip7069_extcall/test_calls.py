@@ -1,6 +1,7 @@
 """test calls across EOF and Legacy."""
 
 import itertools
+from enum import Enum, auto, unique
 
 import pytest
 
@@ -55,6 +56,25 @@ contract_eof_sstore = Container(
         )
     ]
 )
+
+
+@unique
+class TargetAccountType(Enum):
+    """Kinds of target accounts for calls."""
+
+    EMPTY = auto()
+    EOA = auto()
+    LEGACY_CONTRACT = auto()
+    EOF_CONTRACT = auto()
+    LEGACY_CONTRACT_INVALID = auto()
+    EOF_CONTRACT_INVALID = auto()
+    LEGACY_CONTRACT_REVERT = auto()
+    EOF_CONTRACT_REVERT = auto()
+    IDENTITY_PRECOMPILE = auto()
+
+    def __str__(self) -> str:
+        """Return string representation of the enum."""
+        return f"{self.name}"
 
 
 @pytest.fixture
@@ -722,18 +742,7 @@ def test_eof_calls_eof_then_fails(
 )
 @pytest.mark.parametrize(
     "target_account_type",
-    (
-        "empty",
-        "EOA",
-        "LegacyContract",
-        "EOFContract",
-        "LegacyContractInvalid",
-        "EOFContractInvalid",
-        "LegacyContractRevert",
-        "EOFContractRevert",
-        "identity_precompile",
-    ),
-    ids=lambda x: x,
+    TargetAccountType,
 )
 @pytest.mark.parametrize("value", [0, 1])
 def test_eof_calls_clear_return_buffer(
@@ -741,7 +750,7 @@ def test_eof_calls_clear_return_buffer(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    target_account_type: str,
+    target_account_type: TargetAccountType,
     value: int,
 ):
     """Test EOF contracts calling clears returndata buffer."""
@@ -752,35 +761,35 @@ def test_eof_calls_clear_return_buffer(
     filling_callee_address = pre.deploy_contract(filling_contract_code)
 
     match target_account_type:
-        case "empty":
+        case TargetAccountType.EMPTY:
             target_address = b"\x78" * 20
-        case "EOA":
+        case TargetAccountType.EOA:
             target_address = pre.fund_eoa()
-        case "LegacyContract":
+        case TargetAccountType.LEGACY_CONTRACT:
             target_address = pre.deploy_contract(
                 code=Op.STOP,
             )
-        case "EOFContract":
+        case TargetAccountType.EOF_CONTRACT:
             target_address = pre.deploy_contract(
                 code=Container.Code(Op.STOP),
             )
-        case "LegacyContractInvalid":
+        case TargetAccountType.LEGACY_CONTRACT_INVALID:
             target_address = pre.deploy_contract(
                 code=Op.INVALID,
             )
-        case "EOFContractInvalid":
+        case TargetAccountType.EOF_CONTRACT_INVALID:
             target_address = pre.deploy_contract(
                 code=Container.Code(Op.INVALID),
             )
-        case "LegacyContractRevert":
+        case TargetAccountType.LEGACY_CONTRACT_REVERT:
             target_address = pre.deploy_contract(
                 code=Op.REVERT(0, 0),
             )
-        case "EOFContractRevert":
+        case TargetAccountType.EOF_CONTRACT_REVERT:
             target_address = pre.deploy_contract(
                 code=Container.Code(Op.REVERT(0, 0)),
             )
-        case "identity_precompile":
+        case TargetAccountType.IDENTITY_PRECOMPILE:
             target_address = identity
 
     caller_contract = Container.Code(
@@ -1119,26 +1128,12 @@ def test_eof_calls_msg_depth(
     )
 
 
-@pytest.mark.parametrize(
-    "target_account_type",
-    (
-        "empty",
-        "EOA",
-        "LegacyContract",
-        "EOFContract",
-        "LegacyContractInvalid",
-        "EOFContractInvalid",
-        "LegacyContractRevert",
-        "EOFContractRevert",
-        "identity_precompile",
-    ),
-    ids=lambda x: x,
-)
+@pytest.mark.parametrize("target_account_type", TargetAccountType)
 @pytest.mark.parametrize("delegate", [True, False])
 def test_extdelegate_call_targets(
     state_test: StateTestFiller,
     pre: Alloc,
-    target_account_type: str,
+    target_account_type: TargetAccountType,
     delegate: bool,
 ):
     """
@@ -1149,35 +1144,35 @@ def test_extdelegate_call_targets(
 
     target_address: Address
     match target_account_type:
-        case "empty":
-            target_address = Address(b"\x78" * 20)
-        case "EOA":
+        case TargetAccountType.EMPTY:
+            target_address = b"\x78" * 20
+        case TargetAccountType.EOA:
             target_address = pre.fund_eoa()
-        case "LegacyContract":
+        case TargetAccountType.LEGACY_CONTRACT:
             target_address = pre.deploy_contract(
                 code=Op.STOP,
             )
-        case "EOFContract":
+        case TargetAccountType.EOF_CONTRACT:
             target_address = pre.deploy_contract(
                 code=Container.Code(Op.STOP),
             )
-        case "LegacyContractInvalid":
+        case TargetAccountType.LEGACY_CONTRACT_INVALID:
             target_address = pre.deploy_contract(
                 code=Op.INVALID,
             )
-        case "EOFContractInvalid":
+        case TargetAccountType.EOF_CONTRACT_INVALID:
             target_address = pre.deploy_contract(
                 code=Container.Code(Op.INVALID),
             )
-        case "LegacyContractRevert":
+        case TargetAccountType.LEGACY_CONTRACT_REVERT:
             target_address = pre.deploy_contract(
                 code=Op.REVERT(0, 0),
             )
-        case "EOFContractRevert":
+        case TargetAccountType.EOF_CONTRACT_REVERT:
             target_address = pre.deploy_contract(
                 code=Container.Code(Op.REVERT(0, 0)),
             )
-        case "identity_precompile":
+        case TargetAccountType.IDENTITY_PRECOMPILE:
             target_address = identity
 
     if delegate:
@@ -1200,9 +1195,9 @@ def test_extdelegate_call_targets(
     calling_storage = {
         slot_code_worked: value_code_worked,
         slot_call_result: EXTCALL_SUCCESS
-        if target_account_type == "EOFContract"
+        if target_account_type == TargetAccountType.EOF_CONTRACT
         else EXTCALL_FAILURE
-        if target_account_type == "EOFContractInvalid"
+        if target_account_type == TargetAccountType.EOF_CONTRACT_INVALID
         else EXTCALL_REVERT,
     }
 
