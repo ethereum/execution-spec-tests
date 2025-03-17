@@ -2,9 +2,23 @@
 
 Test fixtures for use by clients are available for each release on the [Github releases page](https://github.com/ethereum/execution-spec-tests/releases).
 
-**Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed.
+**Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed. 💥 = Breaking
 
 ## 🔜 [Unreleased]
+
+**Note**: Although not a breaking change, `consume` users should delete the cache directory (typically located at `~/.cache/ethereum-execution-spec-tests`) used to store downloaded fixture release tarballs. This release adds support for [ethereum/tests](https://github.com/ethereum/tests) and [ethereum/legacytests](https://github.com/ethereum/legacytests) fixture release downloads and the structure of the cache directory has been updated to accommodate this change.
+
+To try this feature:
+
+```shell
+consume direct --input=https://github.com/ethereum/tests/releases/download/v17.0/fixtures_blockchain_tests.tgz
+```
+
+To determine the cache directory location, see the `--cache-folder` entry from the command:
+
+```shell
+consume cache --help
+```
 
 ### 💥 Breaking Change
 
