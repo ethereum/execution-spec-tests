@@ -115,7 +115,7 @@ class ReleaseInformation(BaseModel):
     def __contains__(self, release_descriptor: ReleaseTag) -> bool:
         """Check if the release information contains the release descriptor."""
         if release_descriptor.version is not None:
-            return release_descriptor.version == self.tag_name
+            return release_descriptor == self.tag_name
         for asset in self.assets.root:
             if asset.name == release_descriptor.asset_name:
                 return True
