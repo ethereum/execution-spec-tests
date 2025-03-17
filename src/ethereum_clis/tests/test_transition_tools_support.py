@@ -85,7 +85,7 @@ def t8n(
     return t8n_instance_or_error
 
 
-@pytest.mark.parametrize("fork", fork_set)
+@pytest.mark.parametrize("fork", sorted(fork_set, key=lambda f: f.__name__))  # type: ignore
 @pytest.mark.parametrize(
     "t8n",
     test_transition_tools,
