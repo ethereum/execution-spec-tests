@@ -307,7 +307,7 @@ def pytest_configure(config):  # noqa: D103
     }
     # Append all forks within the index file (compatibility with `ethereum/tests`)
     all_forks.update(getattr(index, "forks", []))
-    for fork in all_forks_with_transitions:
+    for fork in all_forks:
         config.addinivalue_line("markers", f"{fork}: Tests for the {fork} fork")
 
     if config.option.sim_limit:
