@@ -7,6 +7,7 @@ abstract: Tests [EIP-7748: State conversion to Verkle Tree]
 
 import pytest
 import math
+from typing import Optional
 
 from ethereum_test_tools import (
     Account,
@@ -97,50 +98,70 @@ def test_non_partial(
 
 @pytest.mark.valid_from("EIP6800Transition")
 @pytest.mark.parametrize(
-    "account_configs",
+    "storage_slots_overlow",
     [
-        # No prefix
-        [AccountConfig(31 * 2 + 1, stride + 2)],
-        [AccountConfig(31 * 2 + 1, stride + 1)],
-        [AccountConfig(31 + 2 + 1, stride)],
-        # EOA prefix
-        [AccountConfig(0, 0), AccountConfig(42, -1 + stride + 2)],
-        [AccountConfig(0, 0), AccountConfig(42, -1 + stride + 1)],
-        [AccountConfig(0, 0), AccountConfig(42, -1 + stride)],
-        # Contract prefix
-        [AccountConfig(10, 1), AccountConfig(42, -3 + stride + 2)],
-        [AccountConfig(10, 1), AccountConfig(42, -3 + stride + 1)],
-        [AccountConfig(10, 1), AccountConfig(42, -3 + stride)],
+        2,
+        1,
+        0,
     ],
     ids=[
-        "No prefix & boundary at two storage slots before finishing storage trie",
-        "No prefix & boundary at one storage slot before finishing storage trie",
-        "No prefix & boundary matching exactly the end of the storage trie",
-        "EOA prefix & boundary at two storage slots before finishing storage trie",
-        "EOA prefix & boundary at one storage slot before finishing storage trie",
-        "EOA prefix & boundary matching exactly the end of the storage trie",
-        "Contract prefix & boundary at two storage slots before finishing storage trie",
-        "Contract prefix & boundary at one storage slot before finishing storage trie",
-        "Contract prefix & boundary matching exactly the end of the storage trie",
+        "Two storage slots overflowed to next block",
+        "One storage slot overflowed to next block",
+        "Storage slots fit in one block",
     ],
+)
+@pytest.mark.parametrize(
+    "account_prefix",
+    [
+        None,
+        AccountConfig(0, 0),
+        AccountConfig(10, 1),
+    ],
+    ids=[
+        "No prefix",
+        "EOA prefix",
+        "Contract prefix",
+    ],
+)
+@pytest.mark.parametrize(
+    "empty_code",
+    [True, False],
 )
 @pytest.mark.parametrize(
     "fill_first_block",
-    [False, True],
+    [True, False],
 )
 @pytest.mark.parametrize(
     "fill_last_block",
-    [False, True],
+    [True, False],
 )
 def test_partial(
     blockchain_test: BlockchainTestFiller,
-    account_configs: list[AccountConfig],
+    storage_slots_overlow: int,
+    account_prefix: Optional[AccountConfig],
+    empty_code: bool,
     fill_first_block: bool,
     fill_last_block: bool,
 ):
     """
     Test partial account conversions.
     """
+    conversion_unit_offset = 0
+    account_configs = []
+    if account_prefix is not None:
+        conversion_unit_offset += 1  # Account basic data
+        conversion_unit_offset += math.ceil(account_prefix.code_length / 31)  # Code-chunks
+        conversion_unit_offset += account_prefix.storage_slots_count
+        account_configs.append(account_prefix)
+
+    code_length = 0 if empty_code else 31
+    # For the `stride` quota in this block, we already used `conversion_unit_offset` units from the accounts prefixes.
+    # For the remaining quota (i.e., `stride-conversion_unit_offset`), we should configure the contract having
+    # `(stride - conversion_unit_offset)+storage_slots_overlow` so we can overflow the desired storage slots to the
+    # next block.
+    num_storage_slots = stride - conversion_unit_offset + storage_slots_overlow
+    account_configs.append(AccountConfig(code_length, num_storage_slots))
+
     _generic_conversion(blockchain_test, account_configs, fill_first_block, fill_last_block)
 
 
