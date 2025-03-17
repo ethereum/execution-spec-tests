@@ -18,6 +18,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Add top-level entries `forks` and `fixture_formats` to the index file that list all the forks and fixture formats used in the indexed fixtures ([#1318](https://github.com/ethereum/execution-spec-tests/pull/1318)).
 - 🐞 Don't parametrize tests for unsupported fixture formats; improve `consume` test collection ([#1315](https://github.com/ethereum/execution-spec-tests/pull/1314)).
 - 🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` ([#1303](https://github.com/ethereum/execution-spec-tests/pull/1303)).
+- ✨ Improve index generation of ethereum/tests fixtures: Create better test case IDs by prepending the relative JSON file path to the ID ([#1321](https://github.com/ethereum/execution-spec-tests/pull/1321)).
 
 #### `fill`
 
