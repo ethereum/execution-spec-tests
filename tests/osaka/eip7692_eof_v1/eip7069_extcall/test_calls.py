@@ -83,6 +83,42 @@ def sender(pre: Alloc) -> EOA:
     return pre.fund_eoa()
 
 
+@pytest.fixture
+def target_address(pre: Alloc, target_account_type: TargetAccountType) -> Address:
+    """Target address of the call depending on required type of account."""
+    match target_account_type:
+        case TargetAccountType.EMPTY:
+            return Address(b"\x78" * 20)
+        case TargetAccountType.EOA:
+            return pre.fund_eoa()
+        case TargetAccountType.LEGACY_CONTRACT:
+            return pre.deploy_contract(
+                code=Op.STOP,
+            )
+        case TargetAccountType.EOF_CONTRACT:
+            return pre.deploy_contract(
+                code=Container.Code(Op.STOP),
+            )
+        case TargetAccountType.LEGACY_CONTRACT_INVALID:
+            return pre.deploy_contract(
+                code=Op.INVALID,
+            )
+        case TargetAccountType.EOF_CONTRACT_INVALID:
+            return pre.deploy_contract(
+                code=Container.Code(Op.INVALID),
+            )
+        case TargetAccountType.LEGACY_CONTRACT_REVERT:
+            return pre.deploy_contract(
+                code=Op.REVERT(0, 0),
+            )
+        case TargetAccountType.EOF_CONTRACT_REVERT:
+            return pre.deploy_contract(
+                code=Container.Code(Op.REVERT(0, 0)),
+            )
+        case TargetAccountType.IDENTITY_PRECOMPILE:
+            return identity
+
+
 @pytest.mark.parametrize(
     "opcode",
     [
@@ -750,7 +786,7 @@ def test_eof_calls_clear_return_buffer(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    target_account_type: TargetAccountType,
+    target_address: Address,
     value: int,
 ):
     """Test EOF contracts calling clears returndata buffer."""
@@ -759,38 +795,6 @@ def test_eof_calls_clear_return_buffer(
         Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big")) + Op.RETURN(0, 32),
     )
     filling_callee_address = pre.deploy_contract(filling_contract_code)
-
-    match target_account_type:
-        case TargetAccountType.EMPTY:
-            target_address = b"\x78" * 20
-        case TargetAccountType.EOA:
-            target_address = pre.fund_eoa()
-        case TargetAccountType.LEGACY_CONTRACT:
-            target_address = pre.deploy_contract(
-                code=Op.STOP,
-            )
-        case TargetAccountType.EOF_CONTRACT:
-            target_address = pre.deploy_contract(
-                code=Container.Code(Op.STOP),
-            )
-        case TargetAccountType.LEGACY_CONTRACT_INVALID:
-            target_address = pre.deploy_contract(
-                code=Op.INVALID,
-            )
-        case TargetAccountType.EOF_CONTRACT_INVALID:
-            target_address = pre.deploy_contract(
-                code=Container.Code(Op.INVALID),
-            )
-        case TargetAccountType.LEGACY_CONTRACT_REVERT:
-            target_address = pre.deploy_contract(
-                code=Op.REVERT(0, 0),
-            )
-        case TargetAccountType.EOF_CONTRACT_REVERT:
-            target_address = pre.deploy_contract(
-                code=Container.Code(Op.REVERT(0, 0)),
-            )
-        case TargetAccountType.IDENTITY_PRECOMPILE:
-            target_address = identity
 
     caller_contract = Container.Code(
         # First fill the return buffer and sanity check
@@ -1134,6 +1138,7 @@ def test_extdelegate_call_targets(
     state_test: StateTestFiller,
     pre: Alloc,
     target_account_type: TargetAccountType,
+    target_address: Address,
     delegate: bool,
 ):
     """
@@ -1141,39 +1146,6 @@ def test_extdelegate_call_targets(
     delegation.
     """
     env = Environment()
-
-    target_address: Address
-    match target_account_type:
-        case TargetAccountType.EMPTY:
-            target_address = b"\x78" * 20
-        case TargetAccountType.EOA:
-            target_address = pre.fund_eoa()
-        case TargetAccountType.LEGACY_CONTRACT:
-            target_address = pre.deploy_contract(
-                code=Op.STOP,
-            )
-        case TargetAccountType.EOF_CONTRACT:
-            target_address = pre.deploy_contract(
-                code=Container.Code(Op.STOP),
-            )
-        case TargetAccountType.LEGACY_CONTRACT_INVALID:
-            target_address = pre.deploy_contract(
-                code=Op.INVALID,
-            )
-        case TargetAccountType.EOF_CONTRACT_INVALID:
-            target_address = pre.deploy_contract(
-                code=Container.Code(Op.INVALID),
-            )
-        case TargetAccountType.LEGACY_CONTRACT_REVERT:
-            target_address = pre.deploy_contract(
-                code=Op.REVERT(0, 0),
-            )
-        case TargetAccountType.EOF_CONTRACT_REVERT:
-            target_address = pre.deploy_contract(
-                code=Container.Code(Op.REVERT(0, 0)),
-            )
-        case TargetAccountType.IDENTITY_PRECOMPILE:
-            target_address = identity
 
     if delegate:
         target_address = pre.fund_eoa(0, delegation=target_address)
