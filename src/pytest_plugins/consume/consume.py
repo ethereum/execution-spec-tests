@@ -16,7 +16,7 @@ import rich
 
 from cli.gen_index import generate_fixtures_index
 from ethereum_test_fixtures import BaseFixture
-from ethereum_test_fixtures.consume import TestCases
+from ethereum_test_fixtures.consume import IndexFile, TestCases
 from ethereum_test_forks import get_forks, get_relative_fork_markers, get_transition_forks
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
@@ -291,16 +291,23 @@ def pytest_configure(config):  # noqa: D103
             force_flag=False,
             disable_infer_format=False,
         )
-    config.test_cases = TestCases.from_index_file(index_file)
 
-    all_forks_with_transitions = {  # type: ignore
-        fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
-    }
+    index = IndexFile.model_validate_json(index_file.read_text())
+    config.test_cases = index.test_cases
+
     for fixture_format in BaseFixture.formats.values():
         config.addinivalue_line(
             "markers",
             f"{fixture_format.format_name}: Tests in `{fixture_format.format_name}` format ",
         )
+
+    all_forks_with_transitions = {  # type: ignore
+        fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
+    }
+    # add markers for each fork in the index file
+    if hasattr(index, "forks"):  # backwards compatibility
+        for fork in index.forks:
+            all_forks_with_transitions.add(fork)
     for fork in all_forks_with_transitions:
         config.addinivalue_line("markers", f"{fork}: Tests for the {fork} fork")
 
