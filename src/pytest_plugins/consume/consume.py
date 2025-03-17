@@ -301,13 +301,12 @@ def pytest_configure(config):  # noqa: D103
             f"{fixture_format.format_name}: Tests in `{fixture_format.format_name}` format ",
         )
 
-    all_forks_with_transitions = {  # type: ignore
+    # All forked defined within EEST
+    all_forks = {  # type: ignore
         fork for fork in set(get_forks()) | get_transition_forks() if not fork.ignore()
     }
-    # add markers for each fork in the index file
-    if hasattr(index, "forks"):  # backwards compatibility
-        for fork in index.forks:
-            all_forks_with_transitions.add(fork)
+    # Append all forks within the index file (compatibility with `ethereum/tests`)
+    all_forks.update(getattr(index, "forks", []))
     for fork in all_forks_with_transitions:
         config.addinivalue_line("markers", f"{fork}: Tests for the {fork} fork")
 
