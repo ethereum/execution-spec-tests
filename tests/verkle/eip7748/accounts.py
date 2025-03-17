@@ -61,6 +61,7 @@ class AccountConfig:
             AccountConfig(5, 2),
             AccountConfig(8, 1),
         ],
+        [AccountConfig(0, stride - 1)],
     ],
     ids=[
         "EOA",
@@ -74,15 +75,16 @@ class AccountConfig:
         "Contract and EOA perfect-fit",
         "Contract and Contract under-fit",
         "Contract and Contract perfect-fit",
+        "Empty code with storage slots perfect-fit",
     ],
 )
 @pytest.mark.parametrize(
     "fill_first_block",
-    [False, True],
+    [True, False],
 )
 @pytest.mark.parametrize(
     "fill_last_block",
-    [False, True],
+    [True, False],
 )
 def test_non_partial(
     blockchain_test: BlockchainTestFiller,
