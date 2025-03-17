@@ -86,6 +86,14 @@ def generate_fixtures_index_cli(
     )
 
 
+def get_test_case_id(fixture_name, relative_file_path) -> str:
+    """Create an appropriate test case id based on its source."""
+    # TODO: Update this function for multi-fork/multi-tx-index state test fixtures
+    if ".py" in fixture_name:  # EEST fixture
+        return fixture_name
+    return f"{relative_file_path}::{fixture_name}"  # ethereum/tests fixture
+
+
 def generate_fixtures_index(
     input_path: Path,
     quiet_mode: bool = False,
@@ -155,9 +163,10 @@ def generate_fixtures_index(
 
             relative_file_path = Path(file).absolute().relative_to(Path(input_path).absolute())
             for fixture_name, fixture in fixtures.items():
+                test_case_id = get_test_case_id(fixture_name, relative_file_path)
                 test_cases.append(
                     TestCaseIndexFile(
-                        id=fixture_name,
+                        id=test_case_id,
                         json_path=relative_file_path,
                         # eest uses hash; ethereum/tests uses generatedTestHash
                         fixture_hash=fixture.info.get("hash")
