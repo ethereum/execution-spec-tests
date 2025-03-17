@@ -60,7 +60,7 @@ class TransitionTool(EthereumCLI):
     def __init__(
         self,
         *,
-        exception_mapper: ExceptionMapper,
+        exception_mapper: Optional[ExceptionMapper] = None,
         binary: Optional[Path] = None,
         trace: bool = False,
     ):
