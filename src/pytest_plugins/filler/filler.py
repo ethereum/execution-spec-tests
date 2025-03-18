@@ -735,7 +735,6 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     Pytest hook used to dynamically generate test cases for each fixture format a given
     test spec supports.
     """
-    pass
     for test_type in SPEC_TYPES:
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
             metafunc.parametrize(

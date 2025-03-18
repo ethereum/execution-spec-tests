@@ -32,6 +32,7 @@ class FillerFile(pytest.File):
 
     def collect(self):
         """Load the test vectors using known filler formats."""
+        collected_items = []
         with open(self.path, "r") as file:
             loaded_file = json.load(file) if self.path.suffix == ".json" else yaml.safe_load(file)
             for key in loaded_file:
@@ -39,41 +40,30 @@ class FillerFile(pytest.File):
                 funcobj = filler.fill_function()
 
                 definition = FunctionDefinition.from_parent(self, name=key, callobj=funcobj)
-
                 fixtureinfo = definition._fixtureinfo
 
-                # pytest_generate_tests impls call metafunc.parametrize() which fills
-                # metafunc._calls, the outcome of the hook.
                 metafunc = pytest.Metafunc(
                     definition=definition,
                     fixtureinfo=fixtureinfo,
                     config=self.config,
                 )
 
-                self.ihook.pytest_generate_tests.call_extra([], dict(metafunc=metafunc))
-
-                if not metafunc._calls:
-                    yield pytest.Function.from_parent(self, name=key, fixtureinfo=fixtureinfo)
-                else:
-                    # Add funcargs() as fixturedefs to fixtureinfo.arg2fixturedefs.
-                    fm = self.session._fixturemanager
-                    # fixtures.add_funcarg_pseudo_fixture_def(self, metafunc, fm)
-
-                    # Add_funcarg_pseudo_fixture_def may have shadowed some fixtures
-                    # with direct parametrization, so make sure we update what the
-                    # function really needs.
-                    fixtureinfo.prune_dependency_tree()
-
-                    for callspec in metafunc._calls:
-                        subname = f"{key}[{callspec.id}]"
-                        yield pytest.Function.from_parent(
+                for marker in metafunc.definition.iter_markers(name="parametrize"):
+                    metafunc.parametrize(*marker.args, **marker.kwargs)
+                assert metafunc._calls is not None
+                for callspec in metafunc._calls:
+                    subname = f"{key}[{callspec.id}]"
+                    collected_items.append(
+                        pytest.Function.from_parent(
                             self,
                             name=subname,
+                            callobj=funcobj,
                             callspec=callspec,
                             fixtureinfo=fixtureinfo,
                             keywords={callspec.id: True},
-                            originalname=f"{self.path}",
                         )
+                    )
+        return collected_items
 
 
 """ 
