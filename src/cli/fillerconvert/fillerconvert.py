@@ -9,7 +9,7 @@ from typing import Dict
 import yaml
 from pydantic import BaseModel
 
-from .structures.state_test_filler import StateTestFiller, StateTestInFiller
+from .structures.state_test_filler import StateTestInFiller
 
 
 def remove_comments(d: dict) -> dict:
@@ -32,20 +32,18 @@ class StateFiller(BaseModel):
     tests: Dict[str, StateTestInFiller]
 
     @classmethod
-    def from_json(cls, path: Path) -> None:
+    def from_json(cls, path: Path) -> "StateFiller":
         """Read the state filler from a JSON file."""
         with open(path, "r") as f:
             o = json.load(f)
-            filler = StateTestFiller(remove_comments(o))
-            filler.get_test_vectors()
-            # print(filler.model_dump_json(by_alias=True))
+            return StateFiller(tests=remove_comments(o))
 
     @classmethod
-    def from_yml(cls, path: Path) -> None:
+    def from_yml(cls, path: Path) -> "StateFiller":
         """Read the state filler from a YML file."""
         with open(path, "r") as f:
             o = yaml.load(f, Loader=yaml.FullLoader)
-            StateFiller(tests=remove_comments(o))
+            return StateFiller(tests=remove_comments(o))
 
 
 def main() -> None:
@@ -60,7 +58,9 @@ def main() -> None:
     args = parser.parse_args()
     folder_path = Path(str(args.folder_path).split("=")[-1])
 
-    files = glob(str(folder_path / "**" / "*.json"), recursive=True)
+    files = glob(str(folder_path / "**" / "*.json"), recursive=True) + glob(
+        str(folder_path / "**" / "*.yml"), recursive=True
+    )
 
     filler_cls = StateFiller
     if args.mode == "blockchain":
@@ -69,6 +69,12 @@ def main() -> None:
     for file in files:
         print(file)
         if file.endswith(".json"):
-            filler_cls.from_json(Path(file))
+            try:
+                filler_cls.from_json(Path(file)).model_dump(mode="json", by_alias=True)
+            except Exception as e:
+                raise Exception(f"Error parsing {file}") from e
         elif file.endswith(".yml"):
-            filler_cls.from_yml(Path(file))
+            try:
+                filler_cls.from_yml(Path(file)).model_dump(mode="json", by_alias=True)
+            except Exception as e:
+                raise Exception(f"Error parsing {file}") from e
