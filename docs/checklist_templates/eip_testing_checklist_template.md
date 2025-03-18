@@ -2,9 +2,19 @@
 
 Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features:
 
+## General
+
+- [ ] Code coverage:
+    - [ ] Run produced tests against [EELS](https://github.com/ethereum/execution-specs) and verify that line code coverage of new added lines for the EIP is 100%, with only exeptions being unreachable code lines.
+    - [ ] Optional - Run against a second client and verify sufficient code coverage over new code added for the EIP.
+- [ ] Fuzzing:
+    - [ ] TBD
+
 ## New Opcode
 
 The EIP introduces one or more new opcodes to the EVM.
+
+### Test Vectors
 
 - [ ] Memory expansion
     - [ ] Verify that the opcode execution results in the correct memory expansion, being by offset or size or interaction of both parameters (Size of zero should never result in memory expansion, regardless of offset value). Test at least the following memory expansion sizes:
@@ -63,3 +73,86 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Verify that contract is not created in case of:
         - [ ] Out-of-gas when available gas is less than minimum contract creation stipend.
         - [ ] Contract creation would result in an address collision with an existing contract or eoa-delegated address.
+- [ ] Fork transition
+    - [ ] Verify that the opcode results in exeptional abort if executed before its activation fork.
+    - [ ] Verify that the opcode results in invalid EOF container if attempted to deploy before its activation fork.
+
+### Framework Changes
+
+- [ ] Add opcode to `src/ethereum_test_vm/opcode.py`
+- [ ] Add opcode to relevant methods in the fork it is introduced in `src/ethereum_test_forks/forks/forks.py`
+
+## New Precompile
+
+### Test Vectors
+
+- [ ] Call contexts:
+    - [ ] Normal call to precompile from contract
+    - [ ] Delegate call to precompile from contract
+    - [ ] Static call to precompile from contract
+    - [ ] Code call to precompile from contract
+    - [ ] Precompile as transaction entry-point
+    - [ ] Call from initcode
+        - [ ] Contract creating transaction
+        - [ ] Contract creating opcode
+- [ ] Inputs
+    - [ ] Verify combinations of valid inputs to the precompile:
+        - [ ] Verify interesting edge values given the precompile functionality.
+        - [ ] If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties.
+    - [ ] Verify all zeros input.
+    - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
+- [ ] Input lengths:
+    - [ ] Zero-length calldata.
+    - [ ] Precompile has static-length input:
+        - [ ] Correct static-length calldata
+        - [ ] Calldata too short, where the value represents a correct but truncated input to the contract.
+        - [ ] Calldata too long, where the value represents a correct input to the contract with padded zeros.
+    - [ ] Precompile has dynamic-length input:
+        - [ ] Verify correct precompile execution for valid lengths, given different inputs.
+        - [ ] Calldata too short, given different inputs, where the value represents a correct but truncated input to the contract.
+        - [ ] Calldata too long, given different inputs, where the value represents a correct input to the contract with padded zeros.
+- [ ] Gas usage:
+    - [ ] Precompile has constant gas usage
+        - [ ] Verify exact gas consumption
+        - [ ] Verify exact gas consumption minus one results in out-of-gas error.
+    - [ ] Precompile has dynamic gas usage
+        - [ ] Verify exact gas consumption, given different valid inputs.
+        - [ ] Verify exact gas consumption minus one results in out-of-gas error, given different valid inputs.
+- [ ] Fork transition:
+    - [ ] Verify that calling the precompile before its activation fork results in a valid call even for inputs that are expected to be invalid for the precompile.
+    - [ ] Verify that calling the precompile before its activation fork with zero gas results in a valid call.
+
+
+### Framework Changes
+
+- [ ] Add precompile address to relevant methods in the fork it is introduced in `src/ethereum_test_forks/forks/forks.py`
+
+## New System Contract
+
+### Test Vectors
+
+### Framework Changes
+
+## New Block Header Field
+
+### Test Vectors
+
+### Framework Changes
+
+## New Block Body Field
+
+### Test Vectors
+
+### Framework Changes
+
+## New Transaction Type
+
+### Test Vectors
+
+### Framework Changes
+
+## Intrinsic Gas Cost Changes
+
+### Test Vectors
+
+### Framework Changes
