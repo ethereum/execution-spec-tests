@@ -5,6 +5,7 @@ from ethereum_test_tools import (
     Address,
     Block,
     BlockchainTestFiller,
+    Transaction,
     Environment,
 )
 
@@ -17,6 +18,12 @@ class AccountConfig:
     def __init__(self, code_length: int, storage_slot_count: int):
         self.code_length = code_length
         self.storage_slots_count = storage_slot_count
+
+
+class StaleBasicDataTx:
+    def __init__(self, account_config_idx: int, block_num: int):
+        self.account_config_idx = account_config_idx
+        self.block_num = block_num
 
 
 def _generic_conversion(
@@ -34,6 +41,7 @@ def _generic_conversion(
             pre_state[accounts[account_idx]] = Account(balance=100 + 1000 * i)
             account_idx += 1
 
+    target_accounts: list[Address] = {}
     for i, account_config in enumerate(account_configs):
         storage = {}
         for j in range(account_config.storage_slots_count):
@@ -46,6 +54,7 @@ def _generic_conversion(
             code=Op.JUMPDEST * account_config.code_length,
             storage=storage,
         )
+        target_accounts.append(accounts[account_idx])
         account_idx += 1
 
         conversion_units += 1  # Account basic data
@@ -62,11 +71,18 @@ def _generic_conversion(
     _state_conversion(blockchain_test, pre_state, stride, math.ceil(conversion_units / stride))
 
 
+class ConversionTx:
+    def __init__(self, tx: Transaction, block_num: int):
+        self.tx = tx
+        self.block_num = block_num
+
+
 def _state_conversion(
     blockchain_test: BlockchainTestFiller,
     pre_state: dict[Address, Account],
     stride: int,
     num_blocks: int,
+    txs: list[ConversionTx] = [],
 ):
     # TODO: test library should allow passing stride
     env = Environment(
@@ -78,6 +94,9 @@ def _state_conversion(
     blocks: list[Block] = []
     for i in range(num_blocks):
         blocks.append(Block(txs=[]))
+
+    for tx in txs:
+        blocks[tx.block_num].txs.append(tx.tx)
 
     # TODO: witness assertion
     # TODO: see if possible last block switch to finished conversion
