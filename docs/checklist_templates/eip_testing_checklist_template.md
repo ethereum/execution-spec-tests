@@ -1,6 +1,6 @@
-# EIP Execution Layer Testing Checklist Templates
+# EIP Execution Layer Testing Checklist Template
 
-Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features
+Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features.
 
 ## General
 
