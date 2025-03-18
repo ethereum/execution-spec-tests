@@ -1,13 +1,13 @@
 # EIP Execution Layer Testing Checklist Templates
 
-Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features:
+Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features
 
 ## General
 
-- [ ] Code coverage:
+- [ ] Code coverage
     - [ ] Run produced tests against [EELS](https://github.com/ethereum/execution-specs) and verify that line code coverage of new added lines for the EIP is 100%, with only exeptions being unreachable code lines.
     - [ ] Optional - Run against a second client and verify sufficient code coverage over new code added for the EIP.
-- [ ] Fuzzing:
+- [ ] Fuzzing
     - [ ] TBD
 
 ## New Opcode
@@ -17,7 +17,7 @@ The EIP introduces one or more new opcodes to the EVM.
 ### Test Vectors
 
 - [ ] Memory expansion
-    - [ ] Verify that the opcode execution results in the correct memory expansion, being by offset or size or interaction of both parameters (Size of zero should never result in memory expansion, regardless of offset value). Test at least the following memory expansion sizes:
+    - [ ] Verify that the opcode execution results in the correct memory expansion, being by offset or size or interaction of both parameters (Size of zero should never result in memory expansion, regardless of offset value). Test at least the following memory expansion sizes
         - [ ] Zero bytes expansion
         - [ ] Single byte expansion
         - [ ] 31 bytes expansion
@@ -37,7 +37,7 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] If the opcode modifies the code of the account currently executing it, verify that only the account that is delegating execution is the one that has its code modified.
     - [ ] Code call
     - [ ] Initcode
-        - [ ] Verify opcode behaves as expected when running during the initcode phase of contract creation:
+        - [ ] Verify opcode behaves as expected when running during the initcode phase of contract creation
             - [ ] Initcode of a contract creating transaction.
             - [ ] Initcode of a contract creating opcode (including itself if opcode creates a contract).
     - [ ] Transaction context
@@ -47,7 +47,7 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] EOF Container Context
         - [ ] If opcode changes behavior depending on particular EOF container properties, test using multiple values for each property.
 - [ ] Return data
-    - [ ] Verify proper return data buffer modification if the opcode is meant to interact with it, otherwise verify that the return data buffer is unnaffected:
+    - [ ] Verify proper return data buffer modification if the opcode is meant to interact with it, otherwise verify that the return data buffer is unnaffected
         - [ ] At current call context.
         - [ ] At parent call context.
 - [ ] Gas usage
@@ -60,7 +60,7 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Out-of-gas during memory expansion
         - [ ] Verify that the expansion of memory can result in out-of-gas exeptional abort.
 - [ ] Terminating opcode
-    - [ ] If an opcode is terminating, meaning it results in the current call context to end execution, test the following scenarios:
+    - [ ] If an opcode is terminating, meaning it results in the current call context to end execution, test the following scenarios
         - [ ] Top-level call termination
         - [ ] Sub-level call termination
         - [ ] Initcode termination
@@ -70,7 +70,7 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] If an opcode has data portion that affects its behavior, verify checklist items with multiple interesting values (E.g. if data portion size is 1 byte, use at least 0x00, 0x01, 0x7F, 0xFF).
 - [ ] Contract creation
     - [ ] Verify contract is created at the expected address given multiple inputs to the opcode parameters.
-    - [ ] Verify that contract is not created in case of:
+    - [ ] Verify that contract is not created in case of
         - [ ] Out-of-gas when available gas is less than minimum contract creation stipend.
         - [ ] Contract creation would result in an address collision with an existing contract or eoa-delegated address.
 - [ ] Fork transition
@@ -86,7 +86,7 @@ The EIP introduces one or more new opcodes to the EVM.
 
 ### Test Vectors
 
-- [ ] Call contexts:
+- [ ] Call contexts
     - [ ] Normal call to precompile from contract
     - [ ] Delegate call to precompile from contract
     - [ ] Static call to precompile from contract
@@ -96,29 +96,31 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] Contract creating transaction
         - [ ] Contract creating opcode
 - [ ] Inputs
-    - [ ] Verify combinations of valid inputs to the precompile:
+    - [ ] Verify combinations of valid inputs to the precompile
         - [ ] Verify interesting edge values given the precompile functionality.
         - [ ] If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties.
     - [ ] Verify all zeros input.
     - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
-- [ ] Input lengths:
+- [ ] Input Lengths
     - [ ] Zero-length calldata.
-    - [ ] Precompile has static-length input:
+    - [ ] Precompile has static-length input
         - [ ] Correct static-length calldata
-        - [ ] Calldata too short, where the value represents a correct but truncated input to the contract.
-        - [ ] Calldata too long, where the value represents a correct input to the contract with padded zeros.
-    - [ ] Precompile has dynamic-length input:
+        - [ ] Calldata too short, where the value represents a correct but truncated input to the precompile.
+        - [ ] Calldata too long, where the value represents a correct input to the precompile with padded zeros.
+    - [ ] Precompile has dynamic-length input
         - [ ] Verify correct precompile execution for valid lengths, given different inputs.
-        - [ ] Calldata too short, given different inputs, where the value represents a correct but truncated input to the contract.
-        - [ ] Calldata too long, given different inputs, where the value represents a correct input to the contract with padded zeros.
-- [ ] Gas usage:
+        - [ ] Calldata too short, given different inputs, where the value represents a correct but truncated input to the precompile.
+        - [ ] Calldata too long, given different inputs, where the value represents a correct input to the precompile with padded zeros.
+- [ ] Gas usage
     - [ ] Precompile has constant gas usage
         - [ ] Verify exact gas consumption
         - [ ] Verify exact gas consumption minus one results in out-of-gas error.
     - [ ] Precompile has dynamic gas usage
         - [ ] Verify exact gas consumption, given different valid inputs.
         - [ ] Verify exact gas consumption minus one results in out-of-gas error, given different valid inputs.
-- [ ] Fork transition:
+- [ ] Excessive Gas Cases
+    - [ ] Verify spending all block gas in calls to the precompile (100 million gas or more).
+- [ ] Fork transition
     - [ ] Verify that calling the precompile before its activation fork results in a valid call even for inputs that are expected to be invalid for the precompile.
     - [ ] Verify that calling the precompile before its activation fork with zero gas results in a valid call.
 
@@ -131,7 +133,48 @@ The EIP introduces one or more new opcodes to the EVM.
 
 ### Test Vectors
 
+- [ ] Call contexts
+    - [ ] Normal call to system contract from contract
+    - [ ] Delegate call to system contract from contract
+    - [ ] Static call to system contract from contract
+    - [ ] Code call to system contract from contract
+    - [ ] System contract as transaction entry-point
+    - [ ] Call from initcode
+        - [ ] Contract creating transaction
+        - [ ] Contract creating opcode
+- [ ] Inputs
+    - [ ] Verify combinations of valid inputs to the system contract
+        - [ ] Verify interesting edge values given the system contract functionality.
+    - [ ] Verify all zeros input.
+    - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
+- [ ] Input Lengths
+    - [ ] Zero-length calldata.
+    - [ ] System contract has static-length input
+        - [ ] Correct static-length calldata
+        - [ ] Calldata too short, where the value represents a correct but truncated input to the contract.
+        - [ ] Calldata too long, where the value represents a correct input to the contract with padded zeros.
+    - [ ] System contract has dynamic-length input
+        - [ ] Verify correct System contract execution for valid lengths, given different inputs.
+        - [ ] Calldata too short, given different inputs, where the value represents a correct but truncated input to the contract.
+        - [ ] Calldata too long, given different inputs, where the value represents a correct input to the contract with padded zeros.
+- [ ] Excessive Gas Cases
+    - [ ] If possible, simulate a scenario where the execution of the contract at the end of the block execution by the system address would result in excessive gas usage (100 million gas or more).
+    - [ ] Verify spending all block gas in calls to system contract (100 million gas or more).
+- [ ] System Contract Deployment
+    - [ ] Verify block execution behavior after fork activation if the system contract has not been deployed.
+    - [ ] Verify deployment transaction results in the system contract being deployed to the expected address.
+- [ ] Contract Variations
+    - [ ] Verify execution of the different variations of the contract for different networks (if any) results in the expected behavior
+- [ ] Contract Substitution
+    - [ ] Substitute the contract to modify its behavior when called by the system address (at the end of the block execution):
+        - [ ] Modified return value lengths
+        - [ ] Modify emitted logs
+- [ ] Fork transition
+    - [ ] Verify calling the system contract before its activation fork results in correct behavior (depends on the system contract implementation).
+
 ### Framework Changes
+
+- [ ] Add system contract address to relevant methods in the fork it is introduced in `src/ethereum_test_forks/forks/forks.py`
 
 ## New Block Header Field
 
