@@ -26,26 +26,11 @@ REFERENCE_SPEC_VERSION = "TODO"
         [AccountConfig(15, 2)],
         [AccountConfig(31 * 2 + 1, 3)],  # 3 code-chunks + 3 slots + account data = stride
         [AccountConfig(0, 0), AccountConfig(15, 2)],
-        [
-            AccountConfig(0, 0),
-            AccountConfig(31 + 1, 3),
-        ],
-        [
-            AccountConfig(15, 2),
-            AccountConfig(0, 0),
-        ],
-        [
-            AccountConfig(31 + 1, 3),
-            AccountConfig(0, 0),
-        ],
-        [
-            AccountConfig(5, 1),
-            AccountConfig(8, 1),
-        ],
-        [
-            AccountConfig(5, 2),
-            AccountConfig(8, 1),
-        ],
+        [AccountConfig(0, 0), AccountConfig(31 + 1, 3)],
+        [AccountConfig(15, 2), AccountConfig(0, 0)],
+        [AccountConfig(31 + 1, 3), AccountConfig(0, 0)],
+        [AccountConfig(5, 1), AccountConfig(8, 1)],
+        [AccountConfig(5, 2), AccountConfig(8, 1)],
         [AccountConfig(0, stride - 1)],
     ],
     ids=[
