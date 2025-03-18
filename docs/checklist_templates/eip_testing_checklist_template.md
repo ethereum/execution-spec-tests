@@ -80,7 +80,7 @@ The EIP introduces one or more new opcodes to the EVM.
 ### Framework Changes
 
 - [ ] Add opcode to `src/ethereum_test_vm/opcode.py`
-- [ ] Add opcode to relevant methods in the fork it is introduced in `src/ethereum_test_forks/forks/forks.py`
+- [ ] Add opcode to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
 ## New Precompile
 
@@ -127,7 +127,7 @@ The EIP introduces one or more new opcodes to the EVM.
 
 ### Framework Changes
 
-- [ ] Add precompile address to relevant methods in the fork it is introduced in `src/ethereum_test_forks/forks/forks.py`
+- [ ] Add precompile address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
 ## New System Contract
 
@@ -174,28 +174,59 @@ The EIP introduces one or more new opcodes to the EVM.
 
 ### Framework Changes
 
-- [ ] Add system contract address to relevant methods in the fork it is introduced in `src/ethereum_test_forks/forks/forks.py`
+- [ ] Add system contract address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
 ## New Block Header Field
 
 ### Test Vectors
 
+**TBD**
+
 ### Framework Changes
+
+**TBD**
+
 
 ## New Block Body Field
 
 ### Test Vectors
 
+**TBD**
+
 ### Framework Changes
+
+**TBD**
+
 
 ## New Transaction Type
 
 ### Test Vectors
 
+- [ ] Intrinsic Gas Costs
+    - [ ] Transaction validity
+        - [ ] Verify the transaction (and the block it is included in) is valid by providing the exact intrinsic gas as `gas_limit` value to the transaction.
+        - [ ] Verify the transaction (and the block it is included in) is invalid by providing the exact intrinsic gas minus one as `gas_limit` value to the transaction.
+- [ ] Encoding Tests
+    - [ ] Verify correct transaction rejection due to incorrect field sizes
+- [ ] RPC Tests*
+    - [ ] Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type.
+
+
+* Tests must be added to [`execution-apis`](https://github.com/ethereum/execution-apis) repository.
+
 ### Framework Changes
 
-## Intrinsic Gas Cost Changes
+- [ ] Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`, adding the appropriate new fields that the transaction introduced and the logic to the intrinsic gas cost calculation, if any.
+
+## Gas Cost Changes
 
 ### Test Vectors
 
+**TBD**
+
 ### Framework Changes
+
+- [ ] Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects intrinsic gas cost calculation.
+- [ ] Modify `transaction_data_floor_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects calldata floor cost.
+- [ ] Modify `memory_expansion_gas_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects memory expansion gas cost calculation.
+- [ ] Modify `gas_costs` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects specific opcode gas costs.
