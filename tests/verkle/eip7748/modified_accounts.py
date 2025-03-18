@@ -12,12 +12,14 @@ REFERENCE_SPEC_VERSION = "TODO"
 @pytest.mark.parametrize(
     "storage_slot_write",
     [
+        None,
         0,
         1,
         300,
         301,
     ],
     ids=[
+        "No storage slot modified",
         "Stale storage slot in the header",
         "New storage slot in the account header",
         "Stale storage slot outside the header",
@@ -28,7 +30,7 @@ REFERENCE_SPEC_VERSION = "TODO"
     "stale_basic_data",
     [True, False],
 )
-def test_stale_contract_writes(
+def test_modified_contract(
     blockchain_test: BlockchainTestFiller,
     storage_slot_write: int,
     stale_basic_data: bool,
@@ -53,7 +55,7 @@ def test_stale_contract_writes(
     pre_state[target_account] = Account(
         balance=1_000,
         nonce=0,
-        code=Op.SSTORE(storage_slot_write, 9999),
+        code=Op.SSTORE(storage_slot_write, 9999) if storage_slot_write is not None else [],
         storage={
             0: 100,
             300: 200,
@@ -70,64 +72,3 @@ def test_stale_contract_writes(
     )
 
     _state_conversion(blockchain_test, pre_state, stride, 1, [ConversionTx(tx, 0)])
-
-
-# @pytest.mark.valid_from("EIP6800Transition")
-# @pytest.mark.parametrize(
-#     "num_storage_slots, num_stale_storage_slots",
-#     [
-#         (0, 0),
-#         (4, 0),
-#         (4, 2),
-#         (stride, stride),
-#     ],
-#     ids=[
-#         "EOA",
-#         "Contract without stale storage",
-#         "Contract with some stale storage",
-#         "Contract with all stale storage",
-#     ],
-# )
-# @pytest.mark.parametrize(
-#     "stale_basic_data",
-#     [True, False],
-# )
-# @pytest.mark.parametrize(
-#     "fill_first_block",
-#     [True, False],
-# )
-# @pytest.mark.parametrize(
-#     "fill_last_block",
-#     [True, False],
-# )
-# def test_stale_keys(
-#     blockchain_test: BlockchainTestFiller,
-#     account_configs: list[AccountConfig],
-#     fill_first_block: bool,
-#     fill_last_block: bool,
-# ):
-#     """
-#     Test account conversion with full/partial stale storage slots and basic data.
-#     """
-#     _generic_conversion(blockchain_test, account_configs, fill_first_block, fill_last_block)
-
-
-# @pytest.mark.valid_from("EIP6800Transition")
-# @pytest.mark.parametrize(
-#     "fill_first_block",
-#     [True, False],
-# )
-# @pytest.mark.parametrize(
-#     "fill_last_block",
-#     [True, False],
-# )
-# def test_stride_stale_eoas(
-#     blockchain_test: BlockchainTestFiller,
-#     account_configs: list[AccountConfig],
-#     fill_first_block: bool,
-#     fill_last_block: bool,
-# ):
-#     """
-#     Test converting a stride number of stale EOAs.
-#     """
-#     _generic_conversion(blockchain_test, account_configs, fill_first_block, fill_last_block)
