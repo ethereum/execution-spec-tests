@@ -32,9 +32,7 @@ REFERENCE_SPEC_VERSION = "TODO"
     [True, False],
 )
 def test_modified_contract(
-    blockchain_test: BlockchainTestFiller,
-    storage_slot_write: int,
-    tx_send_value: bool,
+    blockchain_test: BlockchainTestFiller, storage_slot_write: int, tx_send_value: bool
 ):
     """
     Test converting a modified contract where a previous transaction writes to:
@@ -99,4 +97,76 @@ def _convert_modified_account(
         gas_price=10,
     )
 
-    _state_conversion(blockchain_test, pre_state, stride, 1, [ConversionTx(tx, 0)])
+    _state_conversion(blockchain_test, pre_state, stride, 2, [ConversionTx(tx, 0)])
+
+
+@pytest.mark.valid_from("EIP6800Transition")
+def test_modified_eoa_conversion_units(blockchain_test: BlockchainTestFiller):
+    """
+    Test stale EOA are properly counted as used conversion units.
+    """
+    pre_state = {}
+    pre_state[TestAddress] = Account(balance=1000000000000000000000)
+
+    # TODO(hack): today the testing-framework does not support us signaling that we want to
+    # put the `ConversionTx(tx, **0**)` at the first block after genesis. To simulate that, we have
+    # to do this here so we "shift" the target account to the second block in the fork.
+    # If this is ever supported, remove this.
+    for i in range(stride):
+        pre_state[accounts[i]] = Account(balance=100 + 1000 * i)
+
+    txs = []
+    for i in range(stride + 3):
+        pre_state[accounts[stride + i]] = Account(balance=1_000, nonce=0)
+        if i < stride:
+            tx = Transaction(
+                ty=0x0,
+                chain_id=0x01,
+                nonce=i,
+                to=accounts[stride + i],
+                value=100,
+                gas_limit=100_000,
+                gas_price=10,
+            )
+            txs.append(ConversionTx(tx, 0))
+
+    _state_conversion(blockchain_test, pre_state, stride, 3, txs)
+
+
+@pytest.mark.valid_from("EIP6800Transition")
+def test_modified_contract_conversion_units(blockchain_test: BlockchainTestFiller):
+    """
+    Test stale contract storage slots are properly counted as used conversion units.
+    """
+    pre_state = {}
+    pre_state[TestAddress] = Account(balance=1000000000000000000000)
+
+    # TODO(hack): today the testing-framework does not support us signaling that we want to
+    # put the `ConversionTx(tx, **0**)` at the first block after genesis. To simulate that, we have
+    # to do this here so we "shift" the target account to the second block in the fork.
+    # If this is ever supported, remove this.
+    for i in range(stride):
+        pre_state[accounts[i]] = Account(balance=100 + 1000 * i)
+
+    target_account = accounts[stride]
+    pre_state[target_account] = Account(
+        balance=1_000,
+        nonce=0,
+        code=sum([Op.SSTORE(ss, 10_000 + i) for i, ss in enumerate(range(stride))]),
+        storage={ss: 100 + i for i, ss in enumerate(range(stride))},
+    )
+    for i in range(3):
+        pre_state[accounts[stride + 1 + i]] = Account(balance=1_000 + i, nonce=0)
+
+    # Send tx that writes all existing storage slots.
+    tx = Transaction(
+        ty=0x0,
+        chain_id=0x01,
+        nonce=0,
+        to=target_account,
+        value=100,
+        gas_limit=100_000,
+        gas_price=10,
+    )
+
+    _state_conversion(blockchain_test, pre_state, stride, 3, [ConversionTx(tx, 0)])
