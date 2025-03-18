@@ -41,7 +41,7 @@ def _generic_conversion(
             pre_state[accounts[account_idx]] = Account(balance=100 + 1000 * i)
             account_idx += 1
 
-    target_accounts: list[Address] = {}
+    target_accounts: list[Address] = []
     for i, account_config in enumerate(account_configs):
         storage = {}
         for j in range(account_config.storage_slots_count):
