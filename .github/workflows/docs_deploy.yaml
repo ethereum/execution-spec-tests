@@ -1,5 +1,8 @@
 name: Deploy Docs
 
+permissions:
+  pages: write # Required for deploying to GitHub Pages with `secrets.GITHUB_TOKEN`
+
 on:
   push:
     tags:
