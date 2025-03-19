@@ -5,7 +5,7 @@ import warnings
 from pathlib import Path
 from shutil import which
 from subprocess import CompletedProcess
-from typing import Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
+from typing import Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
 
 import pytest
 from pydantic import Field
@@ -34,7 +34,7 @@ from ethereum_test_vm import Opcodes as Op
 from .base import BaseTest
 from .state import StateTest
 
-existing_tests: Dict[Bytes, str] = {}
+existing_tests: Dict[Tuple[Bytes, ContainerKind], str] = {}
 
 
 class EOFBaseExceptionError(Exception):
@@ -310,13 +310,14 @@ class EOFTest(BaseTest):
         eips: Optional[List[int]],
     ) -> EOFFixture:
         """Generate the EOF test fixture."""
+        container_kind = self.container_kind or ContainerKind.RUNTIME
         container_bytes = Bytes(self.container)
-        if container_bytes in existing_tests:
+        if (container_bytes, container_kind) in existing_tests:
             pytest.fail(
-                f"Duplicate EOF test: {container_bytes}, "
-                f"existing test: {existing_tests[container_bytes]}"
+                f"Duplicate EOF test: {container_bytes} ({container_kind}), "
+                f"existing test: {existing_tests[(container_bytes, container_kind)]}"
             )
-        existing_tests[container_bytes] = request.node.nodeid
+        existing_tests[(container_bytes, container_kind)] = request.node.nodeid
         vectors = [
             Vector(
                 code=container_bytes,
@@ -603,7 +604,8 @@ class EOFStateTest(EOFTest, Transaction):
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         if fixture_format == EOFFixture:
-            if Bytes(self.container) in existing_tests:
+            container_kind = self.container_kind or ContainerKind.RUNTIME
+            if (Bytes(self.container), container_kind) in existing_tests:
                 # Gracefully skip duplicate tests because one EOFStateTest can generate multiple
                 # state fixtures with the same data.
                 pytest.skip(f"Duplicate EOF container on EOFStateTest: {request.node.nodeid}")
