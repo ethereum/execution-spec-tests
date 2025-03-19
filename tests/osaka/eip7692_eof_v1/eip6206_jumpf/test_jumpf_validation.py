@@ -162,7 +162,7 @@ def test_jumpf_self_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
 def test_jumpf_other_stack_overflow(
     eof_test: EOFTestFiller, stack_height: int, stack_height_other: int
 ):
-    """Test JUMPF instruction jumping to itself causing validation time stack overflow."""
+    """Test JUMPF instruction jumping to other section causing validation time stack overflow."""
     container = Container(
         sections=[
             Section.Code(
@@ -180,3 +180,98 @@ def test_jumpf_other_stack_overflow(
         container=container,
         expect_exception=EOFException.STACK_OVERFLOW if stack_overflow else None,
     )
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="underflow_2",
+            sections=[
+                Section.Code(
+                    code=Op.CALLF[1] + Op.STOP,
+                    max_stack_height=2,
+                ),
+                Section.Code(
+                    code=Op.JUMPF[2],
+                    code_outputs=2,
+                    max_stack_height=0,
+                ),
+                Section.Code(
+                    code=Op.PUSH0 + Op.RETF,
+                    code_inputs=1,
+                    code_outputs=2,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef000101000c02000300040003000204000000008000020002000001020002e3000100e500025fe4",
+        ),
+        Container(
+            name="underflow_3",
+            sections=[
+                Section.Code(
+                    code=Op.JUMPF[1],
+                ),
+                Section.Code(
+                    code=Op.REVERT(0, 0),
+                    code_inputs=1,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef000101000802000200030005040000000080000001800003e5000160006000fd",
+        ),
+        Container(
+            name="underflow_variable_stack_4",
+            sections=[
+                Section.Code(
+                    code=Op.CALLF[1] + Op.STOP,
+                    max_stack_height=3,
+                ),
+                Section.Code(
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 + Op.PUSH0 + Op.JUMPF[2],
+                    code_outputs=3,
+                    max_stack_height=3,
+                ),
+                Section.Code(
+                    code=Op.POP + Op.POP + Op.RETF,
+                    code_inputs=5,
+                    code_outputs=3,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef000101000c0200030004000b000304000000008000030003000305030003e30001005f6000e100025f5fe500025050e4",
+        ),
+        Container(
+            name="underflow_variable_stack_6",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 + Op.PUSH0 + Op.JUMPF[1],
+                    max_stack_height=3,
+                ),
+                Section.Code(
+                    code=Op.REVERT(0, 0),
+                    code_inputs=4,
+                    max_stack_height=6,
+                ),
+            ],
+        ),
+        Container(
+            name="underflow_variable_stack_7",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 + Op.PUSH0 + Op.JUMPF[1],
+                    max_stack_height=3,
+                ),
+                Section.Code(
+                    code=Op.REVERT(0, 0),
+                    code_inputs=3,
+                    max_stack_height=5,
+                ),
+            ],
+        ),
+    ],
+    ids=lambda x: x.name,
+)
+def test_jumpf_stack_underflow_examples(eof_test: EOFTestFiller, container: Container):
+    """Test JUMPF instruction causing validation time stack underflow."""
+    eof_test(container=container, expect_exception=EOFException.STACK_UNDERFLOW)
