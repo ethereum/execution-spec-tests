@@ -29121,7 +29121,8 @@
 <li>✨ Allow filtering of test cases by fixture format via pytest marks (e.g., <code>-m blockchain_test</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1314">#1314</a>).</li>
 <li>✨ Add top-level entries <code>forks</code> and <code>fixture_formats</code> to the index file that list all the forks and fixture formats used in the indexed fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/1318">#1318</a>).</li>
 <li>🐞 Don't parametrize tests for unsupported fixture formats; improve <code>consume</code> test collection (<a href="https://github.com/ethereum/execution-spec-tests/pull/1314">#1315</a>).</li>
-<li>🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include <code>generatedTestHash</code> in the index file for the <code>fixture_hash</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1303">#1303</a>).</li>
+<li>🐞 Improve index generation of <a href="https://github.com/ethereum/tests">ethereum/tests</a> fixtures: Allow generation at any directory level and include <code>generatedTestHash</code> in the index file for the <code>fixture_hash</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1303">#1303</a>).</li>
+<li>🐞 Fix loading of <a href="https://github.com/ethereum/tests">ethereum/tests</a> and <a href="https://github.com/ethereum/legacytests">ethereum/legacytests</a> fixtures for the case of mixed <code>0x0</code> and <code>0x1</code> transaction types in multi-index (<code>data</code>, <code>gas</code>, <code>value</code>) state test fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/1330">#1330</a>).</li>
 </ul>
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
