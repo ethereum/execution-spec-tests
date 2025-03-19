@@ -433,3 +433,56 @@ def test_rjumps_jumpf_nonreturning(
         possible_exceptions.append(EOFException.INVALID_NON_RETURNING_FLAG)
 
     eof_test(container=Container(sections=sections), expect_exception=possible_exceptions or None)
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="underflow_0",
+            sections=[
+                Section.Code(
+                    code=Op.ADD + Op.STOP,
+                    max_stack_height=1,
+                ),
+            ],
+            expected_bytecode="ef0001 010004 0200010002 04000000 00800001 0100",
+        ),
+        Container(
+            name="underflow_variable_stack_0",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.LOG2
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000a04000000008000035f6000e100025f5fa200",
+        ),
+        Container(
+            name="underflow_variable_stack_1",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.ADD
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000a04000000008000035f6000e100025f5f0100",
+        ),
+    ],
+    ids=lambda x: x.name,
+)
+def test_stack_underflow_examples(eof_test, container):
+    """Test EOF validation failing due to stack underflow at basic instructions."""
+    eof_test(container=container, expect_exception=EOFException.STACK_UNDERFLOW)
