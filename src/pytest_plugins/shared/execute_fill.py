@@ -177,7 +177,8 @@ def pytest_runtest_call(item: pytest.Item):
         def __init__(self, message):
             super().__init__(message)
 
-    item = cast(pytest.Function, item)  # help mypy infer type
+    if not isinstance(item, pytest.Function):
+        return
 
     if "state_test" in item.fixturenames and "blockchain_test" in item.fixturenames:
         raise InvalidFillerError(

@@ -748,7 +748,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
 
 
-def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
+def pytest_collection_modifyitems(
+    config: pytest.Config, items: List[pytest.Item | pytest.Function]
+):
     """
     Remove pre-Paris tests parametrized to generate hive type fixtures; these
     can't be used in the Hive Pyspec Simulator.
@@ -757,7 +759,7 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
     parametrization occurs in the forks plugin.
     """
     for item in items[:]:  # use a copy of the list, as we'll be modifying it
-        if isinstance(item, EIPSpecTestItem):
+        if not isinstance(item, pytest.Function):
             continue
         params: Dict[str, Any] = item.callspec.params  # type: ignore
         if "fork" not in params or params["fork"] is None:

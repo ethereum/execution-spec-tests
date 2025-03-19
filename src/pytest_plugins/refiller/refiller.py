@@ -5,12 +5,11 @@ fixtures.
 
 import json
 from pathlib import Path
-from typing import Iterable, List, Union
 
 import pytest
 import yaml
-from _pytest.python import FunctionDefinition
 
+from ethereum_test_forks import Berlin, Fork
 from ethereum_test_specs import BaseJSONTest
 
 
@@ -37,49 +36,38 @@ class FillerFile(pytest.File):
             loaded_file = json.load(file) if self.path.suffix == ".json" else yaml.safe_load(file)
             for key in loaded_file:
                 filler = BaseJSONTest.model_validate(loaded_file[key])
-                funcobj = filler.fill_function()
-
-                definition = FunctionDefinition.from_parent(self, name=key, callobj=funcobj)
-                fixtureinfo = definition._fixtureinfo
-
-                metafunc = pytest.Metafunc(
-                    definition=definition,
-                    fixtureinfo=fixtureinfo,
-                    config=self.config,
-                )
-
-                for marker in metafunc.definition.iter_markers(name="parametrize"):
-                    metafunc.parametrize(*marker.args, **marker.kwargs)
-                assert metafunc._calls is not None
-                for callspec in metafunc._calls:
-                    subname = f"{key}[{callspec.id}]"
-                    collected_items.append(
-                        pytest.Function.from_parent(
-                            self,
-                            name=subname,
-                            callobj=funcobj,
-                            callspec=callspec,
-                            fixtureinfo=fixtureinfo,
-                            keywords={callspec.id: True},
-                        )
+                test_case = "test_case"
+                collected_items.append(
+                    FillerItem.from_parent(
+                        parent=self,
+                        json_test=filler,
+                        test_case=test_case,
+                        fork=Berlin,
+                        name=f"{self.name}::{key}::{test_case}",
                     )
+                )
         return collected_items
 
 
-""" 
 class FillerItem(pytest.Item):
-    ""Single test case from a JSON/YAML file that is filled into a test fixture.""
+    """Single test case from a JSON/YAML file that is filled into a test fixture."""
 
     json_test: BaseJSONTest
     test_case: str
+    fork: Fork
 
-    def __init__(self, *, json_test: BaseJSONTest, test_case: str, **kwargs):
-        ""Initialize the test case.""
+    def __init__(self, *, json_test: BaseJSONTest, test_case: str, fork: Fork, **kwargs):
+        """Initialize the test case."""
         super().__init__(**kwargs)
         self.json_test = json_test
         self.test_case = test_case
+        self.fork = fork
 
     def runtest(self):
-        ""Fill the test case into the test fixture.""
-        self.json_test.fill_test_case(self.test_case)
- """
+        """Fill the test case into the test fixture."""
+        session = self.parent.session
+        fixture_manager = session._fixturemanager
+        request: pytest.FixtureRequest = fixture_manager.request(self)
+        state_test = request.getfixturevalue("state_test")
+
+        # self.json_test.fill_test_case(self.test_case)
