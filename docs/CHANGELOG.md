@@ -33,6 +33,7 @@ consume cache --help
 - ✨ Add top-level entries `forks` and `fixture_formats` to the index file that list all the forks and fixture formats used in the indexed fixtures ([#1318](https://github.com/ethereum/execution-spec-tests/pull/1318)).
 - 🐞 Don't parametrize tests for unsupported fixture formats; improve `consume` test collection ([#1315](https://github.com/ethereum/execution-spec-tests/pull/1314)).
 - 🐞 Improve index generation of ethereum/tests fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` ([#1303](https://github.com/ethereum/execution-spec-tests/pull/1303)).
+- 🐞 Fix the the hive command printed in test reports to reproduce tests in isolation by prefixing the `--sim.limit` flag value with `id:` ([#1333](https://github.com/ethereum/execution-spec-tests/pull/1333)).
 
 #### `fill`
 
