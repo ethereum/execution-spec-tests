@@ -14,9 +14,11 @@ import yaml
 from _pytest.fixtures import FixtureRequest
 from _pytest.mark import ParameterSet
 
-from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
-from ethereum_test_forks import Berlin, Fork
+from ethereum_test_fixtures import BaseFixture
+from ethereum_test_forks import Fork, Paris
 from ethereum_test_specs import SPEC_TYPES, BaseJSONTest
+
+from ..shared.helpers import labeled_format_parameter_set
 
 
 def pytest_collect_file(file_path: Path, path, parent) -> pytest.Collector | None:
@@ -34,12 +36,15 @@ def get_test_id_from_arg_names_and_values(
 ) -> str:
     """Get the test id from argument names and values."""
     return "-".join(
-        [f"{arg_name}={arg_value}" for arg_name, arg_value in zip(arg_names, arg_values)]
+        [
+            f"{arg_name}={arg_value}"
+            for arg_name, arg_value in zip(arg_names, arg_values, strict=True)
+        ]
     )
 
 
 def get_argument_names_and_values_from_parametrize_mark(
-    mark: pytest.Mark,
+    mark: pytest.Mark | pytest.MarkDecorator,
 ) -> Tuple[List[str], List[ParameterSet]]:
     """Get the argument names and values from a parametrize mark."""
     if mark.name != "parametrize":
@@ -65,7 +70,7 @@ def get_argument_names_and_values_from_parametrize_mark(
 
 
 def get_all_combinations_from_parametrize_marks(
-    parametrize_marks: List[pytest.Mark],
+    parametrize_marks: List[pytest.Mark | pytest.MarkDecorator],
 ) -> Tuple[List[str], List[ParameterSet]]:
     """Get all combinations of arguments from multiple parametrize marks."""
     assert parametrize_marks, "No parametrize marks found"
@@ -82,7 +87,7 @@ def get_all_combinations_from_parametrize_marks(
             ParameterSet(
                 values=[param.values for param in combination],
                 marks=[],
-                id="-".join([param.id for param in combination]),
+                id="-".join([param.id or "" for param in combination]),
             )
         )
 
@@ -106,16 +111,18 @@ class FillerFile(pytest.File):
                 signature = inspect.signature(call_obj)
                 spec_parameter_name = ""
 
-                fixture_formats: List[Type[BaseFixture] | LabeledFixtureFormat] = []
+                fixture_formats: List[ParameterSet] = []
                 for test_type in SPEC_TYPES:
                     if test_type.pytest_parameter_name() in signature.parameters:
                         assert spec_parameter_name == "", "Multiple spec parameters found"
                         spec_parameter_name = test_type.pytest_parameter_name()
                         for format_with_or_without_label in test_type.supported_fixture_formats:
-                            fixture_formats.append(format_with_or_without_label)
+                            fixture_formats.append(
+                                labeled_format_parameter_set(format_with_or_without_label)
+                            )
 
                 # TODO: For each fork
-                forks: List[Fork] = [Berlin]
+                forks: List[Fork] = [Paris]
 
                 for fixture_format in fixture_formats:
                     for fork in forks:
@@ -123,12 +130,17 @@ class FillerFile(pytest.File):
                         call_fixture_resolved_kwargs = [
                             spec_parameter_name,
                         ]
-                        test_id = f"fork_{fork.name()}-{fixture_format.format_name}"
+                        marks: List[pytest.Mark | pytest.MarkDecorator] = []
+                        for mark in fixture_format.marks:
+                            if mark.name == "parametrize":
+                                continue
+                            marks.append(mark)
+                        test_id = f"fork_{fork.name()}-{fixture_format.id}"
                         if "fork" in signature.parameters:
                             call_kwargs["fork"] = fork
                         if "pre" in signature.parameters:
                             call_fixture_resolved_kwargs.append("pre")
-                        parametrize_marks: List[pytest.Mark] = []
+                        parametrize_marks: List[pytest.Mark | pytest.MarkDecorator] = []
                         if hasattr(call_obj, "pytestmark"):
                             for mark in call_obj.pytestmark:
                                 if mark.name == "parametrize":
@@ -140,20 +152,26 @@ class FillerFile(pytest.File):
                             )
                             for parameter_set in parameter_set_list:
                                 # Copy and extend the call_kwargs with the parameter set
-                                call_kwargs = call_kwargs.copy()
-                                call_kwargs.update(
-                                    dict(zip(parameter_names, parameter_set.values))
+                                case_marks = marks[:]
+                                for mark in parameter_set.marks:
+                                    if mark.name == "parametrize":
+                                        continue
+                                    case_marks.append(mark)
+                                case_call_kwargs = call_kwargs.copy()
+                                case_call_kwargs.update(
+                                    dict(zip(parameter_names, parameter_set.values, strict=True))
                                 )
                                 yield FillerTestItem.from_parent(
                                     self,
                                     call_obj=call_obj,
-                                    call_kwargs=call_kwargs,
+                                    call_kwargs=case_call_kwargs,
                                     call_fixture_resolved_kwargs=call_fixture_resolved_kwargs,
                                     name=f"{key}[{test_id}-{parameter_set.id}]",
                                     fork=fork,
                                     fixture_format=fixture_format
                                     if isinstance(fixture_format, type)
-                                    else fixture_format.format,
+                                    else fixture_format.values[0],
+                                    marks=case_marks,
                                 )
                         else:
                             yield FillerTestItem.from_parent(
@@ -165,7 +183,8 @@ class FillerFile(pytest.File):
                                 fork=fork,
                                 fixture_format=fixture_format
                                 if isinstance(fixture_format, type)
-                                else fixture_format.format,
+                                else fixture_format.values[0],
+                                marks=marks,
                             )
 
 
@@ -192,6 +211,7 @@ class FillerTestItem(pytest.Item):
         call_fixture_resolved_kwargs: List[str],
         fork: Fork,
         fixture_format: Type[BaseFixture],
+        marks: List[pytest.Mark],
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
@@ -201,6 +221,8 @@ class FillerTestItem(pytest.Item):
         self.call_fixture_resolved_kwargs = call_fixture_resolved_kwargs
         self.fork = fork
         self.fixture_format = fixture_format
+        for marker in marks:
+            self.add_marker(marker)  # type: ignore
 
     def setup(self):
         """Resolve and apply fixtures before test execution."""
