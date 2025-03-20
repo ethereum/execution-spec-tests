@@ -127,7 +127,7 @@ class BaseStaticTest(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def remove_comments_from_model(cls, data: Any) -> Any:
-        """Removes comments from the static file loaded, if any."""
+        """Remove comments from the static file loaded, if any."""
         if isinstance(data, dict):
             return BaseStaticTest.remove_comments(data)
         return data

@@ -31,7 +31,6 @@ from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
 )
-from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
 
