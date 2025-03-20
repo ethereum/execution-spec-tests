@@ -14,14 +14,6 @@ from ethereum_test_forks import Berlin, Fork
 from ethereum_test_specs import BaseJSONTest
 
 
-class MyFunction(pytest.Function):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def runtest(self):
-        self.func(self)
-
-
 def pytest_collect_file(file_path: Path, path, parent) -> pytest.Collector | None:
     """
     Pytest hook that collects test cases from JSON/YAML files and fills them into test
@@ -41,13 +33,15 @@ class FillerFile(pytest.File):
     def collect(self):
         """Load the test vectors using known filler formats."""
         collected_items = []
+        config = self.config
         with open(self.path, "r") as file:
             loaded_file = json.load(file) if self.path.suffix == ".json" else yaml.safe_load(file)
             for key in loaded_file:
                 filler = BaseJSONTest.model_validate(loaded_file[key])
                 test_func = filler.fill_function()
-                item = pytest.Function.from_parent(self, name=f"{key}[]", callobj=test_func)
-                item.fixturenames = test_func.__code__.co_varnames
+                item = FillerItem.from_parent(
+                    self, name=f"{key}[]", config=config, callobj=test_func
+                )
                 collected_items.append(item)
         return collected_items
 
@@ -59,18 +53,27 @@ class FillerItem(pytest.Item):
     test_case: str
     fork: Fork
 
-    def __init__(self, *, json_test: BaseJSONTest, test_case: str, fork: Fork, **kwargs):
+    def __init__(self, *, parent, config, **kwargs):
         """Initialize the test case."""
         super().__init__(**kwargs)
-        self.json_test = json_test
-        self.test_case = test_case
-        self.fork = fork
+        self.config = config
+        self.session = parent.session
+
+    def setup(self):
+        """Resolve and apply fixtures before test execution."""
+        fm = self.session._fixturemanager  # Access fixture manager
+        request = pytest.FixtureRequest(self, _ispytest=True)
+        self.funcargs = {}  # Dictionary to store fixture values
+
+        # Request session-scoped fixtures manually
+        for fixturedef in fm._arg2fixturedefs.get("session", []):
+            fixture = fm.getfixturedefs(fixturedef.scope)
+            if fixture:
+                self.funcargs[fixturedef] = request.getfixturevalue(fixturedef)
 
     def runtest(self):
         """Fill the test case into the test fixture."""
-        session = self.parent.session
-        fixture_manager = session._fixturemanager
-        request: pytest.FixtureRequest = fixture_manager.request(self)
-        state_test = request.getfixturevalue("state_test")
+        print(f"Running test: {self.name} with fixtures {self.funcargs}")
 
-        # self.json_test.fill_test_case(self.test_case)
+    def reportinfo(self):
+        return self.fspath, 0, f"custom test: {self.name}"
