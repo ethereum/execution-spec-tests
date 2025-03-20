@@ -759,7 +759,7 @@ def pytest_collection_modifyitems(
     parametrization occurs in the forks plugin.
     """
     for item in items[:]:  # use a copy of the list, as we'll be modifying it
-        if not isinstance(item, pytest.Function):
+        if not isinstance(item, pytest.Function) or not hasattr(item, "callspec"):
             continue
         params: Dict[str, Any] = item.callspec.params  # type: ignore
         if "fork" not in params or params["fork"] is None:

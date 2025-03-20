@@ -9,8 +9,17 @@ from pathlib import Path
 import pytest
 import yaml
 
+from ethereum_test_fixtures import StateFixture
 from ethereum_test_forks import Berlin, Fork
 from ethereum_test_specs import BaseJSONTest
+
+
+class MyFunction(pytest.Function):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def runtest(self):
+        self.func(self)
 
 
 def pytest_collect_file(file_path: Path, path, parent) -> pytest.Collector | None:
@@ -19,7 +28,7 @@ def pytest_collect_file(file_path: Path, path, parent) -> pytest.Collector | Non
     fixtures.
     """
     if file_path.suffix in (".json", ".yml"):
-        return FillerFile.from_parent(parent, path=file_path)
+        return FillerFile.from_parent(parent, fspath=file_path)
     return None
 
 
@@ -36,16 +45,10 @@ class FillerFile(pytest.File):
             loaded_file = json.load(file) if self.path.suffix == ".json" else yaml.safe_load(file)
             for key in loaded_file:
                 filler = BaseJSONTest.model_validate(loaded_file[key])
-                test_case = "test_case"
-                collected_items.append(
-                    FillerItem.from_parent(
-                        parent=self,
-                        json_test=filler,
-                        test_case=test_case,
-                        fork=Berlin,
-                        name=f"{self.name}::{key}::{test_case}",
-                    )
-                )
+                test_func = filler.fill_function()
+                item = pytest.Function.from_parent(self, name=f"{key}[]", callobj=test_func)
+                item.fixturenames = test_func.__code__.co_varnames
+                collected_items.append(item)
         return collected_items
 
 
