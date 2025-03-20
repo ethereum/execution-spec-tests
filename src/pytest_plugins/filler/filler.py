@@ -392,6 +392,26 @@ def evm_bin(request: pytest.FixtureRequest) -> Path:
     return request.config.getoption("evm_bin")
 
 
+def create_t8n(config: pytest.Config) -> TransitionTool:
+    """
+    Create a TransitionTool instance from the pytest.Config object.
+
+    This function is used to create a TransitionTool instance from the pytest.Config object
+    in order to avoid circular dependencies.
+    """
+    return TransitionTool.from_binary_path(
+        binary_path=config.getoption("evm_bin"), trace=config.getoption("evm_collect_traces")
+    )
+
+
+@pytest.fixture(autouse=True, scope="session")
+def t8n(request: pytest.FixtureRequest, evm_bin: Path) -> Generator[TransitionTool, None, None]:
+    """Return configured transition tool."""
+    t8n = create_t8n(request.config)
+    yield t8n
+    t8n.shutdown()
+
+
 @pytest.fixture(autouse=True, scope="session")
 def verify_fixtures_bin(request: pytest.FixtureRequest) -> Path | None:
     """
@@ -399,16 +419,6 @@ def verify_fixtures_bin(request: pytest.FixtureRequest) -> Path | None:
     blocktest.
     """
     return request.config.getoption("verify_fixtures_bin")
-
-
-@pytest.fixture(autouse=True, scope="session")
-def t8n(request: pytest.FixtureRequest, evm_bin: Path) -> Generator[TransitionTool, None, None]:
-    """Return configured transition tool."""
-    t8n = TransitionTool.from_binary_path(
-        binary_path=evm_bin, trace=request.config.getoption("evm_collect_traces")
-    )
-    yield t8n
-    t8n.shutdown()
 
 
 @pytest.fixture(scope="session")
@@ -639,6 +649,8 @@ def node_to_test_info(node: pytest.Item) -> TestInfo:
 @pytest.fixture(scope="function")
 def fixture_source_url(request: pytest.FixtureRequest) -> str:
     """Return URL to the fixture source."""
+    if hasattr(request.node, "github_url"):
+        return request.node.github_url
     function_line_number = request.function.__code__.co_firstlineno
     module_relative_path = os.path.relpath(request.module.__file__)
     hash_or_tag = get_current_commit_hash_or_tag()
@@ -683,8 +695,14 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
         When parametrize, indirect must be used along with the fixture format as value.
         """
-        fixture_format = request.param
+        if hasattr(request.node, "fixture_format"):
+            fixture_format = request.node.fixture_format
+        else:
+            fixture_format = request.param
         assert issubclass(fixture_format, BaseFixture)
+        if fork is None:
+            assert hasattr(request.node, "fork")
+            fork = request.node.fork
 
         class BaseTestWrapper(cls):  # type: ignore
             def __init__(self, *args, **kwargs):

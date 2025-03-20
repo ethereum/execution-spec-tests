@@ -3,15 +3,20 @@ Refiller pytest plugin that reads test cases from JSON/YAML files and fills them
 fixtures.
 """
 
+import inspect
+import itertools
 import json
 from pathlib import Path
+from typing import Any, Callable, Dict, Generator, List, Tuple, Type
 
 import pytest
 import yaml
+from _pytest.fixtures import FixtureRequest
+from _pytest.mark import ParameterSet
 
-from ethereum_test_fixtures import StateFixture
+from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
 from ethereum_test_forks import Berlin, Fork
-from ethereum_test_specs import BaseJSONTest
+from ethereum_test_specs import SPEC_TYPES, BaseJSONTest
 
 
 def pytest_collect_file(file_path: Path, path, parent) -> pytest.Collector | None:
@@ -20,60 +25,200 @@ def pytest_collect_file(file_path: Path, path, parent) -> pytest.Collector | Non
     fixtures.
     """
     if file_path.suffix in (".json", ".yml"):
-        return FillerFile.from_parent(parent, fspath=file_path)
+        return FillerFile.from_parent(parent, path=file_path)
     return None
+
+
+def get_test_id_from_arg_names_and_values(
+    arg_names: List[str], arg_values: List[Any] | Tuple[Any, ...]
+) -> str:
+    """Get the test id from argument names and values."""
+    return "-".join(
+        [f"{arg_name}={arg_value}" for arg_name, arg_value in zip(arg_names, arg_values)]
+    )
+
+
+def get_argument_names_and_values_from_parametrize_mark(
+    mark: pytest.Mark,
+) -> Tuple[List[str], List[ParameterSet]]:
+    """Get the argument names and values from a parametrize mark."""
+    if mark.name != "parametrize":
+        raise Exception("Mark is not a parametrize mark")
+    if mark.kwargs:
+        raise Exception("Mark has kwargs which is not supported")
+    args = mark.args
+    if not isinstance(args, tuple):
+        raise Exception("Args is not a tuple")
+    if len(args) != 2:
+        raise Exception("Args does not have 2 elements")
+    arg_names = args[0] if isinstance(args[0], list) else args[0].split(",")
+    arg_values = []
+    for arg_value in args[1]:
+        if not isinstance(arg_value, ParameterSet):
+            if not isinstance(arg_value, tuple) and not isinstance(arg_value, list):
+                arg_value = (arg_value,)
+            test_id = get_test_id_from_arg_names_and_values(arg_names, arg_value)
+            arg_values.append(ParameterSet(arg_value, [], id=test_id))
+        else:
+            arg_values.append(arg_value)
+    return arg_names, arg_values
+
+
+def get_all_combinations_from_parametrize_marks(
+    parametrize_marks: List[pytest.Mark],
+) -> Tuple[List[str], List[ParameterSet]]:
+    """Get all combinations of arguments from multiple parametrize marks."""
+    assert parametrize_marks, "No parametrize marks found"
+    list_of_values: List[List[ParameterSet]] = []
+    all_argument_names = []
+    for mark in parametrize_marks:
+        arg_names, arg_values = get_argument_names_and_values_from_parametrize_mark(mark)
+        list_of_values.append(arg_values)
+        all_argument_names.extend(arg_names)
+    all_value_combinations: List[ParameterSet] = []
+    # use itertools to get all combinations
+    for combination in itertools.product(*list_of_values):
+        all_value_combinations.append(
+            ParameterSet(
+                values=[param.values for param in combination],
+                marks=[],
+                id="-".join([param.id for param in combination]),
+            )
+        )
+
+    return all_argument_names, all_value_combinations
 
 
 class FillerFile(pytest.File):
     """
-    Pytest file class that reads test cases from JSON/YAML files and fills them into test
+    Filler file that reads test cases from JSON/YAML files and fills them into test
     fixtures.
     """
 
-    def collect(self):
-        """Load the test vectors using known filler formats."""
-        collected_items = []
-        config = self.config
+    def collect(self: "FillerFile") -> Generator["FillerTestItem", None, None]:
+        """Collect test cases from JSON/YAML files and fill them into test fixtures."""
         with open(self.path, "r") as file:
             loaded_file = json.load(file) if self.path.suffix == ".json" else yaml.safe_load(file)
             for key in loaded_file:
                 filler = BaseJSONTest.model_validate(loaded_file[key])
-                test_func = filler.fill_function()
-                item = FillerItem.from_parent(
-                    self, name=f"{key}[]", config=config, callobj=test_func
-                )
-                collected_items.append(item)
-        return collected_items
+                call_obj = filler.fill_function()
+
+                signature = inspect.signature(call_obj)
+                spec_parameter_name = ""
+
+                fixture_formats: List[Type[BaseFixture] | LabeledFixtureFormat] = []
+                for test_type in SPEC_TYPES:
+                    if test_type.pytest_parameter_name() in signature.parameters:
+                        assert spec_parameter_name == "", "Multiple spec parameters found"
+                        spec_parameter_name = test_type.pytest_parameter_name()
+                        for format_with_or_without_label in test_type.supported_fixture_formats:
+                            fixture_formats.append(format_with_or_without_label)
+
+                # TODO: For each fork
+                forks: List[Fork] = [Berlin]
+
+                for fixture_format in fixture_formats:
+                    for fork in forks:
+                        call_kwargs: Dict[str, Any] = {}
+                        call_fixture_resolved_kwargs = [
+                            spec_parameter_name,
+                        ]
+                        test_id = f"fork_{fork.name()}-{fixture_format.format_name}"
+                        if "fork" in signature.parameters:
+                            call_kwargs["fork"] = fork
+                        if "pre" in signature.parameters:
+                            call_fixture_resolved_kwargs.append("pre")
+                        parametrize_marks: List[pytest.Mark] = []
+                        if hasattr(call_obj, "pytestmark"):
+                            for mark in call_obj.pytestmark:
+                                if mark.name == "parametrize":
+                                    parametrize_marks.append(mark)
+
+                        if parametrize_marks:
+                            parameter_names, parameter_set_list = (
+                                get_all_combinations_from_parametrize_marks(parametrize_marks)
+                            )
+                            for parameter_set in parameter_set_list:
+                                # Copy and extend the call_kwargs with the parameter set
+                                call_kwargs = call_kwargs.copy()
+                                call_kwargs.update(
+                                    dict(zip(parameter_names, parameter_set.values))
+                                )
+                                yield FillerTestItem.from_parent(
+                                    self,
+                                    call_obj=call_obj,
+                                    call_kwargs=call_kwargs,
+                                    call_fixture_resolved_kwargs=call_fixture_resolved_kwargs,
+                                    name=f"{key}[{test_id}-{parameter_set.id}]",
+                                    fork=fork,
+                                    fixture_format=fixture_format
+                                    if isinstance(fixture_format, type)
+                                    else fixture_format.format,
+                                )
+                        else:
+                            yield FillerTestItem.from_parent(
+                                self,
+                                call_obj=call_obj,
+                                call_kwargs=call_kwargs,
+                                call_fixture_resolved_kwargs=call_fixture_resolved_kwargs,
+                                name=f"{key}[{test_id}]",
+                                fork=fork,
+                                fixture_format=fixture_format
+                                if isinstance(fixture_format, type)
+                                else fixture_format.format,
+                            )
 
 
-class FillerItem(pytest.Item):
-    """Single test case from a JSON/YAML file that is filled into a test fixture."""
+class FillerTestItem(pytest.Item):
+    """
+    Filler test item that reads test cases from JSON/YAML files and fills them into test
+    fixtures.
+    """
 
-    json_test: BaseJSONTest
-    test_case: str
+    originalname: str
+    call_obj: Callable
+    call_kwargs: Dict[str, Any]
+    call_fixture_resolved_kwargs: List[str]
+    github_url: str = ""
     fork: Fork
+    fixture_format: Type[BaseFixture]
 
-    def __init__(self, *, parent, config, **kwargs):
-        """Initialize the test case."""
-        super().__init__(**kwargs)
-        self.config = config
-        self.session = parent.session
+    def __init__(
+        self,
+        *args,
+        originalname: str = "",
+        call_obj: Callable,
+        call_kwargs: Dict[str, Any],
+        call_fixture_resolved_kwargs: List[str],
+        fork: Fork,
+        fixture_format: Type[BaseFixture],
+        **kwargs,
+    ):
+        super().__init__(*args, **kwargs)
+        self.originalname = originalname
+        self.call_obj = call_obj
+        self.call_kwargs = call_kwargs
+        self.call_fixture_resolved_kwargs = call_fixture_resolved_kwargs
+        self.fork = fork
+        self.fixture_format = fixture_format
 
     def setup(self):
         """Resolve and apply fixtures before test execution."""
-        fm = self.session._fixturemanager  # Access fixture manager
-        request = pytest.FixtureRequest(self, _ispytest=True)
-        self.funcargs = {}  # Dictionary to store fixture values
-
-        # Request session-scoped fixtures manually
-        for fixturedef in fm._arg2fixturedefs.get("session", []):
-            fixture = fm.getfixturedefs(fixturedef.scope)
-            if fixture:
-                self.funcargs[fixturedef] = request.getfixturevalue(fixturedef)
+        self._fixtureinfo = self.session._fixturemanager.getfixtureinfo(
+            self,
+            None,
+            None,
+            funcargs=False,
+        )
+        request = FixtureRequest(self, _ispytest=True)
+        for fixture_resolved_kwarg in self.call_fixture_resolved_kwargs:
+            self.call_kwargs[fixture_resolved_kwarg] = request.getfixturevalue(
+                fixture_resolved_kwarg
+            )
 
     def runtest(self):
-        """Fill the test case into the test fixture."""
-        print(f"Running test: {self.name} with fixtures {self.funcargs}")
+        """Execute the test logic."""
+        self.call_obj(**self.call_kwargs)
 
     def reportinfo(self):
-        return self.fspath, 0, f"custom test: {self.name}"
+        return self.fspath, 0, f"Legacy filler test: {self.name}"

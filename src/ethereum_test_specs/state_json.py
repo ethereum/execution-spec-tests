@@ -3,12 +3,12 @@
 from typing import Callable, ClassVar, Dict, List, Literal
 
 import pytest
-from _pytest.python import CallSpec2
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 from pydantic.functional_validators import BeforeValidator
 from typing_extensions import Annotated
 
+from ethereum_test_base_types import Address
 from ethereum_test_forks import Fork, Frontier, Homestead
 from ethereum_test_types import Alloc, Environment, Transaction
 
@@ -29,7 +29,7 @@ def check_address(s: str | int) -> bytes:
     return b
 
 
-Address = Annotated[bytes, BeforeValidator(check_address)]
+FillerAddress = Annotated[bytes, BeforeValidator(check_address)]
 
 
 def check_hex_number(i: int | str) -> int:
@@ -78,7 +78,7 @@ CAMEL_CASE_CONFIG = ConfigDict(
 class FillerEnvironment(BaseModel):
     """Class that represents an environment filler."""
 
-    current_coinbase: Address
+    current_coinbase: FillerAddress
     current_difficulty: HexNumber | None = Field(None)
     current_gas_limit: HexNumber
     current_number: HexNumber
@@ -118,7 +118,7 @@ class Account(BaseModel):
 class AccessList(BaseModel):
     """Class that represents an access list."""
 
-    address: Address
+    address: FillerAddress
     storage_keys: List[HexNumber]
 
     model_config = CAMEL_CASE_CONFIG
@@ -142,7 +142,7 @@ class FillerTransaction(BaseModel):
     max_fee_per_gas: HexNumber | None = Field(None)
     max_priority_fee_per_gas: HexNumber | None = Field(None)
     nonce: HexNumber
-    to: Address
+    to: FillerAddress
     value: List[HexNumber]
     secret_key: Hash
 
@@ -164,7 +164,7 @@ class Expect(BaseModel):
 
     indexes: Indexes = Field(Indexes(data=-1, gas=-1, value=-1))
     network: List[str]
-    result: Dict[Address, RemovedAccount | Account]
+    result: Dict[FillerAddress, RemovedAccount | Account]
     expect_exception: Dict[str, str] | None = Field(None)
 
     model_config = CAMEL_CASE_CONFIG
@@ -175,7 +175,7 @@ class StateFiller(BaseJSONTest):
 
     env: FillerEnvironment
     info: Info | None = Field(None, alias="_info")
-    pre: Dict[Address, Account]
+    pre: Dict[FillerAddress, Account]
     transaction: FillerTransaction
     expect: List[Expect]
     exceptions: List[str] | None = Field(None)
@@ -194,18 +194,6 @@ class StateFiller(BaseJSONTest):
     def get_valid_until_fork(self) -> Fork | None:
         """Get the last fork this JSON filler supports."""
         return None
-
-    @classmethod
-    def fill_function_callspec(cls) -> CallSpec2:
-        """Return the callspec for the test function."""
-        return CallSpec2(
-            funcargs={
-                "state_test": StateTestFiller,
-                "fork": Fork,
-                "pre": Alloc,
-                "n": int,
-            },
-        )
 
     def fill_function(self) -> Callable:
         """Return the test function that can be used to fill the test."""
