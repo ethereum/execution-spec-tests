@@ -1,7 +1,7 @@
 """Shared pytest fixtures and hooks for EEST generation modes (fill and execute)."""
 
 import warnings
-from typing import List, cast
+from typing import List
 
 import pytest
 
