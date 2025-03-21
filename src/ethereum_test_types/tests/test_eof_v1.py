@@ -451,7 +451,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         010004  # One code segment
         020001  # One code segment
             0003  #   code seg 0: 3 bytes
-        040001  # One byte data segment
+        ff0001  # One byte data segment
         00      # End of header
                 # Code segment 0 header
             00  # Zero inputs
@@ -485,7 +485,7 @@ test_cases: List[Tuple[str, Container, str]] = [
       010004  # One code segment
       020001  # One code segment
         0003  #   code seg 0: 3 bytes
-      040004  # Four byte data segment
+      ff0004  # Four byte data segment
       00      # End of header
               # Code segment 0 header
           00  # Zero inputs
@@ -547,7 +547,7 @@ test_cases: List[Tuple[str, Container, str]] = [
        0003 # Code section  2 , 3  bytes
        0001 # Code section  3 , 1  bytes
        0001 # Code section  4 , 1  bytes
-     040004 # Data section length ( 4 )
+     ff0004 # Data section length ( 4 )
          00 # Terminator (end of header)
             # Code 0 types
          00 # 0 inputs
@@ -615,7 +615,7 @@ test_cases: List[Tuple[str, Container, str]] = [
       010008  # Two code segments
       020001  # One code segment
         0003  #   code seg 0: 3 bytes
-      040004  # Four byte data segment
+      ff0004  # Four byte data segment
       00      # End of header
               # Code segment 0 header
           00  # Zero inputs
@@ -654,7 +654,7 @@ test_cases: List[Tuple[str, Container, str]] = [
       020001  # One code segment
         0003  #   code seg 0: 3 bytes
       010004  # One code segment
-      040001  # One byte data segment
+      ff0001  # One byte data segment
       00      # End of header
               # Code segment 0 header
           00  # Zero inputs
@@ -693,7 +693,7 @@ test_cases: List[Tuple[str, Container, str]] = [
       010004  # One code segment
       020001  # One code segment
         0003  #   code seg 0: 3 bytes
-      040001  # One byte data segment
+      ff0001  # One byte data segment
       00      # End of header
               # Code segment 0 code
            30 #  1 ADDRESS
@@ -727,7 +727,7 @@ test_cases: List[Tuple[str, Container, str]] = [
       ef0001  # Magic followed by version
       020001  # One code segment
         0003  #   code seg 0: 3 bytes
-      040001  # One byte data segment
+      ff0001  # One byte data segment
       00      # End of header
               # Code segment 0 header
           00  # Zero inputs
@@ -762,7 +762,7 @@ test_cases: List[Tuple[str, Container, str]] = [
       010004  # Types section
       020001  # One code segment
         0003  #   code seg 0: 3 bytes
-      040001  # One byte data segment
+      ff0001  # One byte data segment
       00      # End of header
               # Code segment 0 header
               # Code segment 0 code
@@ -784,7 +784,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         0006  #   code seg 0: 6 bytes
       030001  # One container segment
         0014  #   container seg 0: 20 bytes
-      040000  # Zero byte data segment
+      ff0000  # Zero byte data segment
       00      # End of header
    0080 0002  # Types section
               # Code segment 0 code
@@ -796,7 +796,7 @@ test_cases: List[Tuple[str, Container, str]] = [
       010004  # Types section
       020001  # One code segment
         0001  #   code seg 0: 1 byte
-      040000  # Zero byte data segment
+      ff0000  # Zero byte data segment
       00      # End of header
    0080 0000  # Types section
               # Code segment 0 code
@@ -814,7 +814,7 @@ test_cases: List[Tuple[str, Container, str]] = [
         000b  #   code seg 0: 11 bytes
       030001  # One container segment
         0014  #   container seg 0: 20 bytes
-      040000  # Zero byte data segment
+      ff0000  # Zero byte data segment
       00      # End of header
    0080 0002  # Types section
               # Code segment 0 code
@@ -829,7 +829,7 @@ test_cases: List[Tuple[str, Container, str]] = [
       010004  # Types section
       020001  # One code segment
         0001  #   code seg 0: 1 byte
-      040000  # Zero byte data segment
+      ff0000  # Zero byte data segment
       00      # End of header
    0080 0000  # Types section
               # Code segment 0 code
