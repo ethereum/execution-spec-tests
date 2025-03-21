@@ -3,10 +3,9 @@
 from enum import Enum
 from typing import Dict, List, Literal
 
-from pydantic import BaseModel, BeforeValidator, Field, ValidationInfo, field_validator
-from typing_extensions import Annotated
+from pydantic import BaseModel, Field, ValidationInfo, field_validator
 
-from ethereum_test_forks import Fork, get_forks
+from ethereum_test_forks import get_forks
 
 from .common import AddressInFiller, CodeInFiller, ValueInFiller
 
@@ -14,9 +13,14 @@ from .common import AddressInFiller, CodeInFiller, ValueInFiller
 class Indexes(BaseModel):
     """Class that represents an index filler."""
 
-    data: int | List[int] = Field(-1)
-    gas: int | List[int] = Field(-1)
-    value: int | List[int] = Field(-1)
+    data: int | List[int] | str = Field(-1)
+    gas: int | List[int] | str = Field(-1)
+    value: int | List[int] | str = Field(-1)
+
+    class Config:
+        """Model Config."""
+
+        extra = "forbid"
 
 
 class AccountInExpectSection(BaseModel):
@@ -26,7 +30,12 @@ class AccountInExpectSection(BaseModel):
     code: CodeInFiller | None = Field(None)
     nonce: ValueInFiller | None = Field(None)
     storage: Dict[ValueInFiller, ValueInFiller | Literal["ANY"]] | None = Field(None)
-    expected_to_not_exist: str | None = Field(None, alias="shouldnotexist")
+    expected_to_not_exist: str | int | None = Field(None, alias="shouldnotexist")
+
+    class Config:
+        """Model Config."""
+
+        extra = "forbid"
 
 
 class CMP(Enum):
@@ -39,64 +48,111 @@ class CMP(Enum):
     EQ = 5
 
 
+def parse_networks(fork_with_operand: str) -> List[str]:
+    """Parse fork_with_operand `>=Cancun` into [Cancun, Prague, ...]."""
+    parsed_forks: List[str] = []
+    all_forks_by_name = [fork.name() for fork in get_forks()]
+
+    action: CMP = CMP.EQ
+    fork: str = fork_with_operand
+    if fork_with_operand[:1] == "<":
+        action = CMP.LT
+        fork = fork_with_operand[1:]
+    if fork_with_operand[:1] == ">":
+        action = CMP.GT
+        fork = fork_with_operand[1:]
+    if fork_with_operand[:2] == "<=":
+        action = CMP.LE
+        fork = fork_with_operand[2:]
+    if fork_with_operand[:2] == ">=":
+        action = CMP.GE
+        fork = fork_with_operand[2:]
+
+    if action == CMP.EQ:
+        parsed_forks.append(fork_with_operand)
+
+    try:
+        idx = all_forks_by_name.index(fork)
+    except ValueError:
+        raise ValueError(f"Unsupported fork: {fork}") from Exception
+
+    if action == CMP.GE:
+        parsed_forks = all_forks_by_name[idx:]
+    elif action == CMP.GT:
+        parsed_forks = all_forks_by_name[idx + 1 :]
+    elif action == CMP.LE:
+        parsed_forks = all_forks_by_name[: idx + 1]
+    elif action == CMP.LT:
+        parsed_forks = all_forks_by_name[:idx]
+
+    return parsed_forks
+
+
 class ExpectSectionInStateTestFiller(BaseModel):
     """Expect section in state test filler."""
 
     indexes: Indexes = Field(default_factory=Indexes)
     network: List[str]
     result: Dict[AddressInFiller, AccountInExpectSection]
+    expect_exception: Dict[str, str] | None = Field(None, alias="expectException")
+
+    class Config:
+        """Model Config."""
+
+        extra = "forbid"
 
     @field_validator("network", mode="before")
     @classmethod
     def parse_networks(cls, network: List[str], info: ValidationInfo) -> List[str]:
         """Parse networks into array of forks."""
-        parsed_forks: List[str] = []
-        all_forks_by_name = [fork.name() for fork in get_forks()]
+        forks: List[str] = []
         for net in network:
-            action: CMP = CMP.EQ
-            fork: str = net
-            if net[:1] == "<":
-                action = CMP.LT
-                fork = net[1:]
-            if net[:1] == ">":
-                action = CMP.GT
-                fork = net[1:]
-            if net[:2] == "<=":
-                action = CMP.LE
-                fork = net[2:]
-            if net[:2] == ">=":
-                action = CMP.GE
-                fork = net[2:]
+            forks.extend(parse_networks(net))
+        return forks
 
-            if action == CMP.EQ:
-                parsed_forks.append(net)
-                continue
+    @field_validator("expect_exception", mode="before")
+    @classmethod
+    def parse_expect_exception(
+        cls, expect_exception: Dict[str, str] | None, info: ValidationInfo
+    ) -> Dict[str, str] | None:
+        """Parse operand networks in exceptions."""
+        if expect_exception is None:
+            return expect_exception
 
-            try:
-                idx = all_forks_by_name.index(fork)
-            except ValueError:
-                raise ValueError(f"Unsupported fork: {fork}") from Exception
+        parsed_expect_exception: Dict[str, str] = {}
+        for fork_with_operand, exception in expect_exception.items():
+            forks: List[str] = parse_networks(fork_with_operand)
+            for fork in forks:
+                if fork in parsed_expect_exception:
+                    raise ValueError(
+                        "Expect exception has redundant fork with multiple exceptions!"
+                    )
+                parsed_expect_exception[fork] = exception
 
-            if action == CMP.GE:
-                parsed_forks = all_forks_by_name[idx:]
-            elif action == CMP.GT:
-                parsed_forks = all_forks_by_name[idx + 1 :]
-            elif action == CMP.LE:
-                parsed_forks = all_forks_by_name[: idx + 1]
-            elif action == CMP.LT:
-                parsed_forks = all_forks_by_name[:idx]
-
-        return parsed_forks
+        return parsed_expect_exception
 
     def has_index(self, d: int, g: int, v: int) -> bool:
         """Check if there is index set in indexes."""
         d_match: bool = False
         g_match: bool = False
         v_match: bool = False
+
+        # Check if data index match
         if isinstance(self.indexes.data, int):
             d_match = True if self.indexes.data == -1 or self.indexes.data == d else False
+        elif isinstance(self.indexes.data, list):
+            d_match = True if self.indexes.data.count(d) else False
+
+        # Check if gas index match
         if isinstance(self.indexes.gas, int):
             g_match = True if self.indexes.gas == -1 or self.indexes.gas == g else False
+        elif isinstance(self.indexes.gas, list):
+            g_match = True if self.indexes.gas.count(g) else False
+
+        # Check if value index match
         if isinstance(self.indexes.value, int):
             v_match = True if self.indexes.value == -1 or self.indexes.value == v else False
+        elif isinstance(self.indexes.value, list):
+            v_match = True if self.indexes.value.count(v) else False
+
         return d_match and g_match and v_match
