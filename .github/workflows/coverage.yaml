@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Debug GitHub context
         run: |
@@ -26,7 +26,7 @@ jobs:
 
       - name: Get all changed python files in tests/ and changes to coverted-ethereum-tests.txt
         id: changed-tests
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@48d8f15b2aaa3d255ca5af3eba4870f807ce6b3c
         with:
           # TODO: non-test modules such as __init__.py or spec.py could effect coverage - in this case we should
           # fill all applicable tests (i.e., all the test_*.py files in or under the changed module's directory)
@@ -60,7 +60,7 @@ jobs:
 
       - name: Log in to Docker Hub
         if: ${{  steps.changed-tests.outputs.tests_any_changed == 'true' && github.event.pull_request.head.repo.full_name == github.repository }}
-        uses: docker/login-action@v3
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772
         with:
           username: winsvega
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -94,7 +94,7 @@ jobs:
           targets: "evmone-t8n"
 
       - name: Checkout ethereum/tests
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
         with:
           repository: ethereum/tests
@@ -104,7 +104,7 @@ jobs:
             EOFTests
 
       - name: Checkout ethereum/legacytests
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         if: steps.changed-tests.outputs.tests_any_changed == 'true'      
         with:
           repository: ethereum/legacytests
@@ -277,7 +277,7 @@ jobs:
           ls ${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
 
       - name: Run coverage of the BASE tests
-        uses: addnab/docker-run-action@v3
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           image: winsvega/evmone-coverage-script:latest
@@ -285,7 +285,7 @@ jobs:
           run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/BASE_TESTS --outputname=BASE
 
       - name: Run coverage of the PATCH tests
-        uses: addnab/docker-run-action@v3
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           image: winsvega/evmone-coverage-script:latest
@@ -293,7 +293,7 @@ jobs:
           run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/PATCH_TESTS --outputname=PATCH
 
       - name: Run coverage DIFF of the PATCH tests compared to BASE tests
-        uses: addnab/docker-run-action@v3
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         if: ${{  steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           image: winsvega/evmone-coverage-script:latest
@@ -307,7 +307,7 @@ jobs:
           sudo chown -R $user:$user ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Upload coverage results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           name: coverage-diff-native-${{ github.run_id }}-${{ github.run_attempt }}
@@ -315,7 +315,7 @@ jobs:
           compression-level: 6  # Default compression level for optimal balance
 
       - name: Verify coverage results
-        uses: addnab/docker-run-action@v3
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
         with:
           image: winsvega/evmone-coverage-script:latest

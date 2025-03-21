@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ethereum/execution-spec-tests
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -25,9 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ethereum/execution-spec-tests
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -41,9 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ethereum/execution-spec-tests
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -60,8 +60,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ethereum/execution-spec-tests
-        uses: actions/checkout@v4
-      - uses: DavidAnson/markdownlint-cli2-action@v16
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: DavidAnson/markdownlint-cli2-action@b4c9feab76d8025d1e83c653fa3990936df0e6c8
         with:
           globs: |
             README.md
@@ -72,9 +72,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ethereum/execution-spec-tests
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -97,9 +97,9 @@ jobs:
             python: "3.12"
     steps:
       - name: Checkout ethereum/execution-spec-tests
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Checkout ethereum/execution-specs for local EELS implementation
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: ethereum/execution-specs
           ref: fa847a0e48309debee8edc510ceddb2fd5db2f2e
@@ -108,7 +108,7 @@ jobs:
             src/ethereum
           fetch-depth: 1
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -134,9 +134,9 @@ jobs:
             python: "3.12"
     steps:
       - name: Checkout ethereum/execution-spec-tests
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Checkout ethereum/execution-specs for local EELS implementation
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: ethereum/execution-specs
           ref: fa847a0e48309debee8edc510ceddb2fd5db2f2e
@@ -145,7 +145,7 @@ jobs:
             src/ethereum
           fetch-depth: 1
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
