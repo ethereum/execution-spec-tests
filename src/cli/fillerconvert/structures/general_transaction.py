@@ -13,7 +13,12 @@ class DataWithAccessList(BaseModel):
     """Class that represents data with access list."""
 
     data: CodeInFiller
-    access_list: List[AccessList] | None = None
+    access_list: List[AccessList] | None = Field(None, alias="accessList")
+
+    class Config:
+        """Model Config."""
+
+        extra = "forbid"
 
     @model_validator(mode="wrap")
     @classmethod
@@ -34,3 +39,23 @@ class GeneralTransactionInFiller(BaseModel):
     to: AddressInFiller
     value: List[ValueInFiller]
     secret_key: Hash32InFiller = Field(..., alias="secretKey")
+
+    max_fee_per_gas: ValueInFiller | None = Field(None, alias="maxFeePerGas")
+    max_priority_fee_per_gas: ValueInFiller | None = Field(None, alias="maxPriorityFeePerGas")
+
+    class Config:
+        """Model Config."""
+
+        extra = "forbid"
+
+    @model_validator(mode="after")
+    @classmethod
+    def check_fields(cls, data: "GeneralTransactionInFiller") -> "GeneralTransactionInFiller":
+        """Validate all fields are set."""
+        if data.gas_price is None:
+            if data.max_fee_per_gas is None or data.max_priority_fee_per_gas is None:
+                raise ValueError(
+                    "If `gasPrice` is not set,"
+                    " `maxFeePerGas` and `maxPriorityFeePerGas` must be set!"
+                )
+        return data

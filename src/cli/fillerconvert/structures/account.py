@@ -14,3 +14,8 @@ class AccountInFiller(BaseModel):
     code: CodeInFiller
     nonce: ValueInFiller
     storage: Dict[ValueInFiller, ValueInFiller]
+
+    class Config:
+        """Model Config."""
+
+        extra = "forbid"
