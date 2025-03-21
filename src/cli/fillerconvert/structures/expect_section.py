@@ -42,7 +42,7 @@ class CMP(Enum):
 class ExpectSectionInStateTestFiller(BaseModel):
     """Expect section in state test filler."""
 
-    indexes: Indexes
+    indexes: Indexes = Field(default_factory=Indexes)
     network: List[str]
     result: Dict[AddressInFiller, AccountInExpectSection]
 
