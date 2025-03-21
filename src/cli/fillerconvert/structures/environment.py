@@ -13,3 +13,10 @@ class EnvironmentInStateTestFiller(BaseModel):
     current_gas_limit: ValueInFiller = Field(..., alias="currentGasLimit")
     current_number: ValueInFiller = Field(..., alias="currentNumber")
     current_timestamp: ValueInFiller = Field(..., alias="currentTimestamp")
+
+    current_base_fee: ValueInFiller | None = Field(None, alias="currentBaseFee")
+
+    class Config:
+        """Model Config."""
+
+        extra = "forbid"
