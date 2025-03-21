@@ -17,14 +17,14 @@ runs:
   using: "composite"
   steps:
     - name: Checkout evmone
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         repository: ${{ inputs.repo }}
         ref: ${{ inputs.ref }}
         path: evmone
         submodules: true
     - name: Setup cmake
-      uses: jwlawson/actions-setup-cmake@v2
+      uses: jwlawson/actions-setup-cmake@802fa1a2c4e212495c05bf94dba2704a92a472be
     - name: "Install GMP"
       shell: bash
       run: sudo apt-get -q update && sudo apt-get -qy install libgmp-dev

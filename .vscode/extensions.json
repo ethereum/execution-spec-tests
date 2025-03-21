@@ -3,6 +3,7 @@
     "recommendations": [
         "ms-python.python",
         "ms-python.mypy-type-checker",
+        "ms-python.vscode-pylance",
         "charliermarsh.ruff",
         "esbenp.prettier-vscode",
         "njpwerner.autodocstring",
