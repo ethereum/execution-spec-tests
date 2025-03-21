@@ -64,6 +64,10 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] Top-level call termination
         - [ ] Sub-level call termination
         - [ ] Initcode termination
+- [ ] Out-of-bounds checks
+    - [ ] Verify if the opcode has out-of-bounds conditions in its parameters and verify:
+        - [ ] Max value for each parameter
+        - [ ] Max value + 1 for each parameter
 - [ ] Exeptional Abort
     - [ ] Verify behavior that is supposed to cause an exeptional abort, other than stack over or underflow, or out-of-gas errors.
 - [ ] Data portion
@@ -101,6 +105,10 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties.
     - [ ] Verify all zeros input.
     - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
+- [ ] Out-of-bounds checks
+    - [ ] Verify if the precompile has out-of-bounds conditions in its inputs and verify:
+        - [ ] Max value for each input
+        - [ ] Max value + 1 for each input
 - [ ] Input Lengths
     - [ ] Zero-length calldata.
     - [ ] Precompile has static-length input
@@ -147,6 +155,10 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] Verify interesting edge values given the system contract functionality.
     - [ ] Verify all zeros input.
     - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
+- [ ] Out-of-bounds checks
+    - [ ] Verify if the system contract has out-of-bounds conditions in its inputs and verify:
+        - [ ] Max value for each input
+        - [ ] Max value + 1 for each input
 - [ ] Input Lengths
     - [ ] Zero-length calldata.
     - [ ] System contract has static-length input
@@ -175,17 +187,59 @@ The EIP introduces one or more new opcodes to the EVM.
 ### Framework Changes
 
 - [ ] Add system contract address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
+- [ ] Add system contract bytecode to the returned value of `pre_allocation_blockchain` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
+
+## New Transaction Type
+
+### Test Vectors
+
+- [ ] Intrinsic Gas Costs
+    - [ ] Transaction validity: For each new field that affects the intrinsic gas cost of the transaction:
+        - [ ] Verify the transaction (and the block it is included in) is valid by providing the exact intrinsic gas as `gas_limit` value to the transaction with all multiple combinations of values to the field.
+        - [ ] Verify the transaction (and the block it is included in) is invalid by providing the exact intrinsic gas minus one as `gas_limit` value to the transaction with all multiple combinations of values to the field.
+- [ ] Encoding Tests
+    - [ ] Verify correct transaction rejection due to incorrect field sizes
+- [ ] RPC Tests
+    - [ ] * Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type
+    - [ ] Verify `eth_sendRawTransaction` using `execute`
+- [ ] Out-of-bounds checks
+    - [ ] Verify if the transaction has out-of-bounds conditions in its fields and verify:
+        - [ ] Max value for each field
+        - [ ] Max value + 1 for each field
+- [ ] Contract creation
+    - [ ] Verify that the transaction can create new contracts, or that it fails to do so if it's not allowed
+- [ ] Sender account modifications
+    - [ ] Verify that the sender account of the new transaction type transaction has its nonce incremented by one after the transaction is included in a block
+    - [ ] Verify that the sender account of the new transaction type transaction has its balance reduced by the correct amount (gas consumed and value) after the transaction is included in a block
+- [ ] Fork transition
+    - [ ] Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.
+
+
+* Tests must be added to [`execution-apis`](https://github.com/ethereum/execution-apis) repository.
+
+### Framework Changes
+
+- [ ] Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`, adding the appropriate new fields that the transaction introduced and the logic to the intrinsic gas cost calculation, if any.
+- [ ] Add the transaction type number to `tx_types` response in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` (If applicable add also to `contract_creating_tx_types`).
+
 
 ## New Block Header Field
 
 ### Test Vectors
 
-**TBD**
+- [ ] Genesis value
+    - [ ] Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.
+- [ ] Value behavior
+    - [ ] Verify, given multiple initial values, that the value is correctly modified for the current and subsequent blocks as expected, depending on the circumstances that affect the value as defined in the EIP.
+- [ ] Fork transition
+    - [ ] Verify initial value of the field at the first block of the activation fork.
+    - [ ] Verify that a block containing the new header field before the activation of the fork is invalid.
+    - [ ] Verify that a block lacking the new header field at the activation of the fork is invalid.
+
 
 ### Framework Changes
 
 **TBD**
-
 
 ## New Block Body Field
 
@@ -196,27 +250,6 @@ The EIP introduces one or more new opcodes to the EVM.
 ### Framework Changes
 
 **TBD**
-
-
-## New Transaction Type
-
-### Test Vectors
-
-- [ ] Intrinsic Gas Costs
-    - [ ] Transaction validity
-        - [ ] Verify the transaction (and the block it is included in) is valid by providing the exact intrinsic gas as `gas_limit` value to the transaction.
-        - [ ] Verify the transaction (and the block it is included in) is invalid by providing the exact intrinsic gas minus one as `gas_limit` value to the transaction.
-- [ ] Encoding Tests
-    - [ ] Verify correct transaction rejection due to incorrect field sizes
-- [ ] RPC Tests*
-    - [ ] Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type.
-
-
-* Tests must be added to [`execution-apis`](https://github.com/ethereum/execution-apis) repository.
-
-### Framework Changes
-
-- [ ] Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`, adding the appropriate new fields that the transaction introduced and the logic to the intrinsic gas cost calculation, if any.
 
 ## Gas Cost Changes
 
@@ -230,3 +263,24 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Modify `transaction_data_floor_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects calldata floor cost.
 - [ ] Modify `memory_expansion_gas_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects memory expansion gas cost calculation.
 - [ ] Modify `gas_costs` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects specific opcode gas costs.
+
+## Blob Count Changes
+
+### Test Vectors
+
+- [ ] Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically updated to take into account the new blob count values at the new fork activation block.
+
+### Framework Changes
+
+- [ ] Modify `blob_base_fee_update_fraction`, `target_blobs_per_block`, `max_blobs_per_block` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects any of the values returned by each function.
+
+## New Execution Layer Request
+
+### Test Vectors
+
+- [ ] Cross-Request-Type Interaction
+    - [ ] Update `tests/prague/eip7685_general_purpose_el_requests` tests to include the new request type in the tests combinations
+
+### Framework Changes
+
+- [ ] Increment `max_request_type` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` to the new maximum request type number after the EIP is activated.
