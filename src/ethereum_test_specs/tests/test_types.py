@@ -27,7 +27,7 @@ fixture_header_ones = FixtureHeader(
     withdrawals_root=Hash(1),
     blob_gas_used=1,
     excess_blob_gas=1,
-    # hash=Hash(1),
+    hash=None,
 )
 
 
