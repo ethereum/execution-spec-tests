@@ -10,6 +10,7 @@ from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
 from .base_decorators import prefer_transition_to_method
+from .config import ForkConfig
 from .gas_costs import GasCosts
 
 
@@ -505,6 +506,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         Useful only for transition forks, and it's a no-op for normal forks.
         """
         return cls
+
+    @classmethod
+    @abstractmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        pass
 
     @classmethod
     @abstractmethod

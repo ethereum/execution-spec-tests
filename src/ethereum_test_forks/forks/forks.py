@@ -21,11 +21,16 @@ from ..base_fork import (
     TransactionDataFloorCostCalculator,
     TransactionIntrinsicCostCalculator,
 )
+from ..config import ForkConfig
 from ..gas_costs import GasCosts
 from .helpers import ceiling_division, fake_exponential
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
+
+MAINNET_CHAIN_ID = 1
+SEPOLIA_CHAIN_ID = 11_155_111
+HOLESKY_CHAIN_ID = 17_000
 
 
 # All forks must be listed here !!! in the order they were introduced !!!
@@ -525,6 +530,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return -1
 
     @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return ForkConfig(
+            chain_id=chain_id,
+        )
+
+    @classmethod
     def pre_allocation(cls) -> Mapping:
         """
         Return whether the fork expects pre-allocation of accounts.
@@ -605,6 +617,15 @@ class Homestead(Frontier):
 
         return fn
 
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(Homestead, cls)
+            .config(chain_id=chain_id)
+            .copy(homestead_block=1_150_000 if chain_id == MAINNET_CHAIN_ID else 0)
+        )
+
 
 class Byzantium(Homestead):
     """Byzantium fork."""
@@ -644,6 +665,22 @@ class Byzantium(Homestead):
         """Return list of Opcodes that are valid to work on this fork."""
         return [Opcodes.RETURNDATASIZE, Opcodes.STATICCALL] + super(Byzantium, cls).valid_opcodes()
 
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(Byzantium, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                dao_fork_block=1_920_000 if chain_id == MAINNET_CHAIN_ID else None,
+                dao_fork_support=True,
+                eip_150_block=2_463_000 if chain_id == MAINNET_CHAIN_ID else 0,
+                eip_155_block=2_675_000 if chain_id == MAINNET_CHAIN_ID else 0,
+                eip_158_block=2_675_000 if chain_id == MAINNET_CHAIN_ID else 0,
+                byzantium_block=4_370_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
+
 
 class Constantinople(Byzantium):
     """Constantinople fork."""
@@ -678,11 +715,31 @@ class Constantinople(Byzantium):
             Opcodes.CREATE2,
         ] + super(Constantinople, cls).valid_opcodes()
 
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(Constantinople, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                constantinople_block=7_280_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
+
 
 class ConstantinopleFix(Constantinople, solc_name="constantinople"):
     """Constantinople Fix fork."""
 
-    pass
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(ConstantinopleFix, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                petersburg_block=7_280_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
 
 
 class Istanbul(ConstantinopleFix):
@@ -711,15 +768,35 @@ class Istanbul(ConstantinopleFix):
             G_TX_DATA_NON_ZERO=16,  # https://eips.ethereum.org/EIPS/eip-2028
         )
 
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(Istanbul, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                istanbul_block=9_069_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
+
 
 # Glacier forks skipped, unless explicitly specified
 class MuirGlacier(Istanbul, solc_name="istanbul", ignore=True):
     """Muir Glacier fork."""
 
-    pass
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(MuirGlacier, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                muir_glacier_block=9_200_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
 
 
-class Berlin(Istanbul):
+class Berlin(MuirGlacier):
     """Berlin fork."""
 
     @classmethod
@@ -764,6 +841,17 @@ class Berlin(Istanbul):
 
         return fn
 
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(Berlin, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                berlin_block=12_244_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
+
 
 class London(Berlin):
     """London fork."""
@@ -790,22 +878,51 @@ class London(Berlin):
         """Return list of Opcodes that are valid to work on this fork."""
         return [Opcodes.BASEFEE] + super(London, cls).valid_opcodes()
 
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(London, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                london_block=12_965_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
+
 
 # Glacier forks skipped, unless explicitly specified
 class ArrowGlacier(London, solc_name="london", ignore=True):
     """Arrow Glacier fork."""
 
-    pass
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(ArrowGlacier, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                arrow_glacier_block=13_773_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
 
 
 class GrayGlacier(ArrowGlacier, solc_name="london", ignore=True):
     """Gray Glacier fork."""
 
-    pass
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(GrayGlacier, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                gray_glacier_block=15_050_000 if chain_id == MAINNET_CHAIN_ID else 0,
+            )
+        )
 
 
 class Paris(
-    London,
+    GrayGlacier,
     transition_tool_name="Merge",
     blockchain_test_network_name="Paris",
 ):
@@ -833,6 +950,22 @@ class Paris(
         """From Paris, payloads can be sent through the engine API."""
         return 1
 
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(Paris, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                terminal_total_difficulty=58_750_000_000_000_000_000_000
+                if chain_id == MAINNET_CHAIN_ID
+                else 17_000_000_000_000_000
+                if chain_id == SEPOLIA_CHAIN_ID
+                else 0,
+                merge_netsplit_block=1_735_371 if chain_id == SEPOLIA_CHAIN_ID else None,
+            )
+        )
+
 
 class Shanghai(Paris):
     """Shanghai fork."""
@@ -855,6 +988,23 @@ class Shanghai(Paris):
     ) -> List[Opcodes]:
         """Return list of Opcodes that are valid to work on this fork."""
         return [Opcodes.PUSH0] + super(Shanghai, cls).valid_opcodes()
+
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        return (
+            super(Shanghai, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                shanghai_time=1_681_338_455
+                if chain_id == MAINNET_CHAIN_ID
+                else 1_677_557_088
+                if chain_id == SEPOLIA_CHAIN_ID
+                else 1_696_000_704
+                if chain_id == HOLESKY_CHAIN_ID
+                else None,
+            )
+        )
 
 
 class Cancun(Shanghai):
@@ -1039,6 +1189,26 @@ class Cancun(Shanghai):
             Opcodes.TSTORE,
             Opcodes.MCOPY,
         ] + super(Cancun, cls).valid_opcodes()
+
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        fork_blob_schedule = cls.blob_schedule()
+        assert fork_blob_schedule is not None, "Blob schedule must be defined"
+        return (
+            super(Cancun, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                cancun_time=1_710_338_135
+                if chain_id == MAINNET_CHAIN_ID
+                else 1_706_655_072
+                if chain_id == SEPOLIA_CHAIN_ID
+                else 1_707_305_664
+                if chain_id == HOLESKY_CHAIN_ID
+                else None,
+                fork_blob_schedule=fork_blob_schedule,
+            )
+        )
 
 
 class Prague(Cancun):
@@ -1285,6 +1455,31 @@ class Prague(Cancun):
     ) -> Optional[int]:
         """At Prague, version number of NewPayload and ForkchoiceUpdated diverge."""
         return 3
+
+    @classmethod
+    def config(cls, *, chain_id: int) -> ForkConfig:
+        """Return the configuration for the fork."""
+        fork_blob_schedule = cls.blob_schedule()
+        assert fork_blob_schedule is not None, "Blob schedule must be defined"
+        return (
+            super(Prague, cls)
+            .config(chain_id=chain_id)
+            .copy(
+                prague_time=1_741_159_776
+                if chain_id == SEPOLIA_CHAIN_ID
+                else 1_740_434_112
+                if chain_id == HOLESKY_CHAIN_ID
+                else None,
+                fork_blob_schedule=fork_blob_schedule,
+                deposit_contract_address=Address(0x00000000219AB540356CBB839CBE05303D7705FA)
+                if chain_id == MAINNET_CHAIN_ID
+                else Address(0x7F02C3E3C98B133055B8B348B2AC625669ED295D)
+                if chain_id == SEPOLIA_CHAIN_ID
+                else Address(0x4242424242424242424242424242424242424242)
+                if chain_id == HOLESKY_CHAIN_ID
+                else None,
+            )
+        )
 
 
 class CancunEIP7692(  # noqa: SC200
