@@ -23,6 +23,8 @@ EOFTests/efStack/backwards_rjumpi_variable_stack_.json
 EOFTests/efStack/backwards_rjumpv_.json
 EOFTests/efStack/backwards_rjumpv_variable_stack_.json
 EOFTests/efStack/jumpf_stack_overflow_.json
+EOFTests/efStack/retf_stack_validation_.json
+EOFTests/efStack/retf_variable_stack_.json
 EOFTests/efStack/forwards_rjump_.json
 EOFTests/efStack/forwards_rjump_variable_stack_.json
 EOFTests/efStack/forwards_rjumpi_.json
