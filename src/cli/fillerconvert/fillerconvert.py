@@ -29,8 +29,8 @@ def main() -> None:
         raise NotImplementedError("Blockchain filler not implemented yet.")
 
     for file in files:
-        if not file.endswith("labelsExampleFiller.yml"):
-            continue
+        # if not file.endswith("accessListExampleFiller.yml"):
+        #    continue
         if file.endswith("Filler.json"):
             try:
                 print("Process: " + file)
