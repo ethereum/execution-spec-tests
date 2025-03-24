@@ -105,7 +105,7 @@ def single_consolidation_from_contract(i: int) -> ConsolidationRequestContract: 
 def get_permutations(
     n: int = 3,
 ) -> Generator[
-    ParameterSet,
+    DepositRequest | WithdrawalRequest | ConsolidationRequest,
     None,
     None,
 ]:
@@ -125,7 +125,7 @@ def get_permutations(
         ),
     ]
     for perm in permutations(requests, n):
-        yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))
+        yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))  # type: ignore
 
 
 def get_eoa_permutations(n: int = 3) -> Generator[ParameterSet, None, None]:
