@@ -8,7 +8,7 @@ import pytest
 from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools import Opcodes as Op
 
-from .helpers import vectors_from_file
+from .helpers import add_points_g2, vectors_from_file
 from .spec import PointG2, Spec, ref_spec_2537
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
@@ -29,6 +29,30 @@ pytestmark = [
             Spec.P2_NOT_IN_SUBGROUP_TIMES_2,
             None,
             id="not_in_subgroup",
+        ),
+        pytest.param(
+            Spec.P2 + (-Spec.P2),
+            Spec.INF_G2,
+            None,
+            id="point_plus_negative",
+        ),
+        pytest.param(
+            Spec.P2 + Spec.G2,
+            add_points_g2(Spec.G2, Spec.P2),
+            None,
+            id="commutative_check_a",
+        ),
+        pytest.param(
+            Spec.G2 + Spec.P2,
+            add_points_g2(Spec.P2, Spec.G2),
+            None,
+            id="commutative_check_b",
+        ),
+        pytest.param(
+            Spec.P2 + Spec.P2,
+            add_points_g2(Spec.P2, Spec.P2),
+            None,
+            id="point_doubling",
         ),
     ],
 )
@@ -150,6 +174,22 @@ def test_valid(
         pytest.param(
             Spec.G1 + Spec.G1,
             id="g1_points",
+        ),
+        pytest.param(
+            PointG2((Spec.P + 1, 0), (0, 0)) + Spec.INF_G2,
+            id="x1_above_modulus",
+        ),
+        pytest.param(
+            PointG2(
+                (0x01, 0),  # x coordinate in Fp2 (1 + 0i)
+                (0x07, 0),  # y coordinate satisfying y^2 = x^3 + 5 in Fp2
+            )
+            + Spec.INF_G2,
+            id="point_on_wrong_curve_b=5",
+        ),
+        pytest.param(
+            bytes(Spec.G1) + bytes(Spec.G2)[128:],
+            id="mixed_g1_g2_points",
         ),
     ],
 )

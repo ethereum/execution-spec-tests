@@ -858,4 +858,6 @@ nectos
 fibonacci
 CPython
 legacytests
-pycryptodome
+cofactor
+cofactors
+coeffs

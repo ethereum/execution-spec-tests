@@ -7,7 +7,8 @@ import pytest
 from ethereum_test_tools import EOA, Address, Alloc, Bytecode, Storage, Transaction, keccak256
 from ethereum_test_tools import Opcodes as Op
 
-from .spec import GAS_CALCULATION_FUNCTION_MAP
+from .helpers import BLSPointGenerator
+from .spec import GAS_CALCULATION_FUNCTION_MAP, PointG1, PointG2, Spec
 
 
 @pytest.fixture
@@ -29,9 +30,9 @@ def precompile_gas(
     """Gas cost for the precompile."""
     calculated_gas = GAS_CALCULATION_FUNCTION_MAP[precompile_address](len(input_data))
     if vector_gas_value is not None:
-        assert calculated_gas == vector_gas_value, (
-            f"Calculated gas {calculated_gas} != Vector gas {vector_gas_value}"
-        )
+        assert (
+            calculated_gas == vector_gas_value
+        ), f"Calculated gas {calculated_gas} != Vector gas {vector_gas_value}"
     return calculated_gas
 
 
@@ -187,3 +188,14 @@ def tx(
         to=call_contract_address,
         sender=sender,
     )
+
+
+# Fixed boundary G1 points
+G1_POINT_NEAR_P: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(Spec.P - 100)
+G1_POINT_NEAR_ZERO: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(0)
+G1_POINT_SMALL_X: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(3)
+
+# Fixed boundary G2 points
+G2_POINT_NEAR_P: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((Spec.P - 100, 0))
+G2_POINT_NEAR_ZERO: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((0, 0))
+G2_POINT_SMALL_X: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((3, 0))
