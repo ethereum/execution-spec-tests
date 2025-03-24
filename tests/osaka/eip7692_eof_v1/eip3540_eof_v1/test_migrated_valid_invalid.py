@@ -188,49 +188,49 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
         pytest.param(
             # Unknown section ID (at the beginning)
-            Container(raw_bytes=bytes.fromhex("ef00010500010100040200010001ff00000000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef00010400010100040200010001ff00000000000000fe")),
             [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0038_unknown_section_id_at_the_beginning_05",
         ),
         pytest.param(
             # Unknown section ID (at the beginning)
-            Container(raw_bytes=bytes.fromhex("ef00010600010100040200010001ff00000000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef00010500010100040200010001ff00000000000000fe")),
             [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0039_unknown_section_id_at_the_beginning_06",
         ),
         pytest.param(
             # Unknown section ID (at the beginning)
-            Container(raw_bytes=bytes.fromhex("ef0001ff00010100040200010001ff00000000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef0001fe00010100040200010001ff00000000000000fe")),
             [EOFException.MISSING_TYPE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0040_unknown_section_id_at_the_beginning_ff",
         ),
         pytest.param(
             # Unknown section ID (after types section)
-            Container(raw_bytes=bytes.fromhex("ef00010100040500010200010001ff00000000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef00010100040400010200010001ff00000000000000fe")),
             [EOFException.MISSING_CODE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0041_unknown_section_id_after_types_section_05",
         ),
         pytest.param(
             # Unknown section ID (after types section)
-            Container(raw_bytes=bytes.fromhex("ef00010100040600010200010001ff00000000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef00010100040500010200010001ff00000000000000fe")),
             [EOFException.MISSING_CODE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0042_unknown_section_id_after_types_section_06",
         ),
         pytest.param(
             # Unknown section ID (after types section)
-            Container(raw_bytes=bytes.fromhex("ef0001010004ff00010200010001ff00000000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef0001010004fe00010200010001ff00000000000000fe")),
             [EOFException.MISSING_CODE_HEADER, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0043_unknown_section_id_after_types_section_ff",
         ),
         pytest.param(
             # Unknown section ID (after code section)
-            Container(raw_bytes=bytes.fromhex("ef00010100040200010001050001ff00000000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef00010100040200010001040001ff00000000000000fe")),
             [EOFException.MISSING_DATA_SECTION, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0044_unknown_section_id_after_code_section_05",
         ),
         pytest.param(
             # Unknown section ID (after code section)
-            Container(raw_bytes=bytes.fromhex("ef00010100040200010001060001ff00000000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef00010100040200010001050001ff00000000000000fe")),
             [EOFException.MISSING_DATA_SECTION, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0045_unknown_section_id_after_code_section_06",
         ),
@@ -242,13 +242,13 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
         ),
         pytest.param(
             # Unknown section ID (after data section)
-            Container(raw_bytes=bytes.fromhex("ef00010100040200010001ff00000500010000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef00010100040200010001ff00000400010000000000fe")),
             [EOFException.MISSING_TERMINATOR, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0047_unknown_section_id_after_data_section_05",
         ),
         pytest.param(
             # Unknown section ID (after data section)
-            Container(raw_bytes=bytes.fromhex("ef00010100040200010001ff00000600010000000000fe")),
+            Container(raw_bytes=bytes.fromhex("ef00010100040200010001ff00000500010000000000fe")),
             [EOFException.MISSING_TERMINATOR, EOFException.UNEXPECTED_HEADER_KIND],
             id="EOF1I3540_0048_unknown_section_id_after_data_section_06",
         ),
