@@ -110,6 +110,7 @@ exclude = ["*tests*"]
 
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
+"cli.eest.make" = ["templates/*.j2"]
 
 [tool.ruff]
 line-length = 99
