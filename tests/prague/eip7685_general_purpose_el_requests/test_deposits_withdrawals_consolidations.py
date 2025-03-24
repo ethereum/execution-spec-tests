@@ -307,24 +307,15 @@ def get_contract_permutations(n: int = 3) -> Generator[ParameterSet, None, None]
             [
                 single_consolidation_from_contract(0),
                 single_consolidation_from_contract(1),
-                # single_consolidation_from_contract(2),  # i=2 is not allowed cuz
-                # only 2 MAX CONSOLIDATIONS PER BLOCK (EIP-7251), but why does the error message
-                # not inform about this? only reports hash mismatch
-                #
                 # the following performs single_withdrawal_from_contract(0) to (16)
                 *[
                     single_withdrawal_from_contract(i)
                     for i in range(
                         0,
-                        16,  # ensure that the hard limit of deposits per epoch has been removed
-                        # in all clients (EIP-6610), prev limit was
-                        # 16 deposits/slot or 512 deposits/epoch
-                    )  # when using larger numbers: it fails around 1000 due to:
-                    # UnixHTTPConnectionPool(host='localhost', port=None):
-                    # Read timed out. (read timeout=20), workaround: in transition_tool.py
-                    # use SLOW_REQUEST_TIMEOUT (60 sec), so slow=True
+                        16,
+                    )
                 ],
-                # single_withdrawal_from_contract(16), # i=16 not allowed cuz only
+                # single_withdrawal_from_contract(16) not allowed cuz only
                 # 16 MAX WITHDRAWALS PER BLOCK (EIP-7002)
                 #
                 # the following performs single_deposit_from_contract(0) to (18)
@@ -332,21 +323,10 @@ def get_contract_permutations(n: int = 3) -> Generator[ParameterSet, None, None]
                     single_deposit_from_contract(i)
                     for i in range(
                         0,
-                        18,  # ensure that the hard limit of deposits per epoch has been removed
-                        # in all clients (EIP-6610), prev limit was 16 deposits/slot
-                        # or 512 deposits/epoch
-                    )  # when using larger numbers: it fails around 1000 due to:
-                    # UnixHTTPConnectionPool(host='localhost', port=None): Read timed out.
-                    # (read timeout=20), workaround: in transition_tool.py use
-                    #  SLOW_REQUEST_TIMEOUT (60 sec), so slow=True
+                        18,
+                    )
                 ],
             ],
-            # following ID not possible to due filename length limitations
-            # id=(
-            #     ("consolidation_from_contract+" * 2)
-            #     + ("withdrawal_from_contract+" * 16)
-            #     + ("deposit_from_contract+" * 18)
-            # )[:-1],  # remove last '+'
             id="max_withdrawals_per_slot+max_consolidations_per_slot+unlimited_deposits_per_slot",
         ),
     ],
@@ -494,7 +474,7 @@ def invalid_requests_block_combinations(fork: Fork) -> List[ParameterSet]:
             [
                 bytes([i]) for i in range(fork.max_request_type() + 1)
             ],  # Using empty requests, calculate the hash using an invalid calculation method:
-            # sha256(sha256(b'0x00') ++ sha256(b'0x01') ++ sha256(b'0x02') ++ ...)
+            # sha256(sha256(b"\0") ++ sha256(b"\1") ++ sha256(b"\2") ++ ...)
             BlockException.INVALID_REQUESTS,
             id="no_requests_and_invalid_hash_calculation_method",
         ),
@@ -622,15 +602,6 @@ def invalid_requests_block_combinations(fork: Fork) -> List[ParameterSet]:
             id="extra_invalid_type_request_with_data_0xff",
         ),
     )
-    # too many withdrawals per block (16 is max - EIP-7002)
-    # TODO: how to make sth like below work?
-    # combinations.append(
-    #     pytest.param(
-    #         *[single_withdrawal_from_contract(i) for i in range(0, 17)],
-    #         BlockException.INVALID_REQUESTS,
-    #         id="more_than_16_withdrawals_per_block",
-    #     ),
-    # )
 
     return combinations
 
