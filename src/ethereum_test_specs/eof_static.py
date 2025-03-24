@@ -70,4 +70,12 @@ class EOFStaticTest(BaseStaticTest):
                 expect_exception=expect_exception,
             )
 
+        assert len(self.forks) <= 1, "Multiple fork elements is not supported"
+        forks = self.forks[0]
+
+        if forks.greater_equal is not None:
+            test_eof_vectors = pytest.mark.valid_from(str(forks.greater_equal))(test_eof_vectors)
+        if forks.less_than is not None:
+            test_eof_vectors = pytest.mark.valid_until(str(forks.greater_equal))(test_eof_vectors)
+
         return test_eof_vectors
