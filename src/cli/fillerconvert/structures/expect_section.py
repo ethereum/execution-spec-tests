@@ -1,7 +1,7 @@
 """Expect section structure of ethereum/tests fillers."""
 
 from enum import Enum
-from typing import Dict, List, Literal
+from typing import Dict, List, Literal, Union
 
 from pydantic import BaseModel, Field, ValidationInfo, field_validator
 
@@ -13,9 +13,9 @@ from .common import AddressInFiller, CodeInFiller, ValueInFiller
 class Indexes(BaseModel):
     """Class that represents an index filler."""
 
-    data: int | List[int] | str = Field(-1)
-    gas: int | List[int] | str = Field(-1)
-    value: int | List[int] | str = Field(-1)
+    data: int | List[Union[int, str]] | List[int] | str = Field(-1)
+    gas: int | List[Union[int, str]] | List[int] | str = Field(-1)
+    value: int | List[Union[int, str]] | List[int] | str = Field(-1)
 
     class Config:
         """Model Config."""
