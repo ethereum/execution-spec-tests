@@ -2,7 +2,7 @@
 
 import re
 from abc import abstractmethod
-from typing import Any, Callable, ClassVar, Dict, List, Type, Union
+from typing import Any, Callable, ClassVar, Dict, List, Tuple, Type, Union
 
 from pydantic import (
     BaseModel,
@@ -12,6 +12,7 @@ from pydantic import (
     model_validator,
 )
 
+from ethereum_test_base_types import Bytes
 from ethereum_test_forks import Fork, get_forks
 
 
@@ -198,3 +199,31 @@ class ForkRangeDescriptor(BaseModel):
                     + f'Remaining string: "{descriptor_string}"'
                 )
         return handler(v)
+
+
+def remove_comments(v: str) -> str:
+    """
+    Split by line and then remove the comments (starting with #) at the end of each line if
+    any.
+    """
+    return "\n".join([line.split("#")[0].strip() for line in v.splitlines()])
+
+
+label_matcher = re.compile(r"^:label\s+(\S+)\s*", re.MULTILINE)
+raw_matcher = re.compile(r":raw\s+(.*)", re.MULTILINE)
+
+
+def labeled_bytes_from_string(v: str) -> Tuple[str | None, Bytes]:
+    """Parse `:label` and `:raw` from a string."""
+    v = remove_comments(v)
+
+    label: str | None = None
+    if m := label_matcher.search(v):
+        label = m.group(1)
+        v = label_matcher.sub("", v)
+
+    m = raw_matcher.match(v.replace("\n", " "))
+    if not m:
+        raise Exception(f"Unable to parse container from string: {v}")
+    strip_string = m.group(1).strip()
+    return label, Bytes(strip_string)
