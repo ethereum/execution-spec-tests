@@ -53,6 +53,8 @@ consume cache --help
 
 ### 🧪 Test Cases
 
+- ✨ Add test cases Identity precompiles ([#1344](https://github.com/ethereum/execution-spec-tests/pull/1344)).
+
 ## [v4.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0) - 2025-03-11
 
 ### 💥 Breaking Changes
