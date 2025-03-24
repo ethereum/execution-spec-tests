@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version < '3.13'",
@@ -504,6 +503,7 @@ dependencies = [
     { name = "filelock" },
     { name = "gitpython" },
     { name = "hive-py" },
+    { name = "joblib" },
     { name = "prompt-toolkit" },
     { name = "pydantic" },
     { name = "pyjwt" },
@@ -568,6 +568,7 @@ requires-dist = [
     { name = "filelock", specifier = ">=3.15.1,<4" },
     { name = "gitpython", specifier = ">=3.1.31,<4" },
     { name = "hive-py", git = "https://github.com/marioevz/hive.py" },
+    { name = "joblib", specifier = ">=1.4.2" },
     { name = "mike", marker = "extra == 'docs'", specifier = ">=1.1.2,<2" },
     { name = "mkdocs", marker = "extra == 'docs'", specifier = ">=1.4.3,<2" },
     { name = "mkdocs-click", marker = "extra == 'docs'", specifier = ">=0.8,<1" },
@@ -608,7 +609,6 @@ requires-dist = [
     { name = "types-requests", marker = "extra == 'lint'", specifier = ">=2.31,<2.33" },
     { name = "typing-extensions", specifier = ">=4.12.2,<5" },
 ]
-provides-extras = ["test", "lint", "docs"]
 
 [[package]]
 name = "ethereum-rlp"
@@ -785,6 +785,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ed/55/39036716d19cab0747a5020fc7e907f362fbf48c984b14e62127f7e68e5d/jinja2-3.1.4.tar.gz", hash = "sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369", size = 240245 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/31/80/3a54838c3fb461f6fec263ebf3a3a41771bd05190238de3486aae8540c36/jinja2-3.1.4-py3-none-any.whl", hash = "sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d", size = 133271 },
+]
+
+[[package]]
+name = "joblib"
+version = "1.4.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/64/33/60135848598c076ce4b231e1b1895170f45fbcaeaa2c9d5e38b04db70c35/joblib-1.4.2.tar.gz", hash = "sha256:2382c5816b2636fbd20a09e0f4e9dad4736765fdfb7dca582943b9c1366b3f0e", size = 2116621 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/91/29/df4b9b42f2be0b623cbd5e2140cafcaa2bef0759a00b7b70104dcfe2fb51/joblib-1.4.2-py3-none-any.whl", hash = "sha256:06d478d5674cbc267e7496a410ee875abd68e4340feff4490bcb7afb88060ae6", size = 301817 },
 ]
 
 [[package]]
