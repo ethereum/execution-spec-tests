@@ -114,7 +114,7 @@ validInvalid:
               # Data segment
            0bad60A70BAD  # 6 bytes instead of four
     expectException:
-      ">=Osaka" : "EOF_InvalidSectionBodiesSize"
+      ">=Osaka" : "EOFException.INVALID_SECTION_BODIES_SIZE"
 
   # Data 3
   # EOF1V0001 Valid
@@ -160,7 +160,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_HeaderTerminatorMissing"
+      ">=Osaka" : "EOFException.MISSING_TERMINATOR"
 
 
   # Data 7
@@ -209,7 +209,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_UnreachableCode"
+      ">=Osaka" : "EOFException.UNREACHABLE_INSTRUCTIONS"
 
   # Data 9
   # EOF1V0011 check that code that uses a new style conditional jump (5D) succeeds
@@ -346,7 +346,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidJumpDestination"
+      ">=Osaka" : "EOFException.INVALID_RJUMP_DESTINATION"
 
 
 
@@ -400,7 +400,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidJumpDestination"
+      ">=Osaka" : "EOFException.INVALID_RJUMP_DESTINATION"
 
   # Data 15
   # EOF1I0019 check that jumps into the middle on an opcode are not allowed
@@ -428,7 +428,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidJumpDestination"
+      ">=Osaka" : "EOFException.INVALID_RJUMP_DESTINATION"
 
 
 
@@ -458,7 +458,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidTypeSectionSize"
+      ">=Osaka" : "EOFException.INVALID_TYPE_SECTION_SIZE"
 
   # Data 17
   # EOF1I0018 inconsistent number of code sections (between types and code)
@@ -482,7 +482,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidTypeSectionSize"
+      ">=Osaka" : "EOFException.INVALID_TYPE_SECTION_SIZE"
 
   # Data 21
   # EOF1I0015 check that code that uses removed opcodes fails
@@ -501,7 +501,7 @@ validInvalid:
         0007  # Max stack height 1
               # Code segment 0 code
     expectException:
-      ">=Osaka" : "EOF_InvalidSectionBodiesSize"
+      ">=Osaka" : "EOFException.INVALID_SECTION_BODIES_SIZE"
 
   # Data 23
   # EOF1I0016 check that code that uses new relative jumps to outside the section fails
@@ -526,7 +526,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_UndefinedInstruction"
+      ">=Osaka" : "EOFException.UNDEFINED_INSTRUCTION"
 
 
   # Data 24
@@ -616,7 +616,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidCodeTermination"
+      ">=Osaka" : "EOFException.MISSING_STOP_OPCODE"
 
 
   # Data 27
@@ -648,7 +648,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_StackUnderflow"
+      ">=Osaka" : "EOFException.STACK_UNDERFLOW"
 
 
   # Data 28
@@ -789,7 +789,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_MaxStackHeightExceeded"
+      ">=Osaka" : "EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT"
 
   # Data 30
   # EOF1V0003 check that valid EOF1 with four code sections deploys
@@ -1026,7 +1026,7 @@ validInvalid:
              # Data section 
       0bad60a7
     expectException:
-      ">=Osaka": "EOF_InvalidCodeSectionIndex"
+      ">=Osaka": "EOFException.INVALID_CODE_SECTION_INDEX"
 
 
   # Data 34
@@ -1061,7 +1061,7 @@ validInvalid:
              # Data section 
       0bad60a7
     expectException:
-      ">=Osaka" : "EOF_StackUnderflow"
+      ">=Osaka" : "EOFException.STACK_UNDERFLOW"
 
 
   # Data 35
@@ -1096,7 +1096,7 @@ validInvalid:
              # Data section 
       0bad60a7
     expectException:
-      ">=Osaka" : "EOF_InvalidNumberOfOutputs"
+      ">=Osaka" : "EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT"
 
   # Data 36
   # EOF1I0014 check that code that looks deeper in the stack than the parameters fails
@@ -1130,7 +1130,7 @@ validInvalid:
            # Data section 
       0bad60a7
     expectException:
-      ">=Osaka" : "EOF_StackUnderflow"
+      ">=Osaka" : "EOFException.STACK_UNDERFLOW"
 
   # Data 37
   # EOF1I0010 check that return values are not allowed on section 0
@@ -1154,7 +1154,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidFirstSectionType"
+      ">=Osaka" : "EOFException.INVALID_FIRST_SECTION_TYPE"
 
   # Data 38
   # EOF1V0009 check that parameters are allowed on code sections that aren't zero
@@ -1209,7 +1209,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidFirstSectionType"
+      ">=Osaka" : "EOFException.INVALID_FIRST_SECTION_TYPE"
 
 
   # Data 40
@@ -1234,7 +1234,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidMaxStackHeight"
+      ">=Osaka" : "EOFException.INVALID_MAX_STACK_HEIGHT"
 
   # Data 41
   # EOF1I0009 check that EOF1 with the wrong maxStackDepth fails
@@ -1260,7 +1260,7 @@ validInvalid:
               # Data segment
            0bad60A7  # 4 bytes (valid)
     expectException:
-      ">=Osaka" : "EOF_InvalidSectionBodiesSize"
+      ">=Osaka" : "EOFException.INVALID_SECTION_BODIES_SIZE"
 
   # Data 43
   # check that EOF1 with a bad end of sections number fails
@@ -1284,7 +1284,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_HeaderTerminatorMissing"
+      ">=Osaka" : "EOFException.MISSING_TERMINATOR"
 
 
   # Data 44
@@ -1309,7 +1309,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_InvalidPrefix"
+      ">=Osaka" : "EOFException.INVALID_MAGIC"
 
   # Data 45
   # EOF1I0002 check that EOF1 with a bad version number fails (ver 0)
@@ -1333,7 +1333,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_UnknownVersion"
+      ">=Osaka" : "EOFException.UNKNOWN_VERSION"
 
   # EOF1I0002 check that EOF1 with a bad version number fails (ver 2)
   - data: |
@@ -1356,7 +1356,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_UnknownVersion"
+      ">=Osaka" : "EOFException.UNKNOWN_VERSION"
 
   # EOF1I0003 check that EOF1 with a bad section order fails
   - data: |
@@ -1379,7 +1379,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_TypeSectionMissing"
+      ">=Osaka" : "EOFException.INVALID_FIRST_SECTION_TYPE"
 
   # EOF1I0003 check that EOF1 with a bad section order fails
   - data: |
@@ -1402,7 +1402,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_TypeSectionMissing"
+      ">=Osaka" : "EOFException.INVALID_FIRST_SECTION_TYPE"
 
 
   # EOF1I0004 check that EOF1 missing a section fails
@@ -1425,7 +1425,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_TypeSectionMissing"
+      ">=Osaka" : "EOFException.INVALID_FIRST_SECTION_TYPE"
 
   # EOF1I0004 check that EOF1 missing a section fails
   - data: |
@@ -1446,7 +1446,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_CodeSectionMissing"
+      ">=Osaka" : "EOFException.MISSING_CODE_HEADER"
 
   # EOF1I0004 check that EOF1 missing a section fails
   - data: |
@@ -1468,7 +1468,7 @@ validInvalid:
               # Data segment
            ef
     expectException:
-      ">=Osaka" : "EOF_DataSectionMissing"
+      ">=Osaka" : "EOFException.MISSING_DATA_SECTION"
 
 
   # EOF1 constructor returning an EOF1 contract
@@ -1517,5 +1517,5 @@ validInvalid:
   # # Init code which doesn't create a contract
   # - data: :label bad :raw 0x610BADFE
   #   expectException:
-  #     ">=Osaka" : "EOF_InvalidMagic"
+  #     ">=Osaka" : "EOFException.INVALID_MAGIC"
 
