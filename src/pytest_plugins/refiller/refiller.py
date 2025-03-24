@@ -40,7 +40,10 @@ def get_argument_names_and_values_from_parametrize_mark(
     """Get the argument names and values from a parametrize mark."""
     if mark.name != "parametrize":
         raise Exception("Mark is not a parametrize mark")
-    if mark.kwargs:
+    kwargs_dict = dict(mark.kwargs)
+    ids: Callable | List[str] | None = kwargs_dict.pop("ids") if "ids" in kwargs_dict else None
+    marks: List[pytest.Mark] = kwargs_dict.pop("marks") if "marks" in kwargs_dict else []
+    if kwargs_dict:
         raise Exception("Mark has kwargs which is not supported")
     args = mark.args
     if not isinstance(args, tuple):
@@ -49,12 +52,18 @@ def get_argument_names_and_values_from_parametrize_mark(
         raise Exception("Args does not have 2 elements")
     arg_names = args[0] if isinstance(args[0], list) else args[0].split(",")
     arg_values = []
-    for arg_value in args[1]:
+    for arg_index, arg_value in enumerate(args[1]):
         if not isinstance(arg_value, ParameterSet):
+            original_arg_value = arg_value
             if not isinstance(arg_value, tuple) and not isinstance(arg_value, list):
                 arg_value = (arg_value,)
-            test_id = get_test_id_from_arg_names_and_values(arg_names, arg_value)
-            arg_values.append(ParameterSet(arg_value, [], id=test_id))
+            test_id: str = get_test_id_from_arg_names_and_values(arg_names, arg_value)
+            if ids:
+                if callable(ids):
+                    test_id = ids(original_arg_value)
+                else:
+                    test_id = ids[arg_index]
+            arg_values.append(ParameterSet(arg_value, marks, id=test_id))
         else:
             arg_values.append(arg_value)
     return arg_names, arg_values
