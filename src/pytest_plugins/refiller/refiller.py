@@ -82,17 +82,25 @@ def get_all_combinations_from_parametrize_marks(
         all_argument_names.extend(arg_names)
     all_value_combinations: List[ParameterSet] = []
     # use itertools to get all combinations
+    test_ids = set()
     for combination in itertools.product(*list_of_values):
         values: List[Any] = []
         for param_set in combination:
             values.extend(param_set.values)
+        test_id = "-".join([param.id or "" for param in combination])
+        if test_id in test_ids:
+            current_int = 2
+            while f"{test_id}-{current_int}" in test_ids:
+                current_int += 1
+            test_id = f"{test_id}-{current_int}"
         all_value_combinations.append(
             ParameterSet(
                 values=values,
                 marks=[],
-                id="-".join([param.id or "" for param in combination]),
+                id=test_id,
             )
         )
+        test_ids.add(test_id)
 
     return all_argument_names, all_value_combinations
 
