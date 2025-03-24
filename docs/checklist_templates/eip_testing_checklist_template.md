@@ -197,8 +197,11 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Transaction validity: For each new field that affects the intrinsic gas cost of the transaction:
         - [ ] Verify the transaction (and the block it is included in) is valid by providing the exact intrinsic gas as `gas_limit` value to the transaction with all multiple combinations of values to the field.
         - [ ] Verify the transaction (and the block it is included in) is invalid by providing the exact intrinsic gas minus one as `gas_limit` value to the transaction with all multiple combinations of values to the field.
-- [ ] Encoding Tests
+- [ ] Encoding Tests (RLP, SSZ)
     - [ ] Verify correct transaction rejection due to incorrect field sizes
+    - [ ] Verify correct transaction rejection if the fields particular to the new transaction types are missing
+    - [ ] Verify correct transaction rejection if the transaction type contains extra fields
+    - [ ] If the transaction contains fields with new serializable types, perform all previous tests on the new type/field
 - [ ] RPC Tests
     - [ ] * Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type
     - [ ] Verify `eth_sendRawTransaction` using `execute`
