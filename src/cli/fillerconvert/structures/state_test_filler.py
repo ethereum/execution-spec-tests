@@ -3,7 +3,7 @@
 import json
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import yaml
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -40,6 +40,7 @@ class StateTestInFiller(BaseModel):
     pre: Dict[AddressInFiller, AccountInFiller]
     transaction: GeneralTransactionInFiller
     expect: List[ExpectSectionInStateTestFiller]
+    solidity: str | None = Field(None)
 
     class Config:
         """Model Config."""
@@ -50,17 +51,56 @@ class StateTestInFiller(BaseModel):
     @classmethod
     def match_labels(cls, model: "StateTestInFiller") -> "StateTestInFiller":
         """Replace labels in expect section with corresponding tx.d indexes."""
-        for expect_section in model.expect:
-            indexes_data = expect_section.indexes.data
-            if isinstance(indexes_data, str):
-                indexes_data = indexes_data.replace(":label ", "")
+
+        def parse_string_indexes(indexes: str) -> List[int]:
+            """Parse index that are string in to list of int."""
+            if ":label" in indexes:
+                # Parse labels in data
+                indexes = indexes.replace(":label ", "")
                 tx_matches: List[int] = []
                 for idx, d in enumerate(model.transaction.data):
-                    code, opt = d.data
-                    if indexes_data == opt.label:
+                    _, code_opt = d.data
+                    if indexes == code_opt.label:
                         tx_matches.append(idx)
+                return tx_matches
+            else:
+                # Prase ranges in data
+                start, end = map(int, indexes.lstrip().split("-"))
+                return list(range(start, end + 1))
 
-                expect_section.indexes.data = tx_matches
+        def parse_indexes(
+            indexes: Union[int, str, list[Union[int, str]], list[str], list[int]],
+            do_hint: bool = False,
+        ) -> List[int] | int:
+            """Prase indexes and replace all ranges and labels into tx indexes."""
+            result: List[int] | int = []
+
+            if do_hint:
+                print("Before: " + str(indexes))
+
+            if isinstance(indexes, int):
+                result = indexes
+            if isinstance(indexes, str):
+                result = parse_string_indexes(indexes)
+            if isinstance(indexes, list):
+                result = []
+                for element in indexes:
+                    parsed = parse_indexes(element)
+                    if isinstance(parsed, int):
+                        result.append(parsed)
+                    else:
+                        result.extend(parsed)
+                result = list(set(result))
+
+            if do_hint:
+                print("After: " + str(result))
+            return result
+
+        for expect_section in model.expect:
+            expect_section.indexes.data = parse_indexes(expect_section.indexes.data)
+            expect_section.indexes.gas = parse_indexes(expect_section.indexes.gas)
+            expect_section.indexes.value = parse_indexes(expect_section.indexes.value)
+
         return model
 
 
@@ -172,12 +212,22 @@ class StateFiller(BaseModel):
         test_name, state_test = list(self.tests.items())[0]
 
         # Convert Environment data from .json filler into pyspec type
-        env = Environment()
-        env.fee_recipient = Address(state_test.env.current_coinbase)
-        env.difficulty = ZeroPaddedHexNumber(state_test.env.current_difficulty)
-        env.gas_limit = ZeroPaddedHexNumber(state_test.env.current_gas_limit)
-        env.number = ZeroPaddedHexNumber(state_test.env.current_number)
-        env.timestamp = ZeroPaddedHexNumber(state_test.env.current_timestamp)
+        test_env = state_test.env
+        env = Environment(
+            fee_recipient=Address(test_env.current_coinbase),
+            difficulty=ZeroPaddedHexNumber(test_env.current_difficulty)
+            if test_env.current_difficulty is not None
+            else None,
+            prev_randao=ZeroPaddedHexNumber(test_env.current_random)
+            if test_env.current_random is not None
+            else None,
+            gas_limit=ZeroPaddedHexNumber(test_env.current_gas_limit),
+            number=ZeroPaddedHexNumber(test_env.current_number),
+            timestamp=ZeroPaddedHexNumber(test_env.current_timestamp),
+            base_fee_per_gas=ZeroPaddedHexNumber(test_env.current_base_fee)
+            if test_env.current_base_fee is not None
+            else None,
+        )
         return env
 
     @cached_property
@@ -242,10 +292,14 @@ class StateFiller(BaseModel):
             # TODO looks like pyspec post state verification will not work for default values?
             # Because if we require balance to be 0 it must be checked,
             # but if we don't care about the value of the balance how to specify it?
+            code = Bytes(b"")
+            if account.code is not None:
+                code, code_options = account.code
+
             post[address] = Account(
                 balance=account.balance if account.balance is not None else ZeroPaddedHexNumber(0),
                 nonce=account.nonce if account.nonce is not None else ZeroPaddedHexNumber(0),
-                code=account.code if account.code is not None else Bytes(b""),
+                code=code,
                 storage=storage,
             )
 
