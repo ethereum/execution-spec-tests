@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.2", "wheel"]
+requires = ["setuptools==70.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -38,6 +38,7 @@ dependencies = [
     "semver>=3.0.1,<4",
     "pydantic>=2.10.0,<3",
     "rich>=13.7.0,<14",
+    "pycryptodome>=3.4.6,<3.10",
     "solc-select>=1.0.4,<2",
     "filelock>=3.15.1,<4",
     "ethereum-types>=0.2.1,<0.3",

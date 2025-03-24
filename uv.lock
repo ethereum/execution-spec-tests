@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version < '3.13'",
@@ -500,6 +499,7 @@ dependencies = [
     { name = "gitpython" },
     { name = "hive-py" },
     { name = "prompt-toolkit" },
+    { name = "pycryptodome" },
     { name = "pydantic" },
     { name = "pyjwt" },
     { name = "pytest" },
@@ -578,6 +578,7 @@ requires-dist = [
     { name = "mypy", marker = "extra == 'lint'", specifier = ">=1.15.0,<1.16" },
     { name = "pillow", marker = "extra == 'docs'", specifier = ">=10.0.1,<11" },
     { name = "prompt-toolkit", specifier = ">=3.0.48,<4" },
+    { name = "pycryptodome", specifier = ">=3.4.6,<3.10" },
     { name = "pydantic", specifier = ">=2.10.0,<3" },
     { name = "pyjwt", specifier = ">=2.3.0,<3" },
     { name = "pyspelling", marker = "extra == 'docs'", specifier = ">=2.8.2,<3" },
@@ -605,7 +606,6 @@ requires-dist = [
     { name = "types-setuptools" },
     { name = "typing-extensions", specifier = ">=4.12.2,<5" },
 ]
-provides-extras = ["test", "lint", "docs"]
 
 [[package]]
 name = "ethereum-rlp"
@@ -1318,20 +1318,9 @@ wheels = [
 
 [[package]]
 name = "pycryptodome"
-version = "3.15.0"
+version = "3.9.9"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/11/e4/a8e8056a59c39f8c9ddd11d3bc3e1a67493abe746df727e531f66ecede9e/pycryptodome-3.15.0.tar.gz", hash = "sha256:9135dddad504592bcc18b0d2d95ce86c3a5ea87ec6447ef25cfedea12d6018b8", size = 4547210 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/2f/dc/e5bb825eb7348773b77ace0d977f549af851c1d8300f1ba60119e88ba715/pycryptodome-3.15.0-cp35-abi3-macosx_10_9_x86_64.whl", hash = "sha256:9ee40e2168f1348ae476676a2e938ca80a2f57b14a249d8fe0d3cdf803e5a676", size = 1558258 },
-    { url = "https://files.pythonhosted.org/packages/2e/6f/27fbd8f3fd8b48feba2b4226f7f8d23af7755c54957fccc3fe6f44b764cf/pycryptodome-3.15.0-cp35-abi3-manylinux1_i686.whl", hash = "sha256:4c3ccad74eeb7b001f3538643c4225eac398c77d617ebb3e57571a897943c667", size = 2469207 },
-    { url = "https://files.pythonhosted.org/packages/b1/54/ad3e2e07a5a7ceb926971398f7e3a0eeee85b6e1d3e658df8f71a4497daa/pycryptodome-3.15.0-cp35-abi3-manylinux1_x86_64.whl", hash = "sha256:1b22bcd9ec55e9c74927f6b1f69843cb256fb5a465088ce62837f793d9ffea88", size = 2303310 },
-    { url = "https://files.pythonhosted.org/packages/c5/b4/526dd68f6c8ff6b785d7a08da7a6bba5646cced508454f1d1ab948e6b737/pycryptodome-3.15.0-cp35-abi3-manylinux2010_i686.whl", hash = "sha256:57f565acd2f0cf6fb3e1ba553d0cb1f33405ec1f9c5ded9b9a0a5320f2c0bd3d", size = 2469209 },
-    { url = "https://files.pythonhosted.org/packages/7d/be/e3e56f7f92bebf506aec486eb71d91952d2e9faf5e10872a89931db4120f/pycryptodome-3.15.0-cp35-abi3-manylinux2010_x86_64.whl", hash = "sha256:4b52cb18b0ad46087caeb37a15e08040f3b4c2d444d58371b6f5d786d95534c2", size = 2303313 },
-    { url = "https://files.pythonhosted.org/packages/35/5b/ba592bfd0d3bad9450645b751c132cf1028dc111ae699fd8e70808414941/pycryptodome-3.15.0-cp35-abi3-manylinux2014_aarch64.whl", hash = "sha256:092a26e78b73f2530b8bd6b3898e7453ab2f36e42fd85097d705d6aba2ec3e5e", size = 1589891 },
-    { url = "https://files.pythonhosted.org/packages/02/fa/f83072580377dcdf4d2ff3c7d25d225790302a86cfd1e9eb2c2832740135/pycryptodome-3.15.0-cp35-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:50ca7e587b8e541eb6c192acf92449d95377d1f88908c0a32ac5ac2703ebe28b", size = 2032482 },
-    { url = "https://files.pythonhosted.org/packages/55/60/28d873c1efe46cf62494a0393fe34e4757821123fb1af9c45be3b2eeba8a/pycryptodome-3.15.0-cp35-abi3-win32.whl", hash = "sha256:e244ab85c422260de91cda6379e8e986405b4f13dc97d2876497178707f87fc1", size = 1877649 },
-    { url = "https://files.pythonhosted.org/packages/00/07/5a262e3213a9358e2f7caf9080aa8a984f44bf4aee84592dfb965dd34355/pycryptodome-3.15.0-cp35-abi3-win_amd64.whl", hash = "sha256:c77126899c4b9c9827ddf50565e93955cb3996813c18900c16b2ea0474e130e9", size = 1941787 },
-]
+sdist = { url = "https://files.pythonhosted.org/packages/c4/3a/5bca2cb1648b171afd6b7d29a11c6bca8b305bb75b7e2d78a0f5c61ff95e/pycryptodome-3.9.9.tar.gz", hash = "sha256:910e202a557e1131b1c1b3f17a63914d57aac55cf9fb9b51644962841c3995c4", size = 15488528 }
 
 [[package]]
 name = "pydantic"
