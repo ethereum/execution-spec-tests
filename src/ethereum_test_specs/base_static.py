@@ -1,9 +1,18 @@
 """Base class to parse test cases written in static formats."""
 
+import re
 from abc import abstractmethod
 from typing import Any, Callable, ClassVar, Dict, List, Type, Union
 
-from pydantic import BaseModel, TypeAdapter, ValidatorFunctionWrapHandler, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    TypeAdapter,
+    ValidatorFunctionWrapHandler,
+    model_validator,
+)
+
+from ethereum_test_forks import Fork, get_forks
 
 
 class BaseStaticTest(BaseModel):
@@ -131,3 +140,61 @@ class BaseStaticTest(BaseModel):
         if isinstance(data, dict):
             return BaseStaticTest.remove_comments(data)
         return data
+
+
+ALL_FORKS = get_forks()
+
+
+def fork_by_name(fork_name: str) -> Fork:
+    """Get a fork by name."""
+    for fork in ALL_FORKS:
+        if fork.name() == fork_name:
+            return fork
+
+    raise Exception(f'Fork "{fork_name}" could not be identified.')
+
+
+class ForkRangeDescriptor(BaseModel):
+    """Fork descriptor parsed from string normally contained in ethereum/tests fillers."""
+
+    greater_equal: Fork | None = None
+    less_than: Fork | None = None
+    model_config = ConfigDict(frozen=True)
+
+    def fork_in_range(self, fork: Fork) -> bool:
+        """Return whether the given fork is within range."""
+        if self.greater_equal is not None and fork < self.greater_equal:
+            return False
+        if self.less_than is not None and fork >= self.less_than:
+            return False
+        return True
+
+    @model_validator(mode="wrap")
+    @classmethod
+    def validate_fork_range_descriptor(cls, v: Any, handler: ValidatorFunctionWrapHandler):
+        """
+        Validate the fork range descriptor from a string.
+
+        Examples:
+        - ">=Osaka" validates to {greater_equal=Osaka, less_than=None}
+        - ">=Prague<Osaka" validates to {greater_equal=Prague, less_than=Osaka}
+
+        """
+        if isinstance(v, str):
+            # Decompose the string into its parts
+            descriptor_string = re.sub(r"\s+", "", v.strip())
+            v = {}
+            if m := re.search(r">=(\w+)", descriptor_string):
+                fork = fork_by_name(m.group(1))
+                v["greater_equal"] = fork
+                descriptor_string = re.sub(r">=(\w+)", "", descriptor_string)
+            if m := re.search(r"<(\w+)", descriptor_string):
+                fork = fork_by_name(m.group(1))
+                v["less_than"] = fork
+                descriptor_string = re.sub(r"<(\w+)", "", descriptor_string)
+            if descriptor_string:
+                raise Exception(
+                    "Unable to completely parse fork range descriptor. "
+                    + f'Remaining string: "{descriptor_string}"'
+                )
+        return handler(v)

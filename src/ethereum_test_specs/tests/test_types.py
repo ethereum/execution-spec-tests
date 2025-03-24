@@ -4,7 +4,9 @@ import pytest
 
 from ethereum_test_base_types import Address, Bloom, Bytes, Hash, HeaderNonce
 from ethereum_test_fixtures.blockchain import FixtureHeader
+from ethereum_test_forks import Osaka, Prague
 
+from ..base_static import ForkRangeDescriptor
 from ..blockchain import Header
 
 fixture_header_ones = FixtureHeader(
@@ -129,3 +131,33 @@ def test_fixture_header_join(
 ):
     """Test that the join method works as expected."""
     assert modifier.apply(fixture_header) == fixture_header_expected
+
+
+@pytest.mark.parametrize(
+    "fork_range_descriptor_string,expected_fork_range_descriptor",
+    [
+        (
+            ">=Osaka",
+            ForkRangeDescriptor(
+                greater_equal=Osaka,
+                less_than=None,
+            ),
+        ),
+        (
+            ">= Prague < Osaka",
+            ForkRangeDescriptor(
+                greater_equal=Prague,
+                less_than=Osaka,
+            ),
+        ),
+    ],
+)
+def test_parsing_fork_range_descriptor_from_string(
+    fork_range_descriptor_string: str,
+    expected_fork_range_descriptor: ForkRangeDescriptor,
+):
+    """Test multiple strings used as fork range descriptors in ethereum/tests."""
+    assert (
+        ForkRangeDescriptor.model_validate(fork_range_descriptor_string)
+        == expected_fork_range_descriptor
+    )
