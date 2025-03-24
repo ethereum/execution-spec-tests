@@ -17,6 +17,7 @@ from .eof import (
     EOFTestFiller,
     EOFTestSpec,
 )
+from .eof_static import EOFStaticTest
 from .state import StateTest, StateTestFiller, StateTestSpec
 from .transaction import TransactionTest, TransactionTestFiller, TransactionTestSpec
 
@@ -41,6 +42,7 @@ __all__ = (
     "EOFStateTest",
     "EOFStateTestFiller",
     "EOFStateTestSpec",
+    "EOFStaticTest",
     "EOFTest",
     "EOFTestFiller",
     "EOFTestSpec",
