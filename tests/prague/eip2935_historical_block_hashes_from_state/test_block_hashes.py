@@ -81,6 +81,9 @@ def generate_block_check_code(
             store_equal_key, Op.EQ(Op.MLOAD(contract_ret_offset), Op.BLOCKHASH(check_block_number))
         )
 
+    # Reset the contract return value
+    code += Op.MSTORE(contract_ret_offset, 0)
+
     return code
 
 
