@@ -8,7 +8,7 @@ import pytest
 from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
 from ethereum_test_tools import Opcodes as Op
 
-from .conftest import G1_POINT_NEAR_P, G1_POINT_NEAR_ZERO
+# from .conftest import G1_POINT_NEAR_P, G1_POINT_NEAR_ZERO
 from .helpers import add_points_g1, vectors_from_file
 from .spec import PointG1, Spec, ref_spec_2537
 
@@ -23,8 +23,23 @@ pytestmark = [
 
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
+    # Test vectors from the reference spec (from the cryptography team)
     vectors_from_file("add_G1_bls.json")
     + [
+        # Identity (infinity) element test cases.
+        # Checks that any point added to the identity element (INF) equals itself.
+        pytest.param(
+            Spec.G1 + Spec.INF_G1,
+            Spec.G1,
+            None,
+            id="generator_plus_inf",
+        ),
+        pytest.param(
+            Spec.INF_G1 + Spec.G1,
+            Spec.G1,
+            None,
+            id="inf_plus_generator",
+        ),
         pytest.param(
             Spec.INF_G1 + Spec.INF_G1,
             Spec.INF_G1,
@@ -32,22 +47,24 @@ pytestmark = [
             id="inf_plus_inf",
         ),
         pytest.param(
-            Spec.P1_NOT_IN_SUBGROUP + Spec.P1_NOT_IN_SUBGROUP,
-            Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
+            Spec.INF_G1 + Spec.P1,
+            Spec.P1,
             None,
-            id="not_in_subgroup_1",
+            id="inf_plus_point",
         ),
-        pytest.param(
-            Spec.P1_NOT_IN_SUBGROUP + Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
-            Spec.INF_G1,
-            None,
-            id="not_in_subgroup_2",
-        ),
+        # Basic arithmetic properties test cases.
+        # Checks fundamental properties of the BLS12-381 curve.
         pytest.param(
             Spec.P1 + (-Spec.P1),
             Spec.INF_G1,
             None,
-            id="point_plus_negative",
+            id="point_plus_neg_point",
+        ),
+        pytest.param(
+            Spec.G1 + (-Spec.G1),
+            Spec.INF_G1,
+            None,
+            id="generator_plus_neg_point",
         ),
         pytest.param(
             Spec.P1 + Spec.G1,
@@ -67,43 +84,123 @@ pytestmark = [
             None,
             id="point_doubling",
         ),
-        # Boundary point test cases
-        pytest.param(
-            G1_POINT_NEAR_P + Spec.INF_G1,
-            G1_POINT_NEAR_P,
+        pytest.param(  # (P + G) + P = P + (G + P)
+            add_points_g1(Spec.P1, Spec.G1) + Spec.P1,
+            add_points_g1(Spec.P1, add_points_g1(Spec.G1, Spec.P1)),
             None,
-            id="near_p_boundary_plus_inf",
+            id="associativity_check",
+        ),
+        pytest.param(  # -(P+G) = (-P)+(-G)
+            (-(add_points_g1(Spec.P1, Spec.G1))) + Spec.INF_G1,
+            add_points_g1((-Spec.P1), (-Spec.G1)),
+            None,
+            id="negation_of_sum",
         ),
         pytest.param(
-            G1_POINT_NEAR_ZERO + Spec.INF_G1,
-            G1_POINT_NEAR_ZERO,
+            add_points_g1(Spec.G1, Spec.G1) + add_points_g1(Spec.P1, Spec.P1),
+            add_points_g1(add_points_g1(Spec.G1, Spec.G1), add_points_g1(Spec.P1, Spec.P1)),
             None,
-            id="near_zero_boundary_plus_inf",
+            id="double_generator_plus_double_point",
         ),
         pytest.param(
-            G1_POINT_NEAR_ZERO + G1_POINT_NEAR_P,
-            add_points_g1(G1_POINT_NEAR_ZERO, G1_POINT_NEAR_P),
+            add_points_g1(Spec.G1, Spec.G1) + add_points_g1(Spec.G1, Spec.G1),
+            add_points_g1(add_points_g1(Spec.G1, Spec.G1), add_points_g1(Spec.G1, Spec.G1)),
             None,
-            id="near_zero_boundary_plus_near_p_boundary",
+            id="double_generator_plus_double_generator",
         ),
-        pytest.param(
-            G1_POINT_NEAR_P + G1_POINT_NEAR_P,
-            add_points_g1(G1_POINT_NEAR_P, G1_POINT_NEAR_P),
-            None,
-            id="doubling_near_p_boundary",
-        ),
-        pytest.param(
-            Spec.G1 + G1_POINT_NEAR_P + G1_POINT_NEAR_ZERO,
-            add_points_g1(add_points_g1(Spec.G1, G1_POINT_NEAR_P), G1_POINT_NEAR_ZERO),
-            None,
-            id="chained_boundary_points",
-        ),
-        pytest.param(
-            G1_POINT_NEAR_P + PointG1(G1_POINT_NEAR_P.x, Spec.P - G1_POINT_NEAR_P.y),
+        pytest.param(  # (x,y) + (x,-y) = INF
+            PointG1(Spec.P1.x, Spec.P1.y) + PointG1(Spec.P1.x, Spec.P - Spec.P1.y),
             Spec.INF_G1,
             None,
-            id="near_p_boundary_plus_its_neg",
+            id="point_plus_reflected_point",
         ),
+        # Not in the r-order subgroup test cases.
+        # Checks that any point on the curve but not in the subgroup is used for operations.
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP + Spec.P1_NOT_IN_SUBGROUP,
+            Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
+            None,
+            id="non_sub_plus_non_sub",
+        ),
+        pytest.param(  # `P1_NOT_IN_SUBGROUP` has an small order subgroup of 3: 3P = INF.
+            Spec.P1_NOT_IN_SUBGROUP + Spec.P1_NOT_IN_SUBGROUP_TIMES_2,
+            Spec.INF_G1,
+            None,
+            id="non_sub_order_3_to_inf",
+        ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP + Spec.INF_G1,
+            Spec.P1_NOT_IN_SUBGROUP,
+            None,
+            id="non_sub_plus_inf",
+        ),
+        pytest.param(
+            Spec.G1 + Spec.P1_NOT_IN_SUBGROUP,
+            add_points_g1(Spec.G1, Spec.P1_NOT_IN_SUBGROUP),
+            None,
+            id="generator_plus_non_sub",
+        ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP + (-Spec.P1_NOT_IN_SUBGROUP),
+            Spec.INF_G1,
+            None,
+            id="non_sub_plus_neg_non_sub",
+        ),
+        pytest.param(
+            Spec.P1 + Spec.P1_NOT_IN_SUBGROUP,
+            add_points_g1(Spec.P1, Spec.P1_NOT_IN_SUBGROUP),
+            None,
+            id="in_sub_plus_non_sub",
+        ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Spec.P1,
+            add_points_g1(Spec.P1_NOT_IN_SUBGROUP_TIMES_2, Spec.P1),
+            None,
+            id="doubled_non_sub_plus_in_sub",
+        ),
+        pytest.param(
+            Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + (-Spec.P1_NOT_IN_SUBGROUP),
+            Spec.P1_NOT_IN_SUBGROUP,
+            None,
+            id="doubled_non_sub_plus_neg",
+        ),
+        # Boundary point test cases. TODO: requires generated points
+        # pytest.param(
+        # G1_POINT_NEAR_P + Spec.INF_G1,
+        # G1_POINT_NEAR_P,
+        # None,
+        # id="near_p_boundary_plus_inf",
+        # ),
+        # pytest.param(
+        # G1_POINT_NEAR_ZERO + Spec.INF_G1,
+        # G1_POINT_NEAR_ZERO,
+        # None,
+        # id="near_zero_boundary_plus_inf",
+        # ),
+        # pytest.param(
+        # G1_POINT_NEAR_ZERO + G1_POINT_NEAR_P,
+        # add_points_g1(G1_POINT_NEAR_ZERO, G1_POINT_NEAR_P),
+        # None,
+        # id="near_zero_boundary_plus_near_p_boundary",
+        # ),
+        # pytest.param(
+        # G1_POINT_NEAR_P + G1_POINT_NEAR_P,
+        # add_points_g1(G1_POINT_NEAR_P, G1_POINT_NEAR_P),
+        # None,
+        # id="doubling_near_p_boundary",
+        # ),
+        # pytest.param(
+        # Spec.G1 + G1_POINT_NEAR_P + G1_POINT_NEAR_ZERO,
+        # add_points_g1(add_points_g1(Spec.G1, G1_POINT_NEAR_P), G1_POINT_NEAR_ZERO),
+        # None,
+        # id="chained_boundary_points",
+        # ),
+        # pytest.param(
+        # G1_POINT_NEAR_P + PointG1(G1_POINT_NEAR_P.x, Spec.P - G1_POINT_NEAR_P.y),
+        # Spec.INF_G1,
+        # None,
+        # id="near_p_boundary_plus_its_neg",
+        # ),
     ],
 )
 def test_valid(
@@ -123,6 +220,7 @@ def test_valid(
 
 @pytest.mark.parametrize(
     "input_data",
+    # Test vectors from the reference spec (from the cryptography team)
     vectors_from_file("fail-add_G1_bls.json")
     + [
         pytest.param(
@@ -222,13 +320,26 @@ def test_valid(
             id="swapped_coordinates",
         ),
         pytest.param(
-            PointG1(
-                Spec.P1.x,
-                Spec.P - Spec.P1.y,  # The other y-coordinate for the same x
-            )
-            + Spec.INF_G1,
-            id="non_canonical_y_coordinate",
+            b"\x00" * 96,
+            id="all_zero_96_bytes",
         ),
+        pytest.param(
+            b"\xff" + b"\x00" * 47 + b"\xff" + b"\x00" * 47,
+            id="bad_inf_flag",
+        ),
+        pytest.param(
+            b"\xc0" + b"\x00" * 47 + b"\xc0" + b"\x00" * 47,
+            id="comp_instead_of_uncomp",
+        ),
+        # TODO: requires generated points
+        # pytest.param(
+        # PointG1() + Spec.INF_G1,
+        # id="random_off_curve_1",
+        # ),
+        # pytest.param(
+        # PointG1() + Spec.INF_G1,
+        # id="random_off_curve_2",
+        # ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])

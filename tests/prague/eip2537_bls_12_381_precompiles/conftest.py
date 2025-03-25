@@ -1,6 +1,6 @@
 """Shared pytest definitions local to EIP-2537 tests."""
 
-from typing import SupportsBytes
+from typing import List, SupportsBytes
 
 import pytest
 
@@ -191,11 +191,38 @@ def tx(
 
 
 # Fixed boundary G1 points
-G1_POINT_NEAR_P: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(Spec.P - 100)
-G1_POINT_NEAR_ZERO: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(0)
-G1_POINT_SMALL_X: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(3)
+# G1_POINT_NEAR_P: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(Spec.P - 100)
+# G1_POINT_NEAR_ZERO: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(0)
+# G1_POINT_SMALL_X: PointG1 = BLSPointGenerator.generate_g1_point_in_subgroup_by_x(3)
 
 # Fixed boundary G2 points
-G2_POINT_NEAR_P: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((Spec.P - 100, 0))
-G2_POINT_NEAR_ZERO: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((0, 0))
-G2_POINT_SMALL_X: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((3, 0))
+# G2_POINT_NEAR_P: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((Spec.P - 100, 0))
+# G2_POINT_NEAR_ZERO: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((0, 0))
+# G2_POINT_SMALL_X: PointG2 = BLSPointGenerator.generate_g2_point_in_subgroup_by_x((3, 0))
+
+# Points with specific x-coordinates for edge case testing
+# G1_EDGE_POINTS: List[PointG1] = [
+# G1_POINT_NEAR_ZERO,
+# G1_POINT_SMALL_X,
+# G1_POINT_NEAR_P,
+# BLSPointGenerator.generate_g1_point_in_subgroup_by_x(Spec.P - 1),
+# BLSPointGenerator.generate_g1_point_in_subgroup_by_x(1),
+# ]
+
+# G2 points with specific x-coordinates for edge case testing
+# G2_EDGE_POINTS: List[PointG2] = [
+# G2_POINT_NEAR_ZERO,
+# G2_POINT_SMALL_X,
+# G2_POINT_NEAR_P,
+# BLSPointGenerator.generate_g2_point_in_subgroup_by_x((Spec.P - 1, 0)),
+# BLSPointGenerator.generate_g2_point_in_subgroup_by_x((1, 1)),
+# ]
+
+
+# Random points not in the subgroup (fast to generate)
+G1_NOT_IN_SUBGROUP = BLSPointGenerator.generate_random_g1_point_not_in_subgroup()
+G2_NOT_IN_SUBGROUP = BLSPointGenerator.generate_random_g2_point_not_in_subgroup()
+
+# Random points not on the curve (fast to generate)
+G1_NOT_ON_CURVE = BLSPointGenerator.generate_random_g1_point_not_on_curve()
+G2_NOT_ON_CURVE = BLSPointGenerator.generate_random_g2_point_not_on_curve()

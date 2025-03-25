@@ -254,7 +254,7 @@ class BLSPointGenerator:
         Find a G1 point with x-coordinate at or near the given value,
         with the specified subgroup membership and curve membership.
         """
-        max_offset = 100
+        max_offset = 5000
         isomorphic_b = cls.ISOMORPHIC_B_G1
 
         for offset in range(max_offset + 1):
@@ -329,7 +329,7 @@ class BLSPointGenerator:
         Find a G2 point with x-coordinate at or near the given value,
         with the specified subgroup membership and curve membership.
         """
-        max_offset = 100
+        max_offset = 5000
         isomorphic_b = cls.ISOMORPHIC_B_G2
 
         for offset in range(max_offset + 1):
