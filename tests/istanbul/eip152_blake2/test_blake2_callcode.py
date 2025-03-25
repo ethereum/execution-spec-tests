@@ -428,21 +428,38 @@ def test_blake2b_gas_limit(
             ),
             id="EIP-152-case2-data3-large-gas-limit",
         ),
-        # pytest.param(
-        #     Blake2bInput(
-        #         rounds=8000000,
-        #         h="48c9bdf267e6096a3ba7ca8485ae67bb2bf894fe72f36e3cf1361d5f3af54fa5d182e6ad7f520e511f6c3e2b8c68059b6bbd41fbabd9831f79217e1319cde05b",  # noqa: E501
-        #         m="6162630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
-        #         t_0=3,
-        #         t_1=0,
-        #     ),
-        #     ExpectedOutput(
-        #         call_succeeds=True,
-        #         data_1="0x6d2ce9e534d50e18ff866ae92d70cceba79bbcd14c63819fe48752c8aca87a4b",
-        #         data_2="0xb7dcc230d22a4047f0486cfcfb50a17b24b2899eb8fca370f22240adb5170189",
-        #     ),
-        #     id="EIP-152-case8-data9-large-gas-limit",
-        # ),
+        pytest.param(
+            Blake2bInput(
+                rounds=100_000,
+                h="48c9bdf267e6096a3ba7ca8485ae67bb2bf894fe72f36e3cf1361d5f3af54fa5d182e6ad7f520e511f6c3e2b8c68059b6bbd41fbabd9831f79217e1319cde05b",  # noqa: E501
+                m="6162630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
+                t_0=3,
+                t_1=0,
+            ),
+            ExpectedOutput(
+                call_succeeds=True,
+                data_1="0x165da71a32e91bca2623bfaeab079f7e6edfba2259028cc854ec497f9fb0fe75",
+                data_2="0xd37f63034b83f4a0a07cd238483874862921ef0c40630826a76e41bf3b02ffe3",
+            ),
+            id="EIP-152-modified-case8-data9-large-gas-limit",
+            marks=pytest.mark.slow,
+        ),
+        pytest.param(
+            Blake2bInput(
+                rounds=8000000,
+                h="48c9bdf267e6096a3ba7ca8485ae67bb2bf894fe72f36e3cf1361d5f3af54fa5d182e6ad7f520e511f6c3e2b8c68059b6bbd41fbabd9831f79217e1319cde05b",  # noqa: E501
+                m="6162630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",  # noqa: E501
+                t_0=3,
+                t_1=0,
+            ),
+            ExpectedOutput(
+                call_succeeds=True,
+                data_1="0x6d2ce9e534d50e18ff866ae92d70cceba79bbcd14c63819fe48752c8aca87a4b",
+                data_2="0xb7dcc230d22a4047f0486cfcfb50a17b24b2899eb8fca370f22240adb5170189",
+            ),
+            id="EIP-152-case8-data9-large-gas-limit",
+            marks=pytest.mark.skip("Times-out during fill"),
+        ),
         pytest.param(
             "000c",
             ExpectedOutput(
