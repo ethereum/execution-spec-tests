@@ -25,9 +25,15 @@ runs:
         submodules: true
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@802fa1a2c4e212495c05bf94dba2704a92a472be
-    - name: "Install GMP"
+    - name: "Install GMP Linux"
+      if: runner.os == 'Linux'
       shell: bash
       run: sudo apt-get -q update && sudo apt-get -qy install libgmp-dev
+    - name: Install GMP macOS
+      if: runner.os == 'macOS'
+      shell: bash
+      run: |
+        brew update && brew install gmp
     - name: Build evmone binary
       shell: bash
       run: |
