@@ -250,6 +250,26 @@ def pytest_configure(config):
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
 
 
+def pytest_sessionstart(session: pytest.Session):
+    """Check if the output directory was clean at session start."""
+    output: Path = session.config.getoption("output")
+    output_dir = strip_output_tarball_suffix(output)
+
+    if is_output_stdout(output) or session.config.option.collectonly:
+        session.config._output_dir_was_clean = None
+        return
+
+    if output_dir.exists() and any(output_dir.iterdir()):
+        session.config._output_dir_was_clean = False
+        warnings.warn(
+            f"[filler] Output directory '{output_dir}' is not empty at session start. "
+            f"Index generation will be skipped to avoid parsing stale fixtures.",
+            stacklevel=2,
+        )
+    else:
+        session.config._output_dir_was_clean = True
+
+
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config: pytest.Config):
     """Add lines to pytest's console output header."""
@@ -817,11 +837,19 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     for file in output_dir.rglob("*.lock"):
         file.unlink()
 
-    # Generate index file for all produced fixtures.
+    # Skip index generation if output dir was not clean at session start to avoid stale fixture
     if session.config.getoption("generate_index"):
-        generate_fixtures_index(
-            output_dir, quiet_mode=True, force_flag=False, disable_infer_format=False
-        )
+        was_clean = getattr(session.config, "_output_dir_was_clean", True)
+        if was_clean is True:
+            generate_fixtures_index(
+                output_dir, quiet_mode=True, force_flag=False, disable_infer_format=False
+            )
+        elif was_clean is False:
+            warnings.warn(
+                f"[filler] Skipping index file generation because the output directory "
+                f"'{output_dir}' was not clean at session start.",
+                stacklevel=2,
+            )
 
     # Create tarball of the output directory if the output is a tarball.
     is_output_tarball = output.suffix == ".gz" and output.with_suffix("").suffix == ".tar"
