@@ -1,6 +1,6 @@
 """
-abstract: Tests [EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685)
-    Cross testing for withdrawal and deposit request for [EIP-7685: General purpose execution layer requests](https://eips.ethereum.org/EIPS/eip-7685).
+abstract: Tests [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002)
+    Test execution layer triggered exits [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
 
 """  # noqa: E501
 
@@ -22,10 +22,10 @@ from ..eip7002_el_triggerable_withdrawals.helpers import (
     WithdrawalRequestTransaction,
 )
 from ..eip7002_el_triggerable_withdrawals.spec import Spec as Spec_EIP7002
-from .spec import ref_spec_7685
+from .spec import ref_spec_7002
 
-REFERENCE_SPEC_GIT_PATH: str = ref_spec_7685.git_path
-REFERENCE_SPEC_VERSION: str = ref_spec_7685.version
+REFERENCE_SPEC_GIT_PATH: str = ref_spec_7002.git_path
+REFERENCE_SPEC_VERSION: str = ref_spec_7002.version
 
 
 # @pytest.mark.parametrize(
