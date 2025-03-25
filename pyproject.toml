@@ -1,5 +1,8 @@
 [build-system]
-requires = ["setuptools==78.0.2", "wheel==0.45.1"]
+requires = [
+    "setuptools==78.0.2",
+    "wheel==0.45.1",
+] # the setuptools version here should match that of setuptools below in docs in optional-dependencies
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -62,11 +65,7 @@ Changelog = "https://ethereum.github.io/execution-spec-tests/main/CHANGELOG/"
 
 [project.optional-dependencies]
 test = ["pytest-cov>=4.1.0,<5"]
-lint = [
-    "ruff==0.9.4",
-    "mypy>=1.15.0,<1.16",
-    "types-requests"
-]
+lint = ["ruff==0.9.4", "mypy>=1.15.0,<1.16", "types-requests"]
 docs = [
     "cairosvg>=2.7.0,<3",
     "mike>=1.1.2,<2",
@@ -82,6 +81,7 @@ docs = [
     "mkdocstrings-python>=1.0.0,<2",
     "pillow>=10.0.1,<11",
     "pyspelling>=2.8.2,<3",
+    "setuptools==78.0.2",
 ]
 
 [project.scripts]
@@ -116,7 +116,7 @@ line-length = 99
 [tool.ruff.lint]
 select = ["E", "F", "B", "W", "I", "A", "N", "D", "C"]
 fixable = ["I", "B", "E", "F", "W", "D", "C"]
-ignore = ["D205", "D203", "D212", "D415", "C901", "A005"] 
+ignore = ["D205", "D203", "D212", "D415", "C901", "A005"]
 
 
 [tool.mypy]
