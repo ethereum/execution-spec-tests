@@ -103,3 +103,4 @@ GeneralStateTests/stPreCompiledContracts/idPrecomps.json
 
 ([#1244](https://github.com/ethereum/execution-spec-tests/pull/1244))
 GeneralStateTests/stPreCompiledContracts/delegatecall09Undefined.json
+GeneralStateTests/stPreCompiledContracts2/CALLBlake2f.json
