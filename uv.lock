@@ -538,6 +538,7 @@ docs = [
     { name = "mkdocstrings-python" },
     { name = "pillow" },
     { name = "pyspelling" },
+    { name = "setuptools" },
 ]
 lint = [
     { name = "mypy" },
@@ -594,6 +595,7 @@ requires-dist = [
     { name = "rich", specifier = ">=13.7.0,<14" },
     { name = "ruff", marker = "extra == 'lint'", specifier = "==0.9.4" },
     { name = "semver", specifier = ">=3.0.1,<4" },
+    { name = "setuptools", marker = "extra == 'docs'", specifier = "==78.0.2" },
     { name = "solc-select", specifier = ">=1.0.4,<2" },
     { name = "tenacity", specifier = ">8.2.0,<9" },
     { name = "trie", specifier = ">=3.1.0,<4" },
@@ -1776,6 +1778,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/41/6c/a536cc008f38fd83b3c1b98ce19ead13b746b5588c9a0cb9dd9f6ea434bc/semver-3.0.2.tar.gz", hash = "sha256:6253adb39c70f6e51afed2fa7152bcd414c411286088fb4b9effb133885ab4cc", size = 214988 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/9a/77/0cc7a8a3bc7e53d07e8f47f147b92b0960e902b8254859f4aee5c4d7866b/semver-3.0.2-py3-none-any.whl", hash = "sha256:b1ea4686fe70b981f85359eda33199d60c53964284e0cfb4977d243e37cf4bf4", size = 17099 },
+]
+
+[[package]]
+name = "setuptools"
+version = "78.0.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/4c/f4/aa8d364f0dc1f33b2718938648c31202e2db5cd6479a73f0a9ca5a88372d/setuptools-78.0.2.tar.gz", hash = "sha256:137525e6afb9022f019d6e884a319017f9bf879a0d8783985d32cbc8683cab93", size = 1367747 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/aa/db/2fd473dfe436ad19fda190f4079162d400402aedfcc41e048d38c0a375c6/setuptools-78.0.2-py3-none-any.whl", hash = "sha256:4a612c80e1f1d71b80e4906ce730152e8dec23df439f82731d9d0b608d7b700d", size = 1255965 },
 ]
 
 [[package]]

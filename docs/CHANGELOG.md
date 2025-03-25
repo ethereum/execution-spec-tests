@@ -49,7 +49,7 @@ consume cache --help
 #### Packaging
 
 - 🐞 Fix `eest make test` when `ethereum-execution-spec-tests` is installed as a package ([#1342](https://github.com/ethereum/execution-spec-tests/pull/1342)).
-- 🔀 Pin `setuptools` and `wheel` in `[build-system]`, bump `trie>=3.1` and remove `setuptools` from package dependencies ([#1345](https://github.com/ethereum/execution-spec-tests/pull/1345)).
+- 🔀 Pin `setuptools` and `wheel` in `[build-system]`, bump `trie>=3.1` and remove `setuptools` from package dependencies ([#1345](https://github.com/ethereum/execution-spec-tests/pull/1345), [#1351](https://github.com/ethereum/execution-spec-tests/pull/1351)).
 
 ### 🧪 Test Cases
 
