@@ -477,10 +477,7 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
         signature_bytes: bytes | None = None
         signing_bytes = self.rlp_signing_envelope()
         if (
-            self.v == 0
-            and self.r == 0
-            and self.v == 0
-            and "v" not in self.model_fields_set
+            "v" not in self.model_fields_set
             and "r" not in self.model_fields_set
             and "s" not in self.model_fields_set
         ):
@@ -501,6 +498,9 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
                 HexNumber(int.from_bytes(signature_bytes[0:32], byteorder="big")),
                 HexNumber(int.from_bytes(signature_bytes[32:64], byteorder="big")),
             )
+            self.model_fields_set.add("v")
+            self.model_fields_set.add("r")
+            self.model_fields_set.add("s")
 
         if self.signer is None:
             try:
@@ -961,10 +961,9 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
 
         return signing_envelope + [Uint(self.v), Uint(self.r), Uint(self.s)]
 
-    @cached_property
     def rlp(self) -> Bytes:
         """
-        Returns bytes of the serialized representation of the transaction,
+        Return bytes of the serialized representation of the transaction,
         which is almost always RLP encoding.
         """
         if self.rlp_override is not None:
@@ -977,7 +976,7 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
     @cached_property
     def hash(self) -> Hash:
         """Returns hash of the transaction."""
-        return self.rlp.keccak256()
+        return self.rlp().keccak256()
 
     @cached_property
     def signing_bytes(self) -> Bytes:
@@ -1008,14 +1007,14 @@ class Transaction(TransactionGeneric[HexNumber], TransactionTransitionToolConver
     @cached_property
     def serializable_list(self) -> Any:
         """Return list of values included in the transaction as a serializable object."""
-        return self.rlp if self.ty > 0 else self.payload_body
+        return self.rlp() if self.ty > 0 else self.payload_body
 
     @staticmethod
     def list_root(input_txs: List["Transaction"]) -> Hash:
         """Return transactions root of a list of transactions."""
         t = HexaryTrie(db={})
         for i, tx in enumerate(input_txs):
-            t.set(eth_rlp.encode(Uint(i)), tx.rlp)
+            t.set(eth_rlp.encode(Uint(i)), tx.rlp())
         return Hash(t.root_hash)
 
     @staticmethod

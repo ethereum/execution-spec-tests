@@ -955,4 +955,4 @@ def test_model_copy(model: CopyValidateModel):
 )
 def test_serialization(value: Any, expected: Bytes):
     """Test `to_serializable_element` function."""
-    assert value.rlp.hex() == expected.hex()
+    assert value.rlp().hex() == expected.hex()
