@@ -3,10 +3,9 @@ abstract: Tests invalid set-code transactions from [EIP-7702: Set EOA account co
     Tests invalid set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
 """  # noqa: E501
 
-from typing import Any, List, Type
+from typing import List, Type
 
 import pytest
-from ethereum_types.numeric import Uint
 
 from ethereum_test_base_types import FixedSizeBytes, HexNumber
 from ethereum_test_tools import (
@@ -191,25 +190,6 @@ def test_invalid_tx_invalid_auth_chain_id_encoding(
     class ModifiedAuthorizationTuple(AuthorizationTuple):
         chain_id: OversizedInt  # type: ignore
 
-        def to_list(self) -> List[Any]:
-            """Return authorization tuple as a list of serializable elements."""
-            return [
-                self.chain_id,
-                self.address,
-                Uint(self.nonce),
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-
-        def to_signing_list(self) -> List[Any]:
-            """Return the authorization list as a list of serializable elements for signing."""
-            return [
-                self.chain_id,
-                self.address,
-                Uint(self.nonce),
-            ]
-
     authorization = ModifiedAuthorizationTuple(
         address=delegate_address,
         nonce=0,
@@ -309,25 +289,6 @@ def test_invalid_tx_invalid_nonce_as_list(
     class AuthorizationTupleWithNonceAsList(AuthorizationTuple):
         nonce: List[HexNumber]  # type: ignore
 
-        def to_list(self) -> List[Any]:
-            """Return authorization tuple as a list of serializable elements."""
-            return [
-                Uint(self.chain_id),
-                self.address,
-                [Uint(nonce) for nonce in self.nonce],
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-
-        def to_signing_list(self) -> List[Any]:
-            """Return the authorization list as a list of serializable elements for signing."""
-            return [
-                Uint(self.chain_id),
-                self.address,
-                [Uint(nonce) for nonce in self.nonce],
-            ]
-
     tx = Transaction(
         gas_limit=100_000,
         to=0,
@@ -368,25 +329,6 @@ def test_invalid_tx_invalid_nonce_encoding(
 
     class ModifiedAuthorizationTuple(AuthorizationTuple):
         nonce: OversizedInt  # type: ignore
-
-        def to_list(self) -> List[Any]:
-            """Return authorization tuple as a list of serializable elements."""
-            return [
-                Uint(self.chain_id),
-                self.address,
-                self.nonce,
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-
-        def to_signing_list(self) -> List[Any]:
-            """Return the authorization list as a list of serializable elements for signing."""
-            return [
-                Uint(self.chain_id),
-                self.address,
-                self.nonce,
-            ]
 
     authorization = ModifiedAuthorizationTuple(
         address=delegate_address,
@@ -491,17 +433,11 @@ def test_invalid_tx_invalid_authorization_tuple_extra_element(
     class ExtraElementAuthorizationTuple(AuthorizationTuple):
         extra_element: HexNumber  # type: ignore
 
-        def to_list(self) -> List[Any]:
-            """Return authorization tuple as a list of serializable elements."""
-            return [
-                Uint(self.chain_id),
-                self.address,
-                Uint(self.nonce),
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-                Uint(self.extra_element),
-            ]
+        def get_rlp_fields(self) -> List[str]:
+            """Append the extra field to the list of fields to be encoded in RLP."""
+            rlp_fields = super().get_rlp_fields()[:]
+            rlp_fields.append("extra_element")
+            return rlp_fields
 
     tx = Transaction(
         gas_limit=100_000,
@@ -558,11 +494,11 @@ def test_invalid_tx_invalid_authorization_tuple_missing_element(
     class MissingElementAuthorizationTuple(AuthorizationTuple):
         missing_element_index: int
 
-        def to_list(self) -> List[Any]:
-            """Return authorization tuple as a list of serializable elements."""
-            missing_element_list = super().to_list()
-            missing_element_list.pop(self.missing_element_index)
-            return missing_element_list
+        def get_rlp_fields(self) -> List[str]:
+            """Remove the field that is specified by the missing element index."""
+            rlp_fields = super().get_rlp_fields()[:]
+            rlp_fields.pop(self.missing_element_index)
+            return rlp_fields
 
     tx = Transaction(
         gas_limit=100_000,
