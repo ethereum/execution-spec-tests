@@ -443,11 +443,9 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar], Signabl
     address: Address
     nonce: List[NumberBoundTypeVar] | NumberBoundTypeVar = Field(0)  # type: ignore
 
-    v: NumberBoundTypeVar | None = Field(
-        default=None, validation_alias=AliasChoices("v", "yParity")
-    )  # type: ignore
-    r: NumberBoundTypeVar | None = None
-    s: NumberBoundTypeVar | None = None
+    v: NumberBoundTypeVar = Field(default=0, validation_alias=AliasChoices("v", "yParity"))  # type: ignore
+    r: NumberBoundTypeVar = Field(0)  # type: ignore
+    s: NumberBoundTypeVar = Field(0)  # type: ignore
 
     magic: ClassVar[int] = 0x05
 
@@ -478,7 +476,14 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
         """Signs the authorization tuple with a private key."""
         signature_bytes: bytes | None = None
         signing_bytes = self.rlp_signing_envelope()
-        if self.v is None:
+        if (
+            self.v == 0
+            and self.r == 0
+            and self.v == 0
+            and "v" not in self.model_fields_set
+            and "r" not in self.model_fields_set
+            and "s" not in self.model_fields_set
+        ):
             signing_key: Hash | None = None
             if self.secret_key is not None:
                 signing_key = self.secret_key
@@ -496,10 +501,6 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
                 HexNumber(int.from_bytes(signature_bytes[0:32], byteorder="big")),
                 HexNumber(int.from_bytes(signature_bytes[32:64], byteorder="big")),
             )
-
-        assert self.v is not None, "v must be set"
-        assert self.r is not None, "r must be set"
-        assert self.s is not None, "s must be set"
 
         if self.signer is None:
             try:
