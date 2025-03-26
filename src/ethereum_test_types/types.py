@@ -38,6 +38,7 @@ from ethereum_test_base_types import (
     HexNumber,
     Number,
     NumberBoundTypeVar,
+    RLPSerializable,
     SignableRLPSerializable,
     Storage,
     StorageRootType,
@@ -449,8 +450,8 @@ class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar], Signabl
 
     magic: ClassVar[int] = 0x05
 
-    rlp_fields: ClassVar[List[str | List[str]]] = ["chain_id", "address", "nonce", "v", "r", "s"]
-    rlp_signing_fields: ClassVar[List[str | List[str]]] = ["chain_id", "address", "nonce"]
+    rlp_fields: ClassVar[List[str]] = ["chain_id", "address", "nonce", "v", "r", "s"]
+    rlp_signing_fields: ClassVar[List[str]] = ["chain_id", "address", "nonce"]
 
     def get_rlp_signing_prefix(self) -> bytes:
         """
@@ -660,14 +661,8 @@ class Transaction(
     error: List[TransactionException] | TransactionException | None = Field(None, exclude=True)
 
     protected: bool = Field(True, exclude=True)
-    rlp_override: Bytes | None = Field(None, exclude=True)
 
     expected_receipt: TransactionReceipt | None = Field(None, exclude=True)
-
-    wrapped_blob_transaction: bool = Field(False, exclude=True)
-    blobs: Sequence[Bytes] | None = Field(None, exclude=True)
-    blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
-    blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
 
     zero: ClassVar[Literal[0]] = 0
 
@@ -705,7 +700,7 @@ class Transaction(
             # Try to deduce transaction type from included fields
             if self.authorization_list is not None:
                 self.ty = 4
-            elif self.max_fee_per_blob_gas is not None or self.blob_kzg_commitments is not None:
+            elif self.max_fee_per_blob_gas is not None or self.blob_versioned_hashes is not None:
                 self.ty = 3
             elif self.max_fee_per_gas is not None or self.max_priority_fee_per_gas is not None:
                 self.ty = 2
@@ -898,12 +893,12 @@ class Transaction(
             updated_tx.secret_key = self.secret_key
         return updated_tx
 
-    def get_rlp_signing_fields(self) -> List[str | List[str]]:
+    def get_rlp_signing_fields(self) -> List[str]:
         """
         Return the list of values included in the envelope used for signing depending on
         the transaction type.
         """
-        field_list: List[str | List[str]]
+        field_list: List[str]
         if self.ty == 4:
             # EIP-7702: https://eips.ethereum.org/EIPS/eip-7702
             field_list = [
@@ -959,33 +954,21 @@ class Transaction(
                 "access_list",
             ]
         elif self.ty == 0:
+            field_list = ["nonce", "gas_price", "gas_limit", "to", "value", "data"]
             if self.protected:
                 # EIP-155: https://eips.ethereum.org/EIPS/eip-155
-                field_list = [
-                    "nonce",
-                    "gas_price",
-                    "gas_limit",
-                    "to",
-                    "value",
-                    "data",
-                    "chain_id",
-                    "zero",
-                    "zero",
-                ]
-            else:
-                field_list = ["nonce", "gas_price", "gas_limit", "to", "value", "data"]
+                field_list.extend(["chain_id", "zero", "zero"])
         else:
             raise NotImplementedError(f"signing for transaction type {self.ty} not implemented")
 
         for field in field_list:
             if field != "to":
-                assert not isinstance(field, list), "nested fields are not supported"
                 assert getattr(self, field) is not None, (
                     f"{field} must be set for type {self.ty} tx"
                 )
         return field_list
 
-    def get_rlp_fields(self) -> List[str | List[str]]:
+    def get_rlp_fields(self) -> List[str]:
         """
         Return the list of values included in the list used for rlp encoding depending on
         the transaction type.
@@ -993,20 +976,6 @@ class Transaction(
         fields = self.get_rlp_signing_fields()
         if self.ty == 0 and self.protected:
             fields = fields[:-3]
-        elif self.ty == 3 and self.wrapped_blob_transaction:
-            # EIP-4844: https://eips.ethereum.org/EIPS/eip-4844
-            if self.blobs is None:
-                raise ValueError(f"blobs must be set for type {self.ty} tx")
-            if self.blob_kzg_commitments is None:
-                raise ValueError(f"blob_kzg_commitments must be set for type {self.ty} tx")
-            if self.blob_kzg_proofs is None:
-                raise ValueError(f"blob_kzg_proofs must be set for type {self.ty} tx")
-            return [
-                fields + ["v", "r", "s"],  # type: ignore
-                "blobs",
-                "blob_kzg_commitments",
-                "blob_kzg_proofs",
-            ]
         return fields + ["v", "r", "s"]
 
     def get_rlp_prefix(self) -> bytes:
@@ -1026,15 +995,6 @@ class Transaction(
         if self.ty > 0:
             return bytes([self.ty])
         return b""
-
-    def rlp(self) -> Bytes:
-        """
-        Return bytes of the serialized representation of the transaction,
-        which is almost always RLP encoding.
-        """
-        if self.rlp_override is not None:
-            return self.rlp_override
-        return super().rlp()
 
     @cached_property
     def hash(self) -> Hash:
@@ -1073,6 +1033,18 @@ class Transaction(
             raise ValueError("sender address is None")
         hash_bytes = Bytes(eth_rlp.encode([self.sender, int_to_bytes(self.nonce)])).keccak256()
         return Address(hash_bytes[-20:])
+
+
+class NetworkWrappedTransaction(CamelModel, RLPSerializable):
+    """Network wrapped transaction."""
+
+    tx: Transaction
+
+    blobs: Sequence[Bytes] | None = Field(None, exclude=True)
+    blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
+    blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
+
+    rlp_fields: ClassVar[List[str]] = ["tx", "blobs", "blob_kzg_commitments", "blob_kzg_proofs"]
 
 
 class RequestBase:
