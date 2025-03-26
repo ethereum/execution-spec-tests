@@ -4,7 +4,7 @@ from abc import abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass
 from functools import cached_property
-from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, SupportsBytes, Tuple
+from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, SupportsBytes
 
 import ethereum_rlp as eth_rlp
 from coincurve.keys import PrivateKey, PublicKey
@@ -38,6 +38,7 @@ from ethereum_test_base_types import (
     HexNumber,
     Number,
     NumberBoundTypeVar,
+    SignableRLPSerializable,
     Storage,
     StorageRootType,
     TestAddress,
@@ -435,76 +436,31 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
         return self.copy(**updated_values)
 
 
-class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar]):
+class AuthorizationTupleGeneric(CamelModel, Generic[NumberBoundTypeVar], SignableRLPSerializable):
     """Authorization tuple for transactions."""
 
     chain_id: NumberBoundTypeVar = Field(0)  # type: ignore
     address: Address
     nonce: List[NumberBoundTypeVar] | NumberBoundTypeVar = Field(0)  # type: ignore
 
-    v: NumberBoundTypeVar = Field(0, validation_alias=AliasChoices("v", "yParity"))  # type: ignore
-    r: NumberBoundTypeVar = Field(0)  # type: ignore
-    s: NumberBoundTypeVar = Field(0)  # type: ignore
+    v: NumberBoundTypeVar | None = Field(
+        default=None, validation_alias=AliasChoices("v", "yParity")
+    )  # type: ignore
+    r: NumberBoundTypeVar | None = None
+    s: NumberBoundTypeVar | None = None
 
     magic: ClassVar[int] = 0x05
 
-    def to_list(self) -> List[Any]:
-        """Return authorization tuple as a list of serializable elements."""
-        if isinstance(self.nonce, list):
-            # Nonce list for testing purposes only
-            return [
-                Uint(self.chain_id),
-                self.address,
-                [Uint(nonce) for nonce in self.nonce],
-                Uint(self.v),
-                Uint(self.r),
-                Uint(self.s),
-            ]
-        return [
-            Uint(self.chain_id),
-            self.address,
-            Uint(self.nonce),
-            Uint(self.v),
-            Uint(self.r),
-            Uint(self.s),
-        ]
+    rlp_fields: ClassVar[List[str]] = ["chain_id", "address", "nonce", "v", "r", "s"]
+    rlp_signing_fields: ClassVar[List[str]] = ["chain_id", "address", "nonce"]
 
-    @cached_property
-    def signing_bytes(self) -> Bytes:
-        """Returns the data to be signed."""
-        if isinstance(self.nonce, list):
-            # Nonce list for testing purposes only
-            return Bytes(
-                int.to_bytes(self.magic, length=1, byteorder="big")
-                + eth_rlp.encode(
-                    [
-                        Uint(self.chain_id),
-                        self.address,
-                        [Uint(nonce) for nonce in self.nonce],
-                    ]
-                )
-            )
-        return Bytes(
-            int.to_bytes(self.magic, length=1, byteorder="big")
-            + eth_rlp.encode(
-                [
-                    Uint(self.chain_id),
-                    self.address,
-                    Uint(self.nonce),
-                ]
-            )
-        )
+    def get_rlp_signing_prefix(self) -> bytes:
+        """
+        Return a prefix that has to be appended to the serialized signing object.
 
-    def signature(self, private_key: Hash) -> Tuple[int, int, int]:
-        """Return signature of the authorization tuple."""
-        signature_bytes = PrivateKey(secret=private_key).sign_recoverable(
-            self.signing_bytes, hasher=keccak256
-        )
-        return (
-            signature_bytes[64],
-            int.from_bytes(signature_bytes[0:32], byteorder="big"),
-            int.from_bytes(signature_bytes[32:64], byteorder="big"),
-        )
+        By default, an empty string is returned.
+        """
+        return self.magic.to_bytes(1, byteorder="big")
 
 
 class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
@@ -516,26 +472,45 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
     def model_post_init(self, __context: Any) -> None:
         """Automatically signs the authorization tuple if a secret key or sender are provided."""
         super().model_post_init(__context)
+        self.sign()
 
-        if self.secret_key is not None:
-            self.sign(self.secret_key)
-        elif self.signer is not None:
-            assert self.signer.key is not None, "signer must have a key"
-            self.sign(self.signer.key)
-        else:
-            assert self.v is not None, "v must be set"
-            assert self.r is not None, "r must be set"
-            assert self.s is not None, "s must be set"
+    def sign(self: "AuthorizationTuple"):
+        """Signs the authorization tuple with a private key."""
+        signature_bytes: bytes | None = None
+        signing_bytes = self.rlp_signing_envelope()
+        if self.v is None:
+            signing_key: Hash | None = None
+            if self.secret_key is not None:
+                signing_key = self.secret_key
+            elif self.signer is not None:
+                eoa = self.signer
+                assert eoa is not None, "signer must be set"
+                signing_key = eoa.key
+            assert signing_key is not None, "secret_key or signer must be set"
 
-            # Calculate the address from the signature
+            signature_bytes = PrivateKey(secret=signing_key).sign_recoverable(
+                signing_bytes, hasher=keccak256
+            )
+            self.v, self.r, self.s = (
+                HexNumber(signature_bytes[64]),
+                HexNumber(int.from_bytes(signature_bytes[0:32], byteorder="big")),
+                HexNumber(int.from_bytes(signature_bytes[32:64], byteorder="big")),
+            )
+
+        assert self.v is not None, "v must be set"
+        assert self.r is not None, "r must be set"
+        assert self.s is not None, "s must be set"
+
+        if self.signer is None:
             try:
-                signature_bytes = (
-                    int(self.r).to_bytes(32, byteorder="big")
-                    + int(self.s).to_bytes(32, byteorder="big")
-                    + bytes([self.v])
-                )
+                if not signature_bytes:
+                    signature_bytes = (
+                        int(self.r).to_bytes(32, byteorder="big")
+                        + int(self.s).to_bytes(32, byteorder="big")
+                        + bytes([self.v])
+                    )
                 public_key = PublicKey.from_signature_and_message(
-                    signature_bytes, self.signing_bytes.keccak256(), hasher=None
+                    signature_bytes, signing_bytes.keccak256(), hasher=None
                 )
                 self.signer = EOA(
                     address=Address(keccak256(public_key.format(compressed=False)[1:])[32 - 20 :])
@@ -543,14 +518,6 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
             except Exception:
                 # Signer remains `None` in this case
                 pass
-
-    def sign(self, private_key: Hash) -> None:
-        """Signs the authorization tuple with a private key."""
-        signature = self.signature(private_key)
-
-        self.v = HexNumber(signature[0])
-        self.r = HexNumber(signature[1])
-        self.s = HexNumber(signature[2])
 
 
 class TransactionLog(CamelModel):
