@@ -1046,6 +1046,15 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
     rlp_fields: ClassVar[List[str]] = ["tx", "blobs", "blob_kzg_commitments", "blob_kzg_proofs"]
 
+    def get_rlp_prefix(self) -> bytes:
+        """
+        Return the transaction type as bytes to be appended at the beginning of the
+        serialized transaction if type is not 0.
+        """
+        if self.tx.ty > 0:
+            return bytes([self.tx.ty])
+        return b""
+
 
 class RequestBase:
     """Base class for requests."""
