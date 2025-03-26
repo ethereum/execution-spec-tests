@@ -859,3 +859,11 @@ fibonacci
 CPython
 legacytests
 pycryptodome
+pytest_sessionfinish
+levelname
+pytest_runtest_logstart
+pytest_runtest_logreport
+pytest_runtest_logfinish
+eestloglevel
+caplog
+workerinput
