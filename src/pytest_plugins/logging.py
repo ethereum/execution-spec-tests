@@ -63,9 +63,16 @@ class ColorFormatter(UTCFormatter):
 
     def format(self, record: LogRecord) -> str:
         """Apply colorful formatting."""
+        if self.running_in_docker():
+            return super().format(record)
         color = self.COLORS.get(record.levelno, self.RESET)
         record.levelname = f"{color}{record.levelname}{self.RESET}"
         return super().format(record)
+
+    @staticmethod
+    def running_in_docker() -> bool:
+        """Return True if `/.dockerenv` exists."""
+        return Path("/.dockerenv").exists()
 
 
 class LogLevel:
