@@ -467,7 +467,7 @@ class AccessList(CamelModel, RLPSerializable):
     address: Address
     storage_keys: List[Hash]
 
-    rlp_fields: ClassVar[List[str]] = ["address", "storage_keys"]
+    rlp_fields: ClassVar[List[str | List[str]]] = ["address", "storage_keys"]
 
 
 class ForkBlobSchedule(CamelModel):

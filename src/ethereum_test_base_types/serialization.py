@@ -20,6 +20,8 @@ def to_serializable_element(v: Any) -> Any:
         if v.signable:
             v.sign()
         return v.to_list(signing=False)
+    elif v is None:
+        return b""
     raise Exception(f"Unable to serialize element {v} of type {type(v)}.")
 
 
@@ -27,10 +29,10 @@ class RLPSerializable:
     """Class that adds RLP serialization to another class."""
 
     signable: ClassVar[bool] = False
-    rlp_fields: ClassVar[List[str]]
-    rlp_signing_fields: ClassVar[List[str]]
+    rlp_fields: ClassVar[List[str | List[str]]]
+    rlp_signing_fields: ClassVar[List[str | List[str]]]
 
-    def get_rlp_fields(self) -> List[str]:
+    def get_rlp_fields(self) -> List[str | List[str]]:
         """
         Return a list containing the ordered names of the list that need be included
         in the list of RLP fields to serialize for the RLP object.
@@ -38,10 +40,12 @@ class RLPSerializable:
         Function can be overridden to customize the logic to return the fields.
 
         By default, rlp_fields class variable is used.
+
+        The list can be nested list up to one extra level to represent nested fields.
         """
         return self.rlp_fields
 
-    def get_rlp_signing_fields(self) -> List[str]:
+    def get_rlp_signing_fields(self) -> List[str | List[str]]:
         """
         Return a list contained the ordered names of the list that need be included
         in the list of RLP fields to serialize for the object signature.
@@ -49,6 +53,8 @@ class RLPSerializable:
         Function can be overridden to customize the logic to return the fields.
 
         By default, rlp_signing_fields class variable is used.
+
+        The list can be nested list up to one extra level to represent nested fields.
         """
         return self.rlp_signing_fields
 
@@ -72,24 +78,22 @@ class RLPSerializable:
         """Sign the current object for further serialization."""
         raise NotImplementedError(f'Object "{self.__class__.__name__}" cannot be signed.')
 
-    def to_list(self, signing: bool = False) -> List[Any]:
+    def to_list_from_fields(self, fields: List[str | List[str]] | List[str]) -> List[Any]:
         """
         Return an RLP serializable list that can be passed to `eth_rlp.encode`.
 
         Can be for signing purposes or the entire object.
         """
-        field_list: List[str]
-        if signing:
-            if not self.signable:
-                raise Exception(f'Object "{self.__class__.__name__}" does not support signing')
-            field_list = self.get_rlp_signing_fields()
-        else:
-            if self.signable:
-                self.sign()
-            field_list = self.get_rlp_fields()
-
         values_list: List[Any] = []
-        for field in field_list:
+        for field_or_list in fields:
+            if isinstance(field_or_list, list):
+                values_list.append(self.to_list_from_fields(field_or_list))
+                continue
+            field = field_or_list
+            assert isinstance(field, str), (
+                f'Unable to rlp serialize field "{field}" '
+                f'in object type "{self.__class__.__name__}"'
+            )
             assert hasattr(self, field), (
                 f'Unable to rlp serialize field "{field}" '
                 f'in object type "{self.__class__.__name__}"'
@@ -103,7 +107,25 @@ class RLPSerializable:
                 ) from e
         return values_list
 
-    def rlp_signing_envelope(self) -> Bytes:
+    def to_list(self, signing: bool = False) -> List[Any]:
+        """
+        Return an RLP serializable list that can be passed to `eth_rlp.encode`.
+
+        Can be for signing purposes or the entire object.
+        """
+        field_list: List[str | List[str]]
+        if signing:
+            if not self.signable:
+                raise Exception(f'Object "{self.__class__.__name__}" does not support signing')
+            field_list = self.get_rlp_signing_fields()
+        else:
+            if self.signable:
+                self.sign()
+            field_list = self.get_rlp_fields()
+
+        return self.to_list_from_fields(field_list)
+
+    def rlp_signing_bytes(self) -> Bytes:
         """Return the signing serialized envelope used for signing."""
         return Bytes(self.get_rlp_signing_prefix() + eth_rlp.encode(self.to_list(signing=True)))
 
