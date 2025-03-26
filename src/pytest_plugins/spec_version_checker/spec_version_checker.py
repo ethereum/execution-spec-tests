@@ -134,7 +134,7 @@ class EIPSpecTestItem(Item):
 
 
 def pytest_collection_modifyitems(
-    session: pytest.Session, config: pytest.Config, items: List[pytest.Item]
+    session: pytest.Session, config: pytest.Config, items: List[Item]
 ):
     """
     Insert a new test EIPSpecTestItem for every test modules that
@@ -149,6 +149,3 @@ def pytest_collection_modifyitems(
     for item in new_test_eip_spec_version_items:
         item.add_marker("eip_version_check", append=True)
     items.extend(new_test_eip_spec_version_items)
-    # this gives a nice ordering for the new tests added here, but re-orders the entire
-    # default pytest item ordering which based on ordering of test functions in test modules
-    # items.sort(key=lambda x: x.nodeid)
