@@ -1,165 +1,68 @@
-"""Ethereum/tests state test Filler structure."""
+"""Ethereum General State Test filler static test spec parser."""
 
-import json
 from functools import cached_property
-from pathlib import Path
-from typing import Dict, List, Union
+from typing import Callable, ClassVar, Dict, List
 
-import yaml
-from pydantic import BaseModel, Field, field_validator, model_validator
+import pytest
+from pydantic import Field, field_validator
 
+from cli.fillerconvert.structures.common import AddressInFiller
+from cli.fillerconvert.structures.expect_section import (
+    AccountInExpectSection,
+)
+from cli.fillerconvert.structures.state_test_filler import StateTestInFiller, StateTestVector
 from ethereum_test_base_types import Address, Bytes, Hash, HexNumber, Storage, ZeroPaddedHexNumber
 from ethereum_test_forks import Fork, get_forks
 from ethereum_test_types import Account, Alloc, Environment, Transaction
 
-from .account import AccountInFiller
-from .common import AddressInFiller
-from .environment import EnvironmentInStateTestFiller
-from .expect_section import AccountInExpectSection, ExpectSectionInStateTestFiller
-from .general_transaction import GeneralTransactionInFiller
-
-# ConfigDict
-# CAMEL_CASE_CONFIG = ConfigDict(
-#    alias_generator=to_camel,
-#    populate_by_name=True,
-#    from_attributes=True,
-#    extra="forbid",
-# )
+from .base_static import BaseStaticTest
+from .state import StateTestFiller
 
 
-class Info(BaseModel):
-    """Class that represents an info filler."""
-
-    comment: str
-
-
-class StateTestInFiller(BaseModel):
-    """A single test in state test filler."""
-
-    info: Info | None = Field(None, alias="_info")
-    env: EnvironmentInStateTestFiller
-    pre: Dict[AddressInFiller, AccountInFiller]
-    transaction: GeneralTransactionInFiller
-    expect: List[ExpectSectionInStateTestFiller]
-    solidity: str | None = Field(None)
-
-    class Config:
-        """Model Config."""
-
-        extra = "forbid"
-
-    @model_validator(mode="after")
-    @classmethod
-    def match_labels(cls, model: "StateTestInFiller") -> "StateTestInFiller":
-        """Replace labels in expect section with corresponding tx.d indexes."""
-
-        def parse_string_indexes(indexes: str) -> List[int]:
-            """Parse index that are string in to list of int."""
-            if ":label" in indexes:
-                # Parse labels in data
-                indexes = indexes.replace(":label ", "")
-                tx_matches: List[int] = []
-                for idx, d in enumerate(model.transaction.data):
-                    _, code_opt = d.data
-                    if indexes == code_opt.label:
-                        tx_matches.append(idx)
-                return tx_matches
-            else:
-                # Prase ranges in data
-                start, end = map(int, indexes.lstrip().split("-"))
-                return list(range(start, end + 1))
-
-        def parse_indexes(
-            indexes: Union[int, str, list[Union[int, str]], list[str], list[int]],
-            do_hint: bool = False,
-        ) -> List[int] | int:
-            """Prase indexes and replace all ranges and labels into tx indexes."""
-            result: List[int] | int = []
-
-            if do_hint:
-                print("Before: " + str(indexes))
-
-            if isinstance(indexes, int):
-                result = indexes
-            if isinstance(indexes, str):
-                result = parse_string_indexes(indexes)
-            if isinstance(indexes, list):
-                result = []
-                for element in indexes:
-                    parsed = parse_indexes(element)
-                    if isinstance(parsed, int):
-                        result.append(parsed)
-                    else:
-                        result.extend(parsed)
-                result = list(set(result))
-
-            if do_hint:
-                print("After: " + str(result))
-            return result
-
-        for expect_section in model.expect:
-            expect_section.indexes.data = parse_indexes(expect_section.indexes.data)
-            expect_section.indexes.gas = parse_indexes(expect_section.indexes.gas)
-            expect_section.indexes.value = parse_indexes(expect_section.indexes.value)
-
-        return model
-
-
-class StateTestVector(BaseModel):
-    """A data from .json test filler that is required for a state test vector."""
-
-    id: str
-    env: Environment
-    pre: Alloc
-    tx: Transaction
-    tx_exception: str | None
-    post: Alloc
-    fork: Fork
-
-
-def remove_comments(d: dict) -> dict:
-    """Remove comments from a dictionary."""
-    result = {}
-    for k, v in d.items():
-        if isinstance(k, str) and k.startswith("//"):
-            continue
-        if isinstance(v, dict):
-            v = remove_comments(v)
-        elif isinstance(v, list):
-            v = [remove_comments(i) if isinstance(i, dict) else i for i in v]
-        result[k] = v
-    return result
-
-
-class StateFiller(BaseModel):
-    """Class that represents a state test filler."""
+class StateStaticTest(BaseStaticTest):
+    """General State Test static filler from ethereum/tests."""
 
     tests: Dict[str, StateTestInFiller]
+
+    vectors: List[StateTestVector] | None = Field(None)
+    # format_name: ClassVar[str] | None = "state_test"
+
+    # class Config:
+    #    """Model Config."""
+
+    # extra = "forbid"
 
     @field_validator("tests", mode="before")
     def check_single_key(cls, v):  # noqa: N805
         """Filler must have one dict element."""
+        raise ValueError("before")
         if not isinstance(v, dict) or len(v) != 1:
             raise ValueError("The 'tests' dictionary must have exactly one key.")
         return v
 
-    @classmethod
-    def from_json(cls, path: Path) -> "StateFiller":
-        """Read the state filler from a JSON file."""
-        with open(path, "r") as f:
-            o = json.load(f)
-            filler = StateFiller(tests=remove_comments(o))
-            filler.get_test_vectors()
-            return filler
+    @field_validator("tests", mode="after")
+    def compute_vectors(cls, v):  # noqa: N805
+        """Generate Test Vectors from the test Filler."""
+        cls.vectors = cls.get_test_vectors()
 
-    @classmethod
-    def from_yml(cls, path: Path) -> "StateFiller":
-        """Read the state filler from a YML file."""
-        with open(path, "r") as f:
-            o = yaml.load(f, Loader=yaml.FullLoader)
-            filler = StateFiller(tests=remove_comments(o))
-            filler.get_test_vectors()
-            return filler
+    def fill_function(self) -> Callable:
+        """Return a StateTest spec from a static file."""
+
+        @pytest.mark.parametrize(
+            "vector",
+            self.vectors,
+            ids=lambda c: c.data.name,
+        )
+        def test_state_vectors(
+            state_test: StateTestFiller,
+            fork: Fork,
+            vector: StateTestVector,
+        ):
+            return state_test(
+                env=vector.env, pre=vector.pre, post=vector.post, tx=vector.tx, fork=vector.fork
+            )
+
+        return test_state_vectors
 
     def get_test_vectors(self) -> List[StateTestVector]:
         """Build test vector data for pyspecs."""
