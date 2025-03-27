@@ -156,6 +156,9 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
 
         post = Alloc()
         for address, account in expect_result.items():
+            if account.expected_to_not_exist is not None:
+                post[address] = Account.NONEXISTENT
+                continue
             account_kwargs = {}
             if account.storage is not None:
                 storage = Storage()
@@ -179,7 +182,6 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             post[address] = Account(**account_kwargs)
 
         vector_id = f"d{d}g{g}v{v}_{fork}"
-        print(vector_id)
         vector = StateTestVector(
             id=vector_id,
             env=env,
@@ -189,5 +191,4 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             post=post,
             fork=fork,
         )
-        print(vector.model_dump_json(by_alias=True, exclude_unset=True))
         return vector
