@@ -13,9 +13,13 @@ class EnvironmentInStateTestFiller(BaseModel):
     current_number: ValueInFiller = Field(..., alias="currentNumber")
     current_timestamp: ValueInFiller = Field(..., alias="currentTimestamp")
 
-    current_difficulty: ValueInFiller | None = Field(None, alias="currentDifficulty")
+    current_difficulty: ValueInFiller | None = Field(
+        ValueInFiller("0x020000"), alias="currentDifficulty"
+    )
     current_random: ValueInFiller | None = Field(None, alias="currentRandom")
-    current_base_fee: ValueInFiller | None = Field(None, alias="currentBaseFee")
+    current_base_fee: ValueInFiller | None = Field(ValueInFiller("0x0a"), alias="currentBaseFee")
+
+    current_excess_blob_gas: ValueInFiller | None = Field(None, alias="currentExcessBlobGas")
 
     class Config:
         """Model Config."""

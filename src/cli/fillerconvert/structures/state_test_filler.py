@@ -105,6 +105,11 @@ class StateTestInFiller(BaseModel):
         return model
 
 
+def serialize_fork(value: Fork):
+    """Pydantic serialize FORK."""
+    return value.name()
+
+
 class StateTestVector(BaseModel):
     """A data from .json test filler that is required for a state test vector."""
 
@@ -115,6 +120,13 @@ class StateTestVector(BaseModel):
     tx_exception: str | None
     post: Alloc
     fork: Fork
+
+    class Config:
+        """Serialize config."""
+
+        json_encoders = {
+            Fork: serialize_fork,
+        }
 
 
 def remove_comments(d: dict) -> dict:
@@ -229,6 +241,9 @@ class StateFiller(BaseModel):
             base_fee_per_gas=ZeroPaddedHexNumber(test_env.current_base_fee)
             if test_env.current_base_fee is not None
             else None,
+            excess_blob_gas=ZeroPaddedHexNumber(test_env.current_excess_blob_gas)
+            if test_env.current_excess_blob_gas is not None
+            else None,
         )
         return env
 
@@ -279,6 +294,8 @@ class StateFiller(BaseModel):
             gas_price=general_tr.gas_price,
             max_fee_per_gas=general_tr.max_fee_per_gas,
             max_priority_fee_per_gas=general_tr.max_priority_fee_per_gas,
+            max_fee_per_blob_gas=general_tr.max_fee_per_blob_gas,
+            blob_versioned_hashes=general_tr.blob_versioned_hashes,
             nonce=HexNumber(general_tr.nonce),
             to=Address(general_tr.to),
             secret_key=Hash(general_tr.secret_key),
@@ -289,7 +306,8 @@ class StateFiller(BaseModel):
             storage = Storage()
             if account.storage is not None:
                 for key, value in account.storage.items():
-                    storage[key] = value
+                    if value != "ANY":
+                        storage[key] = value
 
             # TODO looks like pyspec post state verification will not work for default values?
             # Because if we require balance to be 0 it must be checked,

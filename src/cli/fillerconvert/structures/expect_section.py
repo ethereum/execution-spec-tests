@@ -69,10 +69,22 @@ def parse_networks(fork_with_operand: str) -> List[str]:
         fork = fork_with_operand[2:]
 
     if action == CMP.EQ:
-        parsed_forks.append(fork_with_operand)
+        fork = fork_with_operand
+
+    # translate unsupported fork names
+    if fork == "EIP158":
+        fork = "Byzantium"
+
+    if action == CMP.EQ:
+        parsed_forks.append(fork)
+        return parsed_forks
 
     try:
+        print(all_forks_by_name)
         idx = all_forks_by_name.index(fork)
+        # ['Frontier', 'Homestead', 'Byzantium', 'Constantinople', 'ConstantinopleFix',
+        #  'Istanbul', 'MuirGlacier', 'Berlin', 'London', 'ArrowGlacier', 'GrayGlacier',
+        #  'Paris', 'Shanghai', 'Cancun', 'Prague', 'CancunEIP7692', 'Osaka']
     except ValueError:
         raise ValueError(f"Unsupported fork: {fork}") from Exception
 
