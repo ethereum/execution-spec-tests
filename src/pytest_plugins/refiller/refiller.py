@@ -139,6 +139,8 @@ class FillerFile(pytest.File):
 
     def collect(self: "FillerFile") -> Generator["FillerTestItem", None, None]:
         """Collect test cases from a single static file."""
+        if not self.path.stem.endswith("Filler"):
+            return
         with open(self.path, "r") as file:
             try:
                 loaded_file = (
