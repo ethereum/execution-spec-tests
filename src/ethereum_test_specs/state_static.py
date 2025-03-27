@@ -11,7 +11,7 @@ from cli.fillerconvert.structures.expect_section import (
 )
 from cli.fillerconvert.structures.state_test_filler import StateTestInFiller, StateTestVector
 from ethereum_test_base_types import Address, Bytes, Hash, HexNumber, Storage, ZeroPaddedHexNumber
-from ethereum_test_forks import Fork, get_forks
+from ethereum_test_forks import Fork
 from ethereum_test_types import Account, Alloc, Environment, Transaction
 
 from .base_static import BaseStaticTest
@@ -31,27 +31,46 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
         extra = "forbid"
 
     def model_post_init(self, context):
-        """Generate Test Vectors from the test Filler."""
+        """Initialize StateStaticTest."""
         super().model_post_init(context)
-        self.vectors = self.get_test_vectors()
 
     def fill_function(self) -> Callable:
         """Return a StateTest spec from a static file."""
 
         @pytest.mark.valid_at(*self.get_valid_at_forks())
-        @pytest.mark.parametrize(
-            "vector",
-            self.vectors,
-            ids=lambda c: c.id,
-        )
+        @pytest.mark.parametrize("d", range(len(self.transaction.data)))
+        @pytest.mark.parametrize("g", range(len(self.transaction.gas_limit)))
+        @pytest.mark.parametrize("v", range(len(self.transaction.value)))
         def test_state_vectors(
             state_test: StateTestFiller,
             fork: Fork,
-            vector: StateTestVector,
+            d: int,
+            g: int,
+            v: int,
         ):
-            return state_test(
-                env=vector.env, pre=vector.pre, post=vector.post, tx=vector.tx, fork=vector.fork
-            )
+            for expect in self.expect:
+                if expect.has_index(d, g, v):
+                    if fork.name() in expect.network:
+                        vector = self._make_vector(
+                            fork,
+                            self._get_env,
+                            self._get_pre,
+                            d,
+                            g,
+                            v,
+                            expect.result,
+                            exception=None
+                            if expect.expect_exception is None
+                            else expect.expect_exception[fork],
+                        )
+                        return state_test(
+                            env=vector.env,
+                            pre=vector.pre,
+                            post=vector.post,
+                            tx=vector.tx,
+                            fork=vector.fork,
+                        )
+            pytest.skip(f"Expectation not found for d={d}, g={g}, v={v}, fork={fork}")
 
         return test_state_vectors
 
@@ -60,47 +79,9 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
         fork_list: List[str] = []
         for expect in self.expect:
             for fork in expect.network:
-                fork_list.append(fork)
+                if fork not in fork_list:
+                    fork_list.append(fork)
         return fork_list
-
-    def get_test_vectors(self) -> List[StateTestVector]:
-        """Build test vector data for pyspecs."""
-        vectors: List[StateTestVector] = []
-
-        # for each transaction compute test vector
-        for d, _ in enumerate(self.transaction.data, start=0):
-            for g, _ in enumerate(self.transaction.gas_limit, start=0):
-                for v, _ in enumerate(self.transaction.value, start=0):
-                    tx_vectors = self._port_transaction_to_vectors(
-                        data_index=d, gas_index=g, value_index=v
-                    )
-                    vectors.extend(tx_vectors)
-
-        return vectors
-
-    def _port_transaction_to_vectors(
-        self, data_index: int, gas_index: int, value_index: int
-    ) -> List[StateTestVector]:
-        """Make test vectors from given transaction index."""
-        vectors: List[StateTestVector] = []
-
-        for expect in self.expect:
-            if expect.has_index(data_index, gas_index, value_index):
-                for fork in expect.network:
-                    vector = self._make_vector(
-                        fork,
-                        self._get_env,
-                        self._get_pre,
-                        data_index,
-                        gas_index,
-                        value_index,
-                        expect.result,
-                        exception=None
-                        if expect.expect_exception is None
-                        else expect.expect_exception[fork],
-                    )
-                    vectors.append(vector)
-        return vectors
 
     @cached_property
     def _get_env(self) -> Environment:
@@ -145,7 +126,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
 
     def _make_vector(
         self,
-        fork,
+        fork: Fork,
         env,
         pre,
         d: int,
@@ -195,7 +176,6 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             )
 
         vector_id = f"d{d}g{g}v{v}_{fork}"
-        all_forks_by_name = {fork.name(): fork for fork in get_forks()}
         print(vector_id)
         vector = StateTestVector(
             id=vector_id,
@@ -204,7 +184,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             tx=tr,
             tx_exception=exception,
             post=post,
-            fork=all_forks_by_name[fork],
+            fork=fork,
         )
         print(vector.model_dump_json(by_alias=True, exclude_unset=True))
         return vector
