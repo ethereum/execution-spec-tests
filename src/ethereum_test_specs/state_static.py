@@ -1,7 +1,7 @@
 """Ethereum General State Test filler static test spec parser."""
 
 from functools import cached_property
-from typing import Callable, ClassVar, Dict, List
+from typing import Callable, ClassVar, Dict, List, Tuple
 
 import pytest
 
@@ -10,7 +10,7 @@ from cli.fillerconvert.structures.expect_section import (
     AccountInExpectSection,
 )
 from cli.fillerconvert.structures.state_test_filler import StateTestInFiller, StateTestVector
-from ethereum_test_base_types import Address, Bytes, Hash, HexNumber, Storage, ZeroPaddedHexNumber
+from ethereum_test_base_types import Address, Hash, HexNumber, Storage, ZeroPaddedHexNumber
 from ethereum_test_forks import Fork
 from ethereum_test_types import Account, Alloc, Environment, Transaction
 
@@ -51,10 +51,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             for expect in self.expect:
                 if expect.has_index(d, g, v):
                     if fork.name() in expect.network:
-                        vector = self._make_vector(
-                            fork,
-                            self._get_env,
-                            self._get_pre,
+                        post, tx = self._make_vector(
                             d,
                             g,
                             v,
@@ -64,11 +61,10 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                             else expect.expect_exception[fork],
                         )
                         return state_test(
-                            env=vector.env,
-                            pre=vector.pre,
-                            post=vector.post,
-                            tx=vector.tx,
-                            fork=vector.fork,
+                            env=self._get_env,
+                            pre=self._get_pre,
+                            post=post,
+                            tx=tx,
                         )
             pytest.skip(f"Expectation not found for d={d}, g={g}, v={v}, fork={fork}")
 
@@ -126,15 +122,12 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
 
     def _make_vector(
         self,
-        fork: Fork,
-        env,
-        pre,
         d: int,
         g: int,
         v: int,
         expect_result: Dict[AddressInFiller, AccountInExpectSection],
         exception: str | None,
-    ) -> StateTestVector:
+    ) -> Tuple[Alloc, Transaction]:
         """Compose test vector from test data."""
         general_tr = self.transaction
         data = general_tr.data[d]
@@ -159,21 +152,16 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             if account.expected_to_not_exist is not None:
                 post[address] = Account.NONEXISTENT
                 continue
+
             account_kwargs = {}
             if account.storage is not None:
                 storage = Storage()
                 for key, value in account.storage.items():
                     storage[key] = value
                 account_kwargs["storage"] = storage
-
-            # TODO looks like pyspec post state verification will not work for default values?
-            # Because if we require balance to be 0 it must be checked,
-            # but if we don't care about the value of the balance how to specify it?
-            code = Bytes(b"")
             if account.code is not None:
                 code, code_options = account.code
                 account_kwargs["code"] = code
-
             if account.balance is not None:
                 account_kwargs["balance"] = account.balance
             if account.nonce is not None:
@@ -181,14 +169,4 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
 
             post[address] = Account(**account_kwargs)
 
-        vector_id = f"d{d}g{g}v{v}_{fork}"
-        vector = StateTestVector(
-            id=vector_id,
-            env=env,
-            pre=pre,
-            tx=tr,
-            tx_exception=exception,
-            post=post,
-            fork=fork,
-        )
-        return vector
+        return post, tr
