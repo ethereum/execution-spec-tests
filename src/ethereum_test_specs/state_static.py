@@ -156,10 +156,12 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
 
         post = Alloc()
         for address, account in expect_result.items():
-            storage = Storage()
+            account_kwargs = {}
             if account.storage is not None:
+                storage = Storage()
                 for key, value in account.storage.items():
                     storage[key] = value
+                account_kwargs["storage"] = storage
 
             # TODO looks like pyspec post state verification will not work for default values?
             # Because if we require balance to be 0 it must be checked,
@@ -167,13 +169,14 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             code = Bytes(b"")
             if account.code is not None:
                 code, code_options = account.code
+                account_kwargs["code"] = code
 
-            post[address] = Account(
-                balance=account.balance if account.balance is not None else ZeroPaddedHexNumber(0),
-                nonce=account.nonce if account.nonce is not None else ZeroPaddedHexNumber(0),
-                code=code,
-                storage=storage,
-            )
+            if account.balance is not None:
+                account_kwargs["balance"] = account.balance
+            if account.nonce is not None:
+                account_kwargs["nonce"] = account.nonce
+
+            post[address] = Account(**account_kwargs)
 
         vector_id = f"d{d}g{g}v{v}_{fork}"
         print(vector_id)
