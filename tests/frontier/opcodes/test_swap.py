@@ -4,19 +4,12 @@ Ported from: https://github.com/ethereum/tests/
 blob/develop/src/GeneralStateTestsFiller/VMTests/vmTests/swapFiller.yml.
 """
 
-import pytest
+import pytest  # noqa: I001
 
 from ethereum_test_forks import Fork, Frontier, Homestead
-from ethereum_test_tools import (
-    Account,
-    Alloc,
-    Bytecode,
-    Environment,
-    StateTestFiller,
-    Storage,
-    Transaction,
-)
+from ethereum_test_tools import Account, Alloc, Bytecode, Environment
 from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import StateTestFiller, Storage, Transaction
 
 
 @pytest.mark.parametrize(
@@ -85,27 +78,28 @@ def test_swap(
     [getattr(Op, f"SWAP{i}") for i in range(1, 17)],
     ids=lambda op: str(op),
 )
-@pytest.mark.parametrize("stack_height", range(1022, 1024))
 @pytest.mark.valid_from("Frontier")
 def test_stack_underflow(
     state_test: StateTestFiller,
     fork: Fork,
     pre: Alloc,
     swap_opcode: Op,
-    stack_height: int
 ):
     """
     A test to ensure that the stack underflow when there are not enough
     elements for the `SWAP*` opcode to operate.
+
+    For each SWAPn operation, we push exactly (n-1) elements to cause an
+    underflow when trying to swap with the nth element.
     """
     env = Environment()
 
     # Calculate which position we're swapping with (1-based index)
     swap_pos = swap_opcode.int() - 0x90 + 1
 
-    # Push values onto the stack
+    # Push exactly (n-1) elements for SWAPn to cause underflow
     contract_code = Bytecode()
-    for i in range(stack_height):
+    for i in range(swap_pos - 1):
         contract_code += Op.PUSH1(i % 256)
 
     # Attempt to perform the SWAP operation
@@ -128,18 +122,7 @@ def test_stack_underflow(
     # Define the expected post-state.
     post = {}
     storage = Storage()
-    MAX_STACK = 1024
-
-    if stack_height >= (swap_pos + 1) and (MAX_STACK - stack_height) >= 1:
-        # If the operation succeeds, the value at swap_pos will be at the top
-        swapped_value = (stack_height - swap_pos - 1) % 256
-        storage.store_next(
-            swapped_value,
-            f"SWAP{swap_pos} result (stack_height={stack_height})")
-    else:
-        # Operation should fail with no storage update
-        storage.store_next(0, "SWAP failed due to stack underflow")
-
+    storage.store_next(0, f"SWAP{swap_pos} failed due to stack underflow")
     post[contract] = Account(storage=storage)
 
     # Run the state test.
