@@ -17,6 +17,7 @@ from .eof import (
     EOFTestFiller,
     EOFTestSpec,
 )
+from .eof_static import EOFStaticTest
 from .state import StateTest, StateTestFiller, StateTestSpec
 from .state_static import StateStaticTest
 from .transaction import TransactionTest, TransactionTestFiller, TransactionTestSpec
@@ -39,6 +40,7 @@ __all__ = (
     "BlockchainTestEngineSpec",
     "BlockchainTestFiller",
     "BlockchainTestSpec",
+    "EOFStaticTest",
     "EOFStateTest",
     "EOFStateTestFiller",
     "StateStaticTest",
