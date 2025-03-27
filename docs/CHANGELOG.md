@@ -53,6 +53,8 @@ consume cache --help
 
 ### 🧪 Test Cases
 
+- ✨ Add EIP-7692929 gas cost increase tests ([#1305](https://github.com/ethereum/execution-spec-tests/pull/1305)).
+
 ## [v4.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0) - 2025-03-11
 
 ### 💥 Breaking Changes
