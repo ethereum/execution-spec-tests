@@ -110,7 +110,7 @@ def pytest_addoption(parser):  # noqa: D103
         type=LogLevel.from_cli,
         dest="eest_log_level",
         help=(
-            "The logging level to use in the test session: DEBUG INFO WARNING ERROR or "
+            "The logging level to use in the test session: DEBUG, INFO, WARNING, ERROR or "
             "CRITICAL, default - INFO. An integer in [0, 50] may be also provided."
         ),
     )
