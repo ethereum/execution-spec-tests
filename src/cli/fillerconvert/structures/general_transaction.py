@@ -43,6 +43,9 @@ class GeneralTransactionInFiller(BaseModel):
     max_fee_per_gas: ValueInFiller | None = Field(None, alias="maxFeePerGas")
     max_priority_fee_per_gas: ValueInFiller | None = Field(None, alias="maxPriorityFeePerGas")
 
+    max_fee_per_blob_gas: ValueInFiller | None = Field(None, alias="maxFeePerBlobGas")
+    blob_versioned_hashes: List[Hash32InFiller] | None = Field(None, alias="blobVersionedHashes")
+
     class Config:
         """Model Config."""
 

@@ -13,14 +13,19 @@ from typing_extensions import Annotated
 
 from ethereum_test_base_types import Address, Bytes, Hash, HexNumber
 
+from .compile_yul import compile_yul
+
 
 def parse_hex_number(i: str | int) -> int:
     """Check if the given string is a valid hex number."""
+    if i == "" or i == "0x":
+        return 0
     if isinstance(i, int):
         return i
     if i.startswith("0x:bigint "):
         i = i[10:]
-    if i.startswith("0x"):
+        return int(i, 16)
+    if i.startswith("0x") or any(char in "abcdef" for char in i.lower()):
         return int(i, 16)
     return int(i, 10)
 
@@ -50,8 +55,13 @@ def parse_args_from_string_into_array(stream: str, pos: int, delim: str = " "):
 
 def parse_code(code: str) -> Tuple[bytes, CodeOptions]:
     """Check if the given string is a valid code."""
+    # print("parse `" + str(code) + "`")
+    if isinstance(code, int):
+        # Users pass code as int (very bad)
+        hex_str = format(code, "02x")
+        return (bytes.fromhex(hex_str), CodeOptions())
     if not isinstance(code, str):
-        raise ValueError(f"Invalid code: {code}")
+        raise ValueError(f"parse_code(code: str) code is not string: {code}")
     if len(code) == 0:
         return (bytes.fromhex(""), CodeOptions())
 
@@ -82,43 +92,61 @@ def parse_code(code: str) -> Tuple[bytes, CodeOptions]:
 
     elif yul_index != -1:
         option_start = yul_index + len(yul_marker)
-        options: list[str] = ["", ""]
+        options: list[str] = []
+        native_yul_options: str = ""
 
-        if code[option_start] == " ":
-            opt, source_start = parse_args_from_string_into_array(code, option_start + 1)
-            options = opt
-            options.append("")
-        else:
+        if code[option_start:].lstrip().startswith("{"):
+            # No yul options, proceed to code parsing
             source_start = option_start
+        else:
+            opt, source_start = parse_args_from_string_into_array(code, option_start + 1)
+            for arg in opt:
+                if arg == "object" or arg == '"C"':
+                    native_yul_options += arg + " "
+                else:
+                    options.append(arg)
 
-        binary_path = "/home/wins/.retesteth/default/yul.sh"
         with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
-            tmp.write(code[source_start:])
+            tmp.write(native_yul_options + code[source_start:])
             tmp_path = tmp.name
-        result = subprocess.run(
-            [binary_path, tmp_path, options[0], options[1]], capture_output=True, text=True
-        )
-        compiled_code = "".join(result.stdout.splitlines())[2:]
+        compiled_code = compile_yul(
+            source_file=tmp_path,
+            evm_version=options[0] if len(options) >= 1 else None,
+            optimize=options[1] if len(options) >= 2 else None,
+        )[2:]
 
     # Prase :abi
     elif abi_index != -1:
         abi_encoding = code[abi_index + len(abi_marker) + 1 :]
         tokens = abi_encoding.strip().split()
-        print(tokens)
-        if len(tokens) < 2:
-            raise ValueError("Error parsing ABI code: " + code)
         abi = tokens[0]
         function_signature = function_signature_to_4byte_selector(abi)
         parameter_str = re.sub(r"^\w+", "", abi).strip()
-        function_parameters = encode([parameter_str], [[int(t) for t in tokens[1:]]])
-        return (function_signature + function_parameters, code_options)
+
+        parameter_types = parameter_str.strip("()").split(",")
+        if len(tokens) > 1:
+            function_parameters = encode(
+                [parameter_str],
+                [
+                    [
+                        int(t.lower(), 0) & ((1 << 256) - 1)  # treat big ints as 256bits
+                        if parameter_types[t_index] == "uint"
+                        else int(t.lower(), 0) > 0  # treat positive values as True
+                        if parameter_types[t_index] == "bool"
+                        else False and ValueError("unhandled parameter_types")
+                        for t_index, t in enumerate(tokens[1:])
+                    ]
+                ],
+            )
+            return (function_signature + function_parameters, code_options)
+        return (function_signature, code_options)
 
     # Prase plain code 0x
     elif code.lstrip().startswith("0x"):
-        compiled_code = code[2:]
+        compiled_code = code[2:].lower()
 
     # Prase lllc code
-    elif code.lstrip().startswith("{"):
+    elif code.lstrip().startswith("{") or code.lstrip().startswith("(asm"):
         binary_path = "lllc"
         with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
             tmp.write(code)
@@ -127,6 +155,7 @@ def parse_code(code: str) -> Tuple[bytes, CodeOptions]:
         compiled_code = "".join(result.stdout.splitlines())
     else:
         raise Exception(f'Error parsing code: "{code}"')
+
     try:
         return (bytes.fromhex(compiled_code), code_options)
     except ValueError as e:

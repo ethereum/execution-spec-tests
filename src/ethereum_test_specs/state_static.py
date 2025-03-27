@@ -22,15 +22,14 @@ from .state import StateTestFiller
 class StateStaticTest(BaseStaticTest):
     """General State Test static filler from ethereum/tests."""
 
-    tests: Dict[str, StateTestInFiller]
-
+    tests: Dict[str, StateTestInFiller] | None = Field(None)
     vectors: List[StateTestVector] | None = Field(None)
     # format_name: ClassVar[str] | None = "state_test"
 
-    # class Config:
-    #    """Model Config."""
+    class Config:
+        """Model Config."""
 
-    # extra = "forbid"
+        extra = "forbid"
 
     @field_validator("tests", mode="before")
     def check_single_key(cls, v):  # noqa: N805

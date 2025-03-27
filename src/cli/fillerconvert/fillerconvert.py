@@ -29,8 +29,19 @@ def main() -> None:
         raise NotImplementedError("Blockchain filler not implemented yet.")
 
     for file in files:
-        # if not file.endswith("accessListExampleFiller.yml"):
+        # if not file.endswith("CreateOOGafterMaxCodesizeFiller.yml"):
         #    continue
+        if (
+            "stExpectSection" in file  # retesteth test parser tests
+            # Solidity skipped tests:
+            or file.endswith("stExample/solidityExampleFiller.yml")
+            or file.endswith("vmPerformance/performanceTesterFiller.yml")
+            or file.endswith("vmPerformance/loopExpFiller.yml")
+            or file.endswith("vmPerformance/loopMulFiller.yml")
+            or file.endswith("stRevertTest/RevertRemoteSubCallStorageOOGFiller.yml")
+            or file.endswith("stSolidityTest/SelfDestructFiller.yml")
+        ):
+            continue
         if file.endswith("Filler.json"):
             try:
                 print("Process: " + file)
