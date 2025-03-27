@@ -224,15 +224,26 @@ def hive_test(request, test_suite: HiveTestSuite):
     yield test
 
     try:
-        # Determine result and collect captured output
         captured = []
+        setup_out = ""
+        call_out = ""
         for phase in ("setup", "call", "teardown"):
             report = getattr(request.node, f"result_{phase}", None)
             if report:
+                stdout = report.capstdout or ""
+                stderr = report.capstderr or ""
+
+                # Remove setup output from call phase output
+                if phase == "setup":
+                    setup_out = stdout
+                if phase == "call":
+                    call_out = stdout
+                    # If call output starts with setup output, strip it
+                    if call_out.startswith(setup_out):
+                        stdout = call_out[len(setup_out) :]
+
                 captured.append(
-                    f"=== {phase.upper()} PHASE ===\n"
-                    f"stdout:\n{report.capstdout}\n"
-                    f"stderr:\n{report.capstderr}\n"
+                    f"=== {phase.upper()} PHASE ===\nstdout:\n{stdout}\nstderr:\n{stderr}\n"
                 )
 
         captured_output = "\n".join(captured)
