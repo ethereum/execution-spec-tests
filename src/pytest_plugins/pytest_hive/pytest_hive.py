@@ -120,8 +120,8 @@ def pytest_runtest_makereport(item, call):
     - result_teardown - teardown result
     """
     outcome = yield
-    rep = outcome.get_result()
-    setattr(item, f"result_{rep.when}", rep)
+    report = outcome.get_result()
+    setattr(item, f"result_{report.when}", report)
 
 
 @pytest.fixture(scope="session")
@@ -215,32 +215,59 @@ def hive_test(request, test_suite: HiveTestSuite):
             "Error: The 'test_case_description' fixture has not been defined by the simulator "
             "or pytest plugin using this plugin!"
         )
-    test_parameter_string = request.node.name  # consume pytest test id
+
+    test_parameter_string = request.node.name
     test: HiveTest = test_suite.start_test(
         name=test_parameter_string,
         description=test_case_description,
     )
     yield test
+
     try:
-        # TODO: Handle xfail/skip, does this work with run=False?
+        # Determine result and collect captured output
+        captured = []
+        for phase in ("setup", "call", "teardown"):
+            report = getattr(request.node, f"result_{phase}", None)
+            if report:
+                captured.append(
+                    f"=== {phase.upper()} PHASE ===\n"
+                    f"stdout:\n{report.capstdout}\n"
+                    f"stderr:\n{report.capstderr}\n"
+                )
+
+        captured_output = "\n".join(captured)
+
         if hasattr(request.node, "result_call") and request.node.result_call.passed:
             test_passed = True
-            test_result_details = "Test passed."
+            test_result_details = "Test passed.\n" + captured_output
         elif hasattr(request.node, "result_call") and not request.node.result_call.passed:
             test_passed = False
-            test_result_details = request.node.result_call.longreprtext
+            test_result_details = request.node.result_call.longreprtext + "\n" + captured_output
         elif hasattr(request.node, "result_setup") and not request.node.result_setup.passed:
             test_passed = False
-            test_result_details = "Test setup failed.\n" + request.node.result_setup.longreprtext
+            test_result_details = (
+                "Test setup failed.\n"
+                + request.node.result_setup.longreprtext
+                + "\n"
+                + captured_output
+            )
         elif hasattr(request.node, "result_teardown") and not request.node.result_teardown.passed:
             test_passed = False
             test_result_details = (
-                "Test teardown failed.\n" + request.node.result_teardown.longreprtext
+                "Test teardown failed.\n"
+                + request.node.result_teardown.longreprtext
+                + "\n"
+                + captured_output
             )
         else:
             test_passed = False
-            test_result_details = "Test failed for unknown reason (setup or call status unknown)."
+            test_result_details = (
+                "Test failed for unknown reason (setup or call status unknown).\n"
+                + captured_output
+            )
+
     except Exception as e:
         test_passed = False
         test_result_details = f"Exception whilst processing test result: {str(e)}"
+
     test.end(result=HiveTestResult(test_pass=test_passed, details=test_result_details))

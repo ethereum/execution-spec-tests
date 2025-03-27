@@ -867,3 +867,4 @@ pytest_runtest_logfinish
 eestloglevel
 caplog
 workerinput
+dockerenv
