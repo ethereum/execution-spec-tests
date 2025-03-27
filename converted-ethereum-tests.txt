@@ -98,5 +98,20 @@ GeneralStateTests/VMTests/vmTests/push.json
 ([#1067](https://github.com/ethereum/execution-spec-tests/pull/1067))
 GeneralStateTests/stPreCompiledContracts/blake2B.json
 
-([#1067](https://github.com/ethereum/execution-spec-tests/pull/1120))
+([#1120](https://github.com/ethereum/execution-spec-tests/pull/1120))
 GeneralStateTests/stPreCompiledContracts/idPrecomps.json
+
+([#1344](https://github.com/ethereum/execution-spec-tests/pull/1344))
+GeneralStateTests/stPreCompiledContracts/identity_to_bigger.json
+GeneralStateTests/stPreCompiledContracts/identity_to_smaller.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_0.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_1.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentity_1_nonzeroValue.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentity_2.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentity_3.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentity_4.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentity_4_gas17.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentity_4_gas18.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentity_5.json
+GeneralStateTests/stPreCompiledContracts2/CallIdentity_6_inputShorterThanOutput.json
+
