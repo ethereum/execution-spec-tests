@@ -4,7 +4,6 @@ from functools import cached_property
 from typing import Callable, ClassVar, Dict, List
 
 import pytest
-from pydantic import Field, field_validator
 
 from cli.fillerconvert.structures.common import AddressInFiller
 from cli.fillerconvert.structures.expect_section import (
@@ -19,30 +18,22 @@ from .base_static import BaseStaticTest
 from .state import StateTestFiller
 
 
-class StateStaticTest(BaseStaticTest):
+class StateStaticTest(StateTestInFiller, BaseStaticTest):
     """General State Test static filler from ethereum/tests."""
 
-    tests: Dict[str, StateTestInFiller] | None = Field(None)
-    vectors: List[StateTestVector] | None = Field(None)
-    # format_name: ClassVar[str] | None = "state_test"
+    test_name: str = ""
+    vectors: List[StateTestVector] | None = None
+    format_name: ClassVar[str] = "state_test"
 
     class Config:
         """Model Config."""
 
         extra = "forbid"
 
-    @field_validator("tests", mode="before")
-    def check_single_key(cls, v):  # noqa: N805
-        """Filler must have one dict element."""
-        raise ValueError("before")
-        if not isinstance(v, dict) or len(v) != 1:
-            raise ValueError("The 'tests' dictionary must have exactly one key.")
-        return v
-
-    @field_validator("tests", mode="after")
-    def compute_vectors(cls, v):  # noqa: N805
+    def model_post_init(self, context):
         """Generate Test Vectors from the test Filler."""
-        cls.vectors = cls.get_test_vectors()
+        super().model_post_init(context)
+        self.vectors = self.get_test_vectors()
 
     def fill_function(self) -> Callable:
         """Return a StateTest spec from a static file."""
@@ -50,7 +41,7 @@ class StateStaticTest(BaseStaticTest):
         @pytest.mark.parametrize(
             "vector",
             self.vectors,
-            ids=lambda c: c.data.name,
+            ids=lambda c: c.id,
         )
         def test_state_vectors(
             state_test: StateTestFiller,
@@ -67,13 +58,10 @@ class StateStaticTest(BaseStaticTest):
         """Build test vector data for pyspecs."""
         vectors: List[StateTestVector] = []
 
-        # State Test Filler always have only one test object
-        test_name, state_test = list(self.tests.items())[0]
-
         # for each transaction compute test vector
-        for d, _ in enumerate(state_test.transaction.data, start=0):
-            for g, _ in enumerate(state_test.transaction.gas_limit, start=0):
-                for v, _ in enumerate(state_test.transaction.value, start=0):
+        for d, _ in enumerate(self.transaction.data, start=0):
+            for g, _ in enumerate(self.transaction.gas_limit, start=0):
+                for v, _ in enumerate(self.transaction.value, start=0):
                     tx_vectors = self._port_transaction_to_vectors(
                         data_index=d, gas_index=g, value_index=v
                     )
@@ -87,15 +75,10 @@ class StateStaticTest(BaseStaticTest):
         """Make test vectors from given transaction index."""
         vectors: List[StateTestVector] = []
 
-        # State Test Filler always have only one test object
-        test_name, state_test = list(self.tests.items())[0]
-
-        for expect in state_test.expect:
+        for expect in self.expect:
             if expect.has_index(data_index, gas_index, value_index):
                 for fork in expect.network:
                     vector = self._make_vector(
-                        test_name,
-                        state_test,
                         fork,
                         self._get_env,
                         self._get_pre,
@@ -113,10 +96,8 @@ class StateStaticTest(BaseStaticTest):
     @cached_property
     def _get_env(self) -> Environment:
         """Parse environment."""
-        test_name, state_test = list(self.tests.items())[0]
-
         # Convert Environment data from .json filler into pyspec type
-        test_env = state_test.env
+        test_env = self.env
         env = Environment(
             fee_recipient=Address(test_env.current_coinbase),
             difficulty=ZeroPaddedHexNumber(test_env.current_difficulty)
@@ -137,10 +118,9 @@ class StateStaticTest(BaseStaticTest):
     @cached_property
     def _get_pre(self) -> Alloc:
         """Parse pre."""
-        test_name, state_test = list(self.tests.items())[0]
         # Convert pre state data from .json filler into pyspec type
         pre = Alloc()
-        for account_address, account in state_test.pre.items():
+        for account_address, account in self.pre.items():
             storage: Storage = Storage()
             for key, value in account.storage.items():
                 storage[key] = value
@@ -156,8 +136,6 @@ class StateStaticTest(BaseStaticTest):
 
     def _make_vector(
         self,
-        test_name,
-        state_test: StateTestInFiller,
         fork,
         env,
         pre,
@@ -168,7 +146,7 @@ class StateStaticTest(BaseStaticTest):
         exception: str | None,
     ) -> StateTestVector:
         """Compose test vector from test data."""
-        general_tr = state_test.transaction
+        general_tr = self.transaction
         data = general_tr.data[d]
 
         data_code, options = data.data
@@ -207,7 +185,7 @@ class StateStaticTest(BaseStaticTest):
                 storage=storage,
             )
 
-        vector_id = f"ported_{test_name}_d{d}g{g}v{v}_{fork}"
+        vector_id = f"ported_{self.test_name}_d{d}g{g}v{v}_{fork}"
         all_forks_by_name = {fork.name(): fork for fork in get_forks()}
         print(vector_id)
         vector = StateTestVector(
