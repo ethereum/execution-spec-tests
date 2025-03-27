@@ -767,6 +767,31 @@ class ValidUntil(ValidityMarker):
         return resulting_set
 
 
+class ValidAt(ValidityMarker):
+    """
+    Marker to specify each fork individualy for which the test is valid.
+
+    ```python
+    import pytest
+
+    from ethereum_test_tools import Alloc, StateTestFiller
+
+    @pytest.mark.valid_at("London", "Cancun")
+    def test_something_only_valid_at_london_and_cancun(
+        state_test: StateTestFiller,
+        pre: Alloc
+    ):
+        pass
+    ```
+
+    In this example, the test will only be filled for the London and Cancun forks.
+    """
+
+    def _process_with_marker_args(self, *fork_args) -> Set[Fork]:
+        """Process the fork arguments."""
+        return self.process_fork_arguments(*fork_args)
+
+
 class ValidAtTransitionTo(ValidityMarker, mutually_exclusive=True):
     """
     Marker to specify that a test is only meant to be filled at the transition to the specified
