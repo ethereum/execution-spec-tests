@@ -868,3 +868,4 @@ eestloglevel
 caplog
 workerinput
 dockerenv
+stderr
