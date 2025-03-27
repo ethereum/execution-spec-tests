@@ -38,6 +38,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
     def fill_function(self) -> Callable:
         """Return a StateTest spec from a static file."""
 
+        @pytest.mark.valid_at(*self.get_valid_at_forks())
         @pytest.mark.parametrize(
             "vector",
             self.vectors,
@@ -53,6 +54,14 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             )
 
         return test_state_vectors
+
+    def get_valid_at_forks(self) -> List[str]:
+        """Return list of forks that are valid for this test."""
+        fork_list: List[str] = []
+        for expect in self.expect:
+            for fork in expect.network:
+                fork_list.append(fork)
+        return fork_list
 
     def get_test_vectors(self) -> List[StateTestVector]:
         """Build test vector data for pyspecs."""
@@ -185,7 +194,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                 storage=storage,
             )
 
-        vector_id = f"ported_{self.test_name}_d{d}g{g}v{v}_{fork}"
+        vector_id = f"d{d}g{g}v{v}_{fork}"
         all_forks_by_name = {fork.name(): fork for fork in get_forks()}
         print(vector_id)
         vector = StateTestVector(
