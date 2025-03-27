@@ -28,7 +28,7 @@ def test_via_rlp(
     with timing_data.time("Get genesis block"):
         logger.info("Calling getBlockByNumber to get genesis block...")
         genesis_block = eth_rpc.get_block_by_number(0)
-        assert genesis_block, "`getBlockByNumber`didn't return a block."
+        assert genesis_block, "`getBlockByNumber` didn't return a block."
         if genesis_block["hash"] != str(fixture.genesis.block_hash):
             raise GenesisBlockMismatchExceptionError(
                 expected_header=fixture.genesis,
@@ -37,5 +37,5 @@ def test_via_rlp(
     with timing_data.time("Get latest block"):
         logger.info("Calling getBlockByNumber to get latest block...")
         block = eth_rpc.get_block_by_number("latest")
-        assert block, "`getBlockByNumber`didn't return a block."
+        assert block, "`getBlockByNumber` didn't return a block."
         assert block["hash"] == str(fixture.last_block_hash), "hash mismatch in last block"
