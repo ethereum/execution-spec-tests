@@ -16,6 +16,10 @@ These markers are used to specify the forks for which a test is valid.
 
 :::pytest_plugins.forks.forks.ValidUntil
 
+### `@pytest.mark.valid_at("FORK_NAME_1", "FORK_NAME_2", ...)`
+
+:::pytest_plugins.forks.forks.ValidAt
+
 ### `@pytest.mark.valid_at_transition_to("FORK_NAME")`
 
 :::pytest_plugins.forks.forks.ValidAtTransitionTo
