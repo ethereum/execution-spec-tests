@@ -40,6 +40,7 @@ consume cache --help
 
 - 🐞 Fix `--fork/from/until` for transition forks when using `fill` [#1311](https://github.com/ethereum/execution-spec-tests/pull/1311).
 - 🐞 Fix the node id for state tests marked by transition forks ([#1313](https://github.com/ethereum/execution-spec-tests/pull/1313)).
+- ✨ Add `static_filler` plug-in which allows to fill static YAML and JSON tests (from [ethereum/tests](https://github.com/ethereum/tests)) by adding flag `--fill-static-tests` to `uv run fill` ([#1336](https://github.com/ethereum/execution-spec-tests/pull/1336)).
 
 ### 📋 Misc
 
