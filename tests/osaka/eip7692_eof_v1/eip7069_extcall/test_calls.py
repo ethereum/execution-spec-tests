@@ -1,6 +1,7 @@
 """test calls across EOF and Legacy."""
 
 import itertools
+from enum import Enum, auto, unique
 
 import pytest
 
@@ -57,10 +58,65 @@ contract_eof_sstore = Container(
 )
 
 
+@unique
+class TargetAccountType(Enum):
+    """Kinds of target accounts for calls."""
+
+    EMPTY = auto()
+    EOA = auto()
+    LEGACY_CONTRACT = auto()
+    EOF_CONTRACT = auto()
+    LEGACY_CONTRACT_INVALID = auto()
+    EOF_CONTRACT_INVALID = auto()
+    LEGACY_CONTRACT_REVERT = auto()
+    EOF_CONTRACT_REVERT = auto()
+    IDENTITY_PRECOMPILE = auto()
+
+    def __str__(self) -> str:
+        """Return string representation of the enum."""
+        return f"{self.name}"
+
+
 @pytest.fixture
 def sender(pre: Alloc) -> EOA:
     """Sender of the transaction."""
     return pre.fund_eoa()
+
+
+@pytest.fixture
+def target_address(pre: Alloc, target_account_type: TargetAccountType) -> Address:
+    """Target address of the call depending on required type of account."""
+    match target_account_type:
+        case TargetAccountType.EMPTY:
+            return Address(b"\x78" * 20)
+        case TargetAccountType.EOA:
+            return pre.fund_eoa()
+        case TargetAccountType.LEGACY_CONTRACT:
+            return pre.deploy_contract(
+                code=Op.STOP,
+            )
+        case TargetAccountType.EOF_CONTRACT:
+            return pre.deploy_contract(
+                code=Container.Code(Op.STOP),
+            )
+        case TargetAccountType.LEGACY_CONTRACT_INVALID:
+            return pre.deploy_contract(
+                code=Op.INVALID,
+            )
+        case TargetAccountType.EOF_CONTRACT_INVALID:
+            return pre.deploy_contract(
+                code=Container.Code(Op.INVALID),
+            )
+        case TargetAccountType.LEGACY_CONTRACT_REVERT:
+            return pre.deploy_contract(
+                code=Op.REVERT(0, 0),
+            )
+        case TargetAccountType.EOF_CONTRACT_REVERT:
+            return pre.deploy_contract(
+                code=Container.Code(Op.REVERT(0, 0)),
+            )
+        case TargetAccountType.IDENTITY_PRECOMPILE:
+            return identity
 
 
 @pytest.mark.parametrize(
@@ -722,15 +778,7 @@ def test_eof_calls_eof_then_fails(
 )
 @pytest.mark.parametrize(
     "target_account_type",
-    (
-        "empty",
-        "EOA",
-        "LegacyContract",
-        "EOFContract",
-        "LegacyContractInvalid",
-        "EOFContractInvalid",
-    ),
-    ids=lambda x: x,
+    TargetAccountType,
 )
 @pytest.mark.parametrize("value", [0, 1])
 def test_eof_calls_clear_return_buffer(
@@ -738,7 +786,7 @@ def test_eof_calls_clear_return_buffer(
     pre: Alloc,
     sender: EOA,
     opcode: Op,
-    target_account_type: str,
+    target_address: Address,
     value: int,
 ):
     """Test EOF contracts calling clears returndata buffer."""
@@ -747,28 +795,6 @@ def test_eof_calls_clear_return_buffer(
         Op.MSTORE8(0, int.from_bytes(value_returndata_magic, "big")) + Op.RETURN(0, 32),
     )
     filling_callee_address = pre.deploy_contract(filling_contract_code)
-
-    match target_account_type:
-        case "empty":
-            target_address = b"\x78" * 20
-        case "EOA":
-            target_address = pre.fund_eoa()
-        case "LegacyContract":
-            target_address = pre.deploy_contract(
-                code=Op.STOP,
-            )
-        case "EOFContract":
-            target_address = pre.deploy_contract(
-                code=Container.Code(Op.STOP),
-            )
-        case "LegacyContractInvalid":
-            target_address = pre.deploy_contract(
-                code=Op.INVALID,
-            )
-        case "EOFContractInvalid":
-            target_address = pre.deploy_contract(
-                code=Container.Code(Op.INVALID),
-            )
 
     caller_contract = Container.Code(
         # First fill the return buffer and sanity check
@@ -1092,6 +1118,59 @@ def test_eof_calls_msg_depth(
         slot_max_depth: 1024,
         slot_code_worked: value_code_worked,
         slot_call_result: EXTCALL_REVERT,
+    }
+
+    post = {
+        calling_contract_address: Account(storage=calling_storage),
+    }
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize("target_account_type", TargetAccountType)
+@pytest.mark.parametrize("delegate", [True, False])
+def test_extdelegate_call_targets(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    target_account_type: TargetAccountType,
+    target_address: Address,
+    delegate: bool,
+):
+    """
+    Test EOF contracts extdelegatecalling various targets, especially resolved via 7702
+    delegation.
+    """
+    env = Environment()
+
+    if delegate:
+        target_address = pre.fund_eoa(0, delegation=target_address)
+
+    caller_contract = Container.Code(
+        Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.SSTORE(slot_call_result, Op.EXTDELEGATECALL(address=target_address))
+        + Op.STOP,
+    )
+
+    calling_contract_address = pre.deploy_contract(caller_contract)
+
+    tx = Transaction(
+        sender=pre.fund_eoa(),
+        to=Address(calling_contract_address),
+        gas_limit=2_000_000,
+    )
+
+    calling_storage = {
+        slot_code_worked: value_code_worked,
+        slot_call_result: EXTCALL_SUCCESS
+        if target_account_type == TargetAccountType.EOF_CONTRACT
+        else EXTCALL_FAILURE
+        if target_account_type == TargetAccountType.EOF_CONTRACT_INVALID
+        else EXTCALL_REVERT,
     }
 
     post = {
