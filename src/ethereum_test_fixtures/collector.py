@@ -96,6 +96,7 @@ class FixtureCollector:
 
     output_dir: Path
     flat_output: bool
+    refiller_enabled: bool
     single_fixture_per_file: bool
     filler_path: Path
     base_dump_dir: Optional[Path] = None
@@ -118,6 +119,9 @@ class FixtureCollector:
                 relative_fixture_output_dir, self.filler_path
             )
 
+            if self.refiller_enabled:
+                # Each legacy test filler has only 1 test per file if it's a !state test!
+                return module_relative_output_dir.parent / info.original_name
             if self.single_fixture_per_file:
                 return module_relative_output_dir / strip_test_prefix(info.get_single_test_name())
             return module_relative_output_dir / strip_test_prefix(info.original_name)
