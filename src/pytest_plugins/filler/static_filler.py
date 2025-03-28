@@ -1,5 +1,5 @@
 """
-Refiller pytest plugin that reads test cases from static files and fills them into test
+Static filler pytest plugin that reads test cases from static files and fills them into test
 fixtures.
 """
 
@@ -107,20 +107,20 @@ def get_all_combinations_from_parametrize_marks(
 
 def pytest_addoption(parser: pytest.Parser):
     """Add command-line options to pytest."""
-    refiller_group = parser.getgroup("refiller", "Arguments defining refiller behavior")
-    refiller_group.addoption(
-        "--refiller",
+    static_filler_group = parser.getgroup("static", "Arguments defining static filler behavior")
+    static_filler_group.addoption(
+        "--fill-static-tests",
         action="store_true",
-        dest="refiller_enabled",
+        dest="fill_static_tests_enabled",
         default=None,
-        help=("Refiller enables test filling from static test files."),
+        help=("Enable reading and filling from static test files."),
     )
 
 
 def pytest_collect_file(file_path: Path, parent) -> pytest.Collector | None:
     """Pytest hook that collects test cases from static files and fills them into test fixtures."""
-    refiller_enabled = parent.config.getoption("refiller_enabled")
-    if not refiller_enabled:
+    fill_static_tests_enabled = parent.config.getoption("fill_static_tests_enabled")
+    if not fill_static_tests_enabled:
         return None
     if not BaseStaticTest.formats:
         # No formats registered, so no need to collect any files.

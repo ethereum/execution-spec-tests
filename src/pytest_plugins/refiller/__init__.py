@@ -1,1 +1,0 @@
-"""Pytest refiller plugin package."""
