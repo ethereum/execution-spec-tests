@@ -11,6 +11,7 @@ from cli.fillerconvert.structures.expect_section import (
 )
 from cli.fillerconvert.structures.state_test_filler import StateTestInFiller, StateTestVector
 from ethereum_test_base_types import Address, Hash, HexNumber, Storage, ZeroPaddedHexNumber
+from ethereum_test_exceptions import TransactionExceptionInstanceOrList
 from ethereum_test_forks import Fork
 from ethereum_test_types import Account, Alloc, Environment, Transaction
 
@@ -58,7 +59,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                             expect.result,
                             exception=None
                             if expect.expect_exception is None
-                            else expect.expect_exception[fork],
+                            else expect.expect_exception[fork.name()],
                         )
                         return state_test(
                             env=self._get_env,
@@ -126,7 +127,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
         g: int,
         v: int,
         expect_result: Dict[AddressInFiller, AccountInExpectSection],
-        exception: str | None,
+        exception: TransactionExceptionInstanceOrList | None,
     ) -> Tuple[Alloc, Transaction]:
         """Compose test vector from test data."""
         general_tr = self.transaction
@@ -145,6 +146,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             nonce=HexNumber(general_tr.nonce),
             to=Address(general_tr.to),
             secret_key=Hash(general_tr.secret_key),
+            error=exception,
         )
 
         post = Alloc()

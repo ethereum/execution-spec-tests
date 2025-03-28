@@ -5,6 +5,8 @@ from typing import Dict, List, Literal, Union
 
 from pydantic import BaseModel, Field, ValidationInfo, field_validator
 
+from ethereum_test_base_types import CamelModel
+from ethereum_test_exceptions import TransactionExceptionInstanceOrList
 from ethereum_test_forks import get_forks
 
 from .common import AddressInFiller, CodeInFiller, ValueInFiller
@@ -100,13 +102,13 @@ def parse_networks(fork_with_operand: str) -> List[str]:
     return parsed_forks
 
 
-class ExpectSectionInStateTestFiller(BaseModel):
+class ExpectSectionInStateTestFiller(CamelModel):
     """Expect section in state test filler."""
 
     indexes: Indexes = Field(default_factory=Indexes)
     network: List[str]
     result: Dict[AddressInFiller, AccountInExpectSection]
-    expect_exception: Dict[str, str] | None = Field(None, alias="expectException")
+    expect_exception: Dict[str, TransactionExceptionInstanceOrList] | None = None
 
     class Config:
         """Model Config."""
