@@ -99,6 +99,9 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             base_fee_per_gas=ZeroPaddedHexNumber(test_env.current_base_fee)
             if test_env.current_base_fee is not None
             else None,
+            excess_blob_gas=ZeroPaddedHexNumber(test_env.current_excess_blob_gas)
+            if test_env.current_excess_blob_gas is not None
+            else None,
         )
         return env
 
@@ -143,6 +146,8 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             gas_price=general_tr.gas_price,
             max_fee_per_gas=general_tr.max_fee_per_gas,
             max_priority_fee_per_gas=general_tr.max_priority_fee_per_gas,
+            max_fee_per_blob_gas=general_tr.max_fee_per_blob_gas,
+            blob_versioned_hashes=general_tr.blob_versioned_hashes,
             nonce=HexNumber(general_tr.nonce),
             to=Address(general_tr.to),
             secret_key=Hash(general_tr.secret_key),
@@ -159,7 +164,8 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             if account.storage is not None:
                 storage = Storage()
                 for key, value in account.storage.items():
-                    storage[key] = value
+                    if value != "ANY":
+                        storage[key] = value
                 account_kwargs["storage"] = storage
             if account.code is not None:
                 code, code_options = account.code
