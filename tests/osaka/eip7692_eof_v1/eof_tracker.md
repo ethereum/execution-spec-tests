@@ -152,10 +152,10 @@
 - [x] Valid CALLFs ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf`](./eip4750_functions/test_callf_execution/test_callf.md))
 - [x] CALLFs to non-existing sections ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_invalid_code_section_index`](./eip4750_functions/test_code_validation/test_invalid_code_section_index.md))
 - [x] Truncated CALLF immediate ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_truncated_immediate`](./eip4750_functions/test_code_validation/test_callf_truncated_immediate.md))
-- [x] Unreachable code sections ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_unreachable_code_sections`](./eip4750_functions/test_code_validation/test_unreachable_code_sections.md))
-- [x] Sections reachable from other sections, but not reachable from section 0 ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_unreachable_code_sections`](./eip4750_functions/test_code_validation/test_unreachable_code_sections.md))
-- [x] Unreachable code section that calls itself with JUMPF ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_unreachable_code_sections`](./eip4750_functions/test_code_validation/test_unreachable_code_sections.md))
-- [x] Unreachable code section that calls itself with CALLF ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_unreachable_code_sections`](./eip4750_functions/test_code_validation/test_unreachable_code_sections.md))
+- [x] Unreachable code sections ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_unreachable_code_sections.py::test_unreachable_code_sections`](./eip4750_functions/test_unreachable_code_sections/test_unreachable_code_sections.md))
+- [x] Sections reachable from other sections, but not reachable from section 0 ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_unreachable_code_sections.py::test_unreachable_code_sections`](./eip4750_functions/test_unreachable_code_sections/test_unreachable_code_sections.md))
+- [x] Unreachable code section that calls itself with JUMPF ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_unreachable_code_sections.py::test_unreachable_code_sections`](./eip4750_functions/test_unreachable_code_sections/test_unreachable_code_sections.md))
+- [x] Unreachable code section that calls itself with CALLF ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_unreachable_code_sections.py::test_unreachable_code_sections`](./eip4750_functions/test_unreachable_code_sections/test_unreachable_code_sections.md))
 - [ ] RETF with maximum number of outputs (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 
 ### Execution
