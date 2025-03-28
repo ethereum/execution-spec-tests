@@ -631,7 +631,7 @@ def node_to_test_info(node: pytest.Item) -> TestInfo:
         name=node.name,
         id=node.nodeid,
         original_name=node.originalname,  # type: ignore
-        path=Path(node.path),
+        module_path=Path(node.path),
     )
 
 
