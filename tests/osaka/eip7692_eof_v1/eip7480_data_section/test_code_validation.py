@@ -34,6 +34,45 @@ def container_name(c: Container):
     "container",
     [
         Container(
+            name="dataloadn_validation_0",
+            sections=[
+                Section.Code(
+                    code=Op.DATALOADN[0] + Op.POP + Op.STOP,
+                    max_stack_height=1,
+                ),
+                Section.Data(
+                    data="0000000000000000111111111111111122222222222222223333333333333333"
+                ),
+            ],
+            expected_bytecode="ef000101000402000100050400200000800001d1000050000000000000000000111111111111111122222222222222223333333333333333",
+        ),
+        Container(
+            name="dataloadn_validation_1",
+            sections=[
+                Section.Code(
+                    code=Op.DATALOADN[1] + Op.POP + Op.STOP,
+                    max_stack_height=1,
+                ),
+                Section.Data(
+                    data="000000000000000011111111111111112222222222222222333333333333333344"
+                ),
+            ],
+            expected_bytecode="ef000101000402000100050400210000800001d100015000000000000000000011111111111111112222222222222222333333333333333344",
+        ),
+        Container(
+            name="dataloadn_validation_2",
+            sections=[
+                Section.Code(
+                    code=Op.DATALOADN[32] + Op.POP + Op.STOP,
+                    max_stack_height=1,
+                ),
+                Section.Data(
+                    data="00000000000000001111111111111111222222222222222233333333333333330000000000000000111111111111111122222222222222223333333333333333"
+                ),
+            ],
+            expected_bytecode="ef000101000402000100050400400000800001d10020500000000000000000001111111111111111222222222222222233333333333333330000000000000000111111111111111122222222222222223333333333333333",
+        ),
+        Container(
             name="empty_data_section",
             sections=[
                 Section.Code(
@@ -122,6 +161,64 @@ def test_valid_containers_with_data_section(
 @pytest.mark.parametrize(
     "container",
     [
+        Container(
+            name="dataloadn_validation_invalid_0",
+            sections=[
+                Section.Code(code=[0xD1]),
+            ],
+            expected_bytecode="ef000101000402000100010400000000800000d1",
+            validity_error=[EOFException.TRUNCATED_INSTRUCTION],
+        ),
+        Container(
+            name="dataloadn_validation_invalid_1",
+            sections=[
+                Section.Code(code=[0xD1, 0x00]),
+            ],
+            expected_bytecode="ef000101000402000100020400000000800000d100",
+            validity_error=[EOFException.TRUNCATED_INSTRUCTION],
+        ),
+        Container(
+            name="dataloadn_validation_invalid_2",
+            sections=[
+                Section.Code(
+                    code=Op.DATALOADN[32] + Op.POP + Op.STOP,
+                    max_stack_height=1,
+                ),
+                Section.Data(
+                    data="0000000000000000111111111111111122222222222222223333333333333333"
+                ),
+            ],
+            expected_bytecode="ef000101000402000100050400200000800001d1002050000000000000000000111111111111111122222222222222223333333333333333",
+            validity_error=[EOFException.INVALID_DATALOADN_INDEX],
+        ),
+        Container(
+            name="dataloadn_validation_invalid_3",
+            sections=[
+                Section.Code(
+                    code=Op.DATALOADN[-1] + Op.POP + Op.STOP,
+                    max_stack_height=1,
+                ),
+                Section.Data(
+                    data="0000000000000000111111111111111122222222222222223333333333333333"
+                ),
+            ],
+            expected_bytecode="ef000101000402000100050400200000800001d1ffff50000000000000000000111111111111111122222222222222223333333333333333",
+            validity_error=[EOFException.INVALID_DATALOADN_INDEX],
+        ),
+        Container(
+            name="dataloadn_validation_invalid_4",
+            sections=[
+                Section.Code(
+                    code=Op.DATALOADN[32] + Op.POP + Op.STOP,
+                    max_stack_height=1,
+                ),
+                Section.Data(
+                    data="000000000000000011111111111111112222222222222222333333333333333300000000000000001111111111111111222222222222222233333333333333"
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000504003f0000800001d100205000000000000000000011111111111111112222222222222222333333333333333300000000000000001111111111111111222222222222222233333333333333",
+            validity_error=[EOFException.INVALID_DATALOADN_INDEX],
+        ),
         Container(
             name="DATALOADN_0_empty_data",
             sections=[

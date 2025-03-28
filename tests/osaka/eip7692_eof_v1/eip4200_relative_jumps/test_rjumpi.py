@@ -1699,6 +1699,16 @@ def test_double_rjumpi_invalid_max_stack_height(
             expected_bytecode="ef0001010004020001000a04000000008000025f6001018080e1fff800",
         ),
         Container(
+            name="backwards_rjumpi_11",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 * 3 + Op.POP + Op.RJUMPI[-4] + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000804000000008000025f5f5f50e1fffc00",
+        ),
+        Container(
             name="backwards_rjumpi_8",
             sections=[
                 Section.Code(

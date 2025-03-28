@@ -803,3 +803,188 @@ def test_eofcreate_memory_context(
         sender=pre.fund_eoa(),
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
+
+# initcontainer index 0..255
+bytecode = None
+for i in range(0, 256):
+    if bytecode:
+        bytecode += Op.CALLDATASIZE + Op.PUSH1[0] * 3 + Op.EOFCREATE[i] + Op.POP
+    else:
+        bytecode = Op.CALLDATASIZE + Op.PUSH1[0] * 3 + Op.EOFCREATE[i] + Op.POP
+bytecode += Op.STOP
+
+code = Section.Code(code=bytecode)
+subcontainer = Container(
+    name="EOFV1_MINCONTAINER",
+    sections=[
+        Section.Code(code=Op.INVALID),
+    ],
+)
+
+eof1_eofcreate_valid_2 = Container(
+    name="eof_create_valid_2",
+    sections=[code] + [Section.Container(container=subcontainer)] * 256,
+)
+
+# Truncated EOFCREATE at the end
+eof1_eofcreate_invalid_0 = Container(
+    name="eof_create_invalid_0",
+    sections=[
+        Section.Code(
+            code=Op.PUSH1[0] + Op.PUSH1[0xFF] + Op.PUSH1[0] * 2 + Op.EOFCREATE
+        ),
+        Section.Container(
+            container=Container(
+                name="EOFV1_MINCONTAINER", sections=[Section.Code(code=Op.INVALID)]
+            )
+        ),
+    ],
+    validity_error=[EOFException.TRUNCATED_INSTRUCTION],
+)
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="eofcreate_valid_0",
+            sections=[
+                Section.Code(
+                    code=Op.CALLDATASIZE
+                    + Op.PUSH1[0]
+                    + Op.PUSH1[255]
+                    + Op.PUSH1[0]
+                    + Op.EOFCREATE[0]
+                    + Op.POP
+                    + Op.CALLDATASIZE
+                    + Op.PUSH1[0]
+                    + Op.PUSH1[254]
+                    + Op.PUSH1[0]
+                    + Op.EOFCREATE[1]
+                    + Op.POP
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+                Section.Container(
+                    container=Container(
+                      name="eofcreate_valid_0_D1I0",
+                      sections=[
+                          Section.Code(code=Op.INVALID),
+                      ],
+                  )
+                ),
+            Section.Container(
+                    container=Container(
+                      name="eofcreate_valid_0_D1I1",
+                      sections=[
+                          Section.Code(code=Op.INVALID),
+                      ],
+                  )
+                ),
+            ],
+            expected_bytecode="ef0001010004020001001503000200140014040000000080000436600060ff6000ec005036600060fe6000ec015000ef000101000402000100010400000000800000feef000101000402000100010400000000800000fe",
+        ),
+        eof1_eofcreate_valid_2,
+        eof1_eofcreate_invalid_0,
+        Container(
+            name="eofcreate_invalid_1",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1[0] + Op.PUSH1[255] + Op.PUSH1[0] * 2 + Op.EOFCREATE[0],
+                    max_stack_height=4,
+                ),
+                Section.Container(
+                    container=Container(
+                      name="eofcreate_invalid_1_D1I0",
+                      sections=[
+                          Section.Code(code=Op.INVALID, max_stack_height=0),
+                      ],
+                  )
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000a03000100140400000000800004600060ff60006000ec00ef000101000402000100010400000000800000fe",
+            validity_error=[EOFException.MISSING_STOP_OPCODE],
+        ),
+        Container(
+            name="eofcreate_invalid_2",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1[0]
+                    + Op.PUSH1[255]
+                    + Op.PUSH1[0] * 2
+                    + Op.EOFCREATE[1]
+                    + Op.POP
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+                Section.Container(
+                    container=Container(
+                      name="eofcreate_invalid_2_D1I0",
+                      sections=[
+                          Section.Code(code=Op.INVALID),
+                      ],
+                  )
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000c03000100140400000000800004600060ff60006000ec015000ef000101000402000100010400000000800000fe",
+            validity_error=[EOFException.INVALID_CONTAINER_SECTION_INDEX],
+        ),
+        Container(
+            name="eofcreate_invalid_3",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1[0]
+                    + Op.PUSH1[255]
+                    + Op.PUSH1[0] * 2
+                    + Op.EOFCREATE[255]
+                    + Op.POP
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+                Section.Container(
+                    container=Container(
+                      name="eofcreate_invalid_3_D1I0",
+                      sections=[
+                          Section.Code(code=Op.INVALID),
+                      ],
+                  )
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000c03000100140400000000800004600060ff60006000ecff5000ef000101000402000100010400000000800000fe",
+            validity_error=[EOFException.INVALID_CONTAINER_SECTION_INDEX],
+        ),
+        Container(
+            name="eofcreate_invalid_4",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1[0]
+                    + Op.PUSH1[255]
+                    + Op.PUSH1[0] * 2
+                    + Op.EOFCREATE[0]
+                    + Op.POP
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+                Section.Container(
+                    container=Container(
+                      name="eofcreate_invalid_4_D1I0",
+                      sections=[
+                          Section.Code(code=Op.INVALID),
+                          Section.Data(data="aabb", custom_size=3),
+                      ],
+                  )
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000c03000100160400000000800004600060ff60006000ec005000ef000101000402000100010400030000800000feaabb",
+            validity_error=[EOFException.EOFCREATE_WITH_TRUNCATED_CONTAINER],
+        ),
+    ],
+)
+def test_eofcreate_validation(
+    eof_test: EOFTestFiller,
+    container: Container,
+):
+    """Test EOFCREATE."""
+    eof_test(
+        container=container,
+        expect_exception=container.validity_error,
+    )

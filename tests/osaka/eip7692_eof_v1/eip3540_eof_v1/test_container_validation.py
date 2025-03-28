@@ -198,6 +198,46 @@ def test_valid_containers(
             ],
         ),
         Container(
+            name="types_section_missing_0",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    # --- Error: Invalid Types Header ---#
+                    0x02,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0xFE,
+                ]
+            ),
+            expected_bytecode="ef0001020001000100fe",
+            validity_error=[EOFException.MISSING_TYPE_HEADER],
+        ),
+        Container(
+            name="types_section_missing_1",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    # --- Error: Invalid Types Header ---#
+                    0x02,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x01,
+                    0x03,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0xFE,
+                    0xDA,
+                ]
+            ),
+            expected_bytecode="ef0001020001000103000100feda",
+            validity_error=[EOFException.MISSING_TYPE_HEADER],
+        ),
+        Container(
             name="no_code_header",
             raw_bytes=bytes([0xEF, 0x00, 0x01, 0x01, 0x00, 0x04]),
             validity_error=[
@@ -246,6 +286,23 @@ def test_valid_containers(
             name="code_section_size_incomplete",
             raw_bytes="ef00 01 01 0004 02 0001 00",
             validity_error=[EOFException.INCOMPLETE_SECTION_SIZE, EOFException.ZERO_SECTION_SIZE],
+        ),
+        Container(
+            name="incomplete_section_size_0",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    0x01, 0x01, 0x00, # Types Length: 256
+                    # --- Error: Invalid Code Header ---#
+                    0x02,
+                    0x00,
+                    0x3F,
+                    0x01,
+                    0x00,
+                ]
+            ),
+            expected_bytecode="ef000101010002003f0100",
+            validity_error=[EOFException.INCOMPLETE_SECTION_SIZE],
         ),
         Container(
             name="code_section_count_0x8000_truncated",
@@ -594,6 +651,36 @@ def test_valid_containers(
             validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
         ),
         Container(
+            name="no_section_terminator_1",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    0x01, 0x00, 0x04, # Types Length: 4
+                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
+                          0x00, 0x01, #   Code Section 0 (Length: 1)
+                    0x04, 0x00, 0x01, # Data Length: 1
+                    #--- Error: Invalid Terminator ---#
+                ]
+            ),
+            validity_error=EOFException.MISSING_HEADERS_TERMINATOR,
+        ),
+        Container(
+            name="no_section_terminator_2",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    0x01, 0x00, 0x04, # Types Length: 4
+                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
+                          0x00, 0x01, #   Code Section 0 (Length: 1)
+                    0x04, 0x00, 0x01, # Data Length: 1
+                    #--- Error: Invalid Terminator ---#
+                    0xFE,
+                    0xAA,
+                ]
+            ),
+            validity_error=EOFException.MISSING_TERMINATOR,
+        ),
+        Container(
             name="no_code_section_contents",
             sections=[Section.Code(code="0x", custom_size=0x01)],
             validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
@@ -707,6 +794,69 @@ def test_valid_containers(
             validity_error=EOFException.INVALID_SECTION_BODIES_SIZE,
         ),
         Container(
+            name="multiple_type_sections_0",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    0x01, 0x00, 0x04, # Types Length: 4
+                    # --- Error: Invalid Code Header ---#
+                    0x01,
+                    0x00,
+                    0x04,
+                    0x02,
+                    0x00,
+                    0x02,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x00,
+                    0x80,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x80,
+                    0x00,
+                    0x00,
+                    0xFE,
+                    0xFE,
+                ]
+            ),
+            expected_bytecode="ef000101000401000402000200010001000080000000800000fefe",
+            validity_error=[EOFException.MISSING_CODE_HEADER],
+        ),
+        Container(
+            name="multiple_type_sections_1",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    # --- Error: Invalid Types Header ---#
+                    0x03,
+                    0x00,
+                    0x02,
+                    0x01,
+                    0x00,
+                    0x01,
+                    0x01,
+                    0x00,
+                    0x01,
+                    0x04,
+                    0x00,
+                    0x02,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0xFE,
+                    0xFE,
+                    0x00,
+                    0x00,
+                ]
+            ),
+            expected_bytecode="ef0001030002010001010001040002000000fefe0000",
+            validity_error=[EOFException.MISSING_TYPE_HEADER],
+        ),
+        Container(
             name="multiple_data_sections",
             sections=[
                 Section.Code(code=Op.PUSH1(0) + Op.STOP),
@@ -748,6 +898,78 @@ def test_valid_containers(
                 EOFException.MISSING_DATA_SECTION,
                 EOFException.UNEXPECTED_HEADER_KIND,
             ],
+        ),
+        Container(
+            name="multiple_code_headers_3",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    0x01, 0x00, 0x08, # Types Length: 8
+                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
+                          0x00, 0x04, #   Code Section 0 (Length: 4)
+                    # --- Error: Invalid Data Header ---#
+                    0x02,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x05,
+                    0x04,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x80,
+                    0x00,
+                    0x00,
+                    0x04,
+                    0x5C,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x40,
+                    0x5C,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x2E,
+                    0x00,
+                    0x05,
+                ]
+            ),
+            expected_bytecode="ef0001010008020001000402000100050400000000800000045c000000405c0000002e0005",
+            validity_error=[EOFException.MISSING_DATA_SECTION],
+        ),
+        Container(
+            name="multiple_container_sections_0",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    0x01, 0x00, 0x04, # Types Length: 4
+                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
+                          0x00, 0x01, #   Code Section 0 (Length: 1)
+                    0x03, 0x00, 0x01, # Container Sections (Length: 1)
+                          0x00, 0x01, #   Container Section 0 (Length: 1)
+                    # --- Error: Invalid Data Header ---#
+                    0x03,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0x01,
+                    0x04,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x80,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                ]
+            ),
+            expected_bytecode="ef00010100040200010001030001000103000100010400000000800000000000",
+            validity_error=[EOFException.MISSING_DATA_SECTION],
         ),
         Container(
             name="duplicated_code_header",
@@ -1298,4 +1520,54 @@ def test_max_code_sections(
             sections=sections,
             kind=ContainerKind.INITCODE if plus_container else ContainerKind.RUNTIME,
         ),
+    )
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="code_section_0_size_0",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    0x01, 0x00, 0x04, # Types Length: 4
+                    # --- Error: Invalid Code Header ---#
+                    0x02,
+                    0x00,
+                    0x00,
+                    0x00,
+                ]
+            ),
+            expected_bytecode="ef000101000402000000",
+            validity_error=[EOFException.ZERO_SECTION_SIZE],
+        ),
+        Container(
+            name="code_section_0_size_1",
+            raw_bytes=(
+                [
+                    0xEF, 0x00, 0x01, # Version: 1
+                    0x01, 0x00, 0x04, # Types Length: 4
+                    # --- Error: Invalid Code Header ---#
+                    0x02,
+                    0x00,
+                    0x00,
+                    0x04,
+                    0x00,
+                    0x01,
+                    0x00,
+                    0xDA,
+                ]
+            ),
+            expected_bytecode="ef000101000402000004000100da",
+            validity_error=[EOFException.ZERO_SECTION_SIZE],
+        ),
+    ],
+)
+def test_code_section_0_size(
+    eof_test: EOFTestFiller,
+    container: Container,
+):
+    """Test EOF contract with sections size 0."""
+    eof_test(
+        container=container,
+        expect_exception=container.validity_error,
     )
