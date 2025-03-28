@@ -27,9 +27,19 @@ class EthereumTestRootModel(RootModel[RootModelRootType], ModelCustomizationsMix
 class CopyValidateModel(EthereumTestBaseModel):
     """Model that supports copying with validation."""
 
+    def _convert_kwargs_to_alias(self, kwargs: dict) -> dict:
+        converted = {}
+        for key, value in kwargs.items():
+            field = self.__class__.model_fields.get(key)
+            converted[field.alias if field and field.alias else key] = value
+        return converted
+
     def copy(self: Model, **kwargs) -> Model:
         """Create a copy of the model with the updated fields that are validated."""
-        return self.__class__(**(self.model_dump(exclude_unset=True) | kwargs))
+        alias_kwargs = self._convert_kwargs_to_alias(kwargs)
+        return self.__class__(
+            **(self.model_dump(exclude_unset=True, by_alias=True) | alias_kwargs)
+        )
 
 
 class CamelModel(CopyValidateModel):
