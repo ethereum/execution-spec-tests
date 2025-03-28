@@ -18,24 +18,6 @@ from .consume import FixtureConsumer
 from .file import Fixtures
 
 
-def get_module_relative_output_dir(test_module: Path, filler_path: Path) -> Path:
-    """
-    Return a directory name for the provided test_module (relative to the
-    base ./tests directory) that can be used for output (within the
-    configured fixtures output path or the base_dump_dir directory).
-
-    Example:
-    tests/shanghai/eip3855_push0/test_push0.py -> shanghai/eip3855_push0/test_push0
-
-    """
-    basename = test_module.with_suffix("").absolute()
-    basename_relative = basename.relative_to(
-        os.path.commonpath([filler_path.absolute(), basename])
-    )
-    module_path = basename_relative.parent / basename_relative.stem
-    return module_path
-
-
 @dataclass(kw_only=True)
 class TestInfo:
     """Contains test information from the current node."""
