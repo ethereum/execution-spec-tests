@@ -2,7 +2,8 @@
 
 import pytest
 
-from ethereum_test_tools import EOFTestFiller, Opcodes as Op
+from ethereum_test_tools import EOFTestFiller
+from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools.eof.v1 import Container, ContainerKind, Section
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7620.md"
@@ -31,6 +32,7 @@ eof1_embedded_container_6 = Container(
     sections=[code] + [Section.Container(container=subcontainer)] * 256,
 )
 
+
 @pytest.mark.parametrize(
     "container",
     [
@@ -43,12 +45,12 @@ eof1_embedded_container_6 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="contract_with_embedded_container_0_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                          Section.Data(data="", custom_size=2),
-                      ],
-                  )
+                        name="contract_with_embedded_container_0_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                            Section.Data(data="", custom_size=2),
+                        ],
+                    )
                 ),
             ],
             kind=ContainerKind.INITCODE,
@@ -63,12 +65,12 @@ eof1_embedded_container_6 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="contract_with_embedded_container_1_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                          Section.Data(data="aa", custom_size=2),
-                      ],
-                  )
+                        name="contract_with_embedded_container_1_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                            Section.Data(data="aa", custom_size=2),
+                        ],
+                    )
                 ),
             ],
             kind=ContainerKind.INITCODE,
@@ -83,14 +85,14 @@ eof1_embedded_container_6 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="contract_with_embedded_container_2_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                      ],
-                  )
+                        name="contract_with_embedded_container_2_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                        ],
+                    )
                 ),
-            Section.Data(data="aabb"),
-                ],
+                Section.Data(data="aabb"),
+            ],
             expected_bytecode="ef0001010004020001000b030001001404000200008000046000600060006000ec0000ef000101000402000100010400000000800000feaabb",
         ),
         Container(
@@ -107,19 +109,19 @@ eof1_embedded_container_6 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="contract_with_embedded_container_3_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                      ],
-                  )
+                        name="contract_with_embedded_container_3_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                        ],
+                    )
                 ),
-            Section.Container(
+                Section.Container(
                     container=Container(
-                      name="contract_with_embedded_container_3_D1I1",
-                      sections=[
-                          Section.Code(code=Op.PUSH1[0] * 2 + Op.REVERT, max_stack_height=2),
-                      ],
-                  )
+                        name="contract_with_embedded_container_3_D1I1",
+                        sections=[
+                            Section.Code(code=Op.PUSH1[0] * 2 + Op.REVERT, max_stack_height=2),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef000101000402000100160300020014001804000000008000046000600060006000ec00506000600060006000ec0100ef000101000402000100010400000000800000feef00010100040200010005040000000080000260006000fd",

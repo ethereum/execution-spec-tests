@@ -804,6 +804,7 @@ def test_eofcreate_memory_context(
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
 
+
 # initcontainer index 0..255
 bytecode = None
 for i in range(0, 256):
@@ -830,9 +831,7 @@ eof1_eofcreate_valid_2 = Container(
 eof1_eofcreate_invalid_0 = Container(
     name="eof_create_invalid_0",
     sections=[
-        Section.Code(
-            code=Op.PUSH1[0] + Op.PUSH1[0xFF] + Op.PUSH1[0] * 2 + Op.EOFCREATE
-        ),
+        Section.Code(code=Op.PUSH1[0] + Op.PUSH1[0xFF] + Op.PUSH1[0] * 2 + Op.EOFCREATE),
         Section.Container(
             container=Container(
                 name="EOFV1_MINCONTAINER", sections=[Section.Code(code=Op.INVALID)]
@@ -841,6 +840,7 @@ eof1_eofcreate_invalid_0 = Container(
     ],
     validity_error=[EOFException.TRUNCATED_INSTRUCTION],
 )
+
 
 @pytest.mark.parametrize(
     "container",
@@ -866,19 +866,19 @@ eof1_eofcreate_invalid_0 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="eofcreate_valid_0_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                      ],
-                  )
+                        name="eofcreate_valid_0_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                        ],
+                    )
                 ),
-            Section.Container(
+                Section.Container(
                     container=Container(
-                      name="eofcreate_valid_0_D1I1",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                      ],
-                  )
+                        name="eofcreate_valid_0_D1I1",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001001503000200140014040000000080000436600060ff6000ec005036600060fe6000ec015000ef000101000402000100010400000000800000feef000101000402000100010400000000800000fe",
@@ -894,11 +894,11 @@ eof1_eofcreate_invalid_0 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="eofcreate_invalid_1_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID, max_stack_height=0),
-                      ],
-                  )
+                        name="eofcreate_invalid_1_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID, max_stack_height=0),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000a03000100140400000000800004600060ff60006000ec00ef000101000402000100010400000000800000fe",
@@ -918,11 +918,11 @@ eof1_eofcreate_invalid_0 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="eofcreate_invalid_2_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                      ],
-                  )
+                        name="eofcreate_invalid_2_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000c03000100140400000000800004600060ff60006000ec015000ef000101000402000100010400000000800000fe",
@@ -942,11 +942,11 @@ eof1_eofcreate_invalid_0 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="eofcreate_invalid_3_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                      ],
-                  )
+                        name="eofcreate_invalid_3_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000c03000100140400000000800004600060ff60006000ecff5000ef000101000402000100010400000000800000fe",
@@ -966,12 +966,12 @@ eof1_eofcreate_invalid_0 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="eofcreate_invalid_4_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                          Section.Data(data="aabb", custom_size=3),
-                      ],
-                  )
+                        name="eofcreate_invalid_4_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                            Section.Data(data="aabb", custom_size=3),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000c03000100160400000000800004600060ff60006000ec005000ef000101000402000100010400030000800000feaabb",

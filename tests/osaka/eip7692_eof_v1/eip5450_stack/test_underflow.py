@@ -54,12 +54,7 @@ REFERENCE_SPEC_VERSION = "f20b164b00ae5553f7536a6d7a83a0f254455e09"
             name="underflow_variable_stack_0",
             sections=[
                 Section.Code(
-                    code=Op.PUSH0
-                    + Op.PUSH1[0]
-                    + Op.RJUMPI[2]
-                    + Op.PUSH0 * 2
-                    + Op.LOG2
-                    + Op.STOP,
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 * 2 + Op.LOG2 + Op.STOP,
                     max_stack_height=3,
                 ),
             ],
@@ -70,12 +65,7 @@ REFERENCE_SPEC_VERSION = "f20b164b00ae5553f7536a6d7a83a0f254455e09"
             name="underflow_variable_stack_1",
             sections=[
                 Section.Code(
-                    code=Op.PUSH0
-                    + Op.PUSH1[0]
-                    + Op.RJUMPI[2]
-                    + Op.PUSH0 * 2
-                    + Op.ADD
-                    + Op.STOP,
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 * 2 + Op.ADD + Op.STOP,
                     max_stack_height=3,
                 ),
             ],

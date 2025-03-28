@@ -33,6 +33,7 @@ unreachable_code_sections_24 = Container(
     validity_error=[EOFException.UNREACHABLE_CODE_SECTIONS],
 )
 
+
 @pytest.mark.parametrize(
     "container",
     [
@@ -270,12 +271,12 @@ unreachable_code_sections_24 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="unreachable_code_section_in_subcontainer_0_D1I0",
-                      sections=[
-                          Section.Code(code=Op.INVALID),
-                          Section.Code(code=Op.INVALID),
-                      ],
-                  )
+                        name="unreachable_code_section_in_subcontainer_0_D1I0",
+                        sections=[
+                            Section.Code(code=Op.INVALID),
+                            Section.Code(code=Op.INVALID),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000b030001001b04000000008000046000600060006000ec0000ef000101000802000200010001040000000080000000800000fefe",
@@ -290,15 +291,15 @@ unreachable_code_sections_24 = Container(
                 ),
                 Section.Container(
                     container=Container(
-                      name="unreachable_code_section_in_subcontainer_1_D1I0",
-                      sections=[
-                          Section.Code(code=Op.JUMPF[1]),
-                          Section.Code(code=Op.JUMPF[2]),
-                          Section.Code(code=Op.INVALID),
-                          Section.Code(code=Op.JUMPF[4]),
-                          Section.Code(code=Op.JUMPF[3]),
-                      ],
-                  )
+                        name="unreachable_code_section_in_subcontainer_1_D1I0",
+                        sections=[
+                            Section.Code(code=Op.JUMPF[1]),
+                            Section.Code(code=Op.JUMPF[2]),
+                            Section.Code(code=Op.INVALID),
+                            Section.Code(code=Op.JUMPF[4]),
+                            Section.Code(code=Op.JUMPF[3]),
+                        ],
+                    )
                 ),
             ],
             expected_bytecode="ef0001010004020001000b030001003804000000008000046000600060006000ec0000ef000101001402000500030003000100030003040000000080000000800000008000000080000000800000e50001e50002fee50004e50003",
@@ -316,5 +317,3 @@ def test_unreachable_code_sections(
         container=container,
         expect_exception=[EOFException.UNREACHABLE_CODE_SECTIONS],
     )
-
-

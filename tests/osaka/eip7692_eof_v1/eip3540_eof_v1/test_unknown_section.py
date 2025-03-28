@@ -16,7 +16,9 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
             name="unknown_section_0",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
                     # --- Error: Invalid Types Header ---#
                     0x05,
                     0x00,
@@ -32,7 +34,9 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
             name="unknown_section_1",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
                     # --- Error: Invalid Types Header ---#
                     0xFF,
                     0x00,
@@ -48,10 +52,17 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
             name="unknown_section_2",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x01, #   Code Section 0 (Length: 1)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x01,  #   Code Section 0 (Length: 1)
                     # --- Error: Invalid Data Header ---#
                     0x05,
                     0x00,
@@ -72,10 +83,17 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
             name="unknown_section_3",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x01, #   Code Section 0 (Length: 1)
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x01,  #   Code Section 0 (Length: 1)
                     # --- Error: Invalid Data Header ---#
                     0xFF,
                     0x00,
@@ -96,11 +114,20 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
             name="unknown_section_4",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x01, #   Code Section 0 (Length: 1)
-                    0x04, 0x00, 0x01, # Data Length: 1
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x01,  #   Code Section 0 (Length: 1)
+                    0x04,
+                    0x00,
+                    0x01,  # Data Length: 1
                     # --- Error: Invalid Terminator ---#
                     0x05,
                     0x00,
@@ -122,11 +149,20 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
             name="unknown_section_5",
             raw_bytes=(
                 [
-                    0xEF, 0x00, 0x01, # Version: 1
-                    0x01, 0x00, 0x04, # Types Length: 4
-                    0x02, 0x00, 0x01, # Code Sections (Length: 1)
-                          0x00, 0x01, #   Code Section 0 (Length: 1)
-                    0x04, 0x00, 0x01, # Data Length: 1
+                    0xEF,
+                    0x00,
+                    0x01,  # Version: 1
+                    0x01,
+                    0x00,
+                    0x04,  # Types Length: 4
+                    0x02,
+                    0x00,
+                    0x01,  # Code Sections (Length: 1)
+                    0x00,
+                    0x01,  #   Code Section 0 (Length: 1)
+                    0x04,
+                    0x00,
+                    0x01,  # Data Length: 1
                     # --- Error: Invalid Terminator ---#
                     0xFF,
                     0x00,
