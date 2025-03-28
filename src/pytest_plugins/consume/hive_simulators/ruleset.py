@@ -5,6 +5,35 @@ TODO: Create the ruleset dynamically per fixture test case based on the fork.
 Remove this file afterwards.
 """
 
+from typing import Dict
+
+from ethereum_test_forks import Cancun, Fork, Osaka, Prague
+
+
+def get_blob_schedule_entries(fork: Fork) -> Dict[str, int]:
+    """
+    Generate blob schedule entries for each fork (and respective parent forks).
+
+    Adds the following entries to the ruleset for the given fork (and parent forks):
+        HIVE_{FORK}_BLOB_TARGET: target_blobs_per_block()
+        HIVE_{FORK}_BLOB_MAX: max_blobs_per_block()
+        HIVE_{FORK}_BLOB_BASE_FEE_UPDATE_FRACTION: blob_base_fee_update_fraction()
+    """
+    entries: Dict = {}
+    # Only process if fork implements blobs
+    if not fork.supports_blobs():
+        return entries
+    # Process parent fork first (if exists AND implements blobs)
+    if fork.parent() is not None:
+        parent_entries = get_blob_schedule_entries(fork.parent())
+        entries.update(parent_entries)
+    prefix = fork.__name__.upper()
+    entries[f"HIVE_{prefix}_BLOB_TARGET"] = fork.target_blobs_per_block()
+    entries[f"HIVE_{prefix}_BLOB_MAX"] = fork.max_blobs_per_block()
+    entries[f"HIVE_{prefix}_BLOB_BASE_FEE_UPDATE_FRACTION"] = fork.blob_base_fee_update_fraction()
+    return entries
+
+
 ruleset = {
     "Frontier": {
         "HIVE_FORK_HOMESTEAD": 2000,
@@ -121,7 +150,6 @@ ruleset = {
     },
     "HomesteadToEIP150At5": {
         "HIVE_FORK_HOMESTEAD": 0,
-        # "HIVE_FORK_DAO_BLOCK":      2000,
         "HIVE_FORK_TANGERINE": 5,
         "HIVE_FORK_SPURIOUS": 2000,
         "HIVE_FORK_BYZANTIUM": 2000,
@@ -145,7 +173,6 @@ ruleset = {
     },
     "EIP158ToByzantiumAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
-        # "HIVE_FORK_DAO_BLOCK":      2000,
         "HIVE_FORK_TANGERINE": 0,
         "HIVE_FORK_SPURIOUS": 0,
         "HIVE_FORK_BYZANTIUM": 5,
@@ -157,7 +184,6 @@ ruleset = {
     },
     "ByzantiumToConstantinopleAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
-        # "HIVE_FORK_DAO_BLOCK":      2000,
         "HIVE_FORK_TANGERINE": 0,
         "HIVE_FORK_SPURIOUS": 0,
         "HIVE_FORK_BYZANTIUM": 0,
@@ -169,7 +195,6 @@ ruleset = {
     },
     "ByzantiumToConstantinopleFixAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
-        # "HIVE_FORK_DAO_BLOCK":      2000,
         "HIVE_FORK_TANGERINE": 0,
         "HIVE_FORK_SPURIOUS": 0,
         "HIVE_FORK_BYZANTIUM": 0,
@@ -181,7 +206,6 @@ ruleset = {
     },
     "ConstantinopleFixToIstanbulAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
-        # "HIVE_FORK_DAO_BLOCK":      2000,
         "HIVE_FORK_TANGERINE": 0,
         "HIVE_FORK_SPURIOUS": 0,
         "HIVE_FORK_BYZANTIUM": 0,
@@ -193,7 +217,6 @@ ruleset = {
     },
     "IstanbulToBerlinAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
-        # "HIVE_FORK_DAO_BLOCK":      2000,
         "HIVE_FORK_TANGERINE": 0,
         "HIVE_FORK_SPURIOUS": 0,
         "HIVE_FORK_BYZANTIUM": 0,
@@ -205,7 +228,6 @@ ruleset = {
     },
     "BerlinToLondonAt5": {
         "HIVE_FORK_HOMESTEAD": 0,
-        # "HIVE_FORK_DAO_BLOCK":      2000,
         "HIVE_FORK_TANGERINE": 0,
         "HIVE_FORK_SPURIOUS": 0,
         "HIVE_FORK_BYZANTIUM": 0,
@@ -306,9 +328,7 @@ ruleset = {
         "HIVE_TERMINAL_TOTAL_DIFFICULTY": 0,
         "HIVE_SHANGHAI_TIMESTAMP": 0,
         "HIVE_CANCUN_TIMESTAMP": 0,
-        "HIVE_CANCUN_BLOB_TARGET": 3,
-        "HIVE_CANCUN_BLOB_MAX": 6,
-        "HIVE_CANCUN_BLOB_BASE_FEE_UPDATE_FRACTION": 3338477,
+        **get_blob_schedule_entries(Cancun),
     },
     "ShanghaiToCancunAtTime15k": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -324,9 +344,7 @@ ruleset = {
         "HIVE_TERMINAL_TOTAL_DIFFICULTY": 0,
         "HIVE_SHANGHAI_TIMESTAMP": 0,
         "HIVE_CANCUN_TIMESTAMP": 15000,
-        "HIVE_CANCUN_BLOB_TARGET": 3,
-        "HIVE_CANCUN_BLOB_MAX": 6,
-        "HIVE_CANCUN_BLOB_BASE_FEE_UPDATE_FRACTION": 3338477,
+        **get_blob_schedule_entries(Cancun),
     },
     "Prague": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -342,13 +360,8 @@ ruleset = {
         "HIVE_TERMINAL_TOTAL_DIFFICULTY": 0,
         "HIVE_SHANGHAI_TIMESTAMP": 0,
         "HIVE_CANCUN_TIMESTAMP": 0,
-        "HIVE_CANCUN_BLOB_TARGET": 3,
-        "HIVE_CANCUN_BLOB_MAX": 6,
-        "HIVE_CANCUN_BLOB_BASE_FEE_UPDATE_FRACTION": 3338477,
         "HIVE_PRAGUE_TIMESTAMP": 0,
-        "HIVE_PRAGUE_BLOB_TARGET": 6,
-        "HIVE_PRAGUE_BLOB_MAX": 9,
-        "HIVE_PRAGUE_BLOB_BASE_FEE_UPDATE_FRACTION": 5007716,
+        **get_blob_schedule_entries(Prague),
     },
     "CancunToPragueAtTime15k": {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -364,12 +377,43 @@ ruleset = {
         "HIVE_TERMINAL_TOTAL_DIFFICULTY": 0,
         "HIVE_SHANGHAI_TIMESTAMP": 0,
         "HIVE_CANCUN_TIMESTAMP": 0,
-        "HIVE_CANCUN_BLOB_TARGET": 3,
-        "HIVE_CANCUN_BLOB_MAX": 6,
-        "HIVE_CANCUN_BLOB_BASE_FEE_UPDATE_FRACTION": 3338477,
         "HIVE_PRAGUE_TIMESTAMP": 15000,
-        "HIVE_PRAGUE_BLOB_TARGET": 6,
-        "HIVE_PRAGUE_BLOB_MAX": 9,
-        "HIVE_PRAGUE_BLOB_BASE_FEE_UPDATE_FRACTION": 5007716,
+        **get_blob_schedule_entries(Prague),
+    },
+    "Osaka": {
+        "HIVE_FORK_HOMESTEAD": 0,
+        "HIVE_FORK_TANGERINE": 0,
+        "HIVE_FORK_SPURIOUS": 0,
+        "HIVE_FORK_BYZANTIUM": 0,
+        "HIVE_FORK_CONSTANTINOPLE": 0,
+        "HIVE_FORK_PETERSBURG": 0,
+        "HIVE_FORK_ISTANBUL": 0,
+        "HIVE_FORK_BERLIN": 0,
+        "HIVE_FORK_LONDON": 0,
+        "HIVE_FORK_MERGE": 0,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 0,
+        "HIVE_SHANGHAI_TIMESTAMP": 0,
+        "HIVE_CANCUN_TIMESTAMP": 0,
+        "HIVE_PRAGUE_TIMESTAMP": 0,
+        "HIVE_OSAKA_TIMESTAMP": 0,
+        **get_blob_schedule_entries(Osaka),
+    },
+    "PragueToOsakaAtTime15k": {
+        "HIVE_FORK_HOMESTEAD": 0,
+        "HIVE_FORK_TANGERINE": 0,
+        "HIVE_FORK_SPURIOUS": 0,
+        "HIVE_FORK_BYZANTIUM": 0,
+        "HIVE_FORK_CONSTANTINOPLE": 0,
+        "HIVE_FORK_PETERSBURG": 0,
+        "HIVE_FORK_ISTANBUL": 0,
+        "HIVE_FORK_BERLIN": 0,
+        "HIVE_FORK_LONDON": 0,
+        "HIVE_FORK_MERGE": 0,
+        "HIVE_TERMINAL_TOTAL_DIFFICULTY": 0,
+        "HIVE_SHANGHAI_TIMESTAMP": 0,
+        "HIVE_CANCUN_TIMESTAMP": 0,
+        "HIVE_PRAGUE_TIMESTAMP": 0,
+        "HIVE_OSAKA_TIMESTAMP": 15000,
+        **get_blob_schedule_entries(Osaka),
     },
 }
