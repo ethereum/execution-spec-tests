@@ -6,7 +6,6 @@ fixtures.
 import inspect
 import itertools
 import json
-import warnings
 from pathlib import Path
 from typing import Any, Callable, Dict, Generator, List, Tuple, Type
 

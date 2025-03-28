@@ -480,6 +480,7 @@ v3
 v4
 validator
 validators
+ValidAt
 ValidAtTransitionTo
 ValidFrom
 ValidUntil
