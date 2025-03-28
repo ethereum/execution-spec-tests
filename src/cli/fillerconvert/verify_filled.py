@@ -57,9 +57,11 @@ def verify_refilled(refilled: Path, original: Path):
             v, g, d = match.groups()
             v, g, d = int(v), int(g), int(d)
 
+            found = False
             original_result = test_original.post[refilled_fork]
             for res in original_result:
                 if res.indexes.data == d and res.indexes.gas == g and res.indexes.value == v:
+                    print(f"check: {refilled_fork}, d:{d}, g:{g}, v:{v}")
                     if res.hash != refilled_result[0].hash:
                         raise Exception(
                             "\nRefilled test post hash mismatch: \n"
@@ -68,12 +70,14 @@ def verify_refilled(refilled: Path, original: Path):
                             f"refilled_hash: {refilled_result[0].hash}\n"
                             f"original_hash: {res.hash} f: {refilled_fork}, d: {d}, g: {g}, v: {v}"
                         )
-                return
+                    found = True
+                    break
 
-            raise Exception(
-                "\nRefilled test not found in original: \n"
-                f"test_name: {refilled_test_name}\n"
-                f"original_name: {original}\n"
-            )
+            if not found:
+                raise Exception(
+                    "\nRefilled test not found in original: \n"
+                    f"test_name: {refilled_test_name}\n"
+                    f"original_name: {original}\n"
+                )
         else:
             raise Exception("Could not regex match d.g.v indexes from refilled test name!")
