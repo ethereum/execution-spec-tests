@@ -202,6 +202,7 @@ def test_extra_withdrawals_pseudo_contract(
     """Test how clients were to behave when more than 16 withdrawals would be allowed per block."""
     modified_code: Bytecode = Bytecode()
     memory_offset: int = 0
+    amount_of_requests: int = 0
 
     # Goal: Have contract return a bunch of withdrawal requests
     #   Problem: EVM has no concept of withdrawal request, it just return bytes from memory
@@ -227,9 +228,13 @@ def test_extra_withdrawals_pseudo_contract(
         memory_offset += 32
 
         modified_code += Op.MSTORE(memory_offset, withdrawal_request_chunk_3_3_12bytes)
-        memory_offset += 12
+        # memory_offset += 32  # MSTORE ALWAYS writes 32 bytes, no need to update memory offset tho
 
-    modified_code += Op.RETURN(0, 76)
+        amount_of_requests += 1
+
+    modified_code += Op.RETURN(
+        0, 76 * amount_of_requests
+    )  # don't care about the zeroes added by MSTORE at [76,96] bytes
 
     pre[Spec_EIP7002.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS] = Account(
         code=modified_code,
