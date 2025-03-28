@@ -12,7 +12,15 @@ It simply defines a binary code in hexadecimal format and a boolean value that i
 
 ## Consumption
 
-TODO: Update this section
+The EOF test fixture format is designed to be consumed by Ethereum client implementations to verify their EOF container validation logic. Clients should:
+
+1. Parse the test fixture file (typically JSON format)
+2. Extract the binary code in hexadecimal format
+3. Validate the code according to EOF container validation rules
+4. Compare the validation result (valid or invalid) against the expected result specified in the test
+5. If the validation result matches the expected result, the test passes; otherwise, it fails
+
+When validating EOF code, clients should follow the rules for EOF container validation as defined in the Ethereum execution specifications, particularly EIP-7692 (EOF v1) and related EIPs like EIP-4750 (Functions), EIP-7620 (EOF CREATE), and EIP-663 (DUPN/SWAPN/EXCHANGE).
 
 ## Structures
 
