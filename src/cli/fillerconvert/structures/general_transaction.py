@@ -2,7 +2,7 @@
 
 from typing import Any, List
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from ethereum_test_base_types import AccessList
 
@@ -36,7 +36,7 @@ class GeneralTransactionInFiller(BaseModel):
     gas_limit: List[ValueInFiller] = Field(..., alias="gasLimit")
     gas_price: ValueInFiller | None = Field(None, alias="gasPrice")
     nonce: ValueInFiller
-    to: AddressInFiller
+    to: AddressInFiller | None
     value: List[ValueInFiller]
     secret_key: Hash32InFiller = Field(..., alias="secretKey")
 
@@ -50,6 +50,13 @@ class GeneralTransactionInFiller(BaseModel):
         """Model Config."""
 
         extra = "forbid"
+
+    @field_validator("to", mode="before")
+    def check_single_key(cls, to):  # noqa: N805
+        """Creation transaction."""
+        if to == "":
+            to = None
+        return to
 
     @model_validator(mode="after")
     @classmethod
