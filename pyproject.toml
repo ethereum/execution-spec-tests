@@ -111,6 +111,9 @@ fillerconvert = "cli.fillerconvert.fillerconvert:main"
 where = ["src"]
 exclude = ["*tests*"]
 
+[tool.pyright]
+exclude = ["**/legacy_state_tests/**"]
+
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
 "cli.eest.make" = ["templates/*.j2"]
