@@ -131,6 +131,20 @@ def pytest_collect_file(file_path: Path, parent) -> pytest.Collector | None:
     return None
 
 
+class NoIntResolver(yaml.SafeLoader):
+    pass
+
+
+# Remove the implicit resolver for integers
+# Because yaml treat unquoted numbers 000001000 as oct numbers
+# Treat all numbers as str instead
+for ch in list(NoIntResolver.yaml_implicit_resolvers):
+    resolvers = NoIntResolver.yaml_implicit_resolvers[ch]
+    NoIntResolver.yaml_implicit_resolvers[ch] = [
+        (tag, regexp) for tag, regexp in resolvers if tag != "tag:yaml.org,2002:int"
+    ]
+
+
 class FillerFile(pytest.File):
     """
     Filler file that reads test cases from static files and fills them into test
@@ -144,7 +158,9 @@ class FillerFile(pytest.File):
         with open(self.path, "r") as file:
             try:
                 loaded_file = (
-                    json.load(file) if self.path.suffix == ".json" else yaml.safe_load(file)
+                    json.load(file)
+                    if self.path.suffix == ".json"
+                    else yaml.load(file, Loader=NoIntResolver)
                 )
                 for key in loaded_file:
                     filler = BaseStaticTest.model_validate(loaded_file[key])
