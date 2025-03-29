@@ -149,7 +149,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             max_fee_per_blob_gas=general_tr.max_fee_per_blob_gas,
             blob_versioned_hashes=general_tr.blob_versioned_hashes,
             nonce=HexNumber(general_tr.nonce),
-            to=Address(general_tr.to),
+            to=Address(general_tr.to) if general_tr.to is not None else None,
             secret_key=Hash(general_tr.secret_key),
             error=exception,
         )

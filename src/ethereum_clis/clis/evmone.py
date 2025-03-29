@@ -106,6 +106,10 @@ class EvmoneExceptionMapper(ExceptionMapper):
                 "empty blob hashes list",
             ),
             ExceptionMessage(
+                TransactionException.TYPE_3_TX_CONTRACT_CREATION,
+                "blob transaction must not be a create transaction",
+            ),
+            ExceptionMessage(
                 TransactionException.NONCE_MISMATCH_TOO_LOW,
                 "nonce too low",
             ),
