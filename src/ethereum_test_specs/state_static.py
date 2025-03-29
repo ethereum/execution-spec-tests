@@ -154,6 +154,9 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             error=exception,
         )
 
+        with open("/home/wins/example.txt", "w") as file:
+            file.write(tr.model_dump_json())
+
         post = Alloc()
         for address, account in expect_result.items():
             if account.expected_to_not_exist is not None:

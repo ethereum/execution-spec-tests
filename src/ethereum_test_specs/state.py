@@ -7,6 +7,7 @@ import pytest
 from pydantic import Field
 
 from ethereum_clis import TransitionTool
+from ethereum_test_base_types import HexNumber
 from ethereum_test_exceptions import EngineAPIError
 from ethereum_test_execution import (
     BaseExecute,
@@ -27,7 +28,7 @@ from ethereum_test_fixtures.state import (
     FixtureForkPost,
     FixtureTransaction,
 )
-from ethereum_test_forks import Fork
+from ethereum_test_forks import Fork, Paris
 from ethereum_test_types import Alloc, Environment, Transaction
 
 from .base import BaseTest
@@ -104,6 +105,17 @@ class StateTest(BaseTest):
             updated_values["excess_blob_gas"] = self.env.excess_blob_gas + (
                 fork.target_blobs_per_block() * fork.blob_gas_per_blob()
             )
+        if self.env.base_fee_per_gas:
+            # Calculate genesis base fee per gas from state test's block#1 env
+            updated_values["base_fee_per_gas"] = HexNumber(
+                int(int(str(self.env.base_fee_per_gas), 0) * 8 / 7)
+            )
+        if fork >= Paris:
+            # Set current random
+            updated_values["difficulty"] = None
+            updated_values["prev_randao"] = (
+                self.env.prev_randao if self.env.prev_randao is not None else self.env.difficulty
+            )
 
         return self.env.copy(**updated_values)
 
@@ -113,8 +125,9 @@ class StateTest(BaseTest):
             Block(
                 number=self.env.number,
                 timestamp=self.env.timestamp,
+                prev_randao=self.env.prev_randao,
                 fee_recipient=self.env.fee_recipient,
-                difficulty=self.env.difficulty,
+                difficulty=None,
                 gas_limit=self.env.gas_limit,
                 extra_data=self.env.extra_data,
                 withdrawals=self.env.withdrawals,
