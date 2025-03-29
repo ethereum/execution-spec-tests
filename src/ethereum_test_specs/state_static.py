@@ -169,6 +169,8 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                 for key, value in account.storage.items():
                     if value != "ANY":
                         storage[key] = value
+                    else:
+                        storage.set_expect_any(key)
                 account_kwargs["storage"] = storage
             if account.code is not None:
                 code, code_options = account.code
