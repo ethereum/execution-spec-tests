@@ -252,6 +252,7 @@ class FillerFile(pytest.File):
                                     marks=marks,
                                 )
             except Exception as e:
+                pytest.fail(f"Error loading file {self.path} as a test: {e}")
                 warnings.warn(f"Error loading file {self.path} as a test: {e}", stacklevel=1)
                 return
 
