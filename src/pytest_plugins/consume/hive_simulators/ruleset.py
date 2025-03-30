@@ -24,7 +24,7 @@ def get_blob_schedule_entries(fork: Fork) -> Dict[str, int]:
     current_fork = fork
     while current_fork.supports_blobs():
         forks_with_blobs.append(current_fork)
-        current_fork = current_fork.parent()
+        current_fork = current_fork.parent()  # type: ignore
 
     for fork_to_process in forks_with_blobs:
         prefix = fork_to_process.__name__.upper()
