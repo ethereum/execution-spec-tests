@@ -1,18 +1,12 @@
-"""Test sepolia variant logs contract."""
+"""Test variants of the deposit contract which adheres the log-style as described in EIP-6110."""
 
 import pytest
 
-from ethereum_test_tools import (
-    Account,
-    Alloc,
-    Block,
-    BlockchainTestFiller,
-    Header,
-    Requests,
-    Transaction,
-)
+from ethereum_test_tools import (Account, Alloc, Block, BlockchainTestFiller,
+                                 Header)
 from ethereum_test_tools import Macros as Om
 from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import Requests, Transaction
 
 from .helpers import DepositRequest
 from .spec import Spec, ref_spec_6110
