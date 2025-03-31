@@ -193,30 +193,70 @@ The EIP introduces one or more new opcodes to the EVM.
 
 ### Test Vectors
 
-- [ ] Intrinsic Gas Costs
-    - [ ] Transaction validity: For each new field that affects the intrinsic gas cost of the transaction:
+- [ ] Intrinsic Validity
+    - [ ] Gas Limit: For each new field that affects the intrinsic gas cost of the transaction:
         - [ ] Verify the transaction (and the block it is included in) is valid by providing the exact intrinsic gas as `gas_limit` value to the transaction with all multiple combinations of values to the field.
         - [ ] Verify the transaction (and the block it is included in) is invalid by providing the exact intrinsic gas minus one as `gas_limit` value to the transaction with all multiple combinations of values to the field.
+    - [ ] Max fee per gas:
+        - [ ] Verify the transaction (and the block it is included in) is invalid if its max-priority-fee-per-gas value is lower than the max-fee-per-gas.
+        - [ ] Verify the transaction (and the block it is included in) is invalid if its max-fee-per-gas value is lower than the blocks base-fee-per-gas.
+    - [ ] Chain ID:
+        - [ ] Verify the transaction (and the block it is included in) is invalid if its chain-id value does not match the network configuration.
+    - [ ] Nonce:
+        - [ ] Verify the transaction (and the block it is included in) is invalid if its nonce value does not match the account's current nonce.
+    - [ ] To:
+        - [ ] Verify the transaction (and the block it is included in) is invalid if the transaction type does not allow contract creation and the to-address field is empty.
+    - [ ] Value:
+        - [ ] Verify the transaction (and the block it is included in) is invalid if the transaction contains a value of 1 and the account does not contain enough funds to cover the intrinsic transaction cost plus 1.
+    - [ ] Data:
+        - [ ] Verify the transaction (and the block it is included in) is invalid if the transaction contains enough data so the data floor cost is higher than the intrinsic gas cost and the gas_limit is equal to the intrinsic gas gost.
+- [ ] Signature:
+    - [ ] Verify the transaction is correctly rejected if it contains an invalid signature:
+        - [ ] V, R, S represent a value that is inside of the field but outside of the curve.
+        - [ ] V (yParity) is any of the following invalid values:
+            - [ ] `2`
+            - [ ] `27` (Type-0 transaction valid value)
+            - [ ] `28` (Type-0 transaction valid value)
+            - [ ] `35` (Type-0 replay-protected transaction valid value for chain id 1)
+            - [ ] `36` (Type-0 replay-protected transaction valid value for chain id 1)
+            - [ ] `2**8-1`
+        - [ ] R is any of the following invalid values:
+            - [ ] `0`
+            - [ ] `SECP256K1N-1`
+            - [ ] `SECP256K1N`
+            - [ ] `SECP256K1N+1`
+            - [ ] `2**256-1`
+            - [ ] `2**256`
+        - [ ] S is any of the following invalid values:
+            - [ ] `0`
+            - [ ] `SECP256K1N//2-1`
+            - [ ] `SECP256K1N//2`
+            - [ ] `SECP256K1N//2+1`
+            - [ ] `SECP256K1N-1`
+            - [ ] `SECP256K1N`
+            - [ ] `SECP256K1N+1`
+            - [ ] `2**256-1`
+            - [ ] `2**256`
+            - [ ] `SECP256K1N - S` of a valid signature
 - [ ] Encoding Tests (RLP, SSZ)
     - [ ] Verify correct transaction rejection due to incorrect field sizes
     - [ ] Verify correct transaction rejection if the fields particular to the new transaction types are missing
     - [ ] Verify correct transaction rejection if the transaction type contains extra fields
     - [ ] If the transaction contains fields with new serializable types, perform all previous tests on the new type/field
-- [ ] RPC Tests
-    - [ ] * Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type
-    - [ ] Verify `eth_sendRawTransaction` using `execute`
 - [ ] Out-of-bounds checks
     - [ ] Verify if the transaction has out-of-bounds conditions in its fields and verify:
         - [ ] Max value for each field
         - [ ] Max value + 1 for each field
 - [ ] Contract creation
-    - [ ] Verify that the transaction can create new contracts, or that it fails to do so if it's not allowed
+    - [ ] Verify that the transaction can create new contracts if the transaction type supports it.
 - [ ] Sender account modifications
     - [ ] Verify that the sender account of the new transaction type transaction has its nonce incremented by one after the transaction is included in a block
     - [ ] Verify that the sender account of the new transaction type transaction has its balance reduced by the correct amount (gas consumed and value) after the transaction is included in a block
 - [ ] Fork transition
     - [ ] Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.
-
+- [ ] RPC Tests
+    - [ ] * Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type
+    - [ ] Verify `eth_sendRawTransaction` using `execute`
 
 * Tests must be added to [`execution-apis`](https://github.com/ethereum/execution-apis) repository.
 
