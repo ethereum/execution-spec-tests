@@ -41,6 +41,28 @@ def test_extra_logs(
         include_abi_encoding=deposit_event_includes_abi_encoding,
     )
 
+    # ERC20 token transfer log (Sepolia)
+    # https://sepolia.etherscan.io/tx/0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f
+    # JSON RPC:
+    # curl https://sepolia.infura.io/v3/APIKEY \
+    # -X POST \
+    # -H "Content-Type: application/json" \
+    # -d '{"jsonrpc": "2.0", "method": "eth_getLogs", 
+    # "params": [{"address": "0x7f02C3E3c98b133055B8B348B2Ac625669Ed295D", 
+    # "blockHash": "0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53"}], 
+    # "id": 1}'
+
+    # {"jsonrpc":"2.0","id":1,"result":
+    # [{"removed":false,"logIndex":"0x80","transactionIndex":"0x56",
+    # "transactionHash":"0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f",
+    # "blockHash":"0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53",
+    # "blockNumber":"0x794fb5",
+    # "address":"0x7f02c3e3c98b133055b8b348b2ac625669ed295d",
+    # "data":"0x0000000000000000000000000000000000000000000000000000000000000001",
+    # "topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+    # "0x0000000000000000000000006885e36bfcb68cb383dfe90023a462c03bcb2ae5",
+    # "0x00000000000000000000000080b5dc88c98e528bf9cb4b7f0f076ac41da24651"]
+
     bytecode = (
         Op.LOG1(
             # ERC-20 token transfer log
@@ -52,7 +74,7 @@ def test_extra_logs(
         + Op.LOG1(
             0,
             len(deposit_request_log),
-            0x649BBC62D0E31342AFEA4E5CD82D4049E7E1EE912FC0889AA790803BE39038C5,
+            Spec.DEPOSIT_EVENT_SIGNATURE_HASH,
         )
         + Op.STOP
     )
@@ -76,6 +98,13 @@ def test_extra_logs(
         blocks=[
             Block(
                 txs=[tx],
+                header_verify=Header(
+                    requests_hash=Requests(deposit_request),
+                ),
+            ),
+        ],
+        post={},
+    )
                 header_verify=Header(
                     requests_hash=Requests(deposit_request),
                 ),
