@@ -226,6 +226,8 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] Verify the transaction (and the block it is included in) is invalid if the transaction contains a value of 1 and the account does not contain enough funds to cover the intrinsic transaction cost plus 1.
     - [ ] Data:
         - [ ] Verify the transaction (and the block it is included in) is invalid if the transaction contains enough data so the data floor cost is higher than the intrinsic gas cost and the gas_limit is equal to the intrinsic gas gost.
+    - [ ] Sender balance:
+        - [ ] Verify the transaction (and the block it is included in) is invalid when the sender account does not have enough balance to cover the gas limit multiplied by the max fee per gas.
 - [ ] Signature:
     - [ ] Verify the transaction is correctly rejected if it contains an invalid signature:
         - [ ] V, R, S represent a value that is inside of the field but outside of the curve.
@@ -254,8 +256,17 @@ The EIP introduces one or more new opcodes to the EVM.
             - [ ] `2**256-1`
             - [ ] `2**256`
             - [ ] `SECP256K1N - S` of a valid signature
-- [ ] Encoding Tests (RLP, SSZ)
-    - [ ] Verify correct transaction rejection due to incorrect field sizes
+- Transaction-Scoped Attributes/Variables
+    - Verify attributes that can be read in the EVM from transaction fields.
+    - Verify values or variables that are persistent through the execution of the transaction (transient storage, warm/cold accounts).
+- [ ] Encoding (RLP, SSZ)
+    - [ ] Verify correct transaction rejection due to incorrect field sizes:
+        - [ ] Add leading zero byte
+        - [ ] Remove single byte from fixed-byte-length fields
+    - [ ] If the transaction contains a new field that is a list, verify:
+        - [ ] Zero-element list
+        - [ ] Max count list
+        - [ ] Max count plus one list
     - [ ] Verify correct transaction rejection if the fields particular to the new transaction types are missing
     - [ ] Verify correct transaction rejection if the transaction type contains extra fields
     - [ ] If the transaction contains fields with new serializable types, perform all previous tests on the new type/field
@@ -266,7 +277,7 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Contract creation
     - [ ] Verify that the transaction can create new contracts if the transaction type supports it.
 - [ ] Sender account modifications
-    - [ ] Verify that the sender account of the new transaction type transaction has its nonce incremented by one after the transaction is included in a block
+    - [ ] Verify that the sender account of the new transaction type transaction has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanic that bumps the nonce by more than one).
     - [ ] Verify that the sender account of the new transaction type transaction has its balance reduced by the correct amount (gas consumed and value) after the transaction is included in a block
 - [ ] Fork transition
     - [ ] Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.
