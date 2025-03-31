@@ -3591,3 +3591,67 @@ def test_set_code_from_account_with_non_delegating_code(
             callee_address: Account(storage={0: 0}),
         },
     )
+
+
+def test_set_code_transaction_insufficient_max_fee_per_gas(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Test that a transaction with an insufficient max fee per gas is rejected."""
+    set_to_code = pre.deploy_contract(Op.STOP)
+    auth_signer = pre.fund_eoa(amount=0)
+    tx = Transaction(
+        sender=pre.fund_eoa(),
+        gas_limit=500_000,
+        to=auth_signer,
+        value=0,
+        max_fee_per_gas=6,
+        max_priority_fee_per_gas=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_to_code,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        error=TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={},
+    )
+
+
+def test_set_code_transaction_invalid_max_priority_fee_per_gas(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Test that a transaction with an invalid max priority fee per gas is rejected."""
+    set_to_code = pre.deploy_contract(Op.STOP)
+    auth_signer = pre.fund_eoa(amount=0)
+    tx = Transaction(
+        sender=pre.fund_eoa(),
+        gas_limit=500_000,
+        to=auth_signer,
+        value=0,
+        max_fee_per_gas=7,
+        max_priority_fee_per_gas=8,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_to_code,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        error=TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={},
+    )
