@@ -169,7 +169,10 @@ def test_extra_withdrawals_pseudo_contract(
     for withdrawal_request in requests_list:
         # update memory_offset with the correct value
         withdrawal_request_bytes_amount: int = len(bytes(withdrawal_request))
-        assert withdrawal_request_bytes_amount == 76, f"Expected withdrawal request to be of size 76 but got size {withdrawal_request_bytes_amount}"  # noqa: E501
+        assert withdrawal_request_bytes_amount == 76, (
+            "Expected withdrawal request to be of size 76 but got size "
+            f"{withdrawal_request_bytes_amount}"
+        )
         memory_offset += withdrawal_request_bytes_amount
 
         # TODO: in opcodes.py the argument order and names of arguments are different from those
