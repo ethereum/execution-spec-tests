@@ -3230,9 +3230,17 @@ def test_delegation_clearing_failing_tx(
     )
 
 
+@pytest.mark.parametrize(
+    "initcode_is_delegation_designation",
+    [
+        pytest.param(True, id="initcode_deploys_delegation_designation"),
+        pytest.param(False, id="initcode_is_delegation_designation"),
+    ],
+)
 def test_deploying_delegation_designation_contract(
     state_test: StateTestFiller,
     pre: Alloc,
+    initcode_is_delegation_designation: bool,
 ):
     """
     Test attempting to deploy a contract that has the same format as a
@@ -3243,7 +3251,11 @@ def test_deploying_delegation_designation_contract(
     set_to_code = Op.RETURN(0, 1)
     set_to_address = pre.deploy_contract(set_to_code)
 
-    initcode = Initcode(deploy_code=Spec.delegation_designation(set_to_address))
+    initcode: Bytes | Bytecode
+    if initcode_is_delegation_designation:
+        initcode = Spec.delegation_designation(set_to_address)
+    else:
+        initcode = Initcode(deploy_code=Spec.delegation_designation(set_to_address))
 
     tx = Transaction(
         sender=sender,
@@ -3265,9 +3277,19 @@ def test_deploying_delegation_designation_contract(
     )
 
 
+@pytest.mark.parametrize(
+    "initcode_is_delegation_designation",
+    [
+        pytest.param(True, id="initcode_deploys_delegation_designation"),
+        pytest.param(False, id="initcode_is_delegation_designation"),
+    ],
+)
 @pytest.mark.parametrize("create_opcode", [Op.CREATE, Op.CREATE2])
 def test_creating_delegation_designation_contract(
-    state_test: StateTestFiller, pre: Alloc, create_opcode: Op
+    state_test: StateTestFiller,
+    pre: Alloc,
+    create_opcode: Op,
+    initcode_is_delegation_designation: bool,
 ):
     """
     Tx -> create -> pointer bytecode
@@ -3282,7 +3304,11 @@ def test_creating_delegation_designation_contract(
     # An attempt to deploy code starting with ef01 result in no
     # contract being created as it is prohibited
 
-    create_init = Initcode(deploy_code=Spec.delegation_designation(sender))
+    create_init: Bytes | Bytecode
+    if initcode_is_delegation_designation:
+        create_init = Spec.delegation_designation(sender)
+    else:
+        create_init = Initcode(deploy_code=Spec.delegation_designation(sender))
     contract_a = pre.deploy_contract(
         balance=100,
         code=Op.MSTORE(0, Op.CALLDATALOAD(0))
