@@ -23,19 +23,25 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] 31 bytes expansion
         - [ ] 32 bytes expansion
         - [ ] 33 bytes expansion
-        - [ ] 64 or more bytes expansion
+        - [ ] 64 bytes expansion
+        - [ ] 2**32-1 bytes expansion
+        - [ ] 2**32 bytes expansion
+        - [ ] 2**64-1 bytes expansion
+        - [ ] 2**64 bytes expansion
+        - [ ] 2**256-1 bytes expansion
 - [ ] Stack over/underflows
     - [ ] If the opcode pushes one or more items to the stack, and the opcode pushes more elements than it pops, verify that the opcode execution results in exeptional abort when pushing elements to the stack would result in the stack having more than 1024 elements.
     - [ ] If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more, verify that the opcode execution results in exeptional abort then stack has 1 less item than the minimum stack height expected.
 - [ ] Execution context
-    - [ ] Normal call
-    - [ ] Static call
-        - [ ] Verify exeptional abort if the opcode attempts to modify the code, storage or balance of an account
-    - [ ] Delegate call
+    - [ ] CALL
+    - [ ] STATICCALL
+        - [ ] Verify exeptional abort if the opcode is banned for static contexts or if it attempts to modify the code, storage or balance of an account.
+        - [ ] Verify subcalls using other opcodes (e.g. CALL, DELEGATECALL, etc) also results in the same exeptional abort behavior.
+    - [ ] DELEGATECALL
         - [ ] If the opcode modifies the storage of the account currently executing it, verify that only the account that is delegating execution is the one that has its storage modified.
         - [ ] If the opcode modifies the balance of the account currently executing it, verify that only the account that is delegating execution is the one that has its balance modified.
         - [ ] If the opcode modifies the code of the account currently executing it, verify that only the account that is delegating execution is the one that has its code modified.
-    - [ ] Code call
+    - [ ] CALLCODE
     - [ ] Initcode
         - [ ] Verify opcode behaves as expected when running during the initcode phase of contract creation
             - [ ] Initcode of a contract creating transaction.
@@ -47,7 +53,7 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] EOF Container Context
         - [ ] If opcode changes behavior depending on particular EOF container properties, test using multiple values for each property.
 - [ ] Return data
-    - [ ] Verify proper return data buffer modification if the opcode is meant to interact with it, otherwise verify that the return data buffer is unnaffected
+    - [ ] Verify proper return data buffer overwriting if the opcode is meant to interact with it, otherwise verify that the return data buffer is unnaffected:
         - [ ] At current call context.
         - [ ] At parent call context.
 - [ ] Gas usage
@@ -64,6 +70,12 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] Top-level call termination
         - [ ] Sub-level call termination
         - [ ] Initcode termination
+    - [ ] If the terminating opcode is meant to rollback the executing call frame, verify the following events are properly rolled back:
+        - [ ] Balance changes
+        - [ ] Storage changes
+        - [ ] Contract creations
+        - [ ] Nonce increments
+        - [ ] Log events
 - [ ] Out-of-bounds checks
     - [ ] Verify if the opcode has out-of-bounds conditions in its parameters and verify:
         - [ ] Max value for each parameter
@@ -74,12 +86,14 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] If an opcode has data portion that affects its behavior, verify checklist items with multiple interesting values (E.g. if data portion size is 1 byte, use at least 0x00, 0x01, 0x7F, 0xFF).
 - [ ] Contract creation
     - [ ] Verify contract is created at the expected address given multiple inputs to the opcode parameters.
-    - [ ] Verify that contract is not created in case of
+    - [ ] Verify that contract is not created in case of:
         - [ ] Out-of-gas when available gas is less than minimum contract creation stipend.
-        - [ ] Contract creation would result in an address collision with an existing contract or eoa-delegated address.
+        - [ ] Creation would result in an address collision with an existing contract or eoa-delegated address.
+    - [ ] Verify recursive contract creation using the opcode: Factory contract uses the opcode, and initcode calls back to factory contract.
 - [ ] Fork transition
     - [ ] Verify that the opcode results in exeptional abort if executed before its activation fork.
     - [ ] Verify that the opcode results in invalid EOF container if attempted to deploy before its activation fork.
+    - [ ] Verify correct opcode behavior at transition block, in the case of opcodes which behavior depends on current or parent block information.
 
 ### Framework Changes
 
@@ -99,6 +113,7 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Call from initcode
         - [ ] Contract creating transaction
         - [ ] Contract creating opcode
+    - [ ] Set code delegated address (no precompile logic executed)
 - [ ] Inputs
     - [ ] Verify combinations of valid inputs to the precompile
         - [ ] Verify interesting edge values given the precompile functionality.
@@ -131,6 +146,7 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Fork transition
     - [ ] Verify that calling the precompile before its activation fork results in a valid call even for inputs that are expected to be invalid for the precompile.
     - [ ] Verify that calling the precompile before its activation fork with zero gas results in a valid call.
+    - [ ] Verify precompile address becomes warm on and after the fork activation block, but not prior.
 
 
 ### Framework Changes
@@ -273,7 +289,8 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Genesis value
     - [ ] Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.
 - [ ] Value behavior
-    - [ ] Verify, given multiple initial values, that the value is correctly modified for the current and subsequent blocks as expected, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] Verify, given multiple initial values, that a block is accepted if the value is correctly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] Verify, given multiple initial values, that a block is rejected if the value is incorrectly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
 - [ ] Fork transition
     - [ ] Verify initial value of the field at the first block of the activation fork.
     - [ ] Verify that a block containing the new header field before the activation of the fork is invalid.
