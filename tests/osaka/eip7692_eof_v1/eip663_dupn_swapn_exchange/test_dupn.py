@@ -25,8 +25,9 @@ from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 
+pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
-@pytest.mark.valid_from(EOF_FORK_NAME)
+
 def test_dupn_all_valid_immediates(eof_state_test: EOFStateTestFiller):
     """Test case for all valid DUPN immediates."""
     n = 2**8
@@ -62,7 +63,6 @@ def test_dupn_all_valid_immediates(eof_state_test: EOFStateTestFiller):
         [2**8 - 1, 2**8],
     ],
 )
-@pytest.mark.valid_from(EOF_FORK_NAME)
 def test_dupn_stack_underflow(
     stack_height: int,
     max_stack_height: int,
@@ -94,7 +94,6 @@ def test_dupn_stack_underflow(
         [2**8 - 1, MAX_OPERAND_STACK_HEIGHT + 1, EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT],
     ],
 )
-@pytest.mark.valid_from(EOF_FORK_NAME)
 def test_dupn_stack_overflow(
     dupn_operand: int,
     max_stack_height: int,

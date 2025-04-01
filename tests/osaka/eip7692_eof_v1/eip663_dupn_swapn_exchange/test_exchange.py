@@ -24,8 +24,9 @@ from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 
+pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
-@pytest.mark.valid_from(EOF_FORK_NAME)
+
 def test_exchange_all_valid_immediates(eof_state_test: EOFStateTestFiller):
     """Test case for all valid EXCHANGE immediates."""
     n = 256
@@ -74,7 +75,6 @@ def test_exchange_all_valid_immediates(eof_state_test: EOFStateTestFiller):
         pytest.param(32, 17, 33, id="stack_height=32_n=16_m=16"),
     ],
 )
-@pytest.mark.valid_from(EOF_FORK_NAME)
 def test_exchange_all_invalid_immediates(
     eof_test: EOFTestFiller,
     stack_height: int,

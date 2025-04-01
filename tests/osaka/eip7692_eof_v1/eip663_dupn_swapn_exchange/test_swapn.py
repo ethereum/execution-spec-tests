@@ -25,8 +25,9 @@ from . import REFERENCE_SPEC_GIT_PATH, REFERENCE_SPEC_VERSION
 REFERENCE_SPEC_GIT_PATH = REFERENCE_SPEC_GIT_PATH
 REFERENCE_SPEC_VERSION = REFERENCE_SPEC_VERSION
 
+pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
-@pytest.mark.valid_from(EOF_FORK_NAME)
+
 def test_swapn_all_valid_immediates(eof_state_test: EOFStateTestFiller):
     """Test case for all valid SWAPN immediates."""
     n = 256
@@ -59,7 +60,6 @@ def test_swapn_all_valid_immediates(eof_state_test: EOFStateTestFiller):
         2**8 - 1,
     ],
 )
-@pytest.mark.valid_from(EOF_FORK_NAME)
 def test_swapn_on_max_stack(
     swapn_operand: int,
     eof_test: EOFTestFiller,
@@ -88,7 +88,6 @@ def test_swapn_on_max_stack(
         2**8 - 1,
     ],
 )
-@pytest.mark.valid_from(EOF_FORK_NAME)
 def test_swapn_stack_underflow(
     stack_height: int,
     eof_test: EOFTestFiller,
