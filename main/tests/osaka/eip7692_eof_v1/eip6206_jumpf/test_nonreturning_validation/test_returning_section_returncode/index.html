@@ -8727,6 +8727,8 @@
       
         
       
+        
+      
     
     
       
@@ -8780,6 +8782,27 @@
   
   <span class="md-ellipsis">
     <code>test_first_section_returning</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_first_section_with_inputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_first_section_with_inputs</code>
   </span>
   
 
@@ -28435,7 +28458,7 @@
 
 
 <h1 id="test_returning_section_returncode"><code>test_returning_section_returncode()</code><a class="headerlink" href="#test_returning_section_returncode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49b038e2208b935bdc5f69224077caac67c78648/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L69"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_returning_section_returncode@49b038e2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0cb595c8bef2e122795a2abd986312288e54b362/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L103"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_returning_section_returncode@0cb595c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_returning_section_returncode --fork Osaka</span>
@@ -28455,32 +28478,32 @@ RETURNCODE version.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;code_section&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURNCODE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;returncode0&quot;</span><span class="p">),</span>

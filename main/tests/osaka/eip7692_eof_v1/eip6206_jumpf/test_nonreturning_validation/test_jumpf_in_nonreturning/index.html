@@ -8727,6 +8727,8 @@
       
         
       
+        
+      
     
     
       
@@ -8780,6 +8782,27 @@
   
   <span class="md-ellipsis">
     <code>test_first_section_returning</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_first_section_with_inputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_first_section_with_inputs</code>
   </span>
   
 
@@ -28435,7 +28458,7 @@
 
 
 <h1 id="test_jumpf_in_nonreturning"><code>test_jumpf_in_nonreturning()</code><a class="headerlink" href="#test_jumpf_in_nonreturning" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49b038e2208b935bdc5f69224077caac67c78648/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L122"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_jumpf_in_nonreturning@49b038e2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0cb595c8bef2e122795a2abd986312288e54b362/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L156"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_jumpf_in_nonreturning@0cb595c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_jumpf_in_nonreturning --fork Osaka</span>
@@ -28454,25 +28477,25 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@first</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@first</span>
 <span class="nd">@code_prefix</span>
 <span class="k">def</span> <span class="nf">test_jumpf_in_nonreturning</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">code_prefix</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF validation failing due to non-returning section with the JUMPF instruction.&quot;&quot;&quot;</span>

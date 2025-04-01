@@ -8727,6 +8727,8 @@
       
         
       
+        
+      
     
     
       
@@ -8780,6 +8782,27 @@
   
   <span class="md-ellipsis">
     <code>test_first_section_returning</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_first_section_with_inputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_first_section_with_inputs</code>
   </span>
   
 
@@ -28435,7 +28458,7 @@
 
 
 <h1 id="test_retf_in_nonreturning"><code>test_retf_in_nonreturning()</code><a class="headerlink" href="#test_retf_in_nonreturning" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49b038e2208b935bdc5f69224077caac67c78648/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L108"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_retf_in_nonreturning@49b038e2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0cb595c8bef2e122795a2abd986312288e54b362/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L142"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_retf_in_nonreturning@0cb595c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_retf_in_nonreturning --fork Osaka</span>
@@ -28454,18 +28477,18 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@first</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@first</span>
 <span class="nd">@code_prefix</span>
 <span class="k">def</span> <span class="nf">test_retf_in_nonreturning</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">first</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">code_prefix</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF validation failing due to non-returning section with the RETF instruction.&quot;&quot;&quot;</span>

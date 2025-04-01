@@ -2496,6 +2496,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation/test_first_section_with_inputs/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation/test_jumpf_in_nonreturning/</loc>
          <lastmod>2025-04-01</lastmod>
          <changefreq>daily</changefreq>
