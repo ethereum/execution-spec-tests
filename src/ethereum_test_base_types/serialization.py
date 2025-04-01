@@ -36,8 +36,7 @@ class RLPSerializable:
 
     def get_rlp_fields(self) -> List[str]:
         """
-        Return a list containing the ordered names of the list that need be included
-        in the list of RLP fields to serialize for the RLP object.
+        Return an ordered list of field names to be included in RLP serialization.
 
         Function can be overridden to customize the logic to return the fields.
 
@@ -49,8 +48,7 @@ class RLPSerializable:
 
     def get_rlp_signing_fields(self) -> List[str]:
         """
-        Return a list contained the ordered names of the list that need be included
-        in the list of RLP fields to serialize for the object signature.
+        Return an ordered list of field names to be included in the RLP serialization of the object signature.
 
         Function can be overridden to customize the logic to return the fields.
 
