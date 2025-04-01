@@ -48,7 +48,8 @@ class RLPSerializable:
 
     def get_rlp_signing_fields(self) -> List[str]:
         """
-        Return an ordered list of field names to be included in the RLP serialization of the object signature.
+        Return an ordered list of field names to be included in the RLP serialization of the object
+        signature.
 
         Function can be overridden to customize the logic to return the fields.
 
