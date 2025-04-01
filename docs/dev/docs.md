@@ -1,6 +1,6 @@
 # Documentation
 
-The `execution-spec-tests` documentation is generated via [`mkdocs`](https://www.mkdocs.org/) and hosted remotely on Github Pages at [ethereum.github.io/execution-spec-tests](https://ethereum.github.io/execution-spec-tests/).
+The `execution-spec-tests` documentation is generated via [`mkdocs`](https://www.mkdocs.org/) and hosted remotely on Github Pages at [eest.ethereum.org](https://eest.ethereum.org/).
 
 ## Prerequisites
 
@@ -38,7 +38,7 @@ For more help (including ensuring a clean build), see the `gen_test_doc` pytest 
 
 ## Remote Deployment and Versioning
 
-The execution-specs-test docs are hosted on Github pages at the [repo's Github pages](https://ethereum.github.io/execution-spec-tests/). Versions are updated/deployed automatically as part of Github Actions, but this can also be performed on the command-line.
+The execution-specs-test docs are hosted using Github pages at [eest.ethereum.org](https://eest.ethereum.org/). Versions are updated/deployed automatically as part of Github Actions, but this can also be performed on the command-line.
 
 Our mkdocs configuration uses [mike](https://github.com/jimporter/mike) as a version provider. All deployments should be made via `mike` (whether as part of CI/CD or executed locally).
 
@@ -48,16 +48,16 @@ The deployed versions of the docs managed via `mike` are kept in the [gh-pages](
 
 We currently have two aliases (which both point to `main` as of [#998](https://github.com/ethereum/execution-spec-tests/pull/998)):
 
-- [`latest`](https://ethereum.github.io/execution-spec-tests/latest): the current state of the main branch.
-- [`development`](https://ethereum.github.io/execution-spec-tests/development): the current state of the main branch.
+- [`latest`](https://eest.ethereum.org/latest): the current state of the main branch.
+- [`development`](https://eest.ethereum.org/development): the current state of the main branch.
 
 These aliases point to specific versions, as configured below. It's possible to share links containing either of these aliases or to specific versions, i.e, the following are all valid links:
 
-- https://ethereum.github.io/execution-spec-tests/ (redirects to latest/main)
-- https://ethereum.github.io/execution-spec-tests/latest (redirects to main)
-- https://ethereum.github.io/execution-spec-tests/development (redirects main)
-- https://ethereum.github.io/execution-spec-tests/main
-- https://ethereum.github.io/execution-spec-tests/v1.0.0
+- https://eest.ethereum.org/ (redirects to latest/main)
+- https://eest.ethereum.org/latest (redirects to main)
+- https://eest.ethereum.org/development (redirects main)
+- https://eest.ethereum.org/main
+- https://eest.ethereum.org/v1.0.0
 
 ### CI/CD: Doc Deployment via Github Actions
 
