@@ -29,9 +29,11 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] 2**64-1 bytes expansion
         - [ ] 2**64 bytes expansion
         - [ ] 2**256-1 bytes expansion
-- [ ] Stack over/underflows
-    - [ ] If the opcode pushes one or more items to the stack, and the opcode pushes more elements than it pops, verify that the opcode execution results in exeptional abort when pushing elements to the stack would result in the stack having more than 1024 elements.
-    - [ ] If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more, verify that the opcode execution results in exeptional abort then stack has 1 less item than the minimum stack height expected.
+- [ ] Stack
+    - [ ] Overflows/Underflows
+        - [ ] If the opcode pushes one or more items to the stack, and the opcode pushes more elements than it pops, verify that the opcode execution results in exeptional abort when pushing elements to the stack would result in the stack having more than 1024 elements.
+        - [ ] If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more, verify that the opcode execution results in exeptional abort then stack has 1 less item than the minimum stack height expected.
+    - [ ] If opcode performs stack operations different of simple pop->push, test for these operations on an asymmetrical stack.
 - [ ] Execution context
     - [ ] CALL
     - [ ] STATICCALL
