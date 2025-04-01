@@ -10185,6 +10185,8 @@
       
         
       
+        
+      
     
     
       
@@ -10532,6 +10534,27 @@
   
   <span class="md-ellipsis">
     <code>test_eof_calls_msg_depth</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eip7069_extcall/test_calls/test_extdelegate_call_targets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_extdelegate_call_targets</code>
   </span>
   
 
@@ -29114,7 +29137,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Markdown Content</p>
-<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/487036026dff9bb286227d3b44522bb026982757/tests/osaka/eip7692_eof_v1/eof_tracker.md"><code>tests/osaka/eip7692_eof_v1/eof_tracker.md@48703602</code></a>.</p>
+<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/e1e5b34c2edd8ec819f494b022d21eed0c2dc7a3/tests/osaka/eip7692_eof_v1/eof_tracker.md"><code>tests/osaka/eip7692_eof_v1/eof_tracker.md@e1e5b34c</code></a>.</p>
 </div>
 <h1 id="eof-testing-coverage-tracker">EOF Testing Coverage Tracker<a class="headerlink" href="#eof-testing-coverage-tracker" title="Permanent link">&para;</a></h1>
 <ul class="task-list">
@@ -29202,12 +29225,6 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Legacy executing EXTCODESIZE of EOF contract (<a href="../eip3540_eof_v1/test_extcode/test_legacy_calls_eof_sstore/"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore</code></a>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Legacy executing EXTCODEHASH of EOF contract (<a href="../eip3540_eof_v1/test_extcode/test_legacy_calls_eof_sstore/"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore</code></a>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Legacy executing EXTCODECOPY of EOF contract (<a href="../eip3540_eof_v1/test_extcode/test_legacy_calls_eof_sstore/"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore</code></a>)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>*CALLs</code> from legacy contracts to EOF contracts (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>EXT*CALLs</code> from EOF to legacy contracts (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> EXTDELEGATECALL from EOF to EOF contract (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> EXTDELEGATECALL from EOF to legacy contract failing (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> EXTDELEGATECALL from EOF to EOA failing</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> EXTDELEGATECALL from EOF to empty account failing</li>
 </ul>
 <h2 id="eip-3670-eof-code-validation">EIP-3670: EOF - Code Validation<a class="headerlink" href="#eip-3670-eof-code-validation" title="Permanent link">&para;</a></h2>
 <h3 id="validation_1">Validation<a class="headerlink" href="#validation_1" title="Permanent link">&para;</a></h3>
@@ -29528,6 +29545,13 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EXTSTATICCALL from EOF to non-pure legacy contract failing (<a href="../eip7069_extcall/test_calls/test_eof_calls_legacy_sstore/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore</code></a>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EXTSTATICCALL from EOF to pure EOF contract (<a href="../eip7069_extcall/test_calls/test_eof_calls_legacy_mstore/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_mstore</code></a>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EXTSTATICCALL from EOF to non-pure EOF contract failing (<a href="../eip7069_extcall/test_calls/test_eof_calls_eof_sstore/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_sstore</code></a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>*CALLs</code> from legacy contracts to EOF contracts (ethereum/tests: (<a href="../eip7069_extcall/test_calls/test_eof_calls_eof_sstore/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_legacy_calls_eof_sstore</code></a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>EXT*CALLs</code> from EOF to legacy contracts (<a href="../eip7069_extcall/test_calls/test_eof_calls_eof_sstore/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore</code></a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EXTDELEGATECALL from EOF to EOF contract (<a href="../eip7069_extcall/test_calls/test_eof_calls_eof_sstore/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_sstore</code></a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EXTDELEGATECALL from EOF to legacy contract failing (<a href="../eip7069_extcall/test_calls/test_extdelegate_call_targets/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_extdelegate_call_targets</code></a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EXTDELEGATECALL from EOF to EOA failing (<a href="../eip7069_extcall/test_calls/test_extdelegate_call_targets/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_extdelegate_call_targets</code></a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EXTDELEGATECALL from EOF to empty account failing (<a href="../eip7069_extcall/test_calls/test_extdelegate_call_targets/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_extdelegate_call_targets</code></a>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> EXTDELEGATECALL to EIP-7702 delegate (<a href="../eip7069_extcall/test_calls/test_extdelegate_call_targets/"><code>./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_extdelegate_call_targets</code></a>)</li>
 </ul>
 <h2 id="eip-7620-eof-contract-creation">EIP-7620: EOF Contract Creation<a class="headerlink" href="#eip-7620-eof-contract-creation" title="Permanent link">&para;</a></h2>
 <h3 id="validation_8">Validation<a class="headerlink" href="#validation_8" title="Permanent link">&para;</a></h3>

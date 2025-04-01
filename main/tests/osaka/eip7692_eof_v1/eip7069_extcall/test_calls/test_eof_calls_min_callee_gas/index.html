@@ -9744,6 +9744,8 @@
       
         
       
+        
+      
     
     
       
@@ -10149,6 +10151,27 @@
   
   <span class="md-ellipsis">
     <code>test_eof_calls_msg_depth</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_extdelegate_call_targets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_extdelegate_call_targets</code>
   </span>
   
 
@@ -28343,7 +28366,7 @@
 
 
 <h1 id="test_eof_calls_min_callee_gas"><code>test_eof_calls_min_callee_gas()</code><a class="headerlink" href="#test_eof_calls_min_callee_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/487036026dff9bb286227d3b44522bb026982757/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L873"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_min_callee_gas@48703602</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e1e5b34c2edd8ec819f494b022d21eed0c2dc7a3/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L900"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_min_callee_gas@e1e5b34c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_min_callee_gas --fork Osaka</span>
@@ -28366,34 +28389,7 @@ allowances (MIN_RETAINED_GAS and MIN_CALLEE_GAS) - ones marked with <code>revert
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">873</span>
-<span class="normal">874</span>
-<span class="normal">875</span>
-<span class="normal">876</span>
-<span class="normal">877</span>
-<span class="normal">878</span>
-<span class="normal">879</span>
-<span class="normal">880</span>
-<span class="normal">881</span>
-<span class="normal">882</span>
-<span class="normal">883</span>
-<span class="normal">884</span>
-<span class="normal">885</span>
-<span class="normal">886</span>
-<span class="normal">887</span>
-<span class="normal">888</span>
-<span class="normal">889</span>
-<span class="normal">890</span>
-<span class="normal">891</span>
-<span class="normal">892</span>
-<span class="normal">893</span>
-<span class="normal">894</span>
-<span class="normal">895</span>
-<span class="normal">896</span>
-<span class="normal">897</span>
-<span class="normal">898</span>
-<span class="normal">899</span>
-<span class="normal">900</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">900</span>
 <span class="normal">901</span>
 <span class="normal">902</span>
 <span class="normal">903</span>
@@ -28455,7 +28451,34 @@ allowances (MIN_RETAINED_GAS and MIN_CALLEE_GAS) - ones marked with <code>revert
 <span class="normal">959</span>
 <span class="normal">960</span>
 <span class="normal">961</span>
-<span class="normal">962</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">962</span>
+<span class="normal">963</span>
+<span class="normal">964</span>
+<span class="normal">965</span>
+<span class="normal">966</span>
+<span class="normal">967</span>
+<span class="normal">968</span>
+<span class="normal">969</span>
+<span class="normal">970</span>
+<span class="normal">971</span>
+<span class="normal">972</span>
+<span class="normal">973</span>
+<span class="normal">974</span>
+<span class="normal">975</span>
+<span class="normal">976</span>
+<span class="normal">977</span>
+<span class="normal">978</span>
+<span class="normal">979</span>
+<span class="normal">980</span>
+<span class="normal">981</span>
+<span class="normal">982</span>
+<span class="normal">983</span>
+<span class="normal">984</span>
+<span class="normal">985</span>
+<span class="normal">986</span>
+<span class="normal">987</span>
+<span class="normal">988</span>
+<span class="normal">989</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="s2">&quot;extra_gas_value_transfer&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -28527,7 +28550,7 @@ allowances (MIN_RETAINED_GAS and MIN_CALLEE_GAS) - ones marked with <code>revert
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">calling_contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">no_oog_gas</span> <span class="o">+</span> <span class="n">extra_gas_limit</span><span class="p">,</span>
     <span class="p">)</span>
 

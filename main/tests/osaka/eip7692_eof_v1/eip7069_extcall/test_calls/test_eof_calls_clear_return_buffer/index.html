@@ -9744,6 +9744,8 @@
       
         
       
+        
+      
     
     
       
@@ -10149,6 +10151,27 @@
   
   <span class="md-ellipsis">
     <code>test_eof_calls_msg_depth</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_extdelegate_call_targets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_extdelegate_call_targets</code>
   </span>
   
 
@@ -28343,7 +28366,7 @@
 
 
 <h1 id="test_eof_calls_clear_return_buffer"><code>test_eof_calls_clear_return_buffer()</code><a class="headerlink" href="#test_eof_calls_clear_return_buffer" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/487036026dff9bb286227d3b44522bb026982757/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L715"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer@48703602</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e1e5b34c2edd8ec819f494b022d21eed0c2dc7a3/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L772"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer@e1e5b34c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer --fork Osaka</span>
@@ -28362,64 +28385,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">715</span>
-<span class="normal">716</span>
-<span class="normal">717</span>
-<span class="normal">718</span>
-<span class="normal">719</span>
-<span class="normal">720</span>
-<span class="normal">721</span>
-<span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
-<span class="normal">730</span>
-<span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
-<span class="normal">736</span>
-<span class="normal">737</span>
-<span class="normal">738</span>
-<span class="normal">739</span>
-<span class="normal">740</span>
-<span class="normal">741</span>
-<span class="normal">742</span>
-<span class="normal">743</span>
-<span class="normal">744</span>
-<span class="normal">745</span>
-<span class="normal">746</span>
-<span class="normal">747</span>
-<span class="normal">748</span>
-<span class="normal">749</span>
-<span class="normal">750</span>
-<span class="normal">751</span>
-<span class="normal">752</span>
-<span class="normal">753</span>
-<span class="normal">754</span>
-<span class="normal">755</span>
-<span class="normal">756</span>
-<span class="normal">757</span>
-<span class="normal">758</span>
-<span class="normal">759</span>
-<span class="normal">760</span>
-<span class="normal">761</span>
-<span class="normal">762</span>
-<span class="normal">763</span>
-<span class="normal">764</span>
-<span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span>
-<span class="normal">768</span>
-<span class="normal">769</span>
-<span class="normal">770</span>
-<span class="normal">771</span>
-<span class="normal">772</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">772</span>
 <span class="normal">773</span>
 <span class="normal">774</span>
 <span class="normal">775</span>
@@ -28456,7 +28422,34 @@
 <span class="normal">806</span>
 <span class="normal">807</span>
 <span class="normal">808</span>
-<span class="normal">809</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span>
+<span class="normal">819</span>
+<span class="normal">820</span>
+<span class="normal">821</span>
+<span class="normal">822</span>
+<span class="normal">823</span>
+<span class="normal">824</span>
+<span class="normal">825</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCALL</span><span class="p">,</span>
@@ -28466,15 +28459,7 @@
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_account_type&quot;</span><span class="p">,</span>
-    <span class="p">(</span>
-        <span class="s2">&quot;empty&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;EOA&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;LegacyContract&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;EOFContract&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;LegacyContractInvalid&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;EOFContractInvalid&quot;</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+    <span class="n">TargetAccountType</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_eof_calls_clear_return_buffer</span><span class="p">(</span>
@@ -28482,7 +28467,7 @@
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
-    <span class="n">target_account_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">target_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF contracts calling clears returndata buffer.&quot;&quot;&quot;</span>
@@ -28491,28 +28476,6 @@
         <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">value_returndata_magic</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">filling_callee_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">filling_contract_code</span><span class="p">)</span>
-
-    <span class="k">match</span> <span class="n">target_account_type</span><span class="p">:</span>
-        <span class="k">case</span> <span class="s2">&quot;empty&quot;</span><span class="p">:</span>
-            <span class="n">target_address</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x78</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">20</span>
-        <span class="k">case</span> <span class="s2">&quot;EOA&quot;</span><span class="p">:</span>
-            <span class="n">target_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
-        <span class="k">case</span> <span class="s2">&quot;LegacyContract&quot;</span><span class="p">:</span>
-            <span class="n">target_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">case</span> <span class="s2">&quot;EOFContract&quot;</span><span class="p">:</span>
-            <span class="n">target_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">case</span> <span class="s2">&quot;LegacyContractInvalid&quot;</span><span class="p">:</span>
-            <span class="n">target_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">case</span> <span class="s2">&quot;EOFContractInvalid&quot;</span><span class="p">:</span>
-            <span class="n">target_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">),</span>
-            <span class="p">)</span>
 
     <span class="n">caller_contract</span> <span class="o">=</span> <span class="n">Container</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
         <span class="c1"># First fill the return buffer and sanity check</span>
@@ -28529,7 +28492,7 @@
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">calling_contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">50000000</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -28608,41 +28571,41 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-empty-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-empty-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_0-empty-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-empty-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-empty-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_0-empty-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-empty-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-empty-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_0-empty-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EMPTY-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOA-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOA-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_0-EOA-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
@@ -28652,8 +28615,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOA-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOA-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_0-EOA-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
@@ -28663,8 +28626,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOA-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOA-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_0-EOA-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOA-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
@@ -28674,173 +28637,272 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_0-LegacyContract-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContract-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContract-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_0-EOFContract-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContract-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContract-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_0-EOFContract-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContract-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContract-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_0-EOFContract-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_0-LegacyContractInvalid-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_0-EOFContractInvalid-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-empty-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-empty-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_1-empty-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-empty-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-empty-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_1-empty-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-empty-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-empty-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_1-empty-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EMPTY-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOA-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOA-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_1-EOA-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
@@ -28850,8 +28912,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOA-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOA-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_1-EOA-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
@@ -28861,8 +28923,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOA-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOA-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_1-EOA-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOA-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
@@ -28872,173 +28934,272 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_1-LegacyContract-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContract-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContract-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_1-EOFContract-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContract-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContract-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_1-EOFContract-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContract-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContract-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_1-EOFContract-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_1-LegacyContractInvalid-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTCALL]">
-                    ...fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-state_test-value_1-EOFContractInvalid-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>IDENTITY_PRECOMPILE</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-empty-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EMPTY-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
@@ -29048,8 +29209,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
@@ -29059,8 +29220,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOA-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOA-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
@@ -29070,173 +29231,272 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContract-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOFContract-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-LegacyContractInvalid-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_0-EOFContractInvalid-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>0</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_0-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-empty-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EMPTY-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>empty</td>
+                        <td>EMPTY</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
@@ -29246,8 +29506,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
@@ -29257,8 +29517,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOA-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOA-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
@@ -29268,133 +29528,232 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContract-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContract</td>
+                        <td>LEGACY_CONTRACT</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOFContract-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContract</td>
+                        <td>EOF_CONTRACT</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-LegacyContractInvalid-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_INVALID-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>LegacyContractInvalid</td>
+                        <td>LEGACY_CONTRACT_INVALID</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTCALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTDELEGATECALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTDELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTSTATICCALL]">
-                    ...fork_Osaka-blockchain_test_from_state_test-value_1-EOFContractInvalid-opcode_EXTSTATICCALL
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_INVALID-opcode_EXTSTATICCALL
                 </abbr>
             </td>
                         <td>1</td>
-                        <td>EOFContractInvalid</td>
+                        <td>EOF_CONTRACT_INVALID</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_LEGACY_CONTRACT_REVERT-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY_CONTRACT_REVERT</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_EOF_CONTRACT_REVERT-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EOF_CONTRACT_REVERT</td>
+                        <td>EXTSTATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTDELEGATECALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>IDENTITY_PRECOMPILE</td>
+                        <td>EXTDELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL]" title="tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_clear_return_buffer[fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-value_1-target_account_type_IDENTITY_PRECOMPILE-opcode_EXTSTATICCALL
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>IDENTITY_PRECOMPILE</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
             </tbody>
