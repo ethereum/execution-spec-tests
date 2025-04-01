@@ -2531,6 +2531,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_dupn/test_dupn_simple/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_dupn/test_dupn_stack_overflow/</loc>
          <lastmod>2025-04-01</lastmod>
          <changefreq>daily</changefreq>
@@ -2556,6 +2561,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_exchange/test_exchange_simple/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn/</loc>
          <lastmod>2025-04-01</lastmod>
          <changefreq>daily</changefreq>
@@ -2567,6 +2577,11 @@
     </url>
     <url>
          <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn/test_swapn_on_max_stack/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ethereum.github.io/execution-spec-tests/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_swapn/test_swapn_simple/</loc>
          <lastmod>2025-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
