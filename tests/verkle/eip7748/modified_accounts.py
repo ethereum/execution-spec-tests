@@ -9,6 +9,19 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7748.md"
 REFERENCE_SPEC_VERSION = "TODO"
 
 
+class StaleAccountTx:
+    """
+    Class to represent a transaction that modifies an account to be converted, making it completely/partially stale.
+    It can be configured to:
+    - be in the same block as the conversion transaction or in a previous block
+    - revert or not revert
+    """
+
+    def __init__(self, same_block_as_conversion: bool, revert: bool):
+        self.same_block_as_conversion = same_block_as_conversion
+        self.revert = revert
+
+
 @pytest.mark.valid_from("EIP6800Transition")
 @pytest.mark.parametrize(
     "storage_slot_write",
@@ -32,14 +45,23 @@ REFERENCE_SPEC_VERSION = "TODO"
     [True, False],
 )
 @pytest.mark.parametrize(
-    "modification_overlap_conversion",
-    [True, False],
+    "tx_stale_account_config",
+    [
+        StaleAccountTx(False, False),
+        StaleAccountTx(True, False),
+        StaleAccountTx(True, True),
+    ],
+    ids=[
+        "Tx generating stale account in previous block",
+        "Tx generating stale account in the same block",
+        "Reverted tx generating stale account in the same block",
+    ],
 )
 def test_modified_contract(
     blockchain_test: BlockchainTestFiller,
     storage_slot_write: int,
     tx_send_value: bool,
-    modification_overlap_conversion: bool,
+    tx_stale_account_config: StaleAccountTx,
 ):
     """
     Test converting a modified contract where a previous transaction writes to:
@@ -52,22 +74,29 @@ def test_modified_contract(
         blockchain_test,
         tx_send_value,
         ContractSetup(storage_slot_write),
-        modification_overlap_conversion,
+        tx_stale_account_config,
     )
 
 
 @pytest.mark.valid_from("EIP6800Transition")
 @pytest.mark.parametrize(
-    "modification_overlap_conversion",
-    [True, False],
+    "tx_stale_account_config",
+    [
+        StaleAccountTx(False, False),
+        StaleAccountTx(True, False),
+    ],
+    ids=[
+        "Tx generating stale account in previous block",
+        "Tx generating stale account in the same block",
+    ],
 )
 def test_modified_eoa(
-    blockchain_test: BlockchainTestFiller, modification_overlap_conversion: bool
+    blockchain_test: BlockchainTestFiller, tx_stale_account_config: StaleAccountTx
 ):
     """
     Test converting a modified EOA in the same block or previous block as the conversion.
     """
-    _convert_modified_account(blockchain_test, True, None, modification_overlap_conversion)
+    _convert_modified_account(blockchain_test, True, None, tx_stale_account_config)
 
 
 class ContractSetup:
@@ -79,14 +108,14 @@ def _convert_modified_account(
     blockchain_test: BlockchainTestFiller,
     tx_send_value: bool,
     contract_setup: Optional[ContractSetup],
-    modification_overlap_conversion: bool,
+    tx_stale_account_config: StaleAccountTx,
 ):
     pre_state = {}
     pre_state[TestAddress] = Account(balance=1000000000000000000000)
 
     expected_conversion_blocks = 1
     accounts_idx = 0
-    if not modification_overlap_conversion:
+    if not tx_stale_account_config.same_block_as_conversion:
         expected_conversion_blocks = 2
         # TODO(hack): today the testing-framework does not support us signaling that we want to
         # put the `ConversionTx(tx, **0**)` at the first block after genesis. To simulate that, we have
@@ -102,13 +131,20 @@ def _convert_modified_account(
             balance=1_000,
             nonce=0,
             code=(
-                Op.SSTORE(contract_setup.storage_slot_write, 9999)
-                if contract_setup.storage_slot_write is not None
-                else []
+                (
+                    Op.SSTORE(contract_setup.storage_slot_write, 9999)
+                    if contract_setup.storage_slot_write is not None
+                    else Op.RETURN
+                )
+                + Op.REVERT
+                if tx_stale_account_config.revert
+                else Op.RETURN
             ),
             storage={0: 100, 300: 200},
         )
     else:
+        if tx_stale_account_config.revert:
+            raise Exception("Invalid test case -- EOA transfers can't revert")
         pre_state[target_account] = Account(balance=10_000, nonce=0)
 
     tx = Transaction(
