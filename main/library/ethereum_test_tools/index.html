@@ -1898,21 +1898,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="AccessList">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.AccessList.to_list" class="md-nav__link">
-    <span class="md-ellipsis">
-      to_list
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -31462,21 +31447,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="AccessList">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_tools.AccessList.to_list" class="md-nav__link">
-    <span class="md-ellipsis">
-      to_list
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -34568,30 +34538,26 @@ tests.</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_base_types.pydantic.CamelModel" href="../ethereum_test_base_types/#ethereum_test_base_types.CamelModel">CamelModel</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_base_types.pydantic.CamelModel" href="../ethereum_test_base_types/#ethereum_test_base_types.CamelModel">CamelModel</a></code>, <code><a class="autorefs autorefs-internal" title="ethereum_test_base_types.serialization.RLPSerializable" href="../ethereum_test_base_types/#ethereum_test_base_types.RLPSerializable">RLPSerializable</a></code></p>
 
 
       <p>Access List for transactions.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">463</span>
-<span class="normal">464</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">464</span>
 <span class="normal">465</span>
 <span class="normal">466</span>
 <span class="normal">467</span>
 <span class="normal">468</span>
 <span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AccessList</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">470</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AccessList</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">,</span> <span class="n">RLPSerializable</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Access List for transactions.&quot;&quot;&quot;</span>
 
     <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
     <span class="n">storage_keys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return access list as a list of serializable elements.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_keys</span><span class="p">]</span>
+    <span class="n">rlp_fields</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;storage_keys&quot;</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -34599,37 +34565,6 @@ tests.</p>
 
   <div class="doc doc-children">
 
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="ethereum_test_tools.AccessList.to_list" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">to_list</span><span class="p">()</span></code>
-
-<a href="#ethereum_test_tools.AccessList.to_list" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Return access list as a list of serializable elements.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span> <span class="o">|</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return access list as a list of serializable elements.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_keys</span><span class="p">]</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
 
 
 
@@ -34665,8 +34600,7 @@ tests.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">283</span>
-<span class="normal">284</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
 <span class="normal">285</span>
 <span class="normal">286</span>
 <span class="normal">287</span>
@@ -34836,7 +34770,8 @@ tests.</p>
 <span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
-<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Account</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">454</span>
+<span class="normal">455</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Account</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;State associated with an address.&quot;&quot;&quot;</span>
 
     <span class="n">nonce</span><span class="p">:</span> <span class="n">ZeroPaddedHexNumber</span> <span class="o">=</span> <span class="n">ZeroPaddedHexNumber</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -35183,8 +35118,7 @@ value was found.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">311</span>
-<span class="normal">312</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">312</span>
 <span class="normal">313</span>
 <span class="normal">314</span>
 <span class="normal">315</span>
@@ -35209,7 +35143,8 @@ value was found.</p>
 <span class="normal">334</span>
 <span class="normal">335</span>
 <span class="normal">336</span>
-<span class="normal">337</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">337</span>
+<span class="normal">338</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">NonceMismatchError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test expected a certain nonce value for an account but a different</span>
@@ -35264,12 +35199,12 @@ value was found.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">322</span>
-<span class="normal">323</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">323</span>
 <span class="normal">324</span>
 <span class="normal">325</span>
 <span class="normal">326</span>
-<span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">want</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">got</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="normal">327</span>
+<span class="normal">328</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">want</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">got</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the exception with the address, wanted and got values.&quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">address</span>
@@ -35301,15 +35236,15 @@ value was found.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">329</span>
-<span class="normal">330</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">330</span>
 <span class="normal">331</span>
 <span class="normal">332</span>
 <span class="normal">333</span>
 <span class="normal">334</span>
 <span class="normal">335</span>
 <span class="normal">336</span>
-<span class="normal">337</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">337</span>
+<span class="normal">338</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string.&quot;&quot;&quot;</span>
     <span class="n">label_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -35363,8 +35298,7 @@ value was found.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">339</span>
-<span class="normal">340</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">340</span>
 <span class="normal">341</span>
 <span class="normal">342</span>
 <span class="normal">343</span>
@@ -35389,7 +35323,8 @@ value was found.</p>
 <span class="normal">362</span>
 <span class="normal">363</span>
 <span class="normal">364</span>
-<span class="normal">365</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">365</span>
+<span class="normal">366</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BalanceMismatchError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test expected a certain balance for an account but a different</span>
@@ -35444,12 +35379,12 @@ value was found.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">350</span>
-<span class="normal">351</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">351</span>
 <span class="normal">352</span>
 <span class="normal">353</span>
 <span class="normal">354</span>
-<span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">want</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">got</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="normal">355</span>
+<span class="normal">356</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">want</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">got</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the exception with the address, wanted and got values.&quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">address</span>
@@ -35481,15 +35416,15 @@ value was found.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">357</span>
-<span class="normal">358</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">358</span>
 <span class="normal">359</span>
 <span class="normal">360</span>
 <span class="normal">361</span>
 <span class="normal">362</span>
 <span class="normal">363</span>
 <span class="normal">364</span>
-<span class="normal">365</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">365</span>
+<span class="normal">366</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string.&quot;&quot;&quot;</span>
     <span class="n">label_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -35543,8 +35478,7 @@ one was found.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">367</span>
-<span class="normal">368</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">368</span>
 <span class="normal">369</span>
 <span class="normal">370</span>
 <span class="normal">371</span>
@@ -35569,7 +35503,8 @@ one was found.</p>
 <span class="normal">390</span>
 <span class="normal">391</span>
 <span class="normal">392</span>
-<span class="normal">393</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">393</span>
+<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">CodeMismatchError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test expected a certain bytecode for an account but a different</span>
@@ -35624,12 +35559,12 @@ one was found.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
-<span class="normal">379</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
 <span class="normal">380</span>
 <span class="normal">381</span>
 <span class="normal">382</span>
-<span class="normal">383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">want</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">got</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="normal">383</span>
+<span class="normal">384</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">want</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">got</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the exception with the address, wanted and got values.&quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">address</span>
@@ -35661,15 +35596,15 @@ one was found.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">385</span>
-<span class="normal">386</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">386</span>
 <span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
 <span class="normal">390</span>
 <span class="normal">391</span>
 <span class="normal">392</span>
-<span class="normal">393</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">393</span>
+<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print exception string.&quot;&quot;&quot;</span>
     <span class="n">label_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -35714,8 +35649,7 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
-<span class="normal">396</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">396</span>
 <span class="normal">397</span>
 <span class="normal">398</span>
 <span class="normal">399</span>
@@ -35744,7 +35678,8 @@ Raises exception on failure.</p>
 <span class="normal">422</span>
 <span class="normal">423</span>
 <span class="normal">424</span>
-<span class="normal">425</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_alloc</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;Account&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="s2">&quot;Account&quot;</span><span class="p">):</span>
+<span class="normal">425</span>
+<span class="normal">426</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_alloc</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;Account&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="s2">&quot;Account&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check the returned alloc against an expected account in post state.</span>
 <span class="sd">    Raises exception on failure.</span>
@@ -35801,9 +35736,9 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;Account&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;Account&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True on a non-empty account.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">any</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nonce</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
@@ -35836,10 +35771,10 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">431</span>
-<span class="normal">432</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">432</span>
 <span class="normal">433</span>
-<span class="normal">434</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">434</span>
+<span class="normal">435</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">with_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Account&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create account with provided `code` and nonce of `1`.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="n">HexNumber</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">code</span><span class="o">=</span><span class="n">Bytes</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
@@ -35873,8 +35808,7 @@ Raises exception on failure.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_base_types/composite_types.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">436</span>
-<span class="normal">437</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">437</span>
 <span class="normal">438</span>
 <span class="normal">439</span>
 <span class="normal">440</span>
@@ -35891,7 +35825,8 @@ Raises exception on failure.</p>
 <span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
-<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">454</span>
+<span class="normal">455</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">account_1</span><span class="p">:</span> <span class="s2">&quot;Dict | Account | None&quot;</span><span class="p">,</span> <span class="n">account_2</span><span class="p">:</span> <span class="s2">&quot;Dict | Account | None&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Account&quot;</span><span class="p">:</span>
@@ -49163,7 +49098,7 @@ unset.</p>
                     <span class="n">FixtureForkPost</span><span class="p">(</span>
                         <span class="n">state_root</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">state_root</span><span class="p">,</span>
                         <span class="n">logs_hash</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">logs_hash</span><span class="p">,</span>
-                        <span class="n">tx_bytes</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
+                        <span class="n">tx_bytes</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
                         <span class="n">expect_exception</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
                         <span class="n">state</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">alloc</span><span class="p">,</span>
                     <span class="p">)</span>
@@ -49463,7 +49398,7 @@ unset.</p>
                 <span class="n">FixtureForkPost</span><span class="p">(</span>
                     <span class="n">state_root</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">state_root</span><span class="p">,</span>
                     <span class="n">logs_hash</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">logs_hash</span><span class="p">,</span>
-                    <span class="n">tx_bytes</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
+                    <span class="n">tx_bytes</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
                     <span class="n">expect_exception</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
                     <span class="n">state</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">alloc</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -49755,7 +49690,7 @@ unset.</p>
             <span class="n">result</span><span class="o">=</span><span class="p">{</span>
                 <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">result</span><span class="p">,</span>
             <span class="p">},</span>
-            <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
+            <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
@@ -49879,7 +49814,7 @@ unset.</p>
         <span class="n">result</span><span class="o">=</span><span class="p">{</span>
             <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">result</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
+        <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

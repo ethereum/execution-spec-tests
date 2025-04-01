@@ -28456,7 +28456,7 @@
 
 
 <h1 id="test_invalid_blob_tx_contract_creation"><code>test_invalid_blob_tx_contract_creation()</code><a class="headerlink" href="#test_invalid_blob_tx_contract_creation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0cb595c8bef2e122795a2abd986312288e54b362/tests/cancun/eip4844_blobs/test_blob_txs.py#L995"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation@0cb595c8</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/26ad6a0746d8c9942a54bfd46c1f370a04765e6c/tests/cancun/eip4844_blobs/test_blob_txs.py#L995"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation@26ad6a07</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation --fork Prague</span>
@@ -28522,7 +28522,7 @@
     <span class="k">assert</span> <span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">blob_versioned_hashes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">blob_versioned_hashes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="c1"># Replace the transaction with a contract creating one, only in the RLP version</span>
     <span class="n">contract_creating_tx</span> <span class="o">=</span> <span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span>
-    <span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rlp_override</span> <span class="o">=</span> <span class="n">contract_creating_tx</span><span class="o">.</span><span class="n">rlp</span>
+    <span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rlp_override</span> <span class="o">=</span> <span class="n">contract_creating_tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">()</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>

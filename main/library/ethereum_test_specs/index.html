@@ -35538,7 +35538,7 @@ unset.</p>
                     <span class="n">FixtureForkPost</span><span class="p">(</span>
                         <span class="n">state_root</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">state_root</span><span class="p">,</span>
                         <span class="n">logs_hash</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">logs_hash</span><span class="p">,</span>
-                        <span class="n">tx_bytes</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
+                        <span class="n">tx_bytes</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
                         <span class="n">expect_exception</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
                         <span class="n">state</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">alloc</span><span class="p">,</span>
                     <span class="p">)</span>
@@ -35838,7 +35838,7 @@ unset.</p>
                 <span class="n">FixtureForkPost</span><span class="p">(</span>
                     <span class="n">state_root</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">state_root</span><span class="p">,</span>
                     <span class="n">logs_hash</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">logs_hash</span><span class="p">,</span>
-                    <span class="n">tx_bytes</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
+                    <span class="n">tx_bytes</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
                     <span class="n">expect_exception</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
                     <span class="n">state</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">alloc</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -36130,7 +36130,7 @@ unset.</p>
             <span class="n">result</span><span class="o">=</span><span class="p">{</span>
                 <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">result</span><span class="p">,</span>
             <span class="p">},</span>
-            <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
+            <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
@@ -36254,7 +36254,7 @@ unset.</p>
         <span class="n">result</span><span class="o">=</span><span class="p">{</span>
             <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">result</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
+        <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
