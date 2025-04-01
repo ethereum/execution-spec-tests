@@ -1,0 +1,7 @@
+http://localhost/
+http://127.0.0.1:3000/
+https://github/
+ttps://github.com/%7Bself.RepositoryOwner%7D/
+https://api.github.com/repos/%7Bself.RepositoryOwner%7D/
+https://api.github.com/repos/%7Brepo%7D/releases
+https://github.com/ethereum/execution-spec-tests/releases/download/
