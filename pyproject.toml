@@ -48,8 +48,8 @@ dependencies = [
     "typing-extensions>=4.12.2,<5",
     # TODO: bump questionary to a newer release, when it becomes available.
     # The current release questionary 2.0.1 requires `prompt_toolkit = ">=2.0,<=3.0.36"`.
-    # This conflicts with ipython; while not an EEST dependency, ipython a very useful tool:
-    # https://ethereum.github.io/execution-spec-tests/main/dev/interactive_usage/
+    # This conflicts with ipython; while not an EEST dependency, ipython is a very useful tool:
+    # https://eest.ethereum.org/main/dev/interactive_usage/
     "questionary @ git+https://github.com/tmbo/questionary@ff22aeae1cd9c1c734f14329934e349bec7873bc",
     "prompt_toolkit>=3.0.48,<4", # ensure we have a new enough version for ipython
     "ethereum-rlp>=0.1.3,<0.2",
@@ -58,10 +58,10 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/ethereum/execution-spec-tests"
-Documentation = "https://ethereum.github.io/execution-spec-tests"
+Documentation = "https://eest.ethereum.org"
 Repository = "https://github.com/ethereum/execution-spec-tests"
 Issues = "https://github.com/ethereum/execution-spec-tests/issues"
-Changelog = "https://ethereum.github.io/execution-spec-tests/main/CHANGELOG/"
+Changelog = "https://eest.ethereum.org/main/CHANGELOG/"
 
 [project.optional-dependencies]
 test = ["pytest-cov>=4.1.0,<5"]
