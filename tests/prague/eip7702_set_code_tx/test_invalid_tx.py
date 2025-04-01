@@ -3,11 +3,12 @@ abstract: Tests invalid set-code transactions from [EIP-7702: Set EOA account co
     Tests invalid set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
 """  # noqa: E501
 
+from enum import Enum, auto
 from typing import List, Type
 
 import pytest
 
-from ethereum_test_base_types import FixedSizeBytes, HexNumber
+from ethereum_test_base_types import Bytes, FixedSizeBytes, HexNumber
 from ethereum_test_tools import (
     Address,
     Alloc,
@@ -47,6 +48,13 @@ class UndersizedAddress(FixedSizeBytes[19]):  # type: ignore
     """Undersized Address Type."""
 
     pass
+
+
+class InvalidRLPMode(Enum):
+    """Enum for invalid RLP modes."""
+
+    TRUNCATED_RLP = auto()
+    EXTRA_BYTES = auto()
 
 
 def test_empty_authorization_list(
@@ -515,6 +523,102 @@ def test_invalid_tx_invalid_authorization_tuple_missing_element(
         error=TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT,
         sender=pre.fund_eoa(),
     )
+
+    transaction_test(
+        pre=pre,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    "delegate_address",
+    [
+        pytest.param(Spec.RESET_DELEGATION_ADDRESS, id="reset_delegation_address"),
+        pytest.param(Address(1), id="non_zero_address"),
+    ],
+)
+def test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes(
+    transaction_test: TransactionTestFiller,
+    pre: Alloc,
+    delegate_address: Address,
+):
+    """
+    Test sending a transaction where the authorization tuple field of the type-4 transaction
+    is encoded in the outer element as bytes instead of a list of elements.
+    """
+
+    class ModifiedTransaction(Transaction):
+        authorization_list: List[Bytes] | None  # type: ignore
+
+    auth_signer = pre.fund_eoa()
+
+    authorization_list = AuthorizationTuple(
+        address=delegate_address,
+        nonce=0,
+        signer=auth_signer,
+    )
+    tx = ModifiedTransaction(
+        gas_limit=100_000,
+        to=0,
+        value=0,
+        authorization_list=[authorization_list.rlp()],
+        error=TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT,
+        sender=pre.fund_eoa(),
+    )
+
+    transaction_test(
+        pre=pre,
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    "invalid_rlp_mode",
+    [
+        pytest.param(InvalidRLPMode.TRUNCATED_RLP, id="truncated_rlp"),
+        pytest.param(InvalidRLPMode.EXTRA_BYTES, id="extra_bytes"),
+    ],
+)
+@pytest.mark.parametrize(
+    "delegate_address",
+    [
+        pytest.param(Spec.RESET_DELEGATION_ADDRESS, id="reset_delegation_address"),
+        pytest.param(Address(1), id="non_zero_address"),
+    ],
+)
+def test_invalid_tx_invalid_rlp_encoding(
+    transaction_test: TransactionTestFiller,
+    pre: Alloc,
+    delegate_address: Address,
+    invalid_rlp_mode: InvalidRLPMode,
+):
+    """
+    Test sending a transaction type-4 where the RLP encoding of the transaction is
+    invalid.
+    """
+    auth_signer = pre.fund_eoa()
+
+    tx = Transaction(
+        gas_limit=100_000,
+        to=0,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=delegate_address,
+                nonce=0,
+                signer=auth_signer,
+            )
+        ],
+        error=TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT,
+        sender=pre.fund_eoa(),
+    )
+
+    if invalid_rlp_mode == InvalidRLPMode.TRUNCATED_RLP:
+        # Truncate the last byte of the RLP encoding
+        tx.rlp_override = Bytes(tx.rlp()[:-1])
+    elif invalid_rlp_mode == InvalidRLPMode.EXTRA_BYTES:
+        # Add an extra byte to the end of the RLP encoding
+        tx.rlp_override = Bytes(tx.rlp() + b"\x00")
 
     transaction_test(
         pre=pre,
