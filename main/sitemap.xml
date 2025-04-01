@@ -3856,12 +3856,52 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_address/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id/</loc>
          <lastmod>2025-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_auth_chain_id_encoding/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_authorization_tuple_extra_element/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_authorization_tuple_missing_element/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_nonce/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_nonce_as_list/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_nonce_encoding/</loc>
+         <lastmod>2025-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_invalid_tx/test_invalid_tx_invalid_rlp_encoding/</loc>
          <lastmod>2025-04-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
