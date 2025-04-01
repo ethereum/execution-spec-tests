@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/dev/docs/">
+        <link rel="canonical" href="https://eest.ethereum.org/main/dev/docs/">
       
       
         <link rel="prev" href="../interactive_usage/">
@@ -70,7 +70,7 @@
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/dev/docs.png" >
+        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/dev/docs.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -78,7 +78,7 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/dev/docs/" >
+        <meta  property="og:url"  content="https://eest.ethereum.org/main/dev/docs/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
@@ -86,7 +86,7 @@
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/dev/docs.png" >
+        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/dev/docs.png" >
       
     
     
@@ -28766,7 +28766,7 @@
 
 
 <h1 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h1>
-<p>The <code>execution-spec-tests</code> documentation is generated via <a href="https://www.mkdocs.org/"><code>mkdocs</code></a> and hosted remotely on Github Pages at <a href="https://ethereum.github.io/execution-spec-tests/">ethereum.github.io/execution-spec-tests</a>.</p>
+<p>The <code>execution-spec-tests</code> documentation is generated via <a href="https://www.mkdocs.org/"><code>mkdocs</code></a> and hosted remotely on Github Pages at <a href="https://eest.ethereum.org/">eest.ethereum.org</a>.</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="go">uv sync --all-extras</span>
 </code></pre></div>
@@ -28831,22 +28831,22 @@ site.</p>
     </div>
 
 </div><h2 id="remote-deployment-and-versioning">Remote Deployment and Versioning<a class="headerlink" href="#remote-deployment-and-versioning" title="Permanent link">&para;</a></h2>
-<p>The execution-specs-test docs are hosted on Github pages at the <a href="https://ethereum.github.io/execution-spec-tests/">repo's Github pages</a>. Versions are updated/deployed automatically as part of Github Actions, but this can also be performed on the command-line.</p>
+<p>The execution-specs-test docs are hosted using Github pages at <a href="https://eest.ethereum.org/">eest.ethereum.org</a>. Versions are updated/deployed automatically as part of Github Actions, but this can also be performed on the command-line.</p>
 <p>Our mkdocs configuration uses <a href="https://github.com/jimporter/mike">mike</a> as a version provider. All deployments should be made via <code>mike</code> (whether as part of CI/CD or executed locally).</p>
 <p>The deployed versions of the docs managed via <code>mike</code> are kept in the <a href="https://github.com/ethereum/execution-spec-tests/tree/gh-pages">gh-pages</a> branch. When you run <code>mike</code> it commits to this branch and optionally pushes the changes directly to remote.</p>
 <h3 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h3>
 <p>We currently have two aliases (which both point to <code>main</code> as of <a href="https://github.com/ethereum/execution-spec-tests/pull/998">#998</a>):</p>
 <ul>
-<li><a href="https://ethereum.github.io/execution-spec-tests/latest"><code>latest</code></a>: the current state of the main branch.</li>
-<li><a href="https://ethereum.github.io/execution-spec-tests/development"><code>development</code></a>: the current state of the main branch.</li>
+<li><a href="https://eest.ethereum.org/latest"><code>latest</code></a>: the current state of the main branch.</li>
+<li><a href="https://eest.ethereum.org/development"><code>development</code></a>: the current state of the main branch.</li>
 </ul>
 <p>These aliases point to specific versions, as configured below. It's possible to share links containing either of these aliases or to specific versions, i.e, the following are all valid links:</p>
 <ul>
-<li><a href="https://ethereum.github.io/execution-spec-tests/">https://ethereum.github.io/execution-spec-tests/</a> (redirects to latest/main)</li>
-<li><a href="https://ethereum.github.io/execution-spec-tests/latest">https://ethereum.github.io/execution-spec-tests/latest</a> (redirects to main)</li>
-<li><a href="https://ethereum.github.io/execution-spec-tests/development">https://ethereum.github.io/execution-spec-tests/development</a> (redirects main)</li>
-<li><a href="https://ethereum.github.io/execution-spec-tests/main">https://ethereum.github.io/execution-spec-tests/main</a></li>
-<li><a href="https://ethereum.github.io/execution-spec-tests/v1.0.0">https://ethereum.github.io/execution-spec-tests/v1.0.0</a></li>
+<li><a href="https://eest.ethereum.org/">https://eest.ethereum.org/</a> (redirects to latest/main)</li>
+<li><a href="https://eest.ethereum.org/latest">https://eest.ethereum.org/latest</a> (redirects to main)</li>
+<li><a href="https://eest.ethereum.org/development">https://eest.ethereum.org/development</a> (redirects main)</li>
+<li><a href="https://eest.ethereum.org/main">https://eest.ethereum.org/main</a></li>
+<li><a href="https://eest.ethereum.org/v1.0.0">https://eest.ethereum.org/v1.0.0</a></li>
 </ul>
 <h3 id="cicd-doc-deployment-via-github-actions">CI/CD: Doc Deployment via Github Actions<a class="headerlink" href="#cicd-doc-deployment-via-github-actions" title="Permanent link">&para;</a></h3>
 <p>There are two workflows that automatically deploy updated/new versions of the docs:</p>
@@ -28947,7 +28947,7 @@ site.</p>
 <p>and create an arbitrary ordering in the Test Case Reference doc gen script. But this is untested.</p>
 </div>
 <h2 id="read-the-docs">Read the Docs<a class="headerlink" href="#read-the-docs" title="Permanent link">&para;</a></h2>
-<p>Originally, documentation was hosted at readthedocs.io. Currently, this now defunct page (<a href="https://execution-spec-tests.readthedocs.io">execution-spec-tests.readthedocs.io</a>) is configured to redirect to the Github Pages site. This is achieved by following the steps listed in the second half of <a href="https://stackoverflow.com/a/69928404">this answer</a> on stackoverflow. A public repo with a dummy Sphinx project is required to achieve this: <a href="https://github.com/danceratopz/est-docs-redirect">danceratopz/est-docs-redirect</a>.</p>
+<p>Originally, before June 2023, documentation was hosted at readthedocs.io. Currently, this page no longer exists (execution-spec-tests.readthedocs.io).</p>
 
 
 

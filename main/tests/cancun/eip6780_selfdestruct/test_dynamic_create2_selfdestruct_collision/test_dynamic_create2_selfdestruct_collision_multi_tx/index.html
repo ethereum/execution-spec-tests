@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/test_dynamic_create2_selfdestruct_collision_multi_tx/">
+        <link rel="canonical" href="https://eest.ethereum.org/main/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/test_dynamic_create2_selfdestruct_collision_multi_tx/">
       
       
         <link rel="prev" href="../test_dynamic_create2_selfdestruct_collision_two_different_transactions/">
@@ -70,7 +70,7 @@
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/test_dynamic_create2_selfdestruct_collision_multi_tx.png" >
+        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/test_dynamic_create2_selfdestruct_collision_multi_tx.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -78,7 +78,7 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/test_dynamic_create2_selfdestruct_collision_multi_tx/" >
+        <meta  property="og:url"  content="https://eest.ethereum.org/main/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/test_dynamic_create2_selfdestruct_collision_multi_tx/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
@@ -86,7 +86,7 @@
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/test_dynamic_create2_selfdestruct_collision_multi_tx.png" >
+        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision/test_dynamic_create2_selfdestruct_collision_multi_tx.png" >
       
     
     
@@ -28433,7 +28433,7 @@
 
 
 <h1 id="test_dynamic_create2_selfdestruct_collision_multi_tx"><code>test_dynamic_create2_selfdestruct_collision_multi_tx()</code><a class="headerlink" href="#test_dynamic_create2_selfdestruct_collision_multi_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b28a86c5b39fe0649babdb6a19c0d31588a0cd1a/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py#L479"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx@b28a86c5</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/49b038e2208b935bdc5f69224077caac67c78648/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py#L479"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx@49b038e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx --fork Prague</span>
@@ -28459,8 +28459,8 @@ then in a different tx, perform a self-destruct.
 Then:
     a) on the same tx, attempt to recreate the contract       &lt;=== Covered in this test
     b) on a different tx, attempt to recreate the contract    &lt;=== Covered in this test
-Verify that the test case described
-in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824">https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824</a> is covered</p>
+Verify that the test case described in
+<a href="https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event">https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event</a></p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></summary>
@@ -28728,8 +28728,8 @@ in <a href="https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824"
 <span class="sd">    Then:</span>
 <span class="sd">        a) on the same tx, attempt to recreate the contract       &lt;=== Covered in this test</span>
 <span class="sd">        b) on a different tx, attempt to recreate the contract    &lt;=== Covered in this test</span>
-<span class="sd">    Verify that the test case described</span>
-<span class="sd">    in https://wiki.hyperledger.org/pages/viewpage.action?pageId=117440824 is covered</span>
+<span class="sd">    Verify that the test case described in</span>
+<span class="sd">    https://lf-hyperledger.atlassian.net/wiki/spaces/BESU/pages/22156575/2024-01-06+Mainnet+Halting+Event</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">recreate_on_first_tx</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">selfdestruct_on_first_tx</span><span class="p">,</span> <span class="s2">&quot;invalid test&quot;</span>

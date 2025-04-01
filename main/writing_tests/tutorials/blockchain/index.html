@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://ethereum.github.io/execution-spec-tests/main/writing_tests/tutorials/blockchain/">
+        <link rel="canonical" href="https://eest.ethereum.org/main/writing_tests/tutorials/blockchain/">
       
       
       
@@ -66,7 +66,7 @@
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/writing_tests/tutorials/blockchain.png" >
+        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/writing_tests/tutorials/blockchain.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -74,7 +74,7 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://ethereum.github.io/execution-spec-tests/main/writing_tests/tutorials/blockchain/" >
+        <meta  property="og:url"  content="https://eest.ethereum.org/main/writing_tests/tutorials/blockchain/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
@@ -82,7 +82,7 @@
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://ethereum.github.io/execution-spec-tests/main/assets/images/social/writing_tests/tutorials/blockchain.png" >
+        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/writing_tests/tutorials/blockchain.png" >
       
     
     
@@ -28424,7 +28424,7 @@
 <li>Understand how to write an execution spec <a href="../state_transition/">state transition test</a>.</li>
 </ul>
 <h2 id="example-tests">Example Tests<a class="headerlink" href="#example-tests" title="Permanent link">&para;</a></h2>
-<p>In this tutorial we will go over [test_block_number] in <code>test_block_example.py</code>(<a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/example/test_block_example.py#L19">https://github.com/ethereum/execution-spec-tests/tree/main/tests/example/test_block_example.py#L19</a>).</p>
+<p>In this tutorial we will go over [test_block_number] in <code>test_block_example.py</code>.</p>
 <p>It is assumed you have already gone through the state transition test tutorial. Only new concepts will be discussed.</p>
 <h3 id="smart-contract">Smart Contract<a class="headerlink" href="#smart-contract" title="Permanent link">&para;</a></h3>
 <p>A smart contract is defined that is called by each transaction in the test. It stores a pointer to storage at <code>storage[0]</code>. When it is called storage cell <code>0</code> gets the current block <a href="https://www.evm.codes/#43?fork=merge">number</a>, and the pointer is incremented to the next value.</p>
@@ -28468,7 +28468,7 @@
 <p>Each integer in the <code>tx_per_block</code> array is the number of transactions in a block. The genesis block is block 0 (no transactions). It follows that we have 2 transactions in block 1, 0 in block two, 4 in block 3, ..., and 50 in block 9.</p>
 <div class="highlight"><pre><span></span><code><span class="n">tx_per_block</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
 </code></pre></div>
-<p>The code section that creates the blocks is a bit complex in this test. For some simpler definitions of Block creation you can browse tests within <a href="https://github.com/ethereum/execution-spec-tests/blob/main/tests/withdrawals/test_withdrawals.py"><code>test_withdrawals.py</code></a>.</p>
+<p>The code section that creates the blocks is a bit complex in this test. For some simpler definitions of Block creation you can browse tests within <a href="https://github.com/ethereum/execution-spec-tests/blob/main/tests/shanghai/eip4895_withdrawals/test_withdrawals.py"><code>test_withdrawals.py</code></a>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">blocks</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="nb">len</span><span class="p">:</span> <span class="n">Block</span><span class="p">(</span>
         <span class="n">txs</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">next</span><span class="p">(</span><span class="n">tx_generator</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">)))</span>
