@@ -62,12 +62,13 @@ class ColorFormatter(UTCFormatter):
     RESET = "\033[0m"
 
     def format(self, record: LogRecord) -> str:
-        """Apply colorful formatting."""
-        if self.running_in_docker():
-            return super().format(record)
-        color = self.COLORS.get(record.levelno, self.RESET)
-        record.levelname = f"{color}{record.levelname}{self.RESET}"
-        return super().format(record)
+        """Apply colorful formatting only when not running in Docker."""
+        # First make a copy of the record to avoid modifying the original
+        record_copy = logging.makeLogRecord(record.__dict__)
+        if not self.running_in_docker():
+            color = self.COLORS.get(record_copy.levelno, self.RESET)
+            record_copy.levelname = f"{color}{record_copy.levelname}{self.RESET}"
+        return super().format(record_copy)
 
     @staticmethod
     def running_in_docker() -> bool:
