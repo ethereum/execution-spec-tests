@@ -273,6 +273,8 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Verify correct transaction rejection if the fields particular to the new transaction types are missing
     - [ ] Verify correct transaction rejection if the transaction type contains extra fields
     - [ ] If the transaction contains fields with new serializable types, perform all previous tests on the new type/field
+    - [ ] Verify transaction is correctly rejected if the serialized bytes object is truncated
+    - [ ] Verify transaction is correctly rejected if the serialized bytes object has extra bytes
 - [ ] Out-of-bounds checks
     - [ ] Verify if the transaction has out-of-bounds conditions in its fields and verify:
         - [ ] Max value for each field
