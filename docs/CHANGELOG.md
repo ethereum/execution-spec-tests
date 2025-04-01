@@ -43,7 +43,7 @@ consume cache --help
 
 #### `execute`
 
-- 🔀 Test IDs have changed to include the name of the test spec where the test came from (e.g. state_test, blockchain_test, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
+- 🔀 Test IDs have changed to include the name of the test spec where the test came from (e.g. `state_test`, `blockchain_test`, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
 - ✨ Markers can now be used to execute only tests from a specific test spec type (e.g. `-m state_test`, `-m blockchain_test`, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
 
 ### 📋 Misc
