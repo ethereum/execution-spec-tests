@@ -1036,7 +1036,10 @@ class Transaction(
 
 
 class NetworkWrappedTransaction(CamelModel, RLPSerializable):
-    """Network wrapped transaction."""
+    """
+    Network wrapped transaction as defined in
+    [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844#networking).
+    """
 
     tx: Transaction
 
