@@ -117,6 +117,8 @@ class RLPSerializable:
             field_list = self.get_rlp_signing_fields()
         else:
             if self.signable:
+                # Automatically sign signable objects during full serialization:
+                # Ensures nested objects have valid signatures in the final RLP.
                 self.sign()
             field_list = self.get_rlp_fields()
 
