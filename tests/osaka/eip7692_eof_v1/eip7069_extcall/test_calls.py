@@ -14,6 +14,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Storage,
     Transaction,
+    compute_create_address,
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -88,7 +89,7 @@ def target_address(pre: Alloc, target_account_type: TargetAccountType) -> Addres
     """Target address of the call depending on required type of account."""
     match target_account_type:
         case TargetAccountType.EMPTY:
-            return Address(b"\x78" * 20)
+            return pre.fund_eoa(amount=0)
         case TargetAccountType.EOA:
             return pre.fund_eoa()
         case TargetAccountType.LEGACY_CONTRACT:
@@ -146,7 +147,7 @@ def test_legacy_calls_eof_sstore(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -218,7 +219,7 @@ def test_legacy_calls_eof_mstore(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -273,7 +274,7 @@ def test_eof_calls_eof_sstore(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -346,7 +347,7 @@ def test_eof_calls_eof_mstore(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -417,7 +418,7 @@ def test_eof_calls_precompile(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=5000000,
     )
 
@@ -474,7 +475,7 @@ def test_eof_calls_legacy_sstore(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -541,7 +542,7 @@ def test_eof_calls_legacy_mstore(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -613,7 +614,7 @@ def test_callee_fails(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=4000000,
     )
 
@@ -684,7 +685,7 @@ def test_callee_context(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=100000,
         value=tx_value,
     )
@@ -751,7 +752,7 @@ def test_eof_calls_eof_then_fails(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -811,7 +812,7 @@ def test_eof_calls_clear_return_buffer(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -871,7 +872,7 @@ def test_eof_calls_static_flag_with_value(
     )
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=5_000_000,
     )
 
@@ -968,7 +969,7 @@ def test_eof_calls_min_callee_gas(
 
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=no_oog_gas + extra_gas_limit,
     )
 
@@ -1014,7 +1015,7 @@ def test_eof_calls_with_value(
     )
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=50000000,
     )
 
@@ -1110,7 +1111,7 @@ def test_eof_calls_msg_depth(
     )
     tx = Transaction(
         sender=sender,
-        to=Address(calling_contract_address),
+        to=calling_contract_address,
         gas_limit=gas_limit,
     )
 
@@ -1134,12 +1135,14 @@ def test_eof_calls_msg_depth(
 
 @pytest.mark.parametrize("target_account_type", TargetAccountType)
 @pytest.mark.parametrize("delegate", [True, False])
+@pytest.mark.parametrize("call_from_initcode", [True, False])
 def test_extdelegate_call_targets(
     state_test: StateTestFiller,
     pre: Alloc,
     target_account_type: TargetAccountType,
     target_address: Address,
     delegate: bool,
+    call_from_initcode: bool,
 ):
     """
     Test EOF contracts extdelegatecalling various targets, especially resolved via 7702
@@ -1150,19 +1153,40 @@ def test_extdelegate_call_targets(
     if delegate:
         target_address = pre.fund_eoa(0, delegation=target_address)
 
-    caller_contract = Container.Code(
-        Op.SSTORE(slot_code_worked, value_code_worked)
-        + Op.SSTORE(slot_call_result, Op.EXTDELEGATECALL(address=target_address))
-        + Op.STOP,
-    )
+    sender = pre.fund_eoa()
+    delegate_call_code = Op.SSTORE(
+        slot_call_result, Op.EXTDELEGATECALL(address=target_address)
+    ) + Op.SSTORE(slot_code_worked, value_code_worked)
 
-    calling_contract_address = pre.deploy_contract(caller_contract)
+    if call_from_initcode:
+        # Call from initcode
+        caller_contract = Container(
+            sections=[
+                Section.Code(
+                    code=delegate_call_code + Op.RETURNCODE[0](0, 0),
+                ),
+                Section.Container(Container.Code(Op.STOP)),
+            ]
+        )
+        tx = Transaction(
+            sender=sender,
+            to=None,
+            data=caller_contract,
+            gas_limit=4_000_000,
+        )
+        calling_contract_address = tx.created_contract
+    else:
+        # Normal call from existing contract
+        caller_contract = Container.Code(
+            delegate_call_code + Op.STOP,
+        )
+        calling_contract_address = pre.deploy_contract(caller_contract)
 
-    tx = Transaction(
-        sender=pre.fund_eoa(),
-        to=Address(calling_contract_address),
-        gas_limit=2_000_000,
-    )
+        tx = Transaction(
+            sender=sender,
+            to=calling_contract_address,
+            gas_limit=4_000_000,
+        )
 
     calling_storage = {
         slot_code_worked: value_code_worked,
@@ -1172,9 +1196,14 @@ def test_extdelegate_call_targets(
         if target_account_type == TargetAccountType.EOF_CONTRACT_INVALID
         else EXTCALL_REVERT,
     }
+    storage_address = (
+        compute_create_address(address=sender, nonce=0)
+        if call_from_initcode
+        else calling_contract_address
+    )
 
     post = {
-        calling_contract_address: Account(storage=calling_storage),
+        storage_address: Account(storage=calling_storage),
     }
 
     state_test(
