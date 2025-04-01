@@ -119,7 +119,8 @@ class GethExceptionMapper(ExceptionMapper):
             ),
             ExceptionMessage(EOFException.STACK_UNDERFLOW, "err: stack_underflow"),
             ExceptionMessage(
-                EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT, "err: max_stack_height_above_limit"
+                EOFException.STACK_HEIGHT_INCREASE_ABOVE_LIMIT,
+                "err: stack_height_increase_above_limit",
             ),
             ExceptionMessage(
                 EOFException.STACK_HIGHER_THAN_OUTPUTS, "err: stack_higher_than_outputs_required"
@@ -129,7 +130,7 @@ class GethExceptionMapper(ExceptionMapper):
                 "err: jumpf_destination_incompatible_outputs",
             ),
             ExceptionMessage(
-                EOFException.INVALID_MAX_STACK_HEIGHT, "err: invalid_max_stack_height"
+                EOFException.INVALID_STACK_HEIGHT_INCREASE, "err: invalid_stack_height_increase"
             ),
             ExceptionMessage(EOFException.INVALID_DATALOADN_INDEX, "err: invalid_dataloadn_index"),
             ExceptionMessage(EOFException.TRUNCATED_INSTRUCTION, "err: truncated_instruction"),
