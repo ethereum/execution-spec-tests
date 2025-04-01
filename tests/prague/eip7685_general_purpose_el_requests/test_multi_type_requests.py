@@ -102,13 +102,7 @@ def single_consolidation_from_contract(i: int) -> ConsolidationRequestContract: 
     return ConsolidationRequestContract(requests=[single_consolidation(i)])
 
 
-def get_permutations(
-    n: int = 3,
-) -> Generator[
-    DepositRequest | WithdrawalRequest | ConsolidationRequest,
-    None,
-    None,
-]:
+def get_permutations(n: int = 3) -> Generator[ParameterSet, None, None]:
     """Return possible permutations of the requests from an EOA."""
     requests: list = [
         (
