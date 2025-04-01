@@ -10,25 +10,26 @@ Depending on the changes introduced by an EIP, the following template is the min
 - [ ] Fuzzing
     - [ ] TBD
 
-## New Opcode
+## <!-- id:new_opcode --> New Opcode
 
 The EIP introduces one or more new opcodes to the EVM.
 
-### Test Vectors
+### <!-- id:new_opcode/test --> Test Vectors
 
-- [ ] Memory expansion
-    - [ ] Verify that the opcode execution results in the correct memory expansion, being by offset or size or interaction of both parameters (Size of zero should never result in memory expansion, regardless of offset value). Test at least the following memory expansion sizes
-        - [ ] Zero bytes expansion
-        - [ ] Single byte expansion
-        - [ ] 31 bytes expansion
-        - [ ] 32 bytes expansion
-        - [ ] 33 bytes expansion
-        - [ ] 64 bytes expansion
-        - [ ] 2**32-1 bytes expansion
-        - [ ] 2**32 bytes expansion
-        - [ ] 2**64-1 bytes expansion
-        - [ ] 2**64 bytes expansion
-        - [ ] 2**256-1 bytes expansion
+- [ ] <!-- id:new_opcode/test/mem_exp --> Memory expansion: Verify that the opcode execution results in the correct memory expansion, being by offset or size or interaction of both parameters (Size of zero should never result in memory expansion, regardless of offset value). Test at least the following memory expansion sizes:
+    - [ ] <!-- id:new_opcode/test/mem_exp/zero_bytes --> Zero bytes expansion
+        - [ ] <!-- id:new_opcode/test/mem_exp/zero_bytes/zero_offset --> Zero-offset
+        - [ ] <!-- id:new_opcode/test/mem_exp/zero_bytes/2_256_minus_one_offset --> 2**256-1 offset
+    - [ ] Single byte expansion
+    - [ ] 31 bytes expansion
+    - [ ] 32 bytes expansion
+    - [ ] 33 bytes expansion
+    - [ ] 64 bytes expansion
+    - [ ] 2**32-1 bytes expansion
+    - [ ] 2**32 bytes expansion
+    - [ ] 2**64-1 bytes expansion
+    - [ ] 2**64 bytes expansion
+    - [ ] 2**256-1 bytes expansion
 - [ ] Stack
     - [ ] Overflows/Underflows
         - [ ] If the opcode pushes one or more items to the stack, and the opcode pushes more elements than it pops, verify that the opcode execution results in exeptional abort when pushing elements to the stack would result in the stack having more than 1024 elements.
@@ -97,14 +98,14 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Verify that the opcode results in invalid EOF container if attempted to deploy before its activation fork.
     - [ ] Verify correct opcode behavior at transition block, in the case of opcodes which behavior depends on current or parent block information.
 
-### Framework Changes
+### <!-- id:new_opcode/framework --> Framework Changes
 
-- [ ] Add opcode to `src/ethereum_test_vm/opcode.py`
-- [ ] Add opcode to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
+- [ ] <!-- id:new_opcode/framework/opcode.py --> Add opcode to `src/ethereum_test_vm/opcode.py`
+- [ ] <!-- id:new_opcode/framework/forks.py --> Add opcode to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
-## New Precompile
+## <!-- id:new_precompile --> New Precompile
 
-### Test Vectors
+### <!-- id:new_precompile/test --> Test Vectors
 
 - [ ] Call contexts
     - [ ] Normal call to precompile from contract
@@ -151,13 +152,13 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Verify precompile address becomes warm on and after the fork activation block, but not prior.
 
 
-### Framework Changes
+### <!-- id:new_precompile/framework --> Framework Changes
 
 - [ ] Add precompile address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
-## New System Contract
+## <!-- id:new_system_contract --> New System Contract
 
-### Test Vectors
+### <!-- id:new_system_contract/test --> Test Vectors
 
 - [ ] Call contexts
     - [ ] Normal call to system contract from contract
@@ -202,14 +203,14 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Fork transition
     - [ ] Verify calling the system contract before its activation fork results in correct behavior (depends on the system contract implementation).
 
-### Framework Changes
+### <!-- id:new_system_contract_framework --> Framework Changes
 
 - [ ] Add system contract address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 - [ ] Add system contract bytecode to the returned value of `pre_allocation_blockchain` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
-## New Transaction Type
+## <!-- id:new_transaction_type --> New Transaction Type
 
-### Test Vectors
+### <!-- id:new_transaction_type/test --> Test Vectors
 
 - [ ] Intrinsic Validity
     - [ ] Gas Limit: For each new field that affects the intrinsic gas cost of the transaction:
@@ -289,15 +290,15 @@ The EIP introduces one or more new opcodes to the EVM.
 
 * Tests must be added to [`execution-apis`](https://github.com/ethereum/execution-apis) repository.
 
-### Framework Changes
+### <!-- id:new_transaction_type/framework --> Framework Changes
 
 - [ ] Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`, adding the appropriate new fields that the transaction introduced and the logic to the intrinsic gas cost calculation, if any.
 - [ ] Add the transaction type number to `tx_types` response in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` (If applicable add also to `contract_creating_tx_types`).
 
 
-## New Block Header Field
+## <!-- id:new_block_header_field --> New Block Header Field
 
-### Test Vectors
+### <!-- id:new_block_header_field/test --> Test Vectors
 
 - [ ] Genesis value
     - [ ] Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.
@@ -310,11 +311,11 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Verify that a block lacking the new header field at the activation of the fork is invalid.
 
 
-### Framework Changes
+### <!-- id:new_block_header/framework --> Framework Changes
 
 **TBD**
 
-## New Block Body Field
+## <!-- id:new_block_body_field --> New Block Body Field
 
 ### Test Vectors
 
@@ -324,7 +325,7 @@ The EIP introduces one or more new opcodes to the EVM.
 
 **TBD**
 
-## Gas Cost Changes
+## <!-- id:gas_cost_changes --> Gas Cost Changes
 
 ### Test Vectors
 
@@ -337,23 +338,23 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Modify `memory_expansion_gas_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects memory expansion gas cost calculation.
 - [ ] Modify `gas_costs` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects specific opcode gas costs.
 
-## Blob Count Changes
+## <!-- id:blob_count_changes --> Blob Count Changes
 
-### Test Vectors
+### <!-- id:blob_count_changes_test --> Test Vectors
 
 - [ ] Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically updated to take into account the new blob count values at the new fork activation block.
 
-### Framework Changes
+### <!-- id:blob_count_changes_framework --> Framework Changes
 
 - [ ] Modify `blob_base_fee_update_fraction`, `target_blobs_per_block`, `max_blobs_per_block` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects any of the values returned by each function.
 
-## New Execution Layer Request
+## <!-- id:new_execution_layer_request --> New Execution Layer Request
 
-### Test Vectors
+### <!-- id:new_execution_layer_request_test --> Test Vectors
 
 - [ ] Cross-Request-Type Interaction
     - [ ] Update `tests/prague/eip7685_general_purpose_el_requests` tests to include the new request type in the tests combinations
 
-### Framework Changes
+### <!-- id:new_execution_layer_request_framework --> Framework Changes
 
 - [ ] Increment `max_request_type` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` to the new maximum request type number after the EIP is activated.
