@@ -1,0 +1,28 @@
+<title>404</title>
+
+<!-- From https://github.com/squidfunk/mkdocs-material/discussions/7904#discussioncomment-11847286 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('versions.json')
+            .then(response => response.json())
+            .then(versions => {
+                const url = window.location.pathname;
+                const versionMatch = url.match(/^\/([^\/]+)\//);
+                let version = 'latest';
+
+                if (versionMatch) {
+                    const detectedVersion = versionMatch[1];
+                    const versionExists = versions.some(v => v.version === detectedVersion);
+                    if (versionExists) {
+                        version = detectedVersion;
+                    }
+                }
+
+                window.location.href = `/${version}/404`;
+            })
+            .catch(error => {
+                console.error('Error fetching versions:', error);
+                window.location.href = '/latest/404';
+            });
+    });
+</script>
