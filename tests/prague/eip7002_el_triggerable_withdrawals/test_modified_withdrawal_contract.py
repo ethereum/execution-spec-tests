@@ -32,6 +32,8 @@ from .spec import ref_spec_7002
 REFERENCE_SPEC_GIT_PATH: str = ref_spec_7002.git_path
 REFERENCE_SPEC_VERSION: str = ref_spec_7002.version
 
+pytestmark: pytest.MarkDecorator = pytest.mark.valid_from("Prague")
+
 
 def withdrawal_list_with_custom_fee(n: int) -> List[WithdrawalRequest]:  # noqa: D103
     return [
@@ -165,7 +167,6 @@ def test_extra_withdrawals_pseudo_contract(
     memory_offset: int = 0
     amount_of_requests: int = 0
 
-
     for withdrawal_request in requests_list:
         # update memory_offset with the correct value
         withdrawal_request_bytes_amount: int = len(bytes(withdrawal_request))
@@ -175,17 +176,11 @@ def test_extra_withdrawals_pseudo_contract(
         )
         memory_offset += withdrawal_request_bytes_amount
 
-        # TODO: in opcodes.py the argument order and names of arguments are different from those
-        # on evm.codes website. this is dangerous, especially since with the macro I am not allowed
-        # to provide the parameters as named parameters like
-        # Om.MSTORE(data=bytes(withdrawal_request), offset=memory_offset)
-        # due to 'unexpected keyword argument.. for __call__ of'
         modified_code += Om.MSTORE(bytes(withdrawal_request), memory_offset)
         amount_of_requests += 1
 
-    modified_code += Op.RETURN(
-        0, 76 * amount_of_requests
-    )
+    # modified_code += Op.RETURN(0, 76 * amount_of_requests)
+    modified_code += Op.RETURN(0, Op.MSIZE())
 
     pre[Spec_EIP7002.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS] = Account(
         code=modified_code,

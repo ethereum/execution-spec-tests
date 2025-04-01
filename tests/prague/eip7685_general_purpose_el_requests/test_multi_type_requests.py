@@ -119,7 +119,7 @@ def get_permutations(n: int = 3) -> Generator[ParameterSet, None, None]:
         ),
     ]
     for perm in permutations(requests, n):
-        yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))  # type: ignore
+        yield pytest.param([p[1] for p in perm], id="+".join([p[0] for p in perm]))
 
 
 def get_eoa_permutations(n: int = 3) -> Generator[ParameterSet, None, None]:
