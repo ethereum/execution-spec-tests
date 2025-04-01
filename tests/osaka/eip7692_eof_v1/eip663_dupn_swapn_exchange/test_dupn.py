@@ -5,7 +5,16 @@ abstract: Tests [EIP-663: SWAPN, DUPN and EXCHANGE instructions](https://eips.et
 
 import pytest
 
-from ethereum_test_tools import Account, EOFException, EOFStateTestFiller, EOFTestFiller
+from ethereum_test_tools import (
+    Account,
+    Alloc,
+    Environment,
+    EOFException,
+    EOFStateTestFiller,
+    EOFTestFiller,
+    StateTestFiller,
+    Transaction,
+)
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import MAX_OPERAND_STACK_HEIGHT
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -107,3 +116,38 @@ def test_dupn_stack_overflow(
         container=eof_code,
         expect_exception=expect_exception,
     )
+
+
+@pytest.mark.parametrize(
+    "dupn_arg,stack_height", [pytest.param(5, 9, id="5_of_9"), pytest.param(12, 30, id="12_of_30")]
+)
+def test_dupn_simple(
+    stack_height: int,
+    dupn_arg: int,
+    pre: Alloc,
+    state_test: StateTestFiller,
+):
+    """Test case for simple DUPN operations."""
+    sender = pre.fund_eoa()
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    code=sum(Op.PUSH2[v] for v in range(stack_height, 0, -1))
+                    + Op.DUPN[dupn_arg]
+                    + sum((Op.PUSH1(v) + Op.SSTORE) for v in range(0, stack_height + 1))
+                    + Op.STOP,
+                    max_stack_height=stack_height + 2,
+                )
+            ],
+        )
+    )
+
+    storage = {v: v for v in range(1, stack_height + 1)}
+    storage[0] = dupn_arg + 1
+    print(storage)
+    post = {contract_address: Account(storage=storage)}
+
+    tx = Transaction(to=contract_address, sender=sender, gas_limit=10_000_000)
+
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
