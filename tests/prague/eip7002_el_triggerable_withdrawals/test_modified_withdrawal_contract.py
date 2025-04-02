@@ -179,7 +179,6 @@ def test_extra_withdrawals_pseudo_contract(
         modified_code += Om.MSTORE(bytes(withdrawal_request), memory_offset)
         amount_of_requests += 1
 
-    # modified_code += Op.RETURN(0, 76 * amount_of_requests)
     modified_code += Op.RETURN(0, Op.MSIZE())
 
     pre[Spec_EIP7002.WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS] = Account(
