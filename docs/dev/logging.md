@@ -89,6 +89,35 @@ Example: `consume-engine-20240101-123456-main.log`
 
 The log file path is displayed in the pytest header and summary.
 
+### Using the Standalone Configuration in Non-Pytest Projects
+
+The logging module can also be used in non-pytest projects by using the `configure_logging` function:
+
+```python
+from pytest_plugins.logging import configure_logging, get_logger
+
+# Configure logging with custom settings
+configure_logging(
+    log_level="VERBOSE",
+    log_file="my_application.log",
+    log_to_stdout=True,
+    log_format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    use_color=True
+)
+
+# Get a logger and use it
+logger = get_logger(__name__)
+logger.verbose("Logging configured in standalone application!")
+```
+
+The `configure_logging` function accepts the following parameters:
+
+- `log_level`: A string or numeric log level (default: "INFO")
+- `log_file`: Path to a log file, or None to disable file logging (default: None)
+- `log_to_stdout`: Whether to log to stdout (default: True)
+- `log_format`: The format string for log messages (default: "%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+- `use_color`: Whether to use colors in stdout output, or None to auto-detect (default: None)
+
 ## Implementation Details
 
 ### The EESTLogger Class

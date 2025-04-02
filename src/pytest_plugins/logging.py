@@ -7,6 +7,10 @@ timestamps in this output is the main use case for adding logging to our plugins
 This output gets shown in the `FAILURES` summary section, which is shown as the
 "simulator log" in hive simulations. For this use case, timestamps are essential to verify
 timing issues against the clients log.
+
+This module provides both:
+1. A standalone logging configuration system that can be used in any Python project
+2. A pytest plugin that automatically configures logging for pytest sessions
 """
 
 import functools
@@ -16,7 +20,7 @@ import sys
 from datetime import datetime, timezone
 from logging import LogRecord
 from pathlib import Path
-from typing import Any, Optional, Union, cast
+from typing import Any, Dict, List, Optional, Union, cast
 
 import pytest
 from _pytest.terminal import TerminalReporter
@@ -24,9 +28,11 @@ from _pytest.terminal import TerminalReporter
 # global that gets set in pytest_configure()
 file_handler: Optional[logging.FileHandler] = None
 
+# Custom log levels
 VERBOSE_LEVEL = 15  # Between INFO (10) and DEBUG (20)
 FAIL_LEVEL = 35  # Between WARNING (30) and ERROR (40)
 
+# Add custom log levels to the logging module
 logging.addLevelName(VERBOSE_LEVEL, "VERBOSE")
 logging.addLevelName(FAIL_LEVEL, "FAIL")
 
@@ -66,8 +72,8 @@ class EESTLogger(logging.Logger):
         """
         Log a message with FAIL level severity (35).
 
-        This level is between DEBUG (10) and INFO (20), intended for messages
-        more detailed than INFO but less verbose than DEBUG.
+        This level is between WARNING (30) and ERROR (40), intended for test failures
+        and similar issues.
         """
         if stacklevel is None:
             stacklevel = 1
@@ -75,6 +81,7 @@ class EESTLogger(logging.Logger):
             self._log(FAIL_LEVEL, msg, args, exc_info, extra, stack_info, stacklevel)
 
 
+# Register the custom logger class
 logging.setLoggerClass(EESTLogger)
 
 
@@ -83,6 +90,7 @@ def get_logger(name: str) -> EESTLogger:
     return cast(EESTLogger, logging.getLogger(name))
 
 
+# Module logger
 logger = get_logger(__name__)
 
 
@@ -146,6 +154,80 @@ class LogLevel:
         raise ValueError(f"Invalid log level '{value}'. Expected one of: {valid} or a number.")
 
 
+# ==============================================================================
+# Standalone logging configuration (usable without pytest)
+# ==============================================================================
+
+def configure_logging(
+    log_level: Union[int, str] = "INFO",
+    log_file: Optional[Union[str, Path]] = None,
+    log_to_stdout: bool = True,
+    log_format: str = "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    use_color: Optional[bool] = None,
+) -> Optional[logging.FileHandler]:
+    """
+    Configure logging with EEST custom log levels and formatters.
+
+    This function can be used in any Python project to set up logging with the
+    same settings as the pytest plugin.
+
+    Args:
+        log_level: The logging level to use (name or numeric value)
+        log_file: Path to the log file (if None, no file logging is set up)
+        log_to_stdout: Whether to log to stdout
+        log_format: The log format string
+        use_color: Whether to use colors in stdout output (auto-detected if None)
+
+    Returns:
+        The file handler if log_file is provided, otherwise None
+    """
+    # Initialize root logger
+    root_logger = logging.getLogger()
+    
+    # Convert log level if it's a string
+    if isinstance(log_level, str):
+        log_level = LogLevel.from_cli(log_level)
+    
+    # Set log level
+    root_logger.setLevel(log_level)
+    
+    # Remove any existing handlers
+    for handler in root_logger.handlers[:]:
+        root_logger.removeHandler(handler)
+    
+    # File handler (optional)
+    file_handler_instance = None
+    if log_file:
+        log_path = Path(log_file)
+        log_path.parent.mkdir(exist_ok=True, parents=True)
+        
+        file_handler_instance = logging.FileHandler(log_path, mode="w")
+        file_handler_instance.setFormatter(UTCFormatter(fmt=log_format))
+        root_logger.addHandler(file_handler_instance)
+    
+    # Stdout handler (optional)
+    if log_to_stdout:
+        stream_handler = logging.StreamHandler(sys.stdout)
+        
+        # Determine whether to use color
+        if use_color is None:
+            use_color = not ColorFormatter.running_in_docker()
+        
+        if use_color:
+            stream_handler.setFormatter(ColorFormatter(fmt=log_format))
+        else:
+            stream_handler.setFormatter(UTCFormatter(fmt=log_format))
+            
+        root_logger.addHandler(stream_handler)
+    
+    logger.verbose("Logging configured successfully.")
+    return file_handler_instance
+
+
+# ==============================================================================
+# Pytest plugin integration
+# ==============================================================================
+
 def pytest_addoption(parser):  # noqa: D103
     logging_group = parser.getgroup(
         "logging", "Arguments related to logging from test fixtures and tests."
@@ -191,7 +273,7 @@ def pytest_configure_node(node):
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config: pytest.Config) -> None:
     """
-    Initialize logging.
+    Initialize logging for pytest sessions.
 
     This goes to a lot of effort to ensure that a log file is created per worker
     if xdist is used and that the timestamp used in the filename is the same across
@@ -199,6 +281,7 @@ def pytest_configure(config: pytest.Config) -> None:
     """
     global file_handler
 
+    # Determine log file path with consistent timestamp across workers
     potential_subcommand = None
     if len(sys.argv) > 1:
         potential_subcommand = sys.argv[1]
@@ -210,23 +293,17 @@ def pytest_configure(config: pytest.Config) -> None:
     log_filename = f"{log_stem}-{worker_id}.log"
     log_path = Path("logs")
     log_path.mkdir(exist_ok=True)
-    config.option.eest_log_file_path = log_path / log_filename
+    log_file_path = log_path / log_filename
+    
+    # Store the log file path in the pytest config
+    config.option.eest_log_file_path = log_file_path
 
-    formatter = UTCFormatter(fmt="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
-
-    root_logger = logging.getLogger()
-    root_logger.setLevel(config.getoption("eest_log_level"))
-
-    file_handler = logging.FileHandler(config.option.eest_log_file_path, mode="w")
-    file_handler.setFormatter(formatter)
-    root_logger.addHandler(file_handler)
-
-    stream_handler = logging.StreamHandler(sys.stdout)
-    stream_handler.setFormatter(
-        ColorFormatter(fmt="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+    # Configure logging using the standalone function
+    file_handler = configure_logging(
+        log_level=config.getoption("eest_log_level"),
+        log_file=log_file_path,
+        log_to_stdout=True,
     )
-    root_logger.addHandler(stream_handler)
-    logger.verbose("Configured logging.")
 
 
 def pytest_report_header(config: pytest.Config) -> list[str]:
@@ -248,7 +325,7 @@ def log_only_to_file(level: int, msg: str, *args, **kwargs) -> None:
     """Log a message only to the file handler, bypassing stdout."""
     if not file_handler:
         return
-    handler: logging.Handler = file_handler  # type: ignore[attr-defined]
+    handler: logging.Handler = file_handler
     logger = logging.getLogger(__name__)
     if not logger.isEnabledFor(level):
         return
