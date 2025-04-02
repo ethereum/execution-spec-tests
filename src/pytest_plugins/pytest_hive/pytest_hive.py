@@ -255,7 +255,7 @@ def hive_test(request, test_suite: HiveTestSuite):
 
     try:
         # Collect all logs from all phases
-        captured = ["\n"]
+        captured = []
         setup_out = ""
         call_out = ""
         for phase in ("setup", "call", "teardown"):
