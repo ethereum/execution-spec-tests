@@ -458,8 +458,6 @@ def test_all_opcodes_variadic_stack_underflow(
     caused by the specific instruction `op`.
     There is similar non-variadic test variant in test_all_opcodes_stack_underflow().
     """
-    code = Bytecode()
-
     # Check if the op increases the stack height (e.g. DUP instructions).
     # We need to leave space for this increase not to cause stack overflow.
     stack_height_increase = max(op.pushed_stack_items - op.popped_stack_items, 0)
@@ -481,7 +479,67 @@ def test_all_opcodes_variadic_stack_underflow(
 
     eof_test(
         container=Container(
-            sections=[Section.Code(code)],
+            sections=[
+                Section.Code(
+                    code,
+                    # Set reasonable stack height. Don't rely on automatic calculation,
+                    # because we are in the invalid stack height scenario.
+                    max_stack_height=max(spread, stack_height, 1),
+                )
+            ],
             validity_error=EOFException.STACK_UNDERFLOW,
         )
     )
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="underflow_0",
+            sections=[
+                Section.Code(
+                    code=Op.ADD + Op.STOP,
+                    max_stack_height=1,
+                ),
+            ],
+            expected_bytecode="ef0001 010004 0200010002 04000000 00800001 0100",
+        ),
+        Container(
+            name="underflow_variable_stack_0",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.LOG2
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000a04000000008000035f6000e100025f5fa200",
+        ),
+        Container(
+            name="underflow_variable_stack_1",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.ADD
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000a04000000008000035f6000e100025f5f0100",
+        ),
+    ],
+    ids=lambda x: x.name,
+)
+def test_stack_underflow_examples(eof_test, container):
+    """Test EOF validation failing due to stack underflow at basic instructions."""
+    eof_test(container=container, expect_exception=EOFException.STACK_UNDERFLOW)
