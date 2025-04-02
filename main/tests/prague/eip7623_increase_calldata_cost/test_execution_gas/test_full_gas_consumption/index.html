@@ -28658,7 +28658,7 @@
 
 
 <h1 id="test_full_gas_consumption"><code>test_full_gas_consumption()</code><a class="headerlink" href="#test_full_gas_consumption" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/216257e5cb3c1e72db6891e085eff9f959c75d13/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L61"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption@216257e5</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fef73b1a77915b846970ec9b3aea3ad457d36509/tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py#L55"><code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption@fef73b1a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption --fork Prague</span>
@@ -28678,7 +28678,13 @@
 
               <details class="quote">
                 <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
@@ -28720,13 +28726,7 @@
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumption</span><span class="p">:</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TestGasConsumption</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test gas consumption with EIP-7623 active.&quot;&quot;&quot;</span>
 
     <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -28803,7 +28803,13 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
@@ -28829,13 +28835,7 @@
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;ty,protected,authorization_list&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;type_0_unprotected&quot;</span><span class="p">),</span>
