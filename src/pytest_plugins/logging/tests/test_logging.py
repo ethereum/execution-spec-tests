@@ -98,11 +98,9 @@ class TestFormatters:
         formatted = formatter.format(record)
         assert re.match(r"2021-01-01 00:00:00\.\d{3}\+00:00: Test message", formatted)
 
-    @patch("pytest_plugins.logging.logging.ColorFormatter.running_in_docker")
-    def test_color_formatter(self, mock_running_in_docker):
+    def test_color_formatter(self, monkeypatch):
         """Test that ColorFormatter adds color codes to the log level."""
-        mock_running_in_docker.return_value = False
-
+        # Create the formatter and test record
         formatter = ColorFormatter(fmt="[%(levelname)s] %(message)s")
         record = logging.makeLogRecord(
             {
@@ -112,11 +110,14 @@ class TestFormatters:
             }
         )
 
+        # Test case 1: When not running in Docker, colors should be applied
+        # Override the class variable directly with monkeypatch
+        monkeypatch.setattr(ColorFormatter, "running_in_docker", False)
         formatted = formatter.format(record)
         assert "\033[31mERROR\033[0m" in formatted  # Red color for ERROR
 
-        # Test with Docker environment (should not have colors)
-        mock_running_in_docker.return_value = True
+        # Test case 2: When running in Docker, colors should not be applied
+        monkeypatch.setattr(ColorFormatter, "running_in_docker", True)
         formatted = formatter.format(record)
         assert "\033[31mERROR\033[0m" not in formatted
         assert "ERROR" in formatted
