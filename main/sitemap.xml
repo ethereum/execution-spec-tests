@@ -2296,6 +2296,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation/test_all_opcodes_variadic_stack_underflow/</loc>
+         <lastmod>2025-04-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation/test_rjumps_callf_retf/</loc>
          <lastmod>2025-04-02</lastmod>
          <changefreq>daily</changefreq>
