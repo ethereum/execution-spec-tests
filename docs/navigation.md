@@ -38,6 +38,7 @@
     * [Generating Documentation](dev/docs.md)
     * [Documenting CLI Commands](dev/documenting_clis.md)
     * [Coding Style](dev/coding_style.md)
+    * [Logging](dev/logging.md)
     * [Enabling Precommit Checks](dev/precommit.md)
     * [Running Github Actions Locally](dev/test_actions_locally.md)
     * [Porting Legacy Tests](dev/porting_legacy_tests.md)
