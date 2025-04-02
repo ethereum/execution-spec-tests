@@ -219,7 +219,6 @@ def pytest_configure(config: pytest.Config) -> None:
 
     file_handler = logging.FileHandler(config.option.eest_log_file_path, mode="w")
     file_handler.setFormatter(formatter)
-    config._eest_file_handler = file_handler  # type: ignore[attr-defined]
     root_logger.addHandler(file_handler)
 
     stream_handler = logging.StreamHandler(sys.stdout)
