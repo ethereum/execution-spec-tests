@@ -255,7 +255,7 @@ def hive_test(request, test_suite: HiveTestSuite):
 
     try:
         # Collect all logs from all phases
-        captured = []
+        captured = ["\n"]
         setup_out = ""
         call_out = ""
         for phase in ("setup", "call", "teardown"):
@@ -274,7 +274,7 @@ def hive_test(request, test_suite: HiveTestSuite):
                         stdout = call_out[len(setup_out) :]
 
                 captured.append(
-                    f"\n# Captured Output from Test {phase.capitalize()}\n\n"
+                    f"# Captured Output from Test {phase.capitalize()}\n\n"
                     f"## stdout:\n{stdout}\n"
                     f"## stderr:\n{stderr}\n"
                 )
