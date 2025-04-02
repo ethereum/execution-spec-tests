@@ -20,12 +20,11 @@ import sys
 from datetime import datetime, timezone
 from logging import LogRecord
 from pathlib import Path
-from typing import Any, Optional, Union, cast
+from typing import Any, ClassVar, Optional, Union, cast
 
 import pytest
 from _pytest.terminal import TerminalReporter
 
-# global that gets set in pytest_configure()
 file_handler: Optional[logging.FileHandler] = None
 
 # Custom log levels
@@ -105,6 +104,8 @@ class UTCFormatter(logging.Formatter):
 class ColorFormatter(UTCFormatter):
     """Formatter that adds ANSI color codes to log level names for terminal output."""
 
+    running_in_docker: ClassVar[bool] = Path("/.dockerenv").exists()
+
     COLORS = {
         logging.DEBUG: "\033[37m",  # Gray
         VERBOSE_LEVEL: "\033[36m",  # Cyan
@@ -120,15 +121,10 @@ class ColorFormatter(UTCFormatter):
         """Apply colorful formatting only when not running in Docker."""
         # First make a copy of the record to avoid modifying the original
         record_copy = logging.makeLogRecord(record.__dict__)
-        if not self.running_in_docker():
+        if not self.running_in_docker:
             color = self.COLORS.get(record_copy.levelno, self.RESET)
             record_copy.levelname = f"{color}{record_copy.levelname}{self.RESET}"
         return super().format(record_copy)
-
-    @staticmethod
-    def running_in_docker() -> bool:
-        """Return True if `/.dockerenv` exists."""
-        return Path("/.dockerenv").exists()
 
 
 class LogLevel:
@@ -213,7 +209,7 @@ def configure_logging(
 
         # Determine whether to use color
         if use_color is None:
-            use_color = not ColorFormatter.running_in_docker()
+            use_color = not ColorFormatter.running_in_docker
 
         if use_color:
             stream_handler.setFormatter(ColorFormatter(fmt=log_format))
