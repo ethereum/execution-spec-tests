@@ -341,6 +341,16 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Modify `memory_expansion_gas_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects memory expansion gas cost calculation.
 - [ ] Modify `gas_costs` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects specific opcode gas costs.
 
+## <!-- id:gas_refunds_changes --> Gas Refunds Changes
+
+### Test Vectors
+
+**TBD**
+
+### Framework Changes
+
+**TBD**
+
 ## <!-- id:blob_count_changes --> Blob Count Changes
 
 ### <!-- id:blob_count_changes_test --> Test Vectors
