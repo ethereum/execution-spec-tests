@@ -237,17 +237,17 @@
 
 #### Stack underflow
 
-- [ ] Stack underflows (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml )
+- [x] Stack underflow ([`tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_stack_underflow_examples`](./eip5450_stack/test_code_validation/test_stack_underflow_examples.md))
 - [x] Stack underflow with enough items available in caller stack - can't dig into caller frame ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity`](./eip4750_functions/test_code_validation/test_eof_validity.md))
-- [ ] Stack underflow in variable stack segment, only min underflow (ethereum/tests: src/EOFTestsFiller/efStack/underflow_variable_stack_Copier.json)
-- [ ] Stack underflow in variable stack segment, both min and max underflow (ethereum/tests: src/EOFTestsFiller/efStack/underflow_variable_stack_Copier.json)
+- [x] Stack underflow in variable stack segment, only min underflow ([`tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_stack_underflow_examples`](./eip5450_stack/test_code_validation/test_stack_underflow_examples.md))
+- [x] Stack underflow in variable stack segment, both min and max underflow ([`tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_stack_underflow_examples`](./eip5450_stack/test_code_validation/test_stack_underflow_examples.md))
 
 #### CALLF
 
 - [ ] Valid CALLFs to functions with inputs (ethereum/tests: src/EOFTestsFiller/efStack/callf_stack_validation_Copier.json)
 - [ ] CALLF stack underflows (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml src/EOFTestsFiller/EIP5450/validInvalidFiller.yml src/EOFTestsFiller/efStack/callf_stack_validation_Copier.json)
-- [ ] CALLF stack underflow in variable stack segment, only min underflow (ethereum/tests: src/EOFTestsFiller/efStack/underflow_variable_stack_Copier.json)
-- [ ] CALLF stack underflow in variable stack segment, both min and max underflow (ethereum/tests: src/EOFTestsFiller/efStack/underflow_variable_stack_Copier.json)
+- [x] CALLF stack underflow in variable stack segment, only min underflow ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_underflow_examples`](./eip4750_functions/test_code_validation/test_callf_stack_underflow_examples.md))
+- [x] CALLF stack underflow in variable stack segment, both min and max underflow ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_underflow_examples`](./eip4750_functions/test_code_validation/test_callf_stack_underflow_examples.md))
 - [ ] Branching to CALLFs with the same number of outputs (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 - [ ] Check that CALLF stack inputs/outputs equal to target section type definition
 
