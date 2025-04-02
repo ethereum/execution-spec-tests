@@ -20,7 +20,7 @@ import sys
 from datetime import datetime, timezone
 from logging import LogRecord
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Optional, Union, cast
 
 import pytest
 from _pytest.terminal import TerminalReporter
@@ -158,6 +158,7 @@ class LogLevel:
 # Standalone logging configuration (usable without pytest)
 # ==============================================================================
 
+
 def configure_logging(
     log_level: Union[int, str] = "INFO",
     log_file: Optional[Union[str, Path]] = None,
@@ -180,46 +181,47 @@ def configure_logging(
 
     Returns:
         The file handler if log_file is provided, otherwise None
+
     """
     # Initialize root logger
     root_logger = logging.getLogger()
-    
+
     # Convert log level if it's a string
     if isinstance(log_level, str):
         log_level = LogLevel.from_cli(log_level)
-    
+
     # Set log level
     root_logger.setLevel(log_level)
-    
+
     # Remove any existing handlers
     for handler in root_logger.handlers[:]:
         root_logger.removeHandler(handler)
-    
+
     # File handler (optional)
     file_handler_instance = None
     if log_file:
         log_path = Path(log_file)
         log_path.parent.mkdir(exist_ok=True, parents=True)
-        
+
         file_handler_instance = logging.FileHandler(log_path, mode="w")
         file_handler_instance.setFormatter(UTCFormatter(fmt=log_format))
         root_logger.addHandler(file_handler_instance)
-    
+
     # Stdout handler (optional)
     if log_to_stdout:
         stream_handler = logging.StreamHandler(sys.stdout)
-        
+
         # Determine whether to use color
         if use_color is None:
             use_color = not ColorFormatter.running_in_docker()
-        
+
         if use_color:
             stream_handler.setFormatter(ColorFormatter(fmt=log_format))
         else:
             stream_handler.setFormatter(UTCFormatter(fmt=log_format))
-            
+
         root_logger.addHandler(stream_handler)
-    
+
     logger.verbose("Logging configured successfully.")
     return file_handler_instance
 
@@ -227,6 +229,7 @@ def configure_logging(
 # ==============================================================================
 # Pytest plugin integration
 # ==============================================================================
+
 
 def pytest_addoption(parser):  # noqa: D103
     logging_group = parser.getgroup(
@@ -294,7 +297,7 @@ def pytest_configure(config: pytest.Config) -> None:
     log_path = Path("logs")
     log_path.mkdir(exist_ok=True)
     log_file_path = log_path / log_filename
-    
+
     # Store the log file path in the pytest config
     config.option.eest_log_file_path = log_file_path
 
