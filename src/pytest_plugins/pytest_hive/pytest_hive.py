@@ -30,7 +30,6 @@ an unpredictable order relative to fixture teardown.
 """
 
 import json
-import logging
 import os
 import warnings
 from dataclasses import asdict
@@ -43,9 +42,10 @@ from hive.client import ClientRole
 from hive.simulation import Simulation
 from hive.testing import HiveTest, HiveTestResult, HiveTestSuite
 
+from ..logging import get_logger
 from .hive_info import ClientInfo, HiveInfo
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def pytest_configure(config):  # noqa: D103
@@ -309,10 +309,10 @@ def hive_test(request, test_suite: HiveTestSuite):
             )
 
         test.end(result=HiveTestResult(test_pass=test_passed, details=test_result_details))
-        logger.debug(f"Finished processing logs for test: {request.node.nodeid}")
+        logger.verbose(f"Finished processing logs for test: {request.node.nodeid}")
 
     except Exception as e:
-        logger.error(f"Error processing logs for test {request.node.nodeid}: {str(e)}")
+        logger.verbose(f"Error processing logs for test {request.node.nodeid}: {str(e)}")
         test_passed = False
         test_result_details = f"Exception whilst processing test result: {str(e)}"
         test.end(result=HiveTestResult(test_pass=test_passed, details=test_result_details))

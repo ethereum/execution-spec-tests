@@ -16,28 +16,74 @@ import sys
 from datetime import datetime, timezone
 from logging import LogRecord
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional, Union, cast
 
 import pytest
 from _pytest.terminal import TerminalReporter
 
-logger = logging.getLogger(__name__)
-
 # global that gets set in pytest_configure()
 file_handler: Optional[logging.FileHandler] = None
 
+VERBOSE_LEVEL = 15  # Between INFO (10) and DEBUG (20)
 FAIL_LEVEL = 35  # Between WARNING (30) and ERROR (40)
 
-
-def fail(self, message, *args, **kwargs):
-    """Define a new log level for failing tests."""
-    if self.isEnabledFor(FAIL_LEVEL):
-        self._log(FAIL_LEVEL, message, args, **kwargs)
+logging.addLevelName(VERBOSE_LEVEL, "VERBOSE")
+logging.addLevelName(FAIL_LEVEL, "FAIL")
 
 
-if not hasattr(logging.Logger, "fail"):
-    logging.addLevelName(FAIL_LEVEL, "FAIL")
-    logging.Logger.fail = fail  # type: ignore[attr-defined]
+class EESTLogger(logging.Logger):
+    """Define custom log levels via a dedicated Logger class."""
+
+    def verbose(
+        self,
+        msg: object,
+        *args: Any,
+        exc_info: Union[BaseException, bool, None] = None,
+        stack_info: bool = False,
+        stacklevel: int = 1,
+        extra: Optional[dict[str, Any]] = None,
+    ) -> None:
+        """
+        Log a message with VERBOSE level severity (15).
+
+        This level is between DEBUG (10) and INFO (20), intended for messages
+        more detailed than INFO but less verbose than DEBUG.
+        """
+        if stacklevel is None:
+            stacklevel = 1
+        if self.isEnabledFor(VERBOSE_LEVEL):
+            self._log(VERBOSE_LEVEL, msg, args, exc_info, extra, stack_info, stacklevel)
+
+    def fail(
+        self,
+        msg: object,
+        *args: Any,
+        exc_info: Union[BaseException, bool, None] = None,
+        stack_info: bool = False,
+        stacklevel: int = 1,
+        extra: Optional[dict[str, Any]] = None,
+    ) -> None:
+        """
+        Log a message with FAIL level severity (35).
+
+        This level is between DEBUG (10) and INFO (20), intended for messages
+        more detailed than INFO but less verbose than DEBUG.
+        """
+        if stacklevel is None:
+            stacklevel = 1
+        if self.isEnabledFor(FAIL_LEVEL):
+            self._log(FAIL_LEVEL, msg, args, exc_info, extra, stack_info, stacklevel)
+
+
+logging.setLoggerClass(EESTLogger)
+
+
+def get_logger(name: str) -> EESTLogger:
+    """Get a properly-typed logger with the EEST custom logging levels."""
+    return cast(EESTLogger, logging.getLogger(name))
+
+
+logger = get_logger(__name__)
 
 
 class UTCFormatter(logging.Formatter):
@@ -53,6 +99,7 @@ class ColorFormatter(UTCFormatter):
 
     COLORS = {
         logging.DEBUG: "\033[37m",  # Gray
+        VERBOSE_LEVEL: "\033[36m",  # Cyan
         logging.INFO: "\033[36m",  # Cyan
         logging.WARNING: "\033[33m",  # Yellow
         FAIL_LEVEL: "\033[35m",  # Magenta
@@ -180,6 +227,7 @@ def pytest_configure(config: pytest.Config) -> None:
         ColorFormatter(fmt="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
     )
     root_logger.addHandler(stream_handler)
+    logger.verbose("Configured logging.")
 
 
 def pytest_report_header(config: pytest.Config) -> list[str]:
