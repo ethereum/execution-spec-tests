@@ -261,8 +261,8 @@ def hive_test(request, test_suite: HiveTestSuite):
         for phase in ("setup", "call", "teardown"):
             report = getattr(request.node, f"result_{phase}", None)
             if report:
-                stdout = report.capstdout or ""
-                stderr = report.capstderr or ""
+                stdout = report.capstdout or "None"
+                stderr = report.capstderr or "None"
 
                 # Remove setup output from call phase output
                 if phase == "setup":
@@ -274,21 +274,24 @@ def hive_test(request, test_suite: HiveTestSuite):
                         stdout = call_out[len(setup_out) :]
 
                 captured.append(
-                    f"=== {phase.upper()} PHASE ===\nstdout:\n{stdout}\nstderr:\n{stderr}\n"
+                    f"\n# Captured Output from Test {phase.capitalize()}\n\n"
+                    f"## stdout:\n{stdout}\n"
+                    f"## stderr:\n{stderr}\n"
                 )
 
         captured_output = "\n".join(captured)
 
         if hasattr(request.node, "result_call") and request.node.result_call.passed:
             test_passed = True
-            test_result_details = "Test passed.\n" + captured_output
+            test_result_details = "Test passed.\n\n" + captured_output
         elif hasattr(request.node, "result_call") and not request.node.result_call.passed:
             test_passed = False
+            test_result_details = "Test failed.\n\n" + captured_output
             test_result_details = request.node.result_call.longreprtext + "\n" + captured_output
         elif hasattr(request.node, "result_setup") and not request.node.result_setup.passed:
             test_passed = False
             test_result_details = (
-                "Test setup failed.\n"
+                "Test setup failed.\n\n"
                 + request.node.result_setup.longreprtext
                 + "\n"
                 + captured_output
@@ -296,7 +299,7 @@ def hive_test(request, test_suite: HiveTestSuite):
         elif hasattr(request.node, "result_teardown") and not request.node.result_teardown.passed:
             test_passed = False
             test_result_details = (
-                "Test teardown failed.\n"
+                "Test teardown failed.\n\n"
                 + request.node.result_teardown.longreprtext
                 + "\n"
                 + captured_output
@@ -304,7 +307,7 @@ def hive_test(request, test_suite: HiveTestSuite):
         else:
             test_passed = False
             test_result_details = (
-                "Test failed for unknown reason (setup or call status unknown).\n"
+                "Test failed for unknown reason (setup or call status unknown).\n\n"
                 + captured_output
             )
 
