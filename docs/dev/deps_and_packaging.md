@@ -4,8 +4,7 @@ EEST uses [`uv`](https://docs.astral.sh/uv/) to manage and pin its dependencies.
 
 ## Managing Dependencies
 
-We aim to provide specify [version specifiers](https://peps.python.org/pep-0440/#version-specifiers) for each of our direct and extra dependencies.
-
+We aim to provide specific [version specifiers](https://peps.python.org/pep-0440/#version-specifiers) for each of our direct and extra dependencies.
 !!! note "Packages should be managed via `uv`"
 
     Dependencies should be managed using `uv` on the command-line to ensure that version compatibility is ensured across all dependencies and that `uv.lock` is updated as required.
