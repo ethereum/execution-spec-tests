@@ -20,6 +20,10 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - 🐞 Fix fixture tarball downloading with regular, non-Github release URLS and with numerical versions in regular release specs, e.g., `stable@v4.2.0` ([#1437](https://github.com/ethereum/execution-spec-tests/pull/1437)).
 
+#### Exceptions
+
+- ✨ New exceptions `BlockException.SYSTEM_CONTRACT_EMPTY` and `BlockException.SYSTEM_CONTRACT_CALL_FAILED` to handle EIP updates [#9508](https://github.com/ethereum/EIPs/pull/9508) and [#9582](https://github.com/ethereum/EIPs/pull/9582) ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+
 ### 🧪 Test Cases
 
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Test precompile case in same transaction as delegation without extra gas in case of precompile code execution; parametrize all call opcodes in existing precompile test ([#1431](https://github.com/ethereum/execution-spec-tests/pull/1431)).
