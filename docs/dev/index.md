@@ -14,4 +14,4 @@ This documentation is aimed at `execution-spec-tests` developers:
 These sections are primarily aimed at `execution-spec-tests` maintainers:
 
 - [Generating documentation](./docs.md): Steps to create and build documentation and manage documentation versions.
-- [Managing Dependencies and Packaging](./deps_and_packaging.md): How to update EEST dependencies.
+- [Managing dependencies and packaging](./deps_and_packaging.md): How to update EEST dependencies.
