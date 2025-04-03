@@ -2,8 +2,7 @@
 
 import pytest
 
-from ethereum_test_tools import (Account, Alloc, Block, BlockchainTestFiller,
-                                 Header)
+from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Header
 from ethereum_test_tools import Macros as Om
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import Requests, Transaction
@@ -47,9 +46,9 @@ def test_extra_logs(
     # curl https://sepolia.infura.io/v3/APIKEY \
     # -X POST \
     # -H "Content-Type: application/json" \
-    # -d '{"jsonrpc": "2.0", "method": "eth_getLogs", 
-    # "params": [{"address": "0x7f02C3E3c98b133055B8B348B2Ac625669Ed295D", 
-    # "blockHash": "0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53"}], 
+    # -d '{"jsonrpc": "2.0", "method": "eth_getLogs",
+    # "params": [{"address": "0x7f02C3E3c98b133055B8B348B2Ac625669Ed295D",
+    # "blockHash": "0x8062a17fa791f5dbd59ea68891422e3299ca4e80885a89acf3fc706c8bceef53"}],
     # "id": 1}'
 
     # {"jsonrpc":"2.0","id":1,"result":
@@ -64,11 +63,15 @@ def test_extra_logs(
     # "0x00000000000000000000000080b5dc88c98e528bf9cb4b7f0f076ac41da24651"]
 
     bytecode = (
-        Op.LOG1(
+        Op.LOG3(
             # ERC-20 token transfer log
+            # ERC-20 token transfers are LOG3, since the topic, the sender, and receiver
+            # are all topics (the sender and receiver are `indexed` in the solidity event)
             0,
             32,
             0xDDF252AD1BE2C89B69C2B068FC378DAA952BA7F163C4A11628F55A4DF523B3EF,
+            0x000000000000000000000000AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+            0x000000000000000000000000BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB,
         )
         + Om.MSTORE(deposit_request_log)
         + Op.LOG1(
@@ -98,13 +101,6 @@ def test_extra_logs(
         blocks=[
             Block(
                 txs=[tx],
-                header_verify=Header(
-                    requests_hash=Requests(deposit_request),
-                ),
-            ),
-        ],
-        post={},
-    )
                 header_verify=Header(
                     requests_hash=Requests(deposit_request),
                 ),

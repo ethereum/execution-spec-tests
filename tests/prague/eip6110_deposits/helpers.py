@@ -111,16 +111,16 @@ class DepositRequest(DepositRequestBase):
         data = bytearray(576)
         if include_abi_encoding:
             # Insert ABI encoding
-            data[30:32] = b"\x00\xa0"       # Offset: pubkey (160)
-            data[62:64] = b"\x01\x00"       # Offset: withdrawal_credentials (256)
-            data[94:96] = b"\x01\x40"       # Offset: amount (320)
-            data[126:128] = b"\x01\x80"     # Offset: signature (384)
-            data[158:160] = b"\x02\x00"     # Offset: index (512)
-            data[190:192] = b"\x00\x30"     # Size: pubkey (48)
-            data[286:288] = b"\x00\x20"     # Size: withdrawal_credentials (32)
-            data[350:352] = b"\x00\x08"     # Size: amount (8)
-            data[414:416] = b"\x00\x60"     # Size: signature (96)
-            data[542:544] = b"\x00\x08"     # Size: index (8)
+            data[30:32] = b"\x00\xa0"  # Offset: pubkey (160)
+            data[62:64] = b"\x01\x00"  # Offset: withdrawal_credentials (256)
+            data[94:96] = b"\x01\x40"  # Offset: amount (320)
+            data[126:128] = b"\x01\x80"  # Offset: signature (384)
+            data[158:160] = b"\x02\x00"  # Offset: index (512)
+            data[190:192] = b"\x00\x30"  # Size: pubkey (48)
+            data[286:288] = b"\x00\x20"  # Size: withdrawal_credentials (32)
+            data[350:352] = b"\x00\x08"  # Size: amount (8)
+            data[414:416] = b"\x00\x60"  # Size: signature (96)
+            data[542:544] = b"\x00\x08"  # Size: index (8)
         offset = 192
         data[offset : offset + len(self.pubkey)] = self.pubkey  # [192:240]
         offset += 48 + len(self.pubkey)
@@ -128,11 +128,11 @@ class DepositRequest(DepositRequestBase):
             self.withdrawal_credentials
         )  # [288:320]
         offset += 32 + len(self.withdrawal_credentials)
-        data[offset : offset + 8] = (self.amount).to_bytes(8, byteorder="little")  # [352:360]
+        data[offset : offset + 8] = (self.amount).to_bytes(8, byteorder="big")  # [352:360]
         offset += 56 + 8
         data[offset : offset + len(self.signature)] = self.signature  # [416:512]
         offset += 32 + len(self.signature)
-        data[offset : offset + 8] = (self.index).to_bytes(8, byteorder="little")  # [544:552]
+        data[offset : offset + 8] = (self.index).to_bytes(8, byteorder="big")  # [544:552]
         return bytes(data)
 
     def with_source_address(self, source_address: Address) -> "DepositRequest":
