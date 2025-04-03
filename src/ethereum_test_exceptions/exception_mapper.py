@@ -2,10 +2,12 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Any, Dict, Generic
 
 from bidict import frozenbidict
+from pydantic import BaseModel, BeforeValidator, ValidationInfo
 
-from .exceptions import ExceptionBase, UndefinedException
+from .exceptions import ExceptionBase, ExceptionBoundTypeVar, UndefinedException
 
 
 @dataclass
@@ -22,6 +24,8 @@ class ExceptionMapper(ABC):
     t8n or other tools.
     """
 
+    mapper_name: str
+
     def __init__(self) -> None:
         """Initialize the exception mapper."""
         # Ensure that the subclass has properly defined _mapping_data before accessing it
@@ -36,6 +40,7 @@ class ExceptionMapper(ABC):
         self.exception_to_message_map: frozenbidict = frozenbidict(
             {entry.exception: entry.message for entry in self._mapping_data}
         )
+        self.mapper_name = self.__class__.__name__
 
     @property
     @abstractmethod
@@ -43,14 +48,58 @@ class ExceptionMapper(ABC):
         """Should be overridden in the subclass to provide mapping data."""
         pass
 
-    def exception_to_message(self, exception: ExceptionBase) -> str | None:
-        """Exception and to formatted string."""
-        message = self.exception_to_message_map.get(exception, None)
-        return message
-
-    def message_to_exception(self, exception_string: str) -> ExceptionBase:
+    def message_to_exception(self, exception_string: str) -> ExceptionBase | UndefinedException:
         """Match a formatted string to an exception."""
         for entry in self._mapping_data:
             if entry.message in exception_string:
                 return entry.exception
-        return UndefinedException.UNDEFINED_EXCEPTION
+        return UndefinedException(exception_string, mapper_name=self.mapper_name)
+
+
+class ExceptionWithMessage(BaseModel, Generic[ExceptionBoundTypeVar]):
+    """
+    Class that contains the exception along with the verbatim message from the external
+    tool/client.
+    """
+
+    exception: ExceptionBoundTypeVar
+    message: str
+
+
+def mapper_validator(v: str, info: ValidationInfo) -> Dict[str, Any] | UndefinedException | None:
+    """
+    Use the exception mapper that must be included in the context to map the exception
+    from the external tool.
+    """
+    if v is None:
+        return v
+    assert isinstance(info.context, dict), f"Invalid context provided: {info.context}"
+    exception_mapper = info.context.get("exception_mapper")
+    assert isinstance(exception_mapper, ExceptionMapper), (
+        f"Invalid mapper provided {exception_mapper}"
+    )
+    exception = exception_mapper.message_to_exception(v)
+    if isinstance(exception, UndefinedException):
+        return exception
+    return {
+        "exception": exception,
+        "message": v,
+    }
+
+
+ExceptionMapperValidator = BeforeValidator(mapper_validator)
+"""
+Validator that can be used to annotate a pydantic field in a model that is meant to be
+parsed from an external tool or client.
+
+The annotated type must be an union that can include `None`, `UndefinedException` and a
+custom model as:
+```
+class BlockExceptionWithMessage(ExceptionWithMessage[BlockException]):
+    pass
+```
+where `BlockException` can be any derivation of `ExceptionBase`.
+
+The `message` attribute is the verbatim message received from the external tool or client,
+and can be used to be printed for extra context information in case of failures.
+"""
