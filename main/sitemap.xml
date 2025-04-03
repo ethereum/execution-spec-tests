@@ -76,6 +76,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/dev/deps_and_packaging/</loc>
+         <lastmod>2025-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/dev/docs/</loc>
          <lastmod>2025-04-03</lastmod>
          <changefreq>daily</changefreq>
