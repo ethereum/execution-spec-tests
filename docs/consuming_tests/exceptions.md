@@ -13,14 +13,4 @@ The JSON string can contain multiple exception types, separated by the `|`
 character, denoting that the transaction or block can throw either one of
 the exceptions.
 
-## `TransactionException`
-
-::: ethereum_test_exceptions.TransactionException
-
-## `BlockException`
-
-::: ethereum_test_exceptions.BlockException
-
-## `EOFException`
-
-::: ethereum_test_exceptions.EOFException
+For a list of all defined exceptions look at [Ethereum Test Exceptions Package](../library/ethereum_test_exceptions.md).
