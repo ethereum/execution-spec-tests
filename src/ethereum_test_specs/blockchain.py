@@ -439,12 +439,15 @@ class BlockchainTest(BaseTest):
             if (
                 not rejected_txs
                 and block.rlp_modifier is None
+                and block.requests is None
                 and not block.skip_exception_verification
             ):
                 # Only verify block level exception if:
                 # - No transaction exception was raised, because these are not reported as block
                 #   exceptions.
                 # - No RLP modifier was specified, because the modifier is what normally
+                #   produces the block exception.
+                # - No requests were specified, because modified requests are also what normally
                 #   produces the block exception.
                 verify_block(
                     block_number=env.number,
