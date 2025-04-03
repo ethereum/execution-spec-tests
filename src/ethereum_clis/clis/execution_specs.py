@@ -201,6 +201,14 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
                 TransactionException.TYPE_3_TX_CONTRACT_CREATION,
                 "ction: ",
             ),
+            ExceptionMessage(
+                TransactionException.NONCE_IS_MAX,
+                "tion: ",
+            ),
+            ExceptionMessage(
+                TransactionException.GAS_ALLOWANCE_EXCEEDED,
+                "ion: ",
+            ),
             # TODO EVMONE needs to differentiate when the section is missing in the header or body
             ExceptionMessage(EOFException.MISSING_STOP_OPCODE, "err: no_terminating_instruction"),
             ExceptionMessage(EOFException.MISSING_CODE_HEADER, "err: code_section_missing"),

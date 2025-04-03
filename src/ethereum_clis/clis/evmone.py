@@ -50,6 +50,22 @@ class EvmoneExceptionMapper(ExceptionMapper):
     def _mapping_data(self):
         return [
             ExceptionMessage(
+                TransactionException.SENDER_NOT_EOA,
+                "sender not an eoa:",
+            ),
+            ExceptionMessage(
+                TransactionException.GAS_ALLOWANCE_EXCEEDED,
+                "gas limit reached",
+            ),
+            ExceptionMessage(
+                TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS,
+                "max priority fee per gas higher than max fee per gas",
+            ),
+            ExceptionMessage(
+                TransactionException.NONCE_IS_MAX,
+                "nonce has max value:",
+            ),
+            ExceptionMessage(
                 TransactionException.TYPE_4_TX_CONTRACT_CREATION,
                 "set code transaction must ",
             ),
