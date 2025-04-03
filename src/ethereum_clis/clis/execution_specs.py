@@ -13,6 +13,7 @@ from tempfile import TemporaryDirectory
 from typing import Dict, List, Optional
 
 from ethereum_test_exceptions import (
+    BlockException,
     EOFException,
     ExceptionMapper,
     ExceptionMessage,
@@ -274,5 +275,13 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
             ExceptionMessage(EOFException.TOO_MANY_CONTAINERS, "err: too_many_container_sections"),
             ExceptionMessage(
                 EOFException.INVALID_CODE_SECTION_INDEX, "err: invalid_code_section_index"
+            ),
+            ExceptionMessage(
+                BlockException.SYSTEM_CONTRACT_EMPTY,
+                "System contract address",
+            ),
+            ExceptionMessage(
+                BlockException.SYSTEM_CONTRACT_CALL_FAILED,
+                "call failed:",
             ),
         ]
