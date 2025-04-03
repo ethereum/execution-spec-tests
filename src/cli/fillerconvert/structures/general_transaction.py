@@ -4,7 +4,7 @@ from typing import Any, List
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from ethereum_test_base_types import AccessList
+from ethereum_test_base_types import AccessList, Hash
 
 from .common import AddressInFiller, CodeInFiller, Hash32InFiller, ValueInFiller
 
@@ -19,6 +19,16 @@ class DataWithAccessList(BaseModel):
         """Model Config."""
 
         extra = "forbid"
+
+    @field_validator("access_list", mode="before")
+    def convert_keys_to_hash(cls, access_list):  # noqa: N805
+        """Fix keys."""
+        for entry in access_list:
+            if "storageKeys" in entry:
+                entry["storageKeys"] = [
+                    Hash(key, left_padding=True) for key in entry["storageKeys"]
+                ]
+        return access_list
 
     @model_validator(mode="wrap")
     @classmethod
