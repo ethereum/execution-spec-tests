@@ -1,7 +1,12 @@
 """Exceptions for invalid execution."""
 
 from .engine_api import EngineAPIError
-from .exception_mapper import ExceptionMapper, ExceptionMessage
+from .exception_mapper import (
+    ExceptionMapper,
+    ExceptionMapperValidator,
+    ExceptionMessage,
+    ExceptionWithMessage,
+)
 from .exceptions import (
     BlockException,
     BlockExceptionInstanceOrList,
@@ -24,6 +29,8 @@ __all__ = [
     "ExceptionMapper",
     "ExceptionMessage",
     "ExceptionInstanceOrList",
+    "ExceptionWithMessage",
+    "ExceptionMapperValidator",
     "TransactionException",
     "UndefinedException",
     "TransactionExceptionInstanceOrList",

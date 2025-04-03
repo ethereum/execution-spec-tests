@@ -163,7 +163,9 @@ class BesuTransitionTool(TransitionTool):
 
         response = requests.post(self.server_url, json=post_data, timeout=5)
         response.raise_for_status()  # exception visible in pytest failure output
-        output: TransitionToolOutput = TransitionToolOutput.model_validate(response.json())
+        output: TransitionToolOutput = TransitionToolOutput.model_validate(
+            response.json(), context={"exception_mapper": self.exception_mapper}
+        )
 
         if debug_output_path:
             dump_files_to_directory(
