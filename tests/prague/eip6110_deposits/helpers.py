@@ -128,11 +128,11 @@ class DepositRequest(DepositRequestBase):
             self.withdrawal_credentials
         )  # [288:320]
         offset += 32 + len(self.withdrawal_credentials)
-        data[offset : offset + 8] = (self.amount).to_bytes(8, byteorder="big")  # [352:360]
+        data[offset : offset + 8] = (self.amount).to_bytes(8, byteorder="little")  # [352:360]
         offset += 56 + 8
         data[offset : offset + len(self.signature)] = self.signature  # [416:512]
         offset += 32 + len(self.signature)
-        data[offset : offset + 8] = (self.index).to_bytes(8, byteorder="big")  # [544:552]
+        data[offset : offset + 8] = (self.index).to_bytes(8, byteorder="little")  # [544:552]
         return bytes(data)
 
     def with_source_address(self, source_address: Address) -> "DepositRequest":
