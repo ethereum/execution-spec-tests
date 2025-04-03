@@ -298,6 +298,10 @@ class Alloc(BaseAlloc):
         """
         raise NotImplementedError("fund_address is not implemented in the base class")
 
+    def get_block_number(self):
+        """Return the last block number."""
+        raise NotImplementedError("get_block_number is not implemented in the base class")
+
 
 class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     """Withdrawal generic type, used as a parent class for `Withdrawal` and `FixtureWithdrawal`."""

@@ -2656,7 +2656,8 @@ def test_set_code_to_system_contract(
             caller_payload = consolidation_request.calldata
             call_value = consolidation_request.value
         case Address(0x0000F90827F1C53A10CB7A02335B175320002935):  # EIP-2935
-            caller_payload = Hash(0)
+            # Use the penultimate block to ensure it is saved in the history contract
+            caller_payload = Hash(max(pre.get_block_number() - 1, 0))
             caller_code_storage[call_return_data_size_slot] = 32
         case _:
             raise ValueError(f"Not implemented system contract: {system_contract}")

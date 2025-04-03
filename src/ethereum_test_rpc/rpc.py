@@ -114,6 +114,10 @@ class EthRPC(BaseRPC):
         super().__init__(url, extra_headers)
         self.transaction_wait_timeout = transaction_wait_timeout
 
+    def get_block_number(self) -> int:
+        """`eth_blockNumber`: Returns the number of the most recent block."""
+        return int(self.post_request("blockNumber"), 16)
+
     def get_block_by_number(self, block_number: BlockNumberType = "latest", full_txs: bool = True):
         """`eth_getBlockByNumber`: Returns information about a block by block number."""
         block = hex(block_number) if isinstance(block_number, int) else block_number

@@ -343,6 +343,10 @@ class Alloc(BaseAlloc):
 
         super().__setitem__(address, Account(balance=amount))
 
+    def get_block_number(self):
+        """Return the last block number."""
+        return self._eth_rpc.get_block_number()
+
     def wait_for_transactions(self) -> List[TransactionByHashResponse]:
         """Wait for all transactions to be included in blocks."""
         return self._eth_rpc.wait_for_transactions(self._txs)
