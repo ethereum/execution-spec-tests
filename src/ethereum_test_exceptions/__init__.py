@@ -4,7 +4,6 @@ from .engine_api import EngineAPIError
 from .exception_mapper import (
     ExceptionMapper,
     ExceptionMapperValidator,
-    ExceptionMessage,
     ExceptionWithMessage,
 )
 from .exceptions import (
@@ -27,7 +26,6 @@ __all__ = [
     "ExceptionBase",
     "EngineAPIError",
     "ExceptionMapper",
-    "ExceptionMessage",
     "ExceptionInstanceOrList",
     "ExceptionWithMessage",
     "ExceptionMapperValidator",

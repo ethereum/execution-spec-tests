@@ -1,21 +1,12 @@
 """EEST Exception mapper."""
 
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Any, Dict, Generic
+import re
+from abc import ABC
+from typing import Any, ClassVar, Dict, Generic
 
-from bidict import frozenbidict
 from pydantic import BaseModel, BeforeValidator, ValidationInfo
 
 from .exceptions import ExceptionBase, ExceptionBoundTypeVar, UndefinedException
-
-
-@dataclass
-class ExceptionMessage:
-    """Defines a mapping between an exception and a message."""
-
-    exception: ExceptionBase
-    message: str
 
 
 class ExceptionMapper(ABC):
@@ -25,34 +16,41 @@ class ExceptionMapper(ABC):
     """
 
     mapper_name: str
+    _mapping_compiled_regex: Dict[ExceptionBase, re.Pattern]
+
+    mapping_substring: ClassVar[Dict[ExceptionBase, str]]
+    """
+    Mapping of exception to substring that should be present in the error message.
+
+    Items in this mapping are used for substring matching (`substring in message`).
+    """
+
+    mapping_regex: ClassVar[Dict[ExceptionBase, str]]
+    """
+    Mapping of exception to regex that should be present in the error message.
+
+    Items in this mapping are compiled into regex patterns for faster matching,
+    and then used for regex matching (`pattern.search(message)`).
+    """
 
     def __init__(self) -> None:
         """Initialize the exception mapper."""
-        # Ensure that the subclass has properly defined _mapping_data before accessing it
-        assert self._mapping_data is not None, "_mapping_data must be defined in subclass"
-
-        assert len({entry.exception for entry in self._mapping_data}) == len(self._mapping_data), (
-            "Duplicate exception in _mapping_data"
-        )
-        assert len({entry.message for entry in self._mapping_data}) == len(self._mapping_data), (
-            "Duplicate message in _mapping_data"
-        )
-        self.exception_to_message_map: frozenbidict = frozenbidict(
-            {entry.exception: entry.message for entry in self._mapping_data}
-        )
+        # Ensure that the subclass has properly defined mapping_substring before accessing it
+        assert self.mapping_substring is not None, "mapping_substring must be defined in subclass"
+        assert self.mapping_regex is not None, "mapping_regex must be defined in subclass"
         self.mapper_name = self.__class__.__name__
-
-    @property
-    @abstractmethod
-    def _mapping_data(self):
-        """Should be overridden in the subclass to provide mapping data."""
-        pass
+        self._mapping_compiled_regex = {
+            exception: re.compile(message) for exception, message in self.mapping_regex.items()
+        }
 
     def message_to_exception(self, exception_string: str) -> ExceptionBase | UndefinedException:
         """Match a formatted string to an exception."""
-        for entry in self._mapping_data:
-            if entry.message in exception_string:
-                return entry.exception
+        for exception, substring in self.mapping_substring.items():
+            if substring in exception_string:
+                return exception
+        for exception, pattern in self._mapping_compiled_regex.items():
+            if pattern.search(exception_string):
+                return exception
         return UndefinedException(exception_string, mapper_name=self.mapper_name)
 
 
