@@ -600,7 +600,7 @@ requires-dist = [
     { name = "tenacity", specifier = ">8.2.0,<9" },
     { name = "trie", specifier = ">=3.1.0,<4" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20240917,<7" },
-    { name = "types-requests", marker = "extra == 'lint'" },
+    { name = "types-requests", marker = "extra == 'lint'", specifier = ">=2.31,<2.33" },
     { name = "typing-extensions", specifier = ">=4.12.2,<5" },
 ]
 provides-extras = ["test", "lint", "docs"]
