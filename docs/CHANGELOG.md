@@ -20,6 +20,10 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - 🐞 Fix fixture tarball downloading with regular, non-Github release URLS and with numerical versions in regular release specs, e.g., `stable@v4.2.0` ([#1437](https://github.com/ethereum/execution-spec-tests/pull/1437)).
 
+#### Tools
+
+- 🔀 `generate_system_contract_deploy_test` test generator has been updated to handle system contracts that are not allowed to be absent when the fork happens ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+
 #### Exceptions
 
 - ✨ New exceptions `BlockException.SYSTEM_CONTRACT_EMPTY` and `BlockException.SYSTEM_CONTRACT_CALL_FAILED` to handle EIP updates [#9508](https://github.com/ethereum/EIPs/pull/9508) and [#9582](https://github.com/ethereum/EIPs/pull/9582) ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
@@ -33,6 +37,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add EIP-7251 test cases for modified consolidations contract that allows more consolidations ([#1465](https://github.com/ethereum/execution-spec-tests/pull/1465)).
 - ✨ [EIP-6110](https://eips.ethereum.org/EIPS/eip-6110): Add extra deposit request edge cases, sending eth to the deposit contract while sending a deposit request ([#1467](https://github.com/ethereum/execution-spec-tests/pull/1467)).
 - ✨ [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Remove pytest skips for consolidation request cases ([#1449](https://github.com/ethereum/execution-spec-tests/pull/1449)).
+- ✨ [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add cases to verify behavior of contracts missing at fork ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
 
 ### 📋 Misc
 
