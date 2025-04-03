@@ -64,7 +64,7 @@ consume cache --help
 
 ### 🧪 Test Cases
 
-- ✨ Add additional test coverage for EIP-152 Blake2 precompiles ([#1244](https://github.com/ethereum/execution-spec-tests/pull/1244)).
+- ✨ Add additional test coverage for EIP-152 Blake2 precompiles ([#1244](https://github.com/ethereum/execution-spec-tests/pull/1244)). Refactor to add variables for spec constants and common fixture code. ([#1395](https://github.com/ethereum/execution-spec-tests/pull/1395)).
 - ✨ Add EIP-7702 incorrect-rlp-encoding tests ([#1347](https://github.com/ethereum/execution-spec-tests/pull/1347)).
 
 ## [v4.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0) - 2025-03-11
