@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_rjumps_callf_retf/">
       
       
-        <link rel="next" href="../test_all_opcodes_variadic_stack_underflow/">
+        <link rel="next" href="../test_all_opcodes_stack_underflow/">
       
       
       <link rel="icon" href="../../../../../../img/ETH-logo-icon.svg">
@@ -2328,8 +2328,6 @@
       
         
       
-        
-      
     
     
       
@@ -2467,27 +2465,6 @@
   
   <span class="md-ellipsis">
     <code>test_all_unreachable_terminating_opcodes_before_stop</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../eip3540_eof_v1/test_all_opcodes_in_container/test_all_opcodes_stack_underflow/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_all_opcodes_stack_underflow</code>
   </span>
   
 
@@ -7772,11 +7749,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_all_opcodes_variadic_stack_underflow/" class="md-nav__link">
+      <a href="../test_all_opcodes_stack_underflow/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_all_opcodes_variadic_stack_underflow</code>
+    <code>test_all_opcodes_stack_underflow</code>
   </span>
   
 
@@ -28798,7 +28775,7 @@
 
 
 <h1 id="test_rjumps_jumpf_nonreturning"><code>test_rjumps_jumpf_nonreturning()</code><a class="headerlink" href="#test_rjumps_jumpf_nonreturning" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/44dc9ab25cd1981ee2d586e662b6f550071e809c/tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py#L347"><code>tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_rjumps_jumpf_nonreturning@44dc9ab2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4521b62c3b1d0ed44e8ea1a688b86b61b7563ed7/tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py#L351"><code>tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_rjumps_jumpf_nonreturning@4521b62c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_rjumps_jumpf_nonreturning --fork Osaka</span>
@@ -28818,11 +28795,7 @@ functions.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">347</span>
-<span class="normal">348</span>
-<span class="normal">349</span>
-<span class="normal">350</span>
-<span class="normal">351</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">351</span>
 <span class="normal">352</span>
 <span class="normal">353</span>
 <span class="normal">354</span>
@@ -28907,7 +28880,11 @@ functions.</p>
 <span class="normal">433</span>
 <span class="normal">434</span>
 <span class="normal">435</span>
-<span class="normal">436</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;inputs&quot;</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="n">possible_inputs_outputs</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_sections</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
