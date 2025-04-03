@@ -16,7 +16,7 @@ class EnvironmentInStateTestFiller(BaseModel):
     current_difficulty: ValueInFiller | None = Field(
         ValueInFiller("0x020000"), alias="currentDifficulty"
     )
-    current_random: ValueInFiller | None = Field(None, alias="currentRandom")
+    current_random: ValueInFiller | None = Field(ValueInFiller("0x020000"), alias="currentRandom")
     current_base_fee: ValueInFiller | None = Field(ValueInFiller("0x0a"), alias="currentBaseFee")
 
     current_excess_blob_gas: ValueInFiller | None = Field(None, alias="currentExcessBlobGas")
