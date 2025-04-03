@@ -55,6 +55,7 @@ consume cache --help
 - 🔀 Bump the version of `execution-specs` used by the framework to the package [`ethereum-execution==1.17.0rc6.dev1`](https://pypi.org/project/ethereum-execution/1.17.0rc6.dev1/); bump the version used for test fixture generation for forks < Prague to current `execution-specs` master, [fa847a0](https://github.com/ethereum/execution-specs/commit/fa847a0e48309debee8edc510ceddb2fd5db2f2e) ([#1310](https://github.com/ethereum/execution-spec-tests/pull/1310)).
 - 🐞 Init `TransitionTool` in `GethTransitionTool` ([#1276](https://github.com/ethereum/execution-spec-tests/pull/1276)).
 - 🔀 Refactored RLP encoding of test objects to allow automatic generation of tests ([#1359](https://github.com/ethereum/execution-spec-tests/pull/1359)).
+- ✨ Document how to manage `execution-spec-tests` package dependencies ([#1388](https://github.com/ethereum/execution-spec-tests/pull/1388)).
 
 #### Packaging
 
