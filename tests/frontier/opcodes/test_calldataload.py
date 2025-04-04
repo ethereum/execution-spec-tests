@@ -9,12 +9,11 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 @pytest.mark.parametrize(
-    "calldata,calldata_offset,tx_data,address_a_storage",
+    "calldata,calldata_offset,address_a_storage",
     [
         (
             b"\x25\x60",
             0x0,
-            b"\x00",
             Account(
                 storage={0x00: 0x2560000000000000000000000000000000000000000000000000000000000000}
             ),
@@ -22,7 +21,6 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
         (
             b"\xff" * 32 + b"\x23",
             0x1,
-            b"\x01",
             Account(
                 storage={0x00: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF23}
             ),
@@ -30,7 +28,6 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
         (
             bytes.fromhex("123456789ABCDEF00000000000000000000000000000000000000000000000000024"),
             0x5,
-            b"\x02",
             Account(
                 storage={0x00: 0xBCDEF00000000000000000000000000000000000000000000000000024000000}
             ),
@@ -47,7 +44,6 @@ def test_calldataload(
     calldata: bytes,
     calldata_offset: int,
     fork: Fork,
-    tx_data: bytes,
     pre: Alloc,
     address_a_storage: Account,
 ):
@@ -90,7 +86,7 @@ def test_calldataload(
     )
 
     tx = Transaction(
-        data=tx_data,
+        data=calldata,
         gas_limit=100_000,
         gas_price=0x0A,
         protected=fork >= Byzantium,
