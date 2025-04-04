@@ -35852,10 +35852,7 @@ serialized transaction if type is not 0.</p>
 <span class="normal">1161</span>
 <span class="normal">1162</span>
 <span class="normal">1163</span>
-<span class="normal">1164</span>
-<span class="normal">1165</span>
-<span class="normal">1166</span>
-<span class="normal">1167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Requests</span><span class="p">:</span>
+<span class="normal">1164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Requests</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Requests for the transition tool.&quot;&quot;&quot;</span>
 
     <span class="n">requests_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span>
@@ -35884,10 +35881,7 @@ serialized transaction if type is not 0.</p>
 
     <span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return requests hash.&quot;&quot;&quot;</span>
-        <span class="n">s</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_list</span><span class="p">:</span>
-            <span class="c1"># Append the index of the request type to the request data before hashing</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+        <span class="n">s</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_list</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -35987,15 +35981,9 @@ serialized transaction if type is not 0.</p>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1161</span>
 <span class="normal">1162</span>
 <span class="normal">1163</span>
-<span class="normal">1164</span>
-<span class="normal">1165</span>
-<span class="normal">1166</span>
-<span class="normal">1167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="normal">1164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return requests hash.&quot;&quot;&quot;</span>
-    <span class="n">s</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_list</span><span class="p">:</span>
-        <span class="c1"># Append the index of the request type to the request data before hashing</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+    <span class="n">s</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_list</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
