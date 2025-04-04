@@ -9,28 +9,22 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 @pytest.mark.parametrize(
-    "calldata,calldata_offset,address_a_storage",
+    "calldata,calldata_offset,expected_storage",
     [
         (
             b"\x25\x60",
             0x0,
-            Account(
-                storage={0x00: 0x2560000000000000000000000000000000000000000000000000000000000000}
-            ),
+            0x2560000000000000000000000000000000000000000000000000000000000000,
         ),
         (
             b"\xff" * 32 + b"\x23",
             0x1,
-            Account(
-                storage={0x00: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF23}
-            ),
+            0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF23,
         ),
         (
             bytes.fromhex("123456789ABCDEF00000000000000000000000000000000000000000000000000024"),
             0x5,
-            Account(
-                storage={0x00: 0xBCDEF00000000000000000000000000000000000000000000000000024000000}
-            ),
+            0xBCDEF00000000000000000000000000000000000000000000000000024000000,
         ),
     ],
     ids=[
@@ -45,7 +39,7 @@ def test_calldataload(
     calldata_offset: int,
     fork: Fork,
     pre: Alloc,
-    address_a_storage: Account,
+    expected_storage: Account,
 ):
     """
     Test `CALLDATALOAD` opcode.
@@ -94,5 +88,7 @@ def test_calldataload(
         to=to,
         value=0x01,
     )
-    post = {address_a: address_a_storage}
+    post = {
+        address_a: Account(storage={0x00: expected_storage}),
+    }
     state_test(pre=pre, post=post, tx=tx)
