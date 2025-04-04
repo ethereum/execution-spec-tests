@@ -3,16 +3,16 @@
 import pytest
 
 from ethereum_test_forks import Byzantium, Fork
-from ethereum_test_tools import Account, Alloc, Bytecode, StateTestFiller, Transaction
+from ethereum_test_tools import Account, Alloc, StateTestFiller, Transaction
+from ethereum_test_tools import Macros as Om
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 @pytest.mark.parametrize(
-    "mstore,args_size,calldata_offset,tx_data,address_a_storage",
+    "calldata,calldata_offset,tx_data,address_a_storage",
     [
         (
-            (Op.MSTORE8(offset=0x0, value=0x25) + Op.MSTORE8(offset=0x1, value=0x60)),
-            0x2,
+            b"\x25\x60",
             0x0,
             b"\x00",
             Account(
@@ -20,14 +20,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
             ),
         ),
         (
-            (
-                Op.MSTORE(
-                    offset=0x0,
-                    value=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
-                )
-                + Op.MSTORE8(offset=0x20, value=0x23)
-            ),
-            0x21,
+            b"\xff" * 32 + b"\x23",
             0x1,
             b"\x01",
             Account(
@@ -35,15 +28,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
             ),
         ),
         (
-            (
-                Op.MSTORE(
-                    offset=0x0,
-                    value=0x123456789ABCDEF0000000000000000000000000000000000000000000000000,
-                )
-                + Op.MSTORE8(offset=0x20, value=0x0)
-                + Op.MSTORE8(offset=0x21, value=0x24)
-            ),
-            0x22,
+            bytes.fromhex("123456789ABCDEF00000000000000000000000000000000000000000000000000024"),
             0x5,
             b"\x02",
             Account(
@@ -59,8 +44,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 )
 def test_calldataload(
     state_test: StateTestFiller,
-    mstore: Bytecode,
-    args_size: int,
+    calldata: bytes,
     calldata_offset: int,
     fork: Fork,
     tx_data: bytes,
@@ -77,13 +61,13 @@ def test_calldataload(
     )
 
     address_b = pre.deploy_contract(
-        mstore
+        Om.MSTORE(calldata, 0x0)
         + Op.CALL(
             gas=Op.SUB(Op.GAS(), 0x100),
             address=address_a,
             value=0x0,
             args_offset=0x0,
-            args_size=args_size,
+            args_size=len(calldata),
             ret_offset=0x0,
             ret_size=0x0,
         )
