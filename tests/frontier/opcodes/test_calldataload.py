@@ -8,12 +8,12 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 @pytest.mark.parametrize(
-    "mstore,args_size,code_for_address_a,tx_data,address_a_storage",
+    "mstore,args_size,calldata_offset,tx_data,address_a_storage",
     [
         (
             (Op.MSTORE8(offset=0x0, value=0x25) + Op.MSTORE8(offset=0x1, value=0x60)),
             0x2,
-            (Op.PUSH1[0x0] + Op.CALLDATALOAD + Op.PUSH1[0x0] + Op.SSTORE),
+            0x0,
             b"\x00",
             Account(
                 storage={0x00: 0x2560000000000000000000000000000000000000000000000000000000000000}
@@ -28,7 +28,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
                 + Op.MSTORE8(offset=0x20, value=0x23)
             ),
             0x21,
-            (Op.PUSH1[0x1] + Op.CALLDATALOAD + Op.PUSH1[0x0] + Op.SSTORE + Op.STOP),
+            0x1,
             b"\x01",
             Account(
                 storage={0x00: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF23}
@@ -44,7 +44,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
                 + Op.MSTORE8(offset=0x21, value=0x24)
             ),
             0x22,
-            (Op.PUSH1[0x5] + Op.CALLDATALOAD + Op.PUSH1[0x0] + Op.SSTORE + Op.STOP),
+            0x5,
             b"\x02",
             Account(
                 storage={0x00: 0xBCDEF00000000000000000000000000000000000000000000000000024000000}
@@ -61,7 +61,7 @@ def test_calldataload(
     state_test: StateTestFiller,
     mstore: Bytecode,
     args_size: int,
-    code_for_address_a: Bytecode,
+    calldata_offset: int,
     fork: Fork,
     tx_data: bytes,
     pre: Alloc,
@@ -72,7 +72,9 @@ def test_calldataload(
 
     Based on https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml
     """
-    address_a = pre.deploy_contract(code_for_address_a)
+    address_a = pre.deploy_contract(
+        (Op.PUSH1[calldata_offset] + Op.CALLDATALOAD + Op.PUSH1[0x0] + Op.SSTORE + Op.STOP),
+    )
 
     address_b = pre.deploy_contract(
         mstore
