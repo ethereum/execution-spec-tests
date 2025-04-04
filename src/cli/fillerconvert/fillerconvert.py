@@ -32,12 +32,14 @@ def main() -> None:
 
     LEGACY_TEST_FOLDER = Path("/home/wins/Ethereum/tests")  # noqa: N806
     if args.mode == "verify":
+        verified_vectors = 0
         for file in files:
             print("Verify: " + file)
             refilled_file = file
             relative_file = file.removeprefix(str(args.folder_path))[1:]
             original_file = LEGACY_TEST_FOLDER / "GeneralStateTests" / relative_file
-            verify_refilled(Path(refilled_file), original_file)
+            verified_vectors += verify_refilled(Path(refilled_file), original_file)
+        print(f"Total vectors verified: {verified_vectors}")
     else:
         for file in files:
             # if not file.endswith("CreateOOGafterMaxCodesizeFiller.yml"):

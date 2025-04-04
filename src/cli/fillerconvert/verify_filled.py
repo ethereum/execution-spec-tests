@@ -32,13 +32,14 @@ class FilledStateTest(RootModel[dict[str, StateTest]]):
     """State Test Wrapper."""
 
 
-def verify_refilled(refilled: Path, original: Path):
+def verify_refilled(refilled: Path, original: Path) -> int:
     """
     Verify post hash of the refilled test against original:
     Regex the original d,g,v from the refilled test name.
     Find the post record for this d,g,v and the fork of refilled test.
     Compare the post hash.
     """
+    verified_vectors = 0
     json_str = refilled.read_text(encoding="utf-8")
     refilled_test_wrapper = FilledStateTest.model_validate_json(json_str)
 
@@ -71,6 +72,7 @@ def verify_refilled(refilled: Path, original: Path):
                             f"original_hash: {res.hash} f: {refilled_fork}, d: {d}, g: {g}, v: {v}"
                         )
                     found = True
+                    verified_vectors += 1
                     break
 
             if not found:
@@ -81,3 +83,5 @@ def verify_refilled(refilled: Path, original: Path):
                 )
         else:
             raise Exception("Could not regex match d.g.v indexes from refilled test name!")
+
+    return verified_vectors
