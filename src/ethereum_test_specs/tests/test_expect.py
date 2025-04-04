@@ -14,10 +14,10 @@ from ethereum_test_types import Alloc, Environment, Storage, Transaction, Transa
 
 from ..blockchain import BlockchainEngineFixture, BlockchainTest
 from ..helpers import (
-    TransactionExceptionMismatchError,
+    ExceptionMismatchError,
     TransactionReceiptMismatchError,
-    TransactionUnexpectedFailError,
-    TransactionUnexpectedSuccessError,
+    UnexpectedFailError,
+    UnexpectedSuccessError,
 )
 from ..state import StateTest
 
@@ -276,7 +276,7 @@ def test_post_account_mismatch(state_test, t8n, fork, exception_type: Type[Excep
                 secret_key=TestPrivateKey,
                 expected_receipt=TransactionReceipt(gas_used=21_000),
             ),
-            TransactionExceptionMismatchError,
+            ExceptionMismatchError,
             id="TransactionExceptionMismatchError",
             marks=pytest.mark.xfail(
                 reason="Exceptions need to be better described in the t8n tool."
@@ -288,7 +288,7 @@ def test_post_account_mismatch(state_test, t8n, fork, exception_type: Type[Excep
                 error=TransactionException.INTRINSIC_GAS_TOO_LOW,
                 expected_receipt=TransactionReceipt(gas_used=21_000),
             ),
-            TransactionUnexpectedSuccessError,
+            UnexpectedSuccessError,
             id="TransactionUnexpectedSuccessError",
         ),
         pytest.param(
@@ -297,7 +297,7 @@ def test_post_account_mismatch(state_test, t8n, fork, exception_type: Type[Excep
                 gas_limit=20_999,
                 expected_receipt=TransactionReceipt(gas_used=21_000),
             ),
-            TransactionUnexpectedFailError,
+            UnexpectedFailError,
             id="TransactionUnexpectedFailError",
         ),
         pytest.param(
@@ -314,7 +314,7 @@ def test_post_account_mismatch(state_test, t8n, fork, exception_type: Type[Excep
                 gas_limit=20_999,
                 expected_receipt=TransactionReceipt(gas_used=21_001),
             ),
-            TransactionUnexpectedFailError,
+            UnexpectedFailError,
             id="TransactionUnexpectedFailError+TransactionReceiptMismatchError",
         ),
         pytest.param(
@@ -323,7 +323,7 @@ def test_post_account_mismatch(state_test, t8n, fork, exception_type: Type[Excep
                 error=TransactionException.INTRINSIC_GAS_TOO_LOW,
                 expected_receipt=TransactionReceipt(gas_used=21_001),
             ),
-            TransactionUnexpectedSuccessError,
+            UnexpectedSuccessError,
             id="TransactionUnexpectedSuccessError+TransactionReceiptMismatchError",
         ),
     ],

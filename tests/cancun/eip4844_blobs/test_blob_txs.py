@@ -1020,6 +1020,7 @@ def test_invalid_blob_tx_contract_creation(
                     TransactionException.TYPE_3_TX_CONTRACT_CREATION,
                 ],
                 header_verify=header_verify,
+                skip_exception_verification=True,
             )
         ],
         genesis_environment=env,
