@@ -82,11 +82,9 @@ def test_calldataload(
     tx = Transaction(
         data=calldata,
         gas_limit=100_000,
-        gas_price=0x0A,
         protected=fork >= Byzantium,
         sender=pre.fund_eoa(),
         to=to,
-        value=0x01,
     )
     post = {
         address_a: Account(storage={0x00: expected_storage}),
