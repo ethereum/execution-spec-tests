@@ -467,11 +467,14 @@ class AuthorizationTuple(AuthorizationTupleGeneric[HexNumber]):
 
     signer: EOA | None = None
     secret_key: Hash | None = None
+    yParity: HexNumber | None = None  # noqa: N815
 
     def model_post_init(self, __context: Any) -> None:
         """Automatically signs the authorization tuple if a secret key or sender are provided."""
         super().model_post_init(__context)
         self.sign()
+        # Duplicate v to yParity as required by the EIP-7702 Spec
+        self.yParity = self.v
 
     def sign(self: "AuthorizationTuple"):
         """Signs the authorization tuple with a private key."""
