@@ -1,7 +1,7 @@
 """Ethereum General State Test filler static test spec parser."""
 
 from functools import cached_property
-from typing import Callable, ClassVar, Dict, List, Tuple
+from typing import Any, Callable, ClassVar, Dict, List, Tuple
 
 import pytest
 
@@ -25,11 +25,6 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
     test_name: str = ""
     vectors: List[StateTestVector] | None = None
     format_name: ClassVar[str] = "state_test"
-
-    class Config:
-        """Model Config."""
-
-        extra = "forbid"
 
     def model_post_init(self, context):
         """Initialize StateStaticTest."""
@@ -163,7 +158,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                 post[address] = Account.NONEXISTENT
                 continue
 
-            account_kwargs = {}
+            account_kwargs: Dict[str, Any] = {}
             if account.storage is not None:
                 storage = Storage()
                 for key, value in account.storage.items():
@@ -173,8 +168,8 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                         storage.set_expect_any(key)
                 account_kwargs["storage"] = storage
             if account.code is not None:
-                code, code_options = account.code
-                account_kwargs["code"] = code
+                code_bytes, code_options = account.code
+                account_kwargs["code"] = code_bytes
             if account.balance is not None:
                 account_kwargs["balance"] = account.balance
             if account.nonce is not None:
