@@ -28775,7 +28775,7 @@
 
 
 <h1 id="test_eof_validity"><code>test_eof_validity()</code><a class="headerlink" href="#test_eof_validity" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4521b62c3b1d0ed44e8ea1a688b86b61b7563ed7/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L223"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity@4521b62c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2b6358432dd5728916ae8ee0ee6d2ca25bf76e47/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L375"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity@2b635843</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity --fork Osaka</span>
@@ -28794,17 +28794,17 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="o">*</span><span class="n">VALID</span><span class="p">,</span> <span class="o">*</span><span class="n">INVALID</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="n">container_name</span><span class="p">,</span>
@@ -28871,6 +28871,24 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_stack_validation_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_stack_validation_0]">
+                    ...fork_Osaka-eof_test-retf_stack_validation_0
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_stack_validation_3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_stack_validation_3]">
+                    ...fork_Osaka-eof_test-retf_stack_validation_3
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_code_input_output]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_code_input_output]">
                     ...fork_Osaka-eof_test-retf_code_input_output
                 </abbr>
@@ -28907,6 +28925,51 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_stack_validation_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_stack_validation_1]">
+                    ...fork_Osaka-eof_test-retf_stack_validation_1
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_0]">
+                    ...fork_Osaka-eof_test-retf_variable_stack_0
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_1]">
+                    ...fork_Osaka-eof_test-retf_variable_stack_1
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_4]">
+                    ...fork_Osaka-eof_test-retf_variable_stack_4
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-callf_inputs_underflow_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-callf_inputs_underflow_0]">
+                    ...fork_Osaka-eof_test-callf_inputs_underflow_0
+                </abbr>
+            </td>
+                        <td>callf_inputs_underflow_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-code_inputs_underflow_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-code_inputs_underflow_1]">
                     ...fork_Osaka-eof_test-code_inputs_underflow_1
                 </abbr>
@@ -28930,6 +28993,51 @@
                 </abbr>
             </td>
                         <td>callf_inputs_underflow</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_stack_validation_2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_stack_validation_2]">
+                    ...fork_Osaka-eof_test-retf_stack_validation_2
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_2]">
+                    ...fork_Osaka-eof_test-retf_variable_stack_2
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_5]">
+                    ...fork_Osaka-eof_test-retf_variable_stack_5
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_5</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_6]">
+                    ...fork_Osaka-eof_test-retf_variable_stack_6
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_6</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-eof_test-retf_variable_stack_3]">
+                    ...fork_Osaka-eof_test-retf_variable_stack_3
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_3</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -28979,6 +29087,24 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_stack_validation_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_stack_validation_0]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_stack_validation_0
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_stack_validation_3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_stack_validation_3]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_stack_validation_3
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_code_input_output]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_code_input_output]">
                     ...fork_Osaka-state_test_from_eof_test-retf_code_input_output
                 </abbr>
@@ -29015,6 +29141,51 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_stack_validation_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_stack_validation_1]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_stack_validation_1
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_0]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_variable_stack_0
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_1]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_variable_stack_1
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_4]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_variable_stack_4
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-callf_inputs_underflow_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-callf_inputs_underflow_0]">
+                    ...fork_Osaka-state_test_from_eof_test-callf_inputs_underflow_0
+                </abbr>
+            </td>
+                        <td>callf_inputs_underflow_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-code_inputs_underflow_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-code_inputs_underflow_1]">
                     ...fork_Osaka-state_test_from_eof_test-code_inputs_underflow_1
                 </abbr>
@@ -29038,6 +29209,51 @@
                 </abbr>
             </td>
                         <td>callf_inputs_underflow</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_stack_validation_2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_stack_validation_2]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_stack_validation_2
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_2]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_variable_stack_2
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_5]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_variable_stack_5
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_5</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_6]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_variable_stack_6
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_6</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-state_test_from_eof_test-retf_variable_stack_3]">
+                    ...fork_Osaka-state_test_from_eof_test-retf_variable_stack_3
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_3</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -29087,6 +29303,24 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_0
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_3]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_3
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_code_input_output]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_code_input_output]">
                     ...fork_Osaka-blockchain_test_from_eof_test-retf_code_input_output
                 </abbr>
@@ -29123,6 +29357,51 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_1]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_1
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_0
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_1]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_1
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_4]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_4
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-callf_inputs_underflow_0]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-callf_inputs_underflow_0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-callf_inputs_underflow_0
+                </abbr>
+            </td>
+                        <td>callf_inputs_underflow_0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-code_inputs_underflow_1]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-code_inputs_underflow_1]">
                     ...fork_Osaka-blockchain_test_from_eof_test-code_inputs_underflow_1
                 </abbr>
@@ -29146,6 +29425,51 @@
                 </abbr>
             </td>
                         <td>callf_inputs_underflow</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_stack_validation_2
+                </abbr>
+            </td>
+                        <td>retf_stack_validation_2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_2
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_5]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_5
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_5</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_6]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_6
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_6</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity[fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_3]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-retf_variable_stack_3
+                </abbr>
+            </td>
+                        <td>retf_variable_stack_3</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
