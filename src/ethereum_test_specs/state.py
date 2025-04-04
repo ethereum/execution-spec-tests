@@ -58,8 +58,12 @@ class StateTest(BaseTest):
         )
         for fixture_format in BlockchainTest.supported_fixture_formats
     ]
-    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | LabeledExecuteFormat]] = [
-        TransactionPost,
+    supported_execute_formats: ClassVar[Sequence[LabeledExecuteFormat]] = [
+        LabeledExecuteFormat(
+            TransactionPost,
+            "state_test",
+            "An execute test derived from a state test",
+        ),
     ]
 
     supported_markers: ClassVar[Dict[str, str]] = {
@@ -194,7 +198,7 @@ class StateTest(BaseTest):
                     FixtureForkPost(
                         state_root=transition_tool_output.result.state_root,
                         logs_hash=transition_tool_output.result.logs_hash,
-                        tx_bytes=tx.rlp,
+                        tx_bytes=tx.rlp(),
                         expect_exception=tx.error,
                         state=transition_tool_output.alloc,
                     )

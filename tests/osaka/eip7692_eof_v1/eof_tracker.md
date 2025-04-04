@@ -85,12 +85,6 @@
 - [x] Legacy executing EXTCODESIZE of EOF contract ([`tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore`](./eip3540_eof_v1/test_extcode/test_legacy_calls_eof_sstore.md))
 - [x] Legacy executing EXTCODEHASH of EOF contract ([`tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore`](./eip3540_eof_v1/test_extcode/test_legacy_calls_eof_sstore.md))
 - [x] Legacy executing EXTCODECOPY of EOF contract ([`tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_extcode.py::test_legacy_calls_eof_sstore`](./eip3540_eof_v1/test_extcode/test_legacy_calls_eof_sstore.md))
-- [ ] `*CALLs` from legacy contracts to EOF contracts (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)
-- [ ] `EXT*CALLs` from EOF to legacy contracts (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)
-- [ ] EXTDELEGATECALL from EOF to EOF contract (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)
-- [ ] EXTDELEGATECALL from EOF to legacy contract failing (ethereum/tests: src/EIPTestsFiller/StateTests/stEOF/stEIP3540/EOF1_CallsFiller.yml)
-- [ ] EXTDELEGATECALL from EOF to EOA failing
-- [ ] EXTDELEGATECALL from EOF to empty account failing
 
 ## EIP-3670: EOF - Code Validation
 
@@ -243,10 +237,10 @@
 
 #### Stack underflow
 
-- [ ] Stack underflows (ethereum/tests: ./src/EOFTestsFiller/efExample/validInvalidFiller.yml )
+- [x] Stack underflows ([`tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_all_opcodes_stack_underflow`](./eip5450_stack/test_code_validation/test_all_opcodes_stack_underflow.md))
 - [x] Stack underflow with enough items available in caller stack - can't dig into caller frame ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity`](./eip4750_functions/test_code_validation/test_eof_validity.md))
-- [ ] Stack underflow in variable stack segment, only min underflow (ethereum/tests: src/EOFTestsFiller/efStack/underflow_variable_stack_Copier.json)
-- [ ] Stack underflow in variable stack segment, both min and max underflow (ethereum/tests: src/EOFTestsFiller/efStack/underflow_variable_stack_Copier.json)
+- [x] Stack underflow in variable stack segment, only min underflow ([`tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_all_opcodes_stack_underflow`](./eip5450_stack/test_code_validation/test_all_opcodes_stack_underflow.md))
+- [x] Stack underflow in variable stack segment, both min and max underflow ([`tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_all_opcodes_stack_underflow`](./eip5450_stack/test_code_validation/test_all_opcodes_stack_underflow.md))
 
 #### CALLF
 
@@ -259,11 +253,13 @@
 
 #### RETF
 
-- [ ] Valid RETF with correct number of items on stack (ethereum/tests: src/EOFTestsFiller/efStack/retf_stack_validation_Copier.json src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
-- [ ] Invalid RETF with extra items on stack (ethereum/tests: src/EOFTestsFiller/efStack/retf_stack_validation_Copier.json ./src/EOFTestsFiller/efExample/validInvalidFiller.yml)
-- [ ] RETF stack underflow (ethereum/tests: src/EOFTestsFiller/efStack/retf_stack_validation_Copier.json)
-- [ ] RETF reached via different paths (ethereum/tests: src/EOFTestsFiller/efStack/retf_stack_validation_Copier.json)
-- [ ] RETF in variable stack segment is not allowed (ethereum/tests: src/EOFTestsFiller/efStack/retf_variable_stack_Copier.json)
+- [ ] Valid RETF with correct number of items on stack ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity`](./eip4750_functions/test_code_validation/test_eof_validity.md))
+    - [ ] src/EOFTestsFiller/EIP5450/validInvalidFiller.yml
+- [ ] Invalid RETF with extra items on stack ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity`](./eip4750_functions/test_code_validation/test_eof_validity.md))
+    - [ ] ./src/EOFTestsFiller/efExample/validInvalidFiller.yml
+- [x] RETF stack underflow ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity`](./eip4750_functions/test_code_validation/test_eof_validity.md))
+- [x] RETF reached via different paths ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity`](./eip4750_functions/test_code_validation/test_eof_validity.md))
+- [x] RETF in variable stack segment is not allowed ([`tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity`](./eip4750_functions/test_code_validation/test_eof_validity.md))
 - [ ] Extra items on stack allowed for terminating instructions other than RETF (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)
 - [x] Invalid RETF in a non-returning function ([`tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_first_section_returning`](./eip6206_jumpf/test_nonreturning_validation/test_first_section_returning.md))
 
@@ -420,6 +416,13 @@
 - [x] EXTSTATICCALL from EOF to non-pure legacy contract failing ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore`](./eip7069_extcall/test_calls/test_eof_calls_legacy_sstore.md))
 - [x] EXTSTATICCALL from EOF to pure EOF contract ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_mstore`](./eip7069_extcall/test_calls/test_eof_calls_legacy_mstore.md))
 - [x] EXTSTATICCALL from EOF to non-pure EOF contract failing ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_sstore`](./eip7069_extcall/test_calls/test_eof_calls_eof_sstore.md))
+- [x] `*CALLs` from legacy contracts to EOF contracts (ethereum/tests: ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_legacy_calls_eof_sstore`](./eip7069_extcall/test_calls/test_eof_calls_eof_sstore.md))
+- [x] `EXT*CALLs` from EOF to legacy contracts ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_legacy_sstore`](./eip7069_extcall/test_calls/test_eof_calls_eof_sstore.md))
+- [x] EXTDELEGATECALL from EOF to EOF contract ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_eof_sstore`](./eip7069_extcall/test_calls/test_eof_calls_eof_sstore.md))
+- [x] EXTDELEGATECALL from EOF to legacy contract failing ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_extdelegate_call_targets`](./eip7069_extcall/test_calls/test_extdelegate_call_targets.md))
+- [x] EXTDELEGATECALL from EOF to EOA failing ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_extdelegate_call_targets`](./eip7069_extcall/test_calls/test_extdelegate_call_targets.md))
+- [x] EXTDELEGATECALL from EOF to empty account failing ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_extdelegate_call_targets`](./eip7069_extcall/test_calls/test_extdelegate_call_targets.md))
+- [x] EXTDELEGATECALL to EIP-7702 delegate ([`./tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_extdelegate_call_targets`](./eip7069_extcall/test_calls/test_extdelegate_call_targets.md))
 
 
 ## EIP-7620: EOF Contract Creation

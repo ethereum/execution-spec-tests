@@ -33,8 +33,12 @@ class TransactionTest(BaseTest):
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         TransactionFixture,
     ]
-    supported_execute_formats: ClassVar[Sequence[ExecuteFormat | LabeledExecuteFormat]] = [
-        TransactionPost,
+    supported_execute_formats: ClassVar[Sequence[LabeledExecuteFormat]] = [
+        LabeledExecuteFormat(
+            TransactionPost,
+            "transaction_test",
+            "An execute test derived from a transaction test",
+        ),
     ]
 
     def make_transaction_test_fixture(
@@ -69,7 +73,7 @@ class TransactionTest(BaseTest):
             result={
                 fork.blockchain_test_network_name(): result,
             },
-            transaction=self.tx.with_signature_and_sender().rlp,
+            transaction=self.tx.with_signature_and_sender().rlp(),
         )
 
     def generate(

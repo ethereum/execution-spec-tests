@@ -10,10 +10,15 @@ from ethereum_test_exceptions.exceptions import EOFException
 from ethereum_test_tools import EOFTestFiller
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_types.eof.v1.constants import NON_RETURNING_SECTION
+from ethereum_test_types.eof.v1.constants import MAX_OPERAND_STACK_HEIGHT, NON_RETURNING_SECTION
 from ethereum_test_vm.bytecode import Bytecode
 
 from .. import EOF_FORK_NAME
+from ..eip3540_eof_v1.test_all_opcodes_in_container import valid_eof_opcodes
+from ..eip7620_eof_create.helpers import (
+    smallest_initcode_subcontainer,
+    smallest_runtime_subcontainer,
+)
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-5450.md"
 REFERENCE_SPEC_VERSION = "f20b164b00ae5553f7536a6d7a83a0f254455e09"
@@ -433,3 +438,85 @@ def test_rjumps_jumpf_nonreturning(
         possible_exceptions.append(EOFException.INVALID_NON_RETURNING_FLAG)
 
     eof_test(container=Container(sections=sections), expect_exception=possible_exceptions or None)
+
+
+def gen_stack_underflow_params():
+    """Generate parameters for stack underflow tests."""
+    opcodes = sorted(op for op in valid_eof_opcodes if op.min_stack_height > 0) + [
+        # Opcodes that have variable min_stack_height
+        Op.SWAPN[0x00],
+        Op.SWAPN[0xFF],
+        Op.DUPN[0x00],
+        Op.DUPN[0xFF],
+        Op.EXCHANGE[0x00],
+        Op.EXCHANGE[0xFF],
+    ]
+    for op in opcodes:
+        yield op, 0
+        if op.min_stack_height > 1:
+            yield op, op.min_stack_height - 1
+
+
+@pytest.mark.parametrize("spread", [-1, 0, 1, MAX_OPERAND_STACK_HEIGHT])
+@pytest.mark.parametrize("op,stack_height", gen_stack_underflow_params())
+def test_all_opcodes_stack_underflow(
+    eof_test: EOFTestFiller, op: Op, stack_height: int, spread: int
+):
+    """
+    Test EOF validation failing due to stack overflow
+    caused by the specific instruction `op`.
+    """
+    code = Bytecode()
+
+    if spread >= 0:
+        # Check if the op increases the stack height (e.g. DUP instructions).
+        # We need to leave space for this increase not to cause stack overflow.
+        stack_height_increase = max(op.pushed_stack_items - op.popped_stack_items, 0)
+        # Cap the spread if it would exceed the maximum stack height.
+        spread = min(spread, MAX_OPERAND_STACK_HEIGHT - (stack_height + stack_height_increase))
+        # Create a range stack height of 0-spread.
+        code += Op.RJUMPI[spread](Op.CALLVALUE) + Op.PUSH0 * spread
+
+    # Create the desired stack height.
+    code += Op.PUSH0 * stack_height
+
+    if op.has_data_portion():
+        code += op[0]  # produce required imm bytes
+    else:
+        code += op
+
+    if not op.terminating:
+        code += Op.STOP
+
+    sections = [
+        Section.Code(
+            code,
+            # Set reasonable stack height. Don't rely on automatic calculation,
+            # because we are in the invalid stack height scenario.
+            max_stack_height=max(spread, stack_height, int(spread >= 0)),
+        )
+    ]
+
+    if op == Op.EOFCREATE:
+        # Make EOFCREATE valid by adding the target subcontainer.
+        sections.append(Section.Container(smallest_initcode_subcontainer))
+    elif op == Op.RETURNCODE:
+        # Make RETURNCODE valid by wrapping it with a container with EOFCREATE.
+        sections = [
+            Section.Code(Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
+            Section.Container(
+                container=Container(
+                    sections=[
+                        sections[0],
+                        Section.Container(smallest_runtime_subcontainer),
+                    ]
+                )
+            ),
+        ]
+
+    eof_test(
+        container=Container(
+            sections=sections,
+            validity_error=EOFException.STACK_UNDERFLOW,
+        )
+    )
