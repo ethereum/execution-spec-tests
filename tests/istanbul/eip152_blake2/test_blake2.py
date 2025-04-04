@@ -407,7 +407,6 @@ def test_blake2b(
     env = Environment()
 
     account = pre.deploy_contract(blake2b_contract_bytecode, storage={0: 0xDEADBEEF})
-    account = pre.deploy_contract(blake2b_contract_bytecode, storage={0: 0xDEADBEEF})
     sender = pre.fund_eoa()
 
     if isinstance(data, Blake2bInput):
