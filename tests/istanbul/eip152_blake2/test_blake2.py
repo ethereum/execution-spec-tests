@@ -72,10 +72,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds_length=3,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=False,
@@ -87,10 +83,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds_length=5,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=False,
@@ -101,10 +93,6 @@ def blake2b_contract_bytecode():
         ),
         pytest.param(
             Blake2bInput(
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
                 f=2,
             ),
             ExpectedOutput(
@@ -117,10 +105,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=0,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -130,12 +114,7 @@ def blake2b_contract_bytecode():
             id="EIP-152-case4",
         ),
         pytest.param(
-            Blake2bInput(
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
-            ),
+            Blake2bInput(),
             ExpectedOutput(
                 call_succeeds=True,
                 data_1="0xba80a53f981c4d0d6a2797b69f12f6e94c212f14685ac4b74b12bb6fdbffa2d1",
@@ -145,10 +124,6 @@ def blake2b_contract_bytecode():
         ),
         pytest.param(
             Blake2bInput(
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
                 f=False,
             ),
             ExpectedOutput(
@@ -161,10 +136,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=1,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -177,10 +148,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=4294967295,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=False,
@@ -192,10 +159,8 @@ def blake2b_contract_bytecode():
         # Case from https://github.com/ethereum/tests/pull/948#issuecomment-925964632
         pytest.param(
             Blake2bInput(
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0=5,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -207,10 +172,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=16,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -222,10 +183,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=32,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -237,10 +194,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=64,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -252,10 +205,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=128,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -267,10 +216,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=256,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -282,10 +227,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=512,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -297,10 +238,6 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=1024,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -312,10 +249,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=16,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0=16,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -327,10 +262,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=32,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0=16,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -342,10 +275,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=64,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0=16,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -357,10 +288,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=128,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0=16,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -372,10 +301,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=256,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0=16,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -387,10 +314,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=512,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0=16,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -402,10 +327,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=1024,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f7000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 t_0=16,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -417,10 +340,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=16,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d900000000000000",
                 t_0=120,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -432,10 +353,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=32,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d900000000000000",
                 t_0=120,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -447,10 +366,8 @@ def blake2b_contract_bytecode():
         pytest.param(
             Blake2bInput(
                 rounds=64,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
                 m="6162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d900000000000000",
                 t_0=120,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -543,10 +460,6 @@ def test_blake2b(
         pytest.param(
             Blake2bInput(
                 rounds_length=3,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=False,
@@ -558,10 +471,6 @@ def test_blake2b(
         pytest.param(
             Blake2bInput(
                 rounds_length=5,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=False,
@@ -572,10 +481,6 @@ def test_blake2b(
         ),
         pytest.param(
             Blake2bInput(
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
                 f=2,
             ),
             ExpectedOutput(
@@ -588,10 +493,6 @@ def test_blake2b(
         pytest.param(
             Blake2bInput(
                 rounds=8000000,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=False,
@@ -663,10 +564,6 @@ def test_blake2b_invalid_gas(
         pytest.param(
             Blake2bInput(
                 rounds=0,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -676,12 +573,7 @@ def test_blake2b_invalid_gas(
             id="EIP-152-case3-data4-gas-limit",
         ),
         pytest.param(
-            Blake2bInput(
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
-            ),
+            Blake2bInput(),
             ExpectedOutput(
                 call_succeeds=True,
                 data_1="0xba80a53f981c4d0d6a2797b69f12f6e94c212f14685ac4b74b12bb6fdbffa2d1",
@@ -691,10 +583,6 @@ def test_blake2b_invalid_gas(
         ),
         pytest.param(
             Blake2bInput(
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
                 f=False,
             ),
             ExpectedOutput(
@@ -707,10 +595,6 @@ def test_blake2b_invalid_gas(
         pytest.param(
             Blake2bInput(
                 rounds=1,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -796,10 +680,6 @@ def test_blake2b_gas_limit(
         pytest.param(
             Blake2bInput(
                 rounds_length=3,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=False,
@@ -811,10 +691,6 @@ def test_blake2b_gas_limit(
         pytest.param(
             Blake2bInput(
                 rounds_length=5,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=False,
@@ -825,10 +701,6 @@ def test_blake2b_gas_limit(
         ),
         pytest.param(
             Blake2bInput(
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
                 f=2,
             ),
             ExpectedOutput(
@@ -841,10 +713,6 @@ def test_blake2b_gas_limit(
         pytest.param(
             Blake2bInput(
                 rounds=100_000,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,  # noqa: E501
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,  # noqa: E501
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,
@@ -857,10 +725,6 @@ def test_blake2b_gas_limit(
         pytest.param(
             Blake2bInput(
                 rounds=8000000,
-                h=SpecTestVectors.BLAKE2_STATE_VECTOR,  # noqa: E501
-                m=SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR,  # noqa: E501
-                t_0=SpecTestVectors.BLAKE2_OFFSET_COUNTER_0,
-                t_1=SpecTestVectors.BLAKE2_OFFSET_COUNTER_1,
             ),
             ExpectedOutput(
                 call_succeeds=True,

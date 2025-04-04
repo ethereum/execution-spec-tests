@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from ethereum_test_types.helpers import TestParameterGroup
 
-from .spec import Spec
+from .spec import Spec, SpecTestVectors
 
 
 @dataclass(kw_only=True, frozen=True, repr=False)
@@ -28,10 +28,10 @@ class Blake2bInput(TestParameterGroup):
 
     rounds_length: int = Spec.BLAKE2_PRECOMPILE_ROUNDS_LENGTH
     rounds: int | str = Spec.BLAKE2B_PRECOMPILE_ROUNDS
-    h: str
-    m: str
-    t_0: int | str
-    t_1: int | str
+    h: str = SpecTestVectors.BLAKE2_STATE_VECTOR
+    m: str = SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR
+    t_0: int | str = SpecTestVectors.BLAKE2_OFFSET_COUNTER_0
+    t_1: int | str = SpecTestVectors.BLAKE2_OFFSET_COUNTER_1
     f: bool | int = True
 
     def create_blake2b_tx_data(self):
