@@ -1,13 +1,14 @@
 """Shared pytest definitions local to EIP-2537 tests."""
 
-from typing import SupportsBytes
+from typing import List, SupportsBytes
 
 import pytest
 
 from ethereum_test_tools import EOA, Address, Alloc, Bytecode, Storage, Transaction, keccak256
 from ethereum_test_tools import Opcodes as Op
 
-from .spec import GAS_CALCULATION_FUNCTION_MAP
+from .helpers import BLSPointGenerator
+from .spec import GAS_CALCULATION_FUNCTION_MAP, PointG1, PointG2, Spec
 
 
 @pytest.fixture
@@ -187,3 +188,12 @@ def tx(
         to=call_contract_address,
         sender=sender,
     )
+
+
+# Random points not in the subgroup (fast to generate)
+G1_NOT_IN_SUBGROUP = BLSPointGenerator.generate_random_g1_point_not_in_subgroup()
+G2_NOT_IN_SUBGROUP = BLSPointGenerator.generate_random_g2_point_not_in_subgroup()
+
+# Random points not on the curve (fast to generate)
+G1_NOT_ON_CURVE = BLSPointGenerator.generate_random_g1_point_not_on_curve()
+G2_NOT_ON_CURVE = BLSPointGenerator.generate_random_g2_point_not_on_curve()
