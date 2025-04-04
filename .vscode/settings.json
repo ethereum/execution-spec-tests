@@ -55,4 +55,16 @@
     "ruff.enable": true,
     "ruff.lineLength": 99,
     "extensions.ignoreRecommendations": false,
+    "files.exclude": {
+       "**/legacy_state_tests/**": true
+     },
+    "search.exclude": {
+      "**/legacy_state_tests/**": true
+    },
+    "files.watcherExclude": {
+      "**/legacy_state_tests/**": true
+    },
+    "python.analysis.exclude": [
+      "**/legacy_state_tests/**"
+    ]
 }
