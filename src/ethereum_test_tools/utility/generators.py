@@ -8,6 +8,7 @@ from typing import Dict, Generator, List, Protocol
 import pytest
 
 from ethereum_test_base_types import Account, Address, Hash
+from ethereum_test_exceptions import BlockException
 from ethereum_test_forks import Fork
 from ethereum_test_specs import BlockchainTestFiller
 from ethereum_test_specs.blockchain import Block
@@ -18,6 +19,7 @@ class DeploymentTestType(Enum):
     """Represents the type of deployment test."""
 
     DEPLOY_BEFORE_FORK = "deploy_before_fork"
+    DEPLOY_ON_FORK_BLOCK = "deploy_on_fork_block"
     DEPLOY_AFTER_FORK = "deploy_after_fork"
 
 
@@ -68,14 +70,16 @@ def generate_system_contract_deploy_test(
     """
     Generate a test that verifies the correct deployment of a system contract.
 
-    Generates four test cases:
+    Generates following test cases:
 
-                                        | before/after fork | has balance |
-    ------------------------------------|-------------------|-------------|
-    `deploy_before_fork-nonzero_balance`| before            | True        |
-    `deploy_before_fork-zero_balance`   | before            | False       |
-    `deploy_after_fork-nonzero_balance` | after             | True        |
-    `deploy_after_fork-zero_balance`    | after             | False       |
+                                          | before/after fork | has balance | invalid block |
+    --------------------------------------|-------------------|-------------|---------------|
+    `deploy_before_fork-nonzero_balance`  | before            | True        | False         |
+    `deploy_before_fork-zero_balance`     | before            | False       | False         |
+    `deploy_on_fork_block-nonzero_balance`| on fork block     | True        | False         |
+    `deploy_on_fork_block-zero_balance`   | on fork block     | False       | False         |
+    `deploy_after_fork-nonzero_balance`   | after             | True        | True          |
+    `deploy_after_fork-zero_balance`      | after             | False       | True          |
 
     where `has balance` refers to whether the contract address has a non-zero balance before
     deployment, or not.
@@ -120,6 +124,7 @@ def generate_system_contract_deploy_test(
             "test_type",
             [
                 pytest.param(DeploymentTestType.DEPLOY_BEFORE_FORK),
+                pytest.param(DeploymentTestType.DEPLOY_ON_FORK_BLOCK),
                 pytest.param(DeploymentTestType.DEPLOY_AFTER_FORK),
             ],
             ids=lambda x: x.name.lower(),
@@ -148,16 +153,24 @@ def generate_system_contract_deploy_test(
                         timestamp=15_000,
                     ),
                 ]
+            elif test_type == DeploymentTestType.DEPLOY_ON_FORK_BLOCK:
+                blocks = [
+                    Block(  # Deployment on fork block
+                        txs=[deploy_tx],
+                        timestamp=15_000,
+                    ),
+                    Block(  # Empty block after fork
+                        txs=[],
+                        timestamp=15_001,
+                    ),
+                ]
             elif test_type == DeploymentTestType.DEPLOY_AFTER_FORK:
                 blocks = [
                     Block(  # Empty block on fork
                         txs=[],
                         timestamp=15_000,
-                    ),
-                    Block(  # Deployment block
-                        txs=[deploy_tx],
-                        timestamp=15_001,
-                    ),
+                        exception=BlockException.SYSTEM_CONTRACT_EMPTY,
+                    )
                 ]
             balance = 1 if has_balance == ContractAddressHasBalance.NONZERO_BALANCE else 0
             pre[expected_deploy_address] = Account(
@@ -193,7 +206,9 @@ def generate_system_contract_deploy_test(
 
             # Extra blocks (if any) returned by the decorated function to add after the
             # contract is deployed.
-            blocks += list(func(fork=fork, pre=pre, post=post, test_type=test_type))
+            if test_type != DeploymentTestType.DEPLOY_AFTER_FORK:
+                # Only fill more blocks if the deploy block does not fail.
+                blocks += list(func(fork=fork, pre=pre, post=post, test_type=test_type))
 
             blockchain_test(
                 pre=pre,
