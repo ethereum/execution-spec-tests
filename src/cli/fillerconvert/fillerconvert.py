@@ -4,7 +4,6 @@ import argparse
 from glob import glob
 from pathlib import Path
 
-from .structures.state_test_filler import StateFiller
 from .verify_filled import verify_refilled
 
 
@@ -26,7 +25,6 @@ def main() -> None:
         str(args.folder_path / "**" / "*.yml"), recursive=True
     )
 
-    filler_cls = StateFiller
     if args.mode == "blockchain":
         raise NotImplementedError("Blockchain filler not implemented yet.")
 
@@ -40,29 +38,11 @@ def main() -> None:
             original_file = LEGACY_TEST_FOLDER / "GeneralStateTests" / relative_file
             verified_vectors += verify_refilled(Path(refilled_file), original_file)
         print(f"Total vectors verified: {verified_vectors}")
-    else:
-        for file in files:
-            # if not file.endswith("CreateOOGafterMaxCodesizeFiller.yml"):
-            #    continue
-            if (
-                "stExpectSection" in file  # retesteth test parser tests
-                # Solidity skipped tests:
-                or file.endswith("stExample/solidityExampleFiller.yml")
-                or file.endswith("vmPerformance/performanceTesterFiller.yml")
-                or file.endswith("vmPerformance/loopExpFiller.yml")
-                or file.endswith("vmPerformance/loopMulFiller.yml")
-                or file.endswith("stRevertTest/RevertRemoteSubCallStorageOOGFiller.yml")
-                or file.endswith("stSolidityTest/SelfDestructFiller.yml")
-            ):
-                continue
-            if file.endswith("Filler.json"):
-                try:
-                    print("Process: " + file)
-                    filler_cls.from_json(Path(file)).model_dump(mode="json", by_alias=True)
-                except Exception as e:
-                    raise Exception(f"Error parsing {file}") from e
-            elif file.endswith("Filler.yml"):
-                try:
-                    filler_cls.from_yml(Path(file)).model_dump(mode="json", by_alias=True)
-                except Exception as e:
-                    raise Exception(f"Error parsing {file}") from e
+
+        # Solidity skipped tests
+        # or file.endswith("stExample/solidityExampleFiller.yml")
+        # or file.endswith("vmPerformance/performanceTesterFiller.yml")
+        # or file.endswith("vmPerformance/loopExpFiller.yml")
+        # or file.endswith("vmPerformance/loopMulFiller.yml")
+        # or file.endswith("stRevertTest/RevertRemoteSubCallStorageOOGFiller.yml")
+        # or file.endswith("stSolidityTest/SelfDestructFiller.yml")
