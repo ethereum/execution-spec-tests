@@ -36,8 +36,7 @@ class StateTestInFiller(BaseModel):
         extra = "forbid"
 
     @model_validator(mode="after")
-    @classmethod
-    def match_labels(cls, model: "StateTestInFiller") -> "StateTestInFiller":
+    def match_labels(self) -> "StateTestInFiller":
         """Replace labels in expect section with corresponding tx.d indexes."""
 
         def parse_string_indexes(indexes: str) -> List[int]:
@@ -46,7 +45,7 @@ class StateTestInFiller(BaseModel):
                 # Parse labels in data
                 indexes = indexes.replace(":label ", "")
                 tx_matches: List[int] = []
-                for idx, d in enumerate(model.transaction.data):
+                for idx, d in enumerate(self.transaction.data):
                     _, code_opt = d.data
                     if indexes == code_opt.label:
                         tx_matches.append(idx)
@@ -84,12 +83,12 @@ class StateTestInFiller(BaseModel):
                 print("After: " + str(result))
             return result
 
-        for expect_section in model.expect:
+        for expect_section in self.expect:
             expect_section.indexes.data = parse_indexes(expect_section.indexes.data)
             expect_section.indexes.gas = parse_indexes(expect_section.indexes.gas)
             expect_section.indexes.value = parse_indexes(expect_section.indexes.value)
 
-        return model
+        return self
 
 
 def serialize_fork(value: Fork):

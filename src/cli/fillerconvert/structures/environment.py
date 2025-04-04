@@ -27,10 +27,9 @@ class EnvironmentInStateTestFiller(BaseModel):
         extra = "forbid"
 
     @model_validator(mode="after")
-    @classmethod
-    def check_fields(cls, data: "EnvironmentInStateTestFiller") -> "EnvironmentInStateTestFiller":
+    def check_fields(self) -> "EnvironmentInStateTestFiller":
         """Validate all fields are set."""
-        if data.current_difficulty is None:
-            if data.current_random is None:
+        if self.current_difficulty is None:
+            if self.current_random is None:
                 raise ValueError("If `currentDifficulty` is not set, `currentRandom` must be set!")
-        return data
+        return self

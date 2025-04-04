@@ -69,13 +69,12 @@ class GeneralTransactionInFiller(BaseModel):
         return to
 
     @model_validator(mode="after")
-    @classmethod
-    def check_fields(cls, data: "GeneralTransactionInFiller") -> "GeneralTransactionInFiller":
+    def check_fields(self) -> "GeneralTransactionInFiller":
         """Validate all fields are set."""
-        if data.gas_price is None:
-            if data.max_fee_per_gas is None or data.max_priority_fee_per_gas is None:
+        if self.gas_price is None:
+            if self.max_fee_per_gas is None or self.max_priority_fee_per_gas is None:
                 raise ValueError(
                     "If `gasPrice` is not set,"
                     " `maxFeePerGas` and `maxPriorityFeePerGas` must be set!"
                 )
-        return data
+        return self
