@@ -18011,6 +18011,8 @@
       
         
       
+        
+      
     
     
       
@@ -19235,6 +19237,27 @@
   
   <span class="md-ellipsis">
     <code>test_set_code_from_account_with_non_delegating_code</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_set_code_transaction_fee_validations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_set_code_transaction_fee_validations</code>
   </span>
   
 
@@ -28821,7 +28844,7 @@
 
 
 <h1 id="test_creating_delegation_designation_contract"><code>test_creating_delegation_designation_contract()</code><a class="headerlink" href="#test_creating_delegation_designation_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/db9f3c3491f71b63f30cd18208ad5df7512f5d63/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3268"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract@db9f3c34</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/823718ace793e99bd6c537cecaf74e62e28a7115/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3280"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract@823718ac</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract --fork Prague</span>
@@ -28841,19 +28864,7 @@ Attempt to deploy contract with magic bytes result in no contract being created.
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3268</span>
-<span class="normal">3269</span>
-<span class="normal">3270</span>
-<span class="normal">3271</span>
-<span class="normal">3272</span>
-<span class="normal">3273</span>
-<span class="normal">3274</span>
-<span class="normal">3275</span>
-<span class="normal">3276</span>
-<span class="normal">3277</span>
-<span class="normal">3278</span>
-<span class="normal">3279</span>
-<span class="normal">3280</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3280</span>
 <span class="normal">3281</span>
 <span class="normal">3282</span>
 <span class="normal">3283</span>
@@ -28884,9 +28895,45 @@ Attempt to deploy contract with magic bytes result in no contract being created.
 <span class="normal">3308</span>
 <span class="normal">3309</span>
 <span class="normal">3310</span>
-<span class="normal">3311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
+<span class="normal">3311</span>
+<span class="normal">3312</span>
+<span class="normal">3313</span>
+<span class="normal">3314</span>
+<span class="normal">3315</span>
+<span class="normal">3316</span>
+<span class="normal">3317</span>
+<span class="normal">3318</span>
+<span class="normal">3319</span>
+<span class="normal">3320</span>
+<span class="normal">3321</span>
+<span class="normal">3322</span>
+<span class="normal">3323</span>
+<span class="normal">3324</span>
+<span class="normal">3325</span>
+<span class="normal">3326</span>
+<span class="normal">3327</span>
+<span class="normal">3328</span>
+<span class="normal">3329</span>
+<span class="normal">3330</span>
+<span class="normal">3331</span>
+<span class="normal">3332</span>
+<span class="normal">3333</span>
+<span class="normal">3334</span>
+<span class="normal">3335</span>
+<span class="normal">3336</span>
+<span class="normal">3337</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;initcode_is_delegation_designation&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;initcode_deploys_delegation_designation&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;initcode_is_delegation_designation&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;create_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_creating_delegation_designation_contract</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">create_opcode</span><span class="p">:</span> <span class="n">Op</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">create_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+    <span class="n">initcode_is_delegation_designation</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tx -&gt; create -&gt; pointer bytecode</span>
@@ -28901,7 +28948,11 @@ Attempt to deploy contract with magic bytes result in no contract being created.
     <span class="c1"># An attempt to deploy code starting with ef01 result in no</span>
     <span class="c1"># contract being created as it is prohibited</span>
 
-    <span class="n">create_init</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">sender</span><span class="p">))</span>
+    <span class="n">create_init</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="n">Bytecode</span>
+    <span class="k">if</span> <span class="n">initcode_is_delegation_designation</span><span class="p">:</span>
+        <span class="n">create_init</span> <span class="o">=</span> <span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">create_init</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">sender</span><span class="p">))</span>
     <span class="n">contract_a</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
         <span class="n">balance</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -28978,80 +29029,169 @@ Attempt to deploy contract with magic bytes result in no contract being created.
         <tr>
             <th>Test ID (Abbreviated)</th>
                         <th>create_opcode</th>
+                        <th>initcode_is_delegation_designation</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE]">
-                    ...fork_Prague-state_test-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE-initcode_deploys_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE-initcode_deploys_delegation_designation]">
+                    ...fork_Prague-state_test-create_opcode_CREATE-initcode_deploys_delegation_designation
                 </abbr>
             </td>
                         <td>CREATE</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE2]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE2]">
-                    ...fork_Prague-state_test-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE-initcode_is_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE-initcode_is_delegation_designation]">
+                    ...fork_Prague-state_test-create_opcode_CREATE-initcode_is_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation]">
+                    ...fork_Prague-state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation
                 </abbr>
             </td>
                         <td>CREATE2</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE2-initcode_is_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-state_test-create_opcode_CREATE2-initcode_is_delegation_designation]">
+                    ...fork_Prague-state_test-create_opcode_CREATE2-initcode_is_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE]">
-                    ...fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE-initcode_deploys_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE-initcode_deploys_delegation_designation]">
+                    ...fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE-initcode_deploys_delegation_designation
                 </abbr>
             </td>
                         <td>CREATE</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2]">
-                    ...fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE-initcode_is_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE-initcode_is_delegation_designation]">
+                    ...fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE-initcode_is_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation]">
+                    ...fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation
                 </abbr>
             </td>
                         <td>CREATE2</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_is_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_is_delegation_designation]">
+                    ...fork_Prague-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_is_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE]">
-                    ...fork_Osaka-state_test-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE-initcode_deploys_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE-initcode_deploys_delegation_designation]">
+                    ...fork_Osaka-state_test-create_opcode_CREATE-initcode_deploys_delegation_designation
                 </abbr>
             </td>
                         <td>CREATE</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE2]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE2]">
-                    ...fork_Osaka-state_test-create_opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE]">
-                    ...fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE-initcode_is_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE-initcode_is_delegation_designation]">
+                    ...fork_Osaka-state_test-create_opcode_CREATE-initcode_is_delegation_designation
                 </abbr>
             </td>
                         <td>CREATE</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation]">
+                    ...fork_Osaka-state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE2-initcode_is_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-state_test-create_opcode_CREATE2-initcode_is_delegation_designation]">
+                    ...fork_Osaka-state_test-create_opcode_CREATE2-initcode_is_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE-initcode_deploys_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE-initcode_deploys_delegation_designation]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE-initcode_deploys_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE-initcode_is_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE-initcode_is_delegation_designation]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE-initcode_is_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_deploys_delegation_designation
                 </abbr>
             </td>
                         <td>CREATE2</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_is_delegation_designation]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_creating_delegation_designation_contract[fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_is_delegation_designation]">
+                    ...fork_Osaka-blockchain_test_from_state_test-create_opcode_CREATE2-initcode_is_delegation_designation
+                </abbr>
+            </td>
+                        <td>CREATE2</td>
+                        <td>False</td>
                     </tr>
             </tbody>
 </table>

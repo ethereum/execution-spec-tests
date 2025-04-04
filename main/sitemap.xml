@@ -4181,6 +4181,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_transaction_fee_validations/</loc>
+         <lastmod>2025-04-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_using_chain_specific_id/</loc>
          <lastmod>2025-04-04</lastmod>
          <changefreq>daily</changefreq>
