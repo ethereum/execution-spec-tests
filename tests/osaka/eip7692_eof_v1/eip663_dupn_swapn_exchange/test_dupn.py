@@ -55,7 +55,7 @@ def test_dupn_all_valid_immediates(eof_state_test: EOFStateTestFiller):
 @pytest.mark.parametrize(
     "stack_height,max_stack_height",
     [
-        [0, 0],
+        # [0, 0] is tested in test_all_opcodes_stack_underflow()
         [0, 1],
         [1, 1],
         [1, 2],
@@ -88,10 +88,10 @@ def test_dupn_stack_underflow(
 @pytest.mark.parametrize(
     "dupn_operand,max_stack_height,expect_exception",
     [
-        [0, MAX_OPERAND_STACK_HEIGHT, EOFException.INVALID_MAX_STACK_HEIGHT],
-        [0, MAX_OPERAND_STACK_HEIGHT + 1, EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT],
-        [2**8 - 1, MAX_OPERAND_STACK_HEIGHT, EOFException.INVALID_MAX_STACK_HEIGHT],
-        [2**8 - 1, MAX_OPERAND_STACK_HEIGHT + 1, EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT],
+        [0, MAX_OPERAND_STACK_HEIGHT, EOFException.INVALID_STACK_HEIGHT_INCREASE],
+        [0, MAX_OPERAND_STACK_HEIGHT + 1, EOFException.STACK_HEIGHT_INCREASE_ABOVE_LIMIT],
+        [2**8 - 1, MAX_OPERAND_STACK_HEIGHT, EOFException.INVALID_STACK_HEIGHT_INCREASE],
+        [2**8 - 1, MAX_OPERAND_STACK_HEIGHT + 1, EOFException.STACK_HEIGHT_INCREASE_ABOVE_LIMIT],
     ],
 )
 def test_dupn_stack_overflow(

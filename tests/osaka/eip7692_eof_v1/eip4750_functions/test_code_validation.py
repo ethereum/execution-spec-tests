@@ -305,7 +305,7 @@ INVALID: List[Container] = [
                 max_stack_height=1,
             ),
         ],
-        validity_error=EOFException.INVALID_MAX_STACK_HEIGHT,
+        validity_error=EOFException.INVALID_STACK_HEIGHT_INCREASE,
     ),
     Container(
         name="stack_shorter_than_code_outputs_1",
@@ -321,7 +321,7 @@ INVALID: List[Container] = [
                 max_stack_height=1,
             ),
         ],
-        validity_error=EOFException.INVALID_MAX_STACK_HEIGHT,
+        validity_error=EOFException.INVALID_STACK_HEIGHT_INCREASE,
     ),
     Container(
         name="stack_shorter_than_code_outputs_2",
@@ -666,7 +666,7 @@ def test_callf_stack_height_limit_exceeded(eof_test, callee_outputs):
             ),
         ],
     )
-    eof_test(container=container, expect_exception=EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT)
+    eof_test(container=container, expect_exception=EOFException.STACK_HEIGHT_INCREASE_ABOVE_LIMIT)
 
 
 @pytest.mark.parametrize("callee_outputs", [1, 2, MAX_CODE_OUTPUTS - 1, MAX_CODE_OUTPUTS])

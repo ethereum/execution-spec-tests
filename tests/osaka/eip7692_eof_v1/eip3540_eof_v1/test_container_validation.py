@@ -1081,7 +1081,7 @@ def test_valid_containers(
                     code=(Op.POP * (MAX_CODE_INPUTS + 1)) + Op.RETF,
                     code_inputs=(MAX_CODE_INPUTS + 1),
                     code_outputs=0,
-                    max_stack_height=0,
+                    max_stack_height=(MAX_CODE_INPUTS + 1),
                 ),
             ],
             validity_error=EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT,
@@ -1127,7 +1127,7 @@ def test_valid_containers(
                 ),
             ],
             # TODO auto types section generation probably failed, the exception must be about code
-            validity_error=EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT,
+            validity_error=EOFException.STACK_HEIGHT_INCREASE_ABOVE_LIMIT,
         ),
     ],
     ids=lambda c: c.name,

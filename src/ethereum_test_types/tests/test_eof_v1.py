@@ -287,6 +287,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                 Section.Code(
                     "0x00",
                     code_inputs=1,
+                    max_stack_height=1,
                 ),
             ],
         ),
@@ -303,6 +304,7 @@ test_cases: List[Tuple[str, Container, str]] = [
                 Section.Code(
                     "0x00",
                     code_inputs=0xFF,
+                    max_stack_height=0xFF,
                 ),
             ],
         ),
