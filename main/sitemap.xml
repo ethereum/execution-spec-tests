@@ -1241,6 +1241,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/istanbul/eip152_blake2/spec/</loc>
+         <lastmod>2025-04-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/istanbul/eip152_blake2/test_blake2/</loc>
          <lastmod>2025-04-04</lastmod>
          <changefreq>daily</changefreq>
