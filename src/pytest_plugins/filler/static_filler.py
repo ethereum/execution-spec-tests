@@ -132,6 +132,8 @@ def pytest_collect_file(file_path: Path, parent) -> pytest.Collector | None:
 
 
 class NoIntResolver(yaml.SafeLoader):
+    """Class that tells yaml to not resolve int values."""
+
     pass
 
 
