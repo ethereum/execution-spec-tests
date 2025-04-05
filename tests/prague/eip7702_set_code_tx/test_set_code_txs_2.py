@@ -17,6 +17,7 @@ from ethereum_test_tools import (
     Conditional,
     Environment,
     Hash,
+    Initcode,
     StateTestFiller,
     Storage,
     Switch,
@@ -25,6 +26,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types import compute_create2_address
 from ethereum_test_vm import Macros
 
 from .spec import Spec, ref_spec_7702
@@ -1688,4 +1690,157 @@ def test_pointer_resets_an_empty_code_account_with_storage(
             ),
             Block(txs=[tx_create_suicide_from_pointer]),
         ],
+    )
+
+
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("chain_id", [0, 1])
+def test_chained_delegation_stops_after_one_hop(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    chain_id: int,
+):
+    """
+    Tests a chained delegation via EIP-7702 transaction.
+
+    A delegates to B which delegates to C
+
+    Only one level of delegation should be followed when code is executed. Even though
+    B delegates to C, a call to A should stop at B. The control shows how the contract
+    should behave.
+    """
+    address_a = pre.fund_eoa()
+    address_b = pre.fund_eoa()
+    control_address = pre.fund_eoa()
+
+    store_1_at_0 = Op.SSTORE(0, 1) + Op.STOP()
+    contract = pre.deploy_contract(code=store_1_at_0)
+
+    # this is the control, showing the contract works as expected
+    control_tx = Transaction(
+        gas_limit=200_000,
+        data=b"",
+        value=0,
+        to=control_address,
+        sender=control_address,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract,
+                chain_id=chain_id,
+                nonce=1,
+                signer=control_address,
+            )
+        ],
+    )
+    chained_delegation_tx = Transaction(
+        gas_limit=200_000,
+        data=b"",
+        value=0,
+        to=address_a,
+        authorization_list=[
+            AuthorizationTuple(
+                address=contract,
+                chain_id=chain_id,
+                nonce=0,
+                signer=address_b,
+            ),
+            AuthorizationTuple(
+                address=address_b,
+                chain_id=chain_id,
+                nonce=1,
+                signer=address_a,
+            ),
+        ],
+    )
+
+    post = {
+        control_address: Account(code=Spec.delegation_designation(contract), storage={0: 1}),
+        address_a: Account(code=Spec.delegation_designation(address_b), nonce=2),
+        address_b: Account(code=Spec.delegation_designation(contract), nonce=1),
+        contract: Account(code=store_1_at_0, storage={}),
+    }
+
+    blockchain_test(
+        environment=Environment(),
+        pre=pre,
+        blocks=[Block(txs=[control_tx, chained_delegation_tx])],
+        post=post,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("delegation_in_same_block", [True, False])
+def test_delegation_to_initially_empty_account_with_eventual_bytecode_deployed(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    delegation_in_same_block: bool,
+):
+    """
+    Tests a delegation to an initially empty account which later has a contract
+    deployed to it, making sure delegation to the newly deployed contract works as
+    expected.
+    """
+    sender = pre.fund_eoa()
+    delegated_address = pre.fund_eoa()
+
+    store_1_at_0 = Op.SSTORE(0, 1)
+    initcode = Initcode(deploy_code=store_1_at_0)
+    creator_address = pre.deploy_contract(
+        Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.CREATE2(0, 0, Op.CALLDATASIZE, 0)
+    )
+    initially_empty_address = compute_create2_address(
+        address=creator_address, salt=0, initcode=initcode
+    )
+
+    delegate_to_initially_empty_acct = Transaction(
+        to=delegated_address,
+        gas_limit=100_000,
+        authorization_list=[
+            AuthorizationTuple(
+                signer=delegated_address,
+                chain_id=1,
+                address=initially_empty_address,
+                nonce=0,
+            ),
+        ],
+        sender=sender,
+    )
+    create2_initcode_to_empty_acct = Transaction(
+        to=creator_address,
+        gas_limit=100_000,
+        data=initcode,
+        sender=sender,
+    )
+    should_delegate_to_contract_code = Transaction(
+        to=delegated_address,
+        gas_limit=100_000,
+        sender=sender,
+    )
+
+    blocks = (
+        [
+            Block(
+                txs=[
+                    delegate_to_initially_empty_acct,
+                    create2_initcode_to_empty_acct,
+                    should_delegate_to_contract_code,
+                ]
+            )
+        ]
+        if delegation_in_same_block
+        else [
+            Block(txs=[delegate_to_initially_empty_acct]),
+            Block(txs=[create2_initcode_to_empty_acct, should_delegate_to_contract_code]),
+        ]
+    )
+    blockchain_test(
+        pre=pre,
+        blocks=blocks,
+        post={
+            delegated_address: Account(
+                code=Spec.delegation_designation(initially_empty_address),
+                storage={0: 1},
+            ),
+            initially_empty_address: Account(code=store_1_at_0),
+        },
     )
