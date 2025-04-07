@@ -28846,7 +28846,7 @@
 
 
 <h1 id="test_first_section_with_inputs"><code>test_first_section_with_inputs()</code><a class="headerlink" href="#test_first_section_with_inputs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ce28bd5550f1686bdf855e42a1416ae6e9e23b05/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L44"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_first_section_with_inputs@ce28bd55</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d3dfac564e003139dc523f0af7b903209289fb87/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py#L44"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_first_section_with_inputs@d3dfac56</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_nonreturning_validation.py::test_first_section_with_inputs --fork Osaka</span>
@@ -28893,7 +28893,14 @@
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;code&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;INVALID&quot;</span><span class="p">),</span>
@@ -28918,7 +28925,14 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test EOF validation failing because the first section has non-zero number of inputs.&quot;&quot;&quot;</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
-            <span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">code_inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">code_outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)],</span>
+            <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                    <span class="n">code</span><span class="p">,</span>
+                    <span class="n">code_inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+                    <span class="n">code_outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span>
+                    <span class="n">max_stack_height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">],</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_FIRST_SECTION_TYPE</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
