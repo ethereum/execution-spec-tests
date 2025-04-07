@@ -1,7 +1,8 @@
 """Helper functions."""
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Literal
+from enum import Enum
+from typing import Any, Dict, List
 
 import pytest
 
@@ -16,13 +17,21 @@ from ethereum_test_exceptions import (
 from ethereum_test_types import Transaction, TransactionReceipt
 
 
+class ExecutionContext(Enum):
+    """The execution context in which a test case can fail."""
+
+    BLOCK = "Block"
+    TRANSACTION = "Transaction"
+
+
 class UnexpectedSuccessError(Exception):
     """Exception used when the transaction expected to fail succeeded instead."""
 
-    def __init__(self, ty: Literal["Block", "Transaction"], **kwargs):
+    def __init__(self, execution_context: ExecutionContext, **kwargs):
         """Initialize the unexpected success exception."""
         message = (
-            f"\nUnexpected success on {ty} ({kwargs}):\n  What: {ty} expected to fail succeeded!"
+            f"\nUnexpected success for {execution_context.value} ({kwargs}):"
+            f"\n  What: {execution_context.value} expected to fail succeeded!"
         )
         super().__init__(message)
 
@@ -32,15 +41,15 @@ class UnexpectedFailError(Exception):
 
     def __init__(
         self,
-        ty: Literal["Block", "Transaction"],
+        execution_context: ExecutionContext,
         message: str,
         exception: ExceptionBase | UndefinedException,
         **kwargs,
     ):
         """Initialize the exception."""
         message = (
-            f"Unexpected fail on {ty} ({kwargs}):"
-            f"\n   What: {ty} unexpectedly failed!"
+            f"Unexpected fail for {execution_context.value} ({kwargs}):"
+            f"\n   What: {execution_context.value} unexpectedly failed!"
             f'\n  Error: "{message}" ({exception})'
         )
         super().__init__(message)
@@ -51,15 +60,15 @@ class UndefinedExceptionError(Exception):
 
     def __init__(
         self,
-        ty: Literal["Block", "Transaction"],
+        execution_context: ExecutionContext,
         want_exception: ExceptionBase | List[ExceptionBase],
         got_exception: UndefinedException,
         **kwargs,
     ):
         """Initialize the exception."""
         message = (
-            f"Exception mismatch on {ty} ({kwargs}):"
-            f"\n   What: {ty} exception mismatch!"
+            f"Exception mismatch on {execution_context.value} ({kwargs}):"
+            f"\n   What: {execution_context.value} exception mismatch!"
             f"\n   Want: {want_exception}"
             f'\n    Got: "{got_exception}"'
             "\n No exception defined for error message got, please add it to "
@@ -76,7 +85,7 @@ class ExceptionMismatchError(Exception):
 
     def __init__(
         self,
-        ty: Literal["Block", "Transaction"],
+        execution_context: ExecutionContext,
         want_exception: ExceptionBase | List[ExceptionBase],
         got_exception: ExceptionBase,
         got_message: str,
@@ -84,8 +93,8 @@ class ExceptionMismatchError(Exception):
     ):
         """Initialize the exception."""
         message = (
-            f"Exception mismatch on {ty} ({kwargs}):"
-            f"\n   What: {ty} exception mismatch!"
+            f"Exception mismatch on {execution_context.value} ({kwargs}):"
+            f"\n   What: {execution_context.value} exception mismatch!"
             f"\n   Want: {want_exception}"
             f'\n    Got: "{got_exception}" ({got_message})'
         )
@@ -116,7 +125,7 @@ class TransactionReceiptMismatchError(Exception):
 class ExceptionInfo:
     """Info to print transaction exception error messages."""
 
-    ty: Literal["Block", "Transaction"]
+    execution_context: ExecutionContext
     expected_exception: List[ExceptionBase] | ExceptionBase | None
     actual_exception: ExceptionBase | UndefinedException | None
     message: str | None
@@ -126,14 +135,14 @@ class ExceptionInfo:
     def __init__(
         self,
         *,
-        ty: Literal["Block", "Transaction"],
+        execution_context: ExecutionContext,
         expected_exception: List[ExceptionBase] | ExceptionBase | None,
         actual_exception: ExceptionWithMessage | UndefinedException | None,
         strict_match: bool = False,
         context: Dict[str, Any],
     ):
         """Initialize the exception."""
-        self.ty = ty
+        self.execution_context = execution_context
         self.expected_exception = expected_exception
         self.actual_exception = (
             actual_exception.exception
@@ -158,11 +167,11 @@ class ExceptionInfo:
             self.actual_exception,
         )
         if expected_exception and not actual_exception:
-            raise UnexpectedSuccessError(ty=self.ty, **self.context)
+            raise UnexpectedSuccessError(execution_context=self.execution_context, **self.context)
         elif not expected_exception and actual_exception:
             assert self.message is not None
             raise UnexpectedFailError(
-                ty=self.ty,
+                execution_context=self.execution_context,
                 message=self.message,
                 exception=actual_exception,
                 **self.context,
@@ -170,7 +179,7 @@ class ExceptionInfo:
         elif expected_exception and actual_exception:
             if isinstance(actual_exception, UndefinedException):
                 raise UndefinedExceptionError(
-                    ty=self.ty,
+                    execution_context=self.execution_context,
                     want_exception=expected_exception,
                     actual_exception=actual_exception,
                     **self.context,
@@ -180,7 +189,7 @@ class ExceptionInfo:
                     got_message = self.message
                     assert got_message is not None
                     raise ExceptionMismatchError(
-                        ty=self.ty,
+                        execution_context=self.execution_context,
                         want_exception=expected_exception,
                         got_exception=actual_exception,
                         got_message=got_message,
@@ -201,7 +210,7 @@ class TransactionExceptionInfo(ExceptionInfo):
     ):
         """Initialize the exception."""
         super().__init__(
-            ty="Transaction",
+            execution_context=ExecutionContext.TRANSACTION,
             expected_exception=tx.error,  # type: ignore
             strict_match=False,  # TODO: set to True when EELS t8n returns correct error messages
             context={"index": tx_index, "nonce": tx.nonce},
@@ -219,7 +228,7 @@ class BlockExceptionInfo(ExceptionInfo):
     ):
         """Initialize the exception."""
         super().__init__(
-            ty="Block",
+            execution_context=ExecutionContext.BLOCK,
             strict_match=True,
             context={"number": block_number},
             **kwargs,
