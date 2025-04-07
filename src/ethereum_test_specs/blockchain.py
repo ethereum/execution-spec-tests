@@ -435,7 +435,11 @@ class BlockchainTest(BaseTest):
         )
 
         try:
-            rejected_txs = verify_transactions(txs=txs, result=transition_tool_output.result)
+            rejected_txs = verify_transactions(
+                txs=txs,
+                result=transition_tool_output.result,
+                transition_tool_exceptions_reliable=t8n.exception_mapper.reliable,
+            )
             if (
                 not rejected_txs
                 and block.rlp_modifier is None
@@ -453,6 +457,7 @@ class BlockchainTest(BaseTest):
                     block_number=env.number,
                     expected_exception=block.exception,
                     result=transition_tool_output.result,
+                    transition_tool_exceptions_reliable=t8n.exception_mapper.reliable,
                 )
             verify_result(transition_tool_output.result, env)
         except Exception as e:

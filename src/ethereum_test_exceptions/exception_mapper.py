@@ -32,6 +32,11 @@ class ExceptionMapper(ABC):
     Items in this mapping are compiled into regex patterns for faster matching,
     and then used for regex matching (`pattern.search(message)`).
     """
+    reliable: ClassVar[bool] = True
+    """
+    Whether the exceptions returned by the tool are reliable and can be accurately
+    mapped to the exceptions in this class.
+    """
 
     def __init__(self) -> None:
         """Initialize the exception mapper."""

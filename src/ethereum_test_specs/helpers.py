@@ -129,7 +129,6 @@ class ExceptionInfo:
     expected_exception: List[ExceptionBase] | ExceptionBase | None
     actual_exception: ExceptionBase | UndefinedException | None
     message: str | None
-    strict_match: bool
     context: Dict[str, Any]
 
     def __init__(
@@ -138,7 +137,6 @@ class ExceptionInfo:
         execution_context: ExecutionContext,
         expected_exception: List[ExceptionBase] | ExceptionBase | None,
         actual_exception: ExceptionWithMessage | UndefinedException | None,
-        strict_match: bool = False,
         context: Dict[str, Any],
     ):
         """Initialize the exception."""
@@ -157,10 +155,9 @@ class ExceptionInfo:
                 if isinstance(actual_exception, ExceptionWithMessage)
                 else str(actual_exception)
             )
-        self.strict_match = strict_match
         self.context = context
 
-    def verify(self: "ExceptionInfo"):
+    def verify(self: "ExceptionInfo", *, strict_match: bool) -> None:
         """Verify the exception."""
         expected_exception, actual_exception = (
             self.expected_exception,
@@ -186,7 +183,7 @@ class ExceptionInfo:
                     actual_exception=actual_exception,
                     **self.context,
                 )
-            if self.strict_match:
+            if strict_match:
                 if actual_exception not in expected_exception:
                     got_message = self.message
                     assert got_message is not None
@@ -197,8 +194,6 @@ class ExceptionInfo:
                         got_message=got_message,
                         **self.context,
                     )
-            else:
-                pass
 
 
 class TransactionExceptionInfo(ExceptionInfo):
@@ -214,7 +209,6 @@ class TransactionExceptionInfo(ExceptionInfo):
         super().__init__(
             execution_context=ExecutionContext.TRANSACTION,
             expected_exception=tx.error,  # type: ignore
-            strict_match=False,  # TODO: set to True when EELS t8n returns correct error messages
             context={"index": tx_index, "nonce": tx.nonce},
             **kwargs,
         )
@@ -231,7 +225,6 @@ class BlockExceptionInfo(ExceptionInfo):
         """Initialize the exception."""
         super().__init__(
             execution_context=ExecutionContext.BLOCK,
-            strict_match=True,
             context={"number": block_number},
             **kwargs,
         )
@@ -269,6 +262,7 @@ def verify_transactions(
     *,
     txs: List[Transaction],
     result: Result,
+    transition_tool_exceptions_reliable: bool,
 ) -> List[int]:
     """
     Verify accepted and rejected (if any) transactions against the expected outcome.
@@ -287,7 +281,7 @@ def verify_transactions(
             tx_index=i,
             actual_exception=error_message,
         )
-        info.verify()
+        info.verify(strict_match=transition_tool_exceptions_reliable)
         if error_message is None:
             verify_transaction_receipt(i, tx.expected_receipt, result.receipts[receipt_index])
             receipt_index += 1
@@ -303,6 +297,7 @@ def verify_block(
     | BlockException
     | None,
     result: Result,
+    transition_tool_exceptions_reliable: bool,
 ):
     """Verify the block exception against the expected one."""
     info = BlockExceptionInfo(
@@ -310,7 +305,7 @@ def verify_block(
         expected_exception=expected_exception,
         actual_exception=result.block_exception,
     )
-    info.verify()
+    info.verify(strict_match=transition_tool_exceptions_reliable)
 
 
 def is_slow_test(request: pytest.FixtureRequest) -> bool:

@@ -129,6 +129,12 @@ class ExecutionSpecsTransitionTool(TransitionTool):
 class ExecutionSpecsExceptionMapper(ExceptionMapper):
     """Translate between EEST exceptions and error strings returned by ExecutionSpecs."""
 
+    reliable: ClassVar[bool] = False
+    """
+    TODO: Exception messages returned from ExecutionSpecs are not reliable because most of the
+    exceptions consist of the same string without indication of the particular exception type.
+    """
+
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "Failed transaction: InvalidBlock()",
         TransactionException.SENDER_NOT_EOA: "Failed transaction: InvalidSenderError('not EOA')",
