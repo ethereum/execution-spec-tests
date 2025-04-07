@@ -32,7 +32,6 @@ basefee
 basename
 bb
 besu
-bidict
 pyspecs
 big0
 big1
@@ -186,7 +185,6 @@ formatter
 fp
 fp2
 fromhex
-frozenbidict
 func
 g1
 g1add
