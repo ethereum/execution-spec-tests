@@ -38,6 +38,8 @@ EOFTests/efStack/forwards_rjumpi_.json
 EOFTests/efStack/forwards_rjumpi_variable_stack_.json
 EOFTests/efStack/forwards_rjumpv_.json
 EOFTests/efStack/forwards_rjumpv_variable_stack_.json
+EOFTests/efStack/underflow_.json
+EOFTests/efStack/underflow_variable_stack_.json
 EOFTests/efStack/unreachable_instructions_.json
 EOFTests/efValidation/callf_into_nonreturning_.json
 EOFTests/efValidation/dataloadn_.json
