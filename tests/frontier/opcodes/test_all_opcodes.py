@@ -34,6 +34,8 @@ def prepare_stack(opcode: Opcode) -> Bytecode:
         return Op.PUSH1(1) + Op.PUSH1(5)
     if opcode == Op.JUMP:
         return Op.PUSH1(3)
+    if opcode == Op.RETURNDATACOPY:
+        return Op.PUSH1(0x00) * 32
     return Op.PUSH1(0x01) * 32
 
 
@@ -65,8 +67,8 @@ def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     contract_address = pre.deploy_contract(
         code=sum(
             Op.SSTORE(
-                Op.PUSH1(opcode.int()),
-                Op.CALL(1_000_000, opcode_address, 0, 0, 0, 0, 0),
+                opcode.int(),
+                Op.CALL(gas=100_000, address=opcode_address),
             )
             for opcode, opcode_address in code_contract.items()
         )
@@ -82,7 +84,7 @@ def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
 
     tx = Transaction(
         sender=pre.fund_eoa(),
-        gas_limit=500_000_000,
+        gas_limit=50_000_000,
         to=contract_address,
         data=b"",
         value=0,
