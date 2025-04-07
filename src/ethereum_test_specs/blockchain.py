@@ -455,7 +455,7 @@ class BlockchainTest(BaseTest):
                 #   produces the block exception.
                 verify_block(
                     block_number=env.number,
-                    expected_exception=block.exception,
+                    want_exception=block.exception,
                     result=transition_tool_output.result,
                     transition_tool_exceptions_reliable=t8n.exception_mapper.reliable,
                 )
