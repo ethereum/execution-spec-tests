@@ -3,13 +3,13 @@
 import json
 import os
 from enum import IntEnum
-from typing import Any, List, Mapping
+from typing import Any, List, Mapping, Type
 
 import pytest
 from click.testing import CliRunner
 
 import cli.check_fixtures
-from ethereum_clis import ExecutionSpecsTransitionTool
+from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
 from ethereum_test_base_types import AccessList, Account, Address, Hash
 from ethereum_test_exceptions import TransactionException
 from ethereum_test_fixtures import (
@@ -40,6 +40,16 @@ def fixture_hash(fork: Fork) -> bytes:
     raise ValueError(f"Unexpected fork: {fork}")
 
 
+@pytest.fixture(scope="session")
+def t8n_type() -> Type[TransitionTool]:  # noqa: D103
+    return ExecutionSpecsTransitionTool
+
+
+@pytest.fixture(scope="session")
+def t8n(t8n_type: Type[TransitionTool]) -> TransitionTool:  # noqa: D103
+    return t8n_type()  # type: ignore
+
+
 def test_check_helper_fixtures():
     """
     Test that the framework's pydantic models serialization and deserialization
@@ -68,7 +78,7 @@ def test_check_helper_fixtures():
         Cancun,
     ],
 )
-def test_make_genesis(fork: Fork, fixture_hash: bytes):  # noqa: D103
+def test_make_genesis(fork: Fork, fixture_hash: bytes, t8n: TransitionTool):  # noqa: D103
     env = Environment()
 
     pre = Alloc(
@@ -82,7 +92,6 @@ def test_make_genesis(fork: Fork, fixture_hash: bytes):  # noqa: D103
         }
     )
 
-    t8n = ExecutionSpecsTransitionTool()
     fixture = BlockchainTest(
         genesis_environment=env,
         pre=pre,
@@ -132,6 +141,7 @@ def test_fill_state_test(
     fork: Fork,
     fixture_format: FixtureFormat,
     tx_type: TransactionType,
+    t8n: TransitionTool,
 ):
     """Test `ethereum_test.filler.fill_fixtures` with `StateTest`."""
     env = Environment(
@@ -178,7 +188,6 @@ def test_fill_state_test(
         ),
     }
 
-    t8n = ExecutionSpecsTransitionTool()
     generated_fixture = StateTest(
         env=env,
         pre=pre,
@@ -510,8 +519,8 @@ class TestFillBlockchainValidTxs:
         blocks: List[Block],
         genesis_environment: Environment,
         fixture_format: FixtureFormat,
+        t8n: TransitionTool,
     ):
-        t8n = ExecutionSpecsTransitionTool()
         return BlockchainTest(
             pre=pre,
             post=post,
@@ -592,7 +601,9 @@ class TestFillBlockchainValidTxs:
         (Shanghai, True, "blockchain_shanghai_invalid_filled_engine.json"),
     ],
 )
-def test_fill_blockchain_invalid_txs(fork: Fork, check_hive: bool, expected_json_file: str):
+def test_fill_blockchain_invalid_txs(
+    fork: Fork, check_hive: bool, expected_json_file: str, t8n: TransitionTool
+):
     """Test `ethereum_test.filler.fill_fixtures` with `BlockchainTest`."""
     pre = {
         "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": Account(balance=0x1000000000000000000),
@@ -891,7 +902,6 @@ def test_fill_blockchain_invalid_txs(fork: Fork, check_hive: bool, expected_json
         fee_recipient="0xba5e000000000000000000000000000000000000",
     )
 
-    t8n = ExecutionSpecsTransitionTool()
     fixture_format: FixtureFormat = (
         BlockchainEngineFixture if check_hive else BlockchainFixture  # type: ignore
     )

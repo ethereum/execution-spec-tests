@@ -1,10 +1,10 @@
 """Test fixture post state (expect section) during state fixture generation."""
 
-from typing import Any, Mapping, Type
+from typing import Any, Dict, Generator, Mapping, Type
 
 import pytest
 
-from ethereum_clis import ExecutionSpecsTransitionTool
+from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
 from ethereum_test_base_types import Account, Address, TestAddress, TestPrivateKey
 from ethereum_test_exceptions import TransactionException
 from ethereum_test_fixtures import BlockchainFixture, FixtureFormat, StateFixture
@@ -65,9 +65,35 @@ def state_test(  # noqa: D103
     )
 
 
+T8N_LIST = [
+    ExecutionSpecsTransitionTool,
+]
+
+
+@pytest.fixture(scope="session")
+def all_t8n() -> Generator[Dict[Type, TransitionTool], None, None]:  # noqa: D103
+    d: Dict[Type, TransitionTool] = {}
+    for t8n in T8N_LIST:
+        if not issubclass(t8n, TransitionTool):
+            raise TypeError(f"{t8n} is not a subclass of TransitionTool")
+        d[t8n] = t8n()
+        d[t8n].start_server()
+    yield d
+    for t8n_instance in d.values():
+        t8n_instance.shutdown()
+
+
 @pytest.fixture
-def t8n() -> ExecutionSpecsTransitionTool:  # noqa: D103
-    return ExecutionSpecsTransitionTool()
+def t8n(request: pytest.FixtureRequest, all_t8n: Dict[Type, TransitionTool]) -> TransitionTool:  # noqa: D103
+    requested_t8n_type = request.param
+    assert requested_t8n_type in all_t8n, (
+        f"Requested t8n {requested_t8n_type} not in all_t8n {all_t8n}"
+    )
+    assert issubclass(requested_t8n_type, TransitionTool)
+    return all_t8n[requested_t8n_type]
+
+
+pytestmark = pytest.mark.parametrize("t8n", T8N_LIST, indirect=True)
 
 
 # Storage value mismatch tests
@@ -278,9 +304,6 @@ def test_post_account_mismatch(state_test, t8n, fork, exception_type: Type[Excep
             ),
             ExecutionExceptionMismatchError,
             id="TransactionExecutionExceptionMismatchError",
-            marks=pytest.mark.xfail(
-                reason="Exceptions need to be better described in the t8n tool."
-            ),
         ),
         pytest.param(
             Transaction(
@@ -337,8 +360,8 @@ def test_post_account_mismatch(state_test, t8n, fork, exception_type: Type[Excep
 )
 def test_transaction_expectation(
     state_test,
-    t8n,
-    fork,
+    t8n: TransitionTool,
+    fork: Fork,
     exception_type: Type[Exception] | None,
     fixture_format: FixtureFormat,
 ):
@@ -346,6 +369,11 @@ def test_transaction_expectation(
     Test a transaction that has an unexpected error, expected error, or expected a specific
     value in its receipt.
     """
+    if exception_type == ExecutionExceptionMismatchError and not t8n.exception_mapper.reliable:
+        pytest.xfail(
+            reason="Exceptions need to be better described in the t8n tool "
+            f"({t8n.__class__.__name__})."
+        )
     if exception_type is None:
         state_test.generate(request=None, t8n=t8n, fork=fork, fixture_format=fixture_format)
     else:
