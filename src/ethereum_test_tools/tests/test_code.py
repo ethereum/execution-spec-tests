@@ -1,12 +1,12 @@
 """Test suite for `ethereum_test.code` module."""
 
 from string import Template
-from typing import Mapping, SupportsBytes, Type
+from typing import Mapping, SupportsBytes
 
 import pytest
 from semver import Version
 
-from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
+from ethereum_clis import TransitionTool
 from ethereum_test_base_types import Account, Address, Bytes, Hash, TestAddress, TestPrivateKey
 from ethereum_test_fixtures import BlockchainFixture
 from ethereum_test_forks import (
@@ -30,16 +30,6 @@ from .conftest import SOLC_PADDING_VERSION
 def fork(request: pytest.FixtureRequest):
     """Return the target evm-version (fork) for solc compilation."""
     return request.param
-
-
-@pytest.fixture(scope="session")
-def t8n_type() -> Type[TransitionTool]:  # noqa: D103
-    return ExecutionSpecsTransitionTool
-
-
-@pytest.fixture(scope="session")
-def t8n(t8n_type: Type[TransitionTool]) -> TransitionTool:  # noqa: D103
-    return t8n_type()  # type: ignore
 
 
 @pytest.fixture()
@@ -298,7 +288,6 @@ def test_opcodes_if(conditional_bytecode: bytes, expected: bytes):
     assert bytes(conditional_bytecode) == expected
 
 
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "tx_data,switch_bytecode,expected_storage",
     [
@@ -622,7 +611,7 @@ def test_opcodes_if(conditional_bytecode: bytes, expected: bytes):
     ],
 )
 def test_switch(
-    tx_data: bytes, switch_bytecode: bytes, expected_storage: Mapping, t8n: TransitionTool
+    tx_data: bytes, switch_bytecode: bytes, expected_storage: Mapping, default_t8n: TransitionTool
 ):
     """Test that the switch opcode macro gets executed as using the t8n tool."""
     code_address = Address(0x1000)
@@ -642,7 +631,7 @@ def test_switch(
     )
     state_test.generate(
         request=None,  # type: ignore
-        t8n=t8n,
+        t8n=default_t8n,
         fork=Cancun,
         fixture_format=BlockchainFixture,
         eips=None,

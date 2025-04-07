@@ -3,13 +3,13 @@
 import json
 import os
 from enum import IntEnum
-from typing import Any, List, Mapping, Type
+from typing import Any, List, Mapping
 
 import pytest
 from click.testing import CliRunner
 
 import cli.check_fixtures
-from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
+from ethereum_clis import TransitionTool
 from ethereum_test_base_types import AccessList, Account, Address, Hash
 from ethereum_test_exceptions import TransactionException
 from ethereum_test_fixtures import (
@@ -40,16 +40,6 @@ def fixture_hash(fork: Fork) -> bytes:
     raise ValueError(f"Unexpected fork: {fork}")
 
 
-@pytest.fixture(scope="session")
-def t8n_type() -> Type[TransitionTool]:  # noqa: D103
-    return ExecutionSpecsTransitionTool
-
-
-@pytest.fixture(scope="session")
-def t8n(t8n_type: Type[TransitionTool]) -> TransitionTool:  # noqa: D103
-    return t8n_type()  # type: ignore
-
-
 def test_check_helper_fixtures():
     """
     Test that the framework's pydantic models serialization and deserialization
@@ -69,7 +59,6 @@ def test_check_helper_fixtures():
     )
 
 
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "fork",
     [
@@ -78,7 +67,7 @@ def test_check_helper_fixtures():
         Cancun,
     ],
 )
-def test_make_genesis(fork: Fork, fixture_hash: bytes, t8n: TransitionTool):  # noqa: D103
+def test_make_genesis(fork: Fork, fixture_hash: bytes, default_t8n: TransitionTool):  # noqa: D103
     env = Environment()
 
     pre = Alloc(
@@ -100,7 +89,7 @@ def test_make_genesis(fork: Fork, fixture_hash: bytes, t8n: TransitionTool):  # 
         tag="some_state_test",
     ).generate(
         request=None,  # type: ignore
-        t8n=t8n,
+        t8n=default_t8n,
         fork=fork,
         fixture_format=BlockchainFixture,
     )
@@ -121,7 +110,6 @@ class TransactionType(IntEnum):
     SET_CODE = 4
 
 
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "fork,fixture_format,tx_type",
     [
@@ -141,7 +129,7 @@ def test_fill_state_test(
     fork: Fork,
     fixture_format: FixtureFormat,
     tx_type: TransactionType,
-    t8n: TransitionTool,
+    default_t8n: TransitionTool,
 ):
     """Test `ethereum_test.filler.fill_fixtures` with `StateTest`."""
     env = Environment(
@@ -196,7 +184,7 @@ def test_fill_state_test(
         tag="my_chain_id_test",
     ).generate(
         request=None,  # type: ignore
-        t8n=t8n,
+        t8n=default_t8n,
         fork=fork,
         fixture_format=fixture_format,
     )
@@ -519,7 +507,7 @@ class TestFillBlockchainValidTxs:
         blocks: List[Block],
         genesis_environment: Environment,
         fixture_format: FixtureFormat,
-        t8n: TransitionTool,
+        default_t8n: TransitionTool,
     ):
         return BlockchainTest(
             pre=pre,
@@ -529,12 +517,11 @@ class TestFillBlockchainValidTxs:
             tag="my_blockchain_test_valid_txs",
         ).generate(
             request=None,  # type: ignore
-            t8n=t8n,
+            t8n=default_t8n,
             fork=fork,
             fixture_format=fixture_format,
         )
 
-    @pytest.mark.run_in_serial
     @pytest.mark.parametrize("fork", [London, Shanghai], indirect=True)
     def test_fill_blockchain_valid_txs(  # noqa: D102
         self,
@@ -593,7 +580,6 @@ class TestFillBlockchainValidTxs:
         assert isinstance(updated_block_header.transactions_trie, Hash)
 
 
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "fork,check_hive,expected_json_file",
     [
@@ -602,7 +588,7 @@ class TestFillBlockchainValidTxs:
     ],
 )
 def test_fill_blockchain_invalid_txs(
-    fork: Fork, check_hive: bool, expected_json_file: str, t8n: TransitionTool
+    fork: Fork, check_hive: bool, expected_json_file: str, default_t8n: TransitionTool
 ):
     """Test `ethereum_test.filler.fill_fixtures` with `BlockchainTest`."""
     pre = {
@@ -912,7 +898,7 @@ def test_fill_blockchain_invalid_txs(
         genesis_environment=genesis_environment,
     ).generate(
         request=None,  # type: ignore
-        t8n=t8n,
+        t8n=default_t8n,
         fork=fork,
         fixture_format=fixture_format,
     )
