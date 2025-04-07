@@ -2441,12 +2441,32 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack/test_jumpf_self_variadic_stack_overflow/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack/test_jumpf_stack_non_returning_rules/</loc>
          <lastmod>2025-04-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack/test_jumpf_stack_returning_rules/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack/test_jumpf_variadic_stack_overflow/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack/test_jumpf_with_inputs_stack_overflow/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack/test_jumpf_with_inputs_stack_overflow_variable_stack/</loc>
          <lastmod>2025-04-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2482,6 +2502,36 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation/test_jumpf_self_stack_overflow/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation/test_jumpf_to_non_returning/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation/test_jumpf_to_non_returning_variable_stack/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation/test_jumpf_to_returning/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation/test_jumpf_to_returning_variable_stack_1/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation/test_jumpf_to_returning_variable_stack_2/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_validation/test_jumpf_to_returning_variable_stack_3/</loc>
          <lastmod>2025-04-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -2571,17 +2621,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_exchange/test_exchange_all_invalid_immediates/</loc>
-         <lastmod>2025-04-07</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_exchange/test_exchange_all_valid_immediates/</loc>
          <lastmod>2025-04-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_exchange/test_exchange_simple/</loc>
+         <lastmod>2025-04-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip663_dupn_swapn_exchange/test_exchange/test_exchange_stack_underflow/</loc>
          <lastmod>2025-04-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
