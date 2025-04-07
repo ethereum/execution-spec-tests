@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_returning_section_aborts/">
       
       
-        <link rel="prev" href="../test_callf_stack_overflow_by_height/">
+        <link rel="prev" href="../test_callf_stack_underflow_examples/">
       
       
         <link rel="next" href="../../../eip5450_stack/">
@@ -7301,6 +7301,8 @@
       
         
       
+        
+      
     
     
       
@@ -7493,6 +7495,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_callf_stack_underflow_examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_callf_stack_underflow_examples</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -7659,6 +7682,8 @@
       
         
       
+        
+      
     
     
       
@@ -7754,6 +7779,27 @@
   
   <span class="md-ellipsis">
     <code>test_all_opcodes_stack_underflow</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip5450_stack/test_code_validation/test_stack_underflow_examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_stack_underflow_examples</code>
   </span>
   
 
@@ -8733,6 +8779,8 @@
       
         
       
+        
+      
     
     
       
@@ -8996,6 +9044,27 @@
   
   <span class="md-ellipsis">
     <code>test_jumpf_to_returning_variable_stack_3</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip6206_jumpf/test_jumpf_validation/test_jumpf_stack_underflow_examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_jumpf_stack_underflow_examples</code>
   </span>
   
 
@@ -29076,7 +29145,7 @@
 
 
 <h1 id="test_returning_section_aborts"><code>test_returning_section_aborts()</code><a class="headerlink" href="#test_returning_section_aborts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2a747431fb91c0be2ed959faad9c84ec9b8a3607/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L727"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_returning_section_aborts@2a747431</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08a60c9530c67139279475ae58e69577c2bd11fb/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L834"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_returning_section_aborts@08a60c95</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_returning_section_aborts --fork Osaka</span>
@@ -29096,24 +29165,24 @@ and nonreturning terminating instructions.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
-<span class="normal">730</span>
-<span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
-<span class="normal">736</span>
-<span class="normal">737</span>
-<span class="normal">738</span>
-<span class="normal">739</span>
-<span class="normal">740</span>
-<span class="normal">741</span>
-<span class="normal">742</span>
-<span class="normal">743</span>
-<span class="normal">744</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_returning_section_aborts</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span>
+<span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span>
+<span class="normal">842</span>
+<span class="normal">843</span>
+<span class="normal">844</span>
+<span class="normal">845</span>
+<span class="normal">846</span>
+<span class="normal">847</span>
+<span class="normal">848</span>
+<span class="normal">849</span>
+<span class="normal">850</span>
+<span class="normal">851</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_returning_section_aborts</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
