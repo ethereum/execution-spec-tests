@@ -24,7 +24,7 @@ class ExecutionContext(Enum):
     TRANSACTION = "Transaction"
 
 
-class UnexpectedSuccessError(Exception):
+class UnexpectedExecutionSuccessError(Exception):
     """Exception used when the transaction expected to fail succeeded instead."""
 
     def __init__(self, execution_context: ExecutionContext, **kwargs):
@@ -36,7 +36,7 @@ class UnexpectedSuccessError(Exception):
         super().__init__(message)
 
 
-class UnexpectedFailError(Exception):
+class UnexpectedExecutionFailError(Exception):
     """Exception used when a transaction/block expected to succeed failed instead."""
 
     def __init__(
@@ -55,7 +55,7 @@ class UnexpectedFailError(Exception):
         super().__init__(message)
 
 
-class UndefinedExceptionError(Exception):
+class UndefinedExecutionExceptionError(Exception):
     """Exception used when the exception is undefined."""
 
     def __init__(
@@ -77,7 +77,7 @@ class UndefinedExceptionError(Exception):
         super().__init__(message)
 
 
-class ExceptionMismatchError(Exception):
+class ExecutionExceptionMismatchError(Exception):
     """
     Exception used when the actual block/transaction error string differs from
     the expected one.
@@ -167,10 +167,12 @@ class ExceptionInfo:
             self.actual_exception,
         )
         if expected_exception and not actual_exception:
-            raise UnexpectedSuccessError(execution_context=self.execution_context, **self.context)
+            raise UnexpectedExecutionSuccessError(
+                execution_context=self.execution_context, **self.context
+            )
         elif not expected_exception and actual_exception:
             assert self.message is not None
-            raise UnexpectedFailError(
+            raise UnexpectedExecutionFailError(
                 execution_context=self.execution_context,
                 message=self.message,
                 exception=actual_exception,
@@ -178,7 +180,7 @@ class ExceptionInfo:
             )
         elif expected_exception and actual_exception:
             if isinstance(actual_exception, UndefinedException):
-                raise UndefinedExceptionError(
+                raise UndefinedExecutionExceptionError(
                     execution_context=self.execution_context,
                     want_exception=expected_exception,
                     actual_exception=actual_exception,
@@ -188,7 +190,7 @@ class ExceptionInfo:
                 if actual_exception not in expected_exception:
                     got_message = self.message
                     assert got_message is not None
-                    raise ExceptionMismatchError(
+                    raise ExecutionExceptionMismatchError(
                         execution_context=self.execution_context,
                         want_exception=expected_exception,
                         got_exception=actual_exception,
