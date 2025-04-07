@@ -96,7 +96,7 @@ class ExecutionExceptionMismatchError(Exception):
             f"Exception mismatch on {execution_context.value} ({kwargs}):"
             f"\n   What: {execution_context.value} exception mismatch!"
             f"\n   Want: {want_exception}"
-            f'\n    Got: "{got_exception}" ({got_message})'
+            f'\n    Got: "{got_exception}" ("{got_message}")'
         )
         super().__init__(message)
 
@@ -126,71 +126,71 @@ class ExceptionInfo:
     """Info to print transaction exception error messages."""
 
     execution_context: ExecutionContext
-    expected_exception: List[ExceptionBase] | ExceptionBase | None
-    actual_exception: ExceptionBase | UndefinedException | None
-    message: str | None
+    want_exception: List[ExceptionBase] | ExceptionBase | None
+    got_exception: ExceptionBase | UndefinedException | None
+    got_message: str | None
     context: Dict[str, Any]
 
     def __init__(
         self,
         *,
         execution_context: ExecutionContext,
-        expected_exception: List[ExceptionBase] | ExceptionBase | None,
-        actual_exception: ExceptionWithMessage | UndefinedException | None,
+        want_exception: List[ExceptionBase] | ExceptionBase | None,
+        got_exception: ExceptionWithMessage | UndefinedException | None,
         context: Dict[str, Any],
     ):
         """Initialize the exception."""
         self.execution_context = execution_context
-        self.expected_exception = expected_exception
-        self.actual_exception = (
-            actual_exception.exception
-            if isinstance(actual_exception, ExceptionWithMessage)
-            else actual_exception
+        self.want_exception = want_exception
+        self.got_exception = (
+            got_exception.exception
+            if isinstance(got_exception, ExceptionWithMessage)
+            else got_exception
         )
-        if self.actual_exception is None:
-            self.message = None
+        if self.got_exception is None:
+            self.got_message = None
         else:
-            self.message = (
-                actual_exception.message
-                if isinstance(actual_exception, ExceptionWithMessage)
-                else str(actual_exception)
+            self.got_message = (
+                got_exception.message
+                if isinstance(got_exception, ExceptionWithMessage)
+                else str(got_exception)
             )
         self.context = context
 
     def verify(self: "ExceptionInfo", *, strict_match: bool) -> None:
         """Verify the exception."""
-        expected_exception, actual_exception = (
-            self.expected_exception,
-            self.actual_exception,
+        want_exception, got_exception = (
+            self.want_exception,
+            self.got_exception,
         )
-        if expected_exception and not actual_exception:
+        if want_exception and not got_exception:
             raise UnexpectedExecutionSuccessError(
                 execution_context=self.execution_context, **self.context
             )
-        elif not expected_exception and actual_exception:
-            assert self.message is not None
+        elif not want_exception and got_exception:
+            assert self.got_message is not None
             raise UnexpectedExecutionFailError(
                 execution_context=self.execution_context,
-                message=self.message,
-                exception=actual_exception,
+                message=self.got_message,
+                exception=got_exception,
                 **self.context,
             )
-        elif expected_exception and actual_exception:
-            if isinstance(actual_exception, UndefinedException):
+        elif want_exception and got_exception:
+            if isinstance(got_exception, UndefinedException):
                 raise UndefinedExecutionExceptionError(
                     execution_context=self.execution_context,
-                    want_exception=expected_exception,
-                    actual_exception=actual_exception,
+                    want_exception=want_exception,
+                    got_exception=got_exception,
                     **self.context,
                 )
             if strict_match:
-                if actual_exception not in expected_exception:
-                    got_message = self.message
+                if got_exception not in want_exception:
+                    got_message = self.got_message
                     assert got_message is not None
                     raise ExecutionExceptionMismatchError(
                         execution_context=self.execution_context,
-                        want_exception=expected_exception,
-                        got_exception=actual_exception,
+                        want_exception=want_exception,
+                        got_exception=got_exception,
                         got_message=got_message,
                         **self.context,
                     )
@@ -208,7 +208,7 @@ class TransactionExceptionInfo(ExceptionInfo):
         """Initialize the exception."""
         super().__init__(
             execution_context=ExecutionContext.TRANSACTION,
-            expected_exception=tx.error,  # type: ignore
+            want_exception=tx.error,  # type: ignore
             context={"index": tx_index, "nonce": tx.nonce},
             **kwargs,
         )
@@ -279,7 +279,7 @@ def verify_transactions(
         info = TransactionExceptionInfo(
             tx=tx,
             tx_index=i,
-            actual_exception=error_message,
+            got_exception=error_message,
         )
         info.verify(strict_match=transition_tool_exceptions_reliable)
         if error_message is None:
@@ -292,7 +292,7 @@ def verify_transactions(
 def verify_block(
     *,
     block_number: int,
-    expected_exception: List[TransactionException | BlockException]
+    want_exception: List[TransactionException | BlockException]
     | TransactionException
     | BlockException
     | None,
@@ -302,8 +302,8 @@ def verify_block(
     """Verify the block exception against the expected one."""
     info = BlockExceptionInfo(
         block_number=block_number,
-        expected_exception=expected_exception,
-        actual_exception=result.block_exception,
+        want_exception=want_exception,
+        got_exception=result.block_exception,
     )
     info.verify(strict_match=transition_tool_exceptions_reliable)
 
