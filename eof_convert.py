@@ -86,12 +86,12 @@ def exception_to_pytest(exception):
 
 
 def convert_json_to_pytest(json_file, output_file):
-    with open(json_file, 'r') as f:
+    with open(json_file, "r") as f:
         data = json.load(f)
 
     test_cases = next(iter(data.values()))["vectors"]
 
-    with open(output_file, 'w') as f:
+    with open(output_file, "w") as f:
         f.write("import pytest\n")
         f.write("from ethereum_test_exceptions import EOFException\n")
         f.write("from ethereum_test_types.eof.v1 import Container, Section\n\n")
@@ -108,7 +108,7 @@ def convert_json_to_pytest(json_file, output_file):
             exception = details["results"]["Osaka"].get("exception", None)
             f.write(f"        Container(\n")
             f.write(f"            name='{name}',\n")
-            f.write(f"            raw_bytes=\"{raw_bytes}\",\n")
+            f.write(f'            raw_bytes="{raw_bytes}",\n')
             if exception is not None:
                 f.write(f"            validity_error={exception_to_pytest(exception)},\n")
             f.write(f"        ),\n")
@@ -118,6 +118,7 @@ def convert_json_to_pytest(json_file, output_file):
         f.write(")\n")
         f.write("def test_eof_validation(eof_test, container):\n")
         f.write("    eof_test(container=container)\n")
+
 
 if __name__ == "__main__":
     input_dir = sys.argv[1]
@@ -130,9 +131,11 @@ if __name__ == "__main__":
 
 for root, _, files in os.walk(input_dir):
     for json_file in files:
-        if json_file.endswith('.json'):
+        if json_file.endswith(".json"):
             print(f"Converting {json_file}")
             relative_path = os.path.relpath(root, input_dir)
-            output_file_name = os.path.join(relative_path, os.path.splitext(json_file)[0] + '.py').replace('/', '_')
+            output_file_name = os.path.join(
+                relative_path, os.path.splitext(json_file)[0] + ".py"
+            ).replace("/", "_")
             output_file = os.path.join(output_dir, output_file_name)
             convert_json_to_pytest(os.path.join(root, json_file), output_file)
