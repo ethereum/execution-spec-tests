@@ -1020,6 +1020,9 @@ def test_invalid_blob_tx_contract_creation(
                     TransactionException.TYPE_3_TX_CONTRACT_CREATION,
                 ],
                 header_verify=header_verify,
+                # Skipped due to the T8N not receiving the invalid transaction,
+                # instead we are passing a valid transaction to T8N and then the transaction
+                # is replaced directly in the block RLP.
                 skip_exception_verification=True,
             )
         ],
