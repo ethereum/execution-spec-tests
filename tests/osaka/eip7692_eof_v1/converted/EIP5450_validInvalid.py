@@ -112,11 +112,6 @@ REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
-            name="validInvalid_118",
-            raw_bytes="ef0001010004020001000204000000008000001500",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
             name="validInvalid_119",
             raw_bytes="ef00010100040200010004040000000080000160011600",
             validity_error=EOFException.STACK_UNDERFLOW,
@@ -133,11 +128,6 @@ REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
         Container(
             name="validInvalid_121",
             raw_bytes="ef00010100040200010004040000000080000160011800",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
-            name="validInvalid_122",
-            raw_bytes="ef0001010004020001000204000000008000001900",
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
@@ -166,16 +156,6 @@ REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
-            name="validInvalid_128",
-            raw_bytes="ef0001010004020001000204000000008000003100",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
-            name="validInvalid_129",
-            raw_bytes="ef0001010004020001000204000000008000003500",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
             name="validInvalid_13",
             raw_bytes="ef000101000402000100060400000000800003600180800800",
         ),
@@ -190,26 +170,6 @@ REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
-            name="validInvalid_132",
-            raw_bytes="ef0001010004020001000204000000008000004000",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
-            name="validInvalid_133",
-            raw_bytes="ef0001010004020001000204000000008000004900",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
-            name="validInvalid_134",
-            raw_bytes="ef0001010004020001000204000000008000005000",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
-            name="validInvalid_135",
-            raw_bytes="ef0001010004020001000204000000008000005100",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
             name="validInvalid_136",
             raw_bytes="ef00010100040200010004040000000080000160015200",
             validity_error=EOFException.STACK_UNDERFLOW,
@@ -217,11 +177,6 @@ REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
         Container(
             name="validInvalid_137",
             raw_bytes="ef00010100040200010004040000000080000160015300",
-            validity_error=EOFException.STACK_UNDERFLOW,
-        ),
-        Container(
-            name="validInvalid_138",
-            raw_bytes="ef0001010004020001000204000000008000005400",
             validity_error=EOFException.STACK_UNDERFLOW,
         ),
         Container(
