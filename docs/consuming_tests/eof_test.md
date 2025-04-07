@@ -20,7 +20,7 @@ The EOF test fixture format is designed to be consumed by Ethereum client implem
 4. Compare the validation result (valid or invalid) against the expected result specified in the test
 5. If the validation result matches the expected result, the test passes; otherwise, it fails
 
-When validating EOF code, clients should follow the rules for EOF container validation as defined in the Ethereum execution specifications, particularly EIP-7692 (EOF v1) and related EIPs like EIP-4750 (Functions), EIP-7620 (EOF CREATE), and EIP-663 (DUPN/SWAPN/EXCHANGE).
+When validating EOF code, clients should follow the rules for EOF container validation as defined in the Ethereum execution specifications, particularly [EIP-7692](https://eips.ethereum.org/EIPS/eip-7692) (EOF v1) and related EIPs like [EIP-4750](https://eips.ethereum.org/EIPS/eip-4750) (Functions), [EIP-7620](https://eips.ethereum.org/EIPS/eip-7620) (EOF CREATE), and [EIP-663](https://eips.ethereum.org/EIPS/eip-663) (DUPN/SWAPN/EXCHANGE).
 
 ## Structures
 
