@@ -2,7 +2,7 @@
 
 from typing import Dict
 
-from pydantic import AliasChoices, Field, model_serializer
+from pydantic import AliasChoices, Field
 
 from ethereum_test_base_types import (
     BlobSchedule,
