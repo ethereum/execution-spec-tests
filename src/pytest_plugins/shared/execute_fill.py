@@ -83,7 +83,7 @@ def pytest_configure(config: pytest.Config):
     )
     config.addinivalue_line(
         "markers",
-        "zkvm: Tests that are relevant to zkVM.",
+        "zkevm: Tests that are relevant to zkEVM.",
     )
 
 
