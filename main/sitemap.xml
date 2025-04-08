@@ -1271,26 +1271,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/istanbul/eip152_blake2/test_blake2_callcode/</loc>
-         <lastmod>2025-04-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/tests/istanbul/eip152_blake2/test_blake2_callcode/test_blake2b_gas_limit/</loc>
-         <lastmod>2025-04-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/tests/istanbul/eip152_blake2/test_blake2_callcode/test_blake2b_invalid_gas/</loc>
-         <lastmod>2025-04-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/tests/istanbul/eip152_blake2/test_blake2_callcode/test_blake2b_large_gas_limit/</loc>
-         <lastmod>2025-04-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://eest.ethereum.org/main/tests/istanbul/eip152_blake2/test_blake2_delegatecall/</loc>
          <lastmod>2025-04-08</lastmod>
          <changefreq>daily</changefreq>

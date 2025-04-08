@@ -26581,8 +26581,6 @@
       
         
       
-        
-      
     
     
       
@@ -26874,10 +26872,6 @@
       
         
       
-        
-      
-        
-      
     
     
       
@@ -26893,11 +26887,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../test_blake2_callcode/" class="md-nav__link ">
+            <a href="../../test_blake2_delegatecall/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    Test Blake2 CALLCODE
+    Test Blake2 DELEGATECALL
   </span>
   
 
@@ -26912,133 +26906,6 @@
         
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_8_3_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_8_3_4">
-            <span class="md-nav__icon md-icon"></span>
-            Test Blake2 CALLCODE
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_blake2_callcode/test_blake2b_invalid_gas/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_blake2b_invalid_gas</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_blake2_callcode/test_blake2b_gas_limit/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_blake2b_gas_limit</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_blake2_callcode/test_blake2b_large_gas_limit/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_blake2b_large_gas_limit</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_8_3_5" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../test_blake2_delegatecall/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Test Blake2 DELEGATECALL
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_10_8_3_5" id="__nav_10_8_3_5_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_8_3_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10_8_3_5">
             <span class="md-nav__icon md-icon"></span>
             Test Blake2 DELEGATECALL
           </label>
@@ -29143,7 +29010,7 @@
 
 
 <h1 id="test_blake2b_invalid_gas"><code>test_blake2b_invalid_gas()</code><a class="headerlink" href="#test_blake2b_invalid_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e0eeecbfb3cb96e7fffa2d8f9266422a5ac5ba45/tests/istanbul/eip152_blake2/test_blake2.py#L445"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_invalid_gas@e0eeecbf</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/36c5f133085765f0f7cca3c324269460ae738035/tests/istanbul/eip152_blake2/test_blake2.py#L420"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_invalid_gas@36c5f133</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_invalid_gas --fork Prague</span>
@@ -29162,7 +29029,32 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/istanbul/eip152_blake2/test_blake2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">445</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
 <span class="normal">446</span>
 <span class="normal">447</span>
 <span class="normal">448</span>
@@ -29247,32 +29139,7 @@
 <span class="normal">527</span>
 <span class="normal">528</span>
 <span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="normal">530</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;gas_limit&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">90_000</span><span class="p">,</span> <span class="mi">110_000</span><span class="p">,</span> <span class="mi">200_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>

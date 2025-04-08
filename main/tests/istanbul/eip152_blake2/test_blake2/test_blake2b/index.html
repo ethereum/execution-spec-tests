@@ -26581,8 +26581,6 @@
       
         
       
-        
-      
     
     
       
@@ -26874,10 +26872,6 @@
       
         
       
-        
-      
-        
-      
     
     
       
@@ -26893,11 +26887,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../test_blake2_callcode/" class="md-nav__link ">
+            <a href="../../test_blake2_delegatecall/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    Test Blake2 CALLCODE
+    Test Blake2 DELEGATECALL
   </span>
   
 
@@ -26912,133 +26906,6 @@
         
         <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_8_3_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_8_3_4">
-            <span class="md-nav__icon md-icon"></span>
-            Test Blake2 CALLCODE
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_blake2_callcode/test_blake2b_invalid_gas/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_blake2b_invalid_gas</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_blake2_callcode/test_blake2b_gas_limit/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_blake2b_gas_limit</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../test_blake2_callcode/test_blake2b_large_gas_limit/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_blake2b_large_gas_limit</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_8_3_5" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../test_blake2_delegatecall/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Test Blake2 DELEGATECALL
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_10_8_3_5" id="__nav_10_8_3_5_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_8_3_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10_8_3_5">
             <span class="md-nav__icon md-icon"></span>
             Test Blake2 DELEGATECALL
           </label>
@@ -29143,7 +29010,7 @@
 
 
 <h1 id="test_blake2b"><code>test_blake2b()</code><a class="headerlink" href="#test_blake2b" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e0eeecbfb3cb96e7fffa2d8f9266422a5ac5ba45/tests/istanbul/eip152_blake2/test_blake2.py#L51"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b@e0eeecbf</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/36c5f133085765f0f7cca3c324269460ae738035/tests/istanbul/eip152_blake2/test_blake2.py#L27"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b@36c5f133</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b --fork Prague</span>
@@ -29162,7 +29029,31 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/istanbul/eip152_blake2/test_blake2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 51</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
 <span class="normal"> 52</span>
 <span class="normal"> 53</span>
 <span class="normal"> 54</span>
@@ -29528,32 +29419,7 @@
 <span class="normal">414</span>
 <span class="normal">415</span>
 <span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="normal">417</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">],</span>
@@ -29911,7 +29777,6 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test BLAKE2b precompile.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
-    <span class="n">account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">blake2b_contract_bytecode</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mh">0xDEADBEEF</span><span class="p">})</span>
     <span class="n">account</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">blake2b_contract_bytecode</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mh">0xDEADBEEF</span><span class="p">})</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
