@@ -25,7 +25,6 @@ dependencies = [
     "gitpython>=3.1.31,<4",
     "PyJWT>=2.3.0,<3",
     "tenacity>8.2.0,<9",
-    "bidict>=0.23,<1",
     "requests>=2.31.0,<3",
     "requests_unixsocket2>=0.4.0",
     "colorlog>=6.7.0,<7",
@@ -54,6 +53,7 @@ dependencies = [
     "prompt_toolkit>=3.0.48,<4", # ensure we have a new enough version for ipython
     "ethereum-rlp>=0.1.3,<0.2",
     "pytest-regex>=0.2.0,<0.3",
+    "eth-abi>=5.2.0",
 ]
 
 [project.urls]
@@ -105,10 +105,14 @@ order_fixtures = "cli.order_fixtures:order_fixtures"
 evm_bytes = "cli.evm_bytes:evm_bytes"
 hasher = "cli.hasher:main"
 eest = "cli.eest.cli:eest"
+fillerconvert = "cli.fillerconvert.fillerconvert:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["*tests*"]
+
+[tool.pyright]
+exclude = ["**/legacy/**"]
 
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]

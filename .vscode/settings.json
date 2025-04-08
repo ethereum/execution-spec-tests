@@ -55,4 +55,10 @@
     "ruff.enable": true,
     "ruff.lineLength": 99,
     "extensions.ignoreRecommendations": false,
+    "search.exclude": {
+      "tests/legacy": true
+    },
+    "files.watcherExclude": {
+      "tests/legacy": true
+    }
 }

@@ -46,15 +46,6 @@ wheels = [
 ]
 
 [[package]]
-name = "bidict"
-version = "0.23.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/9a/6e/026678aa5a830e07cd9498a05d3e7e650a4f56a42f267a53d22bcda1bdc9/bidict-0.23.1.tar.gz", hash = "sha256:03069d763bc387bbd20e7d49914e75fc4132a41937fa3405417e1a5a2d006d71", size = 29093 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/99/37/e8730c3587a65eb5645d4aba2d27aae48e8003614d6aaf15dda67f702f1f/bidict-0.23.1-py3-none-any.whl", hash = "sha256:5dae8d4d79b552a71cbabc7deb25dfe8ce710b17ff41711e13010ead2abfc3e5", size = 32764 },
-]
-
-[[package]]
 name = "bracex"
 version = "2.5"
 source = { registry = "https://pypi.org/simple" }
@@ -431,6 +422,20 @@ wheels = [
 ]
 
 [[package]]
+name = "eth-abi"
+version = "5.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "eth-typing" },
+    { name = "eth-utils" },
+    { name = "parsimonious" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/00/71/d9e1380bd77fd22f98b534699af564f189b56d539cc2b9dab908d4e4c242/eth_abi-5.2.0.tar.gz", hash = "sha256:178703fa98c07d8eecd5ae569e7e8d159e493ebb6eeb534a8fe973fbc4e40ef0", size = 49797 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7a/b4/2f3982c4cbcbf5eeb6aec62df1533c0e63c653b3021ff338d44944405676/eth_abi-5.2.0-py3-none-any.whl", hash = "sha256:17abe47560ad753f18054f5b3089fcb588f3e3a092136a416b6c1502cb7e8877", size = 28511 },
+]
+
+[[package]]
 name = "eth-hash"
 version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -488,10 +493,10 @@ name = "ethereum-execution-spec-tests"
 version = "1.0.0"
 source = { editable = "." }
 dependencies = [
-    { name = "bidict" },
     { name = "click" },
     { name = "coincurve" },
     { name = "colorlog" },
+    { name = "eth-abi" },
     { name = "ethereum-execution" },
     { name = "ethereum-rlp" },
     { name = "ethereum-spec-evm-resolver" },
@@ -551,11 +556,11 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bidict", specifier = ">=0.23,<1" },
     { name = "cairosvg", marker = "extra == 'docs'", specifier = ">=2.7.0,<3" },
     { name = "click", specifier = ">=8.1.0,<9" },
     { name = "coincurve", specifier = ">=20.0.0,<21" },
     { name = "colorlog", specifier = ">=6.7.0,<7" },
+    { name = "eth-abi", specifier = ">=5.2.0" },
     { name = "ethereum-execution", specifier = "==1.17.0rc6.dev1" },
     { name = "ethereum-rlp", specifier = ">=0.1.3,<0.2" },
     { name = "ethereum-spec-evm-resolver", git = "https://github.com/petertdavies/ethereum-spec-evm-resolver?rev=623ac4565025e72b65f45b926da2a3552041b469" },
@@ -1192,6 +1197,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/ec/46/68dde5b6bc00c1296ec6466ab27dddede6aec9af1b99090e1107091b3b84/paginate-0.5.7.tar.gz", hash = "sha256:22bd083ab41e1a8b4f3690544afb2c60c25e5c9a63a30fa2f483f6c60c8e5945", size = 19252 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/90/96/04b8e52da071d28f5e21a805b19cb9390aa17a47462ac87f5e2696b9566d/paginate-0.5.7-py2.py3-none-any.whl", hash = "sha256:b885e2af73abcf01d9559fd5216b57ef722f8c42affbb63942377668e35c7591", size = 13746 },
+]
+
+[[package]]
+name = "parsimonious"
+version = "0.10.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "regex" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7b/91/abdc50c4ef06fdf8d047f60ee777ca9b2a7885e1a9cea81343fbecda52d7/parsimonious-0.10.0.tar.gz", hash = "sha256:8281600da180ec8ae35427a4ab4f7b82bfec1e3d1e52f80cb60ea82b9512501c", size = 52172 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/aa/0f/c8b64d9b54ea631fcad4e9e3c8dbe8c11bb32a623be94f22974c88e71eaf/parsimonious-0.10.0-py3-none-any.whl", hash = "sha256:982ab435fabe86519b57f6b35610aa4e4e977e9f02a14353edf4bbc75369fc0f", size = 48427 },
 ]
 
 [[package]]
