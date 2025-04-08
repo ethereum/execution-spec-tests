@@ -309,7 +309,7 @@ def environment(base_fork: Fork) -> dict:
 @pytest.fixture(scope="session")
 def test_suite_name() -> str:
     """The name of the hive test suite used in this simulator."""
-    return "eest/execute, hive mode"
+    return "eest/execute"
 
 
 @pytest.fixture(scope="session")
@@ -318,7 +318,7 @@ def test_suite_description() -> str:
     return "Execute EEST tests using hive endpoint."
 
 
-@pytest.fixture(autouse=True, scope="session")
+@pytest.fixture(autouse=True, scope="function")
 def base_hive_test(
     request: pytest.FixtureRequest, test_suite: HiveTestSuite, session_temp_folder: Path
 ) -> Generator[HiveTest, None, None]:
@@ -379,7 +379,7 @@ def client_type(simulator: Simulation) -> ClientType:
     return simulator.client_types()[0]
 
 
-@pytest.fixture(autouse=True, scope="session")
+@pytest.fixture(autouse=True, scope="function")
 def client(
     base_hive_test: HiveTest,
     client_files: dict,
@@ -817,7 +817,7 @@ def chain_id() -> int:
     return 1
 
 
-@pytest.fixture(autouse=True, scope="session")
+@pytest.fixture(autouse=True, scope="function")
 def eth_rpc(
     request: pytest.FixtureRequest,
     client: Client,
