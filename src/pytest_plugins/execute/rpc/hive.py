@@ -323,12 +323,13 @@ def base_hive_test(
     request: pytest.FixtureRequest, test_suite: HiveTestSuite, session_temp_folder: Path
 ) -> Generator[HiveTest, None, None]:
     """Test (base) used to deploy the main client to be used throughout all tests."""
+    # Create a new test for each function
     test_name = request.node.name
     test = test_suite.start_test(
         name=f"Test: {test_name}", description=f"Individual test for {test_name}"
     )
     yield test
-
+    # Determine if this specific test has failed
     test_pass = True
     test_details = "Test passed successfully"
     for phase in ("setup", "call", "teardown"):
@@ -337,13 +338,6 @@ def base_hive_test(
             test_pass = False
             test_details = f"Test failed in {phase} phase: {result.longreprtext}"
             break
-    try:
-        if hasattr(request, "node") and hasattr(request.node, "_eth_rpc"):
-            eth_rpc = request.node._eth_rpc
-            eth_rpc.generate_block()
-            time.sleep(2)
-    except Exception as e:
-        test_details += f"\nError waiting for pending transactions: {str(e)}"
     test.end(result=HiveTestResult(test_pass=test_pass, details=test_details))
 
 
@@ -804,7 +798,7 @@ def eth_rpc(
     """Initialize ethereum RPC client for the execution client under test."""
     get_payload_wait_time = request.config.getoption("get_payload_wait_time")
     tx_wait_timeout = request.config.getoption("tx_wait_timeout")
-    eth_rpc = EthRPC(
+    return EthRPC(
         client=client,
         fork=base_fork,
         base_genesis_header=base_genesis_header,
@@ -813,8 +807,6 @@ def eth_rpc(
         get_payload_wait_time=get_payload_wait_time,
         transaction_wait_timeout=tx_wait_timeout,
     )
-    request.node._eth_rpc = eth_rpc
-    return eth_rpc
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
