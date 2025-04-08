@@ -387,6 +387,7 @@ class PendingTxHashes:
     def __init__(self):
         """Initialize the pending transaction hashes manager."""
         self.pending_tx_hashes = []
+        self.test_id = f"test_{uuid.uuid4().hex}"
 
     def append(self, tx_hash: Hash):
         """Add a transaction hash to the pending list."""
