@@ -6,6 +6,18 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ## 🔜 [Unreleased]
 
+### 💥 Breaking Change
+
+### 🛠️ Framework
+
+- ✨ The `static_filler` plug-in now has support for static state tests (from [GeneralStateTests](https://github.com/ethereum/tests/tree/develop/src/GeneralStateTestsFiller)) ([#1362](https://github.com/ethereum/execution-spec-tests/pull/1362)).
+
+### 📋 Misc
+
+### 🧪 Test Cases
+
+## [v4.2.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0) - 2025-04-08
+
 **Note**: Although not a breaking change, `consume` users should delete the cache directory (typically located at `~/.cache/ethereum-execution-spec-tests`) used to store downloaded fixture release tarballs. This release adds support for [ethereum/tests](https://github.com/ethereum/tests) and [ethereum/legacytests](https://github.com/ethereum/legacytests) fixture release downloads and the structure of the cache directory has been updated to accommodate this change.
 
 To try this feature:
