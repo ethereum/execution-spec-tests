@@ -173,7 +173,7 @@ def base_fork(request) -> Fork:
 def seed_sender() -> EOA:
     """Determine the seed sender account for the client's genesis."""
     # Generate a unique sender for each test
-    return EOA(key=randint(0, 2**256))
+    return EOA(key=randint(0, 2**256), nonce=0)
 
 
 @pytest.fixture(scope="function")
