@@ -93,6 +93,8 @@ class UndefinedException(str):
 
     def __new__(cls, value: str, *, mapper_name: str | None = None) -> "UndefinedException":
         """Create a new UndefinedException instance."""
+        if isinstance(value, UndefinedException):
+            return value
         assert isinstance(value, str)
         instance = super().__new__(cls, value)
         instance.mapper_name = mapper_name
