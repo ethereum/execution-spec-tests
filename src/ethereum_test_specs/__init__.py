@@ -18,7 +18,7 @@ from .eof import (
     EOFTestSpec,
 )
 from .state import StateTest, StateTestFiller, StateTestSpec
-from .state_static import StateStaticTest
+from .static_state.state_static import StateStaticTest
 from .transaction import TransactionTest, TransactionTestFiller, TransactionTestSpec
 
 SPEC_TYPES: List[Type[BaseTest]] = [

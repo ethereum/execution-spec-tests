@@ -5,18 +5,18 @@ from typing import Any, Callable, ClassVar, Dict, List, Tuple
 
 import pytest
 
-from cli.fillerconvert.structures.common import AddressInFiller
-from cli.fillerconvert.structures.expect_section import (
-    AccountInExpectSection,
-)
-from cli.fillerconvert.structures.state_test_filler import StateTestInFiller, StateTestVector
 from ethereum_test_base_types import Address, Hash, HexNumber, Storage, ZeroPaddedHexNumber
 from ethereum_test_exceptions import TransactionExceptionInstanceOrList
 from ethereum_test_forks import Fork
 from ethereum_test_types import Account, Alloc, Environment, Transaction
 
-from .base_static import BaseStaticTest
-from .state import StateTestFiller
+from ..base_static import BaseStaticTest
+from ..state import StateTestFiller
+from .common import AddressInFiller
+from .expect_section import (
+    AccountInExpectSection,
+)
+from .state_test_filler import StateTestInFiller, StateTestVector
 
 
 class StateStaticTest(StateTestInFiller, BaseStaticTest):
