@@ -46043,11 +46043,11 @@ spec type as filler for the test.</p>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
-            <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
-                <span class="n">txs</span> <span class="o">+=</span> <span class="n">block</span><span class="o">.</span><span class="n">txs</span>
+                <span class="n">blocks</span> <span class="o">+=</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">txs</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
-                <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
+                <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
                 <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -47162,11 +47162,11 @@ spec type as filler for the test.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
-        <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
-            <span class="n">txs</span> <span class="o">+=</span> <span class="n">block</span><span class="o">.</span><span class="n">txs</span>
+            <span class="n">blocks</span> <span class="o">+=</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">txs</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
-            <span class="n">transactions</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
+            <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -49900,7 +49900,7 @@ unset.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
-                <span class="n">transactions</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">],</span>
+                <span class="n">blocks</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">]],</span>
                 <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -50279,7 +50279,7 @@ unset.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
-            <span class="n">transactions</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">]],</span>
             <span class="n">post</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -50478,7 +50478,7 @@ unset.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the transaction test by sending it to the live network.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
-                <span class="n">transactions</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">],</span>
+                <span class="n">blocks</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">]],</span>
                 <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
             <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -50677,7 +50677,7 @@ unset.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute the transaction test by sending it to the live network.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">TransactionPost</span><span class="p">(</span>
-            <span class="n">transactions</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="o">=</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">]],</span>
             <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
         <span class="p">)</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

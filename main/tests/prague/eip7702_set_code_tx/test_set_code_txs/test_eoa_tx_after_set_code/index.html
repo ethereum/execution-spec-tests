@@ -29217,7 +29217,7 @@
 
 
 <h1 id="test_eoa_tx_after_set_code"><code>test_eoa_tx_after_set_code()</code><a class="headerlink" href="#test_eoa_tx_after_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a695b0015b2886cccfbbafdbacf502868f5856cf/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2715"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@a695b001</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/efc39d53c4545fd344281a711844049c1edc8ab7/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2716"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@efc39d53</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code --fork Prague</span>
@@ -29236,8 +29236,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2715</span>
-<span class="normal">2716</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2716</span>
 <span class="normal">2717</span>
 <span class="normal">2718</span>
 <span class="normal">2719</span>
@@ -29353,12 +29352,42 @@
 <span class="normal">2829</span>
 <span class="normal">2830</span>
 <span class="normal">2831</span>
-<span class="normal">2832</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">2832</span>
+<span class="normal">2833</span>
+<span class="normal">2834</span>
+<span class="normal">2835</span>
+<span class="normal">2836</span>
+<span class="normal">2837</span>
+<span class="normal">2838</span>
+<span class="normal">2839</span>
+<span class="normal">2840</span>
+<span class="normal">2841</span>
+<span class="normal">2842</span>
+<span class="normal">2843</span>
+<span class="normal">2844</span>
+<span class="normal">2845</span>
+<span class="normal">2846</span>
+<span class="normal">2847</span>
+<span class="normal">2848</span>
+<span class="normal">2849</span>
+<span class="normal">2850</span>
+<span class="normal">2851</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span>
     <span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="n">marks</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;incompatible tx&quot;</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">tx_type</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
     <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;same_block&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="kc">True</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;duplicate scenario for execute&quot;</span><span class="p">))],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;same_block&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;different_block&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_eoa_tx_after_set_code</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -29366,6 +29395,7 @@
     <span class="n">tx_type</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">,</span>
+    <span class="n">same_block</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test sending a transaction from an EOA after code has been set to the account.&quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
@@ -29373,47 +29403,46 @@
     <span class="n">set_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
     <span class="n">set_code_to_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">set_code</span><span class="p">)</span>
 
-    <span class="n">txs</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">Transaction</span><span class="p">(</span>
-            <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-            <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">authorization_list</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">AuthorizationTuple</span><span class="p">(</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">set_code_to_address</span><span class="p">,</span>
-                    <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">],</span>
-        <span class="p">)</span>
-    <span class="p">]</span>
+    <span class="n">first_eoa_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">authorization_list</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">AuthorizationTuple</span><span class="p">(</span>
+                <span class="n">address</span><span class="o">=</span><span class="n">set_code_to_address</span><span class="p">,</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
     <span class="n">auth_signer</span><span class="o">.</span><span class="n">nonce</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># type: ignore</span>
 
+    <span class="n">follow_up_eoa_txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">match</span> <span class="n">tx_type</span><span class="p">:</span>
         <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">protected</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Transaction</span><span class="p">(</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-                    <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-                    <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="p">),</span>
+            <span class="n">follow_up_eoa_txs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">Transaction</span><span class="p">(</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
+                        <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
+                        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
+                        <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">protected</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">),</span>
+                    <span class="n">Transaction</span><span class="p">(</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
+                        <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
+                        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
+                        <span class="n">to</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
+                        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
             <span class="p">)</span>
         <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">follow_up_eoa_txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
                     <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
@@ -29426,10 +29455,10 @@
                             <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                         <span class="p">)</span>
                     <span class="p">],</span>
-                <span class="p">),</span>
+                <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">follow_up_eoa_txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
                     <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
@@ -29438,10 +29467,10 @@
                     <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">1_000</span><span class="p">,</span>
                     <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">1_000</span><span class="p">,</span>
-                <span class="p">),</span>
+                <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">case</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">follow_up_eoa_txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">Transaction</span><span class="p">(</span>
                     <span class="nb">type</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
                     <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
@@ -29455,14 +29484,21 @@
                         <span class="p">[</span><span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
                         <span class="n">Spec4844</span><span class="o">.</span><span class="n">BLOB_COMMITMENT_VERSION_KZG</span><span class="p">,</span>
                     <span class="p">),</span>
-                <span class="p">),</span>
+                <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported tx type: </span><span class="si">{</span><span class="n">tx_type</span><span class="si">}</span><span class="s2">, test needs update&quot;</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">same_block</span><span class="p">:</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">first_eoa_tx</span><span class="p">]</span> <span class="o">+</span> <span class="n">follow_up_eoa_txs</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">first_eoa_tx</span><span class="p">]),</span>
+            <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">follow_up_eoa_txs</span><span class="p">),</span>
+        <span class="p">]</span>
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)],</span>
+        <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{</span>
             <span class="n">auth_signer</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">3</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="p">,</span>
@@ -29521,128 +29557,273 @@
             <th>Test ID (Abbreviated)</th>
                         <th>tx_type</th>
                         <th>evm_code_type</th>
+                        <th>same_block</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test]">
-                    ...fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test-same_block]">
+                    ...fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test-same_block
                 </abbr>
             </td>
                         <td>3</td>
                         <td>LEGACY</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test]">
-                    ...fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test
-                </abbr>
-            </td>
-                        <td>2</td>
-                        <td>LEGACY</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test]">
-                    ...fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>LEGACY</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test]">
-                    ...fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>LEGACY</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test]">
-                    ...fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test-different_block]">
+                    ...fork_Prague-tx_type_3-evm_code_type_LEGACY-blockchain_test-different_block
                 </abbr>
             </td>
                         <td>3</td>
                         <td>LEGACY</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test-same_block]">
+                    ...fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test-same_block
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>LEGACY</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test-different_block]">
+                    ...fork_Prague-tx_type_2-evm_code_type_LEGACY-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>LEGACY</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test-same_block]">
+                    ...fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test-same_block
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test-different_block]">
+                    ...fork_Prague-tx_type_1-evm_code_type_LEGACY-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test-same_block]">
+                    ...fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test-same_block
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test-different_block]">
+                    ...fork_Prague-tx_type_0-evm_code_type_LEGACY-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test]">
-                    ...fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test-same_block]">
+                    ...fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test-same_block
+                </abbr>
+            </td>
+                        <td>3</td>
+                        <td>LEGACY</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test-different_block]">
+                    ...fork_Osaka-tx_type_3-evm_code_type_LEGACY-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>3</td>
+                        <td>LEGACY</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test-same_block]">
+                    ...fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test-same_block
                 </abbr>
             </td>
                         <td>3</td>
                         <td>EOF_V1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test]">
-                    ...fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test-different_block]">
+                    ...fork_Osaka-tx_type_3-evm_code_type_EOF_V1-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>3</td>
+                        <td>EOF_V1</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test-same_block]">
+                    ...fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test-same_block
                 </abbr>
             </td>
                         <td>2</td>
                         <td>LEGACY</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test]">
-                    ...fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test-different_block]">
+                    ...fork_Osaka-tx_type_2-evm_code_type_LEGACY-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>LEGACY</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test-same_block]">
+                    ...fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test-same_block
                 </abbr>
             </td>
                         <td>2</td>
                         <td>EOF_V1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test]">
-                    ...fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test-different_block]">
+                    ...fork_Osaka-tx_type_2-evm_code_type_EOF_V1-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>EOF_V1</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test-same_block]">
+                    ...fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test-same_block
                 </abbr>
             </td>
                         <td>1</td>
                         <td>LEGACY</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test]">
-                    ...fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test-different_block]">
+                    ...fork_Osaka-tx_type_1-evm_code_type_LEGACY-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>LEGACY</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test-same_block]">
+                    ...fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test-same_block
                 </abbr>
             </td>
                         <td>1</td>
                         <td>EOF_V1</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test]">
-                    ...fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test-different_block]">
+                    ...fork_Osaka-tx_type_1-evm_code_type_EOF_V1-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>EOF_V1</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test-same_block]">
+                    ...fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test-same_block
                 </abbr>
             </td>
                         <td>0</td>
                         <td>LEGACY</td>
+                        <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test]">
-                    ...fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test-different_block]">
+                    ...fork_Osaka-tx_type_0-evm_code_type_LEGACY-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>LEGACY</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test-same_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test-same_block]">
+                    ...fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test-same_block
                 </abbr>
             </td>
                         <td>0</td>
                         <td>EOF_V1</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test-different_block]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code[fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test-different_block]">
+                    ...fork_Osaka-tx_type_0-evm_code_type_EOF_V1-blockchain_test-different_block
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>EOF_V1</td>
+                        <td>False</td>
                     </tr>
             </tbody>
 </table>
