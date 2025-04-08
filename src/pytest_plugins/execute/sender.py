@@ -72,7 +72,7 @@ def seed_account_sweep_amount(request: pytest.FixtureRequest) -> int | None:
     return request.config.option.seed_account_sweep_amount
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def sender_key_initial_balance(
     seed_sender: EOA,
     eth_rpc: EthRPC,
@@ -118,7 +118,7 @@ def sender_key_initial_balance(
     return sender_key_initial_balance
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def sender_key(
     request: pytest.FixtureRequest,
     seed_sender: EOA,
