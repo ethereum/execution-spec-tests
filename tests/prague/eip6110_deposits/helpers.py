@@ -19,6 +19,61 @@ def sha256(*args: bytes) -> bytes:
     return sha256_hashlib(b"".join(args)).digest()
 
 
+def create_deposit_log_bytes(
+    pubkey_size=48,
+    pubkey_data=b"",
+    pubkey_offset=160,
+    withdrawal_credentials_size=32,
+    withdrawal_credentials_data=b"",
+    withdrawal_credentials_offset=256,
+    amount_size=8,
+    amount_data=b"",
+    amount_offset=320,
+    signature_size=96,
+    signature_data=b"",
+    signature_offset=384,
+    index_size=8,
+    index_data=b"",
+    index_offset=512,
+) -> bytes:
+    result = bytearray(576)
+    offset = 0
+
+    def write_uint256(value):
+        nonlocal offset
+        result[offset : offset + 32] = value.to_bytes(32, byteorder="big")
+        offset += 32
+
+    def write_bytes(data, size):
+        nonlocal offset
+        padded = data.ljust(size, b"\x00")
+        result[offset : offset + size] = padded
+        offset += size
+
+    write_uint256(pubkey_offset)
+    write_uint256(withdrawal_credentials_offset)
+    write_uint256(amount_offset)
+    write_uint256(signature_offset)
+    write_uint256(index_offset)
+
+    write_uint256(pubkey_size)
+    write_bytes(pubkey_data, 64)
+
+    write_uint256(withdrawal_credentials_size)
+    write_bytes(withdrawal_credentials_data, 32)
+
+    write_uint256(amount_size)
+    write_bytes(amount_data, 32)
+
+    write_uint256(signature_size)
+    write_bytes(signature_data, 96)
+
+    write_uint256(index_size)
+    write_bytes(index_data, 32)
+
+    return bytes(result)
+
+
 class DepositRequest(DepositRequestBase):
     """Deposit request descriptor."""
 
