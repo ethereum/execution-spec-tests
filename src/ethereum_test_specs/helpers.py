@@ -31,7 +31,7 @@ class UnexpectedExecutionSuccessError(Exception):
         """Initialize the unexpected success exception."""
         message = (
             f"\nUnexpected success for {execution_context.value} ({kwargs}):"
-            f"\n  What: {execution_context.value} expected to fail succeeded!"
+            f"\n  What: {execution_context.value} unexpectedly succeeded!"
         )
         super().__init__(message)
 
@@ -56,7 +56,7 @@ class UnexpectedExecutionFailError(Exception):
 
 
 class UndefinedExecutionExceptionError(Exception):
-    """Exception used when the exception is undefined."""
+    """Exception used when a client's exception message isn't present in its `ExceptionMapper`."""
 
     def __init__(
         self,
