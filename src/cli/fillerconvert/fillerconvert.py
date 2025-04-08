@@ -15,6 +15,7 @@ def main() -> None:
         "mode", type=str, help="The type of filler we are trying to parse: blockchain/state."
     )
     parser.add_argument("folder_path", type=Path, help="The path to the JSON/YML filler directory")
+    parser.add_argument("legacy_path", type=Path, help="The path to the legacy tests directory")
 
     args = parser.parse_args()
     args.folder_path = Path(str(args.folder_path).split("=")[-1])
@@ -28,14 +29,13 @@ def main() -> None:
     if args.mode == "blockchain":
         raise NotImplementedError("Blockchain filler not implemented yet.")
 
-    LEGACY_TEST_FOLDER = Path("/home/wins/Ethereum/tests")  # noqa: N806
     if args.mode == "verify":
         verified_vectors = 0
         for file in files:
             print("Verify: " + file)
             refilled_file = file
             relative_file = file.removeprefix(str(args.folder_path))[1:]
-            original_file = LEGACY_TEST_FOLDER / "GeneralStateTests" / relative_file
+            original_file = args.legacy_path / "GeneralStateTests" / relative_file
             verified_vectors += verify_refilled(Path(refilled_file), original_file)
         print(f"Total vectors verified: {verified_vectors}")
 
