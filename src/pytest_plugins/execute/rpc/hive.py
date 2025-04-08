@@ -323,54 +323,28 @@ def base_hive_test(
     request: pytest.FixtureRequest, test_suite: HiveTestSuite, session_temp_folder: Path
 ) -> Generator[HiveTest, None, None]:
     """Test (base) used to deploy the main client to be used throughout all tests."""
-    base_name = "base_hive_test"
-    base_file = session_temp_folder / base_name
-    base_lock_file = session_temp_folder / f"{base_name}.lock"
-    with FileLock(base_lock_file):
-        if base_file.exists():
-            with open(base_file, "r") as f:
-                test = HiveTest(**json.load(f))
-        else:
-            test = test_suite.start_test(
-                name="Base Hive Test",
-                description=(
-                    "Base test used to deploy the main client to be used throughout all tests."
-                ),
-            )
-            with open(base_file, "w") as f:
-                json.dump(asdict(test), f)
-
-    users_file_name = f"{base_name}_users"
-    users_file = session_temp_folder / users_file_name
-    users_lock_file = session_temp_folder / f"{users_file_name}.lock"
-    with FileLock(users_lock_file):
-        if users_file.exists():
-            with open(users_file, "r") as f:
-                users = json.load(f)
-        else:
-            users = 0
-        users += 1
-        with open(users_file, "w") as f:
-            json.dump(users, f)
-
+    test_name = request.node.name
+    test = test_suite.start_test(
+        name=f"Test: {test_name}", description=f"Individual test for {test_name}"
+    )
     yield test
 
     test_pass = True
-    test_details = "All tests have completed"
-    if request.session.testsfailed > 0:  # noqa: SC200
-        test_pass = False
-        test_details = "One or more tests have failed"
-
-    with FileLock(users_lock_file):
-        with open(users_file, "r") as f:
-            users = json.load(f)
-        users -= 1
-        with open(users_file, "w") as f:
-            json.dump(users, f)
-        if users == 0:
-            test.end(result=HiveTestResult(test_pass=test_pass, details=test_details))
-            base_file.unlink()
-            users_file.unlink()
+    test_details = "Test passed successfully"
+    for phase in ("setup", "call", "teardown"):
+        result = getattr(request.node, f"result_{phase}", None)
+        if result and not result.passed:
+            test_pass = False
+            test_details = f"Test failed in {phase} phase: {result.longreprtext}"
+            break
+    try:
+        if hasattr(request, "node") and hasattr(request.node, "_eth_rpc"):
+            eth_rpc = request.node._eth_rpc
+            eth_rpc.generate_block()
+            time.sleep(2)
+    except Exception as e:
+        test_details += f"\nError waiting for pending transactions: {str(e)}"
+    test.end(result=HiveTestResult(test_pass=test_pass, details=test_details))
 
 
 @pytest.fixture(scope="session")
@@ -830,7 +804,7 @@ def eth_rpc(
     """Initialize ethereum RPC client for the execution client under test."""
     get_payload_wait_time = request.config.getoption("get_payload_wait_time")
     tx_wait_timeout = request.config.getoption("tx_wait_timeout")
-    return EthRPC(
+    eth_rpc = EthRPC(
         client=client,
         fork=base_fork,
         base_genesis_header=base_genesis_header,
@@ -839,3 +813,13 @@ def eth_rpc(
         get_payload_wait_time=get_payload_wait_time,
         transaction_wait_timeout=tx_wait_timeout,
     )
+    request.node._eth_rpc = eth_rpc
+    return eth_rpc
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Store test results on the test item for later access."""
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, f"result_{rep.when}", rep)
