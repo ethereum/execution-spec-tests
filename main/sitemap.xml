@@ -2241,6 +2241,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_after_callf/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_by_height/</loc>
          <lastmod>2025-04-08</lastmod>
          <changefreq>daily</changefreq>
@@ -2251,12 +2261,47 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_variable_stack/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_variable_stack_2/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_variable_stack_3/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_overflow_variable_stack_4/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_stack_underflow_examples/</loc>
          <lastmod>2025-04-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_truncated_immediate/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_validate_outputs/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_with_inputs_stack_overflow/</loc>
+         <lastmod>2025-04-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation/test_callf_with_inputs_stack_overflow_variable_stack/</loc>
          <lastmod>2025-04-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
