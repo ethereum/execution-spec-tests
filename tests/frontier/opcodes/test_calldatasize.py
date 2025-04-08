@@ -45,6 +45,7 @@ def test_calldataload(
         protected=fork >= Byzantium,
         sender=pre.fund_eoa(),
         to=to,
+        value=0x1,
     )
     post = {address: Account(storage={0x00: args_size})}
     state_test(pre=pre, post=post, tx=tx)
