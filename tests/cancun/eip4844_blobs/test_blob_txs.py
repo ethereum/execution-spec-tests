@@ -563,7 +563,14 @@ def test_invalid_normal_gas(
     SpecHelpers.invalid_blob_combinations,
 )
 @pytest.mark.parametrize(
-    "tx_error", [TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED], ids=[""]
+    "tx_error",
+    [
+        [
+            TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
+            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+        ]
+    ],
+    ids=[""],
 )
 @pytest.mark.valid_from("Cancun")
 def test_invalid_block_blob_count(
@@ -857,7 +864,10 @@ def generate_invalid_tx_blob_count_tests(
         ),
         pytest.param(
             [fork.max_blobs_per_block() + 1],
-            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            [
+                TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
+                TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            ],
             id="too_many_blobs",
         ),
     ]
