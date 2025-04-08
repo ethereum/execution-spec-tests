@@ -7,7 +7,7 @@ from ethereum_test_tools import Macros as Om
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_tools import Requests, Transaction
 
-from .helpers import DepositRequest
+from .helpers import DepositRequest, create_deposit_log_bytes
 from .spec import Spec, ref_spec_6110
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_6110.git_path
@@ -15,20 +15,20 @@ REFERENCE_SPEC_VERSION = ref_spec_6110.version
 
 
 @pytest.mark.parametrize(
-    "deposit_event_includes_abi_encoding",
+    "include_deposit_event",
     [
         pytest.param(True),
-        pytest.param(False, marks=pytest.mark.skip(reason="Not in spec")),
+        pytest.param(False),
     ],
 )
 def test_extra_logs(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    deposit_event_includes_abi_encoding: bool,
+    include_deposit_event: bool,
 ):
     """Test deposit contract emitting more log event types than the ones in mainnet."""
-    # Supplant mainnet contract with a variant that emits two logs, one of which
-    # has a different data length.
+    # Supplant mainnet contract with a variant that emits a `Transfer`` log
+    # If `include_deposit_event` is `True``, it will also emit a `DepositEvent` log`
     deposit_request = DepositRequest(
         pubkey=0x01,
         withdrawal_credentials=0x02,
@@ -36,8 +36,12 @@ def test_extra_logs(
         signature=0x03,
         index=0x0,
     )
-    deposit_request_log = deposit_request.log(
-        include_abi_encoding=deposit_event_includes_abi_encoding,
+    deposit_request_log = create_deposit_log_bytes(
+        pubkey_data=deposit_request.pubkey,
+        withdrawal_credentials_data=deposit_request.withdrawal_credentials,
+        amount_data=deposit_request.amount,
+        signature_data=deposit_request.signature,
+        index_data=deposit_request.index,
     )
 
     # ERC20 token transfer log (Sepolia)
@@ -62,26 +66,28 @@ def test_extra_logs(
     # "0x0000000000000000000000006885e36bfcb68cb383dfe90023a462c03bcb2ae5",
     # "0x00000000000000000000000080b5dc88c98e528bf9cb4b7f0f076ac41da24651"]
 
-    bytecode = (
-        Op.LOG3(
-            # ERC-20 token transfer log
-            # ERC-20 token transfers are LOG3, since the topic, the sender, and receiver
-            # are all topics (the sender and receiver are `indexed` in the solidity event)
-            0,
-            32,
-            0xDDF252AD1BE2C89B69C2B068FC378DAA952BA7F163C4A11628F55A4DF523B3EF,
-            0x000000000000000000000000AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-            0x000000000000000000000000BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB,
-        )
-        + Om.MSTORE(deposit_request_log)
-        + Op.LOG1(
+    bytecode = Op.LOG3(
+        # ERC-20 token transfer log
+        # ERC-20 token transfers are LOG3, since the topic, the sender, and receiver
+        # are all topics (the sender and receiver are `indexed` in the solidity event)
+        0,
+        32,
+        0xDDF252AD1BE2C89B69C2B068FC378DAA952BA7F163C4A11628F55A4DF523B3EF,
+        0x000000000000000000000000AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+        0x000000000000000000000000BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB,
+    )
+
+    requests = []
+
+    if include_deposit_event:
+        bytecode += Om.MSTORE(deposit_request_log)
+        +Op.LOG1(
             0,
             len(deposit_request_log),
             Spec.DEPOSIT_EVENT_SIGNATURE_HASH,
         )
-        + Op.STOP
-    )
-    assert len(deposit_request_log) == 576
+        requests = deposit_request
+    bytecode += Op.STOP
 
     pre[Spec.DEPOSIT_CONTRACT_ADDRESS] = Account(
         code=bytecode,
@@ -102,7 +108,7 @@ def test_extra_logs(
             Block(
                 txs=[tx],
                 header_verify=Header(
-                    requests_hash=Requests(deposit_request),
+                    requests_hash=Requests(requests),
                 ),
             ),
         ],
