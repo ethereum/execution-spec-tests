@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_eofcreate_revert_eof_returndata"><code>test_eofcreate_revert_eof_returndata()</code><a class="headerlink" href="#test_eofcreate_revert_eof_returndata" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cc023a4e0625dddbde3e5cbe756889d2ec36ed97/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L537"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_revert_eof_returndata@cc023a4e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e0eeecbfb3cb96e7fffa2d8f9266422a5ac5ba45/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L537"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_revert_eof_returndata@e0eeecbf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_revert_eof_returndata --fork Osaka</span>
@@ -29216,7 +29216,9 @@
 <span class="normal">586</span>
 <span class="normal">587</span>
 <span class="normal">588</span>
-<span class="normal">589</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_revert_eof_returndata</span><span class="p">(</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_revert_eof_returndata</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -29238,7 +29240,9 @@
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_create_address</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">))</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+                        <span class="n">slot_create_address</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
+                    <span class="p">)</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_returndata_size</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">)</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
                 <span class="p">),</span>

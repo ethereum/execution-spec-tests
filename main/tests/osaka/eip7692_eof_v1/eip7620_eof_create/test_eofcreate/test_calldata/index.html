@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_calldata"><code>test_calldata()</code><a class="headerlink" href="#test_calldata" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cc023a4e0625dddbde3e5cbe756889d2ec36ed97/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L254"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_calldata@cc023a4e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e0eeecbfb3cb96e7fffa2d8f9266422a5ac5ba45/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L254"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_calldata@e0eeecbf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_calldata --fork Osaka</span>
@@ -29244,7 +29244,7 @@
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="n">calldata</span><span class="p">))</span>
-                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_create_address</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">calldata_size</span><span class="p">))</span>
+                    <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_create_address</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">input_size</span><span class="o">=</span><span class="n">calldata_size</span><span class="p">))</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Container</span><span class="p">(</span><span class="n">container</span><span class="o">=</span><span class="n">initcode_subcontainer</span><span class="p">),</span>

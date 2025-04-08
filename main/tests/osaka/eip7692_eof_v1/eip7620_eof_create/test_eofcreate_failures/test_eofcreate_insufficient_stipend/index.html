@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_eofcreate_insufficient_stipend"><code>test_eofcreate_insufficient_stipend()</code><a class="headerlink" href="#test_eofcreate_insufficient_stipend" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cc023a4e0625dddbde3e5cbe756889d2ec36ed97/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L330"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_insufficient_stipend@cc023a4e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e0eeecbfb3cb96e7fffa2d8f9266422a5ac5ba45/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L330"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_insufficient_stipend@e0eeecbf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_insufficient_stipend --fork Osaka</span>
@@ -29235,7 +29235,7 @@ pay the stipend.</p>
     <span class="n">initcode_container</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_create_address</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_create_address</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">))</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
             <span class="p">),</span>

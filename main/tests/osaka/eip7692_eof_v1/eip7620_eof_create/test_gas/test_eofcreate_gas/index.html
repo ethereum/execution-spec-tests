@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_eofcreate_gas"><code>test_eofcreate_gas()</code><a class="headerlink" href="#test_eofcreate_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cc023a4e0625dddbde3e5cbe756889d2ec36ed97/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py#L49"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py::test_eofcreate_gas@cc023a4e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e0eeecbfb3cb96e7fffa2d8f9266422a5ac5ba45/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py#L49"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py::test_eofcreate_gas@e0eeecbf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py::test_eofcreate_gas --fork Osaka</span>
@@ -29366,10 +29366,10 @@
         <span class="n">state_test</span><span class="p">,</span>
         <span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="p">,</span>
-        <span class="n">setup_code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">mem_expansion_bytes</span><span class="p">)</span>
+        <span class="n">setup_code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">mem_expansion_bytes</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
-        <span class="o">+</span> <span class="n">code_increment_counter</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>
+        <span class="o">+</span> <span class="n">code_increment_counter</span><span class="p">,</span>
         <span class="n">subject_code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EOFCREATE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">tear_down_code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
         <span class="n">cold_gas</span><span class="o">=</span><span class="n">EOFCREATE_GAS</span>
