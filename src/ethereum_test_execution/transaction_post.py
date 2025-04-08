@@ -27,16 +27,15 @@ class TransactionPost(BaseExecute):
         assert not any(tx.ty == 3 for block in self.blocks for tx in block), (
             "Transaction type 3 is not supported in execute mode."
         )
-        if any(tx.error is not None for block in self.blocks for tx in block):
-            for block in self.blocks:
+        for block in self.blocks:
+            if any(tx.error is not None for tx in block):
                 for transaction in block:
                     if transaction.error is None:
                         eth_rpc.send_wait_transaction(transaction.with_signature_and_sender())
                     else:
                         with pytest.raises(SendTransactionExceptionError):
                             eth_rpc.send_transaction(transaction.with_signature_and_sender())
-        else:
-            for block in self.blocks:
+            else:
                 eth_rpc.send_wait_transactions([tx.with_signature_and_sender() for tx in block])
 
         for address, account in self.post.root.items():
