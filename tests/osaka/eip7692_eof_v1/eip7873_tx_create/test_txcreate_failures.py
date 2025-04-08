@@ -8,6 +8,7 @@ from ethereum_test_tools import (
     Account,
     Alloc,
     Environment,
+    EVMCodeType,
     StateTestFiller,
     Transaction,
     compute_eofcreate_address,
@@ -38,11 +39,12 @@ from .helpers import (
 from .spec import TXCREATE_FAILURE
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7873.md"
-REFERENCE_SPEC_VERSION = "043fdb1c5b546c40ab0dd2c01d2b18d36be5d702"
+REFERENCE_SPEC_VERSION = "1115fe6110fcc0efc823fb7f8f5cd86c42173efe"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize(
     "revert",
     [
@@ -65,22 +67,15 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
     )
     initcode_hash = keccak256(initcode_subcontainer)
 
-    factory_contract = Container(
-        name="factory contract",
-        sections=[
-            Section.Code(
-                code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
-                + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
-                + Op.RETURNDATACOPY(Op.SUB(32, Op.RETURNDATASIZE), 0, Op.RETURNDATASIZE)
-                + Op.SSTORE(slot_returndata, Op.MLOAD(0))
-                + Op.SSTORE(slot_code_worked, value_code_worked)
-                + Op.STOP,
-            )
-        ],
-    )
-
     sender = pre.fund_eoa()
-    contract_address = pre.deploy_contract(code=factory_contract)
+    contract_address = pre.deploy_contract(
+        code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
+        + Op.RETURNDATACOPY(Op.SUB(32, Op.RETURNDATASIZE), 0, Op.RETURNDATASIZE)
+        + Op.SSTORE(slot_returndata, Op.MLOAD(0))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP
+    )
 
     post = {
         contract_address: Account(
@@ -103,6 +98,7 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize("tx_initcode_count", [1, 255, 256])
 def test_txcreate_invalid_hash(
     state_test: StateTestFiller, pre: Alloc, fork: Fork, tx_initcode_count: int
@@ -111,19 +107,12 @@ def test_txcreate_invalid_hash(
     env = Environment()
     initcode_hash = keccak256("")
 
-    factory_contract = Container(
-        name="factory contract",
-        sections=[
-            Section.Code(
-                code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
-                + Op.SSTORE(slot_code_worked, value_code_worked)
-                + Op.STOP,
-            )
-        ],
-    )
-
     sender = pre.fund_eoa()
-    contract_address = pre.deploy_contract(code=factory_contract)
+    contract_address = pre.deploy_contract(
+        code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP
+    )
 
     post = {
         contract_address: Account(
@@ -144,6 +133,7 @@ def test_txcreate_invalid_hash(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 def test_initcode_aborts(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -153,17 +143,9 @@ def test_initcode_aborts(
     sender = pre.fund_eoa()
     initcode_hash = keccak256(aborting_container)
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.SSTORE(
-                        slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash)
-                    )
-                    + Op.SSTORE(slot_code_worked, value_code_worked)
-                    + Op.STOP,
-                ),
-            ]
-        )
+        code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
     )
     # Storage in slot_create_address should not have the address,
     post = {
@@ -193,6 +175,7 @@ have to use a pre-calculated size
 initcode_size = 30
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize(
     "target_deploy_size",
     [
@@ -240,18 +223,12 @@ def test_txcreate_deploy_sizes(
     )
     initcode_hash = keccak256(initcode_subcontainer)
 
-    factory_container = Container(
-        sections=[
-            Section.Code(
-                code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
-                + Op.SSTORE(slot_code_worked, value_code_worked)
-                + Op.STOP,
-            ),
-        ]
-    )
-
     sender = pre.fund_eoa()
-    contract_address = pre.deploy_contract(code=factory_container)
+    contract_address = pre.deploy_contract(
+        code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP
+    )
     # Storage in 0 should have the address,
     # Storage 1 is a canary of 1 to make sure it tried to execute, which also covers cases of
     #   data+code being greater than initcode_size_max, which is allowed.
@@ -277,6 +254,7 @@ def test_txcreate_deploy_sizes(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize(
     "auxdata_size",
     [
@@ -306,19 +284,13 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
     sender = pre.fund_eoa()
     initcode_hash = keccak256(initcode_subcontainer)
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-                    + Op.SSTORE(
-                        slot_create_address,
-                        Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=Op.CALLDATASIZE),
-                    )
-                    + Op.SSTORE(slot_code_worked, value_code_worked)
-                    + Op.STOP,
-                ),
-            ]
+        code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
+        + Op.SSTORE(
+            slot_create_address,
+            Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=Op.CALLDATASIZE),
         )
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
     )
 
     deployed_container_size = len(smallest_runtime_subcontainer) + auxdata_size
@@ -349,6 +321,7 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize(
     "value",
     [
@@ -368,19 +341,13 @@ def test_txcreate_insufficient_stipend(
     env = Environment()
     sender = pre.fund_eoa(10**11)
     initcode_hash = keccak256(smallest_initcode_subcontainer)
-    factory = Container(
-        sections=[
-            Section.Code(
-                code=Op.SSTORE(
-                    slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash, value=value)
-                )
-                + Op.SSTORE(slot_code_worked, value_code_worked)
-                + Op.STOP,
-            ),
-        ]
-    )
+
     contract_address = pre.deploy_contract(
-        code=factory,
+        code=Op.SSTORE(
+            slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash, value=value)
+        )
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
         balance=value - 1,
     )
     # create will fail but not trigger a halt, so canary at storage 1 should be set
@@ -405,6 +372,7 @@ def test_txcreate_insufficient_stipend(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """Excercises an TXCREATE when there is not enough gas for the constant charge."""
     env = Environment()
@@ -421,17 +389,9 @@ def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.SSTORE(
-                        slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash)
-                    )
-                    + Op.SSTORE(slot_code_should_fail, value_code_worked)
-                    + Op.STOP,
-                ),
-            ],
-        ),
+        code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + Op.SSTORE(slot_code_should_fail, value_code_worked)
+        + Op.STOP,
         storage={
             slot_create_address: value_canary_should_not_change,
             slot_code_should_fail: value_canary_should_not_change,
@@ -466,6 +426,7 @@ def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 def test_insufficient_gas_memory_expansion(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -476,21 +437,14 @@ def test_insufficient_gas_memory_expansion(
 
     auxdata_size = 0x5000
     initcode_hash = keccak256(smallest_initcode_subcontainer)
-    factory_container = Container(
-        sections=[
-            Section.Code(
-                code=Op.SSTORE(
-                    slot_create_address,
-                    Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=auxdata_size),
-                )
-                + Op.SSTORE(slot_code_should_fail, slot_code_worked)
-                + Op.STOP,
-            ),
-        ],
-    )
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
-        code=factory_container,
+        code=Op.SSTORE(
+            slot_create_address,
+            Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=auxdata_size),
+        )
+        + Op.SSTORE(slot_code_should_fail, slot_code_worked)
+        + Op.STOP,
         storage={
             slot_create_address: value_canary_should_not_change,
             slot_code_should_fail: value_canary_should_not_change,
@@ -527,6 +481,7 @@ def test_insufficient_gas_memory_expansion(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 def test_insufficient_returncode_auxdata_gas(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -549,15 +504,9 @@ def test_insufficient_returncode_auxdata_gas(
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.SSTORE(slot_code_worked, value_code_worked)
-                    + Op.TXCREATE(tx_initcode_hash=initcode_hash)
-                    + Op.STOP,
-                ),
-            ],
-        ),
+        code=Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.TXCREATE(tx_initcode_hash=initcode_hash)
+        + Op.STOP,
         storage={
             slot_code_worked: value_canary_to_be_overwritten,
         },
@@ -594,6 +543,7 @@ def test_insufficient_returncode_auxdata_gas(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize(
     "opcode",
     [
@@ -619,13 +569,7 @@ def test_static_flag_txcreate(
     initcode_hash = keccak256(initcode)
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.TXCREATE(tx_initcode_hash=initcode_hash, value=endowment) + Op.STOP,
-                ),
-            ]
-        )
+        code=Op.TXCREATE(tx_initcode_hash=initcode_hash, value=endowment) + Op.STOP,
     )
     calling_code = (
         Op.SSTORE(slot_call_result, opcode(address=contract_address))
@@ -633,7 +577,9 @@ def test_static_flag_txcreate(
         + Op.STOP
     )
     calling_address = pre.deploy_contract(
-        Container.Code(calling_code) if opcode == Op.EXTSTATICCALL else calling_code
+        calling_code,
+        # Need to override the global value from the `with_all_evm_code_types` marker.
+        evm_code_type=EVMCodeType.EOF_V1 if opcode == Op.EXTSTATICCALL else EVMCodeType.LEGACY,
     )
 
     post = {
@@ -662,13 +608,7 @@ magic_value_call = 0xCA11
 magic_value_create = 0xCC12EA7E
 
 
-@pytest.mark.parametrize(
-    "opcode",
-    [
-        Op.EXTCALL,
-        Op.EXTDELEGATECALL,
-    ],
-)
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize(
     "who_fails",
     [magic_value_call, magic_value_create],
@@ -678,8 +618,8 @@ magic_value_create = 0xCC12EA7E
 def test_eof_txcreate_msg_depth(
     state_test: StateTestFiller,
     pre: Alloc,
-    opcode: Op,
     who_fails: int,
+    evm_code_type: EVMCodeType,
 ):
     """
     Test TXCREATE handles msg depth limit correctly (1024).
@@ -709,7 +649,7 @@ def test_eof_txcreate_msg_depth(
     initcode = Container.Code(
         Op.MSTORE(0, Op.ADD(Op.CALLDATALOAD(0), 1))
         + Op.MSTORE(96, magic_value_call)
-        + opcode(address=callee_address, args_size=32)
+        + Op.EXTCALL(address=callee_address, args_size=32)
         + Op.RETURNDATASIZE
         + Op.ISZERO
         + Op.RJUMPI[rjump_offset]
@@ -720,21 +660,21 @@ def test_eof_txcreate_msg_depth(
     initcode_hash = keccak256(initcode)
     sender = pre.fund_eoa()
 
-    callee_code = Container(
-        sections=[
-            Section.Code(
-                Op.MSTORE(0, Op.ADD(Op.CALLDATALOAD(0), 1))
-                + Op.MSTORE(96, magic_value_create)
-                + Op.TXCREATE(
-                    tx_initcode_hash=initcode_hash, salt=Op.CALLDATALOAD(0), input_size=32
-                )
-                + Op.RETURNDATASIZE
-                + Op.ISZERO
-                + Op.RJUMPI[rjump_offset]
-                + returndatacopy_block
-                + deep_most_result_block
-            ),
-        ]
+    jump_code = (
+        Op.RJUMPI[rjump_offset]
+        if evm_code_type == EVMCodeType.EOF_V1
+        else Op.ADD(Op.PC, rjump_offset + 3) + Op.JUMPI
+    )
+    callee_code = (
+        Op.MSTORE(0, Op.ADD(Op.CALLDATALOAD(0), 1))
+        + Op.MSTORE(96, magic_value_create)
+        + Op.TXCREATE(tx_initcode_hash=initcode_hash, salt=Op.CALLDATALOAD(0), input_size=32)
+        + Op.RETURNDATASIZE
+        + Op.ISZERO
+        + jump_code
+        + returndatacopy_block
+        + Op.JUMPDEST
+        + deep_most_result_block
     )
 
     pre.deploy_contract(callee_code, address=callee_address)
@@ -742,7 +682,7 @@ def test_eof_txcreate_msg_depth(
     calling_contract_address = pre.deploy_contract(
         Container.Code(
             Op.MSTORE(0, Op.CALLDATALOAD(0))
-            + opcode(address=callee_address, args_size=32)
+            + Op.EXTCALL(address=callee_address, args_size=32)
             + Op.SSTORE(slot_max_depth, Op.RETURNDATALOAD(0))
             + Op.SSTORE(slot_call_result, Op.RETURNDATALOAD(32))
             + Op.SSTORE(slot_call_or_create, Op.RETURNDATALOAD(64))
@@ -788,6 +728,7 @@ def test_eof_txcreate_msg_depth(
     )
 
 
+@pytest.mark.with_all_evm_code_types
 def test_reentrant_txcreate(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -813,20 +754,14 @@ def test_reentrant_txcreate(
     # Factory: Passes on its input into the initcode. It's 0 first time, 1 the second time.
     #          Saves the result of deployment in slot 0 first time, 1 the second time.
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    Op.CALLDATACOPY(0, 0, 32)
-                    + Op.MSTORE(32, Op.ADDRESS)
-                    # 1st word - copied from input (reenter flag), 2nd word - `this.address`.
-                    + Op.SSTORE(
-                        Op.CALLDATALOAD(0),
-                        Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=64),
-                    )
-                    + Op.STOP,
-                ),
-            ],
-        ),
+        code=Op.CALLDATACOPY(0, 0, 32)
+        + Op.MSTORE(32, Op.ADDRESS)
+        # 1st word - copied from input (reenter flag), 2nd word - `this.address`.
+        + Op.SSTORE(
+            Op.CALLDATALOAD(0),
+            Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=64),
+        )
+        + Op.STOP,
         storage={0: 0xB17D, 1: 0xB17D},  # a canary to be overwritten
     )
     # Flow is: reenter flag 0 -> factory -> reenter flag 0 -> initcode -> reenter ->

@@ -8,6 +8,7 @@ from ethereum_test_tools import (
     Account,
     Alloc,
     Environment,
+    EVMCodeType,
     StateTestFiller,
     Transaction,
     compute_eofcreate_address,
@@ -18,7 +19,7 @@ from ethereum_test_types.types import keccak256
 from ethereum_test_vm.bytecode import Bytecode
 
 from .. import EOF_FORK_NAME
-from ..eip7069_extcall.spec import EXTCALL_SUCCESS
+from ..eip7069_extcall.spec import EXTCALL_SUCCESS, LEGACY_CALL_SUCCESS
 from .helpers import (
     slot_call_result,
     slot_calldata,
@@ -36,11 +37,12 @@ from .helpers import (
 from .spec import TXCREATE_FAILURE
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7873.md"
-REFERENCE_SPEC_VERSION = "043fdb1c5b546c40ab0dd2c01d2b18d36be5d702"
+REFERENCE_SPEC_VERSION = "1115fe6110fcc0efc823fb7f8f5cd86c42173efe"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize("tx_initcode_count", [1, 255, 256])
 def test_simple_txcreate(state_test: StateTestFiller, pre: Alloc, tx_initcode_count: int):
     """Verifies a simple TXCREATE case."""
@@ -48,13 +50,7 @@ def test_simple_txcreate(state_test: StateTestFiller, pre: Alloc, tx_initcode_co
     sender = pre.fund_eoa()
     initcode_hash = keccak256(smallest_initcode_subcontainer)
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.SSTORE(0, Op.TXCREATE(tx_initcode_hash=initcode_hash)) + Op.STOP,
-                ),
-            ],
-        ),
+        code=Op.SSTORE(0, Op.TXCREATE(tx_initcode_hash=initcode_hash)) + Op.STOP,
         storage={0: 0xB17D},  # a canary to be overwritten
     )
     # Storage in 0 should have the address,
@@ -117,10 +113,8 @@ def test_txcreate_then_dataload(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-def test_txcreate_then_call(
-    state_test: StateTestFiller,
-    pre: Alloc,
-):
+@pytest.mark.with_all_evm_code_types
+def test_txcreate_then_call(state_test: StateTestFiller, pre: Alloc, evm_code_type: EVMCodeType):
     """Verifies a simple TXCREATE case, and then calls the deployed contract."""
     env = Environment()
     callable_contract = Container(
@@ -141,19 +135,12 @@ def test_txcreate_then_call(
     initcode_hash = keccak256(callable_contract_initcode)
 
     sender = pre.fund_eoa()
+    opcode = Op.EXTCALL if evm_code_type == EVMCodeType.EOF_V1 else Op.CALL
     contract_address = pre.deploy_contract(
-        Container(
-            sections=[
-                Section.Code(
-                    code=Op.SSTORE(
-                        slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash)
-                    )
-                    + Op.EXTCALL(Op.SLOAD(slot_create_address), 0, 0, 0)
-                    + Op.SSTORE(slot_code_worked, value_code_worked)
-                    + Op.STOP,
-                ),
-            ],
-        )
+        code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + opcode(address=Op.SLOAD(slot_create_address))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
     )
 
     callable_address = compute_eofcreate_address(contract_address, 0)
@@ -178,6 +165,7 @@ def test_txcreate_then_call(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize(
     "auxdata_bytes",
     [
@@ -219,16 +207,7 @@ def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_byt
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.SSTORE(
-                        slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash)
-                    )
-                    + Op.STOP,
-                ),
-            ]
-        ),
+        code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash)) + Op.STOP,
         storage={slot_create_address: value_canary_to_be_overwritten},
     )
 
@@ -255,6 +234,7 @@ def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_byt
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 def test_calldata(state_test: StateTestFiller, pre: Alloc):
     """Verifies CALLDATA passing through TXCREATE."""
     env = Environment()
@@ -276,18 +256,12 @@ def test_calldata(state_test: StateTestFiller, pre: Alloc):
     calldata = b"\x45" * calldata_size
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.MSTORE(0, Op.PUSH32(calldata))
-                    + Op.SSTORE(
-                        slot_create_address,
-                        Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=calldata_size),
-                    )
-                    + Op.STOP,
-                ),
-            ]
+        code=Op.MSTORE(0, Op.PUSH32(calldata))
+        + Op.SSTORE(
+            slot_create_address,
+            Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=calldata_size),
         )
+        + Op.STOP,
     )
 
     # deployed contract is smallest plus data
@@ -418,9 +392,11 @@ def test_txcreate_in_initcode(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 def test_return_data_cleared(
     state_test: StateTestFiller,
     pre: Alloc,
+    evm_code_type: EVMCodeType,
 ):
     """Verifies the return data is not re-used from a extcall but is cleared upon TXCREATE."""
     env = Environment()
@@ -440,26 +416,23 @@ def test_return_data_cleared(
 
     slot_returndata_size_2 = slot_last_slot * 2 + slot_returndata_size
     sender = pre.fund_eoa()
+    opcode = Op.EXTCALL if evm_code_type == EVMCodeType.EOF_V1 else Op.CALL
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.SSTORE(slot_call_result, Op.EXTCALL(address=callable_address))
-                    + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
-                    + Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
-                    + Op.SSTORE(slot_returndata_size_2, Op.RETURNDATASIZE)
-                    + Op.SSTORE(slot_code_worked, value_code_worked)
-                    + Op.STOP,
-                ),
-            ],
-        )
+        code=Op.SSTORE(slot_call_result, opcode(address=callable_address))
+        + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
+        + Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + Op.SSTORE(slot_returndata_size_2, Op.RETURNDATASIZE)
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
     )
 
     new_contract_address = compute_eofcreate_address(contract_address, 0)
     post = {
         contract_address: Account(
             storage={
-                slot_call_result: EXTCALL_SUCCESS,
+                slot_call_result: EXTCALL_SUCCESS
+                if evm_code_type == EVMCodeType.EOF_V1
+                else LEGACY_CALL_SUCCESS,
                 slot_returndata_size: value_return_canary_size,
                 slot_create_address: new_contract_address,
                 slot_returndata_size_2: 0,
@@ -482,6 +455,7 @@ def test_return_data_cleared(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 def test_address_collision(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -494,21 +468,11 @@ def test_address_collision(
     sender = pre.fund_eoa()
     initcode_hash = keccak256(smallest_initcode_subcontainer)
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.SSTORE(
-                        slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash)
-                    )
-                    + Op.SSTORE(slot_create_address_2, Op.TXCREATE(tx_initcode_hash=initcode_hash))
-                    + Op.SSTORE(
-                        slot_create_address_3, Op.TXCREATE(tx_initcode_hash=initcode_hash, salt=1)
-                    )
-                    + Op.SSTORE(slot_code_worked, value_code_worked)
-                    + Op.STOP,
-                ),
-            ],
-        )
+        code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + Op.SSTORE(slot_create_address_2, Op.TXCREATE(tx_initcode_hash=initcode_hash))
+        + Op.SSTORE(slot_create_address_3, Op.TXCREATE(tx_initcode_hash=initcode_hash, salt=1))
+        + Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.STOP,
     )
     salt_zero_address = compute_eofcreate_address(contract_address, 0)
     salt_one_address = compute_eofcreate_address(contract_address, 1)
@@ -540,6 +504,7 @@ def test_address_collision(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 def test_txcreate_revert_eof_returndata(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -558,19 +523,13 @@ def test_txcreate_revert_eof_returndata(
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-                    + Op.SSTORE(
-                        slot_create_address,
-                        Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=Op.CALLDATASIZE),
-                    )
-                    + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
-                    + Op.STOP,
-                ),
-            ],
-        ),
+        code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
+        + Op.SSTORE(
+            slot_create_address,
+            Op.TXCREATE(tx_initcode_hash=initcode_hash, input_size=Op.CALLDATASIZE),
+        )
+        + Op.SSTORE(slot_returndata_size, Op.RETURNDATASIZE)
+        + Op.STOP,
         storage={slot_create_address: value_canary_to_be_overwritten},
     )
     new_address = compute_eofcreate_address(contract_address, 0)
@@ -600,6 +559,7 @@ def test_txcreate_revert_eof_returndata(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.with_all_evm_code_types
 @pytest.mark.parametrize(
     ["destination_code", "expected_result"],
     [
@@ -631,16 +591,11 @@ def test_txcreate_context(
     )
     initcode_hash = keccak256(initcode)
 
-    factory_contract = Container(
-        sections=[
-            Section.Code(
-                Op.SSTORE(slot_code_worked, value_code_worked)
-                + Op.TXCREATE(tx_initcode_hash=initcode_hash, value=txcreate_value)
-                + Op.STOP
-            ),
-        ]
+    factory_address = pre.deploy_contract(
+        code=Op.SSTORE(slot_code_worked, value_code_worked)
+        + Op.TXCREATE(tx_initcode_hash=initcode_hash, value=txcreate_value)
+        + Op.STOP
     )
-    factory_address = pre.deploy_contract(factory_contract)
 
     destination_contract_address = compute_eofcreate_address(factory_address, 0)
 
@@ -693,6 +648,7 @@ def test_txcreate_context(
     )
 
 
+@pytest.mark.with_all_evm_code_types
 def test_txcreate_memory_context(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -716,19 +672,13 @@ def test_txcreate_memory_context(
     )
     initcode_hash = keccak256(initcontainer)
     contract_address = pre.deploy_contract(
-        code=Container(
-            sections=[
-                Section.Code(
-                    Op.SSTORE(contract_storage.store_next(value_code_worked), value_code_worked)
-                    + Op.MSTORE(0, 1)
-                    + Op.TXCREATE(tx_initcode_hash=initcode_hash)
-                    + Op.SSTORE(contract_storage.store_next(32), Op.MSIZE())
-                    + Op.SSTORE(contract_storage.store_next(1), Op.MLOAD(0))
-                    + Op.SSTORE(contract_storage.store_next(0), Op.MLOAD(32))
-                    + Op.STOP,
-                ),
-            ],
-        ),
+        code=Op.SSTORE(contract_storage.store_next(value_code_worked), value_code_worked)
+        + Op.MSTORE(0, 1)
+        + Op.TXCREATE(tx_initcode_hash=initcode_hash)
+        + Op.SSTORE(contract_storage.store_next(32), Op.MSIZE())
+        + Op.SSTORE(contract_storage.store_next(1), Op.MLOAD(0))
+        + Op.SSTORE(contract_storage.store_next(0), Op.MLOAD(32))
+        + Op.STOP,
     )
     destination_contract_address = compute_eofcreate_address(contract_address, 0)
     post = {
