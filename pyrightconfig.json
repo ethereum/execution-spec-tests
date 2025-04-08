@@ -1,6 +1,3 @@
 {
-  "exclude": [
-    "**/legacy/**"
-  ],
   "typeCheckingMode": "off",
 }
