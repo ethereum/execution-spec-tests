@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_eofcreate_gas"><code>test_eofcreate_gas()</code><a class="headerlink" href="#test_eofcreate_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08a60c9530c67139279475ae58e69577c2bd11fb/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py#L49"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py::test_eofcreate_gas@08a60c95</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6f5f0bd69883ebfe779af6963a7f2cd5c4f732fe/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py#L49"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py::test_eofcreate_gas@6f5f0bd6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_gas.py::test_eofcreate_gas --fork Osaka</span>
@@ -29272,9 +29272,7 @@
 <span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;new_account&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;mem_expansion_bytes&quot;</span><span class="p">,</span>
@@ -29348,12 +29346,11 @@
     <span class="n">runtime</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests variations of EOFCREATE gas.&quot;&quot;&quot;</span>
-    <span class="n">initcode_hashing_cost</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">)</span> <span class="o">+</span> <span class="mi">31</span><span class="p">)</span> <span class="o">//</span> <span class="mi">32</span><span class="p">)</span>
     <span class="n">deployed_code_cost</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span> <span class="k">if</span> <span class="n">runtime</span> <span class="k">else</span> <span class="mi">0</span>
 
     <span class="n">subject_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">salt_addresses</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">subject_address</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">initcode</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+    <span class="n">salt_addresses</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">subject_address</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">new_account</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">salt_addresses</span><span class="p">:</span>
@@ -29377,7 +29374,6 @@
         <span class="n">tear_down_code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
         <span class="n">cold_gas</span><span class="o">=</span><span class="n">EOFCREATE_GAS</span>
         <span class="o">+</span> <span class="n">cost_memory_bytes</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="n">mem_expansion_bytes</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">initcode_hashing_cost</span>
         <span class="o">+</span> <span class="n">initcode_execution_cost</span>
         <span class="o">+</span> <span class="n">deployed_code_cost</span><span class="p">,</span>
         <span class="n">subject_subcontainer</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>

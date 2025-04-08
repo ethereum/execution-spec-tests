@@ -31769,7 +31769,11 @@ optional fields.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
@@ -31789,11 +31793,7 @@ optional fields.</p>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">TestParameterGroup</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for grouping test parameters in a dataclass. Provides a generic</span>
@@ -31847,7 +31847,11 @@ name and the values of the non-default optional fields.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
@@ -31857,11 +31861,7 @@ name and the values of the non-default optional fields.</p>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate repr string, intended to be used as a test id, based on the class</span>
 <span class="sd">    name and the values of the non-default optional fields.</span>
@@ -31911,7 +31911,11 @@ name and the values of the non-default optional fields.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/helpers.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">79</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
@@ -31924,11 +31928,7 @@ name and the values of the non-default optional fields.</p>
 <span class="normal">89</span>
 <span class="normal">90</span>
 <span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_kzg_version</span><span class="p">(</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_kzg_version</span><span class="p">(</span>
     <span class="n">b_hashes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span> <span class="o">|</span> <span class="n">SupportsBytes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span> <span class="n">kzg_version</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add  Kzg Version to each blob hash.&quot;&quot;&quot;</span>
@@ -32123,7 +32123,7 @@ or the <code>CREATE</code> opcode.</p>
 
 
 <h2 id="ethereum_test_types.compute_eofcreate_address" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">init_container</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">salt</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_types.compute_eofcreate_address" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -32139,19 +32139,11 @@ or the <code>CREATE</code> opcode.</p>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_eofcreate_address</span><span class="p">(</span>
-    <span class="n">address</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span>
-    <span class="n">salt</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span>
-    <span class="n">init_container</span><span class="p">:</span> <span class="n">BytesConvertible</span><span class="p">,</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_eofcreate_address</span><span class="p">(</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span><span class="p">,</span> <span class="n">salt</span><span class="p">:</span> <span class="n">FixedSizeBytesConvertible</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute address of the resulting contract created using the `EOFCREATE` opcode.&quot;&quot;&quot;</span>
-    <span class="n">hash_bytes</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span>
-        <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xff</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hash</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span> <span class="o">+</span> <span class="n">Bytes</span><span class="p">(</span><span class="n">init_container</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
+    <span class="n">hash_bytes</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xff</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">+</span> <span class="n">Address</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="o">+</span> <span class="n">Hash</span><span class="p">(</span><span class="n">salt</span><span class="p">))</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">Address</span><span class="p">(</span><span class="n">hash_bytes</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:])</span>
 </code></pre></div></td></tr></table></div>
             </details>

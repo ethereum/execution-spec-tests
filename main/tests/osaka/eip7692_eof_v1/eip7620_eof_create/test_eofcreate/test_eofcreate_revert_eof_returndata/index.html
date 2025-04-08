@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_eofcreate_revert_eof_returndata"><code>test_eofcreate_revert_eof_returndata()</code><a class="headerlink" href="#test_eofcreate_revert_eof_returndata" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08a60c9530c67139279475ae58e69577c2bd11fb/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L551"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_revert_eof_returndata@08a60c95</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6f5f0bd69883ebfe779af6963a7f2cd5c4f732fe/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L537"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_revert_eof_returndata@6f5f0bd6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_revert_eof_returndata --fork Osaka</span>
@@ -29164,7 +29164,21 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">551</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
 <span class="normal">552</span>
 <span class="normal">553</span>
 <span class="normal">554</span>
@@ -29202,23 +29216,7 @@
 <span class="normal">586</span>
 <span class="normal">587</span>
 <span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_revert_eof_returndata</span><span class="p">(</span>
+<span class="normal">589</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eofcreate_revert_eof_returndata</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -29249,9 +29247,7 @@
         <span class="p">),</span>
         <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_create_address</span><span class="p">:</span> <span class="n">value_canary_to_be_overwritten</span><span class="p">},</span>
     <span class="p">)</span>
-    <span class="n">eof_create_address</span> <span class="o">=</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span>
-        <span class="n">contract_address</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">code_reverts_with_calldata</span>
-    <span class="p">)</span>
+    <span class="n">eof_create_address</span> <span class="o">=</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="n">salt</span><span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>

@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_auxdata_size_failures"><code>test_auxdata_size_failures()</code><a class="headerlink" href="#test_auxdata_size_failures" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08a60c9530c67139279475ae58e69577c2bd11fb/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L264"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_auxdata_size_failures@08a60c95</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6f5f0bd69883ebfe779af6963a7f2cd5c4f732fe/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L262"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_auxdata_size_failures@6f5f0bd6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_auxdata_size_failures --fork Osaka</span>
@@ -29164,7 +29164,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
@@ -29227,11 +29229,7 @@
 <span class="normal">324</span>
 <span class="normal">325</span>
 <span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;auxdata_size&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">MAX_BYTECODE_SIZE</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">smallest_runtime_subcontainer</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;maxcode&quot;</span><span class="p">),</span>
@@ -29279,9 +29277,7 @@
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">slot_create_address</span><span class="p">:</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span>
-                    <span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">initcode_subcontainer</span>
-                <span class="p">)</span>
+                <span class="n">slot_create_address</span><span class="p">:</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">deployed_container_size</span> <span class="o">&lt;=</span> <span class="n">MAX_BYTECODE_SIZE</span>
                 <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                 <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>

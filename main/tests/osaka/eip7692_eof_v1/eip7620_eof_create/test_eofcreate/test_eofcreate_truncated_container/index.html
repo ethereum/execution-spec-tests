@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_eofcreate_truncated_container"><code>test_eofcreate_truncated_container()</code><a class="headerlink" href="#test_eofcreate_truncated_container" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08a60c9530c67139279475ae58e69577c2bd11fb/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L639"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_truncated_container@08a60c95</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6f5f0bd69883ebfe779af6963a7f2cd5c4f732fe/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py#L623"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_truncated_container@6f5f0bd6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py::test_eofcreate_truncated_container --fork Osaka</span>
@@ -29164,7 +29164,23 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">639</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
 <span class="normal">640</span>
 <span class="normal">641</span>
 <span class="normal">642</span>
@@ -29179,23 +29195,7 @@
 <span class="normal">651</span>
 <span class="normal">652</span>
 <span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">654</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;data_len&quot;</span><span class="p">,</span> <span class="s2">&quot;data_section_size&quot;</span><span class="p">],</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>

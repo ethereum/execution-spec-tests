@@ -29145,7 +29145,7 @@
 
 
 <h1 id="test_eofcreate_memory"><code>test_eofcreate_memory()</code><a class="headerlink" href="#test_eofcreate_memory" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08a60c9530c67139279475ae58e69577c2bd11fb/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_memory.py#L27"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_memory.py::test_eofcreate_memory@08a60c95</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6f5f0bd69883ebfe779af6963a7f2cd5c4f732fe/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_memory.py#L27"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_memory.py::test_eofcreate_memory@6f5f0bd6</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_memory.py::test_eofcreate_memory --fork Osaka</span>
@@ -29278,9 +29278,7 @@ intending to trigger integer size bugs for that particular field.</p>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;offset_field&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;offset&quot;</span><span class="p">),</span>
@@ -29362,9 +29360,7 @@ intending to trigger integer size bugs for that particular field.</p>
         <span class="p">),</span>
         <span class="n">storage</span><span class="o">=</span><span class="n">initial_storage</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span>
-        <span class="n">calling_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">smallest_initcode_subcontainer</span>
-    <span class="p">)</span>
+    <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">calling_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">calling_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
