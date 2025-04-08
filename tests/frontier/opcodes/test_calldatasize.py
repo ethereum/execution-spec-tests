@@ -10,26 +10,26 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 @pytest.mark.parametrize(
     "args_size,sha3_len,storage",
     [
-        ("0002", "01", 0x02),
-        ("0011", "01", 0x11),
-        ("0021", "01", 0x21),
-        ("0031", "01", 0x31),
-        ("0101", "01", 0x101),
-        ("0002", "02", 0x02),
-        ("0011", "02", 0x11),
-        ("0021", "02", 0x21),
-        ("0031", "02", 0x31),
-        ("0101", "02", 0x101),
-        ("0002", "03", 0x02),
-        ("0011", "03", 0x11),
-        ("0021", "03", 0x21),
-        ("0031", "03", 0x31),
-        ("0101", "03", 0x101),
-        ("0002", "04", 0x02),
-        ("0011", "04", 0x11),
-        ("0021", "04", 0x21),
-        ("0031", "04", 0x31),
-        ("0101", "04", 0x101),
+        (0x0002, 0x01, 0x02),
+        (0x0011, 0x01, 0x11),
+        (0x0021, 0x01, 0x21),
+        (0x0031, 0x01, 0x31),
+        (0x0101, 0x01, 0x101),
+        (0x0002, 0x02, 0x02),
+        (0x0011, 0x02, 0x11),
+        (0x0021, 0x02, 0x21),
+        (0x0031, 0x02, 0x31),
+        (0x0101, 0x02, 0x101),
+        (0x0002, 0x03, 0x02),
+        (0x0011, 0x03, 0x11),
+        (0x0021, 0x03, 0x21),
+        (0x0031, 0x03, 0x31),
+        (0x0101, 0x03, 0x101),
+        (0x0002, 0x04, 0x02),
+        (0x0011, 0x04, 0x11),
+        (0x0021, 0x04, 0x21),
+        (0x0031, 0x04, 0x31),
+        (0x0101, 0x04, 0x101),
     ],
     ids=[
         "data1_2",
@@ -57,8 +57,8 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 def test_calldataload(
     state_test: StateTestFiller,
     fork: Fork,
-    args_size: str,
-    sha3_len: str,
+    args_size: int,
+    sha3_len: int,
     pre: Alloc,
     storage: Account,
 ):
@@ -71,22 +71,20 @@ def test_calldataload(
 
     to = pre.deploy_contract(
         code=(
-            Op.MSTORE(offset=0x0, value=Op.SHA3(offset=0x0, size=Op.CALLDATALOAD(offset=0x24)))
+            Op.MSTORE(offset=0x0, value=Op.SHA3(offset=0x0, size=sha3_len))
             + Op.CALL(
                 gas=Op.SUB(Op.GAS(), 0x100),
                 address=address,
                 value=0x0,
                 args_offset=0x0,
-                args_size=Op.CALLDATALOAD(offset=0x4),
+                args_size=args_size,
                 ret_offset=0x0,
                 ret_size=0x0,
             )
         )
     )
-    tx_data = bytes.fromhex("1a8451e6" + "00" * 30 + args_size + "00" * 31 + sha3_len)
 
     tx = Transaction(
-        data=tx_data,
         gas_limit=100_000,
         protected=fork >= Byzantium,
         sender=pre.fund_eoa(),
