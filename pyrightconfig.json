@@ -1,6 +1,6 @@
 {
   "exclude": [
-    "**/legacy_state_tests/**"
+    "**/legacy/**"
   ],
   "typeCheckingMode": "off",
 }
