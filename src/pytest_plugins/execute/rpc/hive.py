@@ -4,6 +4,7 @@ import io
 import json
 import os
 import time
+import uuid
 from dataclasses import asdict, replace
 from pathlib import Path
 from random import randint
@@ -169,22 +170,10 @@ def base_fork(request) -> Fork:
 
 
 @pytest.fixture(scope="function")
-def seed_sender(session_temp_folder: Path) -> EOA:
+def seed_sender() -> EOA:
     """Determine the seed sender account for the client's genesis."""
-    base_name = "seed_sender"
-    base_file = session_temp_folder / base_name
-    base_lock_file = session_temp_folder / f"{base_name}.lock"
-
-    with FileLock(base_lock_file):
-        if base_file.exists():
-            with base_file.open("r") as f:
-                seed_sender_key = Hash(f.read())
-            seed_sender = EOA(key=seed_sender_key)
-        else:
-            seed_sender = EOA(key=randint(0, 2**256))
-            with base_file.open("w") as f:
-                f.write(str(seed_sender.key))
-    return seed_sender
+    # Generate a unique sender for each test
+    return EOA(key=randint(0, 2**256))
 
 
 @pytest.fixture(scope="function")
@@ -274,7 +263,9 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     """
     genesis_json = json.dumps(client_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
-    return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
+    buffer = io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
+    buffer.seek(0)  # Ensure the buffer is at position 0
+    return buffer
 
 
 @pytest.fixture(scope="function")
@@ -318,26 +309,42 @@ def test_suite_description() -> str:
     return "Execute EEST tests using hive endpoint."
 
 
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Store test results on the test item for later access."""
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, f"result_{rep.when}", rep)
+
+
 @pytest.fixture(autouse=True, scope="function")
 def base_hive_test(
-    request: pytest.FixtureRequest, test_suite: HiveTestSuite, session_temp_folder: Path
+    request: pytest.FixtureRequest, test_suite: HiveTestSuite
 ) -> Generator[HiveTest, None, None]:
     """Test (base) used to deploy the main client to be used throughout all tests."""
-    # Create a new test for each function
+    # Create a new test for each function with a clear name
     test_name = request.node.name
     test = test_suite.start_test(
         name=f"Test: {test_name}", description=f"Individual test for {test_name}"
     )
+
     yield test
+
     # Determine if this specific test has failed
     test_pass = True
     test_details = "Test passed successfully"
+
     for phase in ("setup", "call", "teardown"):
         result = getattr(request.node, f"result_{phase}", None)
         if result and not result.passed:
             test_pass = False
-            test_details = f"Test failed in {phase} phase: {result.longreprtext}"
+            if hasattr(result, "longreprtext"):
+                test_details = f"Test failed in {phase} phase: {result.longreprtext}"
+            else:
+                test_details = f"Test failed in {phase} phase"
             break
+
+    # End the test with the appropriate result
     test.end(result=HiveTestResult(test_pass=test_pass, details=test_details))
 
 
@@ -353,32 +360,12 @@ def client(
     client_files: dict,
     environment: dict,
     client_type: ClientType,
-    session_temp_folder: Path,
 ) -> Generator[Client, None, None]:
     """Initialize the client with the appropriate files and environment variables."""
-    base_name = "hive_client"
-    base_file = session_temp_folder / base_name
-    base_error_file = session_temp_folder / f"{base_name}.err"
-    base_lock_file = session_temp_folder / f"{base_name}.lock"
-    client: Client | None = None
-    with FileLock(base_lock_file):
-        # TEMP: Remove this condition to always create a new client
-        # if not base_error_file.exists():
-        #     if base_file.exists():
-        #         with open(base_file, "r") as f:
-        #             client = Client(**json.load(f))
-        #     else:
-        base_error_file.touch()  # Assume error
-        client = base_hive_test.start_client(
-            client_type=client_type, environment=environment, files=client_files
-        )
-        if client is not None:
-            base_error_file.unlink()  # Success
-            with open(base_file, "w") as f:
-                json.dump(
-                    asdict(replace(client, config=None)),  # type: ignore
-                    f,
-                )
+    # Always create a new client for each test
+    client = base_hive_test.start_client(
+        client_type=client_type, environment=environment, files=client_files
+    )
 
     error_message = (
         f"Unable to connect to the client container ({client_type.name}) via Hive during test "
@@ -386,109 +373,44 @@ def client(
     )
     assert client is not None, error_message
 
-    users_file_name = f"{base_name}_users"
-    users_file = session_temp_folder / users_file_name
-    users_lock_file = session_temp_folder / f"{users_file_name}.lock"
-    with FileLock(users_lock_file):
-        if users_file.exists():
-            with open(users_file, "r") as f:
-                users = json.load(f)
-        else:
-            users = 0
-        users += 1
-        with open(users_file, "w") as f:
-            json.dump(users, f)
-
     yield client
 
-    with FileLock(users_lock_file):
-        with open(users_file, "r") as f:
-            users = json.load(f)
-        users -= 1
-        with open(users_file, "w") as f:
-            json.dump(users, f)
-        if users == 0:
-            client.stop()
-            base_file.unlink()
-            users_file.unlink()
+    # Always stop the client when the test is done
+    client.stop()
 
 
 class PendingTxHashes:
     """
-    A class to manage the pending transaction hashes in a multi-process environment.
-
-    It uses a lock file to ensure that only one process can access the pending hashes file at a
-    time.
+    A class to manage the pending transaction hashes for a test.
     """
 
-    pending_hashes_file: Path
-    pending_hashes_lock: Path
-    pending_tx_hashes: HashList | None
-    lock: FileLock | None
-
-    def __init__(self, temp_folder: Path):
+    def __init__(self):
         """Initialize the pending transaction hashes manager."""
-        self.pending_hashes_file = temp_folder / "pending_tx_hashes"
-        self.pending_hashes_lock = temp_folder / "pending_tx_hashes.lock"
-        self.pending_tx_hashes = None
-        self.lock = None
-
-    def __enter__(self):
-        """Lock the pending hashes file and load it."""
-        assert self.lock is None, "Lock already acquired"
-        self.lock = FileLock(self.pending_hashes_lock, timeout=-1)
-        self.lock.acquire()
-        assert self.pending_tx_hashes is None, "Pending transaction hashes already loaded"
-        if self.pending_hashes_file.exists():
-            with open(self.pending_hashes_file, "r") as f:
-                self.pending_tx_hashes = HashList.model_validate_json(f.read())
-        else:
-            self.pending_tx_hashes = HashList([])
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        """Flush the pending hashes to the file and release the lock."""
-        assert self.lock is not None, "Lock not acquired"
-        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
-        with open(self.pending_hashes_file, "w") as f:
-            f.write(self.pending_tx_hashes.model_dump_json())
-        self.lock.release()
-        self.lock = None
-        self.pending_tx_hashes = None
+        self.pending_tx_hashes = []
 
     def append(self, tx_hash: Hash):
         """Add a transaction hash to the pending list."""
-        assert self.lock is not None, "Lock not acquired"
-        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
         self.pending_tx_hashes.append(tx_hash)
 
     def clear(self):
-        """Remove a transaction hash from the pending list."""
-        assert self.lock is not None, "Lock not acquired"
-        self.pending_tx_hashes.clear()
+        """Clear the pending list."""
+        self.pending_tx_hashes = []
 
     def remove(self, tx_hash: Hash):
         """Remove a transaction hash from the pending list."""
-        assert self.lock is not None, "Lock not acquired"
-        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
-        self.pending_tx_hashes.remove(tx_hash)
+        if tx_hash in self.pending_tx_hashes:
+            self.pending_tx_hashes.remove(tx_hash)
 
     def __contains__(self, tx_hash: Hash):
         """Check if a transaction hash is in the pending list."""
-        assert self.lock is not None, "Lock not acquired"
-        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
         return tx_hash in self.pending_tx_hashes
 
     def __len__(self):
         """Get the number of pending transaction hashes."""
-        assert self.lock is not None, "Lock not acquired"
-        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
         return len(self.pending_tx_hashes)
 
     def __iter__(self):
         """Iterate over the pending transaction hashes."""
-        assert self.lock is not None, "Lock not acquired"
-        assert self.pending_tx_hashes is not None, "Pending transaction hashes not loaded"
         return iter(self.pending_tx_hashes)
 
 
@@ -498,12 +420,6 @@ class EthRPC(BaseEthRPC):
     generate blocks after a certain number of transactions have been sent.
     """
 
-    fork: Fork
-    engine_rpc: EngineRPC
-    transactions_per_block: int
-    get_payload_wait_time: float
-    pending_tx_hashes: PendingTxHashes
-
     def __init__(
         self,
         *,
@@ -511,9 +427,7 @@ class EthRPC(BaseEthRPC):
         fork: Fork,
         base_genesis_header: FixtureHeader,
         transactions_per_block: int,
-        session_temp_folder: Path,
         get_payload_wait_time: float,
-        initial_forkchoice_update_retries: int = 5,
         transaction_wait_timeout: int = 60,
     ):
         """Initialize the Ethereum RPC client for the hive simulator."""
@@ -524,41 +438,28 @@ class EthRPC(BaseEthRPC):
         self.fork = fork
         self.engine_rpc = EngineRPC(f"http://{client.ip}:8551")
         self.transactions_per_block = transactions_per_block
-        self.pending_tx_hashes = PendingTxHashes(session_temp_folder)
+        self.pending_tx_hashes = PendingTxHashes()
         self.get_payload_wait_time = get_payload_wait_time
 
-        # Send initial forkchoice updated only if we are the first worker
-        base_name = "eth_rpc_forkchoice_updated"
-        base_file = session_temp_folder / base_name
-        base_error_file = session_temp_folder / f"{base_name}.err"
-        base_lock_file = session_temp_folder / f"{base_name}.lock"
+        # Always send the initial forkchoice updated for each test
+        forkchoice_state = ForkchoiceState(
+            head_block_hash=base_genesis_header.block_hash,
+        )
+        forkchoice_version = self.fork.engine_forkchoice_updated_version()
+        assert forkchoice_version is not None, "Fork does not support engine forkchoice_updated"
 
-        with FileLock(base_lock_file):
-            if base_error_file.exists():
-                raise Exception("Error occurred during initial forkchoice_updated")
-            if not base_file.exists():
-                base_error_file.touch()  # Assume error
-                # Send initial forkchoice updated
-                forkchoice_state = ForkchoiceState(
-                    head_block_hash=base_genesis_header.block_hash,
-                )
-                forkchoice_version = self.fork.engine_forkchoice_updated_version()
-                assert forkchoice_version is not None, (
-                    "Fork does not support engine forkchoice_updated"
-                )
-                for _ in range(initial_forkchoice_update_retries):
-                    response = self.engine_rpc.forkchoice_updated(
-                        forkchoice_state,
-                        None,
-                        version=forkchoice_version,
-                    )
-                    if response.payload_status.status == PayloadStatusEnum.VALID:
-                        break
-                    time.sleep(0.5)
-                else:
-                    raise Exception("Initial forkchoice_updated was invalid")
-                base_error_file.unlink()  # Success
-                base_file.touch()
+        # Retry the initial forkchoice update a few times in case of issues
+        for _ in range(5):
+            response = self.engine_rpc.forkchoice_updated(
+                forkchoice_state,
+                None,
+                version=forkchoice_version,
+            )
+            if response.payload_status.status == PayloadStatusEnum.VALID:
+                break
+            time.sleep(0.5)
+        else:
+            raise Exception("Initial forkchoice_updated was invalid")
 
     def generate_block(self: "EthRPC"):
         """Generate a block using the Engine API."""
@@ -629,16 +530,14 @@ class EthRPC(BaseEthRPC):
         assert response.payload_status.status == PayloadStatusEnum.VALID, "Payload was invalid"
         for tx in new_payload.execution_payload.transactions:
             tx_hash = Hash(keccak256(tx))
-            if tx_hash in self.pending_tx_hashes:
-                self.pending_tx_hashes.remove(tx_hash)
+            self.pending_tx_hashes.remove(tx_hash)
 
     def send_transaction(self, transaction: Transaction) -> Hash:
         """`eth_sendRawTransaction`: Send a transaction to the client."""
         returned_hash = super().send_transaction(transaction)
-        with self.pending_tx_hashes:
-            self.pending_tx_hashes.append(transaction.hash)
-            if len(self.pending_tx_hashes) >= self.transactions_per_block:
-                self.generate_block()
+        self.pending_tx_hashes.append(transaction.hash)
+        if len(self.pending_tx_hashes) >= self.transactions_per_block:
+            self.generate_block()
         return returned_hash
 
     def wait_for_transaction(self, transaction: Transaction) -> TransactionByHashResponse:
@@ -752,20 +651,19 @@ class PendingTransactionHandler:
         generation interval has been reached, a block is generated to avoid potential
         deadlock.
         """
-        with self.eth_rpc.pending_tx_hashes:
-            if len(self.eth_rpc.pending_tx_hashes) >= self.eth_rpc.transactions_per_block:
+        if len(self.eth_rpc.pending_tx_hashes) >= self.eth_rpc.transactions_per_block:
+            self.eth_rpc.generate_block()
+        else:
+            if (
+                self.last_pending_tx_hashes_count is not None
+                and len(self.eth_rpc.pending_tx_hashes) == self.last_pending_tx_hashes_count
+                and self.i % self.block_generation_interval == 0
+            ):
+                # If no new transactions have been added to the pending list,
+                # generate a block to avoid potential deadlock.
                 self.eth_rpc.generate_block()
-            else:
-                if (
-                    self.last_pending_tx_hashes_count is not None
-                    and len(self.eth_rpc.pending_tx_hashes) == self.last_pending_tx_hashes_count
-                    and self.i % self.block_generation_interval == 0
-                ):
-                    # If no new transactions have been added to the pending list,
-                    # generate a block to avoid potential deadlock.
-                    self.eth_rpc.generate_block()
-            self.last_pending_tx_hashes_count = len(self.eth_rpc.pending_tx_hashes)
-            self.i += 1
+        self.last_pending_tx_hashes_count = len(self.eth_rpc.pending_tx_hashes)
+        self.i += 1
 
 
 @pytest.fixture(scope="session")
@@ -786,6 +684,15 @@ def chain_id() -> int:
     return 1
 
 
+@pytest.fixture(scope="function")
+def worker_count() -> int:
+    """Return the number of worker processes."""
+    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
+    if not worker_count_env:
+        return 1
+    return max(int(worker_count_env), 1)
+
+
 @pytest.fixture(autouse=True, scope="function")
 def eth_rpc(
     request: pytest.FixtureRequest,
@@ -793,7 +700,6 @@ def eth_rpc(
     base_genesis_header: FixtureHeader,
     base_fork: Fork,
     transactions_per_block: int,
-    session_temp_folder: Path,
 ) -> EthRPC:
     """Initialize ethereum RPC client for the execution client under test."""
     get_payload_wait_time = request.config.getoption("get_payload_wait_time")
@@ -803,15 +709,15 @@ def eth_rpc(
         fork=base_fork,
         base_genesis_header=base_genesis_header,
         transactions_per_block=transactions_per_block,
-        session_temp_folder=session_temp_folder,
         get_payload_wait_time=get_payload_wait_time,
         transaction_wait_timeout=tx_wait_timeout,
     )
 
 
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    """Store test results on the test item for later access."""
-    outcome = yield
-    rep = outcome.get_result()
-    setattr(item, f"result_{rep.when}", rep)
+@pytest.fixture(scope="function")
+def eoa_iterator() -> Generator[EOA, None, None]:
+    """Return an iterator that generates EOAs."""
+    counter = 0
+    while True:
+        yield EOA(key=randint(0, 2**256), nonce=0)
+        counter += 1
