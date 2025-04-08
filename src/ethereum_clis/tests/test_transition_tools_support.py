@@ -1,15 +1,10 @@
 """Check T8N filling support."""
 
-import os
-from typing import Dict, Generator
+from typing import Dict
 
 import pytest
 
-from ethereum_clis import (
-    BesuTransitionTool,
-    ExecutionSpecsTransitionTool,
-    TransitionTool,
-)
+from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
 from ethereum_test_base_types import Account, Address, TestAddress, TestPrivateKey
 from ethereum_test_forks import (
     ArrowGlacier,
@@ -44,56 +39,13 @@ BLOB_COMMITMENT_VERSION_KZG = 1
 fork_set = set(get_deployed_forks())
 fork_set.add(Prague)
 
-test_transition_tools = [
-    transition_tool
-    for transition_tool in TransitionTool.registered_tools
-    if (
-        transition_tool.is_installed()
-        # Currently, Besu has the same `default_binary` as Geth, so we can't test filling
-        and transition_tool != BesuTransitionTool
-    )
-]
 
-
-@pytest.fixture(scope="session")
-def running_in_ci() -> bool:
-    """Return whether the test is running in a CI environment."""
-    return "CI" in os.environ
-
-
-@pytest.fixture(scope="session")
-def all_t8n_instances() -> Generator[Dict[str, TransitionTool | Exception], None, None]:
-    """Return all instantiated transition tools."""
-    t8n_instances: Dict[str, TransitionTool | Exception] = {}
-    for t8n_class in test_transition_tools:
-        try:
-            t8n_instances[t8n_class.__name__] = t8n_class()
-        except Exception as e:
-            # Record the exception in order to provide context when failing the appropriate test
-            t8n_instances[t8n_class.__name__] = e
-    yield t8n_instances
-    for t8n_instance in t8n_instances.values():
-        if isinstance(t8n_instance, TransitionTool):
-            t8n_instance.shutdown()
-
-
-@pytest.fixture
-def t8n(
-    request: pytest.FixtureRequest, all_t8n_instances: Dict[str, TransitionTool | Exception]
-) -> TransitionTool:
-    """Return an instantiated transition tool."""
-    t8n_class = request.param
-    assert issubclass(t8n_class, TransitionTool)
-    assert t8n_class.__name__ in all_t8n_instances, f"{t8n_class.__name__} not instantiated"
-    t8n_instance_or_error = all_t8n_instances[t8n_class.__name__]
-    if isinstance(t8n_instance_or_error, Exception):
-        raise Exception(f"Failed to instantiate {t8n_class.__name__}") from t8n_instance_or_error
-    return t8n_instance_or_error
-
-
-def test_ci_multi_t8n_support(running_in_ci: bool):
+def test_ci_multi_t8n_support(
+    installed_transition_tool_instances: Dict[str, TransitionTool | Exception],
+    running_in_ci: bool,
+):
     """Check that the instances of t8n we expect in CI environment were found."""
-    names = {transition_tool.__name__ for transition_tool in test_transition_tools}
+    names = set(installed_transition_tool_instances.keys())
     expected_names = {"ExecutionSpecsTransitionTool"}
     if running_in_ci:
         expected_names.add("GethTransitionTool")
@@ -104,16 +56,11 @@ def test_ci_multi_t8n_support(running_in_ci: bool):
 
 
 @pytest.mark.parametrize("fork", sorted(fork_set, key=lambda f: f.__name__))  # type: ignore
-@pytest.mark.parametrize(
-    "t8n",
-    test_transition_tools,
-    indirect=True,
-)
-def test_t8n_support(fork: Fork, t8n: TransitionTool):
+def test_t8n_support(fork: Fork, installed_t8n: TransitionTool):
     """Stress test that sends all possible t8n interactions."""
     if fork in [MuirGlacier, ArrowGlacier, GrayGlacier]:
         return
-    if isinstance(t8n, ExecutionSpecsTransitionTool) and fork in [Constantinople]:
+    if isinstance(installed_t8n, ExecutionSpecsTransitionTool) and fork in [Constantinople]:
         return
     env = Environment()
     sender = TestAddress
@@ -290,7 +237,7 @@ def test_t8n_support(fork: Fork, t8n: TransitionTool):
     )
     test.generate(
         request=None,  # type: ignore
-        t8n=t8n,
+        t8n=installed_t8n,
         fork=fork,
         fixture_format=BlockchainFixture,
     )
