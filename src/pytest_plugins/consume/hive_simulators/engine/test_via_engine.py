@@ -5,6 +5,7 @@ from the Engine API. The simulator uses the `BlockchainEngineFixtures` to test a
 Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID responses.
 """
 
+from ethereum_test_exceptions import UndefinedException
 from ethereum_test_fixtures import BlockchainEngineFixture
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.types import ForkchoiceState, JSONRPCError, PayloadStatusEnum
@@ -86,6 +87,33 @@ def test_blockchain_via_engine(
                                 "Client failed to raise expected Engine API error code: "
                                 f"{payload.error_code}"
                             )
+                        elif payload_response.status == PayloadStatusEnum.INVALID:
+                            if payload_response.validation_error is None:
+                                raise Exception(
+                                    "Client returned INVALID but no validation error was provided."
+                                )
+                            if isinstance(payload_response.validation_error, UndefinedException):
+                                logger.warning(
+                                    "Undefined exception message:\n"
+                                    f"expected exception: {payload.validation_error}:\n"
+                                    f"returned exception: {payload_response.validation_error}\n"
+                                    f"mapper: {payload_response.validation_error.mapper_name}"
+                                )
+                            else:
+                                if (
+                                    payload_response.validation_error.exception
+                                    not in payload.validation_error  # type: ignore
+                                ):
+                                    logger.fail(
+                                        "Client returned unexpected validation error:\n"
+                                        f"got: {payload_response.validation_error}\n"
+                                        f"expected: {payload.validation_error}"
+                                    )
+                                    raise Exception(
+                                        "Client returned unexpected validation error:\n"
+                                        f"got: {payload_response.validation_error}\n"
+                                        f"expected: {payload.validation_error}"
+                                    )
                     except JSONRPCError as e:
                         logger.info(f"JSONRPC error encountered: {e.code} - {e.message}")
                         if payload.error_code is None:

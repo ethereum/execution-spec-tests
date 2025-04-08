@@ -3,6 +3,8 @@
 import pprint
 from typing import Dict, List, Tuple
 
+from ethereum_clis.clis.geth import GethExceptionMapper
+from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_fixtures.blockchain import FixtureHeader
 
 
@@ -52,3 +54,8 @@ class GenesisBlockMismatchExceptionError(Exception):
             if got_value is None:
                 unexpected_fields.append(got_name)
         return differences, unexpected_fields
+
+
+EXCEPTION_MAPPERS: Dict[str, ExceptionMapper] = {
+    "go-ethereum": GethExceptionMapper(),
+}

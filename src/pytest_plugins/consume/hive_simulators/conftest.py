@@ -12,6 +12,7 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTest
 
 from ethereum_test_base_types import Number, to_json
+from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainFixtureCommon,
@@ -23,6 +24,7 @@ from pytest_plugins.consume.consume import FixturesSource
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
 from pytest_plugins.pytest_hive.hive_info import ClientInfo
 
+from .exceptions import EXCEPTION_MAPPERS
 from .timing import TimingData
 
 logger = logging.getLogger(__name__)
@@ -194,6 +196,17 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     genesis_json = json.dumps(client_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
+
+
+@pytest.fixture(scope="function")
+def client_exception_mapper(
+    client_type: ClientType,
+) -> ExceptionMapper | None:
+    """Return the exception mapper for the client type."""
+    for client in EXCEPTION_MAPPERS:
+        if client in client_type.name:
+            return EXCEPTION_MAPPERS[client]
+    return None
 
 
 @pytest.fixture(scope="function")
