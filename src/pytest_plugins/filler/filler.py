@@ -617,7 +617,6 @@ def fixture_collector(
     fixture_collector = FixtureCollector(
         output_dir=output_dir,
         flat_output=request.config.getoption("flat_output"),
-        refiller_enabled=request.config.getoption("refiller_enabled"),
         single_fixture_per_file=request.config.getoption("single_fixture_per_file"),
         filler_path=filler_path,
         base_dump_dir=base_dump_dir,
