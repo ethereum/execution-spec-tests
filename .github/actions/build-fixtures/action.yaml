@@ -1,7 +1,7 @@
 name: Build and Package Fixture Release
 inputs:
   release_name:
-    description: 'Name of the fixture release'
+    description: "Name of the fixture release"
     required: true
 runs:
   using: "composite"
@@ -9,7 +9,7 @@ runs:
     - name: Set up uv
       uses: ./.github/actions/setup-uv
     - name: Set up Python
-      shell: bash    
+      shell: bash
       run: uv python install 3.10 --no-progress
     - name: Install EEST
       shell: bash

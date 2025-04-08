@@ -3,9 +3,9 @@ name: Evmone Coverage Report
 on:
   pull_request:
     paths:
-      - 'tests/**' # This triggers the workflow for any changes in the tests folder
-      - '!tests/prague/**'  # exclude changes in 'tests/prague'
-      - '!tests/osaka/**'   # exclude changes in 'tests/osaka'
+      - "tests/**" # This triggers the workflow for any changes in the tests folder
+      - "!tests/prague/**" # exclude changes in 'tests/prague'
+      - "!tests/osaka/**" # exclude changes in 'tests/osaka'
 
 jobs:
   evmone-coverage-diff:
@@ -22,7 +22,6 @@ jobs:
           echo "Git base ref: ${{ github.base_ref }}"
           echo "Node Version: $(node -v)"
           echo "NPM Version: $(npm -v)"
-
 
       - name: Get all changed python files in tests/ and changes to coverted-ethereum-tests.txt
         id: changed-tests
@@ -105,7 +104,7 @@ jobs:
 
       - name: Checkout ethereum/legacytests
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        if: steps.changed-tests.outputs.tests_any_changed == 'true'      
+        if: steps.changed-tests.outputs.tests_any_changed == 'true'
         with:
           repository: ethereum/legacytests
           path: legacytestpath
@@ -132,7 +131,6 @@ jobs:
           done
           echo "----------------"
           echo "Discovered existing json tests that will be BASE files:"
-
 
           BASE_TESTS_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
           mkdir -p $BASE_TESTS_PATH
@@ -208,64 +206,64 @@ jobs:
         env:
           CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_modified_files }}
         run: |
-            echo "--------------------"
-            echo "converted-ethereum-tests.txt seem untouched, try to fill pre-patched version of .py files:"
+          echo "--------------------"
+          echo "converted-ethereum-tests.txt seem untouched, try to fill pre-patched version of .py files:"
 
-            source $GITHUB_ENV
-            files=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
+          source $GITHUB_ENV
+          files=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
 
-            git checkout main
-            PREV_COMMIT=$(git rev-parse HEAD)
-            echo "Checkout head $PREV_COMMIT"
+          git checkout main
+          PREV_COMMIT=$(git rev-parse HEAD)
+          echo "Checkout head $PREV_COMMIT"
 
-            # Take only those files that exist in the filesystem (ignore newly created files)
-            files_fixed=$(echo "$files" | tr ' ' '\n' | while read file; do
-              if [ -f "$file" ]; then
-                echo "$file"
-              fi
-            done | tr '\n' ' ')
-
-            echo "Select files that were changed and exist on the main branch:"
-            echo $files_fixed
-
-            rm -r fixtures
-            rm filloutput.log
-            mkdir -p fixtures/blockchain_tests
-            mkdir -p fixtures/state_tests
-            mkdir -p fixtures/eof_tests
-
-            if [ -n "$files_fixed" ]; then
-                echo "uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
-                uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
-
-                if grep -q "FAILURES" filloutput.log; then
-                  echo "Error: failed to generate .py tests from before the PR."
-                  exit 1
-                fi
-
-                if grep -q "ERROR collecting test session" filloutput.log; then
-                  echo "Error: failed to generate .py tests from before the PR."
-                  exit 1
-                fi
-            else
-                echo "No tests affected from before the patch!"
+          # Take only those files that exist in the filesystem (ignore newly created files)
+          files_fixed=$(echo "$files" | tr ' ' '\n' | while read file; do
+            if [ -f "$file" ]; then
+              echo "$file"
             fi
+          done | tr '\n' ' ')
 
-            filesBlock=$(find fixtures/blockchain_tests -type f -name "*.json")
-            filesState=$(find fixtures/state_tests -type f -name "*.json")
-            filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
+          echo "Select files that were changed and exist on the main branch:"
+          echo $files_fixed
 
-            BASE_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
-            mkdir -p $BASE_TEST_PATH
+          rm -r fixtures
+          rm filloutput.log
+          mkdir -p fixtures/blockchain_tests
+          mkdir -p fixtures/state_tests
+          mkdir -p fixtures/eof_tests
 
-            find fixtures/blockchain_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
-            find fixtures/state_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
-            find fixtures/eof_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
-            for file in $BASE_TEST_PATH/*.json; do
-                if [ -e "$file" ]; then
-                    mv "$file" "${file%.json}_$PREV_COMMIT.json"
-                fi
-            done
+          if [ -n "$files_fixed" ]; then
+              echo "uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
+              uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
+
+              if grep -q "FAILURES" filloutput.log; then
+                echo "Error: failed to generate .py tests from before the PR."
+                exit 1
+              fi
+
+              if grep -q "ERROR collecting test session" filloutput.log; then
+                echo "Error: failed to generate .py tests from before the PR."
+                exit 1
+              fi
+          else
+              echo "No tests affected from before the patch!"
+          fi
+
+          filesBlock=$(find fixtures/blockchain_tests -type f -name "*.json")
+          filesState=$(find fixtures/state_tests -type f -name "*.json")
+          filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
+
+          BASE_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
+          mkdir -p $BASE_TEST_PATH
+
+          find fixtures/blockchain_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
+          find fixtures/state_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
+          find fixtures/eof_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
+          for file in $BASE_TEST_PATH/*.json; do
+              if [ -e "$file" ]; then
+                  mv "$file" "${file%.json}_$PREV_COMMIT.json"
+              fi
+          done
 
       - name: Print tests that will be covered
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
@@ -312,7 +310,7 @@ jobs:
         with:
           name: coverage-diff-native-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ github.workspace }}/evmtest_coverage/coverage
-          compression-level: 6  # Default compression level for optimal balance
+          compression-level: 6 # Default compression level for optimal balance
 
       - name: Verify coverage results
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
