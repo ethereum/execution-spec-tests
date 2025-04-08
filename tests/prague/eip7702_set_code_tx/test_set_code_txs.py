@@ -2732,88 +2732,106 @@ def test_eoa_tx_after_set_code(
     set_code = Op.SSTORE(1, Op.ADD(Op.SLOAD(1), 1)) + Op.STOP
     set_code_to_address = pre.deploy_contract(set_code)
 
-    txs = [
-        Transaction(
-            sender=pre.fund_eoa(),
-            gas_limit=500_000,
-            to=auth_signer,
-            value=0,
-            authorization_list=[
-                AuthorizationTuple(
-                    address=set_code_to_address,
-                    nonce=0,
-                    signer=auth_signer,
-                ),
-            ],
+    blocks = [
+        Block(
+            txs=[
+                Transaction(
+                    sender=pre.fund_eoa(),
+                    gas_limit=500_000,
+                    to=auth_signer,
+                    value=0,
+                    authorization_list=[
+                        AuthorizationTuple(
+                            address=set_code_to_address,
+                            nonce=0,
+                            signer=auth_signer,
+                        ),
+                    ],
+                )
+            ]
         )
     ]
     auth_signer.nonce += 1  # type: ignore
 
     match tx_type:
         case 0:
-            txs.append(
-                Transaction(
-                    type=tx_type,
-                    sender=auth_signer,
-                    gas_limit=500_000,
-                    to=auth_signer,
-                    value=0,
-                    protected=True,
-                ),
-            )
-            txs.append(
-                Transaction(
-                    type=tx_type,
-                    sender=auth_signer,
-                    gas_limit=500_000,
-                    to=auth_signer,
-                    value=0,
-                    protected=False,
+            blocks.append(
+                Block(
+                    txs=[
+                        Transaction(
+                            type=tx_type,
+                            sender=auth_signer,
+                            gas_limit=500_000,
+                            to=auth_signer,
+                            value=0,
+                            protected=True,
+                        ),
+                        Transaction(
+                            type=tx_type,
+                            sender=auth_signer,
+                            gas_limit=500_000,
+                            to=auth_signer,
+                            value=0,
+                            protected=False,
+                        ),
+                    ]
                 ),
             )
         case 1:
-            txs.append(
-                Transaction(
-                    type=tx_type,
-                    sender=auth_signer,
-                    gas_limit=500_000,
-                    to=auth_signer,
-                    value=0,
-                    access_list=[
-                        AccessList(
-                            address=auth_signer,
-                            storage_keys=[1],
+            blocks.append(
+                Block(
+                    txs=[
+                        Transaction(
+                            type=tx_type,
+                            sender=auth_signer,
+                            gas_limit=500_000,
+                            to=auth_signer,
+                            value=0,
+                            access_list=[
+                                AccessList(
+                                    address=auth_signer,
+                                    storage_keys=[1],
+                                )
+                            ],
                         )
-                    ],
+                    ]
                 ),
             )
         case 2:
-            txs.append(
-                Transaction(
-                    type=tx_type,
-                    sender=auth_signer,
-                    gas_limit=500_000,
-                    to=auth_signer,
-                    value=0,
-                    max_fee_per_gas=1_000,
-                    max_priority_fee_per_gas=1_000,
+            blocks.append(
+                Block(
+                    txs=[
+                        Transaction(
+                            type=tx_type,
+                            sender=auth_signer,
+                            gas_limit=500_000,
+                            to=auth_signer,
+                            value=0,
+                            max_fee_per_gas=1_000,
+                            max_priority_fee_per_gas=1_000,
+                        )
+                    ]
                 ),
             )
         case 3:
-            txs.append(
-                Transaction(
-                    type=tx_type,
-                    sender=auth_signer,
-                    gas_limit=500_000,
-                    to=auth_signer,
-                    value=0,
-                    max_fee_per_gas=1_000,
-                    max_priority_fee_per_gas=1_000,
-                    max_fee_per_blob_gas=fork.min_base_fee_per_blob_gas() * 10,
-                    blob_versioned_hashes=add_kzg_version(
-                        [Hash(1)],
-                        Spec4844.BLOB_COMMITMENT_VERSION_KZG,
-                    ),
+            blocks.append(
+                Block(
+                    txs=[
+                        Transaction(
+                            type=tx_type,
+                            sender=auth_signer,
+                            gas_limit=500_000,
+                            to=auth_signer,
+                            value=0,
+                            max_fee_per_gas=1_000,
+                            max_priority_fee_per_gas=1_000,
+                            max_fee_per_blob_gas=fork.min_base_fee_per_blob_gas() * 10,
+                            blob_versioned_hashes=add_kzg_version(
+                                [Hash(1)],
+                                Spec4844.BLOB_COMMITMENT_VERSION_KZG,
+                            ),
+                        )
+                    ]
                 ),
             )
         case _:
@@ -2821,7 +2839,7 @@ def test_eoa_tx_after_set_code(
 
     blockchain_test(
         pre=pre,
-        blocks=[Block(txs=txs)],
+        blocks=blocks,
         post={
             auth_signer: Account(
                 nonce=3 if tx_type == 0 else 2,
