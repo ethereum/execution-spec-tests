@@ -31542,13 +31542,7 @@ return test_state_filler
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">292</span>
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
@@ -32016,7 +32010,32 @@ return test_state_filler
 <span class="normal">757</span>
 <span class="normal">758</span>
 <span class="normal">759</span>
-<span class="normal">760</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -32164,9 +32183,28 @@ return test_state_filler
         <span class="k">try</span><span class="p">:</span>
             <span class="n">rejected_txs</span> <span class="o">=</span> <span class="n">verify_transactions</span><span class="p">(</span>
                 <span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
-                <span class="n">exception_mapper</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="p">,</span>
                 <span class="n">result</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+                <span class="n">transition_tool_exceptions_reliable</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="o">.</span><span class="n">reliable</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="n">rejected_txs</span>
+                <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp_modifier</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">requests</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">block</span><span class="o">.</span><span class="n">skip_exception_verification</span>
+            <span class="p">):</span>
+                <span class="c1"># Only verify block level exception if:</span>
+                <span class="c1"># - No transaction exception was raised, because these are not reported as block</span>
+                <span class="c1">#   exceptions.</span>
+                <span class="c1"># - No RLP modifier was specified, because the modifier is what normally</span>
+                <span class="c1">#   produces the block exception.</span>
+                <span class="c1"># - No requests were specified, because modified requests are also what normally</span>
+                <span class="c1">#   produces the block exception.</span>
+                <span class="n">verify_block</span><span class="p">(</span>
+                    <span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+                    <span class="n">want_exception</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">exception</span><span class="p">,</span>
+                    <span class="n">result</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+                    <span class="n">transition_tool_exceptions_reliable</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="o">.</span><span class="n">reliable</span><span class="p">,</span>
+                <span class="p">)</span>
             <span class="n">verify_result</span><span class="p">(</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">print_traces</span><span class="p">(</span><span class="n">t8n</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>
@@ -32523,19 +32561,19 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">319</span>
 <span class="normal">320</span>
 <span class="normal">321</span>
 <span class="normal">322</span>
 <span class="normal">323</span>
 <span class="normal">324</span>
-<span class="normal">325</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
@@ -32578,13 +32616,7 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">333</span>
 <span class="normal">334</span>
 <span class="normal">335</span>
 <span class="normal">336</span>
@@ -32633,7 +32665,13 @@ return test_state_filler
 <span class="normal">379</span>
 <span class="normal">380</span>
 <span class="normal">381</span>
-<span class="normal">382</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">make_genesis</span><span class="p">(</span>
     <span class="n">genesis_environment</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -32715,13 +32753,7 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">390</span>
 <span class="normal">391</span>
 <span class="normal">392</span>
 <span class="normal">393</span>
@@ -32843,7 +32875,32 @@ return test_state_filler
 <span class="normal">509</span>
 <span class="normal">510</span>
 <span class="normal">511</span>
-<span class="normal">512</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -32893,9 +32950,28 @@ return test_state_filler
     <span class="k">try</span><span class="p">:</span>
         <span class="n">rejected_txs</span> <span class="o">=</span> <span class="n">verify_transactions</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">,</span>
-            <span class="n">exception_mapper</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="p">,</span>
             <span class="n">result</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+            <span class="n">transition_tool_exceptions_reliable</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="o">.</span><span class="n">reliable</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">rejected_txs</span>
+            <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp_modifier</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">requests</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">block</span><span class="o">.</span><span class="n">skip_exception_verification</span>
+        <span class="p">):</span>
+            <span class="c1"># Only verify block level exception if:</span>
+            <span class="c1"># - No transaction exception was raised, because these are not reported as block</span>
+            <span class="c1">#   exceptions.</span>
+            <span class="c1"># - No RLP modifier was specified, because the modifier is what normally</span>
+            <span class="c1">#   produces the block exception.</span>
+            <span class="c1"># - No requests were specified, because modified requests are also what normally</span>
+            <span class="c1">#   produces the block exception.</span>
+            <span class="n">verify_block</span><span class="p">(</span>
+                <span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+                <span class="n">want_exception</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">exception</span><span class="p">,</span>
+                <span class="n">result</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+                <span class="n">transition_tool_exceptions_reliable</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="o">.</span><span class="n">reliable</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="n">verify_result</span><span class="p">(</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">print_traces</span><span class="p">(</span><span class="n">t8n</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>
@@ -33002,14 +33078,14 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fixture network information for the fork &amp; EIP/s.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span>
@@ -33043,16 +33119,16 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify post alloc after all block/s or payload/s are generated.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">expected_state</span><span class="p">:</span>
@@ -33088,32 +33164,7 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">559</span>
 <span class="normal">560</span>
 <span class="normal">561</span>
 <span class="normal">562</span>
@@ -33179,7 +33230,32 @@ return test_state_filler
 <span class="normal">622</span>
 <span class="normal">623</span>
 <span class="normal">624</span>
-<span class="normal">625</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -33297,32 +33373,7 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">652</span>
 <span class="normal">653</span>
 <span class="normal">654</span>
 <span class="normal">655</span>
@@ -33395,7 +33446,32 @@ return test_state_filler
 <span class="normal">722</span>
 <span class="normal">723</span>
 <span class="normal">724</span>
-<span class="normal">725</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span>
+<span class="normal">738</span>
+<span class="normal">739</span>
+<span class="normal">740</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span>
+<span class="normal">744</span>
+<span class="normal">745</span>
+<span class="normal">746</span>
+<span class="normal">747</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -33520,22 +33596,22 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
-<span class="normal">730</span>
-<span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
-<span class="normal">736</span>
-<span class="normal">737</span>
-<span class="normal">738</span>
-<span class="normal">739</span>
-<span class="normal">740</span>
-<span class="normal">741</span>
-<span class="normal">742</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span>
+<span class="normal">758</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -33577,23 +33653,23 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">744</span>
-<span class="normal">745</span>
-<span class="normal">746</span>
-<span class="normal">747</span>
-<span class="normal">748</span>
-<span class="normal">749</span>
-<span class="normal">750</span>
-<span class="normal">751</span>
-<span class="normal">752</span>
-<span class="normal">753</span>
-<span class="normal">754</span>
-<span class="normal">755</span>
-<span class="normal">756</span>
-<span class="normal">757</span>
-<span class="normal">758</span>
-<span class="normal">759</span>
-<span class="normal">760</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -36282,8 +36358,8 @@ unset.</p>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">verify_transactions</span><span class="p">(</span>
                 <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
-                <span class="n">exception_mapper</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="p">,</span>
                 <span class="n">result</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+                <span class="n">transition_tool_exceptions_reliable</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="o">.</span><span class="n">reliable</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">print_traces</span><span class="p">(</span><span class="n">t8n</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>
@@ -36582,8 +36658,8 @@ unset.</p>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">verify_transactions</span><span class="p">(</span>
             <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span>
-            <span class="n">exception_mapper</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="p">,</span>
             <span class="n">result</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+            <span class="n">transition_tool_exceptions_reliable</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">exception_mapper</span><span class="o">.</span><span class="n">reliable</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">print_traces</span><span class="p">(</span><span class="n">t8n</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>

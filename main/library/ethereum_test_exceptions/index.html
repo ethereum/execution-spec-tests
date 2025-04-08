@@ -1850,18 +1850,36 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.ExceptionMapper.__init__" class="md-nav__link">
+  <a href="#ethereum_test_exceptions.ExceptionMapper.mapping_substring" class="md-nav__link">
     <span class="md-ellipsis">
-      __init__
+      mapping_substring
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.ExceptionMapper.exception_to_message" class="md-nav__link">
+  <a href="#ethereum_test_exceptions.ExceptionMapper.mapping_regex" class="md-nav__link">
     <span class="md-ellipsis">
-      exception_to_message
+      mapping_regex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionMapper.reliable" class="md-nav__link">
+    <span class="md-ellipsis">
+      reliable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionMapper.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
     </span>
   </a>
   
@@ -1882,9 +1900,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.ExceptionMessage" class="md-nav__link">
+  <a href="#ethereum_test_exceptions.ExceptionMapperValidator" class="md-nav__link">
     <span class="md-ellipsis">
-      ExceptionMessage
+      ExceptionMapperValidator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionWithMessage" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExceptionWithMessage
     </span>
   </a>
   
@@ -3446,9 +3473,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.UndefinedException.UNDEFINED_EXCEPTION" class="md-nav__link">
+  <a href="#ethereum_test_exceptions.UndefinedException.__new__" class="md-nav__link">
     <span class="md-ellipsis">
-      UNDEFINED_EXCEPTION
+      __new__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.UndefinedException.__get_pydantic_core_schema__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __get_pydantic_core_schema__
     </span>
   </a>
   
@@ -30826,18 +30862,36 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.ExceptionMapper.__init__" class="md-nav__link">
+  <a href="#ethereum_test_exceptions.ExceptionMapper.mapping_substring" class="md-nav__link">
     <span class="md-ellipsis">
-      __init__
+      mapping_substring
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.ExceptionMapper.exception_to_message" class="md-nav__link">
+  <a href="#ethereum_test_exceptions.ExceptionMapper.mapping_regex" class="md-nav__link">
     <span class="md-ellipsis">
-      exception_to_message
+      mapping_regex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionMapper.reliable" class="md-nav__link">
+    <span class="md-ellipsis">
+      reliable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionMapper.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
     </span>
   </a>
   
@@ -30858,9 +30912,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.ExceptionMessage" class="md-nav__link">
+  <a href="#ethereum_test_exceptions.ExceptionMapperValidator" class="md-nav__link">
     <span class="md-ellipsis">
-      ExceptionMessage
+      ExceptionMapperValidator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionWithMessage" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExceptionWithMessage
     </span>
   </a>
   
@@ -32422,9 +32485,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.UndefinedException.UNDEFINED_EXCEPTION" class="md-nav__link">
+  <a href="#ethereum_test_exceptions.UndefinedException.__new__" class="md-nav__link">
     <span class="md-ellipsis">
-      UNDEFINED_EXCEPTION
+      __new__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.UndefinedException.__get_pydantic_core_schema__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __get_pydantic_core_schema__
     </span>
   </a>
   
@@ -32581,7 +32653,14 @@ t8n or other tools.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
@@ -32618,44 +32697,57 @@ t8n or other tools.</p>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExceptionMapper</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExceptionMapper</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Translate between EEST exceptions and error strings returned by client&#39;s</span>
 <span class="sd">    t8n or other tools.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">_mapping_compiled_regex</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">]</span>
+
+    <span class="n">mapping_substring</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mapping of exception to substring that should be present in the error message.</span>
+
+<span class="sd">    Items in this mapping are used for substring matching (`substring in message`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mapping_regex</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mapping of exception to regex that should be present in the error message.</span>
+
+<span class="sd">    Items in this mapping are compiled into regex patterns for faster matching,</span>
+<span class="sd">    and then used for regex matching (`pattern.search(message)`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reliable</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Whether the exceptions returned by the tool are reliable and can be accurately</span>
+<span class="sd">    mapped to the exceptions in this class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the exception mapper.&quot;&quot;&quot;</span>
-        <span class="c1"># Ensure that the subclass has properly defined _mapping_data before accessing it</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;_mapping_data must be defined in subclass&quot;</span>
+        <span class="c1"># Ensure that the subclass has properly defined mapping_substring before accessing it</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_substring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;mapping_substring must be defined in subclass&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;mapping_regex must be defined in subclass&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mapper_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_compiled_regex</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">exception</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">message</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_regex</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
 
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">),</span> <span class="p">(</span>
-            <span class="s2">&quot;Duplicate exception in _mapping_data&quot;</span>
-        <span class="p">)</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">),</span> <span class="p">(</span>
-            <span class="s2">&quot;Duplicate message in _mapping_data&quot;</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">exception_to_message_map</span><span class="p">:</span> <span class="n">frozenbidict</span> <span class="o">=</span> <span class="n">frozenbidict</span><span class="p">(</span>
-            <span class="p">{</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span> <span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">}</span>
-        <span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">_mapping_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Should be overridden in the subclass to provide mapping data.&quot;&quot;&quot;</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span> <span class="nf">exception_to_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">ExceptionBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exception and to formatted string.&quot;&quot;&quot;</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception_to_message_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">message</span>
-
-    <span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExceptionBase</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExceptionBase</span> <span class="o">|</span> <span class="n">UndefinedException</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Match a formatted string to an exception.&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="ow">in</span> <span class="n">exception_string</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">entry</span><span class="o">.</span><span class="n">exception</span>
-        <span class="k">return</span> <span class="n">UndefinedException</span><span class="o">.</span><span class="n">UNDEFINED_EXCEPTION</span>
+        <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">substring</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_substring</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">substring</span> <span class="ow">in</span> <span class="n">exception_string</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">exception</span>
+        <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_compiled_regex</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">exception_string</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">exception</span>
+        <span class="k">return</span> <span class="n">UndefinedException</span><span class="p">(</span><span class="n">exception_string</span><span class="p">,</span> <span class="n">mapper_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper_name</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -32663,6 +32755,88 @@ t8n or other tools.</p>
 
   <div class="doc doc-children">
 
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.ExceptionMapper.mapping_substring" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">mapping_substring</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.ExceptionMapper.mapping_substring" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Mapping of exception to substring that should be present in the error message.</p>
+<p>Items in this mapping are used for substring matching (<code>substring in message</code>).</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.ExceptionMapper.mapping_regex" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">mapping_regex</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.ExceptionMapper.mapping_regex" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Mapping of exception to regex that should be present in the error message.</p>
+<p>Items in this mapping are compiled into regex patterns for faster matching,
+and then used for regex matching (<code>pattern.search(message)</code>).</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.ExceptionMapper.reliable" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">reliable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.ExceptionMapper.reliable" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Whether the exceptions returned by the tool are reliable and can be accurately
+mapped to the exceptions in this class.</p>
+    </div>
+
+</div>
 
 
 
@@ -32684,66 +32858,23 @@ t8n or other tools.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the exception mapper.&quot;&quot;&quot;</span>
-    <span class="c1"># Ensure that the subclass has properly defined _mapping_data before accessing it</span>
-    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;_mapping_data must be defined in subclass&quot;</span>
-
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">),</span> <span class="p">(</span>
-        <span class="s2">&quot;Duplicate exception in _mapping_data&quot;</span>
-    <span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">({</span><span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">})</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">),</span> <span class="p">(</span>
-        <span class="s2">&quot;Duplicate message in _mapping_data&quot;</span>
-    <span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">exception_to_message_map</span><span class="p">:</span> <span class="n">frozenbidict</span> <span class="o">=</span> <span class="n">frozenbidict</span><span class="p">(</span>
-        <span class="p">{</span><span class="n">entry</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span> <span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">}</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="ethereum_test_exceptions.ExceptionMapper.exception_to_message" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">exception_to_message</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></code>
-
-<a href="#ethereum_test_exceptions.ExceptionMapper.exception_to_message" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Exception and to formatted string.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
-<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">exception_to_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">ExceptionBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception and to formatted string.&quot;&quot;&quot;</span>
-    <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception_to_message_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">message</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the exception mapper.&quot;&quot;&quot;</span>
+    <span class="c1"># Ensure that the subclass has properly defined mapping_substring before accessing it</span>
+    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_substring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;mapping_substring must be defined in subclass&quot;</span>
+    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;mapping_regex must be defined in subclass&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mapper_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_compiled_regex</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">exception</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">message</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_regex</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -32775,12 +32906,18 @@ t8n or other tools.</p>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExceptionBase</span><span class="p">:</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExceptionBase</span> <span class="o">|</span> <span class="n">UndefinedException</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Match a formatted string to an exception.&quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_data</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">message</span> <span class="ow">in</span> <span class="n">exception_string</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">entry</span><span class="o">.</span><span class="n">exception</span>
-    <span class="k">return</span> <span class="n">UndefinedException</span><span class="o">.</span><span class="n">UNDEFINED_EXCEPTION</span>
+    <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">substring</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_substring</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">substring</span> <span class="ow">in</span> <span class="n">exception_string</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">exception</span>
+    <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_compiled_regex</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">exception_string</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">exception</span>
+    <span class="k">return</span> <span class="n">UndefinedException</span><span class="p">(</span><span class="n">exception_string</span><span class="p">,</span> <span class="n">mapper_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper_name</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -32801,38 +32938,76 @@ t8n or other tools.</p>
 
 
 
-<div class="doc doc-object doc-class">
+<div class="doc doc-object doc-attribute">
 
 
 
-<h2 id="ethereum_test_exceptions.ExceptionMessage" class="doc doc-heading">
-            <code>ExceptionMessage</code>
-
+<h2 id="ethereum_test_exceptions.ExceptionMapperValidator" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ExceptionMapperValidator</span> <span class="o">=</span> <span class="n">BeforeValidator</span><span class="p">(</span><span class="n">mapper_validator</span><span class="p">)</span></code>
 
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
   </span>
 
-<a href="#ethereum_test_exceptions.ExceptionMessage" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#ethereum_test_exceptions.ExceptionMapperValidator" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents ">
 
+      <p>Validator that can be used to annotate a pydantic field in a model that is meant to be
+parsed from an external tool or client.</p>
+<p>The annotated type must be an union that can include <code>None</code>, <code>UndefinedException</code> and a
+custom model as:
+<div class="highlight"><pre><span></span><code>class BlockExceptionWithMessage(ExceptionWithMessage[BlockException]):
+    pass
+</code></pre></div>
+where <code>BlockException</code> can be any derivation of <code>ExceptionBase</code>.</p>
+<p>The <code>message</code> attribute is the verbatim message received from the external tool or client,
+and can be used to be printed for extra context information in case of failures.</p>
+    </div>
 
-      <p>Defines a mapping between an exception and a message.</p>
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ethereum_test_exceptions.ExceptionWithMessage" class="doc doc-heading">
+            <code>ExceptionWithMessage</code>
+
+
+<a href="#ethereum_test_exceptions.ExceptionWithMessage" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code>, <code><span title="typing.Generic">Generic</span>[<span title="ethereum_test_exceptions.exceptions.ExceptionBoundTypeVar">ExceptionBoundTypeVar</span>]</code></p>
+
+
+      <p>Class that contains the exception along with the verbatim message from the external
+tool/client.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">ExceptionMessage</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Defines a mapping between an exception and a message.&quot;&quot;&quot;</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExceptionWithMessage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">ExceptionBoundTypeVar</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class that contains the exception along with the verbatim message from the external</span>
+<span class="sd">    tool/client.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">exception</span><span class="p">:</span> <span class="n">ExceptionBase</span>
+    <span class="n">exception</span><span class="p">:</span> <span class="n">ExceptionBoundTypeVar</span>
     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -32878,20 +33053,7 @@ block header contains an invalid field.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">386</span>
 <span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
@@ -33059,7 +33221,20 @@ block header contains an invalid field.</p>
 <span class="normal">551</span>
 <span class="normal">552</span>
 <span class="normal">553</span>
-<span class="normal">554</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -34445,20 +34620,7 @@ a fork that is not active yet.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">570</span>
 <span class="normal">571</span>
 <span class="normal">572</span>
 <span class="normal">573</span>
@@ -34656,7 +34818,20 @@ a fork that is not active yet.</p>
 <span class="normal">765</span>
 <span class="normal">766</span>
 <span class="normal">767</span>
-<span class="normal">768</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
@@ -36646,20 +36821,7 @@ when returning</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
@@ -36917,7 +37079,20 @@ when returning</p>
 <span class="normal">367</span>
 <span class="normal">368</span>
 <span class="normal">369</span>
-<span class="normal">370</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
@@ -39006,28 +39181,54 @@ when returning</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="ethereum_test_exceptions.exceptions.ExceptionBase" href="#ethereum_test_exceptions.ExceptionBase">ExceptionBase</a></code></p>
+              Bases: <code>str</code></p>
 
 
-      <p>Default Exception.</p>
+      <p>Undefined Exception.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
-<span class="k">class</span> <span class="nc">UndefinedException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Default Exception.&quot;&quot;&quot;</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UndefinedException</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Undefined Exception.&quot;&quot;&quot;</span>
 
-    <span class="n">UNDEFINED_EXCEPTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception to alert to define a proper exception</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UndefinedException&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new UndefinedException instance.&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">mapper_name</span> <span class="o">=</span> <span class="n">mapper_name</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlainValidatorFunctionSchema</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call class constructor without info and appends the serialization schema.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">no_info_plain_validator_function</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="p">,</span>
+            <span class="n">serialization</span><span class="o">=</span><span class="n">to_string_ser_schema</span><span class="p">(),</span>
+        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -39041,24 +39242,81 @@ when returning</p>
 
 
 
-<div class="doc doc-object doc-attribute">
+<div class="doc doc-object doc-function">
 
 
+<h3 id="ethereum_test_exceptions.UndefinedException.__new__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapper_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
-<h3 id="ethereum_test_exceptions.UndefinedException.UNDEFINED_EXCEPTION" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">UNDEFINED_EXCEPTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
-  </span>
-
-<a href="#ethereum_test_exceptions.UndefinedException.UNDEFINED_EXCEPTION" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#ethereum_test_exceptions.UndefinedException.__new__" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-      <p>Exception to alert to define a proper exception</p>
+      <p>Create a new UndefinedException instance.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span>
+<span class="normal">97</span>
+<span class="normal">98</span>
+<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UndefinedException&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new UndefinedException instance.&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">mapper_name</span> <span class="o">=</span> <span class="n">mapper_name</span>
+    <span class="k">return</span> <span class="n">instance</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_exceptions.UndefinedException.__get_pydantic_core_schema__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">__get_pydantic_core_schema__</span><span class="p">(</span><span class="n">source_type</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.UndefinedException.__get_pydantic_core_schema__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Call class constructor without info and appends the serialization schema.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlainValidatorFunctionSchema</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Call class constructor without info and appends the serialization schema.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">no_info_plain_validator_function</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">serialization</span><span class="o">=</span><span class="n">to_string_ser_schema</span><span class="p">(),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
     </div>
 
 </div>

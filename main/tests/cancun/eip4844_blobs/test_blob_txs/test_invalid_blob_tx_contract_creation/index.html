@@ -29217,7 +29217,7 @@
 
 
 <h1 id="test_invalid_blob_tx_contract_creation"><code>test_invalid_blob_tx_contract_creation()</code><a class="headerlink" href="#test_invalid_blob_tx_contract_creation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/efc39d53c4545fd344281a711844049c1edc8ab7/tests/cancun/eip4844_blobs/test_blob_txs.py#L995"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation@efc39d53</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ad5c0ad28b7a31c7449dc6899c04d29a6bac34aa/tests/cancun/eip4844_blobs/test_blob_txs.py#L1005"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation@ad5c0ad2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_tx_contract_creation --fork Prague</span>
@@ -29236,17 +29236,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 995</span>
-<span class="normal"> 996</span>
-<span class="normal"> 997</span>
-<span class="normal"> 998</span>
-<span class="normal"> 999</span>
-<span class="normal">1000</span>
-<span class="normal">1001</span>
-<span class="normal">1002</span>
-<span class="normal">1003</span>
-<span class="normal">1004</span>
-<span class="normal">1005</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1005</span>
 <span class="normal">1006</span>
 <span class="normal">1007</span>
 <span class="normal">1008</span>
@@ -29267,7 +29257,21 @@
 <span class="normal">1023</span>
 <span class="normal">1024</span>
 <span class="normal">1025</span>
-<span class="normal">1026</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1026</span>
+<span class="normal">1027</span>
+<span class="normal">1028</span>
+<span class="normal">1029</span>
+<span class="normal">1030</span>
+<span class="normal">1031</span>
+<span class="normal">1032</span>
+<span class="normal">1033</span>
+<span class="normal">1034</span>
+<span class="normal">1035</span>
+<span class="normal">1036</span>
+<span class="normal">1037</span>
+<span class="normal">1038</span>
+<span class="normal">1039</span>
+<span class="normal">1040</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_gas&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">500_000</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
 <span class="p">)</span>  <span class="c1"># Increase gas to account for contract creation</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
@@ -29295,6 +29299,10 @@
                     <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_CONTRACT_CREATION</span><span class="p">,</span>
                 <span class="p">],</span>
                 <span class="n">header_verify</span><span class="o">=</span><span class="n">header_verify</span><span class="p">,</span>
+                <span class="c1"># Skipped due to the T8N not receiving the invalid transaction,</span>
+                <span class="c1"># instead we are passing a valid transaction to T8N and then the transaction</span>
+                <span class="c1"># is replaced directly in the block RLP.</span>
+                <span class="n">skip_exception_verification</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
