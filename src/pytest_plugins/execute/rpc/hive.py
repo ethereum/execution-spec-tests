@@ -168,7 +168,7 @@ def base_fork(request) -> Fork:
     return fork
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def seed_sender(session_temp_folder: Path) -> EOA:
     """Determine the seed sender account for the client's genesis."""
     base_name = "seed_sender"
@@ -187,7 +187,7 @@ def seed_sender(session_temp_folder: Path) -> EOA:
     return seed_sender
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def base_pre(request, seed_sender: EOA, worker_count: int) -> Alloc:
     """Pre-allocation for the client's genesis."""
     sender_key_initial_balance = request.config.getoption("sender_key_initial_balance")
@@ -196,7 +196,7 @@ def base_pre(request, seed_sender: EOA, worker_count: int) -> Alloc:
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def base_pre_genesis(
     base_fork: Fork,
     base_pre: Alloc,
@@ -250,13 +250,13 @@ def base_pre_genesis(
     return (pre_alloc, genesis)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def base_genesis_header(base_pre_genesis: Tuple[Alloc, FixtureHeader]) -> FixtureHeader:
     """Return the genesis header for the current test fixture."""
     return base_pre_genesis[1]
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def client_genesis(base_pre_genesis: Tuple[Alloc, FixtureHeader]) -> dict:
     """Convert the fixture's genesis block header and pre-state to a client genesis state."""
     genesis = to_json(base_pre_genesis[1])  # NOTE: to_json() excludes None values
@@ -266,7 +266,7 @@ def client_genesis(base_pre_genesis: Tuple[Alloc, FixtureHeader]) -> dict:
     return genesis
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     """
     Create a buffered reader for the genesis block header of the current test
@@ -277,7 +277,7 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def client_files(
     buffered_genesis: io.BufferedReader,
 ) -> Mapping[str, io.BufferedReader]:
@@ -306,13 +306,13 @@ def environment(base_fork: Fork) -> dict:
     }
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def test_suite_name() -> str:
     """The name of the hive test suite used in this simulator."""
     return "eest/execute"
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def test_suite_description() -> str:
     """The description of the hive test suite used in this simulator."""
     return "Execute EEST tests using hive endpoint."
@@ -394,22 +394,23 @@ def client(
     base_lock_file = session_temp_folder / f"{base_name}.lock"
     client: Client | None = None
     with FileLock(base_lock_file):
-        if not base_error_file.exists():
-            if base_file.exists():
-                with open(base_file, "r") as f:
-                    client = Client(**json.load(f))
-            else:
-                base_error_file.touch()  # Assume error
-                client = base_hive_test.start_client(
-                    client_type=client_type, environment=environment, files=client_files
+        # TEMP: Remove this condition to always create a new client
+        # if not base_error_file.exists():
+        #     if base_file.exists():
+        #         with open(base_file, "r") as f:
+        #             client = Client(**json.load(f))
+        #     else:
+        base_error_file.touch()  # Assume error
+        client = base_hive_test.start_client(
+            client_type=client_type, environment=environment, files=client_files
+        )
+        if client is not None:
+            base_error_file.unlink()  # Success
+            with open(base_file, "w") as f:
+                json.dump(
+                    asdict(replace(client, config=None)),  # type: ignore
+                    f,
                 )
-                if client is not None:
-                    base_error_file.unlink()  # Success
-                    with open(base_file, "w") as f:
-                        json.dump(
-                            asdict(replace(client, config=None)),  # type: ignore
-                            f,
-                        )
 
     error_message = (
         f"Unable to connect to the client container ({client_type.name}) via Hive during test "
