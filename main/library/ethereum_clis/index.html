@@ -31675,10 +31675,25 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
-<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">(</span><span class="n">ExceptionMapper</span><span class="p">):</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EvmoneExceptionMapper</span><span class="p">(</span><span class="n">ExceptionMapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Translate between EEST exceptions and error strings returned by Evmone.&quot;&quot;&quot;</span>
 
     <span class="n">mapping_substring</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">TransactionException</span><span class="o">.</span><span class="n">SENDER_NOT_EOA</span><span class="p">:</span> <span class="s2">&quot;sender not an eoa:&quot;</span><span class="p">,</span>
+        <span class="n">TransactionException</span><span class="o">.</span><span class="n">GAS_ALLOWANCE_EXCEEDED</span><span class="p">:</span> <span class="s2">&quot;gas limit reached&quot;</span><span class="p">,</span>
+        <span class="n">TransactionException</span><span class="o">.</span><span class="n">PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;max priority fee per gas higher than max fee per gas&quot;</span>
+        <span class="p">),</span>
+        <span class="n">TransactionException</span><span class="o">.</span><span class="n">NONCE_IS_MAX</span><span class="p">:</span> <span class="s2">&quot;nonce has max value:&quot;</span><span class="p">,</span>
         <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_TX_CONTRACT_CREATION</span><span class="p">:</span> <span class="s2">&quot;set code transaction must &quot;</span><span class="p">,</span>
         <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE</span><span class="p">:</span> <span class="s2">&quot;invalid authorization signature&quot;</span><span class="p">,</span>
         <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_4_INVALID_AUTHORITY_SIGNATURE_S_TOO_HIGH</span><span class="p">:</span> <span class="p">(</span>
@@ -31701,6 +31716,9 @@ Currently, EthereumJS-t8n provides no way to determine supported forks.</p>
         <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH</span><span class="p">:</span> <span class="s2">&quot;invalid blob hash version&quot;</span><span class="p">,</span>
         <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_BLOB_COUNT_EXCEEDED</span><span class="p">:</span> <span class="s2">&quot;blob gas limit exceeded&quot;</span><span class="p">,</span>
         <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_ZERO_BLOBS</span><span class="p">:</span> <span class="s2">&quot;empty blob hashes list&quot;</span><span class="p">,</span>
+        <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_CONTRACT_CREATION</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;blob transaction must not be a create transaction&quot;</span>
+        <span class="p">),</span>
         <span class="n">TransactionException</span><span class="o">.</span><span class="n">NONCE_MISMATCH_TOO_LOW</span><span class="p">:</span> <span class="s2">&quot;nonce too low&quot;</span><span class="p">,</span>
         <span class="n">TransactionException</span><span class="o">.</span><span class="n">NONCE_MISMATCH_TOO_HIGH</span><span class="p">:</span> <span class="s2">&quot;nonce too high&quot;</span><span class="p">,</span>
         <span class="c1"># TODO EVMONE needs to differentiate when the section is missing in the header or body</span>
