@@ -1,6 +1,8 @@
 # Execution Spec Tests
 
 [![latest version](https://img.shields.io/github/v/release/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/releases/latest)
+[![Python Versions](https://img.shields.io/pypi/pyversions/ethereum)](https://pypi.org/project/ethereum/)
+[![License](https://img.shields.io/github/license/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/blob/main/LICENSE)
 
 [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests) is both a collection of test cases and a framework implemented in Python to generate tests for Ethereum execution clients.
 
