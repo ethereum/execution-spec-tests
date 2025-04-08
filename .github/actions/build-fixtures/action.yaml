@@ -1,16 +1,17 @@
 name: Build and Package Fixture Release
 inputs:
   release_name:
-    description: 'Name of the fixture release'
+    description: "Name of the fixture release"
     required: true
 runs:
   using: "composite"
   steps:
-    - name: Set up uv
-      uses: ./.github/actions/setup-uv
-    - name: Set up Python
-      shell: bash    
-      run: uv python install 3.10 --no-progress
+    - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+      uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182
+      with:
+        enable-cache: false
+        version: ${{ vars.UV_VERSION }}
+        python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
     - name: Install EEST
       shell: bash
       run: uv sync --no-progress
