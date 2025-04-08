@@ -306,13 +306,13 @@ def environment(base_fork: Fork) -> dict:
     }
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def test_suite_name() -> str:
     """The name of the hive test suite used in this simulator."""
     return "eest/execute"
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def test_suite_description() -> str:
     """The description of the hive test suite used in this simulator."""
     return "Execute EEST tests using hive endpoint."
