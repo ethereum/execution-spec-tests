@@ -15,7 +15,6 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_types.types import keccak256
 from ethereum_test_vm.bytecode import Bytecode
 
 from .. import EOF_FORK_NAME
@@ -48,7 +47,7 @@ def test_simple_txcreate(state_test: StateTestFiller, pre: Alloc, tx_initcode_co
     """Verifies a simple TXCREATE case."""
     env = Environment()
     sender = pre.fund_eoa()
-    initcode_hash = keccak256(smallest_initcode_subcontainer)
+    initcode_hash = smallest_initcode_subcontainer.hash
     contract_address = pre.deploy_contract(
         code=Op.SSTORE(0, Op.TXCREATE(tx_initcode_hash=initcode_hash)) + Op.STOP,
         storage={0: 0xB17D},  # a canary to be overwritten
@@ -79,7 +78,7 @@ def test_txcreate_then_dataload(
             Section.Container(container=smallest_runtime_subcontainer),
         ],
     )
-    initcode_hash = keccak256(small_auxdata_container)
+    initcode_hash = small_auxdata_container.hash
     contract_address = pre.deploy_contract(
         code=Container(
             sections=[
@@ -132,7 +131,7 @@ def test_txcreate_then_call(state_test: StateTestFiller, pre: Alloc, evm_code_ty
             Section.Container(container=callable_contract),
         ]
     )
-    initcode_hash = keccak256(callable_contract_initcode)
+    initcode_hash = callable_contract_initcode.hash
 
     sender = pre.fund_eoa()
     opcode = Op.EXTCALL if evm_code_type == EVMCodeType.EOF_V1 else Op.CALL
@@ -203,7 +202,7 @@ def test_auxdata_variations(state_test: StateTestFiller, pre: Alloc, auxdata_byt
             Section.Container(container=runtime_subcontainer),
         ],
     )
-    initcode_hash = keccak256(initcode_subcontainer)
+    initcode_hash = initcode_subcontainer.hash
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -250,7 +249,7 @@ def test_calldata(state_test: StateTestFiller, pre: Alloc):
             Section.Container(container=smallest_runtime_subcontainer),
         ],
     )
-    initcode_hash = keccak256(initcode_subcontainer)
+    initcode_hash = initcode_subcontainer.hash
 
     calldata_size = 32
     calldata = b"\x45" * calldata_size
@@ -308,7 +307,7 @@ def test_txcreate_in_initcode(
     Via the `outer_create_reverts` also verifies a TXCREATE occuring in an initcode is rolled back
     when the initcode reverts.
     """
-    smallest_initcode_subcontainer_hash = keccak256(smallest_initcode_subcontainer)
+    smallest_initcode_subcontainer_hash = smallest_initcode_subcontainer.hash
     inner_create_bytecode = (
         Op.TXCREATE(tx_initcode_hash=smallest_initcode_subcontainer_hash)
         if inner_create_opcode == Op.TXCREATE
@@ -337,7 +336,7 @@ def test_txcreate_in_initcode(
             else []
         )
     )
-    nested_initcode_subcontainer_hash = keccak256(nested_initcode_subcontainer)
+    nested_initcode_subcontainer_hash = nested_initcode_subcontainer.hash
 
     outer_create_bytecode = (
         Op.TXCREATE(tx_initcode_hash=nested_initcode_subcontainer_hash)
@@ -412,7 +411,7 @@ def test_return_data_cleared(
             ]
         )
     )
-    initcode_hash = keccak256(smallest_initcode_subcontainer)
+    initcode_hash = smallest_initcode_subcontainer.hash
 
     slot_returndata_size_2 = slot_last_slot * 2 + slot_returndata_size
     sender = pre.fund_eoa()
@@ -466,7 +465,7 @@ def test_address_collision(
     slot_create_address_2 = slot_last_slot * 2 + slot_create_address
     slot_create_address_3 = slot_last_slot * 3 + slot_create_address
     sender = pre.fund_eoa()
-    initcode_hash = keccak256(smallest_initcode_subcontainer)
+    initcode_hash = smallest_initcode_subcontainer.hash
     contract_address = pre.deploy_contract(
         code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
         + Op.SSTORE(slot_create_address_2, Op.TXCREATE(tx_initcode_hash=initcode_hash))
@@ -519,7 +518,7 @@ def test_txcreate_revert_eof_returndata(
             ),
         ],
     )
-    initcode_hash = keccak256(code_reverts_with_calldata)
+    initcode_hash = code_reverts_with_calldata.hash
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -589,7 +588,7 @@ def test_txcreate_context(
             Section.Container(smallest_runtime_subcontainer),
         ]
     )
-    initcode_hash = keccak256(initcode)
+    initcode_hash = initcode.hash
 
     factory_address = pre.deploy_contract(
         code=Op.SSTORE(slot_code_worked, value_code_worked)
@@ -670,7 +669,7 @@ def test_txcreate_memory_context(
             Section.Container(smallest_runtime_subcontainer),
         ]
     )
-    initcode_hash = keccak256(initcontainer)
+    initcode_hash = initcontainer.hash
     contract_address = pre.deploy_contract(
         code=Op.SSTORE(contract_storage.store_next(value_code_worked), value_code_worked)
         + Op.MSTORE(0, 1)

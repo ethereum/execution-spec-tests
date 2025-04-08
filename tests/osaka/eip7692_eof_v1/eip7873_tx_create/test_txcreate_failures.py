@@ -2,6 +2,7 @@
 
 import pytest
 
+from ethereum_test_base_types import Bytes
 from ethereum_test_base_types.base_types import Address
 from ethereum_test_forks.base_fork import Fork
 from ethereum_test_tools import (
@@ -16,7 +17,6 @@ from ethereum_test_tools import (
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import MAX_BYTECODE_SIZE, MAX_INITCODE_SIZE
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-from ethereum_test_types.types import keccak256
 
 from .. import EOF_FORK_NAME
 from ..eip7069_extcall.spec import EXTCALL_FAILURE, EXTCALL_REVERT, LEGACY_CALL_FAILURE
@@ -65,7 +65,7 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
             ),
         ],
     )
-    initcode_hash = keccak256(initcode_subcontainer)
+    initcode_hash = initcode_subcontainer.hash
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -105,7 +105,7 @@ def test_txcreate_invalid_hash(
 ):
     """Verifies proper handling of REVERT in initcode."""
     env = Environment()
-    initcode_hash = keccak256("")
+    initcode_hash = Bytes("").keccak256()
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -141,7 +141,7 @@ def test_initcode_aborts(
     """Verifies correct handling of a halt in EOF initcode."""
     env = Environment()
     sender = pre.fund_eoa()
-    initcode_hash = keccak256(aborting_container)
+    initcode_hash = aborting_container.hash
     contract_address = pre.deploy_contract(
         code=Op.SSTORE(slot_create_address, Op.TXCREATE(tx_initcode_hash=initcode_hash))
         + Op.SSTORE(slot_code_worked, value_code_worked)
@@ -221,7 +221,7 @@ def test_txcreate_deploy_sizes(
             len(initcode_subcontainer) - len(runtime_container),
         )
     )
-    initcode_hash = keccak256(initcode_subcontainer)
+    initcode_hash = initcode_subcontainer.hash
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -282,7 +282,7 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
     )
 
     sender = pre.fund_eoa()
-    initcode_hash = keccak256(initcode_subcontainer)
+    initcode_hash = initcode_subcontainer.hash
     contract_address = pre.deploy_contract(
         code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
         + Op.SSTORE(
@@ -340,7 +340,7 @@ def test_txcreate_insufficient_stipend(
     """
     env = Environment()
     sender = pre.fund_eoa(10**11)
-    initcode_hash = keccak256(smallest_initcode_subcontainer)
+    initcode_hash = smallest_initcode_subcontainer.hash
 
     contract_address = pre.deploy_contract(
         code=Op.SSTORE(
@@ -385,7 +385,7 @@ def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork
             Section.Container(container=smallest_runtime_subcontainer),
         ],
     )
-    initcode_hash = keccak256(initcode_container)
+    initcode_hash = initcode_container.hash
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -436,7 +436,7 @@ def test_insufficient_gas_memory_expansion(
     env = Environment()
 
     auxdata_size = 0x5000
-    initcode_hash = keccak256(smallest_initcode_subcontainer)
+    initcode_hash = smallest_initcode_subcontainer.hash
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Op.SSTORE(
@@ -500,7 +500,7 @@ def test_insufficient_returncode_auxdata_gas(
             Section.Container(container=smallest_runtime_subcontainer),
         ],
     )
-    initcode_hash = keccak256(initcode_container)
+    initcode_hash = initcode_container.hash
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -566,7 +566,7 @@ def test_static_flag_txcreate(
 ):
     """Verifies correct handling of the static call flag with TXCREATE."""
     env = Environment()
-    initcode_hash = keccak256(initcode)
+    initcode_hash = initcode.hash
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Op.TXCREATE(tx_initcode_hash=initcode_hash, value=endowment) + Op.STOP,
@@ -657,7 +657,7 @@ def test_eof_txcreate_msg_depth(
         + deep_most_result_block
     )
 
-    initcode_hash = keccak256(initcode)
+    initcode_hash = initcode.hash
     sender = pre.fund_eoa()
 
     jump_code = (
@@ -750,7 +750,7 @@ def test_reentrant_txcreate(
             Section.Container(smallest_runtime_subcontainer),
         ]
     )
-    initcode_hash = keccak256(initcontainer)
+    initcode_hash = initcontainer.hash
     # Factory: Passes on its input into the initcode. It's 0 first time, 1 the second time.
     #          Saves the result of deployment in slot 0 first time, 1 the second time.
     contract_address = pre.deploy_contract(
