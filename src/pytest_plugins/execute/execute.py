@@ -211,7 +211,7 @@ class Collector:
         self.collected_tests[test_name] = execute_format
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def collector(
     request,
     eth_rpc: EthRPC,
