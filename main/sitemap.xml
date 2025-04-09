@@ -4231,6 +4231,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_to_precompile_not_enough_gas_for_precompile_execution/</loc>
+         <lastmod>2025-04-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_set_code_txs/test_set_code_to_self_caller/</loc>
          <lastmod>2025-04-09</lastmod>
          <changefreq>daily</changefreq>
