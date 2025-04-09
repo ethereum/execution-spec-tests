@@ -94,10 +94,10 @@ def test_blockchain_via_engine(
                                 )
                             if isinstance(payload_response.validation_error, UndefinedException):
                                 logger.warning(
-                                    "Undefined exception message:\n"
-                                    f"expected exception: {payload.validation_error}:\n"
-                                    f"returned exception: {payload_response.validation_error}\n"
-                                    f"mapper: {payload_response.validation_error.mapper_name}"
+                                    "Undefined exception message: "
+                                    f"expected exception: {payload.validation_error}: "
+                                    f"returned exception: {payload_response.validation_error} "
+                                    f"(mapper: {payload_response.validation_error.mapper_name})"
                                 )
                             else:
                                 if (
