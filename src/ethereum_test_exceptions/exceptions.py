@@ -567,6 +567,10 @@ class BlockException(ExceptionBase):
     """
     Trying to import a block after paris fork that has difficulty != 0.
     """
+    INVALID_BLOCK_HASH = auto()
+    """
+    Block header's hash does not match the actually computed hash of the block.
+    """
 
 
 @unique
