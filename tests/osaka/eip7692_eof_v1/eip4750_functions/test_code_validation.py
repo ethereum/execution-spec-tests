@@ -871,7 +871,7 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
                 code_outputs=3,
                 max_stack_height=4,
             ),
-            id="pop",
+            id="push_pop",
         ),
         pytest.param(
             Section.Code(
