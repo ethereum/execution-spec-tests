@@ -2,6 +2,7 @@
 
 [![latest version](https://img.shields.io/github/v/release/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/releases/latest)
 ![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![License](https://img.shields.io/github/license/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/blob/main/LICENSE)
 
