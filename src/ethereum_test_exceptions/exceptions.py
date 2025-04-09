@@ -584,6 +584,10 @@ class BlockException(ExceptionBase):
     """
     A system contract call at the end of block execution (from the system address) fails.
     """
+    INVALID_BLOCK_HASH = auto()
+    """
+    Block header's hash does not match the actually computed hash of the block.
+    """
 
 
 @unique
