@@ -951,6 +951,7 @@ def test_deposit(
         ),
     ],
 )
+@pytest.mark.negative
 def test_deposit_negative(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,

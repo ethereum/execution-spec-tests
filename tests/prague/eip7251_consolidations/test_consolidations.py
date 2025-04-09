@@ -730,6 +730,7 @@ def test_consolidation_requests(
         ),
     ],
 )
+@pytest.mark.negative
 def test_consolidation_requests_negative(
     pre: Alloc,
     fork: Fork,
