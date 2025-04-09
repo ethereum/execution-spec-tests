@@ -313,3 +313,10 @@ def is_slow_test(request: pytest.FixtureRequest) -> bool:
     if hasattr(request, "node"):
         return request.node.get_closest_marker("slow") is not None
     return False
+
+
+def is_negative_test(request: pytest.FixtureRequest) -> bool:
+    """Check if the test is negative (invalid block, invalid transaction)."""
+    if hasattr(request, "node"):
+        return request.node.get_closest_marker("negative") is not None
+    return False

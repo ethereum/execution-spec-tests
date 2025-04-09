@@ -49,7 +49,7 @@ from ethereum_test_types import Alloc, Environment, Removable, Requests, Transac
 
 from .base import BaseTest, verify_result
 from .debugging import print_traces
-from .helpers import is_slow_test, verify_block, verify_transactions
+from .helpers import is_negative_test, is_slow_test, verify_block, verify_transactions
 
 
 def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
@@ -563,6 +563,7 @@ class BlockchainTest(BaseTest):
         fork: Fork,
         eips: Optional[List[int]] = None,
         slow: bool = False,
+        negative_test: bool = False,
     ) -> BlockchainFixture:
         """Create a fixture from the blockchain test definition."""
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
@@ -572,7 +573,7 @@ class BlockchainTest(BaseTest):
         alloc = pre
         env = environment_from_parent_header(genesis.header)
         head = genesis.header.block_hash
-
+        invalid_blocks = 0
         for block in self.blocks:
             if block.rlp is None:
                 # This is the most common case, the RLP needs to be constructed
@@ -605,6 +606,10 @@ class BlockchainTest(BaseTest):
                     env = apply_new_parent(new_env, header)
                     head = header.block_hash
                 else:
+                    assert negative_test, (
+                        "unmarked negative test: the test case produces an invalid block but "
+                        + "does not specify the `pytest.mark.negative` marker"
+                    )
                     fixture_blocks.append(
                         InvalidFixtureBlock(
                             rlp=fixture_block.rlp,
@@ -616,10 +621,15 @@ class BlockchainTest(BaseTest):
                             ),
                         ),
                     )
+                    invalid_blocks += 1
             else:
                 assert block.exception is not None, (
                     "test correctness: if the block's rlp is hard-coded, "
                     + "the block is expected to produce an exception"
+                )
+                assert negative_test, (
+                    "unmarked negative test: the test case produces an invalid block but "
+                    + "does not specify the `pytest.mark.negative` marker"
                 )
                 fixture_blocks.append(
                     InvalidFixtureBlock(
@@ -627,11 +637,18 @@ class BlockchainTest(BaseTest):
                         expect_exception=block.exception,
                     ),
                 )
+                invalid_blocks += 1
 
             if block.expected_post_state:
                 self.verify_post_state(
                     t8n, t8n_state=alloc, expected_state=block.expected_post_state
                 )
+
+        if invalid_blocks == 0 and negative_test:
+            raise Exception(
+                "test correctness: the test case is marked as negative but "
+                + "no invalid blocks were found"
+            )
 
         self.verify_post_state(t8n, t8n_state=alloc)
         network_info = BlockchainTest.network_info(fork, eips)
@@ -656,6 +673,7 @@ class BlockchainTest(BaseTest):
         fork: Fork,
         eips: Optional[List[int]] = None,
         slow: bool = False,
+        negative_test: bool = False,
     ) -> BlockchainEngineFixture:
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
@@ -691,6 +709,11 @@ class BlockchainTest(BaseTest):
                     alloc = new_alloc
                     env = apply_new_parent(env, header)
                     head_hash = header.block_hash
+                else:
+                    assert negative_test, (
+                        "unmarked negative test: the test case produces an invalid block but "
+                        + "does not specify the `pytest.mark.negative` marker"
+                    )
 
             if block.expected_post_state:
                 self.verify_post_state(
@@ -761,9 +784,21 @@ class BlockchainTest(BaseTest):
         """Generate the BlockchainTest fixture."""
         t8n.reset_traces()
         if fixture_format == BlockchainEngineFixture:
-            return self.make_hive_fixture(t8n, fork, eips, slow=is_slow_test(request))
+            return self.make_hive_fixture(
+                t8n,
+                fork,
+                eips,
+                slow=is_slow_test(request),
+                negative_test=is_negative_test(request),
+            )
         elif fixture_format == BlockchainFixture:
-            return self.make_fixture(t8n, fork, eips, slow=is_slow_test(request))
+            return self.make_fixture(
+                t8n,
+                fork,
+                eips,
+                slow=is_slow_test(request),
+                negative_test=is_negative_test(request),
+            )
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 

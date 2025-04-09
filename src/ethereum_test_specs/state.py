@@ -34,7 +34,7 @@ from ethereum_test_types import Alloc, Environment, Transaction
 from .base import BaseTest
 from .blockchain import Block, BlockchainTest, Header
 from .debugging import print_traces
-from .helpers import is_slow_test, verify_transactions
+from .helpers import is_negative_test, is_slow_test, verify_transactions
 
 
 class StateTest(BaseTest):
@@ -233,6 +233,16 @@ class StateTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
+        if self.tx.error is not None and not is_negative_test(request):
+            raise Exception(
+                "State tests with an error code should be marked with the "
+                "`pytest.mark.negative` test marker"
+            )
+        elif self.tx.error is None and is_negative_test(request):
+            raise Exception(
+                "State tests without an error code should not be marked with the "
+                "`pytest.mark.negative` test marker"
+            )
         if fixture_format in BlockchainTest.supported_fixture_formats:
             return self.generate_blockchain_test(fork=fork).generate(
                 request=request, t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips

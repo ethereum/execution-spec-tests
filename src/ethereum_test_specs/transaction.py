@@ -22,6 +22,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Transaction
 
 from .base import BaseTest
+from .helpers import is_negative_test
 
 
 class TransactionTest(BaseTest):
@@ -85,6 +86,16 @@ class TransactionTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> BaseFixture:
         """Generate the TransactionTest fixture."""
+        if self.tx.error is not None and not is_negative_test(request):
+            raise Exception(
+                "Transaction tests with an error code should be marked with the "
+                "`pytest.mark.negative` test marker."
+            )
+        elif self.tx.error is None and is_negative_test(request):
+            raise Exception(
+                "Transaction tests without an error code should not be marked with "
+                "`pytest.mark.negative` test marker."
+            )
         if fixture_format == TransactionFixture:
             return self.make_transaction_test_fixture(fork, eips)
 
