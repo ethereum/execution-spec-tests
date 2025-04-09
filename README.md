@@ -104,7 +104,7 @@ uv sync --all-extras
 uv run solc-select use 0.8.24 --always-install
 ```
 
-See [Installation Troubleshooting](https://ethereum.github.io/execution-spec-tests/main/getting_started/installation_troubleshooting/) in the online docs if you encounter issues.
+See [Installation Troubleshooting](https://eest.ethereum.org/main/getting_started/installation_troubleshooting/) in the online docs if you encounter issues.
 
 ### Exploring and Filling Test Cases
 
@@ -155,26 +155,26 @@ By default, JSON test fixtures are generated from this repository's Python test 
 
 ## Usage
 
-More information on how to obtain and consume the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found in the [documentation](https://ethereum.github.io/execution-spec-tests/main/consuming_tests/).
+More information on how to obtain and consume the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found in the [documentation](https://eest.ethereum.org/main/consuming_tests/).
 
-For further help with working with this codebase, see the [online documentation](https://ethereum.github.io/execution-spec-tests/main/):
+For further help with working with this codebase, see the [online documentation](https://eest.ethereum.org/main/):
 
-1. Learn [useful command-line flags](https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_command_line/).
-2. [Execute tests for features under development](https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
-3. _Optional:_ [Configure VS Code](https://ethereum.github.io/execution-spec-tests/main/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_vs_code/).
-4. Implement a new test case, see [Writing Tests](https://ethereum.github.io/execution-spec-tests/main/writing_tests/).
+1. Learn [useful command-line flags](https://eest.ethereum.org/main/filling_tests/filling_tests_command_line/).
+2. [Execute tests for features under development](https://eest.ethereum.org/main/filling_tests/filling_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
+3. _Optional:_ [Configure VS Code](https://eest.ethereum.org/main/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://eest.ethereum.org/main/filling_tests/filling_tests_vs_code/).
+4. Implement a new test case, see [Writing Tests](https://eest.ethereum.org/main/writing_tests/).
 
 ## Coverage
 
-The available test cases can be browsed in the [Test Case Reference doc](https://ethereum.github.io/execution-spec-tests/main/tests/).
+The available test cases can be browsed in the [Test Case Reference doc](https://eest.ethereum.org/main/tests/).
 
 ## Installation Troubleshooting
 
-If you encounter issues during the installation process, please refer to the [Installation Troubleshooting](https://ethereum.github.io/execution-spec-tests/main/getting_started/installation_troubleshooting/) page.
+If you encounter issues during the installation process, please refer to the [Installation Troubleshooting](https://eest.ethereum.org/main/getting_started/installation_troubleshooting/) page.
 
 ## Contributing
 
-Contributions and feedback are welcome. Please see the [online documentation](https://ethereum.github.io/execution-spec-tests/main/writing_tests/) for this repository's coding standards and help on implementing new tests.
+Contributions and feedback are welcome. Please see the [online documentation](https://eest.ethereum.org/main/writing_tests/) for this repository's coding standards and help on implementing new tests.
 
 Pull requests containing only typo fixes will not be merged and must be accompanied by documentation, test or framework improvements.
 
