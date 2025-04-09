@@ -160,8 +160,8 @@ More information on how to obtain and consume the [released test fixtures](https
 For further help with working with this codebase, see the [online documentation](https://ethereum.github.io/execution-spec-tests/main/):
 
 1. Learn [useful command-line flags](https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_command_line/).
-2. [Execute tests for features under development](https://ethereum.github.io/execution-spec-tests/main/filling_tests/executing_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
-3. _Optional:_ [Configure VS Code](https://ethereum.github.io/execution-spec-tests/main/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://ethereum.github.io/main/filling_tests/filling_tests_vs_code/).
+2. [Execute tests for features under development](https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_dev_fork/) via the `--from=FORK1` and `--until=FORK2` flags.
+3. _Optional:_ [Configure VS Code](https://ethereum.github.io/execution-spec-tests/main/getting_started/setup_vs_code/) to auto-format Python code and [execute tests within VS Code](https://ethereum.github.io/execution-spec-tests/main/filling_tests/filling_tests_vs_code/).
 4. Implement a new test case, see [Writing Tests](https://ethereum.github.io/execution-spec-tests/main/writing_tests/).
 
 ## Coverage
