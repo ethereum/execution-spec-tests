@@ -42,6 +42,16 @@ def pytest_addoption(parser):
         default=False,
         help="Log the timing data for each test case execution.",
     )
+    consume_group.addoption(
+        "--strict-exception-matching",
+        action="store",
+        dest="strict_exception_matching",
+        default="",
+        help=(
+            "Comma-separated list of the names of clients which should use strict "
+            "exception matching."
+        ),
+    )
 
 
 @pytest.fixture(scope="function")
@@ -207,6 +217,22 @@ def client_exception_mapper(
         if client in client_type.name:
             return EXCEPTION_MAPPERS[client]
     return None
+
+
+@pytest.fixture(scope="session")
+def strict_exception_matching(request: pytest.FixtureRequest) -> List[str]:
+    """Return the list of clients that should use strict exception matching."""
+    config_string = request.config.getoption("strict_exception_matching")
+    return config_string.split(",") if config_string else []
+
+
+@pytest.fixture(scope="function")
+def client_strict_exception_matching(
+    client_type: ClientType,
+    strict_exception_matching: List[str],
+) -> bool:
+    """Return True if the client type should use strict exception matching."""
+    return any(client in client_type.name for client in strict_exception_matching)
 
 
 @pytest.fixture(scope="function")
