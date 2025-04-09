@@ -70,6 +70,7 @@ pytestmark += [
 @pytest.mark.parametrize(
     "to",
     [
+        pytest.param(Address(1), id="to_address"),
         pytest.param(None, id="contract_creating"),
         pytest.param(Op.STOP, id=""),
     ],
@@ -91,6 +92,7 @@ def test_transaction_validity_type_0(
 @pytest.mark.parametrize(
     "to",
     [
+        pytest.param(Address(1), id="to_address"),
         pytest.param(None, id="contract_creating"),
         pytest.param(Op.STOP, id=""),
     ],
