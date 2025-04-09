@@ -44,5 +44,3 @@ def generate_github_url(file_path, branch_or_commit_or_tag="main", line_number="
         f"{base_url}/{username}/{repository}/{tree_or_blob}/"
         f"{branch_or_commit_or_tag}/{file_path}{line_number}"
     )
-    
-    return f"{base_url}/{username}/{repository}/{tree_or_blob}/{branch_or_commit_or_tag}/{file_path}{line_fragment}"
