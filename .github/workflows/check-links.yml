@@ -1,4 +1,4 @@
-name: Links
+name: Check Links
 
 on:
   repository_dispatch:
@@ -20,8 +20,15 @@ jobs:
         # We use --exclude '\.md(#.*)?$' to skip internal links in markdown like [See test](../tests/.../test_case.md)
         # otherwise we get false positives due to links pointing to content that gets generated during our mkdocs flow.
         # These links are checked during `mkdocs build --strict`
-        args: lychee README.md src/**/*.py src/**/*.md tests/**/*.py tests/**/*.md docs/**/*.md --exclude '\.md(#.*)?$'
         with:
+          args: >
+            README.md
+            src/**/*.py
+            src/**/*.md
+            tests/**/*.py
+            tests/**/*.md
+            docs/**/*.md
+            --exclude '\.md(#.*)?$'
           fail: false
 
       - name: Create Issue From File
