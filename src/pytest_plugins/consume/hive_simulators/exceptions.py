@@ -3,6 +3,7 @@
 import pprint
 from typing import Dict, List, Tuple
 
+from ethereum_clis.clis.ethereumjs import EthereumJSExceptionMapper
 from ethereum_clis.clis.geth import GethExceptionMapper
 from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_fixtures.blockchain import FixtureHeader
@@ -56,6 +57,47 @@ class GenesisBlockMismatchExceptionError(Exception):
         return differences, unexpected_fields
 
 
+class NethermindMapper(ExceptionMapper):
+    """Nethermind exception mapper."""
+
+    mapping_substring = {}
+    mapping_regex = {}
+
+
+class ErigonMapper(ExceptionMapper):
+    """Erigon exception mapper."""
+
+    mapping_substring = {}
+    mapping_regex = {}
+
+
+class BesuMapper(ExceptionMapper):
+    """Besu exception mapper."""
+
+    mapping_substring = {}
+    mapping_regex = {}
+
+
+class RethMapper(ExceptionMapper):
+    """Reth exception mapper."""
+
+    mapping_substring = {}
+    mapping_regex = {}
+
+
+class NimbusMapper(ExceptionMapper):
+    """Nimbus exception mapper."""
+
+    mapping_substring = {}
+    mapping_regex = {}
+
+
 EXCEPTION_MAPPERS: Dict[str, ExceptionMapper] = {
     "go-ethereum": GethExceptionMapper(),
+    "nethermind": NethermindMapper(),
+    "erigon": ErigonMapper(),
+    "besu": BesuMapper(),
+    "reth": RethMapper(),
+    "nimbus": NimbusMapper(),
+    "ethereumjs": EthereumJSExceptionMapper(),
 }
