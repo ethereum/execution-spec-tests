@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple
 
 from ethereum_clis.clis.ethereumjs import EthereumJSExceptionMapper
 from ethereum_clis.clis.geth import GethExceptionMapper
-from ethereum_test_exceptions import ExceptionMapper
+from ethereum_test_exceptions import BlockException, ExceptionMapper, TransactionException
 from ethereum_test_fixtures.blockchain import FixtureHeader
 
 
@@ -74,8 +74,77 @@ class ErigonMapper(ExceptionMapper):
 class BesuMapper(ExceptionMapper):
     """Besu exception mapper."""
 
-    mapping_substring = {}
-    mapping_regex = {}
+    mapping_substring = {
+        BlockException.INCORRECT_BLOB_GAS_USED: (
+            "Payload BlobGasUsed does not match calculated BlobGasUsed"
+        ),
+        BlockException.INCORRECT_EXCESS_BLOB_GAS: (
+            "Payload excessBlobGas does not match calculated excessBlobGas"
+        ),
+        TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "Invalid versionedHash",
+        TransactionException.TYPE_3_TX_CONTRACT_CREATION: (
+            "transaction invalid transaction blob transactions must have a to address"
+        ),
+        BlockException.RLP_STRUCTURES_ENCODING: (
+            "Failed to decode transactions from block parameter"
+        ),
+        TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: (
+            "Failed to decode transactions from block parameter"
+        ),
+        TransactionException.TYPE_3_TX_ZERO_BLOBS: (
+            "Failed to decode transactions from block parameter"
+        ),
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
+            "transaction invalid tx max fee per blob gas less than block blob gas fee"
+        ),
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: (
+            "transaction invalid gasPrice is less than the current BaseFee"
+        ),
+        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
+            "transaction invalid max priority fee per gas cannot be greater than max fee per gas"
+        ),
+        TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: (
+            "transaction invalid transaction code delegation transactions must have a "
+            "non-empty code delegation list"
+        ),
+        TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
+            "transaction invalid transaction code delegation transactions must have a to address"
+        ),
+        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "Invalid Blob Count",
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "Invalid Blob Count",
+        BlockException.BLOB_GAS_USED_ABOVE_LIMIT: (
+            "Payload BlobGasUsed does not match calculated BlobGasUsed"
+        ),
+        BlockException.INCORRECT_BLOB_GAS_USED: (
+            "Payload BlobGasUsed does not match calculated BlobGasUsed"
+        ),
+    }
+    mapping_regex = {
+        BlockException.INVALID_REQUESTS: (
+            r"Invalid execution requests|Requests hash mismatch, calculated: 0x[0-9a-f]+ header: "
+            r"0x[0-9a-f]+"
+        ),
+        BlockException.INVALID_BLOCK_HASH: (
+            r"Computed block hash 0x[0-9a-f]+ does not match block hash parameter 0x[0-9a-f]+"
+        ),
+        TransactionException.INITCODE_SIZE_EXCEEDED: (
+            r"transaction invalid Initcode size of \d+ exceeds maximum size of \d+"
+        ),
+        TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: (
+            r"transaction invalid transaction up-front cost 0x[0-9a-f]+ exceeds transaction "
+            r"sender account balance 0x[0-9a-f]+"
+        ),
+        TransactionException.INTRINSIC_GAS_TOO_LOW: (
+            r"transaction invalid intrinsic gas cost \d+ exceeds gas limit \d+"
+        ),
+        TransactionException.SENDER_NOT_EOA: (
+            r"transaction invalid Sender 0x[0-9a-f]+ has deployed code and so is not authorized "
+            r"to send transactions"
+        ),
+        TransactionException.NONCE_MISMATCH_TOO_LOW: (
+            r"transaction invalid transaction nonce \d+ below sender account nonce \d+"
+        ),
+    }
 
 
 class RethMapper(ExceptionMapper):
