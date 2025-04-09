@@ -22,6 +22,7 @@ def test_blockchain_via_engine(
     eth_rpc: EthRPC,
     engine_rpc: EngineRPC,
     fixture: BlockchainEngineFixture,
+    client_strict_exception_matching: bool,
 ):
     """
     1. Check the client genesis block hash matches `fixture.genesis.block_hash`.
@@ -93,27 +94,31 @@ def test_blockchain_via_engine(
                                     "Client returned INVALID but no validation error was provided."
                                 )
                             if isinstance(payload_response.validation_error, UndefinedException):
-                                logger.warning(
+                                message = (
                                     "Undefined exception message: "
                                     f'expected exception: "{payload.validation_error}", '
                                     f'returned exception: "{payload_response.validation_error}" '
                                     f'(mapper: "{payload_response.validation_error.mapper_name}")'
                                 )
+                                if client_strict_exception_matching:
+                                    raise Exception(message)
+                                else:
+                                    logger.warning(message)
                             else:
                                 if (
-                                    payload_response.validation_error
-                                    not in payload.validation_error  # type: ignore
+                                    payload.validation_error
+                                    not in payload_response.validation_error
                                 ):
-                                    logger.fail(
-                                        "Client returned unexpected validation error:\n"
-                                        f"got: {payload_response.validation_error}\n"
-                                        f"expected: {payload.validation_error}"
+                                    message = (
+                                        "Client returned unexpected validation error: "
+                                        f'got: "{payload_response.validation_error}" '
+                                        f'expected: "{payload.validation_error}"'
                                     )
-                                    raise Exception(
-                                        "Client returned unexpected validation error:\n"
-                                        f"got: {payload_response.validation_error}\n"
-                                        f"expected: {payload.validation_error}"
-                                    )
+                                    if client_strict_exception_matching:
+                                        logger.fail(message)
+                                        raise Exception(message)
+                                    else:
+                                        logger.warning(message)
                     except JSONRPCError as e:
                         logger.info(f"JSONRPC error encountered: {e.code} - {e.message}")
                         if payload.error_code is None:
