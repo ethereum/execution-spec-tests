@@ -76,8 +76,11 @@ def mapper_validator(v: str, info: ValidationInfo) -> Dict[str, Any] | Undefined
     """
     if v is None:
         return v
-    assert isinstance(info.context, dict), f"Invalid context provided: {info.context}"
+    if not isinstance(info.context, dict):
+        return UndefinedException(v, mapper_name="UndefinedExceptionMapper: No context")
     exception_mapper = info.context.get("exception_mapper")
+    if exception_mapper is None:
+        return UndefinedException(v, mapper_name="UndefinedExceptionMapper: No mapper")
     assert isinstance(exception_mapper, ExceptionMapper), (
         f"Invalid mapper provided {exception_mapper}"
     )
