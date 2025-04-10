@@ -37,11 +37,11 @@ def test_extra_logs(
         index=0x0,
     )
     deposit_request_log = create_deposit_log_bytes(
-        pubkey_data=deposit_request.pubkey,
-        withdrawal_credentials_data=deposit_request.withdrawal_credentials,
-        amount_data=deposit_request.amount,
-        signature_data=deposit_request.signature,
-        index_data=deposit_request.index,
+        pubkey_data=bytes(deposit_request.pubkey),
+        withdrawal_credentials_data=bytes(deposit_request.withdrawal_credentials),
+        amount_data=bytes.fromhex("0" + deposit_request.amount.hex()[2:]),
+        signature_data=bytes(deposit_request.signature),
+        index_data=bytes(),
     )
 
     # ERC20 token transfer log (Sepolia)
@@ -77,16 +77,15 @@ def test_extra_logs(
         0x000000000000000000000000BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB,
     )
 
-    requests = []
+    requests = None
 
     if include_deposit_event:
-        bytecode += Om.MSTORE(deposit_request_log)
-        +Op.LOG1(
+        bytecode += Om.MSTORE(deposit_request_log) + Op.LOG1(
             0,
             len(deposit_request_log),
             Spec.DEPOSIT_EVENT_SIGNATURE_HASH,
         )
-        requests = deposit_request
+        requests = [deposit_request]
     bytecode += Op.STOP
 
     pre[Spec.DEPOSIT_CONTRACT_ADDRESS] = Account(
@@ -108,7 +107,7 @@ def test_extra_logs(
             Block(
                 txs=[tx],
                 header_verify=Header(
-                    requests_hash=Requests(requests),
+                    requests_hash=Requests(requests_lists=requests),
                 ),
             ),
         ],
