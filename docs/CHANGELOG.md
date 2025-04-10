@@ -10,6 +10,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🛠️ Framework
 
+- 🐞 Fix bug that broke consume when obtaining fixtures from arbitrary URLs ([#1435](https://github.com/ethereum/execution-spec-tests/pull/1435)).
+
 #### `fill`
 
 - 🐞 Fix `DeprecationWarning: Pickle, copy, and deepcopy support will be removed from itertools in Python 3.14.` by avoiding use `itertools` object in the spec `BaseTest` pydantic model ([#1414](https://github.com/ethereum/execution-spec-tests/pull/1414)).
