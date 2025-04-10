@@ -20,7 +20,7 @@ from ethereum_test_fixtures.consume import IndexFile, TestCases
 from ethereum_test_forks import get_forks, get_relative_fork_markers, get_transition_forks
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
-from .releases import ReleaseTag, get_release_page_url, get_release_url
+from .releases import ReleaseTag, get_release_page_url, get_release_url, is_url
 
 CACHED_DOWNLOADS_DIRECTORY = (
     Path(platformdirs.user_cache_dir("ethereum-execution-spec-tests")) / "cached_downloads"
@@ -157,12 +157,6 @@ class FixturesSource:
         if not any(path.glob("**/*.json")):
             pytest.exit(f"Specified fixture directory '{path}' does not contain any JSON files.")
         return FixturesSource(input_option=str(path), path=path)
-
-
-def is_url(string: str) -> bool:
-    """Check if a string is a remote URL."""
-    result = urlparse(string)
-    return all([result.scheme, result.netloc])
 
 
 class SimLimitBehavior:

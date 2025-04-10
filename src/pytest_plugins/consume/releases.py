@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import List
+from urllib.parse import urlparse
 
 import platformdirs
 import requests
@@ -140,6 +141,12 @@ def is_docker_or_ci() -> bool:
     return "GITHUB_ACTIONS" in os.environ or Path("/.dockerenv").exists()
 
 
+def is_url(string: str) -> bool:
+    """Check if a string is a remote URL."""
+    result = urlparse(string)
+    return all([result.scheme, result.netloc])
+
+
 def parse_release_information(release_information: List) -> List[ReleaseInformation]:
     """Parse the release information from the Github API."""
     return Releases.model_validate(release_information).root  # type: ignore
@@ -196,7 +203,7 @@ def get_release_url_from_release_information(
     raise NoSuchReleaseError(release_string)
 
 
-def get_release_page_url(release_string: str) -> str:
+def get_release_page_url(release_string_or_url: str) -> str:
     """
     Return the GitHub Release page URL for a specific release descriptor.
 
@@ -205,27 +212,33 @@ def get_release_page_url(release_string: str) -> str:
     - A direct asset download link (e.g.,
         "https://github.com/ethereum/execution-spec-tests/releases/download/v4.0.0/fixtures_eip7692.tar.gz").
     """
+    repo_pattern = "|".join(re.escape(repo) for repo in SUPPORTED_REPOS)
+    regex_pattern = rf"https://github\.com/({repo_pattern})/releases/download/"
+    if (
+        not re.match(regex_pattern, release_string_or_url)
+        and not ReleaseTag.is_release_string(release_string_or_url)
+        and is_url(release_string_or_url)
+    ):
+        # Case 0: Any other arbitrary url we gracefully ignore.
+        return ""
+
     release_information = get_release_information()
 
     # Case 1: If it's a direct GitHub Releases download link,
     #         find which release in `release_information` has an asset with this exact URL.
-    repo_pattern = "|".join(re.escape(repo) for repo in SUPPORTED_REPOS)
-    regex_pattern = rf"https://github\.com/({repo_pattern})/releases/download/"
-    if re.match(regex_pattern, release_string):
+    if re.match(regex_pattern, release_string_or_url):
         for release in release_information:
             for asset in release.assets.root:
-                if asset.url == release_string:
+                if asset.url == release_string_or_url:
                     return release.url  # The HTML page for this release
-        return ""
-
-    # Case 2: Otherwise, treat it as a release descriptor (e.g., "eip7692@latest")
-    release_descriptor = ReleaseTag.from_string(release_string)
-    for release in release_information:
-        if release_descriptor in release:
-            return release.url
-
+    else:
+        # Case 2: Otherwise, treat it as a release descriptor (e.g., "eip7692@latest")
+        release_descriptor = ReleaseTag.from_string(release_string_or_url)
+        for release in release_information:
+            if release_descriptor in release:
+                return release.url
     # If nothing matched, return empty string
-    return ""
+    raise NoSuchReleaseError(f"No release found for asset URL: {release_string_or_url}")
 
 
 def get_release_information() -> List[ReleaseInformation]:
