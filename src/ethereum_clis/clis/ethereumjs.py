@@ -71,6 +71,9 @@ class EthereumJSExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "exceed maximum allowance",
         TransactionException.TYPE_3_TX_ZERO_BLOBS: "tx should contain at least one blob",
         TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: "Invalid EIP-4844 transaction",
+        TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
+            'tx should have a "to" field and cannot be used to create contracts'
+        ),
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: (
             "Invalid EIP-7702 transaction: authorization list is empty"
         ),
