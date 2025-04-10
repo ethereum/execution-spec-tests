@@ -89,7 +89,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x00\x04\x00\x02\x00\x00\x00\x00\x00\xaa\xbb'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x00\xff\x00\x02\x00\x00\x00\x00\x00\xaa\xbb'</td>
                         <td>EOFException.ZERO_SECTION_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -99,7 +99,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040002</td>
+                        <td>0xef00010100040200010001ff0002</td>
                         <td>EOFException.MISSING_HEADERS_TERMINATOR</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -109,7 +109,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0021_no_type_section_contents
                 </abbr>
             </td>
-                        <td>0xef0001010004020001000104000200</td>
+                        <td>0xef00010100040200010001ff000200</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -119,7 +119,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000</td>
+                        <td>0xef00010100040200010001ff00020000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -129,7 +129,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040002000000</td>
+                        <td>0xef00010100040200010001ff0002000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -139,7 +139,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete
                 </abbr>
             </td>
-                        <td>0xef0001010004020001000104000200000000</td>
+                        <td>0xef00010100040200010001ff000200000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -149,7 +149,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0025_no_code_section_contents
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000000000</td>
+                        <td>0xef00010100040200010001ff00020000000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -159,7 +159,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0026_code_section_contents_incomplete
                 </abbr>
             </td>
-                        <td>0xef0001010004020001002904000000000000027f</td>
+                        <td>0xef00010100040200010029ff000000000000027f</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -169,7 +169,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0027_trailing_bytes_after_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000000800000feaabbcc</td>
+                        <td>0xef00010100040200010001ff00000000800000feaabbcc</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -179,7 +179,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000000000000feaabbcc</td>
+                        <td>0xef00010100040200010001ff00000000000000feaabbcc</td>
                         <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -189,7 +189,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0028_empty_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000402000100000400000000000000</td>
+                        <td>0xef00010100040200010000ff00000000000000</td>
                         <td>EOFException.ZERO_SECTION_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -199,7 +199,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0030_code_section_preceding_type_section
                 </abbr>
             </td>
-                        <td>0xef000102000100010100040400020000000000feaabb</td>
+                        <td>0xef00010200010001010004ff00020000000000feaabb</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -209,7 +209,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0031_data_section_preceding_type_section
                 </abbr>
             </td>
-                        <td>0xef000104000201000402000100010000000000feaabb</td>
+                        <td>0xef0001ff000201000402000100010000000000feaabb</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -219,7 +219,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0032_data_section_preceding_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000404000202000100010000000000feaabb</td>
+                        <td>0xef0001010004ff000202000100010000000000feaabb</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -229,7 +229,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0033_data_section_without_code_section
                 </abbr>
             </td>
-                        <td>0xef00010100040400020000000000aabb</td>
+                        <td>0xef0001010004ff00020000000000aabb</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -249,7 +249,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0035_trailing_bytes_after_data_section
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x02\x00\x00\x80\x00\x00\xfe\xaa\xbb\xcc\xdd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x02\x00\x00\x80\x00\x00\xfe\xaa\xbb\xcc\xdd'</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -259,7 +259,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000000000feaabbccdd</td>
+                        <td>0xef00010100040200010001ff00020000000000feaabbccdd</td>
                         <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -269,7 +269,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0036_multiple_data_sections
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020400020000000000feaabbaabb</td>
+                        <td>0xef00010100040200010001ff0002ff00020000000000feaabbaabb</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -279,7 +279,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0037_multiple_code_and_data_sections
                 </abbr>
             </td>
-                        <td>0xef000101000802000200010001040002040002000000000000000000fefeaabbaabb</td>
+                        <td>0xef000101000802000200010001ff0002ff0002000000000000000000fefeaabbaabb</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -289,7 +289,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05
                 </abbr>
             </td>
-                        <td>0xef000105000101000402000100010400000000000000fe</td>
+                        <td>0xef00010400010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -299,7 +299,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06
                 </abbr>
             </td>
-                        <td>0xef000106000101000402000100010400000000000000fe</td>
+                        <td>0xef00010500010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -309,7 +309,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff
                 </abbr>
             </td>
-                        <td>0xef0001ff000101000402000100010400000000000000fe</td>
+                        <td>0xef0001fe00010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -319,7 +319,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000405000102000100010400000000000000fe</td>
+                        <td>0xef00010100040400010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -329,7 +329,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000406000102000100010400000000000000fe</td>
+                        <td>0xef00010100040500010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -339,7 +339,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff
                 </abbr>
             </td>
-                        <td>0xef0001010004ff000102000100010400000000000000fe</td>
+                        <td>0xef0001010004fe00010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -349,7 +349,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010500010400000000000000fe</td>
+                        <td>0xef00010100040200010001050001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -359,17 +359,17 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010600010400000000000000fe</td>
+                        <td>0xef00010100040200010001060001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]">
-                    ...fork_Osaka-eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04]">
+                    ...fork_Osaka-eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001ff00010400000000000000fe</td>
+                        <td>0xef00010100040200010001040001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -379,7 +379,7 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000500010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000500010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -389,17 +389,17 @@
                     ...fork_Osaka-eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000600010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000600010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]">
-                    ...fork_Osaka-eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04]">
+                    ...fork_Osaka-eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040000ff00010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000400010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -489,7 +489,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x00\x04\x00\x02\x00\x00\x00\x00\x00\xaa\xbb'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x00\xff\x00\x02\x00\x00\x00\x00\x00\xaa\xbb'</td>
                         <td>EOFException.ZERO_SECTION_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -499,7 +499,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040002</td>
+                        <td>0xef00010100040200010001ff0002</td>
                         <td>EOFException.MISSING_HEADERS_TERMINATOR</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -509,7 +509,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0021_no_type_section_contents
                 </abbr>
             </td>
-                        <td>0xef0001010004020001000104000200</td>
+                        <td>0xef00010100040200010001ff000200</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -519,7 +519,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000</td>
+                        <td>0xef00010100040200010001ff00020000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -529,7 +529,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040002000000</td>
+                        <td>0xef00010100040200010001ff0002000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -539,7 +539,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete
                 </abbr>
             </td>
-                        <td>0xef0001010004020001000104000200000000</td>
+                        <td>0xef00010100040200010001ff000200000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -549,7 +549,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0025_no_code_section_contents
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000000000</td>
+                        <td>0xef00010100040200010001ff00020000000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -559,7 +559,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0026_code_section_contents_incomplete
                 </abbr>
             </td>
-                        <td>0xef0001010004020001002904000000000000027f</td>
+                        <td>0xef00010100040200010029ff000000000000027f</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -569,7 +569,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000000800000feaabbcc</td>
+                        <td>0xef00010100040200010001ff00000000800000feaabbcc</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -579,7 +579,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000000000000feaabbcc</td>
+                        <td>0xef00010100040200010001ff00000000000000feaabbcc</td>
                         <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -589,7 +589,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0028_empty_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000402000100000400000000000000</td>
+                        <td>0xef00010100040200010000ff00000000000000</td>
                         <td>EOFException.ZERO_SECTION_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -599,7 +599,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0030_code_section_preceding_type_section
                 </abbr>
             </td>
-                        <td>0xef000102000100010100040400020000000000feaabb</td>
+                        <td>0xef00010200010001010004ff00020000000000feaabb</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -609,7 +609,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0031_data_section_preceding_type_section
                 </abbr>
             </td>
-                        <td>0xef000104000201000402000100010000000000feaabb</td>
+                        <td>0xef0001ff000201000402000100010000000000feaabb</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -619,7 +619,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0032_data_section_preceding_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000404000202000100010000000000feaabb</td>
+                        <td>0xef0001010004ff000202000100010000000000feaabb</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -629,7 +629,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0033_data_section_without_code_section
                 </abbr>
             </td>
-                        <td>0xef00010100040400020000000000aabb</td>
+                        <td>0xef0001010004ff00020000000000aabb</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -649,7 +649,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x02\x00\x00\x80\x00\x00\xfe\xaa\xbb\xcc\xdd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x02\x00\x00\x80\x00\x00\xfe\xaa\xbb\xcc\xdd'</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -659,7 +659,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000000000feaabbccdd</td>
+                        <td>0xef00010100040200010001ff00020000000000feaabbccdd</td>
                         <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -669,7 +669,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0036_multiple_data_sections
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020400020000000000feaabbaabb</td>
+                        <td>0xef00010100040200010001ff0002ff00020000000000feaabbaabb</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -679,7 +679,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0037_multiple_code_and_data_sections
                 </abbr>
             </td>
-                        <td>0xef000101000802000200010001040002040002000000000000000000fefeaabbaabb</td>
+                        <td>0xef000101000802000200010001ff0002ff0002000000000000000000fefeaabbaabb</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -689,7 +689,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05
                 </abbr>
             </td>
-                        <td>0xef000105000101000402000100010400000000000000fe</td>
+                        <td>0xef00010400010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -699,7 +699,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06
                 </abbr>
             </td>
-                        <td>0xef000106000101000402000100010400000000000000fe</td>
+                        <td>0xef00010500010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -709,7 +709,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff
                 </abbr>
             </td>
-                        <td>0xef0001ff000101000402000100010400000000000000fe</td>
+                        <td>0xef0001fe00010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -719,7 +719,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000405000102000100010400000000000000fe</td>
+                        <td>0xef00010100040400010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -729,7 +729,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000406000102000100010400000000000000fe</td>
+                        <td>0xef00010100040500010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -739,7 +739,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff
                 </abbr>
             </td>
-                        <td>0xef0001010004ff000102000100010400000000000000fe</td>
+                        <td>0xef0001010004fe00010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -749,7 +749,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010500010400000000000000fe</td>
+                        <td>0xef00010100040200010001050001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -759,17 +759,17 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010600010400000000000000fe</td>
+                        <td>0xef00010100040200010001060001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]">
-                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001ff00010400000000000000fe</td>
+                        <td>0xef00010100040200010001040001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -779,7 +779,7 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000500010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000500010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -789,17 +789,17 @@
                     ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000600010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000600010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]">
-                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04]">
+                    ...fork_Osaka-state_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040000ff00010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000400010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -889,7 +889,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0012_empty_code_section_with_non_empty_data_section
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x00\x04\x00\x02\x00\x00\x00\x00\x00\xaa\xbb'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x00\xff\x00\x02\x00\x00\x00\x00\x00\xaa\xbb'</td>
                         <td>EOFException.ZERO_SECTION_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -899,7 +899,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0020_no_section_terminator_after_data_section_size
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040002</td>
+                        <td>0xef00010100040200010001ff0002</td>
                         <td>EOFException.MISSING_HEADERS_TERMINATOR</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -909,7 +909,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0021_no_type_section_contents
                 </abbr>
             </td>
-                        <td>0xef0001010004020001000104000200</td>
+                        <td>0xef00010100040200010001ff000200</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -919,7 +919,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0022_invalid_type_section_no_outputs_and_max_stack
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000</td>
+                        <td>0xef00010100040200010001ff00020000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -929,7 +929,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0023_invalid_type_section_no_max_stack
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040002000000</td>
+                        <td>0xef00010100040200010001ff0002000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -939,7 +939,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0024_invalid_type_section_max_stack_incomplete
                 </abbr>
             </td>
-                        <td>0xef0001010004020001000104000200000000</td>
+                        <td>0xef00010100040200010001ff000200000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -949,7 +949,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0025_no_code_section_contents
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000000000</td>
+                        <td>0xef00010100040200010001ff00020000000000</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -959,7 +959,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0026_code_section_contents_incomplete
                 </abbr>
             </td>
-                        <td>0xef0001010004020001002904000000000000027f</td>
+                        <td>0xef00010100040200010029ff000000000000027f</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -969,7 +969,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000000800000feaabbcc</td>
+                        <td>0xef00010100040200010001ff00000000800000feaabbcc</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -979,7 +979,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0027_trailing_bytes_after_code_section_with_wrong_first_section_type
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000000000000feaabbcc</td>
+                        <td>0xef00010100040200010001ff00000000000000feaabbcc</td>
                         <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -989,7 +989,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0028_empty_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000402000100000400000000000000</td>
+                        <td>0xef00010100040200010000ff00000000000000</td>
                         <td>EOFException.ZERO_SECTION_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -999,7 +999,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0030_code_section_preceding_type_section
                 </abbr>
             </td>
-                        <td>0xef000102000100010100040400020000000000feaabb</td>
+                        <td>0xef00010200010001010004ff00020000000000feaabb</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1009,7 +1009,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0031_data_section_preceding_type_section
                 </abbr>
             </td>
-                        <td>0xef000104000201000402000100010000000000feaabb</td>
+                        <td>0xef0001ff000201000402000100010000000000feaabb</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1019,7 +1019,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0032_data_section_preceding_code_section
                 </abbr>
             </td>
-                        <td>0xef000101000404000202000100010000000000feaabb</td>
+                        <td>0xef0001010004ff000202000100010000000000feaabb</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1029,7 +1029,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0033_data_section_without_code_section
                 </abbr>
             </td>
-                        <td>0xef00010100040400020000000000aabb</td>
+                        <td>0xef0001010004ff00020000000000aabb</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1049,7 +1049,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x02\x00\x00\x80\x00\x00\xfe\xaa\xbb\xcc\xdd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x02\x00\x00\x80\x00\x00\xfe\xaa\xbb\xcc\xdd'</td>
                         <td>EOFException.INVALID_SECTION_BODIES_SIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1059,7 +1059,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0035_trailing_bytes_after_data_section_with_wrong_first_section_type
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020000000000feaabbccdd</td>
+                        <td>0xef00010100040200010001ff00020000000000feaabbccdd</td>
                         <td>[<EOFException.INVALID_FIRST_SECTION_TYPE: 24>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1069,7 +1069,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0036_multiple_data_sections
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400020400020000000000feaabbaabb</td>
+                        <td>0xef00010100040200010001ff0002ff00020000000000feaabbaabb</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1079,7 +1079,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0037_multiple_code_and_data_sections
                 </abbr>
             </td>
-                        <td>0xef000101000802000200010001040002040002000000000000000000fefeaabbaabb</td>
+                        <td>0xef000101000802000200010001ff0002ff0002000000000000000000fefeaabbaabb</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1089,7 +1089,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0038_unknown_section_id_at_the_beginning_05
                 </abbr>
             </td>
-                        <td>0xef000105000101000402000100010400000000000000fe</td>
+                        <td>0xef00010400010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1099,7 +1099,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0039_unknown_section_id_at_the_beginning_06
                 </abbr>
             </td>
-                        <td>0xef000106000101000402000100010400000000000000fe</td>
+                        <td>0xef00010500010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1109,7 +1109,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0040_unknown_section_id_at_the_beginning_ff
                 </abbr>
             </td>
-                        <td>0xef0001ff000101000402000100010400000000000000fe</td>
+                        <td>0xef0001fe00010100040200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_TYPE_HEADER: 10>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1119,7 +1119,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0041_unknown_section_id_after_types_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000405000102000100010400000000000000fe</td>
+                        <td>0xef00010100040400010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1129,7 +1129,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0042_unknown_section_id_after_types_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000406000102000100010400000000000000fe</td>
+                        <td>0xef00010100040500010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1139,7 +1139,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0043_unknown_section_id_after_types_section_ff
                 </abbr>
             </td>
-                        <td>0xef0001010004ff000102000100010400000000000000fe</td>
+                        <td>0xef0001010004fe00010200010001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_CODE_HEADER: 13>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1149,7 +1149,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0044_unknown_section_id_after_code_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010500010400000000000000fe</td>
+                        <td>0xef00010100040200010001050001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1159,17 +1159,17 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0045_unknown_section_id_after_code_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010600010400000000000000fe</td>
+                        <td>0xef00010100040200010001060001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_ff
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0046_unknown_section_id_after_code_section_04
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001ff00010400000000000000fe</td>
+                        <td>0xef00010100040200010001040001ff00000000000000fe</td>
                         <td>[<EOFException.MISSING_DATA_SECTION: 18>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1179,7 +1179,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0047_unknown_section_id_after_data_section_05
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000500010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000500010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -1189,17 +1189,17 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0048_unknown_section_id_after_data_section_06
                 </abbr>
             </td>
-                        <td>0xef000101000402000100010400000600010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000600010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_ff
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_migrated_valid_invalid.py::test_migrated_valid_invalid[fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-EOF1I3540_0049_unknown_section_id_after_data_section_04
                 </abbr>
             </td>
-                        <td>0xef00010100040200010001040000ff00010000000000fe</td>
+                        <td>0xef00010100040200010001ff00000400010000000000fe</td>
                         <td>[<EOFException.MISSING_TERMINATOR: 22>, <EOFException.UNEXPECTED_HEADER_KIND: 49>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">

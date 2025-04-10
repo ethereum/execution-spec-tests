@@ -29242,7 +29242,7 @@
 
 
 <h1 id="test_code_section_header_body_mismatch"><code>test_code_section_header_body_mismatch()</code><a class="headerlink" href="#test_code_section_header_body_mismatch" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7a4e951a92ceb9047fafd55d7cd395a36335dcc/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py#L18"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch@a7a4e951</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff86e3f86734c6c3fa2186f6bb57c5e30380098b/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py#L18"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch@ff86e3f8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_section_header_body_mismatch.py::test_code_section_header_body_mismatch --fork Osaka</span>
@@ -29399,7 +29399,7 @@
                 <span class="p">{</span>
                     <span class="s2">&quot;skip_header_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                     <span class="s2">&quot;skip_body_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef000101000802000100030400040000800001000000003050000bad60A7&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef00010100080200010003ff00040000800001000000003050000bad60A7&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
                     <span class="s2">&quot;expected_exception&quot;</span><span class="p">:</span> <span class="p">[</span>
                         <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
                         <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
@@ -29411,7 +29411,7 @@
                 <span class="p">{</span>
                     <span class="s2">&quot;skip_header_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                     <span class="s2">&quot;skip_body_listing&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef000101000802000100030400040000800001000000003050003050000bad60A7&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef00010100080200010003ff00040000800001000000003050003050000bad60A7&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
                     <span class="s2">&quot;expected_exception&quot;</span><span class="p">:</span> <span class="p">[</span>
                         <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
                         <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
@@ -29423,7 +29423,7 @@
                 <span class="p">{</span>
                     <span class="s2">&quot;skip_header_listing&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                     <span class="s2">&quot;skip_body_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef0001010008020002000300030400040000800001000000003050000bad60A7&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef000101000802000200030003ff00040000800001000000003050000bad60A7&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
                     <span class="s2">&quot;expected_exception&quot;</span><span class="p">:</span> <span class="p">[</span>
                         <span class="n">EOFException</span><span class="o">.</span><span class="n">UNREACHABLE_CODE_SECTIONS</span><span class="p">,</span>
                         <span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">,</span>
@@ -29435,7 +29435,7 @@
                 <span class="p">{</span>
                     <span class="s2">&quot;skip_header_listing&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                     <span class="s2">&quot;skip_body_listing&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef0001010008020002000300030400040000800001000000003050003050000bad60A7&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
+                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef000101000802000200030003ff00040000800001000000003050003050000bad60A7&quot;</span><span class="p">,</span>  <span class="c1"># noqa: E501</span>
                     <span class="s2">&quot;expected_exception&quot;</span><span class="p">:</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNREACHABLE_CODE_SECTIONS</span><span class="p">,</span>
                 <span class="p">},</span>
                 <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;layout_ok_code_bad&quot;</span><span class="p">,</span>
@@ -29445,7 +29445,7 @@
                     <span class="s2">&quot;skip_header_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                     <span class="s2">&quot;skip_body_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                     <span class="s2">&quot;skip_types_body_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef0001010008020001000304000400008000013050000bad60a7&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef00010100080200010003ff000400008000013050000bad60a7&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;expected_exception&quot;</span><span class="p">:</span> <span class="p">[</span>
                         <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
                         <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
@@ -29459,7 +29459,7 @@
                     <span class="s2">&quot;skip_body_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                     <span class="s2">&quot;skip_types_body_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                     <span class="s2">&quot;skip_types_header_listing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef0001010004020001000304000400008000013050000bad60a7&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;expected_code&quot;</span><span class="p">:</span> <span class="s2">&quot;ef00010100040200010003ff000400008000013050000bad60a7&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;expected_exception&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="p">},</span>
                 <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;drop_everything&quot;</span><span class="p">,</span>
@@ -29577,7 +29577,7 @@
                         <td>True</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef000101000802000100030400040000800001000000003050000bad60A7</td>
+                        <td>ef00010100080200010003ff00040000800001000000003050000bad60A7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -29591,7 +29591,7 @@
                         <td>False</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef000101000802000100030400040000800001000000003050003050000bad60A7</td>
+                        <td>ef00010100080200010003ff00040000800001000000003050003050000bad60A7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -29605,7 +29605,7 @@
                         <td>True</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef0001010008020002000300030400040000800001000000003050000bad60A7</td>
+                        <td>ef000101000802000200030003ff00040000800001000000003050000bad60A7</td>
                         <td>[<EOFException.UNREACHABLE_CODE_SECTIONS: 31>, <EOFException.TOPLEVEL_CONTAINER_TRUNCATED: 41>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -29619,7 +29619,7 @@
                         <td>False</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef0001010008020002000300030400040000800001000000003050003050000bad60A7</td>
+                        <td>ef000101000802000200030003ff00040000800001000000003050003050000bad60A7</td>
                         <td>EOFException.UNREACHABLE_CODE_SECTIONS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -29633,7 +29633,7 @@
                         <td>True</td>
                         <td>True</td>
                         <td>False</td>
-                        <td>ef0001010008020001000304000400008000013050000bad60a7</td>
+                        <td>ef00010100080200010003ff000400008000013050000bad60a7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
@@ -29647,7 +29647,7 @@
                         <td>True</td>
                         <td>True</td>
                         <td>True</td>
-                        <td>ef0001010004020001000304000400008000013050000bad60a7</td>
+                        <td>ef00010100040200010003ff000400008000013050000bad60a7</td>
                         <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -29661,7 +29661,7 @@
                         <td>True</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef000101000802000100030400040000800001000000003050000bad60A7</td>
+                        <td>ef00010100080200010003ff00040000800001000000003050000bad60A7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -29675,7 +29675,7 @@
                         <td>False</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef000101000802000100030400040000800001000000003050003050000bad60A7</td>
+                        <td>ef00010100080200010003ff00040000800001000000003050003050000bad60A7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -29689,7 +29689,7 @@
                         <td>True</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef0001010008020002000300030400040000800001000000003050000bad60A7</td>
+                        <td>ef000101000802000200030003ff00040000800001000000003050000bad60A7</td>
                         <td>[<EOFException.UNREACHABLE_CODE_SECTIONS: 31>, <EOFException.TOPLEVEL_CONTAINER_TRUNCATED: 41>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -29703,7 +29703,7 @@
                         <td>False</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef0001010008020002000300030400040000800001000000003050003050000bad60A7</td>
+                        <td>ef000101000802000200030003ff00040000800001000000003050003050000bad60A7</td>
                         <td>EOFException.UNREACHABLE_CODE_SECTIONS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -29717,7 +29717,7 @@
                         <td>True</td>
                         <td>True</td>
                         <td>False</td>
-                        <td>ef0001010008020001000304000400008000013050000bad60a7</td>
+                        <td>ef00010100080200010003ff000400008000013050000bad60a7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -29731,7 +29731,7 @@
                         <td>True</td>
                         <td>True</td>
                         <td>True</td>
-                        <td>ef0001010004020001000304000400008000013050000bad60a7</td>
+                        <td>ef00010100040200010003ff000400008000013050000bad60a7</td>
                         <td>None</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -29745,7 +29745,7 @@
                         <td>True</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef000101000802000100030400040000800001000000003050000bad60A7</td>
+                        <td>ef00010100080200010003ff00040000800001000000003050000bad60A7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -29759,7 +29759,7 @@
                         <td>False</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef000101000802000100030400040000800001000000003050003050000bad60A7</td>
+                        <td>ef00010100080200010003ff00040000800001000000003050003050000bad60A7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -29773,7 +29773,7 @@
                         <td>True</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef0001010008020002000300030400040000800001000000003050000bad60A7</td>
+                        <td>ef000101000802000200030003ff00040000800001000000003050000bad60A7</td>
                         <td>[<EOFException.UNREACHABLE_CODE_SECTIONS: 31>, <EOFException.TOPLEVEL_CONTAINER_TRUNCATED: 41>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -29787,7 +29787,7 @@
                         <td>False</td>
                         <td>False</td>
                         <td>False</td>
-                        <td>ef0001010008020002000300030400040000800001000000003050003050000bad60A7</td>
+                        <td>ef000101000802000200030003ff00040000800001000000003050003050000bad60A7</td>
                         <td>EOFException.UNREACHABLE_CODE_SECTIONS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -29801,7 +29801,7 @@
                         <td>True</td>
                         <td>True</td>
                         <td>False</td>
-                        <td>ef0001010008020001000304000400008000013050000bad60a7</td>
+                        <td>ef00010100080200010003ff000400008000013050000bad60a7</td>
                         <td>[<EOFException.INVALID_TYPE_SECTION_SIZE: 11>, <EOFException.INVALID_SECTION_BODIES_SIZE: 20>]</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -29815,7 +29815,7 @@
                         <td>True</td>
                         <td>True</td>
                         <td>True</td>
-                        <td>ef0001010004020001000304000400008000013050000bad60a7</td>
+                        <td>ef00010100040200010003ff000400008000013050000bad60a7</td>
                         <td>None</td>
                     </tr>
             </tbody>

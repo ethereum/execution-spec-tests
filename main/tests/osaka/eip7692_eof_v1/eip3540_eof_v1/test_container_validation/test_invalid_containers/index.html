@@ -29242,7 +29242,7 @@
 
 
 <h1 id="test_invalid_containers"><code>test_invalid_containers()</code><a class="headerlink" href="#test_invalid_containers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7a4e951a92ceb9047fafd55d7cd395a36335dcc/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L148"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@a7a4e951</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff86e3f86734c6c3fa2186f6bb57c5e30380098b/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L147"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@ff86e3f8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers --fork Osaka</span>
@@ -29261,7 +29261,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 148</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 147</span>
+<span class="normal"> 148</span>
 <span class="normal"> 149</span>
 <span class="normal"> 150</span>
 <span class="normal"> 151</span>
@@ -30257,7 +30258,9 @@
 <span class="normal">1141</span>
 <span class="normal">1142</span>
 <span class="normal">1143</span>
-<span class="normal">1144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1144</span>
+<span class="normal">1145</span>
+<span class="normal">1146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30333,7 +30336,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;00800000&quot;</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;da&quot;</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 010004 040001 00 00800000 da&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 010004 ff0001 00 00800000 da&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30406,7 +30409,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mh">0x01</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30416,12 +30419,12 @@
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_data_section_size&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;data_section_size_incomplete&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 00&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30436,7 +30439,7 @@
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_container_section_count&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0000 04 0000 00 00800000 00&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0000 ff 0000 00 00800000 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30461,7 +30464,7 @@
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_size_container_section&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0000 04 0000 00 00800000 00&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0000 ff 0000 00 00800000 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30471,30 +30474,30 @@
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_data_section_size_with_container_section&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0001 04&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0001 ff&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;data_section_size_incomplete_with_container_section&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0001 04 00&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0001 ff 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="c1"># EOF code missing mandatory type section</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0001&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000102000100010400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00010200010001ff00000000800000fe&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="c1"># EOF code containing multiple type headers</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple_type_headers_1&quot;</span><span class="p">,</span>  <span class="c1"># EOF1I4750_0002</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00010100040100040400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef0001010004010004ff00000000800000fe&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="c1"># EOF code containing multiple type headers, second one matches code length</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiple_type_headers_2&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00010100040100010400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef0001010004010001ff00000000800000fe&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30511,19 +30514,19 @@
         <span class="n">Container</span><span class="p">(</span>
             <span class="c1"># EOF code containing type section size (Size 1)</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0003&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000101000102000100010400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00010100010200010001ff00000000800000fe&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="c1"># EOF code containing type section size (Size 8 - 1 Code section)</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0004&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef000101000802000100010400000000800000fe&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00010100080200010001ff00000000800000fe&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="c1"># EOF code containing type section size (Size 8 - 3 Code sections)</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EOF1I4750_0005&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef0001010008020003000100010001040000000080000000800000fefefe&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef0001010008020003000100010001ff0000000080000000800000fefefe&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_TYPE_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30540,7 +30543,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0\x80\0\0</span><span class="s2">&quot;</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0x00&quot;</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 04 0001 00 00800000 00&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 ff 0001 00 00800000 00&quot;</span><span class="p">,</span>
             <span class="n">auto_type_section</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
@@ -30554,7 +30557,7 @@
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_code_sections_header&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0000 04 0000 00 00800000&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0000 ff 0000 00 00800000&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_NUMBER</span><span class="p">,</span>
@@ -30562,7 +30565,7 @@
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_code_sections_header_empty_type_section&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0000 02 0000 04 0000 00&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0000 02 0000 ff 0000 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_NUMBER</span><span class="p">,</span>
@@ -30657,7 +30660,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mh">0x01</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30666,7 +30669,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mh">0x01</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00 00&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30675,7 +30678,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0\x80</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mh">0x01</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00 0080&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 0080&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30684,7 +30687,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\0\x80\0</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mh">0x01</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00 008000&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 008000&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30743,7 +30746,7 @@
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">,</span> <span class="n">custom_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">code</span><span class="o">=</span><span class="s2">&quot;ef0001 010004 0200010001 040001 00 00800000 00&quot;</span><span class="p">,</span>
+            <span class="n">code</span><span class="o">=</span><span class="s2">&quot;ef0001 010004 0200010001 ff0001 00 00800000 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">TOPLEVEL_CONTAINER_TRUNCATED</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30808,7 +30811,7 @@
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;0xAABBCC&quot;</span><span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0003 04 0003 04 0003 00 00800001 600000 AABBCC AABBCC&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0003 ff 0003 ff 0003 00 00800001 600000 AABBCC AABBCC&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
@@ -30821,7 +30824,7 @@
             <span class="p">],</span>
             <span class="n">auto_sort_sections</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">ONLY_BODY</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0008 02 0001 0003 04 0001 02 0001 0001 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0008 02 0001 0003 ff 0001 02 0001 0001 00&quot;</span>
                 <span class="s2">&quot;00800000 00800000 E50001 00 AA&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
@@ -30835,7 +30838,7 @@
             <span class="p">],</span>
             <span class="n">skip_join_concurrent_sections_in_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0008 02 0001 0003 02 0001 0001 04 0001 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0008 02 0001 0003 02 0001 0001 ff 0001 00&quot;</span>
                 <span class="s2">&quot;00800000 00800000 E50001 00 AA&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
@@ -30857,7 +30860,7 @@
             <span class="p">],</span>
             <span class="n">skip_join_concurrent_sections_in_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 02 0001 0001 04 0001 00 00800000 00 AA&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 02 0001 0001 ff 0001 00 00800000 00 AA&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_DATA_SECTION</span><span class="p">,</span>
@@ -30873,7 +30876,7 @@
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;0xAA&quot;</span><span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0008 02 0002 0003 0001 04 0001 04 0001 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0008 02 0002 0003 0001 ff 0001 ff 0001 00&quot;</span>
                 <span class="s2">&quot;00800000 00800000 E50001 00 AA AA&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
@@ -30888,7 +30891,7 @@
             <span class="p">],</span>
             <span class="n">skip_join_concurrent_sections_in_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0008 02 0001 0003 02 0001 0001 04 0001 04 0001 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0008 02 0001 0003 02 0001 0001 ff 0001 ff 0001 00&quot;</span>
                 <span class="s2">&quot;00800000 00800000 E50001 00 AA AA&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
@@ -30906,10 +30909,10 @@
             <span class="p">],</span>
             <span class="n">auto_sort_sections</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">ONLY_BODY</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0015 03 0001 0014 04 0001 03 0001 0014 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0015 03 0001 0014 ff 0001 03 0001 0014 00&quot;</span>
                 <span class="s2">&quot;00800005 6000600060006000ec00 6000600060006000ec01 00&quot;</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00 00800000 fe&quot;</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00 00800000 fe&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
                 <span class="s2">&quot;aa&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
@@ -30924,10 +30927,10 @@
             <span class="p">],</span>
             <span class="n">skip_join_concurrent_sections_in_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0015 03 0001 0014 03 0001 0014 04 0001 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0015 03 0001 0014 03 0001 0014 ff 0001 00&quot;</span>
                 <span class="s2">&quot;00800005 6000600060006000ec00 6000600060006000ec01 00&quot;</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00 00800000 fe&quot;</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00 00800000 fe&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
                 <span class="s2">&quot;aa&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
@@ -30945,9 +30948,9 @@
             <span class="p">],</span>
             <span class="n">skip_join_concurrent_sections_in_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 000b 03 0001 0014 03 0001 0014 04 0001 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 000b 03 0001 0014 03 0001 0014 ff 0001 00&quot;</span>
                 <span class="s2">&quot;00800004 6000600060006000ec00 00&quot;</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 04 0000 00 00800000 fe&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
                 <span class="s2">&quot;aa&quot;</span>
             <span class="p">),</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
@@ -30960,27 +30963,30 @@
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">),</span>
-                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">VERSION_MAX_SECTION_KIND</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x01&quot;</span><span class="p">),</span>
+                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x01&quot;</span><span class="p">),</span>
             <span class="p">],</span>
+            <span class="n">auto_sort_sections</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;unknown_section_2&quot;</span><span class="p">,</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">VERSION_MAX_SECTION_KIND</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x01&quot;</span><span class="p">),</span>
+                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x01&quot;</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
             <span class="p">],</span>
+            <span class="n">auto_sort_sections</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
             <span class="c1"># TODO the exception should be about unknown section definition</span>
-            <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_CODE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;unknown_section_empty&quot;</span><span class="p">,</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">),</span>
-                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">VERSION_MAX_SECTION_KIND</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">),</span>
+                <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;0x&quot;</span><span class="p">),</span>
             <span class="p">],</span>
+            <span class="n">auto_sort_sections</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TERMINATOR</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -31010,7 +31016,7 @@
                 <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0xda&quot;</span><span class="p">),</span>
             <span class="p">],</span>
             <span class="n">auto_type_section</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 020001 0001 040001 00 feda&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 020001 0001 ff0001 00 feda&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -31027,9 +31033,9 @@
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">auto_type_section</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 020001 0001 030001 0032 040000 00 fe&quot;</span>
-            <span class="s2">&quot;ef0001 010004 020001 0006 030001 0014 040000 00 00800002 60006000ee00&quot;</span>
-            <span class="s2">&quot;ef0001 010004 020001 0001 040000 00 0080000000&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 020001 0001 030001 0032 ff0000 00 fe&quot;</span>
+            <span class="s2">&quot;ef0001 010004 020001 0006 030001 0014 ff0000 00 00800002 60006000ee00&quot;</span>
+            <span class="s2">&quot;ef0001 010004 020001 0001 ff0000 00 0080000000&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -31058,7 +31064,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0000 02 0001 0000 04 0000 00&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0000 02 0001 0000 ff 0000 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>
@@ -31070,7 +31076,7 @@
                 <span class="n">Section</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">SectionKind</span><span class="o">.</span><span class="n">TYPE</span><span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0000 02 0001 0001 04 0000 00 00&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0000 02 0001 0001 ff 0000 00 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
                 <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_SECTION_BODIES_SIZE</span><span class="p">,</span>

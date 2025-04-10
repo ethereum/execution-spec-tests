@@ -29242,7 +29242,7 @@
 
 
 <h1 id="test_rjump_backward_invalid_max_stack_height"><code>test_rjump_backward_invalid_max_stack_height()</code><a class="headerlink" href="#test_rjump_backward_invalid_max_stack_height" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7a4e951a92ceb9047fafd55d7cd395a36335dcc/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L574"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_backward_invalid_max_stack_height@a7a4e951</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff86e3f86734c6c3fa2186f6bb57c5e30380098b/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py#L574"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_backward_invalid_max_stack_height@ff86e3f8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_backward_invalid_max_stack_height --fork Osaka</span>
@@ -29460,7 +29460,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000e04000000008000015f506001e10003e0fff85fe0fff4&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000eff000000008000015f506001e10003e0fff85fe0fff4&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_4&quot;</span><span class="p">,</span>
@@ -29470,7 +29470,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000404000000008000015fe0fffc&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010004ff000000008000015fe0fffc&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_5&quot;</span><span class="p">,</span>
@@ -29480,7 +29480,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000504000000008000015f50e0fffc&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010005ff000000008000015f50e0fffc&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_8&quot;</span><span class="p">,</span>
@@ -29495,7 +29495,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000b04000000008000015f506000e1fff95fe0fff5&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000bff000000008000015f506000e1fff95fe0fff5&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_variable_stack_3&quot;</span><span class="p">,</span>
@@ -29518,7 +29518,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001001604000000008000045f6000e100025f5f5f506001e10003e0fff85fe0fff4&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010016ff000000008000045f6000e100025f5f5f506001e10003e0fff85fe0fff4&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_variable_stack_4&quot;</span><span class="p">,</span>
@@ -29538,7 +29538,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001001104000000008000045f6000e100025f5f6000e100015fe0fff9&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010011ff000000008000045f6000e100025f5f6000e100015fe0fff9&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_variable_stack_5&quot;</span><span class="p">,</span>
@@ -29558,7 +29558,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001001104000000008000045f6000e100025f5f6000e1000150e0fff9&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010011ff000000008000045f6000e100025f5f6000e1000150e0fff9&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_variable_stack_6&quot;</span><span class="p">,</span>
@@ -29574,7 +29574,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000c04000000008000045f6000e100025f5f5fe0fffc&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000cff000000008000045f6000e100025f5f5fe0fffc&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_variable_stack_7&quot;</span><span class="p">,</span>
@@ -29591,7 +29591,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000d04000000008000035f6000e100025f5f5f50e0fffc&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000dff000000008000035f6000e100025f5f5f50e0fffc&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjump_variable_stack_8&quot;</span><span class="p">,</span>
@@ -29611,7 +29611,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001001304000000008000045f6000e100025f5f5f506000e1fff95fe0fff5&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010013ff000000008000045f6000e100025f5f5f506000e1fff95fe0fff5&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>

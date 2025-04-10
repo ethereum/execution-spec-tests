@@ -29242,7 +29242,7 @@
 
 
 <h1 id="test_callee_fails"><code>test_callee_fails()</code><a class="headerlink" href="#test_callee_fails" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7a4e951a92ceb9047fafd55d7cd395a36335dcc/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L575"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_callee_fails@a7a4e951</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff86e3f86734c6c3fa2186f6bb57c5e30380098b/tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py#L575"><code>tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_callee_fails@ff86e3f8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_callee_fails --fork Osaka</span>
@@ -29581,7 +29581,7 @@
                     ...fork_Osaka-state_test-eof_revert-opcode_EXTCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\xff\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
                         <td>1</td>
                         <td>EXTCALL</td>
                     </tr>
@@ -29592,7 +29592,7 @@
                     ...fork_Osaka-state_test-eof_revert-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\xff\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
                         <td>1</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
@@ -29603,7 +29603,7 @@
                     ...fork_Osaka-state_test-eof_revert-opcode_EXTSTATICCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\xff\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
                         <td>1</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
@@ -29614,7 +29614,7 @@
                     ...fork_Osaka-state_test-eof_invalid-opcode_EXTCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
                         <td>2</td>
                         <td>EXTCALL</td>
                     </tr>
@@ -29625,7 +29625,7 @@
                     ...fork_Osaka-state_test-eof_invalid-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
                         <td>2</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
@@ -29636,7 +29636,7 @@
                     ...fork_Osaka-state_test-eof_invalid-opcode_EXTSTATICCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
                         <td>2</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
@@ -29647,7 +29647,7 @@
                     ...fork_Osaka-state_test-eof_oog-opcode_EXTCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\x04\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\xff\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
                         <td>2</td>
                         <td>EXTCALL</td>
                     </tr>
@@ -29658,7 +29658,7 @@
                     ...fork_Osaka-state_test-eof_oog-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\x04\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\xff\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
                         <td>2</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
@@ -29669,7 +29669,7 @@
                     ...fork_Osaka-state_test-eof_oog-opcode_EXTSTATICCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\x04\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\xff\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
                         <td>2</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
@@ -29812,7 +29812,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_revert-opcode_EXTCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\xff\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
                         <td>1</td>
                         <td>EXTCALL</td>
                     </tr>
@@ -29823,7 +29823,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_revert-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\xff\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
                         <td>1</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
@@ -29834,7 +29834,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_revert-opcode_EXTSTATICCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\x04\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x05\xff\x00\x00\x00\x00\x80\x00\x02`\x00`\x00\xfd'</td>
                         <td>1</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
@@ -29845,7 +29845,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_invalid-opcode_EXTCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
                         <td>2</td>
                         <td>EXTCALL</td>
                     </tr>
@@ -29856,7 +29856,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_invalid-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
                         <td>2</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
@@ -29867,7 +29867,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_invalid-opcode_EXTSTATICCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\x04\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\xfe'</td>
                         <td>2</td>
                         <td>EXTSTATICCALL</td>
                     </tr>
@@ -29878,7 +29878,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_oog-opcode_EXTCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\x04\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\xff\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
                         <td>2</td>
                         <td>EXTCALL</td>
                     </tr>
@@ -29889,7 +29889,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_oog-opcode_EXTDELEGATECALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\x04\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\xff\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
                         <td>2</td>
                         <td>EXTDELEGATECALL</td>
                     </tr>
@@ -29900,7 +29900,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-eof_oog-opcode_EXTSTATICCALL
                 </abbr>
             </td>
-                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\x04\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00%\xff\x00\x00\x00\x00\x80\x00\x02\x7f\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00`\x00 \x00'</td>
                         <td>2</td>
                         <td>EXTSTATICCALL</td>
                     </tr>

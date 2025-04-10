@@ -29242,7 +29242,7 @@
 
 
 <h1 id="test_rjumpv_valid_backward"><code>test_rjumpv_valid_backward()</code><a class="headerlink" href="#test_rjumpv_valid_backward" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7a4e951a92ceb9047fafd55d7cd395a36335dcc/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1543"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_valid_backward@a7a4e951</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff86e3f86734c6c3fa2186f6bb57c5e30380098b/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1543"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_valid_backward@ff86e3f8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_valid_backward --fork Osaka</span>
@@ -29409,7 +29409,7 @@ These tests exercise the stack height validation.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000704000000008000016000e200fffa00&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010007ff000000008000016000e200fffa00&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjumpv_1&quot;</span><span class="p">,</span>
@@ -29419,7 +29419,7 @@ These tests exercise the stack height validation.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000904000000008000015f506000e200fff800&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010009ff000000008000015f506000e200fff800&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjumpv_2&quot;</span><span class="p">,</span>
@@ -29435,7 +29435,7 @@ These tests exercise the stack height validation.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000f04000000008000015f506000e200fff86000e200fff200&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000fff000000008000015f506000e200fff86000e200fff200&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjumpv_4&quot;</span><span class="p">,</span>
@@ -29445,7 +29445,7 @@ These tests exercise the stack height validation.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000b04000000008000015f506000e200fff8e0fff5&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000bff000000008000015f506000e200fff8e0fff5&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjumpv_variable_stack_0&quot;</span><span class="p">,</span>
@@ -29462,7 +29462,7 @@ These tests exercise the stack height validation.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000f04000000008000045f6000e100025f5f6000e200fffa00&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000fff000000008000045f6000e100025f5f6000e200fffa00&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjumpv_variable_stack_1&quot;</span><span class="p">,</span>
@@ -29481,7 +29481,7 @@ These tests exercise the stack height validation.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001001104000000008000045f6000e100025f5f5f506000e200fff800&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010011ff000000008000045f6000e100025f5f5f506000e200fff800&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjumpv_variable_stack_2&quot;</span><span class="p">,</span>
@@ -29502,7 +29502,7 @@ These tests exercise the stack height validation.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001001704000000008000045f6000e100025f5f5f506000e200fff86000e200fff200&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010017ff000000008000045f6000e100025f5f5f506000e200fff86000e200fff200&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;backwards_rjumpv_variable_stack_4&quot;</span><span class="p">,</span>
@@ -29521,7 +29521,7 @@ These tests exercise the stack height validation.</p>
                     <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001001304000000008000045f6000e100025f5f5f506000e200fff8e0fff5&quot;</span><span class="p">,</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010013ff000000008000045f6000e100025f5f5f506000e200fff8e0fff5&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
