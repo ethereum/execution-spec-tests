@@ -87,7 +87,7 @@ def pytest_configure(config: pytest.Config):
     )
     config.addinivalue_line(
         "markers",
-        "negative: Negative tests that include an invalid block or transaction.",
+        "exception_test: Negative tests that include an invalid block or transaction.",
     )
 
 

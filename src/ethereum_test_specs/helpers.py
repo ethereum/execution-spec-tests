@@ -316,7 +316,7 @@ def is_slow_test(request: pytest.FixtureRequest) -> bool:
 
 
 def is_negative_test(request: pytest.FixtureRequest) -> bool:
-    """Check if the test is negative (invalid block, invalid transaction)."""
+    """Check if the test is an exception test (invalid block, invalid transaction)."""
     if hasattr(request, "node"):
-        return request.node.get_closest_marker("negative") is not None
+        return request.node.get_closest_marker("exception_test") is not None
     return False

@@ -607,8 +607,8 @@ class BlockchainTest(BaseTest):
                     head = header.block_hash
                 else:
                     assert negative_test, (
-                        "unmarked negative test: the test case produces an invalid block but "
-                        + "does not specify the `pytest.mark.negative` marker"
+                        "unmarked exception test: the test case produces an invalid block but "
+                        + "does not specify the `pytest.mark.exception_test` marker"
                     )
                     fixture_blocks.append(
                         InvalidFixtureBlock(
@@ -628,8 +628,8 @@ class BlockchainTest(BaseTest):
                     + "the block is expected to produce an exception"
                 )
                 assert negative_test, (
-                    "unmarked negative test: the test case produces an invalid block but "
-                    + "does not specify the `pytest.mark.negative` marker"
+                    "unmarked exception test: the test case produces an invalid block but "
+                    + "does not specify the `pytest.mark.exception_test` marker"
                 )
                 fixture_blocks.append(
                     InvalidFixtureBlock(
@@ -646,7 +646,7 @@ class BlockchainTest(BaseTest):
 
         if invalid_blocks == 0 and negative_test:
             raise Exception(
-                "test correctness: the test case is marked as negative but "
+                "test correctness: the test case is marked as an exception test but "
                 + "no invalid blocks were found"
             )
 
@@ -711,8 +711,8 @@ class BlockchainTest(BaseTest):
                     head_hash = header.block_hash
                 else:
                     assert negative_test, (
-                        "unmarked negative test: the test case produces an invalid block but "
-                        + "does not specify the `pytest.mark.negative` marker"
+                        "unmarked exception test: the test case produces an invalid block but "
+                        + "does not specify the `pytest.mark.exception_test` marker"
                     )
 
             if block.expected_post_state:
