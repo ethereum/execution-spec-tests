@@ -21,17 +21,19 @@ pytestmark = [
 
 
 @pytest.mark.parametrize(
-    "input_data,expected_output",
-    vectors_from_file("multiexp_G1_bls.json")
+    "input_data,expected_output,vector_gas_value",
+    vectors_from_file("msm_G1_bls.json")
     + [
         pytest.param(
             (Spec.P1 + Scalar(Spec.Q)) * (len(Spec.G1MSM_DISCOUNT_TABLE) - 1),
             Spec.INF_G1,
+            None,
             id="max_discount",
         ),
         pytest.param(
             (Spec.P1 + Scalar(Spec.Q)) * len(Spec.G1MSM_DISCOUNT_TABLE),
             Spec.INF_G1,
+            None,
             id="max_discount_plus_1",
         ),
     ],
@@ -42,7 +44,7 @@ def test_valid(
     post: dict,
     tx: Transaction,
 ):
-    """Test the BLS12_G1MSM precompile."""
+    """Test valid calls to the BLS12_G1MSM precompile."""
     state_test(
         env=Environment(),
         pre=pre,
@@ -53,7 +55,7 @@ def test_valid(
 
 @pytest.mark.parametrize(
     "input_data",
-    vectors_from_file("fail-multiexp_G1_bls.json")
+    vectors_from_file("fail-msm_G1_bls.json")
     + [
         pytest.param(
             PointG1(0, 1) + Scalar(0),
@@ -104,7 +106,7 @@ def test_invalid(
     post: dict,
     tx: Transaction,
 ):
-    """Test the BLS12_G1MSM precompile."""
+    """Test invalid calls to the BLS12_G1MSM precompile."""
     state_test(
         env=Environment(),
         pre=pre,

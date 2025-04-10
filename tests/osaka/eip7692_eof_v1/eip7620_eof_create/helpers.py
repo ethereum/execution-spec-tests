@@ -18,19 +18,21 @@ slot_returndata_size = next(_slot)
 slot_max_depth = next(_slot)
 slot_call_or_create = next(_slot)
 slot_counter = next(_slot)
+slot_data_load = next(_slot)
 
 slot_last_slot = next(_slot)
 
 value_code_worked = 0x2015
 value_canary_should_not_change = 0x2019
 value_canary_to_be_overwritten = 0x2009
+value_long_value = b"abcdefghijklmnopqrstuvwxyz123456"
 
 smallest_runtime_subcontainer = Container.Code(code=Op.STOP, name="Runtime Subcontainer")
 
 smallest_initcode_subcontainer = Container(
     name="Initcode Subcontainer",
     sections=[
-        Section.Code(code=Op.RETURNCONTRACT[0](0, 0)),
+        Section.Code(code=Op.RETURNCODE[0](0, 0)),
         Section.Container(container=smallest_runtime_subcontainer),
     ],
 )
@@ -49,9 +51,9 @@ bigger_initcode_subcontainer = Container(
     name="Bigger Initcode Subcontainer",
     sections=[
         Section.Code(
-            code=Op.RJUMPI[len(Op.RETURNCONTRACT[0](0, 0))](1)
-            + Op.RETURNCONTRACT[0](0, 0)
-            + Op.RETURNCONTRACT[1](0, 0)
+            code=Op.RJUMPI[len(Op.RETURNCODE[0](0, 0))](1)
+            + Op.RETURNCODE[0](0, 0)
+            + Op.RETURNCODE[1](0, 0)
         ),
         Section.Container(container=smallest_runtime_subcontainer),
         Section.Container(container=smallest_runtime_subcontainer),
@@ -64,7 +66,7 @@ data_runtime_container.sections.append(Section.Data("0x00"))
 data_initcode_subcontainer = Container(
     name="Data Initcode Subcontainer",
     sections=[
-        Section.Code(code=Op.RETURNCONTRACT[0](0, 0)),
+        Section.Code(code=Op.RETURNCODE[0](0, 0)),
         Section.Container(container=data_runtime_container),
     ],
 )
@@ -72,7 +74,7 @@ data_initcode_subcontainer = Container(
 data_appending_initcode_subcontainer = Container(
     name="Data Appending Initcode Subcontainer",
     sections=[
-        Section.Code(code=Op.RETURNCONTRACT[0](0, 1)),
+        Section.Code(code=Op.RETURNCODE[0](0, 1)),
         Section.Container(container=smallest_runtime_subcontainer),
     ],
 )

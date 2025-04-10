@@ -14,14 +14,14 @@ from .common import common_click_options, handle_help_flags
 
 def handle_hive_env_flags(args: List[str]) -> List[str]:
     """Convert hive environment variables into pytest flags."""
-    env_var_mappings = {
-        "HIVE_TEST_PATTERN": ["-k"],
-        "HIVE_PARALLELISM": ["-n"],
-    }
-    for env_var, pytest_flag in env_var_mappings.items():
-        value = os.getenv(env_var)
-        if value is not None:
-            args.extend(pytest_flag + [value])
+    # handle hive --sim.limit arg
+    hive_test_pattern = os.getenv("HIVE_TEST_PATTERN")
+    if hive_test_pattern and ("--regex" not in args and "--sim.limit" not in args):
+        args += ["--sim.limit", hive_test_pattern]
+    hive_parallelism = os.getenv("HIVE_PARALLELISM")
+    # handle hive --sim.parallelism arg
+    if hive_parallelism not in [None, "", "1"] and "-n" not in args:
+        args += ["-n", str(hive_parallelism)]
     if os.getenv("HIVE_RANDOM_SEED") is not None:
         warnings.warn("HIVE_RANDOM_SEED is not yet supported.", stacklevel=2)
     if os.getenv("HIVE_LOGLEVEL") is not None:
@@ -55,6 +55,12 @@ def get_command_paths(command_name: str, is_hive: bool) -> List[Path]:
         for cmd in commands
     ]
     return command_paths
+
+
+@click.group(context_settings={"help_option_names": ["-h", "--help"]})
+def consume() -> None:
+    """Consume command to aid client consumption of test fixtures."""
+    pass
 
 
 def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], click.Command]:
@@ -93,16 +99,6 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
     return decorator
 
 
-@click.group(
-    context_settings={
-        "help_option_names": ["-h", "--help"],
-    }
-)
-def consume() -> None:
-    """Consume command to aid client consumption of test fixtures."""
-    pass
-
-
 @consume_command(is_hive=False)
 def direct() -> None:
     """Clients consume directly via the `blocktest` interface."""
@@ -125,3 +121,13 @@ def engine() -> None:
 def hive() -> None:
     """Client consumes via all available hive methods (rlp, engine)."""
     pass
+
+
+@consume.command(
+    context_settings={"ignore_unknown_options": True},
+)
+@common_click_options
+def cache(pytest_args: List[str], **kwargs) -> None:
+    """Consume command to cache test fixtures."""
+    args = handle_consume_command_flags(pytest_args, is_hive=False)
+    sys.exit(pytest.main(args))

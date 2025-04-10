@@ -1,12 +1,12 @@
 """Shared pytest fixtures and hooks for EEST generation modes (fill and execute)."""
 
 import warnings
-from typing import List, cast
+from typing import List
 
 import pytest
 
-from ethereum_test_execution import EXECUTE_FORMATS
-from ethereum_test_fixtures import FIXTURE_FORMATS
+from ethereum_test_execution import BaseExecute, LabeledExecuteFormat
+from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
 from ethereum_test_forks import (
     Fork,
     get_closest_fork_with_solc_support,
@@ -34,19 +34,36 @@ def pytest_configure(config: pytest.Config):
         it uses the modified `htmlpath` option.
     """
     if config.pluginmanager.has_plugin("pytest_plugins.filler.filler"):
-        for fixture_format in FIXTURE_FORMATS.values():
+        for fixture_format in BaseFixture.formats.values():
             config.addinivalue_line(
                 "markers",
-                (f"{fixture_format.fixture_format_name.lower()}: {fixture_format.description}"),
+                (f"{fixture_format.format_name.lower()}: {fixture_format.description}"),
+            )
+        for label, labeled_fixture_format in LabeledFixtureFormat.registered_labels.items():
+            config.addinivalue_line(
+                "markers",
+                (f"{label}: {labeled_fixture_format.description}"),
             )
     elif config.pluginmanager.has_plugin("pytest_plugins.execute.execute"):
-        for execute_format in EXECUTE_FORMATS.values():
+        for execute_format in BaseExecute.formats.values():
             config.addinivalue_line(
                 "markers",
-                (f"{execute_format.execute_format_name.lower()}: {execute_format.description}"),
+                (f"{execute_format.format_name.lower()}: {execute_format.description}"),
+            )
+        for label, labeled_execute_format in LabeledExecuteFormat.registered_labels.items():
+            config.addinivalue_line(
+                "markers",
+                (f"{label}: {labeled_execute_format.description}"),
             )
     else:
         raise Exception("Neither the filler nor the execute plugin is loaded.")
+
+    for spec_type in SPEC_TYPES:
+        for marker, description in spec_type.supported_markers.items():
+            config.addinivalue_line(
+                "markers",
+                (f"{marker}: {description}"),
+            )
 
     config.addinivalue_line(
         "markers",
@@ -63,6 +80,10 @@ def pytest_configure(config: pytest.Config):
     config.addinivalue_line(
         "markers",
         "execute: Markers to be added in execute mode only.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "zkevm: Tests that are relevant to zkEVM.",
     )
 
 
@@ -100,7 +121,7 @@ def yul(fork: Fork, request: pytest.FixtureRequest):
             pytest.fail(
                 f"{request.node.name}: Expected one argument in 'compile_yul_with' marker."
             )
-        for fork in request.config.forks:  # type: ignore
+        for fork in request.config.all_forks:  # type: ignore
             if fork.name() == marker.args[0]:
                 solc_target_fork = fork
                 break
@@ -128,12 +149,16 @@ def test_case_description(request: pytest.FixtureRequest) -> str:
     description_unavailable = (
         "No description available - add a docstring to the python test class or function."
     )
-    test_class_doc = f"Test class documentation:\n{request.cls.__doc__}" if request.cls else ""
-    test_function_doc = (
-        f"Test function documentation:\n{request.function.__doc__}"
-        if request.function.__doc__
-        else ""
-    )
+    test_class_doc = ""
+    test_function_doc = ""
+    if hasattr(request.node, "cls"):
+        test_class_doc = f"Test class documentation:\n{request.cls.__doc__}" if request.cls else ""
+    if hasattr(request.node, "function"):
+        test_function_doc = (
+            f"Test function documentation:\n{request.function.__doc__}"
+            if request.function.__doc__
+            else ""
+        )
     if not test_class_doc and not test_function_doc:
         return description_unavailable
     combined_docstring = f"{test_class_doc}\n\n{test_function_doc}".strip()
@@ -160,11 +185,12 @@ def pytest_runtest_call(item: pytest.Item):
         def __init__(self, message):
             super().__init__(message)
 
-    item = cast(pytest.Function, item)  # help mypy infer type
+    if not isinstance(item, pytest.Function):
+        return
 
     if "state_test" in item.fixturenames and "blockchain_test" in item.fixturenames:
         raise InvalidFillerError(
-            "A filler should only implement either a state test or " "a blockchain test; not both."
+            "A filler should only implement either a state test or a blockchain test; not both."
         )
 
     # Check that the test defines either test type as parameter.

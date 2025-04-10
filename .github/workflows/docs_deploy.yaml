@@ -1,0 +1,49 @@
+name: Deploy Docs
+
+permissions:
+  pages: write # Required for deploying to GitHub Pages with `secrets.GITHUB_TOKEN`
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*" # Push events to matching v*, i.e. v1.0, v20.15.10, v0.1.1a1
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: github.repository_owner == 'ethereum' # don't run on forks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          ssh-key: ${{secrets.GH_ACTIONS_DEPLOY_KEY}}
+      - name: Build transition tool
+        uses: ./.github/actions/build-evm-base
+        with:
+          id: evm-builder
+          type: stable
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Install EEST and dependencies
+        run: uv sync --extra=docs --no-progress
+      - name: Setup doc deploy
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email github-actions[bot]@users.noreply.github.com
+      - name: Build and deploy docs to gh-pages
+        if: ${{ github.ref_type == 'branch' }}
+        run: |
+          uv run mike deploy --update-aliases --push --remote origin main development
+      - name: Build and deploy docs to gh-pages
+        if: ${{ github.ref_type == 'tag' }}
+        run: |
+          uv run mike deploy --push --remote origin ${{ github.ref_name }}

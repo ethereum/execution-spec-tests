@@ -36,8 +36,8 @@ For each [`HiveFixture`](#hivefixture) test object in the JSON fixture file, per
     2. If [`errorCode`](#-errorcode-optionalnumber) is present:
         - Verify the directive returns an error, and the error code matches the one in [`errorCode`](#-errorcode-optionalnumber), otherwise fail the test.
         - Proceed to the next payload.
-    3. If [`valid`](#-valid-bool) is `false`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `INVALID`, otherwise fail the test.
-    4. If [`valid`](#-valid-bool) is `true`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `VALID`, otherwise fail the test.
+    3. If `valid` is `false`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `INVALID`, otherwise fail the test.
+    4. If `valid` is `true`, verify that the directive returns `status` field of [PayloadStatusV1](https://github.com/ethereum/execution-apis/blob/main/src/engine/paris.md#payloadstatusv1) as `VALID`, otherwise fail the test.
 
 ## Structures
 
@@ -45,7 +45,11 @@ For each [`HiveFixture`](#hivefixture) test object in the JSON fixture file, per
 
 #### - `network`: [`Fork`](./common_types.md#fork)
 
+##### TO BE DEPRECATED
+
 Fork configuration for the test.
+
+This field is going to be replaced by the value contained in `config.network`.
 
 #### - `genesisBlockHeader`: [`FixtureHeader`](./blockchain_test.md#fixtureheader)
 
@@ -63,9 +67,27 @@ Version of the `engine_forkchoiceUpdatedVX` directive to use to set the head of 
 
 Starting account allocation for the test. State root calculated from this allocation must match the one in the genesis block.
 
+#### - `lastblockhash`: [`Hash`](./common_types.md#hash)
+
+Hash of the last valid block, or the genesis block hash if the list of blocks is empty, or contains a single invalid block.
+
 #### - `post`: [`Alloc`](./common_types.md#alloc-mappingaddressaccount)
 
 Account allocation for verification after all the blocks have been processed.
+
+#### - `config`: [`FixtureConfig`](#fixtureconfig)
+
+Chain configuration object to be applied to the client running the blockchain engine test.
+
+### `FixtureConfig`
+
+#### - `network`: [`Fork`](./common_types.md#fork)
+
+Fork configuration for the test. It is guaranteed that this field contains the same value as the root field `network`.
+
+#### - `blobSchedule`: [`BlobSchedule`](./common_types.md#blobschedule-mappingforkforkblobschedule)
+
+Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
 
 ### `FixtureEngineNewPayload`
 
@@ -82,7 +104,7 @@ They can mismatch the hashes of the versioned blobs in the execution payload, fo
 
 Hash of the parent beacon block root.
 
-#### - `validationError`: [`TransactionException`](./exceptions.md#transactionexception)` | `[`BlockException`](./exceptions.md#blockexception)
+#### - `validationError`: [`TransactionException`](../library/ethereum_test_exceptions.md#ethereum_test_exceptions.TransactionException)` | `[`BlockException`](../library/ethereum_test_exceptions.md#ethereum_test_exceptions.BlockException)
 
 Validation error expected when executing the payload.
 

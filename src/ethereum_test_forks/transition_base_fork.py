@@ -45,7 +45,13 @@ def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
             solc_name=cls._solc_name,
             ignore=cls._ignore,
         ):
-            pass
+            @classmethod
+            def transitions_to(cls) -> Fork:
+                return to_fork
+
+            @classmethod
+            def transitions_from(cls) -> Fork:
+                return from_fork
 
         NewTransitionClass.name = lambda: transition_name  # type: ignore
 

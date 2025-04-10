@@ -120,12 +120,11 @@ def test_eofcreate_gas(
     runtime: Container,
 ):
     """Tests variations of EOFCREATE gas."""
-    initcode_hashing_cost = 6 * ((len(initcode) + 31) // 32)
     deployed_code_cost = 200 * len(runtime) if runtime else 0
 
     subject_address = pre.fund_eoa(0)
 
-    salt_addresses = [compute_eofcreate_address(subject_address, i, initcode) for i in range(4)]
+    salt_addresses = [compute_eofcreate_address(subject_address, i) for i in range(4)]
 
     if not new_account:
         for a in salt_addresses:
@@ -141,15 +140,14 @@ def test_eofcreate_gas(
         state_test,
         Environment(),
         pre,
-        setup_code=Op.PUSH1(mem_expansion_bytes)
+        setup_code=Op.PUSH32(value)
+        + Op.PUSH1(mem_expansion_bytes)
         + Op.PUSH0
-        + code_increment_counter
-        + Op.PUSH32(value),
+        + code_increment_counter,
         subject_code=Op.EOFCREATE[0],
         tear_down_code=Op.STOP,
         cold_gas=EOFCREATE_GAS
         + cost_memory_bytes(new_bytes=mem_expansion_bytes)
-        + initcode_hashing_cost
         + initcode_execution_cost
         + deployed_code_cost,
         subject_subcontainer=initcode,

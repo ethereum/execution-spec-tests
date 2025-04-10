@@ -11,7 +11,7 @@ Implemented test cases can be explored in VS Code's "Testing" View; click on the
 </figure>
 
 !!! note "Testing EVM Features Under Active Development"
-     See [the VS Code section](./filling_tests_dev_fork.md#executing-tests-for-features-under-development) in [Filling Tests for Features under Development](./filling_tests_dev_fork.md) to explore tests targeting EVM features under development.
+     See [the VS Code section](./filling_tests_dev_fork.md#vs-code-setup) in [Filling Tests for Features under Development](./filling_tests_dev_fork.md) to explore tests targeting EVM features under development.
 
 ## Filling and Debugging Test Cases
 

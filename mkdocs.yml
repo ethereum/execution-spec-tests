@@ -1,6 +1,6 @@
 site_name: Ethereum Execution Spec Tests
 site_description: A collection of test cases implemented in Python for Ethereum execution clients
-site_url: https://ethereum.github.io/execution-spec-tests/
+site_url: https://eest.ethereum.org/
 repo_url: https://github.com/ethereum/execution-spec-tests
 repo_name: execution-spec-tests
 edit_uri: edit/main/docs/
@@ -120,7 +120,7 @@ extra_javascript:
   - https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js
   - https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js
   - https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js
-  - javascripts/site.js    
+  - javascripts/site.js
 
 extra_css:
   - https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css

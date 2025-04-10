@@ -1,5 +1,8 @@
 [build-system]
-requires = ["setuptools>=61.2", "wheel"]
+requires = [
+    "setuptools==78.0.2",
+    "wheel==0.45.1",
+] # the setuptools version here should match that of setuptools below in docs in optional-dependencies
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -16,15 +19,12 @@ classifiers = [
 ]
 dependencies = [
     "click>=8.1.0,<9",
-    "ethereum @ git+https://github.com/ethereum/execution-specs",
+    "ethereum-execution==1.17.0rc6.dev1",
     "hive.py @ git+https://github.com/marioevz/hive.py",
-    "ethereum-spec-evm-resolver @ git+https://github.com/petertdavies/ethereum-spec-evm-resolver",
-    "setuptools",
-    "types-setuptools",
+    "ethereum-spec-evm-resolver",
     "gitpython>=3.1.31,<4",
     "PyJWT>=2.3.0,<3",
     "tenacity>8.2.0,<9",
-    "bidict>=0.23,<1",
     "requests>=2.31.0,<3",
     "requests_unixsocket2>=0.4.0",
     "colorlog>=6.7.0,<7",
@@ -34,9 +34,9 @@ dependencies = [
     "pytest-metadata>=3,<4",
     "pytest-xdist>=3.3.1,<4",
     "coincurve>=20.0.0,<21",
-    "trie>=2.0.2,<3",
+    "trie>=3.1.0,<4",
     "semver>=3.0.1,<4",
-    "pydantic>=2.9.0,<3",
+    "pydantic>=2.10.0,<3",
     "rich>=13.7.0,<14",
     "solc-select>=1.0.4,<2",
     "filelock>=3.15.1,<4",
@@ -44,28 +44,31 @@ dependencies = [
     "pyyaml>=6.0.2,<7",
     "types-pyyaml>=6.0.12.20240917,<7",
     "pytest-json-report>=1.5.0,<2",
+    "typing-extensions>=4.12.2,<5",
     # TODO: bump questionary to a newer release, when it becomes available.
     # The current release questionary 2.0.1 requires `prompt_toolkit = ">=2.0,<=3.0.36"`.
-    # This conflicts with ipython; while not an EEST dependency, ipython a very useful tool:
-    # https://ethereum.github.io/execution-spec-tests/main/dev/interactive_usage/
+    # This conflicts with ipython; while not an EEST dependency, ipython is a very useful tool:
+    # https://eest.ethereum.org/main/dev/interactive_usage/
     "questionary @ git+https://github.com/tmbo/questionary@ff22aeae1cd9c1c734f14329934e349bec7873bc",
     "prompt_toolkit>=3.0.48,<4", # ensure we have a new enough version for ipython
-    "ethereum-rlp==0.1.3",
+    "ethereum-rlp>=0.1.3,<0.2",
+    "pytest-regex>=0.2.0,<0.3",
+    "eth-abi>=5.2.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/ethereum/execution-spec-tests"
-Documentation = "https://ethereum.github.io/execution-spec-tests"
+Documentation = "https://eest.ethereum.org"
 Repository = "https://github.com/ethereum/execution-spec-tests"
 Issues = "https://github.com/ethereum/execution-spec-tests/issues"
-Changelog = "https://ethereum.github.io/execution-spec-tests/main/CHANGELOG/"
+Changelog = "https://eest.ethereum.org/main/CHANGELOG/"
 
 [project.optional-dependencies]
 test = ["pytest-cov>=4.1.0,<5"]
 lint = [
-    "ruff==0.8.2",
-    "mypy==0.991; implementation_name == 'cpython'",
-    "types-requests"
+    "ruff==0.9.4",
+    "mypy>=1.15.0,<1.16",
+    "types-requests>=2.31,<2.33",
 ]
 docs = [
     "cairosvg>=2.7.0,<3",
@@ -82,6 +85,7 @@ docs = [
     "mkdocstrings-python>=1.0.0,<2",
     "pillow>=10.0.1,<11",
     "pyspelling>=2.8.2,<3",
+    "setuptools==78.0.2",
 ]
 
 [project.scripts]
@@ -101,13 +105,18 @@ order_fixtures = "cli.order_fixtures:order_fixtures"
 evm_bytes = "cli.evm_bytes:evm_bytes"
 hasher = "cli.hasher:main"
 eest = "cli.eest.cli:eest"
+fillerconvert = "cli.fillerconvert.fillerconvert:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["*tests*"]
 
+[tool.pyright]
+exclude = ["**/legacy/**"]
+
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
+"cli.eest.make" = ["templates/*.j2"]
 
 [tool.ruff]
 line-length = 99
@@ -115,9 +124,12 @@ line-length = 99
 [tool.ruff.lint]
 select = ["E", "F", "B", "W", "I", "A", "N", "D", "C"]
 fixable = ["I", "B", "E", "F", "W", "D", "C"]
-ignore = ["D205", "D203", "D212", "D415", "C901"] 
+ignore = ["D205", "D203", "D212", "D415", "C901", "A005"]
 
 
 [tool.mypy]
 mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]
 plugins = ["pydantic.mypy"]
+
+[tool.uv.sources]
+ethereum-spec-evm-resolver = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver", rev = "623ac4565025e72b65f45b926da2a3552041b469" }

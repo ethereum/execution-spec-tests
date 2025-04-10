@@ -1,7 +1,6 @@
 """Pytest fixtures and classes for the `consume rlp` hive simulator."""
 
 import io
-from pathlib import Path
 from typing import List, Mapping, cast
 
 import pytest
@@ -9,10 +8,13 @@ import pytest
 from ethereum_test_base_types import Bytes
 from ethereum_test_fixtures import BlockchainFixture
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
-from ethereum_test_fixtures.file import BlockchainFixtures
-from pytest_plugins.consume.consume import JsonSource
 
 TestCase = TestCaseIndexFile | TestCaseStream
+
+
+def pytest_configure(config):
+    """Set the supported fixture formats for the rlp simulator."""
+    config._supported_fixture_formats = [BlockchainFixture.format_name]
 
 
 @pytest.fixture(scope="module")
@@ -28,33 +30,9 @@ def test_suite_description() -> str:
 
 
 @pytest.fixture(scope="function")
-def blockchain_fixture(fixture_source: JsonSource, test_case: TestCase) -> BlockchainFixture:
-    """
-    Create the blockchain fixture pydantic model for the current test case.
-
-    The fixture is either already available within the test case (if consume
-    is taking input on stdin) or loaded from the fixture json file if taking
-    input from disk (fixture directory with index file).
-    """
-    if fixture_source == "stdin":
-        assert isinstance(test_case, TestCaseStream), "Expected a stream test case"
-        assert isinstance(
-            test_case.fixture, BlockchainFixture
-        ), "Expected a blockchain test fixture"
-        fixture = test_case.fixture
-    else:
-        assert isinstance(test_case, TestCaseIndexFile), "Expected an index file test case"
-        # TODO: Optimize, json files will be loaded multiple times. This pytest fixture
-        # is executed per test case, and a fixture json will contain multiple test cases.
-        fixtures = BlockchainFixtures.from_file(Path(fixture_source) / test_case.json_path)
-        fixture = fixtures[test_case.id]
-    return fixture
-
-
-@pytest.fixture(scope="function")
-def blocks_rlp(blockchain_fixture: BlockchainFixture) -> List[Bytes]:
+def blocks_rlp(fixture: BlockchainFixture) -> List[Bytes]:
     """List of the fixture's blocks encoded as RLP."""
-    return [block.rlp for block in blockchain_fixture.blocks]
+    return [block.rlp for block in fixture.blocks]
 
 
 @pytest.fixture(scope="function")

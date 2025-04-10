@@ -21,17 +21,19 @@ pytestmark = [
 
 
 @pytest.mark.parametrize(
-    "input_data,expected_output",
+    "input_data,expected_output,vector_gas_value",
     vectors_from_file("pairing_check_bls.json")
     + [
         pytest.param(
             Spec.INF_G1 + Spec.INF_G2,
             Spec.PAIRING_TRUE,
+            None,
             id="inf_pair",
         ),
         pytest.param(
             (Spec.INF_G1 + Spec.INF_G2) * 1000,
             Spec.PAIRING_TRUE,
+            None,
             id="multi_inf_pair",
         ),
     ],
@@ -43,6 +45,38 @@ def test_valid(
     tx: Transaction,
 ):
     """Test the BLS12_PAIRING precompile."""
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "input_data,expected_output,vector_gas_value",
+    [
+        pytest.param(
+            (Spec.INF_G1 + Spec.INF_G2) + (Spec.G1 + (-Spec.G2)),
+            Spec.PAIRING_FALSE,
+            None,
+            id="multi_inf_g1_negG2",
+        ),
+        pytest.param(
+            (Spec.G1 + (-Spec.G2)) + (Spec.INF_G1 + Spec.INF_G2),
+            Spec.PAIRING_FALSE,
+            None,
+            id="g1_negG2_multi_inf",
+        ),
+    ],
+)
+def test_multi_pair_invalid_inf(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: dict,
+    tx: Transaction,
+):
+    """Multi pair invalid infinity cases for the BLS12_PAIRING precompile."""
     state_test(
         env=Environment(),
         pre=pre,

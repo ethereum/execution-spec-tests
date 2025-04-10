@@ -2,13 +2,21 @@
 
 import pytest
 
-from ethereum_test_tools import Account, EOFException, EOFStateTestFiller
+from ethereum_test_base_types import Storage
+from ethereum_test_specs import StateTestFiller
+from ethereum_test_tools import Account, Environment, EOFException, EOFStateTestFiller, Transaction
 from ethereum_test_tools.eof.v1 import Container, Section
 from ethereum_test_tools.eof.v1.constants import NON_RETURNING_SECTION
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types import Alloc
 
 from .. import EOF_FORK_NAME
-from .helpers import slot_code_worked, slot_stack_canary, value_canary_written, value_code_worked
+from .helpers import (
+    slot_code_worked,
+    slot_stack_canary,
+    value_canary_written,
+    value_code_worked,
+)
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6206.md"
 REFERENCE_SPEC_VERSION = "2f365ea0cd58faa6e26013ea77ce6d538175f7d0"
@@ -21,7 +29,7 @@ def test_jumpf_forward(
 ):
     """Test JUMPF jumping forward."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.JUMPF[1],
@@ -32,16 +40,31 @@ def test_jumpf_forward(
             ],
         ),
         container_post=Account(storage={slot_code_worked: value_code_worked}),
-        tx_data=b"\1",
+        data=b"\1",
     )
 
 
-def test_jumpf_backward(
-    eof_state_test: EOFStateTestFiller,
-):
-    """Tests JUMPF jumping backward."""
-    eof_state_test(
-        data=Container(
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="forward",
+            sections=[
+                Section.Code(
+                    code=Op.CALLF[1] + Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
+                ),
+                Section.Code(
+                    code=Op.JUMPF[2],
+                    code_outputs=0,
+                ),
+                Section.Code(
+                    code=Op.RETF,
+                    code_outputs=0,
+                ),
+            ],
+        ),
+        Container(
+            name="backward",
             sections=[
                 Section.Code(
                     code=Op.CALLF[2] + Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
@@ -56,8 +79,53 @@ def test_jumpf_backward(
                 ),
             ],
         ),
+        Container(
+            name="equal_outputs",
+            sections=[
+                Section.Code(
+                    Op.CALLF[1] + Op.SSTORE + Op.STOP,
+                    max_stack_height=2,
+                ),
+                Section.Code(
+                    Op.JUMPF[2],
+                    code_outputs=2,
+                    max_stack_height=0,
+                ),
+                Section.Code(
+                    Op.PUSH2[value_code_worked] + Op.PUSH2[slot_code_worked] + Op.RETF,
+                    code_outputs=2,
+                    max_stack_height=2,
+                ),
+            ],
+        ),
+        Container(
+            name="compatible_outputs",
+            sections=[
+                Section.Code(
+                    code=Op.CALLF[1] + Op.SSTORE + Op.STOP,
+                    max_stack_height=2,
+                ),
+                Section.Code(
+                    Op.PUSH2[value_code_worked] + Op.JUMPF[2],
+                    code_outputs=2,
+                    max_stack_height=1,
+                ),
+                Section.Code(
+                    Op.PUSH2[slot_code_worked] + Op.RETF,
+                    code_outputs=1,
+                    max_stack_height=1,
+                ),
+            ],
+        ),
+    ],
+    ids=lambda container: container.name,
+)
+def test_jumpf_to_retf(eof_state_test: EOFStateTestFiller, container: Container):
+    """Tests JUMPF to a returning section with RETF."""
+    eof_state_test(
+        container=container,
         container_post=Account(storage={slot_code_worked: value_code_worked}),
-        tx_data=b"\1",
+        data=b"\1",
     )
 
 
@@ -66,7 +134,7 @@ def test_jumpf_to_self(
 ):
     """Tests JUMPF jumping to self."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.SLOAD(slot_code_worked)
@@ -79,7 +147,120 @@ def test_jumpf_to_self(
             ],
         ),
         container_post=Account(storage={slot_code_worked: value_code_worked}),
-        tx_data=b"\1",
+        data=b"\1",
+    )
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="1_to_2_arg0",
+            sections=[
+                Section.Code(
+                    Op.CALLF[1] + Op.STOP,
+                ),
+                Section.Code(
+                    Op.PUSH0 + Op.RJUMPI[3] + Op.JUMPF[2] + Op.RETF,
+                    code_outputs=0,
+                ),
+                Section.Code(
+                    Op.SSTORE(slot_code_worked, value_code_worked) + Op.RETF,
+                    code_outputs=0,
+                ),
+            ],
+        ),
+        Container(
+            name="1_to_2_arg1",
+            sections=[
+                Section.Code(
+                    Op.PUSH1[1] + Op.CALLF[1] + Op.STOP,
+                ),
+                Section.Code(
+                    Op.RJUMPI[1]
+                    + Op.RETF
+                    + Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.JUMPF[2],
+                    code_inputs=1,
+                    code_outputs=0,
+                ),
+                Section.Code(
+                    Op.RETF,
+                    code_outputs=0,
+                ),
+            ],
+        ),
+        Container(
+            name="1_to_0_to_1",
+            sections=[
+                Section.Code(
+                    Op.ISZERO(Op.SLOAD(slot_code_worked)) + Op.CALLF[1] + Op.STOP,
+                ),
+                Section.Code(
+                    Op.RJUMPI[1]
+                    + Op.RETF
+                    + Op.SSTORE(slot_code_worked, value_code_worked)
+                    + Op.JUMPF[0],
+                    code_inputs=1,
+                    code_outputs=0,
+                ),
+            ],
+        ),
+        Container(
+            name="retf_in_nonreturning",
+            sections=[
+                Section.Code(
+                    Op.PUSH0 + Op.JUMPF[1],
+                ),
+                Section.Code(
+                    Op.RJUMPI[1] + Op.RETF + Op.JUMPF[0],
+                    code_inputs=1,
+                ),
+            ],
+            validity_error=EOFException.INVALID_NON_RETURNING_FLAG,
+        ),
+        Container(
+            name="jumpf_to_returning",
+            sections=[
+                Section.Code(
+                    Op.PUSH0 + Op.JUMPF[1],
+                ),
+                Section.Code(
+                    Op.RJUMPI[1] + Op.RETF + Op.JUMPF[2],
+                    code_inputs=1,
+                ),
+                Section.Code(
+                    Op.RETF,
+                    code_outputs=0,
+                ),
+            ],
+            validity_error=EOFException.INVALID_NON_RETURNING_FLAG,
+        ),
+        Container(
+            name="jumpf_to_returning_2",
+            sections=[
+                Section.Code(
+                    Op.PUSH0 + Op.JUMPF[1],
+                ),
+                Section.Code(
+                    Op.RJUMPI[3] + Op.JUMPF[2] + Op.RETF,
+                    code_inputs=1,
+                ),
+                Section.Code(
+                    Op.RETF,
+                    code_outputs=0,
+                ),
+            ],
+            validity_error=EOFException.INVALID_NON_RETURNING_FLAG,
+        ),
+    ],
+    ids=lambda container: container.name,
+)
+def test_jumpf_and_retf(eof_state_test: EOFStateTestFiller, container: Container):
+    """Tests JUMPF and RETF in the same section."""
+    eof_state_test(
+        container=container,
+        container_post=Account(storage={slot_code_worked: value_code_worked}),
     )
 
 
@@ -88,7 +269,7 @@ def test_jumpf_too_large(
 ):
     """Tests JUMPF jumping to a section outside the max section range."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.JUMPF[1025],
@@ -104,7 +285,7 @@ def test_jumpf_way_too_large(
 ):
     """Tests JUMPF jumping to uint64.MAX."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.JUMPF[0xFFFF],
@@ -120,7 +301,7 @@ def test_jumpf_to_nonexistent_section(
 ):
     """Tests JUMPF jumping to valid section number but where the section does not exist."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.JUMPF[5],
@@ -136,7 +317,7 @@ def test_callf_to_non_returning_section(
 ):
     """Tests CALLF into a non-returning section."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.CALLF[1],
@@ -156,7 +337,7 @@ def test_jumpf_stack_size_1024(
 ):
     """Test stack reaching 1024 items in target function of JUMPF."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 1022 + Op.JUMPF[1],
@@ -179,7 +360,7 @@ def test_jumpf_with_inputs_stack_size_1024(
 ):
     """Test stack reaching 1024 items in target function of JUMPF with inputs."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 1022 + Op.JUMPF[1],
@@ -202,7 +383,7 @@ def test_jumpf_stack_size_1024_at_push(
 ):
     """Test stack reaching 1024 items in JUMPF target function at PUSH0 instruction."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 1023
@@ -258,7 +439,7 @@ def test_jumpf_stack_overflow(
     `execution_overflow` - execution would overflow (but still blocked by reserved stack rule)
     """
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * stack_height
@@ -303,7 +484,7 @@ def test_jumpf_with_inputs_stack_size_1024_at_push(
 ):
     """Test stack reaching 1024 items in JUMPF target function with inputs at PUSH0 instruction."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 1023
@@ -341,7 +522,7 @@ def test_jumpf_with_inputs_stack_overflow(
 ):
     """Test stack overflowing 1024 items in JUMPF target function with inputs."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 1023
@@ -374,3 +555,169 @@ def test_jumpf_with_inputs_stack_overflow(
         ),
         container_post=Account(storage={slot_code_worked: 0}),
     )
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="self",
+            sections=[
+                Section.Code(
+                    Op.SSTORE(slot_code_worked, value_code_worked) + Op.JUMPF[0],
+                ),
+            ],
+        ),
+        Container(
+            name="1_to_0",
+            sections=[
+                Section.Code(
+                    Op.SSTORE(slot_code_worked, value_code_worked) + Op.JUMPF[1],
+                ),
+                Section.Code(
+                    Op.JUMPF[0],
+                ),
+            ],
+        ),
+        Container(
+            name="2_to_1",
+            sections=[
+                Section.Code(
+                    Op.SSTORE(slot_code_worked, value_code_worked) + Op.JUMPF[1],
+                ),
+                Section.Code(
+                    Op.JUMPF[2],
+                ),
+                Section.Code(
+                    Op.JUMPF[1],
+                ),
+            ],
+        ),
+        Container(
+            name="2_to_1_returning",
+            sections=[
+                Section.Code(
+                    Op.SSTORE(slot_code_worked, value_code_worked) + Op.CALLF[1] + Op.STOP,
+                ),
+                Section.Code(
+                    Op.JUMPF[2],
+                    code_outputs=0,
+                ),
+                Section.Code(
+                    Op.JUMPF[1],
+                    code_outputs=0,
+                ),
+            ],
+        ),
+        Container(
+            name="1_to_0_invalid",
+            sections=[
+                Section.Code(
+                    Op.JUMPF[1],
+                ),
+                Section.Code(
+                    Op.JUMPF[0],
+                    code_outputs=0,
+                ),
+            ],
+            validity_error=EOFException.INVALID_NON_RETURNING_FLAG,
+        ),
+    ],
+    ids=lambda container: container.name,
+)
+def test_jumpf_infinite_loop(eof_state_test: EOFStateTestFiller, container: Container):
+    """Tests JUMPF causing an infinite loop."""
+    eof_state_test(
+        tx_gas=100_000,
+        container=container,
+        container_post=Account(storage={slot_code_worked: 0}),
+    )
+
+
+def test_jumpf_memory_context(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Verifies JUMPF doesn't corrupt memory."""
+    env = Environment()
+    storage = Storage()
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    Op.SSTORE(storage.store_next(value_code_worked), value_code_worked)
+                    + Op.MSTORE(0, 1)
+                    + Op.JUMPF[1],
+                ),
+                Section.Code(
+                    Op.SSTORE(storage.store_next(32), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(1), Op.MLOAD(0))
+                    + Op.STOP,
+                ),
+            ],
+        ),
+    )
+    post = {
+        contract_address: Account(
+            storage=storage,
+        ),
+    }
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=500_000,
+        sender=pre.fund_eoa(),
+    )
+    state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+def test_callf_jumpf_retf_memory_context(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Verifies CALLF, JUMPF and RETF don't corrupt memory."""
+    env = Environment()
+    storage = Storage()
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    Op.SSTORE(storage.store_next(value_code_worked), value_code_worked)
+                    + Op.MSTORE(0, 1)
+                    + Op.CALLF[1]
+                    + Op.SSTORE(storage.store_next(96), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(2), Op.MLOAD(0))
+                    + Op.SSTORE(storage.store_next(21), Op.MLOAD(32))
+                    + Op.SSTORE(storage.store_next(31), Op.MLOAD(64))
+                    + Op.STOP,
+                ),
+                Section.Code(
+                    Op.SSTORE(storage.store_next(32), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(1), Op.MLOAD(0))
+                    + Op.MSTORE(0, 2)
+                    + Op.MSTORE(32, 3)
+                    + Op.JUMPF[2],
+                    code_outputs=0,
+                ),
+                Section.Code(
+                    Op.SSTORE(storage.store_next(64), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(2), Op.MLOAD(0))
+                    + Op.SSTORE(storage.store_next(3), Op.MLOAD(32))
+                    + Op.MSTORE(32, 21)
+                    + Op.MSTORE(64, 31)
+                    + Op.RETF,
+                    code_outputs=0,
+                ),
+            ],
+        ),
+    )
+    post = {
+        contract_address: Account(
+            storage=storage,
+        ),
+    }
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=500_000,
+        sender=pre.fund_eoa(),
+    )
+    state_test(env=env, pre=pre, post=post, tx=tx)

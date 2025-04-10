@@ -43,6 +43,8 @@ def generate_block_check_code(
         check_contract_first (bool): Whether to check the contract first, for slot warming checks.
 
     """
+    contract_ret_offset = 32
+
     if check_block_number < 0:
         # Block number outside of range, nothing to check
         return Bytecode()
@@ -63,8 +65,8 @@ def generate_block_check_code(
     check_blockhash = Op.SSTORE(blockhash_key, Op.ISZERO(Op.BLOCKHASH(check_block_number)))
     check_contract = (
         Op.MSTORE(0, check_block_number)
-        + Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, 0, 32))
-        + Op.SSTORE(contract_key, Op.ISZERO(Op.MLOAD(0)))
+        + Op.POP(Op.CALL(Op.GAS, Spec.HISTORY_STORAGE_ADDRESS, 0, 0, 32, contract_ret_offset, 32))
+        + Op.SSTORE(contract_key, Op.ISZERO(Op.MLOAD(contract_ret_offset)))
     )
 
     if check_contract_first:
@@ -75,7 +77,12 @@ def generate_block_check_code(
     if populated_history_storage_contract and populated_blockhash:
         # Both values must be equal
         store_equal_key = storage.store_next(True)
-        code += Op.SSTORE(store_equal_key, Op.EQ(Op.MLOAD(0), Op.BLOCKHASH(check_block_number)))
+        code += Op.SSTORE(
+            store_equal_key, Op.EQ(Op.MLOAD(contract_ret_offset), Op.BLOCKHASH(check_block_number))
+        )
+
+    # Reset the contract return value
+    code += Op.MSTORE(contract_ret_offset, 0)
 
     return code
 
@@ -305,6 +312,55 @@ def test_block_hashes_history(
         pre=pre,
         blocks=blocks,
         post=post,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+@pytest.mark.with_all_call_opcodes
+def test_block_hashes_call_opcodes(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, call_opcode: Op
+):
+    """Test that the call opcodes can be used to call the history contract and get the block hashes."""  # noqa: E501
+    blocks = []
+    blocks.append(Block())
+
+    storage = Storage()
+    return_code_slot = storage.store_next(0x1)
+    blockhash_value_slot = storage.store_next(
+        True if call_opcode in [Op.DELEGATECALL, Op.CALLCODE] else False
+    )
+
+    code = (
+        Op.MSTORE(0, 1)
+        + Op.SSTORE(
+            return_code_slot,
+            call_opcode(
+                address=Spec.HISTORY_STORAGE_ADDRESS,
+                args_offset=0,
+                args_size=32,
+                ret_offset=32,
+                ret_size=32,
+            ),
+        )
+        + Op.SSTORE(blockhash_value_slot, Op.ISZERO(Op.MLOAD(32)))
+    )
+
+    contract_address = pre.deploy_contract(code, storage=storage.canary())
+    blocks.append(
+        Block(
+            txs=[
+                Transaction(
+                    to=contract_address,
+                    gas_limit=10_000_000,
+                    sender=pre.fund_eoa(),
+                )
+            ]
+        )
+    )
+    blockchain_test(
+        pre=pre,
+        blocks=blocks,
+        post={contract_address: Account(storage=storage)},
     )
 
 

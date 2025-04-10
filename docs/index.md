@@ -1,7 +1,7 @@
 # Execution Spec Tests
 
 <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
-  ![Execution Spec Tests Logo](img/execution_spec_tests.png){width="400"}
+  ![Execution Spec Tests Logo](img/execution_spec_tests.jpg)
 </figure>
 
 @ethereum/execution-spec-tests is both a collection of test cases and a framework in Python to generate tests for Ethereum execution clients implemented.

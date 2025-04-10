@@ -4,7 +4,7 @@ import math
 
 import pytest
 
-from ethereum_test_base_types import Hash
+from ethereum_test_base_types import Hash, Storage
 from ethereum_test_specs import StateTestFiller
 from ethereum_test_tools import Account, EOFStateTestFiller
 from ethereum_test_tools import Opcodes as Op
@@ -16,7 +16,12 @@ from ..eip7620_eof_create.helpers import (
     value_canary_should_not_change,
     value_canary_to_be_overwritten,
 )
-from .helpers import slot_code_worked, slot_stack_canary, value_canary_written, value_code_worked
+from .helpers import (
+    slot_code_worked,
+    slot_stack_canary,
+    value_canary_written,
+    value_code_worked,
+)
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-4750.md"
 REFERENCE_SPEC_VERSION = "14400434e1199c57d912082127b1d22643788d11"
@@ -31,7 +36,7 @@ pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 def test_callf_factorial(eof_state_test: EOFStateTestFiller, n, result):
     """Test factorial implementation with recursive CALLF instructions."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     Op.CALLDATALOAD(0) + Op.SSTORE(0, Op.CALLF[1]) + Op.STOP,
@@ -60,7 +65,7 @@ def test_callf_factorial(eof_state_test: EOFStateTestFiller, n, result):
                 ),
             ]
         ),
-        tx_data=Hash(n),
+        data=Hash(n),
         container_post=Account(storage={0: result}),
     )
 
@@ -72,7 +77,7 @@ def test_callf_factorial(eof_state_test: EOFStateTestFiller, n, result):
 def test_callf_fibonacci(eof_state_test: EOFStateTestFiller, n, result):
     """Test fibonacci sequence implementation with recursive CALLF instructions."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     Op.CALLDATALOAD(0) + Op.SSTORE(0, Op.CALLF[1]) + Op.STOP,
@@ -104,8 +109,8 @@ def test_callf_fibonacci(eof_state_test: EOFStateTestFiller, n, result):
                 ),
             ]
         ),
-        tx_gas_limit=15_000_000,
-        tx_data=Hash(n),
+        gas_limit=15_000_000,
+        data=Hash(n),
         container_post=Account(storage={0: result}),
     )
 
@@ -158,13 +163,46 @@ def test_callf_fibonacci(eof_state_test: EOFStateTestFiller, n, result):
                 ),
             ],
         ),
+        Container(
+            name="multiple_sections_of_different_types",  # EOF1V4750_0005
+            sections=[
+                Section.Code(
+                    Op.PUSH0
+                    + Op.CALLF[1]
+                    + Op.CALLF[2]
+                    + Op.PUSH0
+                    + Op.CALLF[3]
+                    + Op.SSTORE
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+                Section.Code(
+                    Op.POP + Op.RETF,
+                    code_inputs=1,
+                    code_outputs=0,
+                    max_stack_height=1,
+                ),
+                Section.Code(
+                    Op.PUSH2[value_code_worked] + Op.RETF,
+                    code_inputs=0,
+                    code_outputs=1,
+                    max_stack_height=1,
+                ),
+                Section.Code(
+                    Op.DUP2 + Op.PUSH2[slot_code_worked] + Op.RETF,
+                    code_inputs=2,
+                    code_outputs=4,
+                    max_stack_height=4,
+                ),
+            ],
+        ),
     ),
     ids=lambda x: x.name,
 )
 def test_callf(eof_state_test: EOFStateTestFiller, container: Container):
     """Test basic usage of CALLF and RETF instructions."""
     eof_state_test(
-        data=container,
+        container=container,
         container_post=Account(storage={slot_code_worked: value_code_worked}),
     )
 
@@ -359,7 +397,7 @@ def test_callf(eof_state_test: EOFStateTestFiller, container: Container):
 def test_callf_operand_stack_size_max(eof_state_test: EOFStateTestFiller, container: Container):
     """Test operand stack reaching 1024 items."""
     eof_state_test(
-        data=container,
+        container=container,
         container_post=Account(storage={slot_code_worked: value_code_worked}),
     )
 
@@ -441,7 +479,7 @@ def test_callf_operand_stack_size_max(eof_state_test: EOFStateTestFiller, contai
 def test_callf_operand_stack_overflow(eof_state_test: EOFStateTestFiller, container: Container):
     """Test stack overflowing 1024 items in called function."""
     eof_state_test(
-        data=container,
+        container=container,
         container_post=Account(storage={slot_code_worked: 0}),
     )
 
@@ -628,5 +666,46 @@ def test_callf_max_stack(
         to=contract_address,
         gas_limit=100_000,
         sender=sender,
+    )
+    state_test(env=env, pre=pre, post=post, tx=tx)
+
+
+def test_callf_retf_memory_context(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Verifies CALLF and RETF don't corrupt memory."""
+    env = Environment()
+    storage = Storage()
+    contract_address = pre.deploy_contract(
+        code=Container(
+            sections=[
+                Section.Code(
+                    Op.SSTORE(storage.store_next(value_code_worked), value_code_worked)
+                    + Op.MSTORE(0, 1)
+                    + Op.CALLF[1]
+                    + Op.SSTORE(storage.store_next(64), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(2), Op.MLOAD(0))
+                    + Op.SSTORE(storage.store_next(3), Op.MLOAD(32))
+                    + Op.STOP,
+                ),
+                Section.Code(
+                    Op.SSTORE(storage.store_next(32), Op.MSIZE())
+                    + Op.SSTORE(storage.store_next(1), Op.MLOAD(0))
+                    + Op.MSTORE(0, 2)
+                    + Op.MSTORE(32, 3)
+                    + Op.RETF,
+                    code_outputs=0,
+                ),
+            ],
+        ),
+    )
+    post = {
+        contract_address: Account(storage=storage),
+    }
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=500_000,
+        sender=pre.fund_eoa(),
     )
     state_test(env=env, pre=pre, post=post, tx=tx)

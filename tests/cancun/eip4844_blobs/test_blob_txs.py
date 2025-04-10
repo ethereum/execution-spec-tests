@@ -499,9 +499,10 @@ def test_invalid_tx_max_fee_per_blob_gas(
     "parent_excess_blobs,parent_blobs,tx_max_fee_per_blob_gas,tx_error",
     generate_invalid_tx_max_fee_per_blob_gas_tests,
 )
+@pytest.mark.state_test_only
 @pytest.mark.valid_from("Cancun")
 def test_invalid_tx_max_fee_per_blob_gas_state(
-    state_test_only: StateTestFiller,
+    state_test: StateTestFiller,
     state_env: Environment,
     pre: Alloc,
     txs: List[Transaction],
@@ -513,7 +514,7 @@ def test_invalid_tx_max_fee_per_blob_gas_state(
     - tx max_fee_per_blob_gas is zero
     """
     assert len(txs) == 1
-    state_test_only(
+    state_test(
         pre=pre,
         post={},
         tx=txs[0],
@@ -562,7 +563,14 @@ def test_invalid_normal_gas(
     SpecHelpers.invalid_blob_combinations,
 )
 @pytest.mark.parametrize(
-    "tx_error", [TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED], ids=[""]
+    "tx_error",
+    [
+        [
+            TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
+            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+        ]
+    ],
+    ids=[""],
 )
 @pytest.mark.valid_from("Cancun")
 def test_invalid_block_blob_count(
@@ -856,7 +864,10 @@ def generate_invalid_tx_blob_count_tests(
         ),
         pytest.param(
             [fork.max_blobs_per_block() + 1],
-            TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            [
+                TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
+                TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            ],
             id="too_many_blobs",
         ),
     ]
@@ -1007,7 +1018,7 @@ def test_invalid_blob_tx_contract_creation(
     assert txs[0].blob_versioned_hashes is not None and len(txs[0].blob_versioned_hashes) == 1
     # Replace the transaction with a contract creating one, only in the RLP version
     contract_creating_tx = txs[0].copy(to=None).with_signature_and_sender()
-    txs[0].rlp_override = contract_creating_tx.rlp
+    txs[0].rlp_override = contract_creating_tx.rlp()
     blockchain_test(
         pre=pre,
         post={},
@@ -1019,6 +1030,10 @@ def test_invalid_blob_tx_contract_creation(
                     TransactionException.TYPE_3_TX_CONTRACT_CREATION,
                 ],
                 header_verify=header_verify,
+                # Skipped due to the T8N not receiving the invalid transaction,
+                # instead we are passing a valid transaction to T8N and then the transaction
+                # is replaced directly in the block RLP.
+                skip_exception_verification=True,
             )
         ],
         genesis_environment=env,

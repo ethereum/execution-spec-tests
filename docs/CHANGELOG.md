@@ -2,36 +2,148 @@
 
 Test fixtures for use by clients are available for each release on the [Github releases page](https://github.com/ethereum/execution-spec-tests/releases).
 
-**Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed, 💥 = Breaking change.
+**Key:** ✨ = New, 🐞 = Fixed, 🔀 = Changed. 💥 = Breaking
 
-## 🔜 [Unreleased](https://github.com/ethereum/execution-spec-tests/releases/tag/UNRELEASED) - 2024-XX-XX
+## 🔜 [Unreleased]
 
-Release tarball changes:
-
-- Release tarballs now contain fixtures filled for all forks, not only the fork under active development and the fork currently deployed on mainnet ([#1053](https://github.com/ethereum/execution-spec-tests/pull/1053)).
-
-### 🧪 Test Cases
-
-- ✨ EIP-4844 test `tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py` includes an EOF test case ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
-- ✨ Example test `tests/frontier/opcodes/test_dup.py` now includes EOF parametrization ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
-- ✨ Convert all opcodes validation test `tests/frontier/opcodes/test_all_opcodes.py` ([#748](https://github.com/ethereum/execution-spec-tests/pull/748)).
-- ✨ Update [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) tests for Devnet-3 ([#733](https://github.com/ethereum/execution-spec-tests/pull/733))
-- 🐞 Fix [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702)+EOF tests due to incorrect test expectations and faulty `Conditional` test generator in EOF mode ([#821](https://github.com/ethereum/execution-spec-tests/pull/821))
-- 💥 `PragueEIP7692` fork in tests has been updated to `Osaka` ([#869](https://github.com/ethereum/execution-spec-tests/pull/869))
-- ✨ Update [EIP-6110](https://eips.ethereum.org/EIPS/eip-6110), [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251), [EIP-7685](https://eips.ethereum.org/EIPS/eip-7685), and [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) tests for Devnet-4 ([#832](https://github.com/ethereum/execution-spec-tests/pull/832))
-- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) many delegations test ([#923](https://github.com/ethereum/execution-spec-tests/pull/923))
-- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) set code of non-empty-storage account test ([#948](https://github.com/ethereum/execution-spec-tests/pull/948))
-- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) Remove delegation behavior of EXTCODE* ([#984](https://github.com/ethereum/execution-spec-tests/pull/984))
-- ✨ [EIP-7623](https://eips.ethereum.org/EIPS/eip-7623) Increase calldata cost ([#1004](https://github.com/ethereum/execution-spec-tests/pull/1004))
-- ✨ Add generic precompile-absence test ([#1036](https://github.com/ethereum/execution-spec-tests/pull/1036))
-- ✨ Add test for [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537) which uses the full discount table of G2 MSM ([#1038](https://github.com/ethereum/execution-spec-tests/pull/1038))
-- 🔀 Update EIP-7251 according to [spec updates](https://github.com/ethereum/EIPs/pull/9127) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
-- 🔀 Update EIP-7002 according to [spec updates](https://github.com/ethereum/EIPs/pull/9119) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024)).
-- 🔀 Update EIP-2935 according to [spec updates](https://github.com/ethereum/EIPs/pull/9144) ([#1046](https://github.com/ethereum/execution-spec-tests/pull/1046))
-- ✨ [EIP-7691](https://eips.ethereum.org/EIPS/eip-7691) Blob throughput increase tests by parametrization of existing EIP-4844 tests ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023))
+### 💥 Breaking Change
 
 ### 🛠️ Framework
 
+#### `fill`
+
+- 🐞 Fix `DeprecationWarning: Pickle, copy, and deepcopy support will be removed from itertools in Python 3.14.` by avoiding use `itertools` object in the spec `BaseTest` pydantic model ([#1414](https://github.com/ethereum/execution-spec-tests/pull/1414)).
+- ✨ The `static_filler` plug-in now has support for static state tests (from [GeneralStateTests](https://github.com/ethereum/tests/tree/develop/src/GeneralStateTestsFiller)) ([#1362](https://github.com/ethereum/execution-spec-tests/pull/1362)).
+
+### 📋 Misc
+
+### 🧪 Test Cases
+
+- ✨  Test 7702 precompile case in same transaction as delegation without extra gas in case of precompile code execution; parametrize all call opcodes in existing precompile test ([#1431](https://github.com/ethereum/execution-spec-tests/pull/1431)).
+
+## [v4.2.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0) - 2025-04-08
+
+**Note**: Although not a breaking change, `consume` users should delete the cache directory (typically located at `~/.cache/ethereum-execution-spec-tests`) used to store downloaded fixture release tarballs. This release adds support for [ethereum/tests](https://github.com/ethereum/tests) and [ethereum/legacytests](https://github.com/ethereum/legacytests) fixture release downloads and the structure of the cache directory has been updated to accommodate this change.
+
+To try this feature:
+
+```shell
+consume direct --input=https://github.com/ethereum/tests/releases/download/v17.0/fixtures_blockchain_tests.tgz
+```
+
+To determine the cache directory location, see the `--cache-folder` entry from the command:
+
+```shell
+consume cache --help
+```
+
+### 💥 Breaking Change
+
+### 🛠️ Framework
+
+#### `consume`
+
+- ✨ Add support for [ethereum/tests](https://github.com/ethereum/tests) and [ethereum/legacytests](https://github.com/ethereum/legacytests) release tarball download via URL to the `--input` flag of `consume` commands ([#1306](https://github.com/ethereum/execution-spec-tests/pull/1306)).
+- ✨ Add support for Nethermind's `nethtest` command to `consume direct` ([#1250](https://github.com/ethereum/execution-spec-tests/pull/1250)).
+- ✨ Allow filtering of test cases by fork via pytest marks (e.g., `-m "Cancun or Prague"`) ([#1304](https://github.com/ethereum/execution-spec-tests/pull/1304), [#1318](https://github.com/ethereum/execution-spec-tests/pull/1318)).
+- ✨ Allow filtering of test cases by fixture format via pytest marks (e.g., `-m blockchain_test`) ([#1314](https://github.com/ethereum/execution-spec-tests/pull/1314)).
+- ✨ Add top-level entries `forks` and `fixture_formats` to the index file that list all the forks and fixture formats used in the indexed fixtures ([#1318](https://github.com/ethereum/execution-spec-tests/pull/1318)).
+- ✨ Enable logging from `consume` commands ([#1361](https://github.com/ethereum/execution-spec-tests/pull/1361)).
+- ✨ Propagate stdout and stderr (including logs) captured during test execution to the Hive test result ([#1361](https://github.com/ethereum/execution-spec-tests/pull/1361)).
+- 🐞 Don't parametrize tests for unsupported fixture formats; improve `consume` test collection ([#1315](https://github.com/ethereum/execution-spec-tests/pull/1315)).
+- 🐞 Fix the the hive command printed in test reports to reproduce tests in isolation by prefixing the `--sim.limit` flag value with `id:` ([#1333](https://github.com/ethereum/execution-spec-tests/pull/1333)).
+- 🐞 Improve index generation of [ethereum/tests](https://github.com/ethereum/tests) fixtures: Allow generation at any directory level and include `generatedTestHash` in the index file for the `fixture_hash` ([#1303](https://github.com/ethereum/execution-spec-tests/pull/1303)).
+- 🐞 Fix loading of [ethereum/tests](https://github.com/ethereum/tests) and [ethereum/legacytests](https://github.com/ethereum/legacytests) fixtures for the case of mixed `0x0` and `0x1` transaction types in multi-index (`data`, `gas`, `value`) state test fixtures ([#1330](https://github.com/ethereum/execution-spec-tests/pull/1330)).
+- ✨ Add Osaka to the hive ruleset, includes a small ruleset refactor ([#1355](https://github.com/ethereum/execution-spec-tests/pull/1355)).
+
+#### `fill`
+
+- 🐞 Fix `--fork/from/until` for transition forks when using `fill` [#1311](https://github.com/ethereum/execution-spec-tests/pull/1311).
+- 🐞 Fix the node id for state tests marked by transition forks ([#1313](https://github.com/ethereum/execution-spec-tests/pull/1313)).
+- ✨ Add `static_filler` plug-in which allows to fill static YAML and JSON tests (from [ethereum/tests](https://github.com/ethereum/tests)) by adding flag `--fill-static-tests` to `uv run fill` ([#1336](https://github.com/ethereum/execution-spec-tests/pull/1336)).
+
+#### `execute`
+
+- 🔀 Test IDs have changed to include the name of the test spec where the test came from (e.g. `state_test`, `blockchain_test`, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
+- ✨ Markers can now be used to execute only tests from a specific test spec type (e.g. `-m state_test`, `-m blockchain_test`, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
+
+### 📋 Misc
+
+- 🔀 Bump the version of `execution-specs` used by the framework to the package [`ethereum-execution==1.17.0rc6.dev1`](https://pypi.org/project/ethereum-execution/1.17.0rc6.dev1/); bump the version used for test fixture generation for forks < Prague to current `execution-specs` master, [fa847a0](https://github.com/ethereum/execution-specs/commit/fa847a0e48309debee8edc510ceddb2fd5db2f2e) ([#1310](https://github.com/ethereum/execution-spec-tests/pull/1310)).
+- 🐞 Init `TransitionTool` in `GethTransitionTool` ([#1276](https://github.com/ethereum/execution-spec-tests/pull/1276)).
+- 🔀 Refactored RLP encoding of test objects to allow automatic generation of tests ([#1359](https://github.com/ethereum/execution-spec-tests/pull/1359)).
+- ✨ Document how to manage `execution-spec-tests` package dependencies ([#1388](https://github.com/ethereum/execution-spec-tests/pull/1388)).
+
+#### Packaging
+
+- 🐞 Fix `eest make test` when `ethereum-execution-spec-tests` is installed as a package ([#1342](https://github.com/ethereum/execution-spec-tests/pull/1342)).
+- 🔀 Pin `setuptools` and `wheel` in `[build-system]`, bump `trie>=3.1` and remove `setuptools` from package dependencies ([#1345](https://github.com/ethereum/execution-spec-tests/pull/1345), [#1351](https://github.com/ethereum/execution-spec-tests/pull/1351)).
+
+### 🧪 Test Cases
+
+- ✨ Add additional test coverage for EIP-152 Blake2 precompiles ([#1244](https://github.com/ethereum/execution-spec-tests/pull/1244)). Refactor to add variables for spec constants and common fixture code. ([#1395](https://github.com/ethereum/execution-spec-tests/pull/1395)), ([#1405](https://github.com/ethereum/execution-spec-tests/pull/1405)).
+- ✨ Add EIP-7702 incorrect-rlp-encoding tests ([#1347](https://github.com/ethereum/execution-spec-tests/pull/1347)).
+- ✨ Add EIP-2935 tests for all call opcodes ([#1379](https://github.com/ethereum/execution-spec-tests/pull/1379)).
+- ✨ Add more tests for EIP-7702: max-fee-per-gas verification, delegation-designation as initcode tests ([#1372](https://github.com/ethereum/execution-spec-tests/pull/1372)).
+
+## [v4.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0) - 2025-03-11
+
+### 💥 Breaking Changes
+
+The following changes may be potentially breaking (all clients were tested with these changes with the state test format, but not the blockchain test format):
+
+- 💥 Add a `yParity` field (that duplicates `v`) to transaction authorization tuples in fixture formats to have fields that conform to EIP-7702 spec, resolves [erigontech/erigon#14073](https://github.com/erigontech/erigon/issues/14073) ([#1286](https://github.com/ethereum/execution-spec-tests/pull/1286)).
+- 💥 Rename the recently introduced `_info` field `fixture_format` to `fixture-format` for consistency [#1295](https://github.com/ethereum/execution-spec-tests/pull/1295).
+
+### 🛠️ Framework
+
+- 🔀 Make `BaseFixture` able to parse any fixture format such as `BlockchainFixture` ([#1210](https://github.com/ethereum/execution-spec-tests/pull/1210)).
+- ✨ Blockchain and Blockchain-Engine tests now have a marker to specify that they were generated from a state test, which can be used with `-m blockchain_test_from_state_test` and `-m blockchain_test_engine_from_state_test` respectively ([#1220](https://github.com/ethereum/execution-spec-tests/pull/1220)).
+- ✨ Blockchain and Blockchain-Engine tests that were generated from a state test now have `blockchain_test_from_state_test` or `blockchain_test_engine_from_state_test` as part of their test IDs ([#1220](https://github.com/ethereum/execution-spec-tests/pull/1220)).
+- 🔀 Refactor `ethereum_test_fixtures` and `ethereum_clis` to create `FixtureConsumer` and `FixtureConsumerTool` classes which abstract away the consumption process used by `consume direct` ([#935](https://github.com/ethereum/execution-spec-tests/pull/935)).
+- ✨ Allow `consume direct --collect-only` without specifying a fixture consumer binary on the command-line ([#1237](https://github.com/ethereum/execution-spec-tests/pull/1237)).
+- ✨ Allow `fill --collect-only` without the need for existence of the folder `./fixtures'
+- ✨ Report the (resolved) fixture tarball URL and local fixture cache directory when `consume`'s `--input` flag is a release spec or URL ([#1239](https://github.com/ethereum/execution-spec-tests/pull/1239)).
+- ✨ EOF Container validation tests (`eof_test`) now generate container deployment state tests, by wrapping the EOF container in an init-container and sending a deploy transaction ([#783](https://github.com/ethereum/execution-spec-tests/pull/783), [#1233](https://github.com/ethereum/execution-spec-tests/pull/1233)).
+- ✨ Use regexes for Hive's `--sim.limit` argument and don't use xdist if `--sim.parallelism==1` in the `eest/consume-rlp` and `eest/consume-rlp` simulators ([#1220](https://github.com/ethereum/execution-spec-tests/pull/1220)).
+- 🐞 Register generated test markers, e.g., `blockchain_test_from_state_test`, to prevent test session warnings ([#1238](https://github.com/ethereum/execution-spec-tests/pull/1238), [#1245](https://github.com/ethereum/execution-spec-tests/pull/1245)).
+- 🐞 Zero-pad `Environment` fields passed to `t8n` tools as required by `evmone-t8n` ([#1268](https://github.com/ethereum/execution-spec-tests/pull/1268)).
+
+### 📋 Misc
+
+- ✨ Add a guide to the docs for porting tests from `ethereum/tests` to EEST ([#1165](https://github.com/ethereum/execution-spec-tests/pull/1165)).
+- ✨ Improve the `uv run eest make test` interactive CLI to enable creation of new test modules within existing test sub-folders ([#1241](https://github.com/ethereum/execution-spec-tests/pull/1241)).
+- ✨ Update `mypy` to latest release `>=1.15.0,<1.16` ([#1209](https://github.com/ethereum/execution-spec-tests/pull/1209)).
+- 🐞 Bug fix for filling with EELS for certain Python versions due to an issue with CPython ([#1231](https://github.com/ethereum/execution-spec-tests/pull/1231)).
+- 🐞 Fix HTML site deployment due to the site's index file exceeding Github's max file size limit ([#1292](https://github.com/ethereum/execution-spec-tests/pull/1292)).
+- ✨ Update the build fixtures workflow to use multiple self-hosted runners, remove `pectra-devnet-6` feature build ([#1296](https://github.com/ethereum/execution-spec-tests/pull/1296)).
+
+### 🧪 Test Cases
+
+- ✨ Add gas cost of delegation access in CALL opcode ([#1208](https://github.com/ethereum/execution-spec-tests/pull/1208)).
+- ✨ Add EIP-7698 failed nonce and short data tests ([#1211](https://github.com/ethereum/execution-spec-tests/pull/1211)).
+- ✨ Add EIP-2537 additional pairing precompile tests cases, and then update all BLS12 test vectors ([#1275](https://github.com/ethereum/execution-spec-tests/pull/1275), [#1289](https://github.com/ethereum/execution-spec-tests/pull/1289)).
+- ✨ Add EIP-7685 and EIP-7002 test cases for additional request type combinations and modified withdrawal contract that allows more withdrawals ([#1340](https://github.com/ethereum/execution-spec-tests/pull/1340)).
+
+## [v4.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.0.0) - 2025-02-14 - 💕
+
+### 📁 Fixture Releases
+
+- 🔀 Initially we moved old fork configured tests within stable and develop fixture releases to a separate legacy release ([#788](https://github.com/ethereum/execution-spec-tests/pull/788)).
+- 🔀 This was later reverted after some client teams preferred to keep them in all in the same releases ([#1053](https://github.com/ethereum/execution-spec-tests/pull/1053)).
+
+### 💥 Breaking Change
+
+- ✨ Use uv for package management replacing pip ([#777](https://github.com/ethereum/execution-spec-tests/pull/777)).
+- ✨ Ruff now replaces Flake8, Isort and Black resulting in significant changes to the entire code base including its usage ([#922](https://github.com/ethereum/execution-spec-tests/pull/922)).
+- 🔀 Fill test fixtures using EELS by default. EEST now uses the [`ethereum-specs-evm-resolver`](https://github.com/petertdavies/ethereum-spec-evm-resolver) with the EELS daemon ([#792](https://github.com/ethereum/execution-spec-tests/pull/792)).
+- 🔀 The EOF fixture format contained in `eof_tests` may now contain multiple exceptions in the `"exception"` field in the form of a pipe (`|`) separated string ([#759](https://github.com/ethereum/execution-spec-tests/pull/759)).
+- 🔀 `state_test`, `blockchain_test` and `blockchain_test_engine` fixtures now contain a `config` field, which contains an object that contains a `blobSchedule` field. On the `blockchain_test` and `blockchain_test_engine` fixtures, the object also contains a duplicate of the `network` root field. The root's `network` field will be eventually deprecated ([#1040](https://github.com/ethereum/execution-spec-tests/pull/1040)).
+- 🔀 `latest-stable-release` and `latest-develop-release` keywords for the `--input` flag in consume commands have been replaced with `stable@latest` and `develop@latest` respectively ([#1044](https://github.com/ethereum/execution-spec-tests/pull/1044)).
+
+### 🛠️ Framework
+
+- ✨ Execute command added to run existing tests in live networks ([#](https://github.com/ethereum/execution-spec-tests/pull/1157)).
 - 🐞 Fixed consume hive commands from spawning different hive test suites during the same test execution when using xdist ([#712](https://github.com/ethereum/execution-spec-tests/pull/712)).
 - ✨ `consume hive` command is now available to run all types of hive tests ([#712](https://github.com/ethereum/execution-spec-tests/pull/712)).
 - ✨ Generated fixtures now contain the test index `index.json` by default ([#716](https://github.com/ethereum/execution-spec-tests/pull/716)).
@@ -46,17 +158,31 @@ Release tarball changes:
 - ✨ Adds reproducible consume commands to hiveview ([#717](https://github.com/ethereum/execution-spec-tests/pull/717)).
 - 💥 Added multiple exceptions to the EOF fixture format ([#759](https://github.com/ethereum/execution-spec-tests/pull/759)).
 - ✨ Added optional parameter to all `with_all_*` markers to specify a lambda function that filters the parametrized values ([#739](https://github.com/ethereum/execution-spec-tests/pull/739)).
-- ✨ Added [`extend_with_defaults` utility function](https://ethereum.github.io/execution-spec-tests/main/writing_tests/writing_a_new_test/#ethereum_test_tools.utility.pytest.extend_with_defaults), which helps extend test case parameter sets with default values. `@pytest.mark.parametrize` ([#739](https://github.com/ethereum/execution-spec-tests/pull/739)).
+- ✨ Added [`extend_with_defaults` utility function](https://eest.ethereum.org/main/writing_tests/writing_a_new_test/#ethereum_test_tools.utility.pytest.extend_with_defaults), which helps extend test case parameter sets with default values. `@pytest.mark.parametrize` ([#739](https://github.com/ethereum/execution-spec-tests/pull/739)).
 - ✨ Added `Container.Init` to `ethereum_test_types.EOF.V1` package, which allows generation of an EOF init container more easily ([#739](https://github.com/ethereum/execution-spec-tests/pull/739)).
 - ✨ Introduce method valid_opcodes() to the fork class ([#748](https://github.com/ethereum/execution-spec-tests/pull/748)).
 - 🐞 Fixed `consume` exit code return values, ensuring that pytest's return value is correctly propagated to the shell. This allows the shell to accurately reflect the test results (e.g., failures) based on the pytest exit code ([#765](https://github.com/ethereum/execution-spec-tests/pull/765)).
 - ✨ Added a new flag `--solc-version` to the `fill` command, which allows the user to specify the version of the Solidity compiler to use when compiling Yul source code; this version will now be automatically downloaded by `fill` via [`solc-select`](https://github.com/crytic/solc-select) ([#772](https://github.com/ethereum/execution-spec-tests/pull/772)).
 - 🐞 Fix usage of multiple `@pytest.mark.with_all*` markers which shared parameters, such as `with_all_call_opcodes` and `with_all_create_opcodes` which shared `evm_code_type`, and now only parametrize compatible values ([#762](https://github.com/ethereum/execution-spec-tests/pull/762)).
-- ✨ Added `selector` and `marks` fields to all `@pytest.mark.with_all*` markers, which allows passing lambda functions to select or mark specific parametrized values (see [documentation](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#covariant-marker-keyword-arguments) for more information) ([#762](https://github.com/ethereum/execution-spec-tests/pull/762)).
+- ✨ Added `selector` and `marks` fields to all `@pytest.mark.with_all*` markers, which allows passing lambda functions to select or mark specific parametrized values (see [documentation](https://eest.ethereum.org/main/writing_tests/test_markers/#covariant-marker-keyword-arguments) for more information) ([#762](https://github.com/ethereum/execution-spec-tests/pull/762)).
 - ✨ Improves consume input flags for develop and stable fixture releases, fixes `--help` flag for consume ([#745](https://github.com/ethereum/execution-spec-tests/pull/745)).
-- 🐞 Fix erroneous fork message in pytest session header with development forks ([#806](https://github.com/ethereum/execution-spec-tests/pull/806)).
+- 🔀 Return exit-code from `consume` commands ([#766](https://github.com/ethereum/execution-spec-tests/pull/766)).
+- 🔀 Remove duplicate EOF container tests, automatically check for duplicates ([#800](https://github.com/ethereum/execution-spec-tests/pull/800)).
+- 🔀 Fix DATALOAD `pushed_stack_items` calculation ([#784](https://github.com/ethereum/execution-spec-tests/pull/784)).
+- ✨ Add `evm_bytes` rename and print asm ([#844](https://github.com/ethereum/execution-spec-tests/pull/844)).
+- 🔀 Use the `session_temp_folder` introduced in #824 ([#845](https://github.com/ethereum/execution-spec-tests/pull/845)).
+- 🐞 Don't treat eels resolutions as a fixture ([#878](https://github.com/ethereum/execution-spec-tests/pull/878)).
+- ✨ Emphasize that no tests were executed during a fill pytest session ([#887](https://github.com/ethereum/execution-spec-tests/pull/887)).
+- 🔀 Move generic code from TransitionTool to a new generic base class EthereumCLI ([#894](https://github.com/ethereum/execution-spec-tests/pull/894)).
+- 🐞 Fix erroneous fork mes- 🔀 Fix max stack height calculation ([#810](https://github.com/ethereum/execution-spec-tests/pull/810)).
+- ✨ Add storage key hint in Storage class ([#917](https://github.com/ethereum/execution-spec-tests/pull/917)).
+- ✨ Add system to verify exception strings ([#795](https://github.com/ethereum/execution-spec-tests/pull/795)).
+- 🔀 Fix `FixedBytes` assignment rules ([#1010](https://github.com/ethereum/execution-spec-tests/pull/1010)).
+- 🔀 Fix `Address` padding options ([#1113](https://github.com/ethereum/execution-spec-tests/pull/1113)).
+- 🔀 Add `Container.expected_bytecode` optional parameter ([#737](https://github.com/ethereum/execution-spec-tests/pull/737)).
+- ✨ Add support for `initcode_prefix` on EOF `Container.Init` ([#819](https://github.com/ethereum/execution-spec-tests/pull/819)).sage in pytest session header with development forks ([#806](https://github.com/ethereum/execution-spec-tests/pull/806)).
 - 🐞 Fix `Conditional` code generator in EOF mode ([#821](https://github.com/ethereum/execution-spec-tests/pull/821)).
-- 🐞 Ensure that `Block` objects keep track of their `fork`, for example, when the block's `rlp_modifier` is not `None` ([#854](https://github.com/ethereum/execution-spec-tests/pull/854)).
+- 🔀 Ensure that `Block` objects keep track of their `fork`, for example, when the block's `rlp_modifier` is not `None` ([#854](https://github.com/ethereum/execution-spec-tests/pull/854)).
 - 🔀 `ethereum_test_rpc` library has been created with what was previously `ethereum_test_tools.rpc` ([#822](https://github.com/ethereum/execution-spec-tests/pull/822)).
 - ✨ Add `Wei` type to `ethereum_test_base_types` which allows parsing wei amounts from strings like "1 ether", "1000 wei", "10**2 gwei", etc ([#825](https://github.com/ethereum/execution-spec-tests/pull/825)).
 - ✨ Pin EELS versions in `eels_resolutions.json` and include this file in fixture releases ([#872](https://github.com/ethereum/execution-spec-tests/pull/872)).
@@ -64,6 +190,11 @@ Release tarball changes:
 - 💥 Rename the `PragueEIP7692` fork to `Osaka` ([#869](https://github.com/ethereum/execution-spec-tests/pull/869)).
 - ✨ Improve `fill` terminal output to emphasize that filling tests is not actually testing a client ([#807](https://github.com/ethereum/execution-spec-tests/pull/887)).
 - ✨ Add the `BlockchainTestEngine` test spec type that only generates a fixture in the `EngineFixture` (`blockchain_test_engine`) format ([#888](https://github.com/ethereum/execution-spec-tests/pull/888)).
+- 🔀 Move the `evm_transition_tool` package to `ethereum_clis` and derive the transition tool CL interfaces from a shared `EthereumCLI` class that can be reused for other sub-commands ([#894](https://github.com/ethereum/execution-spec-tests/pull/894)).
+- ✨ Pass `state_test` property to T8N tools that support it (Only EELS at the time of merge) ([#943](https://github.com/ethereum/execution-spec-tests/pull/943)).
+- ✨ Add the `eofwrap` cli used to wrap tests from `ethereum/tests` in an EOF container ([#896](https://github.com/ethereum/execution-spec-tests/pull/896)).
+- 🔀 Improve gentest architecture with `EthereumTestBaseModel` and `EthereumTestRootModel` ([#901](https://github.com/ethereum/execution-spec-tests/pull/901)).
+- 🔀 Migrate transaction test to `state_test` for `gentest` ([#903](https://github.com/ethereum/execution-spec-tests/pull/903)).
 - 🔀 `ethereum_test_forks` forks now contain gas-calculating functions, which return the appropriate function to calculate the gas used by a transaction or memory function for the given fork ([#779](https://github.com/ethereum/execution-spec-tests/pull/779)).
 - 🐞 Fix `Bytecode` class `__eq__` method ([#939](https://github.com/ethereum/execution-spec-tests/pull/939)).
 - 🔀 Update `pydantic` from 2.8.2 to 2.9.2 ([#960](https://github.com/ethereum/execution-spec-tests/pull/960)).
@@ -74,17 +205,23 @@ Release tarball changes:
 - ✨ Generate Transaction Test type ([#933](https://github.com/ethereum/execution-spec-tests/pull/933)).
 - ✨ Add a default location for evm logs (`--evm-dump-dir`) when filling tests ([#999](https://github.com/ethereum/execution-spec-tests/pull/999)).
 - ✨ Slow tests now have greater timeout when making a request to the T8N server ([#1037](https://github.com/ethereum/execution-spec-tests/pull/1037)).
-- ✨ Introduce [`pytest.mark.parametrize_by_fork`](https://ethereum.github.io/execution-spec-tests/main/writing_tests/test_markers/#pytestmarkfork_parametrize) helper marker ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019), [#1057](https://github.com/ethereum/execution-spec-tests/pull/1057)).
+- ✨ Introduce [`pytest.mark.parametrize_by_fork`](https://eest.ethereum.org/main/writing_tests/test_markers/#pytestmarkfork_parametrize) helper marker ([#1019](https://github.com/ethereum/execution-spec-tests/pull/1019), [#1057](https://github.com/ethereum/execution-spec-tests/pull/1057)).
 - 🐞 fix(consume): allow absolute paths with `--evm-bin` ([#1052](https://github.com/ethereum/execution-spec-tests/pull/1052)).
 - ✨ Disable EIP-7742 framework changes for Prague ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023)).
 - ✨ Allow verification of the transaction receipt on executed test transactions ([#1068](https://github.com/ethereum/execution-spec-tests/pull/1068)).
+- ✨ Modify `valid_at_transition_to` marker to add keyword arguments `subsequent_transitions` and `until` to fill a test using multiple transition forks ([#1081](https://github.com/ethereum/execution-spec-tests/pull/1081)).
 - 🐞 fix(consume): use `"HIVE_CHECK_LIVE_PORT"` to signal hive to wait for port 8551 (Engine API port) instead of the 8545 port when running `consume engine` ([#1095](https://github.com/ethereum/execution-spec-tests/pull/1095)).
-
-### 🔧 EVM Tools
-
-- ✨ Fill test fixtures using EELS by default. EEST now uses the [`ethereum-specs-evm-resolver`](https://github.com/petertdavies/ethereum-spec-evm-resolver) with the EELS daemon ([#792](https://github.com/ethereum/execution-spec-tests/pull/792)).
-- 🔀 Move the `evm_transition_tool` package to `ethereum_clis` and derive the transition tool CL interfaces from a shared `EthereumCLI` class that can be reused for other sub-commands ([#894](https://github.com/ethereum/execution-spec-tests/pull/894)).
-- ✨ Pass `state_test` property to T8N tools that support it (Only EELS at the time of merge) ([#943](https://github.com/ethereum/execution-spec-tests/pull/943)).
+- ✨ `state_test`, `blockchain_test` and `blockchain_test_engine` fixtures now contain the `blobSchedule` from [EIP-7840](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7840.md), only for tests filled for Cancun and Prague forks ([#1040](https://github.com/ethereum/execution-spec-tests/pull/1040)).
+- 🔀 Change `--dist` flag to the default value, `load`, for better parallelism handling during test filling ([#1118](https://github.com/ethereum/execution-spec-tests/pull/1118)).
+- 🔀 Refactor framework code to use the [`ethereum-rlp`](https://pypi.org/project/ethereum-rlp/) package instead of `ethereum.rlp`, previously available in ethereum/execution-specs ([#1180](https://github.com/ethereum/execution-spec-tests/pull/1180)).
+- 🔀 Update EELS / execution-specs EEST dependency to [99238233](https://github.com/ethereum/execution-specs/commit/9923823367b5586228e590537d47aa9cc4c6a206) for EEST framework libraries and test case generation ([#1181](https://github.com/ethereum/execution-spec-tests/pull/1181)).
+- ✨ Add the `consume cache` command to cache fixtures before running consume commands ([#1044](https://github.com/ethereum/execution-spec-tests/pull/1044)).
+- ✨ The `--input` flag of the consume commands now supports parsing of tagged release names in the format `<RELEASE_NAME>@<RELEASE_VERSION>` ([#1044](https://github.com/ethereum/execution-spec-tests/pull/1044)).
+- 🐞 Fix stdout output when using the `fill` command ([#1188](https://github.com/ethereum/execution-spec-tests/pull/1188)).
+- ✨ Add tests for blockchain intermediate state verification ([#1075](https://github.com/ethereum/execution-spec-tests/pull/1075)).
+- ✨ Add Interactive CLI input functionality ([#947](https://github.com/ethereum/execution-spec-tests/pull/947)).
+- 🔀 Rename `EOFTest.data` to `EOFTest.container` with rebase of `EOFStateTest` ([#1145](https://github.com/ethereum/execution-spec-tests/pull/1145)).
+- ✨ Turn on `--traces` for EELS + `ethereum-specs-evm-resolver` ([#1174](https://github.com/ethereum/execution-spec-tests/pull/1174)).
 
 ### 📋 Misc
 
@@ -92,20 +229,113 @@ Release tarball changes:
 - ✨ Releases for feature eip7692 now include both Cancun and Prague based tests in the same release, in files `fixtures_eip7692.tar.gz` and `fixtures_eip7692-prague.tar.gz` respectively ([#743](https://github.com/ethereum/execution-spec-tests/pull/743)).
 ✨ Re-write the test case reference doc flow as a pytest plugin and add pages for test functions with a table providing an overview of their parametrized test cases ([#801](https://github.com/ethereum/execution-spec-tests/pull/801), [#842](https://github.com/ethereum/execution-spec-tests/pull/842)).
 - 🔀 Simplify Python project configuration and consolidate it into `pyproject.toml` ([#764](https://github.com/ethereum/execution-spec-tests/pull/764)).
+- ✨ Add dev docs to help using nectos/act ([#776](https://github.com/ethereum/execution-spec-tests/pull/776)).
+- 🔀 Update `uv.lock` for updated solc deps ([#782](https://github.com/ethereum/execution-spec-tests/pull/782)).
+- ✨ Enable coverage on any test change ([#790](https://github.com/ethereum/execution-spec-tests/pull/790)).
 - 🔀 Created `pytest_plugins.concurrency` plugin to sync multiple `xdist` processes without using a command flag to specify the temporary working folder ([#824](https://github.com/ethereum/execution-spec-tests/pull/824))
 - 🔀 Move pytest plugin `pytest_plugins.filler.solc` to `pytest_plugins.solc.solc` ([#823](https://github.com/ethereum/execution-spec-tests/pull/823)).
+- 🔀 Remove `formats.py`, embed properties as class vars ([#826](https://github.com/ethereum/execution-spec-tests/pull/826)).
+- ✨ Add `build-evm-base` to docs deploy workflows ([#829](https://github.com/ethereum/execution-spec-tests/pull/829)).
+- 🔀 Add links to the online test case docs in the EOF tracker ([#838](https://github.com/ethereum/execution-spec-tests/pull/838)).
+- 🔀 Fix miscellaneous improvements to troubleshooting, navigation, styling ([#840](https://github.com/ethereum/execution-spec-tests/pull/840)).
+- ✨ Include all parameters in test parameter datatables ([#842](https://github.com/ethereum/execution-spec-tests/pull/842)).
+- ✨ Add info about ripemd160 & update running actions locally ([#847](https://github.com/ethereum/execution-spec-tests/pull/847)).
+- ✨ Add `SECURITY.md` describing how to report vulnerabilities ([#848](https://github.com/ethereum/execution-spec-tests/pull/848)).
+- 🔀 Change image from ubuntu-24.04 to ubuntu-latest in CI ([#855](https://github.com/ethereum/execution-spec-tests/pull/855)).
 - 🐞 Asserts that the deploy docs tags workflow is only triggered for full releases ([#857](https://github.com/ethereum/execution-spec-tests/pull/857)).
+- 🐞 Fix deploy docs tags workflow trigger ([#858](https://github.com/ethereum/execution-spec-tests/pull/858)).
 - ✨ A new application-wide configuration manager provides access to environment and application configurations. ([#892](https://github.com/ethereum/execution-spec-tests/pull/892)).
+- 🔀 Update the developer docs navigation ([#898](https://github.com/ethereum/execution-spec-tests/pull/898)).
+- 🔀 Use jinja2 templating in `gentest` ([#900](https://github.com/ethereum/execution-spec-tests/pull/900)).
+- ✨ Fix/add test github actions locally page ([#909](https://github.com/ethereum/execution-spec-tests/pull/909)).
+- 🐞 Fix print fill output in coverage workflow on errors ([#919](https://github.com/ethereum/execution-spec-tests/pull/919)).
 - 🐞 Use a local version of ethereum/execution-specs (EELS) when running the framework tests in CI ([#997](https://github.com/ethereum/execution-spec-tests/pull/997)).
 - ✨ Use self-hosted runners for fixture building in CI ([#1051](https://github.com/ethereum/execution-spec-tests/pull/1051)).
 - ✨ Release tarballs now contain fixtures filled for all forks, not only the fork under active development and the fork currently deployed on mainnet ([#1053](https://github.com/ethereum/execution-spec-tests/pull/1053)).
 - ✨ `StateTest` fixture format now contains `state` field in each network post result, containing the decoded post allocation that results from the transaction execution ([#1064](https://github.com/ethereum/execution-spec-tests/pull/1064)).
+- ✨ Include EELS fork resolution information in filled json test fixtures ([#1123](https://github.com/ethereum/execution-spec-tests/pull/1123)).
+- 🔀 Updates ruff from version 0.8.2 to 0.9.4 ([#1168](https://github.com/ethereum/execution-spec-tests/pull/1168)).
+- 🔀 Update `uv.lock` to be compatible with `uv>=0.5.22` ([#1178](https://github.com/ethereum/execution-spec-tests/pull/1178)).
+- 🔀 Update `mypy` from version `0.991` to `1.15` ([#1209](https://github.com/ethereum/execution-spec-tests/pull/1209)).
 
-### 💥 Breaking Change
+### 🧪 Test Cases
 
-- The EOF fixture format contained in `eof_tests` may now contain multiple exceptions in the `"exception"` field in the form of a pipe (`|`) separated string ([#759](https://github.com/ethereum/execution-spec-tests/pull/759)).
-- Remove redundant tests within stable and develop fixture releases, moving them to a separate legacy release ([#788](https://github.com/ethereum/execution-spec-tests/pull/788)).
-- Ruff now replaces Flake8, Isort and Black resulting in significant changes to the entire code base including its usage ([#922](https://github.com/ethereum/execution-spec-tests/pull/922)).
+- ✨ Migrate validation tests `EIP3540/validInvalidFiller.yml` ([#598](https://github.com/ethereum/execution-spec-tests/pull/598)).
+- ✨ EIP-4844 test `tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py` includes an EOF test case ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
+- ✨ Example test `tests/frontier/opcodes/test_dup.py` now includes EOF parametrization ([#610](https://github.com/ethereum/execution-spec-tests/pull/610)).
+- ✨ Add EOFv1 function test - Call simple contract test ([#695](https://github.com/ethereum/execution-spec-tests/pull/695)).
+- ✨ Add section size validation tests ([#705](https://github.com/ethereum/execution-spec-tests/pull/705)).
+- ✨ Add deep and wide EOF subcontainers tests ([#718](https://github.com/ethereum/execution-spec-tests/pull/718)).
+- ✨ Update [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) tests for Devnet-3 ([#733](https://github.com/ethereum/execution-spec-tests/pull/733))
+- ✨ Migrate "valid" EOFCREATE validation ([#738](https://github.com/ethereum/execution-spec-tests/pull/738)).
+- ✨ Migrate tests for truncated sections ([#740](https://github.com/ethereum/execution-spec-tests/pull/740)).
+- ✨ Add out of order container section test ([#741](https://github.com/ethereum/execution-spec-tests/pull/741)).
+- ✨ Convert all opcodes validation test `tests/frontier/opcodes/test_all_opcodes.py` ([#748](https://github.com/ethereum/execution-spec-tests/pull/748)).
+- 🔀 Add Test types with 128 inputs ([#749](https://github.com/ethereum/execution-spec-tests/pull/749)).
+- 🔀 Use new marker to EOF-ize MCOPY test ([#754](https://github.com/ethereum/execution-spec-tests/pull/754)).
+- ✨ Add EOF Tests from Fuzzing ([#756](https://github.com/ethereum/execution-spec-tests/pull/756)).
+- ✨ Add embedded container tests ([#763](https://github.com/ethereum/execution-spec-tests/pull/763)).
+- ✨ Validate EOF only opcodes are invalid in legacy ([#768](https://github.com/ethereum/execution-spec-tests/pull/768)).
+- ✨ Update EOF tracker, add unimplemented tests ([#773](https://github.com/ethereum/execution-spec-tests/pull/773)).
+- ✨ Add EIP-7620 EOFCREATE gas tests ([#785](https://github.com/ethereum/execution-spec-tests/pull/785)).
+- ✨ Add more fuzzing discovered EOF tests ([#789](https://github.com/ethereum/execution-spec-tests/pull/789)).
+- ✨ Add EOF tests for invalid non-returning sections ([#794](https://github.com/ethereum/execution-spec-tests/pull/794)).
+- ✨ Test to ensure transient storage is cleared after transactions ([#798](https://github.com/ethereum/execution-spec-tests/pull/798)).
+- ✨ Test that transient storage stays at correct address ([#799](https://github.com/ethereum/execution-spec-tests/pull/799)).
+- ✨ Add EOFCREATE referencing the same subcontainer twice test ([#809](https://github.com/ethereum/execution-spec-tests/pull/809)).
+- ✨ Add dangling data in subcontainer test ([#812](https://github.com/ethereum/execution-spec-tests/pull/812)).
+- 🐞 Fix [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702)+EOF tests due to incorrect test expectations and faulty `Conditional` test generator in EOF mode ([#821](https://github.com/ethereum/execution-spec-tests/pull/821))
+- 🐞 Fix TSTORE EOF variant test ([#831](https://github.com/ethereum/execution-spec-tests/pull/831)).
+- 🔀 Unify EOF return code constants ([#834](https://github.com/ethereum/execution-spec-tests/pull/834)).
+- ✨ Add RJUMP* vs CALLF tests ([#833](https://github.com/ethereum/execution-spec-tests/pull/833)).
+- ✨ Add tests to clarify "non-returning instruction" ([#837](https://github.com/ethereum/execution-spec-tests/pull/837)).
+- ✨ Add double RJUMPI stack validation tests ([#851](https://github.com/ethereum/execution-spec-tests/pull/851)).
+- ✨ Add unreachable code sections tests ([#856](https://github.com/ethereum/execution-spec-tests/pull/856)).
+- 💥 `PragueEIP7692` fork in tests has been updated to `Osaka` ([#869](https://github.com/ethereum/execution-spec-tests/pull/869))
+- ✨ Update [EIP-6110](https://eips.ethereum.org/EIPS/eip-6110), [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251), [EIP-7685](https://eips.ethereum.org/EIPS/eip-7685), and [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) tests for Devnet-4 ([#832](https://github.com/ethereum/execution-spec-tests/pull/832))
+- ✨ Add EIP-7069 and EIP-7620 failures and context vars tests ([#836](https://github.com/ethereum/execution-spec-tests/pull/836)).
+- ✨ Add EOF EIP-4750 Stack validation in CALLF test ([#889](https://github.com/ethereum/execution-spec-tests/pull/889)).
+- ✨ Add stack overflow by rule check to JUMPF tests ([#902](https://github.com/ethereum/execution-spec-tests/pull/902)).
+- 🐞 Fix erroneous test with`CALLF` rule bug ([#907](https://github.com/ethereum/execution-spec-tests/pull/907)).
+- ✨ Add test for EXTDELEGATECALL value cost ([#911](https://github.com/ethereum/execution-spec-tests/pull/911)).
+- ✨ Add basic EOF execution tests ([#912](https://github.com/ethereum/execution-spec-tests/pull/912)).
+- ✨ Add parametrized CALLF execution tests ([#913](https://github.com/ethereum/execution-spec-tests/pull/913)).
+- ✨ Add CALLF execution tests ([#914](https://github.com/ethereum/execution-spec-tests/pull/914)).
+- ✨ Add fibonacci and factorial CALLF tests ([#915](https://github.com/ethereum/execution-spec-tests/pull/915)).
+- ✨ Add RJUMP* execution tests ([#916](https://github.com/ethereum/execution-spec-tests/pull/916)).
+- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) many delegations test ([#923](https://github.com/ethereum/execution-spec-tests/pull/923))
+- ✨ Add opcode validation tests ([#932](https://github.com/ethereum/execution-spec-tests/pull/932)).
+- ✨ Add RJUMPI with JUMPF tests ([#928](https://github.com/ethereum/execution-spec-tests/pull/928)).
+- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) set code of non-empty-storage account test ([#948](https://github.com/ethereum/execution-spec-tests/pull/948))
+- ✨ Add PUSH* opcode tests ([#975](https://github.com/ethereum/execution-spec-tests/pull/975)).
+- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) implement 7702 test ideas ([#981](https://github.com/ethereum/execution-spec-tests/pull/981))
+- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) Remove delegation behavior of EXTCODE* ([#984](https://github.com/ethereum/execution-spec-tests/pull/984))
+- ✨ Add EIP-7620 RETURNCONTRACT behavior verification test ([#1109](https://github.com/ethereum/execution-spec-tests/pull/1109)).
+- ✨ Add EIP-7069 p256verify EOF calls tests ([#1021](https://github.com/ethereum/execution-spec-tests/pull/1021)).
+- ✨ Add EIP-7480 DATACOPY edge cases tests ([#1020](https://github.com/ethereum/execution-spec-tests/pull/1020)).
+- ✨ Add EIP-7069 EXTCALL creation gas charge tests ([#1025](https://github.com/ethereum/execution-spec-tests/pull/1025)).
+- ✨ Add generic precompile-absence test ([#1036](https://github.com/ethereum/execution-spec-tests/pull/1036))
+- ✨ Add test for [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537) which uses the full discount table of G2 MSM ([#1038](https://github.com/ethereum/execution-spec-tests/pull/1038))
+- ✨ [EIP-7691](https://eips.ethereum.org/EIPS/eip-7691) Blob throughput increase tests by parametrization of existing EIP-4844 tests ([#1023](https://github.com/ethereum/execution-spec-tests/pull/1023), [#1082](https://github.com/ethereum/execution-spec-tests/pull/1082))
+- ✨ Port [calldatacopy test](https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml) ([#1056](https://github.com/ethereum/execution-spec-tests/pull/1056)).
+- ✨ [EIP-7623](https://eips.ethereum.org/EIPS/eip-7623) Increase calldata cost ([#1004](https://github.com/ethereum/execution-spec-tests/pull/1004), [#1071](https://github.com/ethereum/execution-spec-tests/pull/1071))
+- ✨ Add CALLF invalid section index tests ([#1111](https://github.com/ethereum/execution-spec-tests/pull/1111)).
+- ✨ Add JUMPF invalid section index tests ([#1112](https://github.com/ethereum/execution-spec-tests/pull/1112)).
+- ✨ Add CALLF truncated immediate bytes tests ([#1114](https://github.com/ethereum/execution-spec-tests/pull/1114)).
+- ✨ [EIP-152](https://eips.ethereum.org/EIPS/eip-152) Add tests for Blake2 compression function `F` precompile ([#1067](https://github.com/ethereum/execution-spec-tests/pull/1067))
+- ✨ Add CALLF non-returning section tests ([#1126](https://github.com/ethereum/execution-spec-tests/pull/1126)).
+- ✨ Add DATALOADN truncated immediate bytes tests ([#1127](https://github.com/ethereum/execution-spec-tests/pull/1127)).
+- 🔀 Update EIP-7702 test expectations according to [spec updates](https://github.com/ethereum/EIPs/pull/9248) ([#1129](https://github.com/ethereum/execution-spec-tests/pull/1129))
+- ✨ Add tests for CALLF and non-returning ([#1140](https://github.com/ethereum/execution-spec-tests/pull/1140)).
+- 🔀 Update EIP-7251 according to spec updates [#9127](https://github.com/ethereum/EIPs/pull/9127), [#9289](https://github.com/ethereum/EIPs/pull/9289) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024), [#1155](https://github.com/ethereum/execution-spec-tests/pull/1155)).
+- 🔀 Update EIP-7002 according to spec updates [#9119](https://github.com/ethereum/EIPs/pull/9119), [#9288](https://github.com/ethereum/EIPs/pull/9288) ([#1024](https://github.com/ethereum/execution-spec-tests/pull/1024), [#1155](https://github.com/ethereum/execution-spec-tests/pull/1155)).
+- 🔀 Update EIP-2935 according to spec updates [#9144](https://github.com/ethereum/EIPs/pull/9144), [#9287](https://github.com/ethereum/EIPs/pull/9287) ([#1046](https://github.com/ethereum/execution-spec-tests/pull/1046), [#1155](https://github.com/ethereum/execution-spec-tests/pull/1155))
+- ✨ Add DATALOADN validation and execution tests ([#1162](https://github.com/ethereum/execution-spec-tests/pull/1162)).
+- ✨ Add EOF prefix tests ([#1187](https://github.com/ethereum/execution-spec-tests/pull/1187)).
+- ✨ Add tests for EOF code header missing ([#1193](https://github.com/ethereum/execution-spec-tests/pull/1193)).
+- ✨ Add tests for empty EOF type section ([#1194](https://github.com/ethereum/execution-spec-tests/pull/1194)).
+- ✨ Add tests for multiple EOF type sections ([#1195](https://github.com/ethereum/execution-spec-tests/pull/1195)).
+- ✨ Add EIP-7698 legacy EOF creation prevention tests ([#1206](https://github.com/ethereum/execution-spec-tests/pull/1206)).
 
 ## [v3.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2024-07-22
 
@@ -153,13 +383,13 @@ Release tarball changes:
 - ✨ Add "description" and "url" fields containing test case documentation and a source code permalink to fixtures during `fill` and use them in `consume`-generated Hive test reports ([#579](https://github.com/ethereum/execution-spec-tests/pull/579)).
 - ✨ Add git workflow evmone coverage script for any new lines mentioned in converted_ethereum_tests.txt ([#503](https://github.com/ethereum/execution-spec-tests/pull/503)).
 - ✨ Add a new covariant marker `with_all_contract_creating_tx_types` that allows automatic parametrization of a test with all contract-creating transaction types at the current executing fork ([#602](https://github.com/ethereum/execution-spec-tests/pull/602)).
-- ✨ Tests are now encouraged to declare a `pre: Alloc` parameter to get the pre-allocation object for the test, and use `pre.deploy_contract` and `pre.fund_eoa` to deploy contracts and fund accounts respectively, instead of declaring the `pre` as a dictionary or modifying its contents directly (see the [state test tutorial](https://ethereum.github.io/execution-spec-tests/main/tutorials/state_transition/) for an updated example) ([#584](https://github.com/ethereum/execution-spec-tests/pull/584)).
+- ✨ Tests are now encouraged to declare a `pre: Alloc` parameter to get the pre-allocation object for the test, and use `pre.deploy_contract` and `pre.fund_eoa` to deploy contracts and fund accounts respectively, instead of declaring the `pre` as a dictionary or modifying its contents directly (see the [state test tutorial](https://eest.ethereum.org/v4.1.0/writing_tests/tutorials/state_transition/) for an updated example) ([#584](https://github.com/ethereum/execution-spec-tests/pull/584)).
 - ✨ Enable loading of [ethereum/tests/BlockchainTests](https://github.com/ethereum/tests/tree/develop/BlockchainTests) ([#596](https://github.com/ethereum/execution-spec-tests/pull/596)).
 - 🔀 Refactor `gentest` to use `ethereum_test_tools.rpc.rpc` by adding to `get_transaction_by_hash`, `debug_trace_call` to `EthRPC` ([#568](https://github.com/ethereum/execution-spec-tests/pull/568)).
 - ✨ Write a properties file to the output directory and enable direct generation of a fixture tarball from `fill` via `--output=fixtures.tgz`([#627](https://github.com/ethereum/execution-spec-tests/pull/627)).
 - 🔀 `ethereum_test_tools` library has been split into multiple libraries ([#645](https://github.com/ethereum/execution-spec-tests/pull/645)).
-- ✨ Add the consume engine simulator and refactor the consume simulator suite. ([#691](https://github.com/ethereum/execution-spec-tests/pull/691)).
-- 🐞 Prevents forcing consume to use stdin as an input when running from hive. ([#701](https://github.com/ethereum/execution-spec-tests/pull/701)).
+- ✨ Add the consume engine simulator and refactor the consume simulator suite ([#691](https://github.com/ethereum/execution-spec-tests/pull/691)).
+- 🐞 Prevents forcing consume to use stdin as an input when running from hive ([#701](https://github.com/ethereum/execution-spec-tests/pull/701)).
 
 ### 📋 Misc
 
@@ -269,8 +499,8 @@ Due to changes in the framework, there is a breaking change in the directory str
 
 ### 📋 Misc
 
-- ✨ Docs: Add a ["Consuming Tests"](https://ethereum.github.io/execution-spec-tests/main/consuming_tests/) section to the docs, where each test fixture format is described, along with the steps to consume them, and the description of the structures used in each format ([#375](https://github.com/ethereum/execution-spec-tests/pull/375)).
-- 🔀 Docs: Update `t8n` tool branch to fill tests for development features in the [readme](https://github.com/ethereum/execution-spec-test) ([#338](https://github.com/ethereum/execution-spec-tests/pull/338)).
+- ✨ Docs: Add a ["Consuming Tests"](https://eest.ethereum.org/main/consuming_tests/) section to the docs, where each test fixture format is described, along with the steps to consume them, and the description of the structures used in each format ([#375](https://github.com/ethereum/execution-spec-tests/pull/375)).
+- 🔀 Docs: Update `t8n` tool branch to fill tests for development features in the [readme](https://github.com/ethereum/execution-spec-tests) ([#338](https://github.com/ethereum/execution-spec-tests/pull/338)).
 - 🔀 Filling tool: Updated the default filling tool (`t8n`) to go-ethereum@master ([#368](https://github.com/ethereum/execution-spec-tests/pull/368)).
 - 🐞 Docs: Fix error banner in online docs due to mermaid syntax error ([#398](https://github.com/ethereum/execution-spec-tests/pull/398)).
 - 🐞 Docs: Fix incorrectly formatted nested lists in online doc ([#403](https://github.com/ethereum/execution-spec-tests/pull/403)).
@@ -360,7 +590,7 @@ The fixture renaming provides a more consistent naming scheme between the pytest
 - ✨ Tooling: Add Python 3.12 support ([#309](https://github.com/ethereum/execution-spec-tests/pull/309)).
 - ✨ Process: Added a Github pull request template ([#308](https://github.com/ethereum/execution-spec-tests/pull/308)).
 - ✨ Docs: Changelog updated post release ([#321](https://github.com/ethereum/execution-spec-tests/pull/321)).
-- ✨ Docs: Add [a section explaining execution-spec-tests release artifacts](https://ethereum.github.io/execution-spec-tests/main/getting_started/using_fixtures/) ([#334](https://github.com/ethereum/execution-spec-tests/pull/334)).
+- ✨ Docs: Add [a section explaining execution-spec-tests release artifacts](https://eest.ethereum.org/v4.1.0/consuming_tests/) ([#334](https://github.com/ethereum/execution-spec-tests/pull/334)).
 - 🔀 T8N Tool: Branch used to generate the tests for Cancun is now [lightclient/go-ethereum@devnet-10](https://github.com/lightclient/go-ethereum/tree/devnet-10) ([#336](https://github.com/ethereum/execution-spec-tests/pull/336))
 
 ### 💥 Breaking Change

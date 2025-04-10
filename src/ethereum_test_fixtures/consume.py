@@ -1,19 +1,42 @@
 """Defines models for index files and consume test cases."""
 
 import datetime
-import json
+from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Annotated, List, TextIO
+from typing import List, Optional, TextIO
 
-from pydantic import BaseModel, PlainSerializer, PlainValidator, RootModel
+from pydantic import BaseModel, RootModel
 
 from ethereum_test_base_types import HexNumber
-from ethereum_test_fixtures import FIXTURE_FORMATS, FixtureFormat
 
-from .blockchain import EngineFixture as BlockchainEngineFixture
-from .blockchain import Fixture as BlockchainFixture
+from .base import BaseFixture, FixtureFormat
 from .file import Fixtures
-from .state import Fixture as StateFixture
+
+
+class FixtureConsumer(ABC):
+    """Abstract class for verifying Ethereum test fixtures."""
+
+    fixture_formats: List[FixtureFormat]
+
+    def can_consume(
+        self,
+        fixture_format: FixtureFormat,
+    ) -> bool:
+        """Return whether the fixture format is consumable by this consumer."""
+        return fixture_format in self.fixture_formats
+
+    @abstractmethod
+    def consume_fixture(
+        self,
+        fixture_format: FixtureFormat,
+        fixture_path: Path,
+        fixture_name: str | None = None,
+        debug_output_path: Path | None = None,
+    ):
+        """Test the client with the specified fixture using its direct consumer interface."""
+        raise NotImplementedError(
+            "The `consume_fixture()` function is not supported by this tool."
+        )
 
 
 class TestCaseBase(BaseModel):
@@ -22,18 +45,14 @@ class TestCaseBase(BaseModel):
     id: str
     fixture_hash: HexNumber | None
     fork: str | None
-    format: Annotated[
-        FixtureFormat,
-        PlainSerializer(lambda f: f.fixture_format_name),
-        PlainValidator(lambda f: FIXTURE_FORMATS[f] if f in FIXTURE_FORMATS else f),
-    ]
+    format: FixtureFormat
     __test__ = False  # stop pytest from collecting this class as a test
 
 
 class TestCaseStream(TestCaseBase):
     """The test case model used to load test cases from a stream (stdin)."""
 
-    fixture: StateFixture | BlockchainFixture
+    fixture: BaseFixture
     __test__ = False  # stop pytest from collecting this class as a test
 
 
@@ -61,6 +80,8 @@ class IndexFile(BaseModel):
     root_hash: HexNumber | None
     created_at: datetime.datetime
     test_count: int
+    forks: Optional[List[str]] = []
+    fixture_formats: Optional[List[str]] = []
     test_cases: List[TestCaseIndexFile]
 
 
@@ -117,25 +138,21 @@ class TestCases(RootModel):
     @classmethod
     def from_stream(cls, fd: TextIO) -> "TestCases":
         """Create a TestCases object from a stream."""
-        fixtures = Fixtures.from_json_data(json.load(fd))
-        test_cases = []
-        for fixture_name, fixture in fixtures.items():
-            if fixture == BlockchainEngineFixture:
-                print("Skipping engine fixture", fixture_name)
-            test_cases.append(
-                TestCaseStream(
-                    id=fixture_name,
-                    fixture_hash=fixture.hash,
-                    fork=fixture.get_fork(),
-                    format=fixture.__class__,
-                    fixture=fixture,
-                )
+        fixtures: Fixtures = Fixtures.model_validate_json(fd.read())
+        test_cases = [
+            TestCaseStream(
+                id=fixture_name,
+                fixture_hash=fixture.hash,
+                fork=fixture.get_fork(),
+                format=fixture.__class__,
+                fixture=fixture,
             )
+            for fixture_name, fixture in fixtures.items()
+        ]
         return cls(root=test_cases)
 
     @classmethod
     def from_index_file(cls, index_file: Path) -> "TestCases":
         """Create a TestCases object from an index file."""
-        with open(index_file, "r") as fd:
-            index: IndexFile = IndexFile.model_validate_json(fd.read())
+        index: IndexFile = IndexFile.model_validate_json(index_file.read_text())
         return cls(root=index.test_cases)

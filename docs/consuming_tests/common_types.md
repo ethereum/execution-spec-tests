@@ -82,6 +82,26 @@ Storage of the account.
 
 State allocation represented as a JSON object, where the keys are the addresses of the accounts, and the values are the accounts.
 
+### `BlobSchedule`: [`Mapping`](#mapping)`[`[`Fork`](#fork)`,`[`ForkBlobSchedule`](#forkblobschedule)`]`
+
+Maps forks to blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
+
+### `ForkBlobSchedule`
+
+A fork blob schedule as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840) as a JSON dictionary with the following entries:
+
+#### - `target`: [`ZeroPaddedHexNumber`](#zeropaddedhexnumber)
+
+The target blob count for a block.
+
+#### - `max`: [`ZeroPaddedHexNumber`](#zeropaddedhexnumber)
+
+The maximum possible blob count for a block.
+
+#### - `base_fee_update_fraction`: [`ZeroPaddedHexNumber`](#zeropaddedhexnumber)
+
+The blob base fee update fraction (adjusts the responsiveness of blob gas pricing per fork).
+
 ## Fork
 
 Fork type is represented as a JSON string that can be set to one of the following values:

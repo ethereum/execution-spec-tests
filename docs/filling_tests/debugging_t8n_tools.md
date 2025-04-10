@@ -90,7 +90,7 @@ which writes the response the from the `t8n-server` to the console output:
 }
 ```
 
-The `t8n.sh` is written to the debug directory for all [supported t8n tools](../index.md#transition-tool-support).
+The `t8n.sh` is written to the debug directory for all [supported t8n tools](./transition_tool_support.md).
 
 ## Verifying Test Fixtures via `evm blocktest`
 

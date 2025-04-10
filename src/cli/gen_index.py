@@ -18,21 +18,10 @@ from rich.progress import (
 )
 
 from ethereum_test_base_types import HexNumber
-from ethereum_test_fixtures import FIXTURE_FORMATS, BlockchainFixture, FixtureFormat
 from ethereum_test_fixtures.consume import IndexFile, TestCaseIndexFile
 from ethereum_test_fixtures.file import Fixtures
 
 from .hasher import HashableItem
-
-# TODO: remove when these tests are ported or fixed within ethereum/tests.
-fixtures_to_skip = {
-    # These fixtures have invalid fields that we can't load into our pydantic models (bigint).
-    "BlockchainTests/GeneralStateTests/stTransactionTest/ValueOverflowParis.json",
-    "BlockchainTests/InvalidBlocks/bc4895-withdrawals/withdrawalsAmountBounds.json",
-    "BlockchainTests/InvalidBlocks/bc4895-withdrawals/withdrawalsIndexBounds.json",
-    "BlockchainTests/InvalidBlocks/bc4895-withdrawals/withdrawalsValidatorIndexBounds.json",
-    "BlockchainTests/InvalidBlocks/bc4895-withdrawals/withdrawalsAddressBounds.json",
-}
 
 
 def count_json_files_exclude_index(start_path: Path) -> int:
@@ -42,16 +31,6 @@ def count_json_files_exclude_index(start_path: Path) -> int:
     """
     json_file_count = sum(1 for file in start_path.rglob("*.json") if file.name != "index.json")
     return json_file_count
-
-
-def infer_fixture_format_from_path(file: Path) -> FixtureFormat | None:
-    """Attempt to infer the fixture format from the file path."""
-    for fixture_type in FIXTURE_FORMATS.values():
-        if fixture_type.output_base_dir_name() in file.parts:
-            return fixture_type
-    if "BlockchainTests" in file.parts:  # ethereum/tests
-        return BlockchainFixture
-    return None
 
 
 @click.command(
@@ -161,35 +140,36 @@ def generate_fixtures_index(
         disable=quiet_mode,
     ) as progress:  # type: Progress
         task_id = progress.add_task("[cyan]Processing files...", total=total_files, filename="...")
-
+        forks = set()
+        fixture_formats = set()
         test_cases: List[TestCaseIndexFile] = []
         for file in input_path.rglob("*.json"):
             if file.name == "index.json" or ".meta" in file.parts:
                 continue
-            if any(fixture in str(file) for fixture in fixtures_to_skip):
-                rich.print(f"Skipping '{file}'")
-                continue
 
             try:
-                fixture_format = None
-                if not disable_infer_format:
-                    fixture_format = infer_fixture_format_from_path(file)
-                fixtures = Fixtures.from_file(file, fixture_format=fixture_format)
+                fixtures: Fixtures = Fixtures.model_validate_json(file.read_text())
             except Exception as e:
                 rich.print(f"[red]Error loading fixtures from {file}[/red]")
                 raise e
 
             relative_file_path = Path(file).absolute().relative_to(Path(input_path).absolute())
             for fixture_name, fixture in fixtures.items():
+                fixture_fork = fixture.get_fork()
                 test_cases.append(
                     TestCaseIndexFile(
                         id=fixture_name,
                         json_path=relative_file_path,
-                        fixture_hash=fixture.info.get("hash", None),
-                        fork=fixture.get_fork(),
+                        # eest uses hash; ethereum/tests uses generatedTestHash
+                        fixture_hash=fixture.info.get("hash")
+                        or f"0x{fixture.info.get('generatedTestHash')}",
+                        fork=fixture_fork,
                         format=fixture.__class__,
                     )
                 )
+                if fixture_fork:
+                    forks.add(fixture_fork)
+                fixture_formats.add(fixture.format_name)
 
             display_filename = file.name
             if len(display_filename) > filename_display_width:
@@ -210,6 +190,8 @@ def generate_fixtures_index(
         root_hash=root_hash,
         created_at=datetime.datetime.now(),
         test_count=len(test_cases),
+        forks=list(forks),
+        fixture_formats=list(fixture_formats),
     )
 
     with open(output_file, "w") as f:

@@ -1,7 +1,7 @@
 """Exceptions for invalid execution."""
 
 from enum import Enum, auto, unique
-from typing import Annotated, Any, Dict, List
+from typing import Annotated, Any, Dict, List, TypeVar
 
 from pydantic import BeforeValidator, GetCoreSchemaHandler, PlainSerializer
 from pydantic_core.core_schema import (
@@ -45,9 +45,9 @@ class ExceptionBase(Enum):
             exception_class = _exception_classes[class_name]
         else:
             # Otherwise, use the class that the method is called on
-            assert (
-                cls.__name__ == class_name
-            ), f"Unexpected exception type: {class_name}, expected {cls.__name__}"
+            assert cls.__name__ == class_name, (
+                f"Unexpected exception type: {class_name}, expected {cls.__name__}"
+            )
             exception_class = cls
 
         exception = getattr(exception_class, enum_name, None)
@@ -86,14 +86,27 @@ def from_pipe_str(value: Any) -> str | List[str]:
     return value
 
 
-@unique
-class UndefinedException(ExceptionBase):
-    """Default Exception."""
+class UndefinedException(str):
+    """Undefined Exception."""
 
-    UNDEFINED_EXCEPTION = auto()
-    """
-    Exception to alert to define a proper exception
-    """
+    mapper_name: str | None
+
+    def __new__(cls, value: str, *, mapper_name: str | None = None) -> "UndefinedException":
+        """Create a new UndefinedException instance."""
+        assert isinstance(value, str)
+        instance = super().__new__(cls, value)
+        instance.mapper_name = mapper_name
+        return instance
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """Call class constructor without info and appends the serialization schema."""
+        return no_info_plain_validator_function(
+            cls,
+            serialization=to_string_ser_schema(),
+        )
 
 
 @unique
@@ -689,6 +702,10 @@ class EOFException(ExceptionBase):
     """
     EOF container's code produces an stack underflow.
     """
+    STACK_OVERFLOW = auto()
+    """
+    EOF container's code produces an stack overflow.
+    """
     STACK_HEIGHT_MISMATCH = auto()
     """
     EOF container section stack height mismatch.
@@ -738,6 +755,10 @@ class EOFException(ExceptionBase):
     """
     Incompatible instruction found in a container of a specific kind.
     """
+    AMBIGUOUS_CONTAINER_KIND = auto()
+    """
+    The kind of a sub-container cannot be uniquely deduced.
+    """
     TOO_MANY_CONTAINERS = auto()
     """
     EOF container header has too many sub-containers.
@@ -749,6 +770,14 @@ class EOFException(ExceptionBase):
     UNEXPECTED_HEADER_KIND = auto()
     """
     Header parsing encounterd a section kind it wasn't expecting
+    """
+    CALLF_TO_NON_RETURNING = auto()
+    """
+    CALLF instruction targeting a non-returning code section
+    """
+    EOFCREATE_WITH_TRUNCATED_CONTAINER = auto()
+    """
+    EOFCREATE with truncated container
     """
 
 
@@ -779,3 +808,7 @@ EOFExceptionInstanceOrList = Annotated[
     BeforeValidator(from_pipe_str),
     PlainSerializer(to_pipe_str),
 ]
+
+ExceptionBoundTypeVar = TypeVar(
+    "ExceptionBoundTypeVar", TransactionException, BlockException, EOFException
+)

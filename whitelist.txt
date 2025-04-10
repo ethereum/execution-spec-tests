@@ -32,7 +32,6 @@ basefee
 basename
 bb
 besu
-bidict
 pyspecs
 big0
 big1
@@ -186,7 +185,6 @@ formatter
 fp
 fp2
 fromhex
-frozenbidict
 func
 g1
 g1add
@@ -211,6 +209,7 @@ GHSA
 git's
 github
 Github
+Github's
 glightbox
 globals
 go-ethereum's
@@ -257,6 +256,7 @@ intermidiate
 javascripts
 jimporter
 joinpath
+jpg
 jq
 js
 json
@@ -300,6 +300,7 @@ nav
 ncheck
 nektos
 nethermind
+Nethermind's
 nexternal
 nGo
 nJSON
@@ -333,6 +334,7 @@ perf
 permalink
 petersburg
 pformat
+platformdirs
 pluginmanager
 png
 Pomerantz
@@ -371,6 +373,7 @@ reentrant
 repo
 repo's
 repos
+returncode
 returncontract
 returndata
 returndatacopy
@@ -394,6 +397,7 @@ sha
 SHA
 sharding
 SignerType
+simlimit
 solc
 soliditylang
 Spec4844
@@ -409,6 +413,7 @@ StateTestFiller
 StateTests
 staticcalled
 stdin
+stdout
 stExample
 str
 streetsidesoftware
@@ -449,6 +454,8 @@ trie
 triggerable
 tstorage
 tx
+tx1
+tx2
 txs
 txt
 ty
@@ -471,6 +478,10 @@ v3
 v4
 validator
 validators
+ValidAt
+ValidAtTransitionTo
+ValidFrom
+ValidUntil
 venv
 visualstudio
 vm
@@ -482,6 +493,7 @@ wds
 wei
 wikipedia
 wordlist
+workspaces
 www
 xdist
 xF
@@ -531,6 +543,8 @@ makereport
 metafunc
 modifyitems
 monkeypatching
+neth
+nethtest
 nodeid
 noop
 oog
@@ -576,6 +590,7 @@ tryfirst
 trylast
 usefixtures
 verifier
+verifiers
 writelines
 xfail
 ZeroPaddedHexNumber
@@ -741,6 +756,7 @@ callcode
 return
 delegatecall
 eofcreate
+eoftest
 extcall
 extcalls
 extdelegatecall
@@ -825,3 +841,35 @@ EB
 EF
 F6
 FC
+ef01
+uv
+EthereumCLI
+TransitionTool
+rebase
+deps
+datatables
+jinja
+templating
+EOFv
+subcontainers
+ize
+nectos
+fibonacci
+CPython
+legacytests
+pycryptodome
+pytest_sessionfinish
+levelname
+pytest_runtest_logstart
+pytest_runtest_logreport
+pytest_runtest_logfinish
+eestloglevel
+caplog
+workerinput
+dockerenv
+stderr
+EESTLogger
+Formatters
+UI
+asctime
+petertdavies

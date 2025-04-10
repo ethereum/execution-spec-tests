@@ -1,0 +1,12 @@
+{
+  "include":[
+    "src",
+    "tests",
+    "docs",
+  ],
+  "exclude": [
+    "logs",
+    "fixtures",
+  ],
+  "typeCheckingMode": "off",
+}

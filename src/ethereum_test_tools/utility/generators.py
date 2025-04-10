@@ -7,7 +7,7 @@ from typing import Dict, Generator, List, Protocol
 
 import pytest
 
-from ethereum_test_base_types import Account, Address
+from ethereum_test_base_types import Account, Address, Hash
 from ethereum_test_forks import Fork
 from ethereum_test_specs import BlockchainTestFiller
 from ethereum_test_specs.blockchain import Block
@@ -19,6 +19,13 @@ class DeploymentTestType(Enum):
 
     DEPLOY_BEFORE_FORK = "deploy_before_fork"
     DEPLOY_AFTER_FORK = "deploy_after_fork"
+
+
+class ContractAddressHasBalance(Enum):
+    """Represents whether the target deployment test has a balance before deployment."""
+
+    ZERO_BALANCE = "zero_balance"
+    NONZERO_BALANCE = "nonzero_balance"
 
 
 class SystemContractDeployTestFunction(Protocol):
@@ -61,9 +68,17 @@ def generate_system_contract_deploy_test(
     """
     Generate a test that verifies the correct deployment of a system contract.
 
-    Generates two tests:
-    - One that deploys the contract before the fork.
-    - One that deploys the contract after the fork.
+    Generates four test cases:
+
+                                        | before/after fork | has balance |
+    ------------------------------------|-------------------|-------------|
+    `deploy_before_fork-nonzero_balance`| before            | True        |
+    `deploy_before_fork-zero_balance`   | before            | False       |
+    `deploy_after_fork-nonzero_balance` | after             | True        |
+    `deploy_after_fork-zero_balance`    | after             | False       |
+
+    where `has balance` refers to whether the contract address has a non-zero balance before
+    deployment, or not.
 
     Args:
         fork (Fork): The fork to test.
@@ -87,8 +102,20 @@ def generate_system_contract_deploy_test(
     assert gas_price is not None
     deployer_required_balance = deploy_tx.gas_limit * gas_price
     deployer_address = deploy_tx.sender
+    if "hash" in tx_json:
+        assert deploy_tx.hash == Hash(tx_json["hash"])
+    if "sender" in tx_json:
+        assert deploy_tx.sender == Address(tx_json["sender"])
 
     def decorator(func: SystemContractDeployTestFunction):
+        @pytest.mark.parametrize(
+            "has_balance",
+            [
+                pytest.param(ContractAddressHasBalance.NONZERO_BALANCE),
+                pytest.param(ContractAddressHasBalance.ZERO_BALANCE),
+            ],
+            ids=lambda x: x.name.lower(),
+        )
         @pytest.mark.parametrize(
             "test_type",
             [
@@ -101,6 +128,7 @@ def generate_system_contract_deploy_test(
         @pytest.mark.valid_at_transition_to(fork.name())
         def wrapper(
             blockchain_test: BlockchainTestFiller,
+            has_balance: ContractAddressHasBalance,
             pre: Alloc,
             test_type: DeploymentTestType,
             fork: Fork,
@@ -131,11 +159,11 @@ def generate_system_contract_deploy_test(
                         timestamp=15_001,
                     ),
                 ]
-
+            balance = 1 if has_balance == ContractAddressHasBalance.NONZERO_BALANCE else 0
             pre[expected_deploy_address] = Account(
                 code=b"",  # Remove the code that is automatically allocated on the fork
                 nonce=0,
-                balance=0,
+                balance=balance,
             )
             pre[deployer_address] = Account(
                 balance=deployer_required_balance,
@@ -147,6 +175,7 @@ def generate_system_contract_deploy_test(
             fork_pre_allocation = fork.pre_allocation_blockchain()
             assert expected_deploy_address_int in fork_pre_allocation
             expected_code = fork_pre_allocation[expected_deploy_address_int]["code"]
+            # Note: balance check is omitted; it may be modified by the underlying, decorated test
             if expected_system_contract_storage is None:
                 post[expected_deploy_address] = Account(
                     code=expected_code,

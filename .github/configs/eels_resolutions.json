@@ -28,5 +28,9 @@
     },
     "Cancun": {
         "path": "../../execution-specs/src/ethereum/cancun"
+    },
+    "Prague": {
+        "git_url": "https://github.com/ethereum/execution-specs.git",
+        "branch": "devnets/prague/6"
     }
 }

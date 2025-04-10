@@ -3,15 +3,15 @@ stable:
   repo: null
   ref: null
 develop:
-  impl: geth
-  repo: lightclient/go-ethereum
-  ref: prague-devnet-1
+  impl: eels
+  repo: null
+  ref: null
 eip7692:
   impl: evmone
   repo: ethereum/evmone
   ref: master
   targets: ["evmone-t8n", "evmone-eofparse"]
-pectra-devnet-5:
+pectra-devnet-6:
   impl: eels
   repo: null
   ref: null  

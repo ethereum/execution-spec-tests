@@ -28,8 +28,8 @@ For each [`Fixture`](#fixture) test object in the JSON fixture file, perform the
 
     1. Determine whether the current block is valid or invalid:
 
-        1. If the [`expectException`](#expectexception-str) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock).
-        2. If the [`expectException`](#expectexception-str) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock).
+        1. If the [`expectException`](#-expectexception-transactionexceptionblockexception) field is not present, it is valid, and object must be decoded as a [`FixtureBlock`](#fixtureblock).
+        2. If the [`expectException`](#-expectexception-transactionexceptionblockexception) field is present, it is invalid, and object must be decoded as a [`InvalidFixtureBlock`](#invalidfixtureblock).
 
     2. Attempt to decode field [`rlp`](#-rlp-bytes) as the current block
         1. If the block cannot be decoded:
@@ -54,7 +54,11 @@ For each [`Fixture`](#fixture) test object in the JSON fixture file, perform the
 
 #### - `network`: [`Fork`](./common_types.md#fork)
 
+##### TO BE DEPRECATED
+
 Fork configuration for the test.
+
+This field is going to be replaced by the value contained in `config.network`.
 
 #### - `pre`: [`Alloc`](./common_types.md#alloc-mappingaddressaccount)
 
@@ -83,6 +87,20 @@ Account allocation for verification after all the blocks have been processed.
 #### - `sealEngine`: `str`
 
 Deprecated: Seal engine used to mine the blocks.
+
+#### - `config`: [`FixtureConfig`](#fixtureconfig)
+
+Chain configuration object to be applied to the client running the blockchain test.
+
+### `FixtureConfig`
+
+#### - `network`: [`Fork`](./common_types.md#fork)
+
+Fork configuration for the test. It is guaranteed that this field contains the same value as the root field `network`.
+
+#### - `blobSchedule`: [`BlobSchedule`](./common_types.md#blobschedule-mappingforkforkblobschedule)
+
+Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
 
 ### `FixtureHeader`
 
@@ -174,7 +192,7 @@ Root hash of the parent beacon block.
 
 #### - `rlp`: [`Bytes`](./common_types.md#bytes)
 
-RLP serialized version of the block. Field is only optional when embedded in a [`InvalidFixtureBlock`](#invalidfixtureblock) as the [`rlp_decoded`](#rlp_decoded-optionalfixtureblock) field.
+RLP serialized version of the block. Field is only optional when embedded in a [`InvalidFixtureBlock`](#invalidfixtureblock) as the [`rlp_decoded`](#-rlp_decoded-optionalfixtureblock) field.
 
 #### - `blockHeader`: [`FixtureHeader`](#fixtureheader)
 
@@ -198,7 +216,7 @@ Optional list of withdrawals included in the block RLP.
 
 ### `InvalidFixtureBlock`
 
-#### - `expectException`: [`TransactionException`](./exceptions.md#transactionexception)` | `[`BlockException`](./exceptions.md#blockexception)
+#### - `expectException`: [`TransactionException`](../library/ethereum_test_exceptions.md#ethereum_test_exceptions.TransactionException)` | `[`BlockException`](../library/ethereum_test_exceptions.md#ethereum_test_exceptions.BlockException)
 
 Expected exception that invalidates the block.
 

@@ -3,6 +3,7 @@
     "recommendations": [
         "ms-python.python",
         "ms-python.mypy-type-checker",
+        "ms-python.vscode-pylance",
         "charliermarsh.ruff",
         "esbenp.prettier-vscode",
         "njpwerner.autodocstring",
@@ -10,7 +11,8 @@
         "tamasfe.even-better-toml",
         "bierner.markdown-mermaid",
         "bpruitt-goddard.mermaid-markdown-syntax-highlighting",
-        "DavidAnson.vscode-markdownlint"
+        "DavidAnson.vscode-markdownlint",
+        "soulcode.vscode-unwanted-extensions"
     ],
     // List of extensions that MUST NOT be used for users of the repo.
     "unwantedRecommendations": [

@@ -1,37 +1,23 @@
 """Ethereum test fixture format definitions."""
 
-from typing import Dict
-
-from .base import BaseFixture, FixtureFormat
-from .blockchain import EngineFixture as BlockchainEngineFixture
-from .blockchain import Fixture as BlockchainFixture
-from .blockchain import FixtureCommon as BlockchainFixtureCommon
+from .base import BaseFixture, FixtureFormat, LabeledFixtureFormat
+from .blockchain import BlockchainEngineFixture, BlockchainFixture, BlockchainFixtureCommon
 from .collector import FixtureCollector, TestInfo
-from .eof import Fixture as EOFFixture
-from .state import Fixture as StateFixture
-from .transaction import Fixture as TransactionFixture
-from .verify import FixtureVerifier
+from .consume import FixtureConsumer
+from .eof import EOFFixture
+from .state import StateFixture
+from .transaction import TransactionFixture
 
-FIXTURE_FORMATS: Dict[str, FixtureFormat] = {
-    f.fixture_format_name: f  # type: ignore
-    for f in [
-        BlockchainFixture,
-        BlockchainEngineFixture,
-        EOFFixture,
-        StateFixture,
-        TransactionFixture,
-    ]
-}
 __all__ = [
-    "FIXTURE_FORMATS",
     "BaseFixture",
+    "BlockchainEngineFixture",
     "BlockchainFixture",
     "BlockchainFixtureCommon",
-    "BlockchainEngineFixture",
     "EOFFixture",
     "FixtureCollector",
+    "FixtureConsumer",
     "FixtureFormat",
-    "FixtureVerifier",
+    "LabeledFixtureFormat",
     "StateFixture",
     "TestInfo",
     "TransactionFixture",

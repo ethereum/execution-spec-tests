@@ -55,12 +55,12 @@ def test_eof_example(eof_test: EOFTestFiller):
 
     # This will construct a valid EOF container with these bytes
     assert bytes(eof_code) == bytes.fromhex(
-        "ef0001010010020004000500060008000204000100008000010100000100010003020300035fe300010050"
+        "ef00010100100200040005000600080002ff000100008000010100000100010003020300035fe300010050"
         "e3000250e43080e300035050e480e4ef"
     )
 
     eof_test(
-        data=eof_code,
+        container=eof_code,
         expect_exception=eof_code.validity_error,
     )
 
@@ -110,7 +110,7 @@ def test_eof_example_custom_fields(eof_test: EOFTestFiller):
     )
 
     eof_test(
-        data=eof_code,
+        container=eof_code,
         expect_exception=eof_code.validity_error,
     )
 
@@ -129,7 +129,7 @@ def test_eof_example_parameters(
     code_section_code: Bytecode,
     exception: EOFException,
 ):
-    """Example of python EOF classes."""
+    """Example of EOF example parameters."""
     eof_code = Container(
         name="parametrized_eof_example",
         sections=[
@@ -143,6 +143,6 @@ def test_eof_example_parameters(
     )
 
     eof_test(
-        data=eof_code,
+        container=eof_code,
         expect_exception=eof_code.validity_error,
     )

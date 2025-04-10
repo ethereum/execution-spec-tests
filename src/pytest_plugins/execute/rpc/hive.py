@@ -203,12 +203,12 @@ def base_pre_genesis(
 ) -> Tuple[Alloc, FixtureHeader]:
     """Create a genesis block from the blockchain test definition."""
     env = Environment().set_fork_requirements(base_fork)
-    assert (
-        env.withdrawals is None or len(env.withdrawals) == 0
-    ), "withdrawals must be empty at genesis"
-    assert env.parent_beacon_block_root is None or env.parent_beacon_block_root == Hash(
-        0
-    ), "parent_beacon_block_root must be empty at genesis"
+    assert env.withdrawals is None or len(env.withdrawals) == 0, (
+        "withdrawals must be empty at genesis"
+    )
+    assert env.parent_beacon_block_root is None or env.parent_beacon_block_root == Hash(0), (
+        "parent_beacon_block_root must be empty at genesis"
+    )
 
     pre_alloc = Alloc.merge(
         Alloc.model_validate(base_fork.pre_allocation_blockchain()),
@@ -245,13 +245,6 @@ def base_pre_genesis(
         requests_hash=Requests()
         if base_fork.header_requests_required(block_number=block_number, timestamp=timestamp)
         else None,
-        target_blobs_per_block=(
-            base_fork.target_blobs_per_block(block_number=block_number, timestamp=timestamp)
-            if base_fork.header_target_blobs_per_block_required(
-                block_number=block_number, timestamp=timestamp
-            )
-            else None
-        ),
     )
 
     return (pre_alloc, genesis)
@@ -581,9 +574,9 @@ class EthRPC(BaseEthRPC):
                     head_block_hash=base_genesis_header.block_hash,
                 )
                 forkchoice_version = self.fork.engine_forkchoice_updated_version()
-                assert (
-                    forkchoice_version is not None
-                ), "Fork does not support engine forkchoice_updated"
+                assert forkchoice_version is not None, (
+                    "Fork does not support engine forkchoice_updated"
+                )
                 for _ in range(initial_forkchoice_update_retries):
                     response = self.engine_rpc.forkchoice_updated(
                         forkchoice_state,
@@ -625,9 +618,9 @@ class EthRPC(BaseEthRPC):
             ),
         )
         forkchoice_updated_version = self.fork.engine_forkchoice_updated_version()
-        assert (
-            forkchoice_updated_version is not None
-        ), "Fork does not support engine forkchoice_updated"
+        assert forkchoice_updated_version is not None, (
+            "Fork does not support engine forkchoice_updated"
+        )
         response = self.engine_rpc.forkchoice_updated(
             forkchoice_state,
             payload_attributes,
@@ -728,6 +721,7 @@ class EthRPC(BaseEthRPC):
             while tx_id < len(tx_hashes):
                 tx_hash = tx_hashes[tx_id]
                 tx = self.get_transaction_by_hash(tx_hash)
+                assert tx is not None, f"Transaction {tx_hash} not found"
                 if tx.block_number is not None:
                     responses.append(tx)
                     tx_hashes.pop(tx_id)

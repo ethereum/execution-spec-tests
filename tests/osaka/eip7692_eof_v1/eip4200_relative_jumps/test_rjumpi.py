@@ -44,7 +44,7 @@ def test_rjumpi_condition_forwards(
     pre: Alloc,
     calldata: bytes,
 ):
-    """Test RJUMPI contract switching based on external input."""
+    """Test RJUMPI contract switching based on external input (forwards)."""
     env = Environment()
     sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
@@ -128,7 +128,7 @@ def test_rjumpi_condition_zero(
     pre: Alloc,
     calldata: bytes,
 ):
-    """Test RJUMPI contract switching based on external input."""
+    """Test RJUMPI contract switching based on external input (condition zero)."""
     env = Environment()
     sender = pre.fund_eoa(10**18)
     contract_address = pre.deploy_contract(
@@ -159,7 +159,7 @@ def test_rjumpi_forwards(
 ):
     """EOF1V4200_0004 (Valid) EOF code containing RJUMPI (Positive)."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -181,7 +181,7 @@ def test_rjumpi_backwards(
 ):
     """EOF1V4200_0005 (Valid) EOF code containing RJUMPI (Negative)."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -203,7 +203,7 @@ def test_rjumpi_zero(
 ):
     """EOF1V4200_0006 (Valid) EOF code containing RJUMPI (Zero)."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -222,7 +222,7 @@ def test_rjumpi_max_forward(
 ):
     """EOF1V4200_0007 (Valid) EOF with RJUMPI containing the maximum offset (32767)."""
     eof_state_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -243,7 +243,7 @@ def test_rjumpi_max_backward(
     """EOF with RJUMPI containing the maximum negative offset (-32768)."""
     (
         eof_state_test(
-            data=Container(
+            container=Container(
                 sections=[
                     Section.Code(
                         code=Op.PUSH0
@@ -262,6 +262,648 @@ def test_rjumpi_max_backward(
     )
 
 
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="forwards_rjumpi_0",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1[1] + Op.RJUMPI[0] + Op.STOP,
+                    max_stack_height=1,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010006ff000000008000016001e1000000",
+        ),
+        Container(
+            name="forwards_rjumpi_1",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[1] + Op.NOT + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010008ff000000008000025f6000e100011900",
+        ),
+        Container(
+            name="forwards_rjumpi_10",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.POP
+                    + Op.RJUMP[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000cff000000008000025f6000e1000450e000011900",
+        ),
+        Container(
+            name="forwards_rjumpi_11",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[3] + Op.RJUMP[0] + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000aff000000008000025f6000e10003e0000000",
+        ),
+        Container(
+            name="forwards_rjumpi_12",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[4] + Op.PUSH0 + Op.RJUMP[0] + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000bff000000008000025f6000e100045fe0000000",
+        ),
+        Container(
+            name="forwards_rjumpi_2",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[6]
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000dff000000008000025f6000e100066000e100011900",
+        ),
+        Container(
+            name="forwards_rjumpi_3",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[1] + Op.PUSH0 + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010008ff000000008000025f6000e100015f00",
+        ),
+        Container(
+            name="forwards_rjumpi_4",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[7]
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000eff000000008000035f6000e100075f6000e100011900",
+        ),
+        Container(
+            name="forwards_rjumpi_5",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[1]
+                    + Op.ADD
+                    + Op.DUP1
+                    + Op.PUSH1[10]
+                    + Op.GT
+                    + Op.RJUMPI[4]
+                    + Op.DUP1
+                    + Op.RJUMPI[-14]
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010010ff000000008000035f60010180600a11e1000480e1fff200",
+        ),
+        Container(
+            name="forwards_rjumpi_6",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[1]
+                    + Op.ADD
+                    + Op.DUP1
+                    + Op.PUSH1[10]
+                    + Op.GT
+                    + Op.RJUMPI[5]
+                    + Op.PUSH0
+                    + Op.DUP1
+                    + Op.RJUMPI[-13]
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010011ff000000008000035f60010180600a11e100055f80e1fff300",
+        ),
+        Container(
+            name="forwards_rjumpi_7",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.PUSH0
+                    + Op.RJUMP[1]
+                    + Op.PUSH0
+                    + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000cff000000008000025f6000e100045fe000015f00",
+        ),
+        Container(
+            name="forwards_rjumpi_8",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.PUSH0
+                    + Op.RJUMP[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000cff000000008000025f6000e100045fe000011900",
+        ),
+        Container(
+            name="forwards_rjumpi_9",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.POP
+                    + Op.RJUMP[1]
+                    + Op.POP
+                    + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000cff000000008000025f6000e1000450e000015000",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_0",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[1]
+                    + Op.RJUMPI[0]
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000eff000000008000045f6000e100025f5f6001e1000000",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_1",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010010ff000000008000055f6000e100025f5f5f6000e100011900",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_10",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.POP
+                    + Op.RJUMP[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010014ff000000008000055f6000e100025f5f5f6000e1000450e000011900",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_11",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[3]
+                    + Op.RJUMP[0]
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010012ff000000008000055f6000e100025f5f5f6000e10003e0000000",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_12",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.PUSH0
+                    + Op.RJUMP[0]
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010013ff000000008000055f6000e100025f5f5f6000e100045fe0000000",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_2",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[6]
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010015ff000000008000055f6000e100025f5f5f6000e100066000e100011900",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_3",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[1]
+                    + Op.PUSH0
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010010ff000000008000055f6000e100025f5f5f6000e100015f00",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_4",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[7]
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=6,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010016ff000000008000065f6000e100025f5f5f6000e100075f6000e100011900",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_5",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[1]
+                    + Op.ADD
+                    + Op.DUP1
+                    + Op.PUSH1[10]
+                    + Op.GT
+                    + Op.RJUMPI[4]
+                    + Op.DUP1
+                    + Op.RJUMPI[-14]
+                    + Op.STOP,
+                    max_stack_height=6,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010018ff000000008000065f6000e100025f5f5f60010180600a11e1000480e1fff200",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_6",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[1]
+                    + Op.ADD
+                    + Op.DUP1
+                    + Op.PUSH1[10]
+                    + Op.GT
+                    + Op.RJUMPI[5]
+                    + Op.PUSH0
+                    + Op.DUP1
+                    + Op.RJUMPI[-13]
+                    + Op.STOP,
+                    max_stack_height=6,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010019ff000000008000065f6000e100025f5f5f60010180600a11e100055f80e1fff300",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_7",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.PUSH0
+                    + Op.RJUMP[1]
+                    + Op.PUSH0
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010014ff000000008000055f6000e100025f5f5f6000e100045fe000015f00",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_8",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.PUSH0
+                    + Op.RJUMP[1]
+                    + Op.NOT
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010014ff000000008000055f6000e100025f5f5f6000e100045fe000011900",
+        ),
+        Container(
+            name="forwards_rjumpi_variable_stack_9",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[4]
+                    + Op.POP
+                    + Op.RJUMP[1]
+                    + Op.POP
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010014ff000000008000055f6000e100025f5f5f6000e1000450e000015000",
+        ),
+    ],
+    ids=lambda x: x.name,
+)
+def test_rjumpi_valid_forward(
+    eof_test: EOFTestFiller,
+    container: Container,
+):
+    """
+    Validate a valid code section containing at least one forward RJUMPI.
+    These tests exercise the stack height validation.
+    """
+    eof_test(container=container)
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="backwards_rjumpi_0",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1[0] + Op.RJUMPI[-5] + Op.STOP,
+                    max_stack_height=1,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010006ff000000008000016000e1fffb00",
+        ),
+        Container(
+            name="backwards_rjumpi_1",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.POP + Op.PUSH1[0] + Op.RJUMPI[-7] + Op.STOP,
+                    max_stack_height=1,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010008ff000000008000015f506000e1fff900",
+        ),
+        Container(
+            name="backwards_rjumpi_2",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-7]
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-12]
+                    + Op.STOP,
+                    max_stack_height=1,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000dff000000008000015f506000e1fff96000e1fff400",
+        ),
+        Container(
+            name="backwards_rjumpi_4",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.PUSH1[1] + Op.ADD + Op.DUP1 + Op.RJUMPI[-7] + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010009ff00000000800002 5f60010180e1fff900",
+        ),
+        Container(
+            name="backwards_rjumpi_7",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0 + Op.POP + Op.PUSH1[0] + Op.RJUMPI[-7] + Op.RJUMP[-10],
+                    max_stack_height=1,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000aff000000008000015f506000e1fff9e0fff6",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_0",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-5]
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000eff000000008000045f6000e100025f5f6000e1fffb00",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_1",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-7]
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010010ff000000008000045f6000e100025f5f5f506000e1fff900",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_2",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-7]
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-12]
+                    + Op.STOP,
+                    max_stack_height=4,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010015ff000000008000045f6000e100025f5f5f506000e1fff96000e1fff400",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_4",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[1]
+                    + Op.ADD
+                    + Op.DUP1
+                    + Op.RJUMPI[-7]
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010011ff000000008000055f6000e100025f5f5f60010180e1fff900",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_7",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-7]
+                    + Op.RJUMP[-10],
+                    max_stack_height=4,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010012ff000000008000045f6000e100025f5f5f506000e1fff9e0fff6",
+        ),
+    ],
+    ids=lambda x: x.name,
+)
+def test_rjumpi_valid_backward(
+    eof_test: EOFTestFiller,
+    container: Container,
+):
+    """
+    Validate a valid code section containing at least one backward RJUMPI.
+    These tests exercise the stack height validation.
+    """
+    eof_test(container=container)
+
+
 def test_rjumpi_max_bytecode_size(
     eof_test: EOFTestFiller,
 ):
@@ -273,7 +915,7 @@ def test_rjumpi_max_bytecode_size(
     code = Op.RJUMPI[len(Op.NOOP) * noop_count](Op.ORIGIN) + (Op.NOOP * noop_count) + Op.STOP
     container = Container.Code(code=code)
     assert len(container) == MAX_BYTECODE_SIZE
-    eof_test(data=container)
+    eof_test(container=container)
 
 
 def test_rjumpi_truncated(
@@ -281,7 +923,7 @@ def test_rjumpi_truncated(
 ):
     """EOF1I4200_0014 (Invalid) EOF code containing truncated RJUMPI."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(0) + Op.RJUMPI,
@@ -297,10 +939,10 @@ def test_rjumpi_truncated_2(
 ):
     """EOF1I4200_0015 (Invalid) EOF code containing truncated RJUMPI."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(0) + Op.RJUMPI + Op.STOP,
+                    code=Op.PUSH1(0) + Op.RJUMPI + b"\x00",
                 )
             ],
         ),
@@ -318,7 +960,7 @@ def test_rjumpi_into_header(
     (Jumping into header).
     """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[offset] + Op.STOP,
@@ -337,7 +979,7 @@ def test_rjumpi_jump_before_header(
     (Jumping to before code begin).
     """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[-25] + Op.STOP,
@@ -356,7 +998,7 @@ def test_rjumpi_into_data(
     (Jumping into data section).
     """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[2] + Op.STOP,
@@ -376,7 +1018,7 @@ def test_rjumpi_after_container(
     (Jumping to after code end).
     """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[2] + Op.STOP,
@@ -395,7 +1037,7 @@ def test_rjumpi_to_code_end(
     (Jumping to code end).
     """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[1] + Op.STOP,
@@ -411,9 +1053,12 @@ def test_rjumpi_into_self_data_portion(
     eof_test: EOFTestFiller,
     offset: int,
 ):
-    """EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate."""
+    """
+    EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate
+    (with offset).
+    """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[-offset] + Op.STOP,
@@ -429,7 +1074,7 @@ def test_rjumpi_into_self(
 ):
     """EOF1I4200_0021 (Invalid) EOF code containing RJUMPI with target same RJUMPI immediate."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[-len(Op.RJUMPI[0])] + Op.STOP,
@@ -445,7 +1090,7 @@ def test_rjumpi_into_stack_height_diff(
 ):
     """EOF code containing RJUMPI with target instruction that causes stack height difference."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(0)
@@ -464,7 +1109,7 @@ def test_rjumpi_into_stack_underflow(
 ):
     """EOF code containing RJUMPI with target instruction that cause stack underflow."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.ORIGIN + Op.RJUMPI[len(Op.STOP)] + Op.STOP + Op.POP + Op.STOP
@@ -480,7 +1125,7 @@ def test_rjumpi_skips_stack_underflow(
 ):
     """EOF code containing RJUMPI where the default path produces a stack underflow."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(code=Op.ORIGIN + Op.RJUMPI[len(Op.POP)] + Op.POP + Op.STOP),
             ],
@@ -494,7 +1139,7 @@ def test_rjumpi_into_rjump(
 ):
     """EOF1I4200_0023 (Invalid) EOF code containing RJUMPI with target RJUMP immediate."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[3] + Op.STOP + Op.RJUMP[-9],
@@ -510,7 +1155,7 @@ def test_rjumpi_into_rjumpi(
 ):
     """EOF1I4200_0022 (Invalid) EOF code containing RJUMPI with target other RJUMPI immediate."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -538,7 +1183,7 @@ def test_rjumpi_into_push_1(
         else Op.PUSH1[1] + Op.RJUMPI[1] + Op.PUSH1[1] + Op.POP
     ) + Op.STOP
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(code=code),
             ],
@@ -604,7 +1249,7 @@ def test_rjumpi_into_push_n(
         offset = -4 if data_portion_end else -4 - data_portion_length + 1
         code = opcode[0] + Op.RJUMPI[offset] + Op.STOP
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(code=code),
             ],
@@ -628,7 +1273,7 @@ def test_rjumpi_into_rjumpv(
     invalid_destination = 4 + (2 * target_rjumpv_table_size) if data_portion_end else 4
     target_jump_table = [0 for _ in range(target_rjumpv_table_size)]
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -656,7 +1301,7 @@ def test_rjumpi_into_callf(
     """EOF1I4200_0026 (Invalid) EOF code containing RJUMPI with target CALLF immediate."""
     invalid_destination = 2 if data_portion_end else 1
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1) + Op.RJUMPI[invalid_destination] + Op.CALLF[1] + Op.STOP,
@@ -674,9 +1319,9 @@ def test_rjumpi_into_callf(
 def test_rjumpi_into_dupn(
     eof_test: EOFTestFiller,
 ):
-    """EOF code containing RJUMP with target DUPN immediate."""
+    """EOF code containing RJUMPI with target DUPN immediate."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -696,9 +1341,9 @@ def test_rjumpi_into_dupn(
 def test_rjumpi_into_swapn(
     eof_test: EOFTestFiller,
 ):
-    """EOF code containing RJUMP with target SWAPN immediate."""
+    """EOF code containing RJUMPI with target SWAPN immediate."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -718,9 +1363,9 @@ def test_rjumpi_into_swapn(
 def test_rjumpi_into_exchange(
     eof_test: EOFTestFiller,
 ):
-    """EOF code containing RJUMP with target EXCHANGE immediate."""
+    """EOF code containing RJUMPI with target EXCHANGE immediate."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH1(1)
@@ -743,7 +1388,7 @@ def test_rjumpi_into_eofcreate(
 ):
     """EOF code containing RJUMPI with target EOFCREATE immediate."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 5 + Op.RJUMPI[1] + Op.EOFCREATE[0] + Op.STOP,
@@ -752,7 +1397,7 @@ def test_rjumpi_into_eofcreate(
                     container=Container(
                         sections=[
                             Section.Code(
-                                code=Op.RETURNCONTRACT[0](0, 0),
+                                code=Op.RETURNCODE[0](0, 0),
                             ),
                             Section.Container(
                                 container=Container.Code(code=Op.STOP),
@@ -766,12 +1411,12 @@ def test_rjumpi_into_eofcreate(
     )
 
 
-def test_rjumpi_into_returncontract(
+def test_rjumpi_into_returncode(
     eof_test: EOFTestFiller,
 ):
-    """EOF code containing RJUMPI with target RETURNCONTRACT immediate."""
+    """EOF code containing RJUMPI with target RETURNCODE immediate."""
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP,
@@ -780,7 +1425,7 @@ def test_rjumpi_into_returncontract(
                     container=Container(
                         sections=[
                             Section.Code(
-                                code=Op.PUSH0 * 3 + Op.RJUMPI[1] + Op.RETURNCONTRACT[0],
+                                code=Op.PUSH0 * 3 + Op.RJUMPI[1] + Op.RETURNCODE[0],
                             ),
                             Section.Container(
                                 container=Container.Code(code=Op.STOP),
@@ -808,7 +1453,7 @@ def test_rjumpi_backwards_reference_only(
         )
     )
     eof_test(
-        data=container,
+        container=container,
         expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS,
     )
 
@@ -823,7 +1468,7 @@ def test_rjumpi_stack_validation(
     """
     container = Container.Code(code=Op.RJUMPI[1](1) + Op.ADDRESS + Op.NOOP + Op.STOP)
     eof_test(
-        data=container,
+        container=container,
         expect_exception=None,
     )
 
@@ -832,14 +1477,15 @@ def test_rjumpi_at_the_end(
     eof_test: EOFTestFiller,
 ):
     """
+    Test invalid RJUMPI as the end of a code section.
     https://github.com/ipsilon/eof/blob/main/spec/eof.md#stack-validation 4.i:
-    This implies that the last instruction may be a terminating instruction or RJUMP.
+    This implies that the last instruction must be a terminating instruction or RJUMP.
     """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
-                    code=Op.PUSH1(0) + Op.PUSH1(0) + Op.RJUMPI[1] + Op.STOP + Op.RJUMPI[-4],
+                    code=Op.PUSH0 + Op.PUSH0 + Op.RJUMPI[1] + Op.STOP + Op.RJUMPI[-4],
                 )
             ],
         ),
@@ -866,7 +1512,7 @@ def test_tangled_rjumpi(
         )
     )
     eof_test(
-        data=container,
+        container=container,
         expect_exception=EOFException.STACK_UNDERFLOW,
     )
 
@@ -880,7 +1526,7 @@ def test_rjumpi_backwards_onto_dup(
         max_stack_height=2,
     )
     eof_test(
-        data=container,
+        container=container,
     )
 
 
@@ -901,7 +1547,7 @@ def test_rjumpi_backwards_min_stack_wrong(
         max_stack_height=3,
     )
     eof_test(
-        data=container,
+        container=container,
         expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
     )
 
@@ -909,7 +1555,7 @@ def test_rjumpi_backwards_min_stack_wrong(
 def test_rjumpi_rjumpv_backwards_min_stack_wrong(
     eof_test: EOFTestFiller,
 ):
-    """Backwards rjumpv where min_stack does not match."""
+    """Backwards rjumpi rjumpv where min_stack does not match."""
     container = Container.Code(
         code=(
             Op.PUSH0  # (0, 0)
@@ -923,7 +1569,7 @@ def test_rjumpi_rjumpv_backwards_min_stack_wrong(
         max_stack_height=3,
     )
     eof_test(
-        data=container,
+        container=container,
         expect_exception=EOFException.STACK_HEIGHT_MISMATCH,
     )
 
@@ -945,7 +1591,7 @@ def test_double_rjumpi_stack_underflow(
         max_stack_height=3,
     )
     eof_test(
-        data=container,
+        container=container,
         expect_exception=EOFException.STACK_UNDERFLOW,
     )
 
@@ -958,7 +1604,7 @@ def test_double_rjumpi_stack_height_mismatch(
     targeted by two RJUMPIs with the non-uniform stack height range.
     """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0  # BEGIN: (0, 0)
@@ -982,7 +1628,7 @@ def test_double_rjumpi_invalid_max_stack_height(
     targeted by two RJUMPIs with the non-uniform stack height range.
     """
     eof_test(
-        data=Container(
+        container=Container(
             sections=[
                 Section.Code(
                     code=Op.PUSH0  # (0, 0)
@@ -998,3 +1644,200 @@ def test_double_rjumpi_invalid_max_stack_height(
         ),
         expect_exception=EOFException.INVALID_MAX_STACK_HEIGHT,
     )
+
+
+@pytest.mark.parametrize(
+    "container",
+    [
+        Container(
+            name="backwards_rjumpi_10",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH1[190]
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[1]
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-11]
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000eff0000000080000360be6000e10001506000e1fff500",
+        ),
+        Container(
+            name="backwards_rjumpi_3",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-7]
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-13]
+                    + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000eff000000008000025f506000e1fff95f6000e1fff300",
+        ),
+        Container(
+            name="backwards_rjumpi_5",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[1]
+                    + Op.ADD
+                    + Op.DUP1
+                    + Op.DUP1
+                    + Op.RJUMPI[-8]
+                    + Op.STOP,
+                    max_stack_height=2,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000aff000000008000025f6001018080e1fff800",
+        ),
+        Container(
+            name="backwards_rjumpi_8",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-6]
+                    + Op.PUSH0
+                    + Op.RJUMP[-10],
+                    max_stack_height=1,
+                ),
+            ],
+        ),
+        Container(
+            name="backwards_rjumpi_9",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[1]
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-11]
+                    + Op.STOP,
+                    max_stack_height=3,
+                ),
+            ],
+            expected_bytecode="ef0001010004020001000dff000000008000035f6000e100015f6000e1fff500",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_3",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-7]
+                    + Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-13]
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010016ff000000008000055f6000e100025f5f5f506000e1fff95f6000e1fff300",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_5",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH1[1]
+                    + Op.ADD
+                    + Op.DUP1
+                    + Op.DUP1
+                    + Op.RJUMPI[-8]
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010012ff000000008000055f6000e100025f5f5f6001018080e1fff800",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_6",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.POP
+                    + Op.RJUMPI[-4]
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+            expected_bytecode="ef00010100040200010010ff000000008000055f6000e100025f5f5f5f5f50e1fffc00",
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_6a",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH0
+                    + Op.RJUMPI[-5]
+                    + Op.STOP,
+                    max_stack_height=5,
+                ),
+            ],
+        ),
+        Container(
+            name="backwards_rjumpi_variable_stack_8",
+            sections=[
+                Section.Code(
+                    code=Op.PUSH0
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[2]
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.PUSH0
+                    + Op.POP
+                    + Op.PUSH1[0]
+                    + Op.RJUMPI[-8]
+                    + Op.PUSH0
+                    + Op.RJUMP[-10],
+                    max_stack_height=4,
+                ),
+            ],
+        ),
+    ],
+    ids=lambda x: x.name,
+)
+def test_rjumpi_backward_invalid_max_stack_height(
+    eof_test: EOFTestFiller,
+    container: Container,
+):
+    """
+    Validate a code section containing at least one backward RJUMPI
+    invalid because of the incorrect max stack height.
+    """
+    eof_test(container=container, expect_exception=EOFException.STACK_HEIGHT_MISMATCH)

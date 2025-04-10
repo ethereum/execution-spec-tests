@@ -310,12 +310,12 @@ class TestDocsGenerator:
         mike deploys a version of the site underneath a sub-directory named
         after the version, e.g.:
 
-        - https://ethereum.github.io/execution-spec-tests/main/
-        - https://ethereum.github.io/execution-spec-tests/v1.2.3/
+        - https://eest.ethereum.org/main/
+        - https://eest.ethereum.org/v4.1.0/
 
         We need to be able to include the javascript available at:
 
-        - https://ethereum.github.io/execution-spec-tests/main/javascripts/site.js
+        - https://eest.ethereum.org/main/javascripts/site.js
         """
         ci = os.getenv("CI", None)
         github_ref_name = os.getenv("GITHUB_REF_NAME", None)
@@ -377,7 +377,7 @@ class TestDocsGenerator:
                     fork = item.callspec.params.get("fork").name()  # type: ignore
                     test_type = get_test_function_test_type(item)
                     test_type_value = item.callspec.params.get(test_type)
-                    fixture_type = test_type_value.fixture_format_name  # type: ignore
+                    fixture_type = test_type_value.format_name  # type: ignore
                     test_cases.append(
                         TestCase(
                             full_id=item.nodeid,

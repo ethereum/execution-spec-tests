@@ -14,9 +14,9 @@ from typing import (
     get_type_hints,
 )
 
-from ethereum import rlp as eth_rlp
+import ethereum_rlp as eth_rlp
 from ethereum_types.numeric import Uint
-from pydantic import AliasChoices, Field, PlainSerializer, computed_field
+from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
 
 from ethereum_test_base_types import (
     Address,
@@ -34,7 +34,6 @@ from ethereum_test_base_types import (
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork, Paris
 from ethereum_test_types.types import (
-    AuthorizationTupleGeneric,
     Transaction,
     TransactionFixtureConverter,
     TransactionGeneric,
@@ -43,6 +42,7 @@ from ethereum_test_types.types import (
 )
 
 from .base import BaseFixture
+from .common import FixtureAuthorizationTuple, FixtureBlobSchedule
 
 
 class HeaderForkRequirement(str):
@@ -118,9 +118,6 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
-    target_blobs_per_block: (
-        Annotated[ZeroPaddedHexNumber, HeaderForkRequirement("target_blobs_per_block")] | None
-    ) = Field(None)
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -217,7 +214,7 @@ class FixtureExecutionPayload(CamelModel):
         """
         return cls(
             **header.model_dump(exclude={"rlp"}, exclude_none=True),
-            transactions=[tx.rlp for tx in transactions],
+            transactions=[tx.rlp() for tx in transactions],
             withdrawals=withdrawals,
         )
 
@@ -306,12 +303,6 @@ class FixtureEngineNewPayload(CamelModel):
                 raise ValueError(f"Requests are required for ${fork}.")
             params.append(requests)
 
-        if fork.engine_new_payload_target_blobs_per_block(header.number, header.timestamp):
-            target_blobs_per_block = header.target_blobs_per_block
-            if target_blobs_per_block is None:
-                raise ValueError(f"Target blobs per block is required for ${fork}.")
-            params.append(target_blobs_per_block)
-
         payload_params: EngineNewPayloadParameters = cast(
             EngineNewPayloadParameters,
             tuple(params),
@@ -324,19 +315,6 @@ class FixtureEngineNewPayload(CamelModel):
         )
 
         return new_payload
-
-
-class FixtureAuthorizationTuple(AuthorizationTupleGeneric[ZeroPaddedHexNumber]):
-    """Authorization tuple for fixture transactions."""
-
-    signer: Address | None = None
-
-    @classmethod
-    def from_authorization_tuple(
-        cls, auth_tuple: AuthorizationTupleGeneric
-    ) -> "FixtureAuthorizationTuple":
-        """Return FixtureAuthorizationTuple from an AuthorizationTuple."""
-        return cls(**auth_tuple.model_dump())
 
 
 class FixtureTransaction(TransactionFixtureConverter, TransactionGeneric[ZeroPaddedHexNumber]):
@@ -405,6 +383,14 @@ class FixtureBlock(FixtureBlockBase):
         )
 
 
+class FixtureConfig(CamelModel):
+    """Chain configuration for a fixture."""
+
+    fork: str = Field(..., alias="network")
+    chain_id: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(1), alias="chainid")
+    blob_schedule: FixtureBlobSchedule | None = None
+
+
 class InvalidFixtureBlock(CamelModel):
     """Representation of an invalid Ethereum block within a test Fixture."""
 
@@ -413,7 +399,7 @@ class InvalidFixtureBlock(CamelModel):
     rlp_decoded: FixtureBlockBase | None = Field(None, alias="rlp_decoded")
 
 
-class FixtureCommon(BaseFixture):
+class BlockchainFixtureCommon(BaseFixture):
     """Base blockchain test fixture model."""
 
     fork: str = Field(..., alias="network")
@@ -421,16 +407,34 @@ class FixtureCommon(BaseFixture):
     pre: Alloc
     post_state: Alloc | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
+    config: FixtureConfig
+
+    @model_validator(mode="before")
+    @classmethod
+    def config_defaults_for_backwards_compatibility(cls, data: Any) -> Any:
+        """
+        Check if the config field is populated, otherwise use the root-level field values for
+        backwards compatibility.
+        """
+        if isinstance(data, dict):
+            if "config" not in data:
+                data["config"] = {}
+            if isinstance(data["config"], dict):
+                if "network" not in data["config"]:
+                    data["config"]["network"] = data["network"]
+                if "chainid" not in data["config"]:
+                    data["config"]["chainid"] = "0x01"
+        return data
 
     def get_fork(self) -> str | None:
         """Return fork of the fixture as a string."""
         return self.fork
 
 
-class Fixture(FixtureCommon):
+class BlockchainFixture(BlockchainFixtureCommon):
     """Cross-client specific blockchain test model use in JSON fixtures."""
 
-    fixture_format_name: ClassVar[str] = "blockchain_test"
+    format_name: ClassVar[str] = "blockchain_test"
     description: ClassVar[str] = "Tests that generate a blockchain test fixture."
 
     genesis_rlp: Bytes = Field(..., alias="genesisRLP")
@@ -438,10 +442,10 @@ class Fixture(FixtureCommon):
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
 
-class EngineFixture(FixtureCommon):
+class BlockchainEngineFixture(BlockchainFixtureCommon):
     """Engine specific test fixture information."""
 
-    fixture_format_name: ClassVar[str] = "blockchain_test_engine"
+    format_name: ClassVar[str] = "blockchain_test_engine"
     description: ClassVar[str] = (
         "Tests that generate a blockchain test fixture in Engine API format."
     )

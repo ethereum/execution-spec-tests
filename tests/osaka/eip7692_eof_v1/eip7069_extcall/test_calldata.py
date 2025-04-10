@@ -1,6 +1,6 @@
 """
 abstract: Tests [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069)
-    Tests for the RETURNDATALOAD instriction.
+    Tests for the RETURNDATALOAD instruction.
 """  # noqa: E501
 
 import pytest
@@ -59,7 +59,7 @@ def test_extcalls_inputdata(
     length: int,
 ):
     """
-    Tests call data into EXT*CALL including multiple offset conditions.
+    Tests call data into EXTCALL including multiple offset conditions.
 
     Caller pushes data into memory, then calls the target.  Target writes 64 bytes of call data
     to storage and a success byte.
@@ -146,7 +146,7 @@ def test_extdelegatecall_inputdata(
     length: int,
 ):
     """
-    Tests call data into EXT*CALL including multiple offset conditions.
+    Tests call data into EXTDELEGATECALL including multiple offset conditions.
 
     Caller pushes data into memory, then calls the target.  Target writes 64 bytes of call data
     to storage and a success byte.
@@ -230,7 +230,7 @@ def test_extstaticcall_inputdata(
     length: int,
 ):
     """
-    Tests call data into EXT*CALL including multiple offset conditions.
+    Tests call data into EXTSTATICCALL including multiple offset conditions.
 
     Caller pushes data into memory, then calls the target.  Target writes 64 bytes of call data
     to storage and a success byte.

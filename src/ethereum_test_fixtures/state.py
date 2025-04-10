@@ -4,10 +4,16 @@ from typing import ClassVar, List, Mapping, Sequence
 
 from pydantic import BaseModel, Field
 
-from ethereum_test_base_types import AccessList, Address, Alloc, Bytes, Hash, ZeroPaddedHexNumber
+from ethereum_test_base_types import (
+    AccessList,
+    Address,
+    Alloc,
+    Bytes,
+    Hash,
+    ZeroPaddedHexNumber,
+)
 from ethereum_test_exceptions import TransactionExceptionInstanceOrList
 from ethereum_test_types.types import (
-    AuthorizationTupleGeneric,
     CamelModel,
     EnvironmentGeneric,
     Transaction,
@@ -15,25 +21,13 @@ from ethereum_test_types.types import (
 )
 
 from .base import BaseFixture
+from .common import FixtureAuthorizationTuple, FixtureBlobSchedule
 
 
 class FixtureEnvironment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     """Type used to describe the environment of a state test."""
 
     prev_randao: Hash | None = Field(None, alias="currentRandom")  # type: ignore
-
-
-class FixtureAuthorizationTuple(AuthorizationTupleGeneric[ZeroPaddedHexNumber]):
-    """Authorization tuple for fixture transactions."""
-
-    signer: Address | None = None
-
-    @classmethod
-    def from_authorization_tuple(
-        cls, auth_tuple: AuthorizationTupleGeneric
-    ) -> "FixtureAuthorizationTuple":
-        """Return FixtureAuthorizationTuple from an AuthorizationTuple."""
-        return cls(**auth_tuple.model_dump())
 
 
 class FixtureTransaction(TransactionFixtureConverter):
@@ -47,7 +41,7 @@ class FixtureTransaction(TransactionFixtureConverter):
     to: Address | None = None
     value: List[ZeroPaddedHexNumber]
     data: List[Bytes]
-    access_lists: List[List[AccessList]] | None = None
+    access_lists: List[List[AccessList] | None] | None = None
     authorization_list: List[FixtureAuthorizationTuple] | None = None
     max_fee_per_blob_gas: ZeroPaddedHexNumber | None = None
     blob_versioned_hashes: Sequence[Hash] | None = None
@@ -86,16 +80,24 @@ class FixtureForkPost(CamelModel):
     expect_exception: TransactionExceptionInstanceOrList | None = None
 
 
-class Fixture(BaseFixture):
+class FixtureConfig(CamelModel):
+    """Chain configuration for a fixture."""
+
+    blob_schedule: FixtureBlobSchedule | None = None
+    chain_id: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(1), alias="chainid")
+
+
+class StateFixture(BaseFixture):
     """Fixture for a single StateTest."""
 
-    fixture_format_name: ClassVar[str] = "state_test"
+    format_name: ClassVar[str] = "state_test"
     description: ClassVar[str] = "Tests that generate a state test fixture."
 
     env: FixtureEnvironment
     pre: Alloc
     transaction: FixtureTransaction
     post: Mapping[str, List[FixtureForkPost]]
+    config: FixtureConfig
 
     def get_fork(self) -> str | None:
         """Return fork of the fixture as a string."""

@@ -31,8 +31,6 @@ from .constants import (
     VERSION_NUMBER_BYTES,
 )
 
-VERSION_MAX_SECTION_KIND = 3
-
 
 class SectionKind(IntEnum):
     """Enum class of V1 valid section kind values."""
@@ -40,7 +38,7 @@ class SectionKind(IntEnum):
     TYPE = 1
     CODE = 2
     CONTAINER = 3
-    DATA = 4
+    DATA = 0xFF
 
     def __str__(self) -> str:
         """Return string representation of the section kind."""
@@ -199,6 +197,8 @@ class Section(CopyValidateModel):
                     auto_code_inputs,
                     auto_code_outputs,
                 )
+
+        assert max_stack_height >= code_inputs, "incorrect max_stack_height value"
 
         return (
             code_inputs.to_bytes(length=TYPES_INPUTS_BYTE_LENGTH, byteorder="big")
@@ -454,7 +454,7 @@ class Container(CopyValidateModel):
         return cls(
             sections=[
                 Section.Code(
-                    code=initcode_prefix + Op.RETURNCONTRACT[0](0, 0),
+                    code=initcode_prefix + Op.RETURNCODE[0](0, 0),
                 ),
                 Section.Container(
                     container=deploy_container,
@@ -502,7 +502,7 @@ class Initcode(Bytecode):
         return Container(
             sections=[
                 Section.Code(
-                    code=Op.RETURNCONTRACT[0](0, 0),
+                    code=Op.RETURNCODE[0](0, 0),
                     max_stack_height=2,
                 ),
                 Section.Container(

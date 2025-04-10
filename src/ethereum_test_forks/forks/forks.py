@@ -8,7 +8,7 @@ from typing import List, Mapping, Optional, Sized, Tuple
 
 from semver import Version
 
-from ethereum_test_base_types import AccessList, Address, Bytes
+from ethereum_test_base_types import AccessList, Address, BlobSchedule, Bytes, ForkBlobSchedule
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
@@ -196,9 +196,9 @@ class Frontier(BaseFork, solc_name="homestead"):
             return_cost_deducted_prior_execution: bool = False,
         ) -> int:
             assert access_list is None, f"Access list is not supported in {cls.name()}"
-            assert (
-                authorization_list_or_count is None
-            ), f"Authorizations are not supported in {cls.name()}"
+            assert authorization_list_or_count is None, (
+                f"Authorizations are not supported in {cls.name()}"
+            )
             intrinsic_cost: int = gas_costs.G_TRANSACTION
 
             if contract_creation:
@@ -215,24 +215,26 @@ class Frontier(BaseFork, solc_name="homestead"):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> BlobGasPriceCalculator:
         """Return a callable that calculates the blob gas price at a given fork."""
-        raise NotImplementedError("Blob gas price calculator is not supported in Frontier")
+        raise NotImplementedError(f"Blob gas price calculator is not supported in {cls.name()}")
 
     @classmethod
     def excess_blob_gas_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> ExcessBlobGasCalculator:
         """Return a callable that calculates the excess blob gas for a block at a given fork."""
-        raise NotImplementedError("Excess blob gas calculator is not supported in Frontier")
+        raise NotImplementedError(f"Excess blob gas calculator is not supported in {cls.name()}")
 
     @classmethod
     def min_base_fee_per_blob_gas(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the amount of blob gas used per blob at a given fork."""
-        raise NotImplementedError("Base fee per blob gas is not supported in Frontier")
+        raise NotImplementedError(f"Base fee per blob gas is not supported in {cls.name()}")
 
     @classmethod
     def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the blob base fee update fraction at a given fork."""
-        raise NotImplementedError("Blob base fee update fraction is not supported in Frontier")
+        raise NotImplementedError(
+            f"Blob base fee update fraction is not supported in {cls.name()}"
+        )
 
     @classmethod
     def blob_gas_per_blob(cls, block_number: int = 0, timestamp: int = 0) -> int:
@@ -240,14 +242,24 @@ class Frontier(BaseFork, solc_name="homestead"):
         return 0
 
     @classmethod
+    def supports_blobs(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Blobs are not supported at Frontier."""
+        return False
+
+    @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the target number of blobs per block at a given fork."""
-        raise NotImplementedError("Target blobs per block is not supported in Frontier")
+        raise NotImplementedError(f"Target blobs per block is not supported in {cls.name()}")
 
     @classmethod
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the max number of blobs per block at a given fork."""
-        raise NotImplementedError("Max blobs per block is not supported in Frontier")
+        raise NotImplementedError(f"Max blobs per block is not supported in {cls.name()}")
+
+    @classmethod
+    def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
+        """At genesis, no blob schedule is used."""
+        return None
 
     @classmethod
     def header_requests_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
@@ -264,15 +276,6 @@ class Frontier(BaseFork, solc_name="homestead"):
     @classmethod
     def header_beacon_root_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """At genesis, header must not contain parent beacon block root."""
-        return False
-
-    @classmethod
-    def header_target_blobs_per_block_required(
-        cls,
-        block_number: int = 0,
-        timestamp: int = 0,
-    ) -> bool:
-        """At genesis, header must not contain target blobs per block."""
         return False
 
     @classmethod
@@ -939,6 +942,11 @@ class Cancun(Shanghai):
         return 2**17
 
     @classmethod
+    def supports_blobs(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """At Cancun, blobs support is enabled."""
+        return True
+
+    @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Blobs are enabled starting from Cancun, with a static target of 3 blobs."""
         return 3
@@ -947,6 +955,29 @@ class Cancun(Shanghai):
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Blobs are enabled starting from Cancun, with a static max of 6 blobs."""
         return 6
+
+    @classmethod
+    def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
+        """
+        At Cancun, the fork object runs this routine to get the updated blob
+        schedule.
+        """
+        parent_fork = cls.parent()
+        assert parent_fork is not None, "Parent fork must be defined"
+        blob_schedule = parent_fork.blob_schedule(block_number, timestamp)
+        if blob_schedule is None:
+            last_blob_schedule = None
+            blob_schedule = BlobSchedule()
+        else:
+            last_blob_schedule = blob_schedule.last()
+        current_blob_schedule = ForkBlobSchedule(
+            target_blobs_per_block=cls.target_blobs_per_block(block_number, timestamp),
+            max_blobs_per_block=cls.max_blobs_per_block(block_number, timestamp),
+            base_fee_update_fraction=cls.blob_base_fee_update_fraction(block_number, timestamp),
+        )
+        if last_blob_schedule is None or last_blob_schedule != current_blob_schedule:
+            blob_schedule.append(fork=cls.__name__, schedule=current_blob_schedule)
+        return blob_schedule
 
     @classmethod
     def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
@@ -1062,9 +1093,9 @@ class Prague(Cancun):
         """Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251 and EIP-2935."""
         return [
             Address(0x00000000219AB540356CBB839CBE05303D7705FA),
-            Address(0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA),
-            Address(0x00431F263CE400F4455C2DCF564E53007CA4BBBB),
-            Address(0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC),
+            Address(0x00000961EF480EB55E80D19AD83579A64C007002),
+            Address(0x0000BBDDC7CE488642FB579F8B00F3A590007251),
+            Address(0x0000F90827F1C53A10CB7A02335B175320002935),
         ] + super(Prague, cls).system_contracts(block_number, timestamp)
 
     @classmethod
@@ -1193,33 +1224,33 @@ class Prague(Cancun):
                 }
             )
 
-        # Add the withdrawal request contract
+        # EIP-7002: Add the withdrawal request contract
         with open(CURRENT_FOLDER / "contracts" / "withdrawal_request.bin", mode="rb") as f:
             new_allocation.update(
                 {
-                    0x0C15F14308530B7CDB8460094BBB9CC28B9AAAAA: {
+                    0x00000961EF480EB55E80D19AD83579A64C007002: {
                         "nonce": 1,
                         "code": f.read(),
                     },
                 }
             )
 
-        # Add the consolidation request contract
+        # EIP-7251: Add the consolidation request contract
         with open(CURRENT_FOLDER / "contracts" / "consolidation_request.bin", mode="rb") as f:
             new_allocation.update(
                 {
-                    0x00431F263CE400F4455C2DCF564E53007CA4BBBB: {
+                    0x0000BBDDC7CE488642FB579F8B00F3A590007251: {
                         "nonce": 1,
                         "code": f.read(),
                     },
                 }
             )
 
-        # Add the history storage contract
+        # EIP-2935: Add the history storage contract
         with open(CURRENT_FOLDER / "contracts" / "history_contract.bin", mode="rb") as f:
             new_allocation.update(
                 {
-                    0x0F792BE4B0C0CB4DAE440EF133E90C0ECD48CCCC: {
+                    0x0000F90827F1C53A10CB7A02335B175320002935: {
                         "nonce": 1,
                         "code": f.read(),
                     }

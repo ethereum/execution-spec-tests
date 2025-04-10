@@ -46,7 +46,7 @@ valid_eof_opcodes = all_opcodes - invalid_eof_opcodes
 # Halting the execution opcodes can be placed without STOP instruction at the end
 halting_opcodes = {
     Op.STOP,
-    Op.RETURNCONTRACT,
+    Op.RETURNCODE,
     Op.RETURN,
     Op.REVERT,
     Op.INVALID,
@@ -88,7 +88,7 @@ def test_all_opcodes_in_container(
     sections = [Section.Code(code=bytecode)]
 
     match opcode:
-        case Op.EOFCREATE | Op.RETURNCONTRACT:
+        case Op.EOFCREATE | Op.RETURNCODE:
             sections.append(
                 Section.Container(
                     container=Container(
@@ -107,13 +107,13 @@ def test_all_opcodes_in_container(
             )
     sections.append(Section.Data("1122334455667788" * 4))
 
-    if opcode == Op.RETURNCONTRACT:
+    if opcode == Op.RETURNCODE:
         eof_code = Container(sections=sections, kind=ContainerKind.INITCODE)
     else:
         eof_code = Container(sections=sections)
 
     eof_test(
-        data=eof_code,
+        container=eof_code,
         expect_exception=(
             None if opcode in valid_eof_opcodes else EOFException.UNDEFINED_INSTRUCTION
         ),
@@ -136,8 +136,8 @@ def test_invalid_opcodes_after_stop(
     """Test that an invalid opcode placed after STOP (terminating instruction) invalidates EOF."""
     terminating_code = Bytecode(terminating_opcode)
     match terminating_opcode:  # Enhance the code for complex opcodes.
-        case Op.RETURNCONTRACT:
-            terminating_code = Op.RETURNCONTRACT[0]
+        case Op.RETURNCODE:
+            terminating_code = Op.RETURNCODE[0]
         case Op.RETURN | Op.REVERT:
             terminating_code = Op.PUSH0 + Op.PUSH0 + terminating_opcode
         case Op.RJUMP:
@@ -145,7 +145,7 @@ def test_invalid_opcodes_after_stop(
 
     eof_code = Container(
         kind=ContainerKind.INITCODE
-        if terminating_opcode == Op.RETURNCONTRACT
+        if terminating_opcode == Op.RETURNCODE
         else ContainerKind.RUNTIME,
         sections=[
             Section.Code(code=terminating_code + opcode),
@@ -153,13 +153,13 @@ def test_invalid_opcodes_after_stop(
         ]
         + (
             [Section.Container(container=Container.Code(Op.INVALID))]
-            if terminating_opcode == Op.RETURNCONTRACT
+            if terminating_opcode == Op.RETURNCODE
             else []
         ),
     )
 
     eof_test(
-        data=eof_code,
+        container=eof_code,
         expect_exception=EOFException.UNDEFINED_INSTRUCTION,
     )
 
@@ -194,7 +194,7 @@ def test_all_invalid_terminating_opcodes(
             Section.Container(
                 container=Container(
                     sections=[
-                        Section.Code(code=Op.RETURNCONTRACT[0](0, 0)),
+                        Section.Code(code=Op.RETURNCODE[0](0, 0)),
                         Section.Container(Container.Code(code=Op.STOP)),
                     ]
                 )
@@ -204,7 +204,7 @@ def test_all_invalid_terminating_opcodes(
     sections += [Section.Data(b"\0" * 32)]
 
     eof_test(
-        data=Container(
+        container=Container(
             sections=sections,
         ),
         expect_exception=EOFException.MISSING_STOP_OPCODE,
@@ -233,13 +233,13 @@ def test_all_unreachable_terminating_opcodes_after_stop(
                 Section.Code(code=Op.STOP + Op.JUMPF[1]),
                 Section.Code(code=Op.STOP),
             ]
-        case Op.RETURNCONTRACT:
+        case Op.RETURNCODE:
             sections = [
                 Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
                 Section.Container(
                     container=Container(
                         sections=[
-                            Section.Code(code=Op.STOP + Op.RETURNCONTRACT[0](0, 0)),
+                            Section.Code(code=Op.STOP + Op.RETURNCODE[0](0, 0)),
                             Section.Container(Container.Code(code=Op.STOP)),
                         ]
                     )
@@ -253,11 +253,11 @@ def test_all_unreachable_terminating_opcodes_after_stop(
             raise NotImplementedError(f"Opcode {opcode} is not implemented")
 
     eof_test(
-        data=Container(
+        container=Container(
             sections=sections,
         ),
         expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS
-        if opcode != Op.RETURNCONTRACT
+        if opcode != Op.RETURNCODE
         else EOFException.INCOMPATIBLE_CONTAINER_KIND,
     )
 
@@ -282,13 +282,13 @@ def test_all_unreachable_terminating_opcodes_before_stop(
                 Section.Code(code=Op.JUMPF[1] + Op.STOP),
                 Section.Code(code=Op.STOP),
             ]
-        case Op.RETURNCONTRACT:
+        case Op.RETURNCODE:
             sections = [
                 Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
                 Section.Container(
                     container=Container(
                         sections=[
-                            Section.Code(code=Op.RETURNCONTRACT[0](0, 0) + Op.STOP),
+                            Section.Code(code=Op.RETURNCODE[0](0, 0) + Op.STOP),
                             Section.Container(Container.Code(code=Op.STOP)),
                         ]
                     )
@@ -302,71 +302,12 @@ def test_all_unreachable_terminating_opcodes_before_stop(
             raise NotImplementedError(f"Opcode {opcode} is not implemented")
 
     eof_test(
-        data=Container(
+        container=Container(
             sections=sections,
         ),
         expect_exception=EOFException.UNREACHABLE_INSTRUCTIONS
-        if opcode != Op.RETURNCONTRACT
+        if opcode != Op.RETURNCODE
         else EOFException.INCOMPATIBLE_CONTAINER_KIND,
-    )
-
-
-@pytest.mark.parametrize(
-    "opcode",
-    sorted(op for op in valid_eof_opcodes if op.min_stack_height > 0)
-    + [
-        # Opcodes that have variable min_stack_height
-        Op.SWAPN[0x00],
-        Op.SWAPN[0xFF],
-        Op.DUPN[0x00],
-        Op.DUPN[0xFF],
-        Op.EXCHANGE[0x00],
-        Op.EXCHANGE[0xFF],
-    ],
-)
-def test_all_opcodes_stack_underflow(
-    eof_test: EOFTestFiller,
-    opcode: Opcode,
-):
-    """Test stack underflow on all opcodes that require at least one item on the stack."""
-    sections: List[Section]
-    if opcode == Op.EOFCREATE:
-        sections = [
-            Section.Code(code=Op.PUSH0 * (opcode.min_stack_height - 1) + opcode[0] + Op.STOP),
-            Section.Container(
-                container=Container(
-                    sections=[
-                        Section.Code(code=Op.RETURNCONTRACT[0](0, 0)),
-                        Section.Container(Container.Code(code=Op.STOP)),
-                    ]
-                )
-            ),
-        ]
-    elif opcode == Op.RETURNCONTRACT:
-        sections = [
-            Section.Code(code=Op.EOFCREATE[0](0, 0, 0, 0) + Op.STOP),
-            Section.Container(
-                container=Container(
-                    sections=[
-                        Section.Code(code=Op.PUSH0 * (opcode.min_stack_height - 1) + opcode[0]),
-                        Section.Container(Container.Code(code=Op.STOP)),
-                    ]
-                )
-            ),
-        ]
-    else:
-        bytecode = Op.PUSH0 * (opcode.min_stack_height - 1)
-        if opcode.has_data_portion():
-            bytecode += opcode[0]
-        else:
-            bytecode += opcode
-        bytecode += Op.STOP
-        sections = [Section.Code(code=bytecode)]
-    eof_code = Container(sections=sections)
-
-    eof_test(
-        data=eof_code,
-        expect_exception=EOFException.STACK_UNDERFLOW,
     )
 
 
@@ -415,7 +356,7 @@ def test_all_opcodes_stack_overflow(
     eof_code = Container(sections=sections)
 
     eof_test(
-        data=eof_code,
+        container=eof_code,
         expect_exception=exception,
     )
 
@@ -477,6 +418,6 @@ def test_truncated_data_portion_opcodes(
         ]
     )
     eof_test(
-        data=eof_code,
+        container=eof_code,
         expect_exception=EOFException.TRUNCATED_INSTRUCTION,
     )
