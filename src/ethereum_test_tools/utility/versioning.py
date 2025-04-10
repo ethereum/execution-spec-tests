@@ -33,7 +33,8 @@ def generate_github_url(file_path, branch_or_commit_or_tag="main", line_number="
     base_url = "https://github.com"
     username = "ethereum"
     repository = "execution-spec-tests"
-    line_fragment = f"#L{line_number}" if line_number else ""
+    if line_number:
+        line_number = f"#L{line_number}"
     release_tag_regex = r"^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(a[0-9]+|b[0-9]+|rc[0-9]+)?$"
     tree_or_blob = "tree" if re.match(release_tag_regex, branch_or_commit_or_tag) else "blob"
     return (
