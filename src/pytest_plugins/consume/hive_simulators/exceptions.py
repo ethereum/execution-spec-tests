@@ -215,6 +215,8 @@ class RethMapper(ExceptionMapper):
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "empty authorization list",
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: "unexpected length",
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",
+        BlockException.INVALID_RECEIPTS_ROOT: "receipt root mismatch",
+        BlockException.INVALID_STATE_ROOT: "mismatched block state root",
         BlockException.INVALID_BLOCK_HASH: "block hash mismatch",
         BlockException.INVALID_GAS_USED: "block gas used mismatch",
     }
