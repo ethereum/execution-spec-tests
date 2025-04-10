@@ -73,7 +73,11 @@ class ReleaseTag:
         """
         assert isinstance(value, str), f"Expected a string, but got: {value}"
         if self.version is not None:
-            return value == f"{self.tag_name}@{self.version}"
+            # normal release, e.g., stable@v4.0.0
+            normal_release_match = value == self.version
+            # pre release, e.g., pectra-devnet-6@v1.0.0
+            pre_release_match = value == f"{self.tag_name}@{self.version}"
+            return normal_release_match or pre_release_match
         return value.startswith(self.tag_name)
 
     @property
