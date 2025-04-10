@@ -29242,7 +29242,7 @@
 
 
 <h1 id="test_callf_with_inputs_stack_overflow_variable_stack"><code>test_callf_with_inputs_stack_overflow_variable_stack()</code><a class="headerlink" href="#test_callf_with_inputs_stack_overflow_variable_stack" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0e2bac85a3b3c8d3b38c513fb68b27962dec1b6b/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L924"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack@0e2bac85</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7a4e951a92ceb9047fafd55d7cd395a36335dcc/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L942"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack@a7a4e951</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack --fork Osaka</span>
@@ -29261,25 +29261,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 924</span>
-<span class="normal"> 925</span>
-<span class="normal"> 926</span>
-<span class="normal"> 927</span>
-<span class="normal"> 928</span>
-<span class="normal"> 929</span>
-<span class="normal"> 930</span>
-<span class="normal"> 931</span>
-<span class="normal"> 932</span>
-<span class="normal"> 933</span>
-<span class="normal"> 934</span>
-<span class="normal"> 935</span>
-<span class="normal"> 936</span>
-<span class="normal"> 937</span>
-<span class="normal"> 938</span>
-<span class="normal"> 939</span>
-<span class="normal"> 940</span>
-<span class="normal"> 941</span>
-<span class="normal"> 942</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 942</span>
 <span class="normal"> 943</span>
 <span class="normal"> 944</span>
 <span class="normal"> 945</span>
@@ -29356,68 +29338,146 @@
 <span class="normal">1016</span>
 <span class="normal">1017</span>
 <span class="normal">1018</span>
-<span class="normal">1019</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1019</span>
+<span class="normal">1020</span>
+<span class="normal">1021</span>
+<span class="normal">1022</span>
+<span class="normal">1023</span>
+<span class="normal">1024</span>
+<span class="normal">1025</span>
+<span class="normal">1026</span>
+<span class="normal">1027</span>
+<span class="normal">1028</span>
+<span class="normal">1029</span>
+<span class="normal">1030</span>
+<span class="normal">1031</span>
+<span class="normal">1032</span>
+<span class="normal">1033</span>
+<span class="normal">1034</span>
+<span class="normal">1035</span>
+<span class="normal">1036</span>
+<span class="normal">1037</span>
+<span class="normal">1038</span>
+<span class="normal">1039</span>
+<span class="normal">1040</span>
+<span class="normal">1041</span>
+<span class="normal">1042</span>
+<span class="normal">1043</span>
+<span class="normal">1044</span>
+<span class="normal">1045</span>
+<span class="normal">1046</span>
+<span class="normal">1047</span>
+<span class="normal">1048</span>
+<span class="normal">1049</span>
+<span class="normal">1050</span>
+<span class="normal">1051</span>
+<span class="normal">1052</span>
+<span class="normal">1053</span>
+<span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span>
+<span class="normal">1061</span>
+<span class="normal">1062</span>
+<span class="normal">1063</span>
+<span class="normal">1064</span>
+<span class="normal">1065</span>
+<span class="normal">1066</span>
+<span class="normal">1067</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;code_section&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;pop2&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push_pop&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push4&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push2&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push4_pop2&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push2_pop2&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push3_pop5&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push_pop3&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push4_pop6&quot;</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-            <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
+                <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;push2_pop4&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -29509,8 +29569,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-pop2]">
+                    ...fork_Osaka-eof_test-push_stack_1020-pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29519,8 +29579,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push_pop]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push_pop]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push_pop
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29529,8 +29589,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push4]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push4
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29539,8 +29599,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push2]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29549,8 +29609,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push4_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push4_pop2]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push4_pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29559,8 +29619,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push2_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push2_pop2]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push2_pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29569,8 +29629,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push3_pop5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push3_pop5]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push3_pop5
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29579,8 +29639,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push_pop3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push_pop3]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push_pop3
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29589,8 +29649,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push4_pop6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push4_pop6]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push4_pop6
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29599,8 +29659,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push2_pop4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1020-push2_pop4]">
+                    ...fork_Osaka-eof_test-push_stack_1020-push2_pop4
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29609,8 +29669,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-pop2]">
+                    ...fork_Osaka-eof_test-push_stack_1021-pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29619,8 +29679,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push_pop]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push_pop]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push_pop
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29629,8 +29689,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push4]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push4
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29639,8 +29699,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push2]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29649,8 +29709,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push4_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push4_pop2]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push4_pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29659,8 +29719,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push2_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push2_pop2]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push2_pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29669,8 +29729,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push3_pop5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push3_pop5]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push3_pop5
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29679,8 +29739,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push_pop3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push_pop3]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push_pop3
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29689,8 +29749,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push4_pop6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push4_pop6]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push4_pop6
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29699,8 +29759,8 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push2_pop4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-eof_test-push_stack_1021-push2_pop4]">
+                    ...fork_Osaka-eof_test-push_stack_1021-push2_pop4
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29709,8 +29769,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-pop2]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29719,8 +29779,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push_pop]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push_pop]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push_pop
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29729,8 +29789,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push4]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push4
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29739,8 +29799,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push2]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29749,8 +29809,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push4_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push4_pop2]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push4_pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29759,8 +29819,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push2_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push2_pop2]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push2_pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29769,8 +29829,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push3_pop5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push3_pop5]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push3_pop5
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29779,8 +29839,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push_pop3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push_pop3]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push_pop3
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29789,8 +29849,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push4_pop6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push4_pop6]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push4_pop6
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29799,8 +29859,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push2_pop4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1020-push2_pop4]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1020-push2_pop4
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29809,8 +29869,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-pop2]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29819,8 +29879,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push_pop]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push_pop]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push_pop
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29829,8 +29889,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push4]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push4
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29839,8 +29899,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push2]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29849,8 +29909,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push4_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push4_pop2]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push4_pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29859,8 +29919,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push2_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push2_pop2]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push2_pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29869,8 +29929,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push3_pop5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push3_pop5]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push3_pop5
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29879,8 +29939,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push_pop3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push_pop3]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push_pop3
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29889,8 +29949,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push4_pop6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push4_pop6]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push4_pop6
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29899,8 +29959,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push2_pop4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-state_test_from_eof_test-push_stack_1021-push2_pop4]">
+                    ...fork_Osaka-state_test_from_eof_test-push_stack_1021-push2_pop4
                 </abbr>
             </td>
                         <td>1021</td>
@@ -29909,8 +29969,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-pop2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29919,8 +29979,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push_pop]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push_pop]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push_pop
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29929,8 +29989,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29939,8 +29999,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29949,8 +30009,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4_pop2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4_pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29959,8 +30019,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2_pop2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2_pop2
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29969,8 +30029,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push3_pop5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push3_pop5]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push3_pop5
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29979,8 +30039,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push_pop3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push_pop3]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push_pop3
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29989,8 +30049,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4_pop6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4_pop6]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push4_pop6
                 </abbr>
             </td>
                         <td>1020</td>
@@ -29999,8 +30059,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2_pop4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2_pop4]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1020-push2_pop4
                 </abbr>
             </td>
                         <td>1020</td>
@@ -30009,8 +30069,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-pop2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30019,8 +30079,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push_pop]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push_pop]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push_pop
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30029,8 +30089,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=7 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30039,8 +30099,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30049,8 +30109,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=7 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4_pop2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4_pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30059,8 +30119,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2_pop2]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2_pop2]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2_pop2
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30069,8 +30129,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'___PPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push3_pop5]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push3_pop5]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push3_pop5
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30079,8 +30139,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push_pop3]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push_pop3]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push_pop3
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30089,8 +30149,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'____PPPPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=6 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4_pop6]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4_pop6]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push4_pop6
                 </abbr>
             </td>
                         <td>1021</td>
@@ -30099,8 +30159,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-code_section_data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2_pop4]" title="tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow_variable_stack[fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2_pop4]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-push_stack_1021-push2_pop4
                 </abbr>
             </td>
                         <td>1021</td>
