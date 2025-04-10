@@ -128,7 +128,7 @@ class FixturesSource:
 
     @classmethod
     def from_release_url(cls, url: str) -> "FixturesSource":
-        """Create a fixture source from a support github repo release URL."""
+        """Create a fixture source from a supported github repo release URL."""
         release_page = get_release_page_url(url)
         downloader = FixtureDownloader(url, CACHED_DOWNLOADS_DIRECTORY)
         was_cached, path = downloader.download_and_extract()
