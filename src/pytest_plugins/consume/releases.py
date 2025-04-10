@@ -214,12 +214,14 @@ def get_release_page_url(release_string_or_url: str) -> str:
     """
     repo_pattern = "|".join(re.escape(repo) for repo in SUPPORTED_REPOS)
     regex_pattern = rf"https://github\.com/({repo_pattern})/releases/download/"
+    # Case 0: If the string is not a recognized URL or a release string, but a valid URL,
+    # return empty string, which means we don't have a release page information but
+    # we can still download the asset.
     if (
         not re.match(regex_pattern, release_string_or_url)
         and not ReleaseTag.is_release_string(release_string_or_url)
         and is_url(release_string_or_url)
     ):
-        # Case 0: Any other arbitrary url we gracefully ignore.
         return ""
 
     release_information = get_release_information()
