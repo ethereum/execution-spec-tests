@@ -424,7 +424,7 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
             min_base_fee_per_blob_gas,  # tx max_blob_gas_cost is the minimum
             TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
             id="insufficient_max_fee_per_blob_gas",
-            marks=pytest.mark.negative,
+            marks=pytest.mark.exception_test,
         )
     )
     if (next_base_fee_per_blob_gas - min_base_fee_per_blob_gas) > 1:
@@ -437,7 +437,7 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
                 - 1,  # tx max_blob_gas_cost is one less than the minimum
                 TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
                 id="insufficient_max_fee_per_blob_gas_one_less_than_next",
-                marks=pytest.mark.negative,
+                marks=pytest.mark.exception_test,
             )
         )
     if min_base_fee_per_blob_gas > 1:
@@ -448,7 +448,7 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
                 min_base_fee_per_blob_gas - 1,  # tx max_blob_gas_cost is one less than the minimum
                 TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
                 id="insufficient_max_fee_per_blob_gas_one_less_than_min",
-                marks=pytest.mark.negative,
+                marks=pytest.mark.exception_test,
             )
         )
 
@@ -459,7 +459,7 @@ def generate_invalid_tx_max_fee_per_blob_gas_tests(
             0,  # tx max_blob_gas_cost is 0
             TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS,
             id="invalid_max_fee_per_blob_gas",
-            marks=pytest.mark.negative,
+            marks=pytest.mark.exception_test,
         )
     )
     return tests
@@ -537,7 +537,7 @@ def test_invalid_tx_max_fee_per_blob_gas_state(
     ],
     ids=["insufficient_max_fee_per_gas"],
 )
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_invalid_normal_gas(
     state_test: StateTestFiller,
@@ -577,7 +577,7 @@ def test_invalid_normal_gas(
     ],
     ids=[""],
 )
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_invalid_block_blob_count(
     blockchain_test: BlockchainTestFiller,
@@ -617,7 +617,7 @@ def test_invalid_block_blob_count(
 @pytest.mark.parametrize("tx_max_fee_per_blob_gas_multiplier", [1, 100, 10000])
 @pytest.mark.parametrize("account_balance_modifier", [-1], ids=["exact_balance_minus_1"])
 @pytest.mark.parametrize("tx_error", [TransactionException.INSUFFICIENT_ACCOUNT_FUNDS], ids=[""])
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_insufficient_balance_blob_tx(
     state_test: StateTestFiller,
@@ -838,7 +838,7 @@ def test_blob_gas_subtraction_tx(
 )
 @pytest.mark.parametrize("account_balance_modifier", [-1], ids=["exact_balance_minus_1"])
 @pytest.mark.parametrize("tx_error", [TransactionException.INSUFFICIENT_ACCOUNT_FUNDS], ids=[""])
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_insufficient_balance_blob_tx_combinations(
     blockchain_test: BlockchainTestFiller,
@@ -885,7 +885,7 @@ def generate_invalid_tx_blob_count_tests(
     "blobs_per_tx,tx_error",
     generate_invalid_tx_blob_count_tests,
 )
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_invalid_tx_blob_count(
     state_test: StateTestFiller,
@@ -930,7 +930,7 @@ def test_invalid_tx_blob_count(
 @pytest.mark.parametrize(
     "tx_error", [TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH], ids=[""]
 )
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_invalid_blob_hash_versioning_single_tx(
     state_test: StateTestFiller,
@@ -989,7 +989,7 @@ def test_invalid_blob_hash_versioning_single_tx(
 @pytest.mark.parametrize(
     "tx_error", [TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH], ids=[""]
 )
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_invalid_blob_hash_versioning_multiple_txs(
     blockchain_test: BlockchainTestFiller,
@@ -1016,7 +1016,7 @@ def test_invalid_blob_hash_versioning_multiple_txs(
 @pytest.mark.parametrize(
     "tx_gas", [500_000], ids=[""]
 )  # Increase gas to account for contract creation
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_invalid_blob_tx_contract_creation(
     blockchain_test: BlockchainTestFiller,
@@ -1359,7 +1359,7 @@ def test_blob_tx_attribute_gasprice_opcode(
     ],
     ids=["no_blob_tx", "one_blob_tx"],
 )
-@pytest.mark.negative
+@pytest.mark.exception_test
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_blob_type_tx_pre_fork(
     state_test: StateTestFiller,

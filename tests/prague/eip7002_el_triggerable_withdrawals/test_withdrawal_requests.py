@@ -679,7 +679,7 @@ def test_withdrawal_requests(
         ),
     ],
 )
-@pytest.mark.negative
+@pytest.mark.exception_test
 def test_withdrawal_requests_negative(
     pre: Alloc,
     fork: Fork,

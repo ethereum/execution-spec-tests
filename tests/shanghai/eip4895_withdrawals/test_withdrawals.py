@@ -39,7 +39,9 @@ ONE_GWEI = 10**9
     "test_case",
     [
         pytest.param(
-            "tx_in_withdrawals_block", id="tx_in_withdrawals_block", marks=pytest.mark.negative
+            "tx_in_withdrawals_block",
+            id="tx_in_withdrawals_block",
+            marks=pytest.mark.exception_test,
         ),
         pytest.param("tx_after_withdrawals_block", id="tx_after_withdrawals_block"),
     ],
