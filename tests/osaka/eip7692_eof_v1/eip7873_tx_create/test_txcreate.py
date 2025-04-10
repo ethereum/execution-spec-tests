@@ -19,7 +19,7 @@ from ethereum_test_vm.bytecode import Bytecode
 
 from .. import EOF_FORK_NAME
 from ..eip7069_extcall.spec import EXTCALL_SUCCESS, LEGACY_CALL_SUCCESS
-from .helpers import (
+from ..eip7620_eof_create.helpers import (
     slot_call_result,
     slot_calldata,
     slot_code_worked,

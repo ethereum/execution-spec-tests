@@ -20,7 +20,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from ..eip7069_extcall.spec import EXTCALL_FAILURE, EXTCALL_REVERT, LEGACY_CALL_FAILURE
-from .helpers import (
+from ..eip7620_eof_create.helpers import (
     aborting_container,
     slot_call_or_create,
     slot_call_result,
