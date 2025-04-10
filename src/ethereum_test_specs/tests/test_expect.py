@@ -423,12 +423,7 @@ def test_block_intermediate_state(
                 pre=pre,
                 post=block_3.expected_post_state,
                 blocks=[block_1, block_2, block_3],
-            ).generate(
-                # type: ignore
-                t8n=default_t8n,
-                fork=fork,
-                fixture_format=fixture_format,
-            )
+            ).generate(t8n=default_t8n, fork=fork, fixture_format=fixture_format)
         return
     else:
         BlockchainTest(
@@ -438,9 +433,4 @@ def test_block_intermediate_state(
             pre=pre,
             post=block_3.expected_post_state,
             blocks=[block_1, block_2, block_3],
-        ).generate(
-            # type: ignore
-            t8n=default_t8n,
-            fork=fork,
-            fixture_format=fixture_format,
-        )
+        ).generate(t8n=default_t8n, fork=fork, fixture_format=fixture_format)
