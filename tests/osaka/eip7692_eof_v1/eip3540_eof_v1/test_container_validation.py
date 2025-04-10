@@ -338,12 +338,32 @@ def test_valid_containers(
         ),
         Container(
             name="incomplete_container_section_size_2",
-            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0002 0001",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0001 0000",
             validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
         ),
         Container(
             name="incomplete_container_section_size_3",
-            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0002 0001 00",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0001 000000",
+            validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            name="incomplete_container_section_size_4",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0002 00000001",
+            validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            name="incomplete_container_section_size_5",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0002 00000001 00",
+            validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            name="incomplete_container_section_size_6",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0002 00000001 0000",
+            validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
+        ),
+        Container(
+            name="incomplete_container_section_size_7",
+            raw_bytes="ef00 01 01 0004 02 0001 0001 03 0002 00000001 000000",
             validity_error=EOFException.INCOMPLETE_SECTION_SIZE,
         ),
         Container(
