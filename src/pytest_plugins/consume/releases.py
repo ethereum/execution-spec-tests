@@ -216,7 +216,7 @@ def get_release_page_url(release_string: str) -> str:
             for asset in release.assets.root:
                 if asset.url == release_string:
                     return release.url  # The HTML page for this release
-        raise NoSuchReleaseError(f"No release found for asset URL: {release_string}")
+        return ""
 
     # Case 2: Otherwise, treat it as a release descriptor (e.g., "eip7692@latest")
     release_descriptor = ReleaseTag.from_string(release_string)
@@ -224,8 +224,8 @@ def get_release_page_url(release_string: str) -> str:
         if release_descriptor in release:
             return release.url
 
-    # If nothing matched, raise
-    raise NoSuchReleaseError(release_string)
+    # If nothing matched, return empty string
+    return ""
 
 
 def get_release_information() -> List[ReleaseInformation]:
