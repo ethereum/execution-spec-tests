@@ -2,8 +2,6 @@
 
 from typing import Callable, ClassVar, Generator, List, Optional, Sequence, Type
 
-import pytest
-
 from ethereum_clis import TransitionTool
 from ethereum_test_execution import (
     BaseExecute,
@@ -22,7 +20,6 @@ from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Transaction
 
 from .base import BaseTest
-from .helpers import is_negative_test
 
 
 class TransactionTest(BaseTest):
@@ -79,23 +76,13 @@ class TransactionTest(BaseTest):
 
     def generate(
         self,
-        request: pytest.FixtureRequest,
         t8n: TransitionTool,
         fork: Fork,
         fixture_format: FixtureFormat,
         eips: Optional[List[int]] = None,
     ) -> BaseFixture:
         """Generate the TransactionTest fixture."""
-        if self.tx.error is not None and not is_negative_test(request):
-            raise Exception(
-                "Transaction tests with an error code should be marked with the "
-                "`pytest.mark.exception_test` test marker."
-            )
-        elif self.tx.error is None and is_negative_test(request):
-            raise Exception(
-                "Transaction tests without an error code should not be marked with "
-                "`pytest.mark.exception_test` test marker."
-            )
+        self.check_negative_test(exception=self.tx.error is not None)
         if fixture_format == TransactionFixture:
             return self.make_transaction_test_fixture(fork, eips)
 
