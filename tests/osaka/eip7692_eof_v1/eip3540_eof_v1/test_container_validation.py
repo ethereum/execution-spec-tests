@@ -372,6 +372,13 @@ def test_valid_containers(
             validity_error=EOFException.ZERO_SECTION_SIZE,
         ),
         Container(
+            name="container_section_size_2bytes",
+            raw_bytes="ef00 01 01 0004 02 0001 000b 03 0001 0014 ff 0000 00 00800004"
+            "6000600060006000ec0000"
+            "ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe",
+            validity_error=EOFException.MISSING_DATA_SECTION,
+        ),
+        Container(
             name="truncated_header_data_section_with_container_section",
             raw_bytes="ef00 01 01 0004 02 0001 0001 03 0001 00000001",
             validity_error=EOFException.MISSING_HEADERS_TERMINATOR,
