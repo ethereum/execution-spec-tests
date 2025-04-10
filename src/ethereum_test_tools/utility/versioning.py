@@ -17,12 +17,10 @@ def get_current_commit_hash_or_tag(repo_path=".", shorten_hash=False):
     try:
         repo = Repo(repo_path)
         current_commit = repo.head.commit
-        
         # Check if current commit has a tag using lookup
         for tag in repo.tags:
             if tag.commit == current_commit:
                 return tag.name
-        
         # No tag found, return commit hash
         return current_commit.hexsha[:8] if shorten_hash else current_commit.hexsha
     except InvalidGitRepositoryError:
@@ -35,9 +33,6 @@ def generate_github_url(file_path, branch_or_commit_or_tag="main", line_number="
     base_url = "https://github.com"
     username = "ethereum"
     repository = "execution-spec-tests"
-    
-    line_fragment = f"#L{line_number}" if line_number else ""
-    
     release_tag_regex = r"^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(a[0-9]+|b[0-9]+|rc[0-9]+)?$"
     tree_or_blob = "tree" if re.match(release_tag_regex, branch_or_commit_or_tag) else "blob"
     return (
