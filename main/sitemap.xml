@@ -2356,6 +2356,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation/test_valid_non_constant_stack_examples/</loc>
+         <lastmod>2025-04-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip6206_jumpf/</loc>
          <lastmod>2025-04-11</lastmod>
          <changefreq>daily</changefreq>
