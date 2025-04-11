@@ -633,7 +633,7 @@ class BlockchainTest(BaseTest):
                 self.verify_post_state(
                     t8n, t8n_state=alloc, expected_state=block.expected_post_state
                 )
-        self.check_negative_test(exception=invalid_blocks > 0)
+        self.check_exception_test(exception=invalid_blocks > 0)
         self.verify_post_state(t8n, t8n_state=alloc)
         network_info = BlockchainTest.network_info(fork, eips)
         return BlockchainFixture(
@@ -698,7 +698,7 @@ class BlockchainTest(BaseTest):
                 self.verify_post_state(
                     t8n, t8n_state=alloc, expected_state=block.expected_post_state
                 )
-        self.check_negative_test(exception=invalid_blocks > 0)
+        self.check_exception_test(exception=invalid_blocks > 0)
         fcu_version = fork.engine_forkchoice_updated_version(header.number, header.timestamp)
         assert fcu_version is not None, (
             "A hive fixture was requested but no forkchoice update is defined."

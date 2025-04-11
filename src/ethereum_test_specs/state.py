@@ -231,7 +231,7 @@ class StateTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
-        self.check_negative_test(exception=self.tx.error is not None)
+        self.check_exception_test(exception=self.tx.error is not None)
         if fixture_format in BlockchainTest.supported_fixture_formats:
             return self.generate_blockchain_test(fork=fork).generate(
                 t8n=t8n, fork=fork, fixture_format=fixture_format, eips=eips

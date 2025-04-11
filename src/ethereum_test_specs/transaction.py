@@ -82,7 +82,7 @@ class TransactionTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> BaseFixture:
         """Generate the TransactionTest fixture."""
-        self.check_negative_test(exception=self.tx.error is not None)
+        self.check_exception_test(exception=self.tx.error is not None)
         if fixture_format == TransactionFixture:
             return self.make_transaction_test_fixture(fork, eips)
 

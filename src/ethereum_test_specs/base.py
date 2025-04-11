@@ -145,7 +145,7 @@ class BaseTest(BaseModel):
             return self._request.node.get_closest_marker("slow") is not None
         return False
 
-    def is_negative_test(self) -> bool | None:
+    def is_exception_test(self) -> bool | None:
         """
         Check if the test is an exception test (invalid block, invalid transaction).
 
@@ -162,13 +162,13 @@ class BaseTest(BaseModel):
             return self._request.node.nodeid
         return ""
 
-    def check_negative_test(
+    def check_exception_test(
         self,
         *,
         exception: bool,
     ):
         """Compare the test marker against the outcome of the test."""
-        negative_test_marker = self.is_negative_test()
+        negative_test_marker = self.is_exception_test()
         if negative_test_marker is None:
             return
         if negative_test_marker != exception:
