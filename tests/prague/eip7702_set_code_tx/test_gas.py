@@ -453,6 +453,16 @@ def gas_test_parameter_args(
         ),
         pytest.param(
             {
+                "signer_type": SignerType.MULTIPLE_SIGNERS,
+                "authority_type": AddressType.EOA,
+                "authorization_invalidity_type": AuthorizationInvalidityType.INVALID_NONCE,
+                "self_sponsored": True,
+                "authorizations_count": multiple_authorizations_count,
+            },
+            id="multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers",
+        ),
+        pytest.param(
+            {
                 "signer_type": SignerType.SINGLE_SIGNER,
                 "authorization_invalidity_type": AuthorizationInvalidityType.INVALID_CHAIN_ID,
                 "authorizations_count": multiple_authorizations_count,
