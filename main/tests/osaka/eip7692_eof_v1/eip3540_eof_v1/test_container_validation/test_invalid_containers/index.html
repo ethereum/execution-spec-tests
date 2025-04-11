@@ -29242,7 +29242,7 @@
 
 
 <h1 id="test_invalid_containers"><code>test_invalid_containers()</code><a class="headerlink" href="#test_invalid_containers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/370572b30890d27c17327d0f0c260e449c8f61bc/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L147"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@370572b3</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5d50fc2e2eeb9e2b4ae5b5d4993bb35fc4e0cab0/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py#L147"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers@5d50fc2e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers --fork Osaka</span>
@@ -30260,7 +30260,34 @@
 <span class="normal">1143</span>
 <span class="normal">1144</span>
 <span class="normal">1145</span>
-<span class="normal">1146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1146</span>
+<span class="normal">1147</span>
+<span class="normal">1148</span>
+<span class="normal">1149</span>
+<span class="normal">1150</span>
+<span class="normal">1151</span>
+<span class="normal">1152</span>
+<span class="normal">1153</span>
+<span class="normal">1154</span>
+<span class="normal">1155</span>
+<span class="normal">1156</span>
+<span class="normal">1157</span>
+<span class="normal">1158</span>
+<span class="normal">1159</span>
+<span class="normal">1160</span>
+<span class="normal">1161</span>
+<span class="normal">1162</span>
+<span class="normal">1163</span>
+<span class="normal">1164</span>
+<span class="normal">1165</span>
+<span class="normal">1166</span>
+<span class="normal">1167</span>
+<span class="normal">1168</span>
+<span class="normal">1169</span>
+<span class="normal">1170</span>
+<span class="normal">1171</span>
+<span class="normal">1172</span>
+<span class="normal">1173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30454,32 +30481,59 @@
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;incomplete_container_section_size_2&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0002 0001&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0000&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;incomplete_container_section_size_3&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0002 0001 00&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 000000&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;incomplete_container_section_size_4&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0002 00000001&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;incomplete_container_section_size_5&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0002 00000001 00&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;incomplete_container_section_size_6&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0002 00000001 0000&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;incomplete_container_section_size_7&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0002 00000001 000000&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_size_container_section&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0000 ff 0000 00 00800000 00&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 00000000 ff 0000 00 00800000 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">ZERO_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;container_section_size_2bytes&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 000b 03 0001 0014 ff 0000 00 00800004&quot;</span>
+            <span class="s2">&quot;6000600060006000ec0000&quot;</span>
+            <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span><span class="p">,</span>
+            <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_DATA_SECTION</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;truncated_header_data_section_with_container_section&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0001&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 00000001&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;no_data_section_size_with_container_section&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0001 ff&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 00000001 ff&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_HEADERS_TERMINATOR</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;data_section_size_incomplete_with_container_section&quot;</span><span class="p">,</span>
-            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 0001 ff 00&quot;</span><span class="p">,</span>
+            <span class="n">raw_bytes</span><span class="o">=</span><span class="s2">&quot;ef00 01 01 0004 02 0001 0001 03 0001 00000001 ff 00&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">INCOMPLETE_SECTION_SIZE</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30909,7 +30963,7 @@
             <span class="p">],</span>
             <span class="n">auto_sort_sections</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">ONLY_BODY</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0015 03 0001 0014 ff 0001 03 0001 0014 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0015 03 0001 00000014 ff 0001 03 0001 00000014 00&quot;</span>
                 <span class="s2">&quot;00800005 6000600060006000ec00 6000600060006000ec01 00&quot;</span>
                 <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
                 <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
@@ -30927,7 +30981,7 @@
             <span class="p">],</span>
             <span class="n">skip_join_concurrent_sections_in_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 0015 03 0001 0014 03 0001 0014 ff 0001 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 0015 03 0001 00000014 03 0001 00000014 ff 0001 00&quot;</span>
                 <span class="s2">&quot;00800005 6000600060006000ec00 6000600060006000ec01 00&quot;</span>
                 <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
                 <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
@@ -30948,7 +31002,7 @@
             <span class="p">],</span>
             <span class="n">skip_join_concurrent_sections_in_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;ef00 01 01 0004 02 0001 000b 03 0001 0014 03 0001 0014 ff 0001 00&quot;</span>
+                <span class="s2">&quot;ef00 01 01 0004 02 0001 000b 03 0001 00000014 03 0001 00000014 ff 0001 00&quot;</span>
                 <span class="s2">&quot;00800004 6000600060006000ec00 00&quot;</span>
                 <span class="s2">&quot;ef00 01 01 0004 02 0001 0001 ff 0000 00 00800000 fe&quot;</span>
                 <span class="s2">&quot;aa&quot;</span>
@@ -31033,8 +31087,8 @@
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">auto_type_section</span><span class="o">=</span><span class="n">AutoSection</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
-            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 020001 0001 030001 0032 ff0000 00 fe&quot;</span>
-            <span class="s2">&quot;ef0001 010004 020001 0006 030001 0014 ff0000 00 00800002 60006000ee00&quot;</span>
+            <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001 020001 0001 030001 00000034 ff0000 00 fe&quot;</span>
+            <span class="s2">&quot;ef0001 010004 020001 0006 030001 00000014 ff0000 00 00800002 60006000ee00&quot;</span>
             <span class="s2">&quot;ef0001 010004 020001 0001 ff0000 00 0080000000&quot;</span><span class="p">,</span>
             <span class="n">validity_error</span><span class="o">=</span><span class="p">[</span><span class="n">EOFException</span><span class="o">.</span><span class="n">MISSING_TYPE_HEADER</span><span class="p">,</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">UNEXPECTED_HEADER_KIND</span><span class="p">],</span>
         <span class="p">),</span>
@@ -31604,11 +31658,56 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-incomplete_container_section_size_4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-incomplete_container_section_size_4]">
+                    ...fork_Osaka-eof_test-incomplete_container_section_size_4
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-incomplete_container_section_size_5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-incomplete_container_section_size_5]">
+                    ...fork_Osaka-eof_test-incomplete_container_section_size_5
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_5</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-incomplete_container_section_size_6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-incomplete_container_section_size_6]">
+                    ...fork_Osaka-eof_test-incomplete_container_section_size_6
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_6</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-incomplete_container_section_size_7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-incomplete_container_section_size_7]">
+                    ...fork_Osaka-eof_test-incomplete_container_section_size_7
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_7</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-zero_size_container_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-zero_size_container_section]">
                     ...fork_Osaka-eof_test-zero_size_container_section
                 </abbr>
             </td>
                         <td>zero_size_container_section</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-container_section_size_2bytes]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-eof_test-container_section_size_2bytes]">
+                    ...fork_Osaka-eof_test-container_section_size_2bytes
+                </abbr>
+            </td>
+                        <td>container_section_size_2bytes</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
@@ -32594,11 +32693,56 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_4]">
+                    ...fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_4
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_5]">
+                    ...fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_5
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_5</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_6]">
+                    ...fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_6
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_6</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_7]">
+                    ...fork_Osaka-state_test_from_eof_test-incomplete_container_section_size_7
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_7</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-zero_size_container_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-zero_size_container_section]">
                     ...fork_Osaka-state_test_from_eof_test-zero_size_container_section
                 </abbr>
             </td>
                         <td>zero_size_container_section</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-container_section_size_2bytes]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-state_test_from_eof_test-container_section_size_2bytes]">
+                    ...fork_Osaka-state_test_from_eof_test-container_section_size_2bytes
+                </abbr>
+            </td>
+                        <td>container_section_size_2bytes</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -33584,11 +33728,56 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_4]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_4]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_4
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_5]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_5]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_5
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_5</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_6]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_6]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_6
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_6</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_7]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_7]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-incomplete_container_section_size_7
+                </abbr>
+            </td>
+                        <td>incomplete_container_section_size_7</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-zero_size_container_section]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-zero_size_container_section]">
                     ...fork_Osaka-blockchain_test_from_eof_test-zero_size_container_section
                 </abbr>
             </td>
                         <td>zero_size_container_section</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-container_section_size_2bytes]" title="tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_container_validation.py::test_invalid_containers[fork_Osaka-blockchain_test_from_eof_test-container_section_size_2bytes]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-container_section_size_2bytes
+                </abbr>
+            </td>
+                        <td>container_section_size_2bytes</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 

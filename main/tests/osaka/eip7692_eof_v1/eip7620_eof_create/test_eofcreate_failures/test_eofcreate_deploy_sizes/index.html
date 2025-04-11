@@ -29242,7 +29242,7 @@
 
 
 <h1 id="test_eofcreate_deploy_sizes"><code>test_eofcreate_deploy_sizes()</code><a class="headerlink" href="#test_eofcreate_deploy_sizes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/370572b30890d27c17327d0f0c260e449c8f61bc/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L148"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_deploy_sizes@370572b3</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5d50fc2e2eeb9e2b4ae5b5d4993bb35fc4e0cab0/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L148"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_deploy_sizes@5d50fc2e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_deploy_sizes --fork Osaka</span>
@@ -29410,7 +29410,7 @@
         <span class="s2">&quot;factory_size is wrong, expected factory_size is </span><span class="si">%d</span><span class="s2">, calculated is </span><span class="si">%d</span><span class="s2">&quot;</span>
         <span class="o">%</span> <span class="p">(</span>
             <span class="n">factory_size</span><span class="p">,</span>
-            <span class="nb">len</span><span class="p">(</span><span class="n">factory_container</span><span class="p">),</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">factory_container</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">runtime_container</span><span class="p">),</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -29524,7 +29524,7 @@
                     ...fork_Osaka-state_test-initcodemax
                 </abbr>
             </td>
-                        <td>49078</td>
+                        <td>49074</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -29533,7 +29533,7 @@
                     ...fork_Osaka-state_test-initcodeovermax
                 </abbr>
             </td>
-                        <td>49079</td>
+                        <td>49075</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -29542,7 +29542,7 @@
                     ...fork_Osaka-state_test-64k-1
                 </abbr>
             </td>
-                        <td>65461</td>
+                        <td>65457</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29578,7 +29578,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-initcodemax
                 </abbr>
             </td>
-                        <td>49078</td>
+                        <td>49074</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29587,7 +29587,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-initcodeovermax
                 </abbr>
             </td>
-                        <td>49079</td>
+                        <td>49075</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -29596,7 +29596,7 @@
                     ...fork_Osaka-blockchain_test_from_state_test-64k-1
                 </abbr>
             </td>
-                        <td>65461</td>
+                        <td>65457</td>
                     </tr>
             </tbody>
 </table>
