@@ -242,6 +242,7 @@ incrementing
 ini
 init
 initcode
+initcodes
 inputdata
 instantiation
 io
