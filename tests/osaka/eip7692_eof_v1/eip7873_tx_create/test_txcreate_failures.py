@@ -172,7 +172,7 @@ def test_initcode_aborts(
 Size of the initcode portion of test_txcreate_deploy_sizes, but as the runtime code is dynamic, we
 have to use a pre-calculated size
 """
-initcode_size = 30
+initcode_size = 32
 
 
 @pytest.mark.with_all_evm_code_types
