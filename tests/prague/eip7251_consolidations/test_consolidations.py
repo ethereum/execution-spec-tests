@@ -374,10 +374,11 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 source_pubkey=i * 2,
                                 target_pubkey=i * 2 + 1,
                                 fee=Spec.get_fee(0),
+                                gas_limit=6_000_000,
                             )
                             for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ],
-                        call_depth=1024,
+                        call_depth=100,
                     ),
                 ],
             ],
