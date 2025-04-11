@@ -14,6 +14,7 @@ from typing_extensions import Annotated
 from ethereum_test_base_types import Address, Hash, HexNumber
 
 from .compile_yul import compile_yul
+from .docker import get_lllc_container_id
 
 
 def parse_hex_number(i: str | int) -> int:
@@ -144,11 +145,18 @@ class CodeInFillerSource:
 
         # Prase lllc code
         elif self.code_raw.lstrip().startswith("{") or self.code_raw.lstrip().startswith("(asm"):
-            binary_path = "lllc"
             with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
                 tmp.write(self.code_raw)
                 tmp_path = tmp.name
-            result = subprocess.run([binary_path, tmp_path], capture_output=True, text=True)
+
+            # using lllc
+            # result = subprocess.run(["lllc", tmp_path], capture_output=True, text=True)
+
+            result = subprocess.run(
+                ["docker", "exec", get_lllc_container_id(), "lllc", tmp_path[5:]],
+                capture_output=True,
+                text=True,
+            )
             compiled_code = "".join(result.stdout.splitlines())
         else:
             raise Exception(f'Error parsing code: "{self.code_raw}"')
