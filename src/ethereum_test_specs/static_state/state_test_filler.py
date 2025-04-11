@@ -46,8 +46,7 @@ class StateTestInFiller(BaseModel):
                 indexes = indexes.replace(":label ", "")
                 tx_matches: List[int] = []
                 for idx, d in enumerate(self.transaction.data):
-                    _, code_opt = d.data
-                    if indexes == code_opt.label:
+                    if indexes == d.data.code_label:
                         tx_matches.append(idx)
                 return tx_matches
             else:
