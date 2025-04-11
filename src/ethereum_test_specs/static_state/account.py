@@ -19,4 +19,4 @@ class AccountInFiller(BaseModel):
         """Model Config."""
 
         extra = "forbid"
-        arbitrary_types_allowed = True
+        arbitrary_types_allowed = True  # For CodeInFiller
