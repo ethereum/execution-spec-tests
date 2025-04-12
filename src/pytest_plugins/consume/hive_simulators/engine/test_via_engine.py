@@ -101,6 +101,7 @@ def test_blockchain_via_engine(
                                     f'(mapper: "{payload_response.validation_error.mapper_name}")'
                                 )
                                 if client_strict_exception_matching:
+                                    logger.fail(message)
                                     raise Exception(message)
                                 else:
                                     logger.warning(message)
