@@ -30009,7 +30009,7 @@
 
 
 <h1 id="test_blob_type_tx_pre_fork"><code>test_blob_type_tx_pre_fork()</code><a class="headerlink" href="#test_blob_type_tx_pre_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/23a354e676c9a520657a9da2ed91d286993e5ec9/tests/cancun/eip4844_blobs/test_blob_txs.py#L1332"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@23a354e6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2fe8ca5160a16323c7fe42664662b0b198f44cd1/tests/cancun/eip4844_blobs/test_blob_txs.py#L1344"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@2fe8ca51</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork --fork Prague</span>
@@ -30030,19 +30030,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1332</span>
-<span class="normal">1333</span>
-<span class="normal">1334</span>
-<span class="normal">1335</span>
-<span class="normal">1336</span>
-<span class="normal">1337</span>
-<span class="normal">1338</span>
-<span class="normal">1339</span>
-<span class="normal">1340</span>
-<span class="normal">1341</span>
-<span class="normal">1342</span>
-<span class="normal">1343</span>
-<span class="normal">1344</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1344</span>
 <span class="normal">1345</span>
 <span class="normal">1346</span>
 <span class="normal">1347</span>
@@ -30066,7 +30054,20 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 <span class="normal">1365</span>
 <span class="normal">1366</span>
 <span class="normal">1367</span>
-<span class="normal">1368</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1368</span>
+<span class="normal">1369</span>
+<span class="normal">1370</span>
+<span class="normal">1371</span>
+<span class="normal">1372</span>
+<span class="normal">1373</span>
+<span class="normal">1374</span>
+<span class="normal">1375</span>
+<span class="normal">1376</span>
+<span class="normal">1377</span>
+<span class="normal">1378</span>
+<span class="normal">1379</span>
+<span class="normal">1380</span>
+<span class="normal">1381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
@@ -30084,6 +30085,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_blob_tx&quot;</span><span class="p">,</span> <span class="s2">&quot;one_blob_tx&quot;</span><span class="p">],</span>
 <span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blob_type_tx_pre_fork</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>

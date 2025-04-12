@@ -30009,7 +30009,7 @@
 
 
 <h1 id="test_invalid_blob_hash_versioning_single_tx"><code>test_invalid_blob_hash_versioning_single_tx()</code><a class="headerlink" href="#test_invalid_blob_hash_versioning_single_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/23a354e676c9a520657a9da2ed91d286993e5ec9/tests/cancun/eip4844_blobs/test_blob_txs.py#L906"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_hash_versioning_single_tx@23a354e6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2fe8ca5160a16323c7fe42664662b0b198f44cd1/tests/cancun/eip4844_blobs/test_blob_txs.py#L915"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_hash_versioning_single_tx@2fe8ca51</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_invalid_blob_hash_versioning_single_tx --fork Prague</span>
@@ -30033,16 +30033,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blob_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">906</span>
-<span class="normal">907</span>
-<span class="normal">908</span>
-<span class="normal">909</span>
-<span class="normal">910</span>
-<span class="normal">911</span>
-<span class="normal">912</span>
-<span class="normal">913</span>
-<span class="normal">914</span>
-<span class="normal">915</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">915</span>
 <span class="normal">916</span>
 <span class="normal">917</span>
 <span class="normal">918</span>
@@ -30075,7 +30066,17 @@
 <span class="normal">945</span>
 <span class="normal">946</span>
 <span class="normal">947</span>
-<span class="normal">948</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">948</span>
+<span class="normal">949</span>
+<span class="normal">950</span>
+<span class="normal">951</span>
+<span class="normal">952</span>
+<span class="normal">953</span>
+<span class="normal">954</span>
+<span class="normal">955</span>
+<span class="normal">956</span>
+<span class="normal">957</span>
+<span class="normal">958</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blob_hashes_per_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">[[</span><span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)]],</span>
@@ -30093,6 +30094,7 @@
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;tx_error&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
 <span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_blob_hash_versioning_single_tx</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
