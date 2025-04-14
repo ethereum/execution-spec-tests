@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_eof_example_custom_fields"><code>test_eof_example_custom_fields()</code><a class="headerlink" href="#test_eof_example_custom_fields" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/648e8c9e6cd1defa44cbc2c5b91b9f31693acbfa/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py#L68"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example_custom_fields@648e8c9e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c4eeff347a64ad6c5aedd51314d4ffc067346b/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py#L65"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example_custom_fields@a1c4eeff</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example_custom_fields --fork Osaka</span>
@@ -30030,7 +30030,10 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
 <span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
@@ -30074,10 +30077,7 @@
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example_custom_fields</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example_custom_fields</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Example of python EOF container class tuning.&quot;&quot;&quot;</span>
     <span class="c1"># if you need to overwrite certain structure bytes, you can use customization</span>
     <span class="c1"># this is useful for unit testing the eof structure format, you can reorganize sections</span>

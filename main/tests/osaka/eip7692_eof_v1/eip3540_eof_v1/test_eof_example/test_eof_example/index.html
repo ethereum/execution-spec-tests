@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_eof_example"><code>test_eof_example()</code><a class="headerlink" href="#test_eof_example" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/648e8c9e6cd1defa44cbc2c5b91b9f31693acbfa/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py#L17"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example@648e8c9e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c4eeff347a64ad6c5aedd51314d4ffc067346b/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py#L17"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example@a1c4eeff</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_eof_example.py::test_eof_example --fork Osaka</span>
@@ -30075,10 +30075,7 @@
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_eof_example</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Example of python EOF classes.&quot;&quot;&quot;</span>
     <span class="c1"># Lets construct an EOF container code</span>
     <span class="n">eof_code</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
@@ -30115,12 +30112,9 @@
             <span class="c1"># DATA section</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;0xef&quot;</span><span class="p">),</span>
         <span class="p">],</span>
-    <span class="p">)</span>
-
-    <span class="c1"># This will construct a valid EOF container with these bytes</span>
-    <span class="k">assert</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">eof_code</span><span class="p">)</span> <span class="o">==</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span>
-        <span class="s2">&quot;ef00010100100200040005000600080002ff000100008000010100000100010003020300035fe300010050&quot;</span>
-        <span class="s2">&quot;e3000250e43080e300035050e480e4ef&quot;</span>
+        <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100100200040005000600080002ff000100&quot;</span>
+        <span class="s2">&quot;00800001 01000000 00010003 02030001&quot;</span>
+        <span class="s2">&quot;5fe300010050e3000250e43080e300035050e480e4ef&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">eof_test</span><span class="p">(</span>

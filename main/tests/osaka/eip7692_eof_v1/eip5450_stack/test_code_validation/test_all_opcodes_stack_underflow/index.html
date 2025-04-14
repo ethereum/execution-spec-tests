@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_all_opcodes_stack_underflow"><code>test_all_opcodes_stack_underflow()</code><a class="headerlink" href="#test_all_opcodes_stack_underflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/648e8c9e6cd1defa44cbc2c5b91b9f31693acbfa/tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py#L460"><code>tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_all_opcodes_stack_underflow@648e8c9e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c4eeff347a64ad6c5aedd51314d4ffc067346b/tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py#L460"><code>tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_all_opcodes_stack_underflow@a1c4eeff</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip5450_stack/test_code_validation.py::test_all_opcodes_stack_underflow --fork Osaka</span>
@@ -30107,9 +30107,9 @@ caused by the specific instruction <code>op</code>.</p>
     <span class="k">if</span> <span class="n">spread</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># Check if the op increases the stack height (e.g. DUP instructions).</span>
         <span class="c1"># We need to leave space for this increase not to cause stack overflow.</span>
-        <span class="n">stack_height_increase</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">pushed_stack_items</span> <span class="o">-</span> <span class="n">op</span><span class="o">.</span><span class="n">popped_stack_items</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">max_stack_increase</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">pushed_stack_items</span> <span class="o">-</span> <span class="n">op</span><span class="o">.</span><span class="n">popped_stack_items</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="c1"># Cap the spread if it would exceed the maximum stack height.</span>
-        <span class="n">spread</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spread</span><span class="p">,</span> <span class="n">MAX_OPERAND_STACK_HEIGHT</span> <span class="o">-</span> <span class="p">(</span><span class="n">stack_height</span> <span class="o">+</span> <span class="n">stack_height_increase</span><span class="p">))</span>
+        <span class="n">spread</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spread</span><span class="p">,</span> <span class="n">MAX_OPERAND_STACK_HEIGHT</span> <span class="o">-</span> <span class="p">(</span><span class="n">stack_height</span> <span class="o">+</span> <span class="n">max_stack_increase</span><span class="p">))</span>
         <span class="c1"># Create a range stack height of 0-spread.</span>
         <span class="n">code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="n">spread</span><span class="p">](</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLVALUE</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">spread</span>
 
