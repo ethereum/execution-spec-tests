@@ -1287,81 +1287,35 @@ class Prague(Cancun):
         return 3
 
 
-class CancunEIP7692(  # noqa: SC200
-    Cancun,
-    transition_tool_name="Prague",  # Evmone enables (only) EOF at Prague
-    blockchain_test_network_name="Prague",  # Evmone enables (only) EOF at Prague
-    solc_name="cancun",
-):
-    """Cancun + EIP-7692 (EOF) fork (Deprecated)."""
-
-    @classmethod
-    def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
-        """EOF V1 is supported starting from this fork."""
-        return super(CancunEIP7692, cls).evm_code_types(  # noqa: SC200
-            block_number,
-            timestamp,
-        ) + [EVMCodeType.EOF_V1]
-
-    @classmethod
-    def call_opcodes(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> List[Tuple[Opcodes, EVMCodeType]]:
-        """EOF V1 introduces EXTCALL, EXTSTATICCALL, EXTDELEGATECALL."""
-        return [
-            (Opcodes.EXTCALL, EVMCodeType.EOF_V1),
-            (Opcodes.EXTSTATICCALL, EVMCodeType.EOF_V1),
-            (Opcodes.EXTDELEGATECALL, EVMCodeType.EOF_V1),
-        ] + super(
-            CancunEIP7692,
-            cls,  # noqa: SC200
-        ).call_opcodes(block_number, timestamp)
-
-    @classmethod
-    def create_opcodes(
-        cls, block_number: int = 0, timestamp: int = 0
-    ) -> List[Tuple[Opcodes, EVMCodeType]]:
-        """EOF V1 introduces `EOFCREATE`."""
-        return [(Opcodes.EOFCREATE, EVMCodeType.EOF_V1)] + super(
-            CancunEIP7692,
-            cls,  # noqa: SC200
-        ).create_opcodes(block_number, timestamp)
-
-    @classmethod
-    def is_deployed(cls) -> bool:
-        """
-        Flag that the fork has not been deployed to mainnet; it is under active
-        development.
-        """
-        return False
-
-    @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("1.0.0")  # set a high version; currently unknown
-
-
 class Osaka(Prague, solc_name="cancun"):
     """Osaka fork."""
 
     @classmethod
     def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
         """EOF V1 is supported starting from Osaka."""
-        return super(Osaka, cls).evm_code_types(
-            block_number,
-            timestamp,
-        ) + [EVMCodeType.EOF_V1]
+        return super(Osaka, cls).evm_code_types(block_number, timestamp) + [
+            EVMCodeType.EOF_V1,
+        ]
 
     @classmethod
     def call_opcodes(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> List[Tuple[Opcodes, EVMCodeType]]:
         """EOF V1 introduces EXTCALL, EXTSTATICCALL, EXTDELEGATECALL."""
-        return [
+        return super(Osaka, cls).call_opcodes(block_number, timestamp) + [
             (Opcodes.EXTCALL, EVMCodeType.EOF_V1),
             (Opcodes.EXTSTATICCALL, EVMCodeType.EOF_V1),
             (Opcodes.EXTDELEGATECALL, EVMCodeType.EOF_V1),
-        ] + super(Osaka, cls).call_opcodes(block_number, timestamp)
+        ]
+
+    @classmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """EOF V1 introduces `EOFCREATE`."""
+        return super(Osaka, cls).create_opcodes(block_number, timestamp) + [
+            (Opcodes.EOFCREATE, EVMCodeType.EOF_V1),
+        ]
 
     @classmethod
     def is_deployed(cls) -> bool:

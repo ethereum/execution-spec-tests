@@ -45,6 +45,14 @@ consume cache --help
 
 ### 💥 Breaking Change
 
+Fixtures release tarballs naming convention has been updated to follow the following scheme ([#1385](https://github.com/ethereum/execution-spec-tests/pull/1385)):
+
+- `stable`: All tests up to and including the current mainnet hardfork; Cancun: N
+- `develop`: All tests up to and including the current mainnet hardfork and its successor; Prague: N+1
+- `future`: Only tests for the hardfork after develop; Osaka: N+2
+
+`fixtures_eip7692.tar.gz` has been deprecated in favor of `fixtures_future.tar.gz` which now contains the Osaka tests.
+
 ### 🛠️ Framework
 
 #### `consume`

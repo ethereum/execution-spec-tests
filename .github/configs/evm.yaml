@@ -6,7 +6,7 @@ develop:
   impl: eels
   repo: null
   ref: null
-eip7692:
+future:
   impl: evmone
   repo: ethereum/evmone
   ref: master

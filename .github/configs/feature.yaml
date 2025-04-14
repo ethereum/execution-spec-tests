@@ -7,8 +7,8 @@ develop:
   evm-type: develop
   fill-params: --until=Prague
   solc: 0.8.21
-eip7692:
-  evm-type: eip7692
+future:
+  evm-type: future
   fill-params: --fork=Osaka ./tests/osaka
   solc: 0.8.21
   eofwrap: true
