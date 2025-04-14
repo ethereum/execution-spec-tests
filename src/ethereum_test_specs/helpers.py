@@ -178,7 +178,7 @@ class ExceptionInfo:
                     **self.context,
                 )
             if strict_match:
-                if got_exception not in want_exception:
+                if want_exception not in got_exception:
                     got_message = self.got_message
                     assert got_message is not None
                     raise ExecutionExceptionMismatchError(
