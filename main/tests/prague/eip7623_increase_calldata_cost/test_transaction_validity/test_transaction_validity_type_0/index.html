@@ -30009,7 +30009,7 @@
 
 
 <h1 id="test_transaction_validity_type_0"><code>test_transaction_validity_type_0()</code><a class="headerlink" href="#test_transaction_validity_type_0" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2fe8ca5160a16323c7fe42664662b0b198f44cd1/tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py#L59"><code>tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0@2fe8ca51</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/648e8c9e6cd1defa44cbc2c5b91b9f31693acbfa/tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py#L59"><code>tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0@648e8c9e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0 --fork Prague</span>
@@ -30057,7 +30057,8 @@
 <span class="normal">85</span>
 <span class="normal">86</span>
 <span class="normal">87</span>
-<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;protected&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;protected&quot;</span><span class="p">),</span>
@@ -30071,6 +30072,7 @@
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;to&quot;</span><span class="p">,</span>
     <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;eoa&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;to_eoa&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;contract_creating&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span>
     <span class="p">],</span>
@@ -30144,6 +30146,162 @@
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -30451,6 +30609,162 @@
                 </abbr>
             </td>
                         <td>STOP</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Prague-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
                         <td>0</td>
                         <td>False</td>
                         <td>-1</td>
@@ -30771,6 +31085,162 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-contract_creating-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-state_test-contract_creating-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
                     ...fork_Osaka-state_test-contract_creating-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
                 </abbr>
@@ -31075,6 +31545,162 @@
                 </abbr>
             </td>
                         <td>STOP</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-extra_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-exact_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-protected-insufficient_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>True</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-extra_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-exact_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>0</td>
+                        <td>DataTestType.FLOOR_GAS_COST_GREATER_THAN_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_less_than_or_equal_to_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
+                        <td>0</td>
+                        <td>False</td>
+                        <td>-1</td>
+                        <td>DataTestType.FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]" title="tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_0[fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas]">
+                    ...fork_Osaka-blockchain_test_from_state_test-to_eoa-type_0-unprotected-insufficient_gas-floor_gas_greater_than_intrinsic_gas
+                </abbr>
+            </td>
+                        <td>eoa</td>
                         <td>0</td>
                         <td>False</td>
                         <td>-1</td>
