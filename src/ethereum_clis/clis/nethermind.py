@@ -323,7 +323,6 @@ class NethermindExceptionMapper(ExceptionMapper):
 
     mapping_substring = {
         TransactionException.SENDER_NOT_EOA: "sender has deployed code",
-        TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: "insufficient sender balance",
         TransactionException.INTRINSIC_GAS_TOO_LOW: "intrinsic gas too low",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "miner premium is negative",
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
@@ -333,6 +332,9 @@ class NethermindExceptionMapper(ExceptionMapper):
         TransactionException.NONCE_MISMATCH_TOO_LOW: "wrong transaction nonce",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
             "InsufficientMaxFeePerBlobGas: Not enough to cover blob gas fee"
+        ),
+        TransactionException.TYPE_3_TX_PRE_FORK: (
+            "InvalidTxType: Transaction type in Custom is not supported"
         ),
         TransactionException.TYPE_3_TX_ZERO_BLOBS: "blob transaction missing blob hashes",
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: (
@@ -351,6 +353,9 @@ class NethermindExceptionMapper(ExceptionMapper):
         BlockException.INVALID_REQUESTS: "InvalidRequestsHash: Requests hash mismatch in block",
     }
     mapping_regex = {
+        TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: (
+            r"insufficient sender balance|insufficient MaxFeePerGas for sender balance"
+        ),
         TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: r"Transaction \d+ is not valid",
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
             r"BlobTxGasLimitExceeded: Transaction's totalDataGas=\d+ "
