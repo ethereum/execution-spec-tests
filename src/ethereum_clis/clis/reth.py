@@ -22,7 +22,9 @@ class RethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_CONTRACT_CREATION: "unexpected length",
         TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: "unexpected list",
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "blob version not supported",
-        TransactionException.TYPE_3_TX_ZERO_BLOBS: "empty blobs",
+        TransactionException.TYPE_3_TX_ZERO_BLOBS: (
+            "blob transactions present in pre-cancun payload"
+        ),
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "empty authorization list",
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: "unexpected length",
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",

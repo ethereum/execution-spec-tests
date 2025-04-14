@@ -44,9 +44,7 @@ class GethExceptionMapper(ExceptionMapper):
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
             "max priority fee per gas higher than max fee per gas"
         ),
-        TransactionException.TYPE_3_TX_PRE_FORK: (
-            "blob tx used but field env.ExcessBlobGas missing"
-        ),
+        TransactionException.TYPE_3_TX_PRE_FORK: ("transaction type not supported"),
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "has invalid hash version",
         # This message is the same as TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "exceed maximum allowance",
@@ -67,6 +65,7 @@ class GethExceptionMapper(ExceptionMapper):
         TransactionException.NONCE_MISMATCH_TOO_LOW: "nonce too low",
         BlockException.INCORRECT_BLOB_GAS_USED: "blob gas used mismatch",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: "invalid excessBlobGas",
+        BlockException.INVALID_VERSIONED_HASHES: "invalid number of versionedHashes",
         BlockException.INVALID_REQUESTS: "invalid requests hash",
         BlockException.INVALID_BLOCK_HASH: "blockhash mismatch",
         # TODO EVMONE needs to differentiate when the section is missing in the header or body

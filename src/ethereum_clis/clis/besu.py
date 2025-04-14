@@ -235,8 +235,7 @@ class BesuExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "Invalid Blob Count",
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "Invalid Blob Count",
         TransactionException.TYPE_3_TX_PRE_FORK: (
-            "Transaction type BLOB is invalid, accepted transaction types are "
-            "[EIP1559, ACCESS_LIST, FRONTIER]"
+            "Transaction type BLOB is invalid, accepted transaction types are"
         ),
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: (
             "transaction invalid transaction code delegation transactions must have a "

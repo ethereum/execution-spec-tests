@@ -61,9 +61,6 @@ class EthereumJSExceptionMapper(ExceptionMapper):
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
             "maxFeePerGas cannot be less than maxPriorityFeePerGas"
         ),
-        TransactionException.TYPE_3_TX_PRE_FORK: (
-            "blob tx used but field env.ExcessBlobGas missing"
-        ),
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: (
             "versioned hash does not start with KZG commitment version"
         ),
@@ -71,7 +68,7 @@ class EthereumJSExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "exceed maximum allowance",
         TransactionException.TYPE_3_TX_ZERO_BLOBS: "tx should contain at least one blob",
         TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: "Invalid EIP-4844 transaction",
-        TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
+        TransactionException.TYPE_3_TX_CONTRACT_CREATION: (
             'tx should have a "to" field and cannot be used to create contracts'
         ),
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: (
@@ -139,6 +136,9 @@ class EthereumJSExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (
             r"tx causes total blob gas of \d+ to exceed maximum blob gas per block of \d+|"
             r"tx can contain at most \d+ blobs"
+        ),
+        TransactionException.TYPE_3_TX_PRE_FORK: (
+            r"blob tx used but field env.ExcessBlobGas missing|EIP-4844 not enabled on Common"
         ),
         BlockException.BLOB_GAS_USED_ABOVE_LIMIT: r"invalid blobGasUsed expected=\d+ actual=\d+",
         BlockException.INCORRECT_BLOB_GAS_USED: r"invalid blobGasUsed expected=\d+ actual=\d+",
