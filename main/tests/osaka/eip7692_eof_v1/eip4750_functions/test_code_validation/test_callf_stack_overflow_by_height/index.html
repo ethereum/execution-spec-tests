@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf_stack_overflow_by_height"><code>test_callf_stack_overflow_by_height()</code><a class="headerlink" href="#test_callf_stack_overflow_by_height" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c4eeff347a64ad6c5aedd51314d4ffc067346b/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L1098"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_by_height@a1c4eeff</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/91687b77e66fe5bf5e4ea3612a68fc7876650bf2/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L1101"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_by_height@91687b77</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_by_height --fork Osaka</span>
@@ -30033,10 +30033,7 @@ is 1 bigger than the EOF limit (1023).</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1098</span>
-<span class="normal">1099</span>
-<span class="normal">1100</span>
-<span class="normal">1101</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1101</span>
 <span class="normal">1102</span>
 <span class="normal">1103</span>
 <span class="normal">1104</span>
@@ -30057,7 +30054,10 @@ is 1 bigger than the EOF limit (1023).</p>
 <span class="normal">1119</span>
 <span class="normal">1120</span>
 <span class="normal">1121</span>
-<span class="normal">1122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1122</span>
+<span class="normal">1123</span>
+<span class="normal">1124</span>
+<span class="normal">1125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_stack_height&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">MAX_OPERAND_STACK_HEIGHT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_OPERAND_STACK_HEIGHT</span><span class="p">],</span>
 <span class="p">)</span>

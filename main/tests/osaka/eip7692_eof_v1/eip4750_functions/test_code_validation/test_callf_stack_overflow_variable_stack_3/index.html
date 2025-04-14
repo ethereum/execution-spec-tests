@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf_stack_overflow_variable_stack_3"><code>test_callf_stack_overflow_variable_stack_3()</code><a class="headerlink" href="#test_callf_stack_overflow_variable_stack_3" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c4eeff347a64ad6c5aedd51314d4ffc067346b/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L771"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_variable_stack_3@a1c4eeff</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/91687b77e66fe5bf5e4ea3612a68fc7876650bf2/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L771"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_variable_stack_3@91687b77</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_variable_stack_3 --fork Osaka</span>
@@ -30055,7 +30055,8 @@
 <span class="normal">793</span>
 <span class="normal">794</span>
 <span class="normal">795</span>
-<span class="normal">796</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="normal">796</span>
+<span class="normal">797</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_callf_stack_overflow_variable_stack_3</span><span class="p">(</span><span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span> <span class="n">stack_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test CALLF instruction causing stack overflow.&quot;&quot;&quot;</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
@@ -30074,6 +30075,7 @@
             <span class="p">),</span>
         <span class="p">],</span>
     <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">container</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max_stack_height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">stack_overflow</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">container</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max_stack_height</span> <span class="o">+</span> <span class="n">stack_height</span> <span class="o">&gt;</span> <span class="n">MAX_RUNTIME_OPERAND_STACK_HEIGHT</span>
     <span class="p">)</span>

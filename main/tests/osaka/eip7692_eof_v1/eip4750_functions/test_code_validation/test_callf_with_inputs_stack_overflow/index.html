@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf_with_inputs_stack_overflow"><code>test_callf_with_inputs_stack_overflow()</code><a class="headerlink" href="#test_callf_with_inputs_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c4eeff347a64ad6c5aedd51314d4ffc067346b/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L853"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow@a1c4eeff</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/91687b77e66fe5bf5e4ea3612a68fc7876650bf2/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L854"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow@91687b77</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_with_inputs_stack_overflow --fork Osaka</span>
@@ -30030,8 +30030,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">853</span>
-<span class="normal">854</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">854</span>
 <span class="normal">855</span>
 <span class="normal">856</span>
 <span class="normal">857</span>
@@ -30116,7 +30115,9 @@
 <span class="normal">936</span>
 <span class="normal">937</span>
 <span class="normal">938</span>
-<span class="normal">939</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;push_stack&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">1024</span><span class="p">])</span>
+<span class="normal">939</span>
+<span class="normal">940</span>
+<span class="normal">941</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;push_stack&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">1024</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;pop_stack&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1019</span><span class="p">,</span> <span class="mi">1020</span><span class="p">,</span> <span class="mi">1021</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;code_section&quot;</span><span class="p">,</span>
@@ -30191,6 +30192,7 @@
             <span class="n">code_section</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">code_section</span><span class="o">.</span><span class="n">max_stack_height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">exception</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="p">(</span>
         <span class="n">push_stack</span> <span class="o">+</span> <span class="n">code_section</span><span class="o">.</span><span class="n">max_stack_height</span> <span class="o">-</span> <span class="n">code_section</span><span class="o">.</span><span class="n">code_inputs</span>
@@ -30265,7 +30267,7 @@
                     ...fork_Osaka-eof_test-pop2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30276,7 +30278,7 @@
                     ...fork_Osaka-eof_test-pop2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30287,7 +30289,7 @@
                     ...fork_Osaka-eof_test-pop2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30298,7 +30300,7 @@
                     ...fork_Osaka-eof_test-pop2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30309,7 +30311,7 @@
                     ...fork_Osaka-eof_test-pop2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30320,7 +30322,7 @@
                     ...fork_Osaka-eof_test-pop2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30331,7 +30333,7 @@
                     ...fork_Osaka-eof_test-push_pop-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30342,7 +30344,7 @@
                     ...fork_Osaka-eof_test-push_pop-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30353,7 +30355,7 @@
                     ...fork_Osaka-eof_test-push_pop-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30364,7 +30366,7 @@
                     ...fork_Osaka-eof_test-push_pop-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30375,7 +30377,7 @@
                     ...fork_Osaka-eof_test-push_pop-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30386,7 +30388,7 @@
                     ...fork_Osaka-eof_test-push_pop-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30397,7 +30399,7 @@
                     ...fork_Osaka-eof_test-push2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30408,7 +30410,7 @@
                     ...fork_Osaka-eof_test-push2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30419,7 +30421,7 @@
                     ...fork_Osaka-eof_test-push2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30430,7 +30432,7 @@
                     ...fork_Osaka-eof_test-push2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30441,7 +30443,7 @@
                     ...fork_Osaka-eof_test-push2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30452,7 +30454,7 @@
                     ...fork_Osaka-eof_test-push2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30463,7 +30465,7 @@
                     ...fork_Osaka-eof_test-push2_pop2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30474,7 +30476,7 @@
                     ...fork_Osaka-eof_test-push2_pop2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30485,7 +30487,7 @@
                     ...fork_Osaka-eof_test-push2_pop2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30496,7 +30498,7 @@
                     ...fork_Osaka-eof_test-push2_pop2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30507,7 +30509,7 @@
                     ...fork_Osaka-eof_test-push2_pop2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30518,7 +30520,7 @@
                     ...fork_Osaka-eof_test-push2_pop2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30529,7 +30531,7 @@
                     ...fork_Osaka-eof_test-push_pop3-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30540,7 +30542,7 @@
                     ...fork_Osaka-eof_test-push_pop3-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30551,7 +30553,7 @@
                     ...fork_Osaka-eof_test-push_pop3-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30562,7 +30564,7 @@
                     ...fork_Osaka-eof_test-push_pop3-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30573,7 +30575,7 @@
                     ...fork_Osaka-eof_test-push_pop3-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30584,7 +30586,7 @@
                     ...fork_Osaka-eof_test-push_pop3-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30595,7 +30597,7 @@
                     ...fork_Osaka-eof_test-push2_pop4-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30606,7 +30608,7 @@
                     ...fork_Osaka-eof_test-push2_pop4-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30617,7 +30619,7 @@
                     ...fork_Osaka-eof_test-push2_pop4-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30628,7 +30630,7 @@
                     ...fork_Osaka-eof_test-push2_pop4-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30639,7 +30641,7 @@
                     ...fork_Osaka-eof_test-push2_pop4-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30650,7 +30652,7 @@
                     ...fork_Osaka-eof_test-push2_pop4-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30661,7 +30663,7 @@
                     ...fork_Osaka-state_test_from_eof_test-pop2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30672,7 +30674,7 @@
                     ...fork_Osaka-state_test_from_eof_test-pop2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30683,7 +30685,7 @@
                     ...fork_Osaka-state_test_from_eof_test-pop2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30694,7 +30696,7 @@
                     ...fork_Osaka-state_test_from_eof_test-pop2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30705,7 +30707,7 @@
                     ...fork_Osaka-state_test_from_eof_test-pop2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30716,7 +30718,7 @@
                     ...fork_Osaka-state_test_from_eof_test-pop2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30727,7 +30729,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30738,7 +30740,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30749,7 +30751,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30760,7 +30762,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30771,7 +30773,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30782,7 +30784,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30793,7 +30795,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30804,7 +30806,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30815,7 +30817,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30826,7 +30828,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30837,7 +30839,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30848,7 +30850,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30859,7 +30861,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30870,7 +30872,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30881,7 +30883,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30892,7 +30894,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30903,7 +30905,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30914,7 +30916,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30925,7 +30927,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop3-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -30936,7 +30938,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop3-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -30947,7 +30949,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop3-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -30958,7 +30960,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop3-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -30969,7 +30971,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop3-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -30980,7 +30982,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push_pop3-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -30991,7 +30993,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop4-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -31002,7 +31004,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop4-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -31013,7 +31015,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop4-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -31024,7 +31026,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop4-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -31035,7 +31037,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop4-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -31046,7 +31048,7 @@
                     ...fork_Osaka-state_test_from_eof_test-push2_pop4-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -31057,7 +31059,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-pop2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -31068,7 +31070,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-pop2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -31079,7 +31081,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-pop2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -31090,7 +31092,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-pop2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -31101,7 +31103,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-pop2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -31112,7 +31114,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-pop2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=2 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -31123,7 +31125,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -31134,7 +31136,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -31145,7 +31147,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -31156,7 +31158,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -31167,7 +31169,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -31178,7 +31180,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'`\x01P\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -31189,7 +31191,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -31200,7 +31202,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -31211,7 +31213,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -31222,7 +31224,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -31233,7 +31235,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -31244,7 +31246,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=5 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -31255,7 +31257,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop2-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -31266,7 +31268,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop2-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -31277,7 +31279,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop2-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -31288,7 +31290,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop2-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -31299,7 +31301,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop2-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -31310,7 +31312,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop2-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=3 code_outputs=3 max_stack_increase=None max_stack_height=5 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -31321,7 +31323,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop3-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -31332,7 +31334,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop3-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -31343,7 +31345,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop3-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -31354,7 +31356,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop3-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -31365,7 +31367,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop3-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -31376,7 +31378,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push_pop3-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'_PPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=3 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
@@ -31387,7 +31389,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop4-pop_stack_1019-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1023</td>
                     </tr>
@@ -31398,7 +31400,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop4-pop_stack_1019-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1019</td>
                         <td>1024</td>
                     </tr>
@@ -31409,7 +31411,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop4-pop_stack_1020-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1023</td>
                     </tr>
@@ -31420,7 +31422,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop4-pop_stack_1020-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1020</td>
                         <td>1024</td>
                     </tr>
@@ -31431,7 +31433,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop4-pop_stack_1021-push_stack_1023
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1023</td>
                     </tr>
@@ -31442,7 +31444,7 @@
                     ...fork_Osaka-blockchain_test_from_eof_test-push2_pop4-pop_stack_1021-push_stack_1024
                 </abbr>
             </td>
-                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
+                        <td>data=b'__PPPP\xe4' custom_size=0 kind=<SectionKind.CODE: 2> force_type_listing=False code_inputs=2 code_outputs=0 max_stack_increase=None max_stack_height=4 auto_max_stack_height=False auto_code_inputs_outputs=False skip_header_listing=False skip_body_listing=False skip_types_body_listing=False skip_types_header_listing=False</td>
                         <td>1021</td>
                         <td>1024</td>
                     </tr>
