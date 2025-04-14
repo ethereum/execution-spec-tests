@@ -516,6 +516,10 @@ class BlockException(ExceptionBase):
     """
     Block's excess blob gas in header is incorrect.
     """
+    INVALID_VERSIONED_HASHES = auto()
+    """
+    Incorrect number of versioned hashes in a payload.
+    """
     RLP_STRUCTURES_ENCODING = auto()
     """
     Block's rlp encoding is valid but ethereum structures in it are invalid.
