@@ -2,10 +2,17 @@
 
 import pytest
 
-from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Header
+from ethereum_test_tools import (
+    Account,
+    Alloc,
+    Block,
+    BlockchainTestFiller,
+    Header,
+    Requests,
+    Transaction,
+)
 from ethereum_test_tools import Macros as Om
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import Requests, Transaction
 
 from .helpers import DepositRequest, create_deposit_log_bytes
 from .spec import Spec, ref_spec_6110
@@ -39,7 +46,9 @@ def test_extra_logs(
     deposit_request_log = create_deposit_log_bytes(
         pubkey_data=bytes(deposit_request.pubkey),
         withdrawal_credentials_data=bytes(deposit_request.withdrawal_credentials),
-        amount_data=bytes.fromhex("0" + deposit_request.amount.hex()[2:]),
+        # Note: after converting to bytes, it is converted to little-endian by `[::-1]`
+        # (This happens on-chain also, but this is done by the solidity contract)
+        amount_data=bytes.fromhex("0" + deposit_request.amount.hex()[2:])[::-1],
         signature_data=bytes(deposit_request.signature),
         index_data=bytes(),
     )
@@ -77,7 +86,7 @@ def test_extra_logs(
         0x000000000000000000000000BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB,
     )
 
-    requests = None
+    requests = Requests()
 
     if include_deposit_event:
         bytecode += Om.MSTORE(deposit_request_log) + Op.LOG1(
@@ -85,7 +94,7 @@ def test_extra_logs(
             len(deposit_request_log),
             Spec.DEPOSIT_EVENT_SIGNATURE_HASH,
         )
-        requests = [deposit_request]
+        requests = Requests(deposit_request)
     bytecode += Op.STOP
 
     pre[Spec.DEPOSIT_CONTRACT_ADDRESS] = Account(
@@ -107,7 +116,7 @@ def test_extra_logs(
             Block(
                 txs=[tx],
                 header_verify=Header(
-                    requests_hash=Requests(requests_lists=requests),
+                    requests_hash=requests,
                 ),
             ),
         ],
