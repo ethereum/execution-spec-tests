@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_rjumpi_backward_invalid_max_stack_height"><code>test_rjumpi_backward_invalid_max_stack_height()</code><a class="headerlink" href="#test_rjumpi_backward_invalid_max_stack_height" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/91687b77e66fe5bf5e4ea3612a68fc7876650bf2/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L1649"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_backward_invalid_max_stack_height@91687b77</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6a9a515796133808719c90722c294b56c3aebd64/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L1649"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_backward_invalid_max_stack_height@6a9a5157</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_backward_invalid_max_stack_height --fork Osaka</span>
@@ -30239,7 +30239,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">11</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000eff0000000080000360be6000e10001506000e1fff500&quot;</span><span class="p">,</span>
@@ -30256,7 +30256,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">13</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000eff000000008000025f506000e1fff95f6000e1fff300&quot;</span><span class="p">,</span>
@@ -30272,7 +30272,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000aff000000008000025f6001018080e1fff800&quot;</span><span class="p">,</span>
@@ -30287,7 +30287,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">],</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
@@ -30302,7 +30302,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">11</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000dff000000008000035f6000e100015f6000e1fff500&quot;</span><span class="p">,</span>
@@ -30324,7 +30324,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">13</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010016ff000000008000055f6000e100025f5f5f506000e1fff95f6000e1fff300&quot;</span><span class="p">,</span>
@@ -30345,7 +30345,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010012ff000000008000055f6000e100025f5f5f6001018080e1fff800&quot;</span><span class="p">,</span>
@@ -30365,7 +30365,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010010ff000000008000055f6000e100025f5f5f5f5f50e1fffc00&quot;</span><span class="p">,</span>
@@ -30385,7 +30385,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
@@ -30404,7 +30404,7 @@ invalid because of the incorrect max stack height.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">],</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>

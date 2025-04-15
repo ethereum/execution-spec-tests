@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_rjumpi_valid_forward"><code>test_rjumpi_valid_forward()</code><a class="headerlink" href="#test_rjumpi_valid_forward" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/91687b77e66fe5bf5e4ea3612a68fc7876650bf2/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L265"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward@91687b77</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6a9a515796133808719c90722c294b56c3aebd64/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py#L265"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward@6a9a5157</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward --fork Osaka</span>
@@ -30509,7 +30509,7 @@ These tests exercise the stack height validation.</p>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010006ff000000008000016001e1000000&quot;</span><span class="p">,</span>
@@ -30519,7 +30519,7 @@ These tests exercise the stack height validation.</p>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010008ff000000008000025f6000e100011900&quot;</span><span class="p">,</span>
@@ -30535,7 +30535,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000cff000000008000025f6000e1000450e000011900&quot;</span><span class="p">,</span>
@@ -30545,7 +30545,7 @@ These tests exercise the stack height validation.</p>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000aff000000008000025f6000e10003e0000000&quot;</span><span class="p">,</span>
@@ -30555,7 +30555,7 @@ These tests exercise the stack height validation.</p>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000bff000000008000025f6000e100045fe0000000&quot;</span><span class="p">,</span>
@@ -30571,7 +30571,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000dff000000008000025f6000e100066000e100011900&quot;</span><span class="p">,</span>
@@ -30581,7 +30581,7 @@ These tests exercise the stack height validation.</p>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010008ff000000008000025f6000e100015f00&quot;</span><span class="p">,</span>
@@ -30598,7 +30598,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000eff000000008000035f6000e100075f6000e100011900&quot;</span><span class="p">,</span>
@@ -30617,7 +30617,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">14</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010010ff000000008000035f60010180600a11e1000480e1fff200&quot;</span><span class="p">,</span>
@@ -30637,7 +30637,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">13</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010011ff000000008000035f60010180600a11e100055f80e1fff300&quot;</span><span class="p">,</span>
@@ -30653,7 +30653,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000cff000000008000025f6000e100045fe000015f00&quot;</span><span class="p">,</span>
@@ -30669,7 +30669,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000cff000000008000025f6000e100045fe000011900&quot;</span><span class="p">,</span>
@@ -30685,7 +30685,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000cff000000008000025f6000e1000450e000015000&quot;</span><span class="p">,</span>
@@ -30702,7 +30702,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef0001010004020001000eff000000008000045f6000e100025f5f6001e1000000&quot;</span><span class="p">,</span>
@@ -30721,7 +30721,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010010ff000000008000055f6000e100025f5f5f6000e100011900&quot;</span><span class="p">,</span>
@@ -30742,7 +30742,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010014ff000000008000055f6000e100025f5f5f6000e1000450e000011900&quot;</span><span class="p">,</span>
@@ -30761,7 +30761,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010012ff000000008000055f6000e100025f5f5f6000e10003e0000000&quot;</span><span class="p">,</span>
@@ -30781,7 +30781,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010013ff000000008000055f6000e100025f5f5f6000e100045fe0000000&quot;</span><span class="p">,</span>
@@ -30802,7 +30802,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010015ff000000008000055f6000e100025f5f5f6000e100066000e100011900&quot;</span><span class="p">,</span>
@@ -30821,7 +30821,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010010ff000000008000055f6000e100025f5f5f6000e100015f00&quot;</span><span class="p">,</span>
@@ -30843,7 +30843,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010016ff000000008000065f6000e100025f5f5f6000e100075f6000e100011900&quot;</span><span class="p">,</span>
@@ -30867,7 +30867,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">14</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010018ff000000008000065f6000e100025f5f5f60010180600a11e1000480e1fff200&quot;</span><span class="p">,</span>
@@ -30892,7 +30892,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">13</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010019ff000000008000065f6000e100025f5f5f60010180600a11e100055f80e1fff300&quot;</span><span class="p">,</span>
@@ -30913,7 +30913,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010014ff000000008000055f6000e100025f5f5f6000e100045fe000015f00&quot;</span><span class="p">,</span>
@@ -30934,7 +30934,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010014ff000000008000055f6000e100025f5f5f6000e100045fe000011900&quot;</span><span class="p">,</span>
@@ -30955,7 +30955,7 @@ These tests exercise the stack height validation.</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">expected_bytecode</span><span class="o">=</span><span class="s2">&quot;ef00010100040200010014ff000000008000055f6000e100025f5f5f6000e1000450e000015000&quot;</span><span class="p">,</span>

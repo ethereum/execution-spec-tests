@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_rjumpv_rjumpi_backwards_min_stack_wrong"><code>test_rjumpv_rjumpi_backwards_min_stack_wrong()</code><a class="headerlink" href="#test_rjumpv_rjumpi_backwards_min_stack_wrong" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/91687b77e66fe5bf5e4ea3612a68fc7876650bf2/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1131"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_rjumpi_backwards_min_stack_wrong@91687b77</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6a9a515796133808719c90722c294b56c3aebd64/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L1131"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_rjumpi_backwards_min_stack_wrong@6a9a5157</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_rjumpi_backwards_min_stack_wrong --fork Osaka</span>
@@ -30063,7 +30063,7 @@
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># (2, 3) To first RJUMPV with (1, 2)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>  <span class="c1"># (1, 2)</span>
         <span class="p">),</span>
-        <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eof_test</span><span class="p">(</span>
         <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
