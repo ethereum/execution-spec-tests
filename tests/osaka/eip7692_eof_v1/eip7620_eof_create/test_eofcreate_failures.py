@@ -87,7 +87,8 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
                 slot_returndata: revert,
                 slot_code_worked: value_code_worked,
             }
-        )
+        ),
+        compute_eofcreate_address(contract_address, 0): Account.NONEXISTENT,
     }
     tx = Transaction(
         to=contract_address,
@@ -125,7 +126,8 @@ def test_initcode_aborts(
                 slot_create_address: EOFCREATE_FAILURE,
                 slot_code_worked: value_code_worked,
             }
-        )
+        ),
+        compute_eofcreate_address(contract_address, 0): Account.NONEXISTENT,
     }
     tx = Transaction(
         to=contract_address,
@@ -215,15 +217,19 @@ def test_eofcreate_deploy_sizes(
     # Storage in 0 should have the address,
     # Storage 1 is a canary of 1 to make sure it tried to execute, which also covers cases of
     #   data+code being greater than initcode_size_max, which is allowed.
+    success = target_deploy_size <= MAX_BYTECODE_SIZE
     post = {
         contract_address: Account(
             storage={
                 slot_create_address: compute_eofcreate_address(contract_address, 0)
-                if target_deploy_size <= MAX_BYTECODE_SIZE
+                if success
                 else EOFCREATE_FAILURE,
                 slot_code_worked: value_code_worked,
             }
-        )
+        ),
+        compute_eofcreate_address(contract_address, 0): Account()
+        if success
+        else Account.NONEXISTENT,
     }
     tx = Transaction(
         to=contract_address,
@@ -304,15 +310,19 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
 
     # Storage in 0 will have address in first test, 0 in all other cases indicating failure
     # Storage 1 in 1 is a canary to see if EOFCREATE opcode halted
+    success = deployed_container_size <= MAX_BYTECODE_SIZE
     post = {
         contract_address: Account(
             storage={
                 slot_create_address: compute_eofcreate_address(contract_address, 0)
-                if deployed_container_size <= MAX_BYTECODE_SIZE
+                if success
                 else 0,
                 slot_code_worked: value_code_worked,
             }
-        )
+        ),
+        compute_eofcreate_address(contract_address, 0): Account()
+        if success
+        else Account.NONEXISTENT,
     }
 
     tx = Transaction(
@@ -615,7 +625,8 @@ def test_static_flag_eofcreate(
                 else LEGACY_CALL_FAILURE,
                 slot_code_worked: value_code_worked,
             }
-        )
+        ),
+        compute_eofcreate_address(contract_address, 0): Account.NONEXISTENT,
     }
     tx = Transaction(
         to=calling_address,
@@ -802,7 +813,10 @@ def test_reentrant_eofcreate(
                 0: compute_eofcreate_address(contract_address, 0),
                 1: 0,
             }
-        )
+        ),
+        compute_eofcreate_address(contract_address, 0): Account(
+            nonce=1, code=smallest_runtime_subcontainer
+        ),
     }
     tx = Transaction(
         to=contract_address,
