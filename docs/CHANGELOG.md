@@ -25,6 +25,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 🧪 Test Cases
 
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Test precompile case in same transaction as delegation without extra gas in case of precompile code execution; parametrize all call opcodes in existing precompile test ([#1431](https://github.com/ethereum/execution-spec-tests/pull/1431)).
+- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Add invalid nonce authorizations tests for the case of multiple signers when the sender's nonce gets increased ([#1441](https://github.com/ethereum/execution-spec-tests/pull/1441)).
 - ✨ [EIP-7623](https://eips.ethereum.org/EIPS/eip-7623): Additionally parametrize transaction validity tests with the `to` set to an EOA account (previously only contracts) ([#1422](https://github.com/ethereum/execution-spec-tests/pull/1422)).
 
 ## [v4.2.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0) - 2025-04-08
