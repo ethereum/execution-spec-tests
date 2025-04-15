@@ -2,6 +2,7 @@
 
 import pytest
 
+from ethereum_test_exceptions.exceptions import BlockException
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -20,6 +21,31 @@ from .spec import Spec, ref_spec_6110
 REFERENCE_SPEC_GIT_PATH = ref_spec_6110.git_path
 REFERENCE_SPEC_VERSION = ref_spec_6110.version
 
+EVENT_ARGUMENTS_NAMES = ["pubkey", "withdrawal_credentials", "amount", "signature", "index"]
+EVENT_ARGUMENTS_LAYOUT_TYPE = ["size", "offset"]
+EVENT_ARGUMENTS = [
+    f"{name}_{layout}" for name in EVENT_ARGUMENTS_NAMES for layout in EVENT_ARGUMENTS_LAYOUT_TYPE
+]
+EVENT_ARGUMENT_VALUES = ["zero", "max_uint256"]
+
+
+DEFAULT_DEPOSIT_REQUEST = DepositRequest(
+    pubkey=0x01,
+    withdrawal_credentials=0x02,
+    amount=120_000_000_000_000_000,
+    signature=0x03,
+    index=0x0,
+)
+DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT = {
+    "pubkey_data": bytes(DEFAULT_DEPOSIT_REQUEST.pubkey),
+    "withdrawal_credentials_data": bytes(DEFAULT_DEPOSIT_REQUEST.withdrawal_credentials),
+    # Note: after converting to bytes, it is converted to little-endian by `[::-1]`
+    # (This happens on-chain also, but this is done by the solidity contract)
+    "amount_data": bytes.fromhex("0" + DEFAULT_DEPOSIT_REQUEST.amount.hex()[2:])[::-1],
+    "signature_data": bytes(DEFAULT_DEPOSIT_REQUEST.signature),
+    "index_data": bytes(),  # TODO: read from the default deposit request instead of hardcoding 0
+}
+
 
 @pytest.mark.parametrize(
     "include_deposit_event",
@@ -36,6 +62,7 @@ def test_extra_logs(
     """Test deposit contract emitting more log event types than the ones in mainnet."""
     # Supplant mainnet contract with a variant that emits a `Transfer`` log
     # If `include_deposit_event` is `True``, it will also emit a `DepositEvent` log`
+    # TODO use DEFAULT_DEPOSIT_REQUEST here
     deposit_request = DepositRequest(
         pubkey=0x01,
         withdrawal_credentials=0x02,
@@ -43,6 +70,7 @@ def test_extra_logs(
         signature=0x03,
         index=0x0,
     )
+    # TODO read default deposit data here
     deposit_request_log = create_deposit_log_bytes(
         pubkey_data=bytes(deposit_request.pubkey),
         withdrawal_credentials_data=bytes(deposit_request.withdrawal_credentials),
@@ -122,3 +150,52 @@ def test_extra_logs(
         ],
         post={},
     )
+
+
+@pytest.mark.parametrize(
+    "log_argument,value",
+    [(log_argument, value) for log_argument in EVENT_ARGUMENTS for value in EVENT_ARGUMENT_VALUES],
+)
+def test_invalid_layout(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, log_argument: str, value: str
+):
+    """Test deposit contract emitting logs with invalid layouts (sizes/offsets)"""
+
+    log_params = {**DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT}
+    log_params[log_argument] = 0 if value == "zero" else int("FF" * 32, 16)
+
+    deposit_request_log = create_deposit_log_bytes(**log_params)
+
+    bytecode = Om.MSTORE(deposit_request_log) + Op.LOG1(
+        0,
+        len(deposit_request_log),
+        Spec.DEPOSIT_EVENT_SIGNATURE_HASH,
+    )
+    bytecode += Op.STOP
+
+    pre[Spec.DEPOSIT_CONTRACT_ADDRESS] = Account(
+        code=bytecode,
+        nonce=1,
+        balance=0,
+    )
+    sender = pre.fund_eoa()
+
+    tx = Transaction(
+        to=Spec.DEPOSIT_CONTRACT_ADDRESS,
+        sender=sender,
+        gas_limit=100_000,
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[
+            Block(
+                txs=[tx],
+                exception=BlockException.INVALID_REQUESTS,  # TODO: use correct exception
+            ),
+        ],
+        post={},
+    )
+
+
+# TODO: add test which tests the correct log, but now slice one byte off or add one extra byte
