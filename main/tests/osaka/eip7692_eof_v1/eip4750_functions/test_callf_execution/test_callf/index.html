@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf"><code>test_callf()</code><a class="headerlink" href="#test_callf" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L118"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf@d2f52375</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/13aeeedff0b4c48cf464a80d30eec4ca2fadab98/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L114"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf@13aeeedf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf --fork Osaka</span>
@@ -30030,7 +30030,11 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
@@ -30106,20 +30110,7 @@
 <span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">(</span>
         <span class="n">Container</span><span class="p">(</span>
@@ -30128,16 +30119,15 @@
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
                         <span class="n">slot_code_worked</span><span class="p">,</span>
-                        <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">value_code_worked</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="n">value_code_worked</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                     <span class="p">)</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
@@ -30146,24 +30136,20 @@
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">]</span>
             <span class="o">+</span> <span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
             <span class="p">]</span>
             <span class="o">+</span> <span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">value_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="n">slot_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>
@@ -30178,25 +30164,21 @@
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">value_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH2</span><span class="p">[</span><span class="n">slot_code_worked</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>

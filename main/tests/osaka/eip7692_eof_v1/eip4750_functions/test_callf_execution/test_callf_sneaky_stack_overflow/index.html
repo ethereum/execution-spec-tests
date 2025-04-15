@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf_sneaky_stack_overflow"><code>test_callf_sneaky_stack_overflow()</code><a class="headerlink" href="#test_callf_sneaky_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L487"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow@d2f52375</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/13aeeedff0b4c48cf464a80d30eec4ca2fadab98/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L443"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow@13aeeedf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_sneaky_stack_overflow --fork Osaka</span>
@@ -30035,7 +30035,51 @@ Code Section 3 - Writes canary values</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">487</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
 <span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
@@ -30085,51 +30129,7 @@ Code Section 3 - Writes canary values</p>
 <span class="normal">534</span>
 <span class="normal">535</span>
 <span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">537</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">(</span><span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="s2">&quot;failure&quot;</span><span class="p">),</span>
     <span class="p">(</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1020</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no_overflow&quot;</span><span class="p">),</span>
@@ -30165,13 +30165,13 @@ Code Section 3 - Writes canary values</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="n">stack_height</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="n">stack_height</span> <span class="o">+</span> <span class="n">outputs</span> <span class="o">-</span> <span class="n">inputs</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="n">stack_height</span> <span class="o">+</span> <span class="n">outputs</span> <span class="o">-</span> <span class="n">inputs</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="n">outputs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="n">outputs</span> <span class="o">-</span> <span class="n">inputs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
@@ -30182,7 +30182,7 @@ Code Section 3 - Writes canary values</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="n">outputs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="n">outputs</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="n">outputs</span> <span class="o">-</span> <span class="n">inputs</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">*</span> <span class="n">inputs</span>
@@ -30191,7 +30191,7 @@ Code Section 3 - Writes canary values</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="n">outputs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="n">outputs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">max_stack_increase</span><span class="o">=</span><span class="n">outputs</span> <span class="o">-</span> <span class="n">inputs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>

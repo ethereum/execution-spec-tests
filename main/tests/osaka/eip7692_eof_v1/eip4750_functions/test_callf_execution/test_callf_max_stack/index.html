@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf_max_stack"><code>test_callf_max_stack()</code><a class="headerlink" href="#test_callf_max_stack" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L584"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack@d2f52375</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/13aeeedff0b4c48cf464a80d30eec4ca2fadab98/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L540"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack@13aeeedf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_max_stack --fork Osaka</span>
@@ -30038,7 +30038,51 @@ RETF).</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">584</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
 <span class="normal">585</span>
 <span class="normal">586</span>
 <span class="normal">587</span>
@@ -30076,55 +30120,7 @@ RETF).</p>
 <span class="normal">619</span>
 <span class="normal">620</span>
 <span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">622</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">(</span><span class="s2">&quot;stack_height&quot;</span><span class="p">,</span> <span class="s2">&quot;failure&quot;</span><span class="p">),</span>
     <span class="p">(</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1018</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;no_max_stack&quot;</span><span class="p">),</span>
@@ -30162,7 +30158,6 @@ RETF).</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_code_worked</span><span class="p">,</span> <span class="n">value_code_worked</span><span class="p">)</span>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># arg, 1</span>
@@ -30178,13 +30173,10 @@ RETF).</p>
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
-                    <span class="n">code_inputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">],</span>
         <span class="p">),</span>

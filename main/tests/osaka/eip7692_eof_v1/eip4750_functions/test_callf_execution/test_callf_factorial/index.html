@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf_factorial"><code>test_callf_factorial()</code><a class="headerlink" href="#test_callf_factorial" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L32"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_factorial@d2f52375</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/13aeeedff0b4c48cf464a80d30eec4ca2fadab98/tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py#L32"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_factorial@13aeeedf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_callf_execution.py::test_callf_factorial --fork Osaka</span>
@@ -30066,9 +30066,7 @@
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;n,result&quot;</span><span class="p">,</span>
     <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span> <span class="p">(</span><span class="mi">57</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="mi">57</span><span class="p">)),</span> <span class="p">(</span><span class="mi">58</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="mi">58</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="o">**</span><span class="mi">256</span><span class="p">)),</span>
 <span class="p">)</span>
@@ -30078,8 +30076,7 @@
         <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                     <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -30100,7 +30097,6 @@
                     <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>
                     <span class="n">code_inputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">code_outputs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">max_stack_height</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">]</span>
         <span class="p">),</span>
