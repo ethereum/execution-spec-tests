@@ -385,6 +385,7 @@ class EOFTest(BaseTest):
         """Generate a transaction that creates a contract."""
         assert self.sender is not None, "sender must be set to generate a StateTest."
         assert self.post is not None, "post must be set to generate a StateTest."
+        assert self.pre is not None, "pre must be set to generate a StateTest."
 
         initcode: Container
         deployed_container: Container | Bytes | None = None
@@ -421,17 +422,23 @@ class EOFTest(BaseTest):
             )
             deployed_container = self.container
 
+        factory_address = self.pre.deploy_contract(
+            Op.TXCREATE(tx_initcode_hash=initcode.hash) + Op.STOP
+        )
+
         tx = Transaction(
             sender=self.sender,
-            to=None,
+            to=factory_address,
             gas_limit=10_000_000,
-            data=initcode,
+            max_priority_fee_per_gas=10,
+            max_fee_per_gas=10,
+            initcodes=[initcode],
         )
 
         if self.expect_exception is not None or deployed_container is None:
-            self.post[tx.created_contract] = None
+            self.post[compute_eofcreate_address(factory_address, 0)] = None
         else:
-            self.post[tx.created_contract] = Account(
+            self.post[compute_eofcreate_address(factory_address, 0)] = Account(
                 code=deployed_container,
             )
         return tx
