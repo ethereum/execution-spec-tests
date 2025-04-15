@@ -655,6 +655,9 @@ class TransactionTransitionToolConverter(TransactionValidateToAsEmptyString):
         default = serializer(self)
         if default is not None and "to" not in default:
             default["to"] = None
+        # TODO: Remove when https://github.com/ethereum/execution-specs/issues/1194 is fixed.
+        if default is not None and "accessList" in default:
+            default["accessLists"] = default["accessList"]
         return default
 
 
