@@ -36,6 +36,6 @@
     },
     "Prague": {
         "git_url": "https://github.com/ethereum/execution-specs.git",
-        "branch": "devnets/prague/6"
+        "branch": "forks/prague"
     }
 }
