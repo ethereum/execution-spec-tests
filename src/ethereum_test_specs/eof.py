@@ -29,6 +29,7 @@ from ethereum_test_fixtures.eof import Result, Vector
 from ethereum_test_forks import Fork
 from ethereum_test_types import EOA, Alloc, Environment, Transaction
 from ethereum_test_types.eof.v1 import Container, ContainerKind, Section, SectionKind
+from ethereum_test_types.helpers import compute_eofcreate_address
 from ethereum_test_vm import Opcodes as Op
 
 from .base import BaseTest
@@ -548,26 +549,39 @@ class EOFStateTest(EOFTest, Transaction):
         if self.post is None:
             self.post = Alloc()
 
-        if self.expect_exception is not None:  # Invalid EOF
-            self.to = None  # Make EIP-7698 create transaction
-            self.data = Bytes(
-                bytes(self.container) + self.data
-            )  # by concatenating container and tx data.
+        if self.expect_exception is not None and self.container_kind == ContainerKind.RUNTIME:
+            # Invalid EOF runtime code
+            initcode = Container.Init(deploy_container=self.container)
+            self.to = self.pre.deploy_contract(
+                Op.TXCREATE(tx_initcode_hash=initcode.hash) + Op.STOP
+            )
+            self.initcodes = [initcode]
 
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
 
-            self.post[self.created_contract] = None  # Expect failure.
+            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect failure.
+        elif self.expect_exception is not None and self.container_kind == ContainerKind.INITCODE:
+            # Invalid EOF initcode
+            self.to = self.pre.deploy_contract(
+                Op.TXCREATE(tx_initcode_hash=self.container.hash) + Op.STOP
+            )
+            self.initcodes = [self.container]
+
+            # Run transaction model validation
+            Transaction.model_post_init(self, __context)
+
+            self.post[compute_eofcreate_address(self.to, 0)] = None  # Expect failure.
         elif self.container_kind == ContainerKind.INITCODE:
-            self.to = None  # Make EIP-7698 create transaction
-            self.data = Bytes(
-                bytes(self.container) + self.data
-            )  # by concatenating container and tx data.
+            self.to = self.pre.deploy_contract(
+                Op.TXCREATE(tx_initcode_hash=self.container.hash) + Op.STOP
+            )
+            self.initcodes = [self.container]
 
             # Run transaction model validation
             Transaction.model_post_init(self, __context)
 
-            self.post[self.created_contract] = self.container_post  # Successful.
+            self.post[compute_eofcreate_address(self.to, 0)] = self.container_post
         else:
             self.to = self.pre.deploy_contract(code=self.container)
 
