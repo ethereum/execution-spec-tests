@@ -62,6 +62,7 @@
                         <th>signer_type</th>
                         <th>authorization_invalidity_type</th>
                         <th>authorizations_count</th>
+                        <th>invalid_authorization_index</th>
                         <th>chain_id_type</th>
                         <th>access_list_case</th>
                         <th>self_sponsored</th>
@@ -83,6 +84,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -102,6 +104,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.CHAIN_SPECIFIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -121,6 +124,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -140,6 +144,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -159,11 +164,52 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1]">
+                    ...fork_Prague-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2]">
+                    ...fork_Prague-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -178,6 +224,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -197,11 +244,32 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]">
+                    ...fork_Prague-state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>-1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -216,6 +284,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -235,6 +304,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -254,6 +324,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -273,6 +344,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>4</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -292,6 +364,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -311,6 +384,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -330,6 +404,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY</td>
                         <td>False</td>
@@ -349,6 +424,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -368,6 +444,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -387,6 +464,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -406,6 +484,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -425,6 +504,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -444,6 +524,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -463,6 +544,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -482,6 +564,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -501,6 +584,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -520,6 +604,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -539,6 +624,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -558,6 +644,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -577,6 +664,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -596,6 +684,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -615,6 +704,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -634,6 +724,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -653,6 +744,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -672,6 +764,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.CHAIN_SPECIFIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -691,6 +784,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -710,6 +804,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -729,11 +824,52 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1]">
+                    ...fork_Prague-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2]">
+                    ...fork_Prague-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -748,6 +884,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -767,11 +904,32 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]">
+                    ...fork_Prague-state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>-1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -786,6 +944,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -805,6 +964,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -824,6 +984,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -843,6 +1004,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>4</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -862,6 +1024,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -881,6 +1044,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -900,6 +1064,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY</td>
                         <td>False</td>
@@ -919,6 +1084,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -938,6 +1104,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -957,6 +1124,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -976,6 +1144,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -995,6 +1164,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1014,6 +1184,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -1033,6 +1204,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -1052,6 +1224,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1071,6 +1244,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1090,6 +1264,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1109,6 +1284,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -1128,6 +1304,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1147,6 +1324,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1166,6 +1344,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1185,6 +1364,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1204,6 +1384,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1223,6 +1404,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1242,6 +1424,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.CHAIN_SPECIFIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1261,6 +1444,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1280,6 +1464,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1299,11 +1484,52 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1]">
+                    ...fork_Prague-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2]">
+                    ...fork_Prague-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -1318,6 +1544,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1337,11 +1564,32 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]">
+                    ...fork_Prague-blockchain_test_from_state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>-1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -1356,6 +1604,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1375,6 +1624,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1394,6 +1644,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1413,6 +1664,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>4</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1432,6 +1684,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1451,6 +1704,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1470,6 +1724,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY</td>
                         <td>False</td>
@@ -1489,6 +1744,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -1508,6 +1764,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -1527,6 +1784,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1546,6 +1804,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1565,6 +1824,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1584,6 +1844,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -1603,6 +1864,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -1622,6 +1884,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1641,6 +1904,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1660,6 +1924,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1679,6 +1944,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -1698,6 +1964,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1717,6 +1984,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1736,6 +2004,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1755,6 +2024,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1774,6 +2044,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1793,6 +2064,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1812,6 +2084,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.CHAIN_SPECIFIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1831,6 +2104,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1850,6 +2124,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1869,11 +2144,52 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1]">
+                    ...fork_Prague-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2]">
+                    ...fork_Prague-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -1888,6 +2204,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1907,11 +2224,32 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Prague-blockchain_test_from_state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]">
+                    ...fork_Prague-blockchain_test_from_state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>-1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -1926,6 +2264,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1945,6 +2284,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1964,6 +2304,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -1983,6 +2324,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>4</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2002,6 +2344,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2021,6 +2364,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2040,6 +2384,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY</td>
                         <td>False</td>
@@ -2059,6 +2404,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -2078,6 +2424,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -2097,6 +2444,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2116,6 +2464,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2135,6 +2484,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2154,6 +2504,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -2173,6 +2524,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -2192,6 +2544,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2211,6 +2564,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2230,6 +2584,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2249,6 +2604,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -2268,6 +2624,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2287,6 +2644,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2306,6 +2664,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2325,6 +2684,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2344,6 +2704,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2363,6 +2724,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2382,6 +2744,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.CHAIN_SPECIFIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2401,6 +2764,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2420,6 +2784,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2439,11 +2804,52 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1]">
+                    ...fork_Osaka-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2]">
+                    ...fork_Osaka-state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -2458,6 +2864,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2477,11 +2884,32 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]">
+                    ...fork_Osaka-state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>-1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -2496,6 +2924,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2515,6 +2944,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2534,6 +2964,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2553,6 +2984,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>4</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2572,6 +3004,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2591,6 +3024,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2610,6 +3044,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY</td>
                         <td>False</td>
@@ -2629,6 +3064,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -2648,6 +3084,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -2667,6 +3104,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2686,6 +3124,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2705,6 +3144,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2724,6 +3164,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -2743,6 +3184,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -2762,6 +3204,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2781,6 +3224,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2800,6 +3244,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2819,6 +3264,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -2838,6 +3284,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2857,6 +3304,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2876,6 +3324,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2895,6 +3344,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2914,6 +3364,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2933,6 +3384,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2952,6 +3404,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.CHAIN_SPECIFIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2971,6 +3424,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -2990,6 +3444,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3009,11 +3464,52 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1]">
+                    ...fork_Osaka-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2]">
+                    ...fork_Osaka-state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -3028,6 +3524,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3047,11 +3544,32 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]">
+                    ...fork_Osaka-state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>-1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -3066,6 +3584,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3085,6 +3604,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3104,6 +3624,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3123,6 +3644,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>4</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3142,6 +3664,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3161,6 +3684,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3180,6 +3704,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY</td>
                         <td>False</td>
@@ -3199,6 +3724,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -3218,6 +3744,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -3237,6 +3764,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3256,6 +3784,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3275,6 +3804,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3294,6 +3824,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -3313,6 +3844,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -3332,6 +3864,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3351,6 +3884,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3370,6 +3904,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3389,6 +3924,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -3408,6 +3944,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3427,6 +3964,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3446,6 +3984,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3465,6 +4004,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3484,6 +4024,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3503,6 +4044,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3522,6 +4064,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.CHAIN_SPECIFIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3541,6 +4084,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3560,6 +4104,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3579,11 +4124,52 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1]">
+                    ...fork_Osaka-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_1
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-valid_True-single_invalid_authorization_eoa_authority_multiple_signers_2
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -3598,6 +4184,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3617,11 +4204,32 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]">
+                    ...fork_Osaka-blockchain_test_from_state_test-valid_True-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>True</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>-1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -3636,6 +4244,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3655,6 +4264,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3674,6 +4284,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3693,6 +4304,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>4</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3712,6 +4324,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3731,6 +4344,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3750,6 +4364,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY</td>
                         <td>False</td>
@@ -3769,6 +4384,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -3788,6 +4404,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -3807,6 +4424,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3826,6 +4444,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3845,6 +4464,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3864,6 +4484,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -3883,6 +4504,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -3902,6 +4524,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3921,6 +4544,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3940,6 +4564,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3959,6 +4584,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -3978,6 +4604,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -3997,6 +4624,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4016,6 +4644,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4035,6 +4664,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4054,6 +4684,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4073,6 +4704,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4092,6 +4724,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.CHAIN_SPECIFIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4111,6 +4744,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4130,6 +4764,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4149,11 +4784,52 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1]">
+                    ...fork_Osaka-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_1
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-valid_False-single_invalid_authorization_eoa_authority_multiple_signers_2
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>AddressType.EOA_WITH_SET_CODE</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -4168,6 +4844,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4187,11 +4864,32 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.INVALID_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
                         <td>False</td>
                         <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]" title="tests/prague/eip7702_set_code_tx/test_gas.py::test_intrinsic_gas_cost[fork_Osaka-blockchain_test_from_state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers]">
+                    ...fork_Osaka-blockchain_test_from_state_test-valid_False-multiple_invalid_nonce_authorizations_self_sponsored_multiple_signers
+                </abbr>
+            </td>
+                        <td>AddressType.EMPTY_ACCOUNT</td>
+                        <td>False</td>
+                        <td>SignerType.MULTIPLE_SIGNERS</td>
+                        <td>AuthorizationInvalidityType.INVALID_NONCE</td>
+                        <td>2</td>
+                        <td>-1</td>
+                        <td>ChainIDType.GENERIC</td>
+                        <td>AccessListType.EMPTY</td>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>AddressType.EOA</td>
                         <td></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -4206,6 +4904,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.INVALID_CHAIN_ID</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4225,6 +4924,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4244,6 +4944,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4263,6 +4964,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>4</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4282,6 +4984,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4301,6 +5004,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4320,6 +5024,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY</td>
                         <td>False</td>
@@ -4339,6 +5044,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -4358,6 +5064,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.CONTAINS_AUTHORITY_AND_SET_CODE_ADDRESS</td>
                         <td>False</td>
@@ -4377,6 +5084,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4396,6 +5104,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4415,6 +5124,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4434,6 +5144,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -4453,6 +5164,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -4472,6 +5184,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4491,6 +5204,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4510,6 +5224,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4529,6 +5244,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>2</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>True</td>
@@ -4548,6 +5264,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4567,6 +5284,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4586,6 +5304,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4605,6 +5324,7 @@
                         <td>SignerType.MULTIPLE_SIGNERS</td>
                         <td>None</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>
@@ -4624,6 +5344,7 @@
                         <td>SignerType.SINGLE_SIGNER</td>
                         <td>AuthorizationInvalidityType.REPEATED_NONCE</td>
                         <td>5000</td>
+                        <td>-1</td>
                         <td>ChainIDType.GENERIC</td>
                         <td>AccessListType.EMPTY</td>
                         <td>False</td>

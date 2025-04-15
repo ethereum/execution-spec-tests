@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_all_opcodes_stack_overflow"><code>test_all_opcodes_stack_overflow()</code><a class="headerlink" href="#test_all_opcodes_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3b3522ff5555281d7af3864a9288acc69e9df09f/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py#L314"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_stack_overflow@3b3522ff</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py#L315"><code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_stack_overflow@d2f52375</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py::test_all_opcodes_stack_overflow --fork Osaka</span>
@@ -30030,8 +30030,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip3540_eof_v1/test_all_opcodes_in_container.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
-<span class="normal">315</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">315</span>
 <span class="normal">316</span>
 <span class="normal">317</span>
 <span class="normal">318</span>
@@ -30077,7 +30076,8 @@
 <span class="normal">358</span>
 <span class="normal">359</span>
 <span class="normal">360</span>
-<span class="normal">361</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">361</span>
+<span class="normal">362</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="nb">sorted</span><span class="p">(</span><span class="n">op</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">valid_eof_opcodes</span> <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">pushed_stack_items</span> <span class="o">&gt;</span> <span class="n">op</span><span class="o">.</span><span class="n">popped_stack_items</span><span class="p">)</span>
     <span class="o">+</span> <span class="p">[</span>
@@ -30103,7 +30103,7 @@
     <span class="n">opcode</span> <span class="o">=</span> <span class="n">opcode</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">opcode</span><span class="o">.</span><span class="n">has_data_portion</span><span class="p">()</span> <span class="k">else</span> <span class="n">opcode</span>
 
     <span class="k">assert</span> <span class="n">opcode</span><span class="o">.</span><span class="n">pushed_stack_items</span> <span class="o">-</span> <span class="n">opcode</span><span class="o">.</span><span class="n">popped_stack_items</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="n">opcode_count</span> <span class="o">=</span> <span class="n">MAX_OPERAND_STACK_HEIGHT</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">opcode</span><span class="o">.</span><span class="n">min_stack_height</span>
+    <span class="n">opcode_count</span> <span class="o">=</span> <span class="n">MAX_RUNTIME_STACK_HEIGHT</span> <span class="o">-</span> <span class="n">opcode</span><span class="o">.</span><span class="n">min_stack_height</span>
 
     <span class="n">bytecode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">opcode</span><span class="o">.</span><span class="n">min_stack_height</span>
     <span class="n">bytecode</span> <span class="o">+=</span> <span class="n">opcode</span> <span class="o">*</span> <span class="n">opcode_count</span>
@@ -30113,7 +30113,7 @@
 
     <span class="k">if</span> <span class="n">exception</span> <span class="o">==</span> <span class="n">EOFException</span><span class="o">.</span><span class="n">INVALID_MAX_STACK_INCREASE</span><span class="p">:</span>
         <span class="c1"># Lie about the max stack height to make the code be checked for stack overflow.</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;max_stack_height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MAX_OPERAND_STACK_HEIGHT</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;max_stack_height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MAX_STACK_INCREASE_LIMIT</span>
 
     <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span>
 

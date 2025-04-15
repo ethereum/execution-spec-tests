@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_eof_validity"><code>test_eof_validity()</code><a class="headerlink" href="#test_eof_validity" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3b3522ff5555281d7af3864a9288acc69e9df09f/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L375"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity@3b3522ff</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L373"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity@d2f52375</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_eof_validity --fork Osaka</span>
@@ -30030,7 +30030,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">375</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
 <span class="normal">376</span>
 <span class="normal">377</span>
 <span class="normal">378</span>
@@ -30038,9 +30040,7 @@
 <span class="normal">380</span>
 <span class="normal">381</span>
 <span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;container&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="o">*</span><span class="n">VALID</span><span class="p">,</span> <span class="o">*</span><span class="n">INVALID</span><span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="n">container_name</span><span class="p">,</span>

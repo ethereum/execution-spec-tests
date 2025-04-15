@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf_stack_overflow_by_outputs"><code>test_callf_stack_overflow_by_outputs()</code><a class="headerlink" href="#test_callf_stack_overflow_by_outputs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3b3522ff5555281d7af3864a9288acc69e9df09f/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L1073"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_by_outputs@3b3522ff</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L1071"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_by_outputs@d2f52375</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_overflow_by_outputs --fork Osaka</span>
@@ -30033,7 +30033,9 @@ an invalid max_stack_height.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1073</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1071</span>
+<span class="normal">1072</span>
+<span class="normal">1073</span>
 <span class="normal">1074</span>
 <span class="normal">1075</span>
 <span class="normal">1076</span>
@@ -30056,11 +30058,9 @@ an invalid max_stack_height.</p>
 <span class="normal">1093</span>
 <span class="normal">1094</span>
 <span class="normal">1095</span>
-<span class="normal">1096</span>
-<span class="normal">1097</span>
-<span class="normal">1098</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;callee_outputs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">MAX_CODE_OUTPUTS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_CODE_OUTPUTS</span><span class="p">])</span>
+<span class="normal">1096</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;callee_outputs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">MAX_CODE_OUTPUTS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_CODE_OUTPUTS</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;max_stack_height&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_OPERAND_STACK_HEIGHT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_OPERAND_STACK_HEIGHT</span><span class="p">]</span>
+    <span class="s2">&quot;max_stack_height&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_STACK_INCREASE_LIMIT</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_STACK_INCREASE_LIMIT</span><span class="p">]</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_callf_stack_overflow_by_outputs</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">callee_outputs</span><span class="p">,</span> <span class="n">max_stack_height</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -30069,7 +30069,7 @@ an invalid max_stack_height.</p>
 <span class="sd">    is always above the maximum allowed in the EOF type section. Therefore, the test declares</span>
 <span class="sd">    an invalid max_stack_height.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">callf_stack_height</span> <span class="o">=</span> <span class="p">(</span><span class="n">MAX_RUNTIME_OPERAND_STACK_HEIGHT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">callee_outputs</span>
+    <span class="n">callf_stack_height</span> <span class="o">=</span> <span class="p">(</span><span class="n">MAX_RUNTIME_STACK_HEIGHT</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">callee_outputs</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>

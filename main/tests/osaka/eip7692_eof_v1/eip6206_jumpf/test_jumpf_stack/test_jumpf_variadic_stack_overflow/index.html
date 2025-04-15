@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_jumpf_variadic_stack_overflow"><code>test_jumpf_variadic_stack_overflow()</code><a class="headerlink" href="#test_jumpf_variadic_stack_overflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3b3522ff5555281d7af3864a9288acc69e9df09f/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py#L295"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_variadic_stack_overflow@3b3522ff</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py#L295"><code>tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_variadic_stack_overflow@d2f52375</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip6206_jumpf/test_jumpf_stack.py::test_jumpf_variadic_stack_overflow --fork Osaka</span>
@@ -30069,7 +30069,7 @@
             <span class="p">),</span>
         <span class="p">],</span>
         <span class="n">validity_error</span><span class="o">=</span><span class="n">EOFException</span><span class="o">.</span><span class="n">STACK_OVERFLOW</span>
-        <span class="k">if</span> <span class="n">stack_height</span> <span class="o">+</span> <span class="n">callee_stack_height</span> <span class="o">&gt;</span> <span class="n">MAX_RUNTIME_OPERAND_STACK_HEIGHT</span>
+        <span class="k">if</span> <span class="n">stack_height</span> <span class="o">+</span> <span class="n">callee_stack_height</span> <span class="o">&gt;</span> <span class="n">MAX_RUNTIME_STACK_HEIGHT</span>
         <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eof_test</span><span class="p">(</span><span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">)</span>

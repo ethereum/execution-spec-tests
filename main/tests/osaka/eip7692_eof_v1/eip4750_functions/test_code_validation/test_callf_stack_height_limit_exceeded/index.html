@@ -30011,7 +30011,7 @@
 
 
 <h1 id="test_callf_stack_height_limit_exceeded"><code>test_callf_stack_height_limit_exceeded()</code><a class="headerlink" href="#test_callf_stack_height_limit_exceeded" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3b3522ff5555281d7af3864a9288acc69e9df09f/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L648"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_height_limit_exceeded@3b3522ff</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d2f52375e1b21f50cb28bcf8523f21fab46ffc26/tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py#L646"><code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_height_limit_exceeded@d2f52375</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py::test_callf_stack_height_limit_exceeded --fork Osaka</span>
@@ -30032,7 +30032,9 @@ which is above the EOF limit for the stack height in the type section (1023).</p
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4750_functions/test_code_validation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">648</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
 <span class="normal">649</span>
 <span class="normal">650</span>
 <span class="normal">651</span>
@@ -30051,21 +30053,19 @@ which is above the EOF limit for the stack height in the type section (1023).</p
 <span class="normal">664</span>
 <span class="normal">665</span>
 <span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;callee_outputs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">MAX_CODE_OUTPUTS</span><span class="p">])</span>
+<span class="normal">667</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;callee_outputs&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">MAX_CODE_OUTPUTS</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_callf_stack_height_limit_exceeded</span><span class="p">(</span><span class="n">eof_test</span><span class="p">,</span> <span class="n">callee_outputs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test for invalid EOF code containing CALLF instruction exceeding the stack height limit.</span>
 <span class="sd">    The code reaches the maximum runtime stack height (1024)</span>
 <span class="sd">    which is above the EOF limit for the stack height in the type section (1023).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">callf_stack_height</span> <span class="o">=</span> <span class="n">MAX_RUNTIME_OPERAND_STACK_HEIGHT</span> <span class="o">-</span> <span class="n">callee_outputs</span>
+    <span class="n">callf_stack_height</span> <span class="o">=</span> <span class="n">MAX_RUNTIME_STACK_HEIGHT</span> <span class="o">-</span> <span class="n">callee_outputs</span>
     <span class="n">container</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                 <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">callf_stack_height</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLF</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-                <span class="n">max_stack_height</span><span class="o">=</span><span class="n">MAX_RUNTIME_OPERAND_STACK_HEIGHT</span><span class="p">,</span>
+                <span class="n">max_stack_height</span><span class="o">=</span><span class="n">MAX_RUNTIME_STACK_HEIGHT</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
                 <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">callee_outputs</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETF</span><span class="p">,</span>

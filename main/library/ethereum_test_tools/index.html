@@ -36182,10 +36182,6 @@ tests.</p>
 
 
 
-
-
-
-
 <div class="doc doc-object doc-class">
 
 
@@ -53189,7 +53185,9 @@ optionally <code>position</code>) and may not be set directly.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">257</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
@@ -53202,9 +53200,7 @@ optionally <code>position</code>) and may not be set directly.</p>
 <span class="normal">267</span>
 <span class="normal">268</span>
 <span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CalldataCase</span><span class="p">(</span><span class="n">Case</span><span class="p">):</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CalldataCase</span><span class="p">(</span><span class="n">Case</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Small helper class to represent a single case whose condition depends</span>
 <span class="sd">    on the value of the contract&#39;s calldata in a Switch case statement.</span>
@@ -53248,10 +53244,10 @@ optionally <code>position</code>) and may not be set directly.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Bytecode</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the condition base on `value` and `position`.&quot;&quot;&quot;</span>
     <span class="n">condition</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="n">position</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -53298,7 +53294,9 @@ list.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
 <span class="normal">241</span>
 <span class="normal">242</span>
 <span class="normal">243</span>
@@ -53310,9 +53308,7 @@ list.</p>
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Case</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Small helper class to represent a single, generic case in a `Switch` cases</span>
@@ -53454,9 +53450,7 @@ By default, the result gas calculation is saved to storage key 0.</p>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CodeGasMeasure</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">CodeGasMeasure</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class used to generate bytecode that measures gas usage of a</span>
 <span class="sd">    bytecode, taking into account and subtracting any extra overhead gas costs</span>
@@ -53478,7 +53472,7 @@ By default, the result gas calculation is saved to storage key 0.</p>
 <span class="sd">    To be considered when subtracting the value of the previous GAS operation,</span>
 <span class="sd">    and to be popped at the end of the execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">sstore_key</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">sstore_key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytes</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Storage key to save the gas used.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -53489,7 +53483,7 @@ By default, the result gas calculation is saved to storage key 0.</p>
         <span class="n">code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
         <span class="n">overhead_cost</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">extra_stack_items</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">sstore_key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">sstore_key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytes</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">stop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assemble the bytecode that measures gas usage.&quot;&quot;&quot;</span>
@@ -53502,9 +53496,7 @@ By default, the result gas calculation is saved to storage key 0.</p>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">overhead_cost</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAP1</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">sstore_key</span><span class="p">)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">sstore_key</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">stop</span><span class="p">:</span>
             <span class="n">res</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
@@ -53613,7 +53605,7 @@ and to be popped at the end of the execution.</p>
 
 
 <h3 id="ethereum_test_tools.CodeGasMeasure.sstore_key" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">sstore_key</span><span class="p">:</span> <span class="nb">int</span></code>
+            <code class="highlight language-python"><span class="n">sstore_key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytes</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
@@ -53678,15 +53670,13 @@ and to be popped at the end of the execution.</p>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">code</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
     <span class="n">overhead_cost</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">extra_stack_items</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">sstore_key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">sstore_key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Bytes</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">stop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Assemble the bytecode that measures gas usage.&quot;&quot;&quot;</span>
@@ -53699,9 +53689,7 @@ and to be popped at the end of the execution.</p>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">overhead_cost</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAP1</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">sstore_key</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">sstore_key</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">stop</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
@@ -53752,7 +53740,9 @@ and to be popped at the end of the execution.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span>
@@ -53796,9 +53786,7 @@ and to be popped at the end of the execution.</p>
 <span class="normal">232</span>
 <span class="normal">233</span>
 <span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Conditional</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Conditional</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper class used to generate conditional bytecode.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
@@ -53876,7 +53864,9 @@ paths.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
@@ -53917,9 +53907,7 @@ paths.</p>
 <span class="normal">232</span>
 <span class="normal">233</span>
 <span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">condition</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span><span class="p">,</span>
@@ -54566,7 +54554,9 @@ The initcode can be padded to a specified length for testing purposes.</p>
 </details>
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">275</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
 <span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
@@ -54673,9 +54663,7 @@ The initcode can be padded to a specified length for testing purposes.</p>
 <span class="normal">379</span>
 <span class="normal">380</span>
 <span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Switch</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
+<span class="normal">382</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Switch</span><span class="p">(</span><span class="n">Bytecode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class used to generate switch-case expressions in EVM bytecode.</span>
 
@@ -54895,7 +54883,9 @@ switch-case behavior.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/code/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">305</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
 <span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
@@ -54972,9 +54962,7 @@ switch-case behavior.</p>
 <span class="normal">379</span>
 <span class="normal">380</span>
 <span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+<span class="normal">382</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">default_action</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">|</span> <span class="n">Op</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
