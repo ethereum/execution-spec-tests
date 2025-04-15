@@ -35,7 +35,8 @@
         "same_as": "EELSMaster"
     },
     "Prague": {
-        "git_url": "https://github.com/ethereum/execution-specs.git",
-        "branch": "devnets/prague/6"
+      "git_url": "https://github.com/gurukamath/execution-specs.git",
+      "branch": "7702-to-precompile",
+      "commit": "bbc469729ab095300b07de8fe323c3f9fac31857"
     }
 }
