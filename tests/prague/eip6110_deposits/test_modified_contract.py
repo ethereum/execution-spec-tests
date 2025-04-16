@@ -45,7 +45,7 @@ DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT = {
     "signature_data": bytes(DEFAULT_DEPOSIT_REQUEST.signature),
     "index_data": bytes(),  # TODO: read from the default deposit request instead of hardcoding 0
 }
-DEFAULT_REQUEST_LOG = create_deposit_log_bytes(**DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT)
+DEFAULT_REQUEST_LOG = create_deposit_log_bytes(**DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT)  # type: ignore
 
 
 @pytest.mark.parametrize(
