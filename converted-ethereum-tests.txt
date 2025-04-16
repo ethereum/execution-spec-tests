@@ -48,6 +48,8 @@ EOFTests/efStack/forwards_rjumpv_variable_stack_.json
 EOFTests/efStack/underflow_.json
 EOFTests/efStack/underflow_variable_stack_.json
 EOFTests/efStack/unreachable_instructions_.json
+EOFTests/efStack/self_referencing_jumps_.json
+EOFTests/efStack/self_referencing_jumps_variable_stack_.json
 EOFTests/efValidation/callf_into_nonreturning_.json
 EOFTests/efValidation/dataloadn_.json
 EOFTests/efValidation/EOF1_embedded_container_.json
@@ -55,8 +57,8 @@ EOFTests/efValidation/EOF1_eofcreate_valid_.json
 EOFTests/efValidation/EOF1_callf_truncated_.json
 EOFTests/efValidation/EOF1_code_section_missing_.json
 EOFTests/efValidation/EOF1_dataloadn_truncated_.json
-EOFTests/efValidation/EOF1_eofcreate_invalid_.py
-EOFTests/efValidation/EOF1_multiple_type_sections_.py
+EOFTests/efValidation/EOF1_eofcreate_invalid_.json
+EOFTests/efValidation/EOF1_multiple_type_sections_.json
 EOFTests/efValidation/EOF1_no_type_section_.json
 EOFTests/efValidation/EOF1_valid_rjump_.json
 EOFTests/efValidation/EOF1_valid_rjumpi_.json
