@@ -18,6 +18,8 @@ from ethereum_test_tools import Opcodes as Op
 from .helpers import DepositRequest, create_deposit_log_bytes
 from .spec import Spec, ref_spec_6110
 
+pytestmark = pytest.mark.valid_from("Prague")
+
 REFERENCE_SPEC_GIT_PATH = ref_spec_6110.git_path
 REFERENCE_SPEC_VERSION = ref_spec_6110.version
 
