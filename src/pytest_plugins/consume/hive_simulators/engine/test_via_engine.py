@@ -23,6 +23,7 @@ def test_blockchain_via_engine(
     engine_rpc: EngineRPC,
     fixture: BlockchainEngineFixture,
     client_strict_exception_matching: bool,
+    fork_strict_exception_matching: bool,
 ):
     """
     1. Check the client genesis block hash matches `fixture.genesis.block_hash`.
@@ -115,11 +116,15 @@ def test_blockchain_via_engine(
                                         f'got: "{payload_response.validation_error}" '
                                         f'expected: "{payload.validation_error}"'
                                     )
-                                    if client_strict_exception_matching:
+                                    if (
+                                        not client_strict_exception_matching
+                                        or not fork_strict_exception_matching
+                                    ):
+                                        logger.warning(message)
+                                    else:
                                         logger.fail(message)
                                         raise Exception(message)
-                                    else:
-                                        logger.warning(message)
+
                     except JSONRPCError as e:
                         logger.info(f"JSONRPC error encountered: {e.code} - {e.message}")
                         if payload.error_code is None:
