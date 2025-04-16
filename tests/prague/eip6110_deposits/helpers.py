@@ -157,6 +157,10 @@ class DepositContract(DepositInteractionBase):
     """
     Gas limit for the transaction.
     """
+    tx_value: int = 0
+    """
+    Value to send with the transaction.
+    """
 
     contract_balance: int = 32_000_000_000_000_000_000 * 100
     """
@@ -212,7 +216,7 @@ class DepositContract(DepositInteractionBase):
                 gas_limit=self.tx_gas_limit,
                 gas_price=0x07,
                 to=self.entry_address,
-                value=0,
+                value=self.tx_value,
                 data=b"".join(r.calldata for r in self.requests),
                 sender=self.sender_account,
             )
@@ -220,7 +224,10 @@ class DepositContract(DepositInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_eoa(self.sender_balance)
+        required_balance = self.sender_balance
+        if self.tx_value > 0:
+            required_balance = max(required_balance, self.tx_value + self.tx_gas_limit * 7)
+        self.sender_account = pre.fund_eoa(required_balance)
         self.contract_address = pre.deploy_contract(
             code=self.contract_code, balance=self.contract_balance
         )
