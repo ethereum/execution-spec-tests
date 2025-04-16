@@ -37,7 +37,7 @@ def create_deposit_log_bytes(
     result = bytearray(576)
     offset = 0
 
-    def write_uint256(value):
+    def write_uint256(value: int):
         result[offset : offset + 32] = value.to_bytes(32, byteorder="big")
         offset += 32
 
