@@ -83,7 +83,7 @@ def consolidation_list_with_custom_fee(n: int) -> List[ConsolidationRequest]:  #
         ),
     ],
 )
-def test_consolidations_py_modified(
+def test_extra_consolidations(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     requests_list: List[ConsolidationRequest],
