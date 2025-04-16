@@ -3911,11 +3911,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/prague/eip7002_el_triggerable_withdrawals/test_modified_withdrawal_contract/test_extra_withdrawals_pseudo_contract/</loc>
-         <lastmod>2025-04-16</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests/</loc>
          <lastmod>2025-04-16</lastmod>
          <changefreq>daily</changefreq>
@@ -3982,6 +3977,16 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7251_consolidations/test_contract_deployment/test_system_contract_deployment/</loc>
+         <lastmod>2025-04-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7251_consolidations/test_modified_consolidation_contract/</loc>
+         <lastmod>2025-04-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7251_consolidations/test_modified_consolidation_contract/test_extra_consolidations/</loc>
          <lastmod>2025-04-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
