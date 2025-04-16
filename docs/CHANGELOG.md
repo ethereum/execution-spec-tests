@@ -39,6 +39,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ [EIP-6110](https://eips.ethereum.org/EIPS/eip-6110): Add extra deposit request edge cases, sending eth to the deposit contract while sending a deposit request ([#1467](https://github.com/ethereum/execution-spec-tests/pull/1467)).
 - ✨ [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Remove pytest skips for consolidation request cases ([#1449](https://github.com/ethereum/execution-spec-tests/pull/1449)).
 - ✨ [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add cases to verify behavior of contracts missing at fork ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- ✨ [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add cases to verify behavior of system contract errors invalidating a block ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
 
 ### 📋 Misc
 
