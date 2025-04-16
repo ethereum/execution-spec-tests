@@ -34,6 +34,7 @@ def create_deposit_log_bytes(
     index_data: bytes = b"",
     index_offset: int = 512,
 ) -> bytes:
+    """Create the deposit log bytes."""
     result = bytearray(576)
     offset = 0
 
