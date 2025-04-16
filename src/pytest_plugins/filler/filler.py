@@ -51,6 +51,14 @@ def default_html_report_file_path() -> str:
     return ".meta/report_fill.html"
 
 
+def default_max_gas() -> int:
+    """
+    Maximum gas (default) to use for transactions. Defined as a function to
+    allow for easier testing.
+    """
+    return 30_000_000
+
+
 def strip_output_tarball_suffix(output: Path) -> Path:
     """Strip the '.tar.gz' suffix from the output path."""
     if str(output).endswith(".tar.gz"):
@@ -171,6 +179,16 @@ def pytest_addoption(parser: pytest.Parser):
         dest="generate_index",
         default=True,
         help="Skip generating an index file for all produced fixtures.",
+    )
+
+    test_options_group = parser.getgroup("test_options", "Arguments defining debug behavior")
+    test_options_group.addoption(
+        "--max-gas",
+        action="store",
+        dest="max_gas",
+        default=default_max_gas(),
+        type=int,
+        help=(f"Maximum gas used for transactions. (Default: {default_max_gas()})"),
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -383,6 +401,12 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Fill Test Report"
+
+
+@pytest.fixture(autouse=True, scope="session")
+def max_gas(request: pytest.FixtureRequest) -> Path:
+    """Return directory containing the tests to execute."""
+    return request.config.getoption("max_gas")
 
 
 @pytest.fixture(autouse=True, scope="session")
