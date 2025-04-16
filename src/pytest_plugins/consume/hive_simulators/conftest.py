@@ -208,15 +208,26 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
 
 
+@pytest.fixture(scope="session")
+def client_exception_mapper_cache():
+    """Cache for exception mappers by client type."""
+    return {}
+
+
 @pytest.fixture(scope="function")
 def client_exception_mapper(
-    client_type: ClientType,
+    client_type: ClientType, client_exception_mapper_cache
 ) -> ExceptionMapper | None:
-    """Return the exception mapper for the client type."""
-    for client in EXCEPTION_MAPPERS:
-        if client in client_type.name:
-            return EXCEPTION_MAPPERS[client]
-    return None
+    """Return the exception mapper for the client type, with caching."""
+    if client_type.name not in client_exception_mapper_cache:
+        for client in EXCEPTION_MAPPERS:
+            if client in client_type.name:
+                client_exception_mapper_cache[client_type.name] = EXCEPTION_MAPPERS[client]
+                break
+        else:
+            client_exception_mapper_cache[client_type.name] = None
+
+    return client_exception_mapper_cache[client_type.name]
 
 
 @pytest.fixture(scope="session")
