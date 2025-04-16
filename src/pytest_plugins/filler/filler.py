@@ -9,6 +9,7 @@ writes the generated fixtures to file.
 import configparser
 import datetime
 import os
+import shutil
 import tarfile
 import warnings
 from dataclasses import dataclass
@@ -59,6 +60,7 @@ class FixtureOutput:
     path: Path
     flat_output: bool = False
     single_fixture_per_file: bool = False
+    clean: bool = False
 
     @property
     def directory(self) -> Path:
@@ -89,11 +91,74 @@ class FixtureOutput:
             return path.with_suffix("").with_suffix("")
         return path
 
+    def is_directory_empty(self) -> bool:
+        """Check if the output directory is empty."""
+        if not self.directory.exists():
+            return True
+
+        return not any(self.directory.iterdir())
+
+    def get_directory_summary(self) -> str:
+        """Return a summary of directory contents for error reporting."""
+        if not self.directory.exists():
+            return "directory does not exist"
+
+        items = list(self.directory.iterdir())
+        if not items:
+            return "empty directory"
+
+        dirs = [d.name for d in items if d.is_dir()]
+        files = [f.name for f in items if f.is_file()]
+
+        summary_parts = []
+        if dirs:
+            summary_parts.append(
+                f"{len(dirs)} directories"
+                + (
+                    f" ({', '.join(dirs[:3])}"
+                    + (f"... and {len(dirs) - 3} more" if len(dirs) > 3 else "")
+                    + ")"
+                    if dirs
+                    else ""
+                )
+            )
+        if files:
+            summary_parts.append(
+                f"{len(files)} files"
+                + (
+                    f" ({', '.join(files[:3])}"
+                    + (f"... and {len(files) - 3} more" if len(files) > 3 else "")
+                    + ")"
+                    if files
+                    else ""
+                )
+            )
+
+        return " and ".join(summary_parts)
+
     def create_directories(self) -> None:
-        """Create output and metadata directories if needed."""
+        """
+        Create output and metadata directories if needed.
+
+        If clean flag is set, remove and recreate the directory.
+        Otherwise, verify the directory is empty before proceeding.
+        """
         if self.is_stdout:
             return
 
+        # Remove directory if it exists if running with --clean
+        if self.clean and self.directory.exists():
+            shutil.rmtree(self.directory)
+
+        if self.directory.exists() and not self.is_directory_empty():
+            summary = self.get_directory_summary()
+            raise ValueError(
+                f"Output directory '{self.directory}' is not empty. "
+                f"Contains: {summary}. Use --clean to remove existing files "
+                "or specify a different output directory."
+            )
+
+        # Create directories
         self.directory.mkdir(parents=True, exist_ok=True)
         self.metadata_dir.mkdir(parents=True, exist_ok=True)
 
@@ -110,13 +175,18 @@ class FixtureOutput:
 
     @classmethod
     def from_options(
-        cls, output_path: Path, flat_output: bool, single_fixture_per_file: bool
+        cls,
+        output_path: Path,
+        flat_output: bool,
+        single_fixture_per_file: bool,
+        clean: bool = False,
     ) -> "FixtureOutput":
         """Create a FixtureOutput instance from pytest options."""
         return cls(
             path=output_path,
             flat_output=flat_output,
             single_fixture_per_file=single_fixture_per_file,
+            clean=clean,
         )
 
 
@@ -181,11 +251,18 @@ def pytest_addoption(parser: pytest.Parser):
         type=Path,
         default=Path(default_output_directory()),
         help=(
-            "Directory path to store the generated test fixtures. "
+            "Directory path to store the generated test fixtures. Must be empty if it exists. "
             "If the specified path ends in '.tar.gz', then the specified tarball is additionally "
             "created (the fixtures are still written to the specified path without the '.tar.gz' "
             f"suffix). Can be deleted. Default: '{default_output_directory()}'."
         ),
+    )
+    test_group.addoption(
+        "--clean",
+        action="store_true",
+        dest="clean",
+        default=False,
+        help="Clean (remove) the output directory before filling fixtures.",
     )
     test_group.addoption(
         "--flat-output",
@@ -268,15 +345,23 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
-    if config.option.collectonly:
+    if config.option.collectonly or config.getoption("help"):
         return
 
-    # Initialize fixture output configuration
     config.fixture_output = FixtureOutput.from_options(
         output_path=config.getoption("output"),
         flat_output=config.getoption("flat_output"),
         single_fixture_per_file=config.getoption("single_fixture_per_file"),
+        clean=config.getoption("clean"),
     )
+
+    try:
+        # This will check if the directory exists and is not empty
+        # If --clean is set, it will remove the directory contents
+        if not config.fixture_output.is_stdout:
+            config.fixture_output.create_directories()
+    except ValueError as e:
+        pytest.exit(str(e), returncode=pytest.ExitCode.USAGE_ERROR)
 
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
@@ -577,8 +662,6 @@ def create_properties_file(request: pytest.FixtureRequest, fixture_output: Fixtu
     """
     if fixture_output.is_stdout:
         return
-
-    fixture_output.create_directories()
 
     fixture_properties = {
         "timestamp": datetime.datetime.now().isoformat(),
