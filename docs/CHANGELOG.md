@@ -6,6 +6,13 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ## 🔜 [Unreleased]
 
+### 💥 Important Change for `fill` Users
+
+The output behavior of `fill` has changed:
+
+- Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
+- Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
+
 ### 💥 Breaking Change
 
 ### 🛠️ Framework
@@ -16,6 +23,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ Introduce `pytest.mark.exception_test` to mark tests that contain an invalid transaction or block ([#1436](https://github.com/ethereum/execution-spec-tests/pull/1436)).
 - 🐞 Fix `DeprecationWarning: Pickle, copy, and deepcopy support will be removed from itertools in Python 3.14.` by avoiding use `itertools` object in the spec `BaseTest` pydantic model ([#1414](https://github.com/ethereum/execution-spec-tests/pull/1414)).
 - 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471)).
+- 🐞 Do not write generated fixtures into an existing, non-empty output directory; it must now be empty or `--clean` must be used to delete it first ([#1473](https://github.com/ethereum/execution-spec-tests/pull/1473)).
 
 #### `consume`
 
