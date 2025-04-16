@@ -61,6 +61,7 @@ class GethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
             "input string too short for common.Address, decoding into (types.SetCodeTx).To"
         ),
+        TransactionException.TYPE_4_TX_PRE_FORK: ("transaction type not supported"),
         TransactionException.INITCODE_SIZE_EXCEEDED: "max initcode size exceeded",
         TransactionException.NONCE_MISMATCH_TOO_LOW: "nonce too low",
         BlockException.INCORRECT_BLOB_GAS_USED: "blob gas used mismatch",

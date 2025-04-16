@@ -244,6 +244,9 @@ class BesuExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
             "transaction invalid transaction code delegation transactions must have a to address"
         ),
+        TransactionException.TYPE_4_TX_PRE_FORK: (
+            "transaction invalid Transaction type DELEGATE_CODE is invalid"
+        ),
         BlockException.RLP_STRUCTURES_ENCODING: (
             "Failed to decode transactions from block parameter"
         ),

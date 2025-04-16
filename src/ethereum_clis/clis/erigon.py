@@ -31,6 +31,7 @@ class ErigonExceptionMapper(ExceptionMapper):
             "SetCodeTransaction without authorizations is invalid"
         ),
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: "wrong size for To: 0",
+        TransactionException.TYPE_4_TX_PRE_FORK: "setCode tx is not supported by signer",
         BlockException.INVALID_REQUESTS: "invalid requests root hash in header",
         BlockException.INVALID_BLOCK_HASH: "invalid block hash",
     }
