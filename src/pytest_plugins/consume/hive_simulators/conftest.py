@@ -261,6 +261,15 @@ def fork_strict_exception_matching(
 
 
 @pytest.fixture(scope="function")
+def strict_exception_matching(
+    client_strict_exception_matching: bool,
+    fork_strict_exception_matching: bool,
+) -> bool:
+    """Return True if the test should use strict exception matching."""
+    return client_strict_exception_matching and fork_strict_exception_matching
+
+
+@pytest.fixture(scope="function")
 def client(
     hive_test: HiveTest,
     client_files: dict,  # configured within: rlp/conftest.py & engine/conftest.py
