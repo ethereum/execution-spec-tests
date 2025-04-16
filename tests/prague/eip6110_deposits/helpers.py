@@ -32,17 +32,29 @@ class DepositRequest(DepositRequestBase):
     """
     Calldata modifier function.
     """
+    extra_wei: int = 0
+    """
+    Extra amount in wei to be sent with the deposit.
+    If this value modulo 10**9 is not zero, the deposit will be invalid.
+    The value can be negative but if the total value is negative, an exception will be raised.
+    """
 
     interaction_contract_address: ClassVar[Address] = Address(Spec.DEPOSIT_CONTRACT_ADDRESS)
 
     @cached_property
     def value(self) -> int:
-        """Returns the value of the deposit transaction."""
-        return self.amount * 10**9
+        """
+        Return the value of the deposit transaction, equal to the amount in gwei plus the
+        extra amount in wei.
+        """
+        value = (self.amount * 10**9) + self.extra_wei
+        if value < 0:
+            raise ValueError("Value cannot be negative")
+        return value
 
     @cached_property
     def deposit_data_root(self) -> Hash:
-        """Returns the deposit data root of the deposit."""
+        """Return the deposit data root of the deposit."""
         pubkey_root = sha256(self.pubkey, b"\x00" * 16)
         signature_root = sha256(
             sha256(self.signature[:64]), sha256(self.signature[64:], b"\x00" * 32)
@@ -55,7 +67,7 @@ class DepositRequest(DepositRequestBase):
     @cached_property
     def calldata(self) -> bytes:
         """
-        Returns the calldata needed to call the beacon chain deposit contract and make the deposit.
+        Return the calldata needed to call the beacon chain deposit contract and make the deposit.
 
         deposit(
             bytes calldata pubkey,

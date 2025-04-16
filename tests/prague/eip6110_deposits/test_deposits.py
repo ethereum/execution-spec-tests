@@ -255,6 +255,25 @@ pytestmark = pytest.mark.valid_from("Prague")
                             amount=32_000_000_000,
                             signature=0x03,
                             index=0x0,
+                            valid=False,
+                            calldata_modifier=lambda _: b"",
+                        )
+                    ],
+                ),
+            ],
+            # TODO: EIP-5920: Send using PAY opcode
+            id="send_eth_to_contract_no_deposit_data",
+        ),
+        pytest.param(
+            [
+                DepositContract(
+                    requests=[
+                        DepositRequest(
+                            pubkey=0x01,
+                            withdrawal_credentials=0x02,
+                            amount=32_000_000_000,
+                            signature=0x03,
+                            index=0x0,
                         )
                     ],
                 ),
@@ -717,6 +736,78 @@ pytestmark = pytest.mark.valid_from("Prague")
                         DepositRequest(
                             pubkey=0x01,
                             withdrawal_credentials=0x02,
+                            amount=1_000_000_000,
+                            signature=0x03,
+                            index=0x0,
+                            extra_wei=1,
+                            valid=False,
+                        )
+                    ],
+                ),
+            ],
+            id="single_deposit_from_eoa_minimum_plus_one_wei",
+        ),
+        pytest.param(
+            [
+                DepositTransaction(
+                    requests=[
+                        DepositRequest(
+                            pubkey=0x01,
+                            withdrawal_credentials=0x02,
+                            amount=1_000_000_000,
+                            signature=0x03,
+                            index=0x0,
+                            extra_wei=-1,
+                            valid=False,
+                        )
+                    ],
+                ),
+            ],
+            id="single_deposit_from_eoa_minimum_minus_one_wei",
+        ),
+        pytest.param(
+            [
+                DepositContract(
+                    requests=[
+                        DepositRequest(
+                            pubkey=0x01,
+                            withdrawal_credentials=0x02,
+                            amount=1_000_000_000,
+                            signature=0x03,
+                            index=0x0,
+                            extra_wei=1,
+                            valid=False,
+                        )
+                    ],
+                ),
+            ],
+            id="single_deposit_from_contract_minimum_plus_one_wei",
+        ),
+        pytest.param(
+            [
+                DepositContract(
+                    requests=[
+                        DepositRequest(
+                            pubkey=0x01,
+                            withdrawal_credentials=0x02,
+                            amount=1_000_000_000,
+                            signature=0x03,
+                            index=0x0,
+                            extra_wei=-1,
+                            valid=False,
+                        )
+                    ],
+                ),
+            ],
+            id="single_deposit_from_contract_minimum_minus_one_wei",
+        ),
+        pytest.param(
+            [
+                DepositTransaction(
+                    requests=[
+                        DepositRequest(
+                            pubkey=0x01,
+                            withdrawal_credentials=0x02,
                             amount=1_000_000_001,
                             signature=0x03,
                             index=0x0,
@@ -747,31 +838,13 @@ pytestmark = pytest.mark.valid_from("Prague")
                             valid=False,
                         )
                     ],
-                    # Send 1 ETH (in wei) to the contract, note `DepositRequest.amount` is in gwei
-                    tx_value=1_000_000_000 * 10**9,
+                    # Send 32 ETH minus 1 wei to the contract, note `DepositRequest.amount` is in
+                    # gwei
+                    tx_value=32_000_000_000 * 10**9 - 1,
                     contract_balance=0,
                 ),
             ],
             id="send_not_enough_eth_to_contract_with_zero_balance",
-        ),
-        pytest.param(
-            [
-                DepositContract(
-                    requests=[
-                        DepositRequest(
-                            pubkey=0x01,
-                            withdrawal_credentials=0x02,
-                            amount=0,
-                            signature=0x03,
-                            index=0x0,
-                            valid=False,
-                            calldata_modifier=lambda _: b"",
-                        )
-                    ],
-                    tx_value=1_000_000_000 * 10**9,
-                ),
-            ],
-            id="send_eth_to_contract_no_deposit_data",
         ),
         pytest.param(
             [
