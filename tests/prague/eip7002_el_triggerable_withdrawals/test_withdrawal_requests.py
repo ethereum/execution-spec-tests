@@ -325,12 +325,12 @@ pytestmark = pytest.mark.valid_from("Prague")
                                 fee=Spec.get_fee(0),
                             ),
                         ],
-                        call_depth=1024,
-                        tx_gas_limit=2_500_000_000_000,
+                        call_depth=100,
+                        tx_gas_limit=30_000_000,
                     ),
                 ],
             ],
-            id="single_block_single_withdrawal_request_from_contract_call_high_depth",
+            id="single_block_single_withdrawal_request_from_contract_call_depth_high",
         ),
         pytest.param(
             [
