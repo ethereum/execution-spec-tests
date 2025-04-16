@@ -45,6 +45,7 @@ DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT = {
     "signature_data": bytes(DEFAULT_DEPOSIT_REQUEST.signature),
     "index_data": bytes(),  # TODO: read from the default deposit request instead of hardcoding 0
 }
+DEFAULT_REQUEST_LOG = create_deposit_log_bytes(**DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT)
 
 
 @pytest.mark.parametrize(
@@ -62,24 +63,6 @@ def test_extra_logs(
     """Test deposit contract emitting more log event types than the ones in mainnet."""
     # Supplant mainnet contract with a variant that emits a `Transfer`` log
     # If `include_deposit_event` is `True``, it will also emit a `DepositEvent` log`
-    # TODO use DEFAULT_DEPOSIT_REQUEST here
-    deposit_request = DepositRequest(
-        pubkey=0x01,
-        withdrawal_credentials=0x02,
-        amount=120_000_000_000_000_000,
-        signature=0x03,
-        index=0x0,
-    )
-    # TODO read default deposit data here
-    deposit_request_log = create_deposit_log_bytes(
-        pubkey_data=bytes(deposit_request.pubkey),
-        withdrawal_credentials_data=bytes(deposit_request.withdrawal_credentials),
-        # Note: after converting to bytes, it is converted to little-endian by `[::-1]`
-        # (This happens on-chain also, but this is done by the solidity contract)
-        amount_data=bytes.fromhex("0" + deposit_request.amount.hex()[2:])[::-1],
-        signature_data=bytes(deposit_request.signature),
-        index_data=bytes(),
-    )
 
     # ERC20 token transfer log (Sepolia)
     # https://sepolia.etherscan.io/tx/0x2d71f3085a796a0539c9cc28acd9073a67cf862260a41475f000dd101279f94f
@@ -117,12 +100,12 @@ def test_extra_logs(
     requests = Requests()
 
     if include_deposit_event:
-        bytecode += Om.MSTORE(deposit_request_log) + Op.LOG1(
+        bytecode += Om.MSTORE(DEFAULT_REQUEST_LOG) + Op.LOG1(
             0,
-            len(deposit_request_log),
+            len(DEFAULT_REQUEST_LOG),
             Spec.DEPOSIT_EVENT_SIGNATURE_HASH,
         )
-        requests = Requests(deposit_request)
+        requests = Requests(DEFAULT_DEPOSIT_REQUEST)
     bytecode += Op.STOP
 
     pre[Spec.DEPOSIT_CONTRACT_ADDRESS] = Account(
