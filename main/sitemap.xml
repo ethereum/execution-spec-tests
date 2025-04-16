@@ -3881,6 +3881,26 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip6110_deposits/test_modified_contract/</loc>
+         <lastmod>2025-04-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip6110_deposits/test_modified_contract/test_extra_logs/</loc>
+         <lastmod>2025-04-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip6110_deposits/test_modified_contract/test_invalid_layout/</loc>
+         <lastmod>2025-04-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip6110_deposits/test_modified_contract/test_invalid_log_length/</loc>
+         <lastmod>2025-04-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7002_el_triggerable_withdrawals/</loc>
          <lastmod>2025-04-16</lastmod>
          <changefreq>daily</changefreq>
