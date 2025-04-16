@@ -180,4 +180,43 @@ def test_invalid_layout(
     )
 
 
-# TODO: add test which tests the correct log, but now slice one byte off or add one extra byte
+@pytest.mark.parametrize(
+    "slice_bytes",
+    [
+        pytest.param(True),
+        pytest.param(False),
+    ],
+)
+@pytest.mark.exception_test
+def test_invalid_log_length(blockchain_test: BlockchainTestFiller, pre: Alloc, slice_bytes: bool):
+    """Test deposit contract emitting logs with invalid log length (one byte more or less)"""
+    changed_log = DEFAULT_REQUEST_LOG[:-1] if slice_bytes else DEFAULT_REQUEST_LOG + b"\x00"
+
+    bytecode = Om.MSTORE(changed_log) + Op.LOG1(
+        0,
+        len(changed_log),
+        Spec.DEPOSIT_EVENT_SIGNATURE_HASH,
+    )
+    bytecode += Op.STOP
+
+    pre[Spec.DEPOSIT_CONTRACT_ADDRESS] = Account(
+        code=bytecode,
+        nonce=1,
+        balance=0,
+    )
+    sender = pre.fund_eoa()
+
+    tx = Transaction(
+        to=Spec.DEPOSIT_CONTRACT_ADDRESS,
+        sender=sender,
+        gas_limit=100_000,
+        error=TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT,
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[
+            Block(txs=[tx], exception=TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT),
+        ],
+        post={},
+    )
