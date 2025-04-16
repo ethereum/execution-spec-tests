@@ -1,7 +1,7 @@
 """Types used in the RPC module for `eth` and `engine` namespaces' requests."""
 
 from enum import Enum
-from typing import Any, List
+from typing import Any, List, Optional
 
 from pydantic import AliasChoices, Field, model_validator
 
@@ -84,14 +84,40 @@ class PayloadStatus(CamelModel):
 
     status: PayloadStatusEnum
     latest_valid_hash: Hash | None
-    validation_error: str | None
+    # TODO: Temporarily optional to allow nimbus-el to run `consume-engine`
+    validation_error: Optional[str] = None
 
 
 class ForkchoiceUpdateResponse(CamelModel):
     """Represents the response of a forkchoice update."""
 
     payload_status: PayloadStatus
-    payload_id: Bytes | None
+    # TODO: Temporarily optional to allow nimbus-el to run `consume-engine`
+    payload_id: Optional[Bytes] = None
+
+    # TODO: Temporarily override default pydantic validation for `validation_error` via this class
+    # Enforces that `validation_error` is required when status is INVALID or INVALID_BLOCK_HASH
+    # Allows us to run `consume-engine` for nimbus-el.
+    @model_validator(mode="before")
+    @classmethod
+    def ensure_validation_error(cls, data):
+        """
+        Ensure that the `payload_status` contains `validation_error` only if
+        status is INVALID or INVALID_BLOCK_HASH.
+        """
+        if (
+            isinstance(data, dict)
+            and "payload_status" in data
+            and isinstance(data["payload_status"], dict)
+        ):
+            payload_status = data["payload_status"]
+            if "status" in payload_status and payload_status["status"] in [
+                PayloadStatusEnum.INVALID,
+                PayloadStatusEnum.INVALID_BLOCK_HASH,
+            ]:
+                if "validation_error" not in payload_status:
+                    raise ValueError("validation_error is required when status is INVALID")
+        return data
 
 
 class PayloadAttributes(CamelModel):
