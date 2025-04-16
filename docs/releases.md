@@ -15,23 +15,23 @@ Full releases typically:
 - Are not marked as "pre-releases" in GitHub
 - Contain test fixtures for all stable Ethereum forks
 - Undergo thorough testing and review
-- Have detailed release notes with a descriptive name (e.g., "Petřín (v3.0.0)")
+- Have detailed release notes with a descriptive name (e.g., "v3.0.0" with codename)
 
 Full releases are recommended for general use, client compatibility testing, and Continuous Integration (CI) pipelines.
 
 ### Pre-releases
 
-Pre-releases are published with feature-specific tags in the format `feature-name@vX.Y.Z` (e.g., `pectra-devnet-5@v1.0.0`, `eip7692@v2.1.0`). These releases contain test fixtures for features under development, devnets, or specific EIPs that haven't been deployed to mainnet yet.
+Pre-releases are published with feature-specific tags in the format `feature-name@vX.Y.Z` (e.g., `network-testnet-5@v1.0.0`, `eip7692@v2.1.0`). These releases contain test fixtures for features under development, development networks, or specific EIPs that haven't been deployed to mainnet yet.
 
 Pre-releases typically:
 - Are tagged with feature-specific tags like `feature-name@vX.Y.Z`
 - Are marked as "pre-releases" in GitHub
-- Focus on specific features, EIPs, or devnets
+- Focus on specific features, EIPs, or development networks
 - May not be as thoroughly tested as full releases
 - May contain breaking changes or experimental features
 - Have detailed release notes explaining the included EIPs and changes
 
-Pre-releases are invaluable for client teams implementing new features, testing devnets, or working on specific EIPs in parallel.
+Pre-releases are invaluable for client teams implementing new features, testing development networks, or working on specific EIPs in parallel.
 
 ## Release Naming Conventions
 
@@ -42,8 +42,8 @@ EEST follows these naming conventions for releases:
   - `Y`: Minor version (new features, non-breaking)
   - `Z`: Patch version (bug fixes)
 
-- **Pre-releases**: `feature-name@vX.Y.Z` (e.g., `pectra-devnet-5@v1.0.0`)
-  - `feature-name`: The name of the feature, devnet, or EIP
+- **Pre-releases**: `feature-name@vX.Y.Z` (e.g., `network-testnet-5@v1.0.0`)
+  - `feature-name`: The name of the feature, development network, or EIP
   - `vX.Y.Z`: Version number specific to this feature
 
 ## Release Process
@@ -76,12 +76,12 @@ consume direct --input stable@latest
 consume direct --input v3.0.0
 
 # Use a pre-release for a specific feature
-consume direct --input pectra-devnet-5@v1.0.0
+consume direct --input network-testnet-5@v1.0.0
 ```
 
 ### In Your Code
 
-You can use the `FixturesSource` class to programmatically fetch and use fixtures from a release:
+You can use the fixtures source class to programmatically fetch and use fixtures from a release:
 
 ```python
 from pytest_plugins.consume.consume import FixturesSource
@@ -93,7 +93,7 @@ fixtures = FixturesSource.from_release_spec("stable@latest")
 fixtures = FixturesSource.from_release_spec("v3.0.0")
 
 # Use a pre-release for a specific feature
-fixtures = FixturesSource.from_release_spec("pectra-devnet-5@v1.0.0")
+fixtures = FixturesSource.from_release_spec("network-testnet-5@v1.0.0")
 ```
 
 ## Release Notes
@@ -114,5 +114,5 @@ Documentation for each release is also published, allowing you to view the docum
 Documentation for pre-releases is available at URLs of the form:
 `https://eest.ethereum.org/feature-name@vX.Y.Z/`
 
-For example, documentation for the `pectra-devnet-5@v1.0.0` release would be available at:
-`https://eest.ethereum.org/pectra-devnet-5@v1.0.0/` 
+For example, documentation for the `network-testnet-5@v1.0.0` release would be available at:
+`https://eest.ethereum.org/network-testnet-5@v1.0.0/` 
