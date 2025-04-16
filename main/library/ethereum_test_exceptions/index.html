@@ -3457,6 +3457,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.TransactionException.TYPE_4_TX_PRE_FORK" class="md-nav__link">
+    <span class="md-ellipsis">
+      TYPE_4_TX_PRE_FORK
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -22361,6 +22370,8 @@
       
         
       
+        
+      
     
     
       
@@ -22792,6 +22803,27 @@
   
   <span class="md-ellipsis">
     <code>test_pointer_resets_an_empty_code_account_with_storage</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7702_set_code_tx/test_set_code_txs_2/test_set_code_type_tx_pre_fork/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_set_code_type_tx_pre_fork</code>
   </span>
   
 
@@ -33348,6 +33380,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.TransactionException.TYPE_4_TX_PRE_FORK" class="md-nav__link">
+    <span class="md-ellipsis">
+      TYPE_4_TX_PRE_FORK
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -33932,11 +33973,7 @@ block header contains an invalid field.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">390</span>
 <span class="normal">391</span>
 <span class="normal">392</span>
 <span class="normal">393</span>
@@ -34113,7 +34150,11 @@ block header contains an invalid field.</p>
 <span class="normal">564</span>
 <span class="normal">565</span>
 <span class="normal">566</span>
-<span class="normal">567</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -35499,11 +35540,7 @@ a fork that is not active yet.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">574</span>
 <span class="normal">575</span>
 <span class="normal">576</span>
 <span class="normal">577</span>
@@ -35710,7 +35747,11 @@ a fork that is not active yet.</p>
 <span class="normal">778</span>
 <span class="normal">779</span>
 <span class="normal">780</span>
-<span class="normal">781</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
@@ -37971,7 +38012,11 @@ when returning</p>
 <span class="normal">380</span>
 <span class="normal">381</span>
 <span class="normal">382</span>
-<span class="normal">383</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
@@ -38242,6 +38287,10 @@ when returning</p>
     <span class="n">TYPE_4_INVALID_AUTHORIZATION_FORMAT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction is type 4, but contains an authorization that has an invalid format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TYPE_4_TX_PRE_FORK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transaction type 4 included before activation fork.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -40029,6 +40078,33 @@ when returning</p>
     <div class="doc doc-contents ">
 
       <p>Transaction is type 4, but contains an authorization that has an invalid format.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.TransactionException.TYPE_4_TX_PRE_FORK" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">TYPE_4_TX_PRE_FORK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.TransactionException.TYPE_4_TX_PRE_FORK" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Transaction type 4 included before activation fork.</p>
     </div>
 
 </div>

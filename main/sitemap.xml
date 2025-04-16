@@ -4561,6 +4561,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_set_code_txs_2/test_set_code_type_tx_pre_fork/</loc>
+         <lastmod>2025-04-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_set_code_txs_2/test_static_to_pointer/</loc>
          <lastmod>2025-04-16</lastmod>
          <changefreq>daily</changefreq>
