@@ -45,7 +45,7 @@ DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT = {
     # (This happens on-chain also, but this is done by the solidity contract)
     "amount_data": bytes.fromhex("0" + DEFAULT_DEPOSIT_REQUEST.amount.hex()[2:])[::-1],
     "signature_data": bytes(DEFAULT_DEPOSIT_REQUEST.signature),
-    "index_data": bytes(),  # TODO: read from the default deposit request instead of hardcoding 0
+    "index_data": bytes(DEFAULT_DEPOSIT_REQUEST.index),
 }
 DEFAULT_REQUEST_LOG = create_deposit_log_bytes(**DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT)  # type: ignore
 
