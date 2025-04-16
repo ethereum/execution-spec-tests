@@ -26,6 +26,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Test precompile case in same transaction as delegation without extra gas in case of precompile code execution; parametrize all call opcodes in existing precompile test ([#1431](https://github.com/ethereum/execution-spec-tests/pull/1431)).
 - ✨ [EIP-7623](https://eips.ethereum.org/EIPS/eip-7623): Additionally parametrize transaction validity tests with the `to` set to an EOA account (previously only contracts) ([#1422](https://github.com/ethereum/execution-spec-tests/pull/1422)).
+- ✨ Add EIP-7251 test cases for modified consolidations contract that allows more consolidations ([#1465](https://github.com/ethereum/execution-spec-tests/pull/1465)).
 
 ## [v4.2.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0) - 2025-04-08
 
