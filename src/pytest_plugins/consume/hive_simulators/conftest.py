@@ -243,7 +243,9 @@ def client_strict_exception_matching(
     disable_strict_exception_matching: List[str],
 ) -> bool:
     """Return True if the client type should use strict exception matching."""
-    return not any(client in client_type.name for client in disable_strict_exception_matching)
+    return not any(
+        client.lower() in client_type.name.lower() for client in disable_strict_exception_matching
+    )
 
 
 @pytest.fixture(scope="function")
