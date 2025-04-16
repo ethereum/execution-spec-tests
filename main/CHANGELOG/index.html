@@ -1727,18 +1727,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#misc" class="md-nav__link">
+  <a href="#test-cases" class="md-nav__link">
     <span class="md-ellipsis">
-      📋 Misc
+      🧪 Test Cases
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#test-cases" class="md-nav__link">
+  <a href="#misc" class="md-nav__link">
     <span class="md-ellipsis">
-      🧪 Test Cases
+      📋 Misc
     </span>
   </a>
   
@@ -30743,18 +30743,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#misc" class="md-nav__link">
+  <a href="#test-cases" class="md-nav__link">
     <span class="md-ellipsis">
-      📋 Misc
+      🧪 Test Cases
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#test-cases" class="md-nav__link">
+  <a href="#misc" class="md-nav__link">
     <span class="md-ellipsis">
-      🧪 Test Cases
+      📋 Misc
     </span>
   </a>
   
@@ -31381,12 +31381,15 @@
 <ul>
 <li>🐞 Fix fixture tarball downloading with regular, non-Github release URLS and with numerical versions in regular release specs, e.g., <code>stable@v4.2.0</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1437">#1437</a>).</li>
 </ul>
-<h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702</a>: Test precompile case in same transaction as delegation without extra gas in case of precompile code execution; parametrize all call opcodes in existing precompile test (<a href="https://github.com/ethereum/execution-spec-tests/pull/1431">#1431</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702</a>: Add invalid nonce authorizations tests for the case of multiple signers when the sender's nonce gets increased (<a href="https://github.com/ethereum/execution-spec-tests/pull/1441">#1441</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7623">EIP-7623</a>: Additionally parametrize transaction validity tests with the <code>to</code> set to an EOA account (previously only contracts) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1422">#1422</a>).</li>
+</ul>
+<h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
+<ul>
+<li>🐞 Configure <code>markdownlint</code> to expect an indent of 4 with unordered lists (otherwise HTML documentation is rendered incorrectly, <a href="https://github.com/ethereum/execution-spec-tests/pull/1460">#1460</a>).</li>
 </ul>
 <h2 id="v420-2025-04-08"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0">v4.2.0</a> - 2025-04-08<a class="headerlink" href="#v420-2025-04-08" title="Permanent link">&para;</a></h2>
 <p><strong>Note</strong>: Although not a breaking change, <code>consume</code> users should delete the cache directory (typically located at <code>~/.cache/ethereum-execution-spec-tests</code>) used to store downloaded fixture release tarballs. This release adds support for <a href="https://github.com/ethereum/tests">ethereum/tests</a> and <a href="https://github.com/ethereum/legacytests">ethereum/legacytests</a> fixture release downloads and the structure of the cache directory has been updated to accommodate this change.</p>
@@ -31749,9 +31752,11 @@
 <li>🐞 Fix CI by using Golang 1.21 in Github Actions to build geth (<a href="https://github.com/ethereum/execution-spec-tests/pull/484">#484</a>).</li>
 <li>💥 "Merge" has been renamed to "Paris" in the "network" field of the Blockchain tests, and in the "post" field of the State tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/480">#480</a>).</li>
 <li>✨ Port entry point scripts to use <a href="https://click.palletsprojects.com">click</a> and add tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/483">#483</a>).</li>
-<li>💥 As part of the pydantic conversion, the fixtures have the following (possibly breaking) changes (<a href="https://github.com/ethereum/execution-spec-tests/pull/486">#486</a>):</li>
+<li>💥 As part of the pydantic conversion, the fixtures have the following (possibly breaking) changes (<a href="https://github.com/ethereum/execution-spec-tests/pull/486">#486</a>):<ul>
 <li>State test field <code>transaction</code> now uses the proper zero-padded hex number format for fields <code>maxPriorityFeePerGas</code>, <code>maxFeePerGas</code>, and <code>maxFeePerBlobGas</code></li>
 <li>Fixtures' hashes (in the <code>_info</code> field) are now calculated by removing the "_info" field entirely instead of it being set to an empty dict.</li>
+</ul>
+</li>
 <li>🐞 Relax minor and patch dependency requirements to avoid conflicting package dependencies (<a href="https://github.com/ethereum/execution-spec-tests/pull/510">#510</a>).</li>
 <li>🔀 Update all CI actions to use their respective Node.js 20 versions, ahead of their Node.js 16 version deprecations (<a href="https://github.com/ethereum/execution-spec-tests/pull/527">#527</a>).</li>
 <li>✨ Releases now contain a <code>fixtures_eip7692.tar.gz</code> which contains all EOF fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/573">#573</a>).</li>
