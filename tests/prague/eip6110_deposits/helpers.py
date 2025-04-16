@@ -5,11 +5,9 @@ from functools import cached_property
 from hashlib import sha256 as sha256_hashlib
 from typing import Callable, ClassVar, List
 
-from ethereum_test_tools import EOA, Address, Alloc, Bytecode
+from ethereum_test_tools import EOA, Address, Alloc, Bytecode, Hash, Transaction
 from ethereum_test_tools import DepositRequest as DepositRequestBase
-from ethereum_test_tools import Hash
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_tools import Transaction
 
 from .spec import Spec
 
@@ -40,7 +38,6 @@ def create_deposit_log_bytes(
     offset = 0
 
     def write_uint256(value):
-        nonlocal offset
         result[offset : offset + 32] = value.to_bytes(32, byteorder="big")
         offset += 32
 
