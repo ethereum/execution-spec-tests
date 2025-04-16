@@ -39,6 +39,7 @@ def create_deposit_log_bytes(
     offset = 0
 
     def write_uint256(value: int):
+        nonlocal offset
         result[offset : offset + 32] = value.to_bytes(32, byteorder="big")
         offset += 32
 

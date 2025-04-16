@@ -144,7 +144,6 @@ def test_invalid_layout(
     blockchain_test: BlockchainTestFiller, pre: Alloc, log_argument: str, value: str
 ):
     """Test deposit contract emitting logs with invalid layouts (sizes/offsets)."""
-
     log_params = {**DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT}
     log_params[log_argument] = 0 if value == "zero" else 2**256 - 1  # type: ignore
 
@@ -189,7 +188,7 @@ def test_invalid_layout(
 )
 @pytest.mark.exception_test
 def test_invalid_log_length(blockchain_test: BlockchainTestFiller, pre: Alloc, slice_bytes: bool):
-    """Test deposit contract emitting logs with invalid log length (one byte more or less)"""
+    """Test deposit contract emitting logs with invalid log length (one byte more or less)."""
     changed_log = DEFAULT_REQUEST_LOG[:-1] if slice_bytes else DEFAULT_REQUEST_LOG + b"\x00"
 
     bytecode = Om.MSTORE(changed_log) + Op.LOG1(
