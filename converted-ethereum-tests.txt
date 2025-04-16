@@ -38,6 +38,7 @@ EOFTests/efStack/jumpf_with_inputs_stack_overflow_variable_stack_.json
 EOFTests/efStack/non_constant_stack_height_.json
 EOFTests/efStack/retf_stack_validation_.json
 EOFTests/efStack/retf_variable_stack_.json
+EOFTests/efStack/stack_range_maximally_broad_.json
 EOFTests/efStack/forwards_rjump_.json
 EOFTests/efStack/forwards_rjump_variable_stack_.json
 EOFTests/efStack/forwards_rjumpi_.json
