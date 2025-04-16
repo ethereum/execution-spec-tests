@@ -143,7 +143,7 @@ def test_extra_logs(
 def test_invalid_layout(
     blockchain_test: BlockchainTestFiller, pre: Alloc, log_argument: str, value: str
 ):
-    """Test deposit contract emitting logs with invalid layouts (sizes/offsets)"""
+    """Test deposit contract emitting logs with invalid layouts (sizes/offsets)."""
 
     log_params = {**DEFAULT_DEPOSIT_REQUEST_LOG_DATA_DICT}
     log_params[log_argument] = 0 if value == "zero" else int("FF" * 32, 16)
