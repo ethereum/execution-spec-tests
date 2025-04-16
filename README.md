@@ -180,7 +180,7 @@ If you encounter issues during the installation process, please refer to the [In
 
 Contributions and feedback are welcome. Please see the [online documentation](https://eest.ethereum.org/main/writing_tests/) for this repository's coding standards and help on implementing new tests.
 
-Pull requests containing only typo fixes will not be merged and **MUST** be accompanied by documentation, tests or framework improvements. Additionally they **MUST** have reasonable substance or resolve an existing repository open issue. Pull requests from obvious airdrop farmers will be closed upon review.
+We welcome earnest newcomers, no matter how small the contribution! However, we currently do not  accept contributions that only fix spelling or grammatical errors in documentation, code or elsewhere. Pull requests should have reasonable substance or resolve an existing repository open issue; pull requests from obvious airdrop farmers will be closed upon review.
 
 Care is required when adding PRs or issues for functionality that is live on Ethereum mainnet, please refer to the [Security Policy](SECURITY.md) for more information about reporting vulnerabilities and eligibility for the [bug bounty program](https://bounty.ethereum.org).
 
