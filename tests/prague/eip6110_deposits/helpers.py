@@ -18,21 +18,21 @@ def sha256(*args: bytes) -> bytes:
 
 
 def create_deposit_log_bytes(
-    pubkey_size=48,
-    pubkey_data=b"",
-    pubkey_offset=160,
-    withdrawal_credentials_size=32,
-    withdrawal_credentials_data=b"",
-    withdrawal_credentials_offset=256,
-    amount_size=8,
-    amount_data=b"",
-    amount_offset=320,
-    signature_size=96,
-    signature_data=b"",
-    signature_offset=384,
-    index_size=8,
-    index_data=b"",
-    index_offset=512,
+    pubkey_size: int = 48,
+    pubkey_data: bytes = b"",
+    pubkey_offset: int = 160,
+    withdrawal_credentials_size: int = 32,
+    withdrawal_credentials_data: bytes = b"",
+    withdrawal_credentials_offset: int = 256,
+    amount_size: int = 8,
+    amount_data: bytes = b"",
+    amount_offset: int = 320,
+    signature_size: int = 96,
+    signature_data: bytes = b"",
+    signature_offset: int = 384,
+    index_size: int = 8,
+    index_data: bytes = b"",
+    index_offset: int = 512,
 ) -> bytes:
     result = bytearray(576)
     offset = 0
