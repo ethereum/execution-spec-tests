@@ -26,6 +26,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Add invalid nonce authorizations tests for the case of multiple signers when the sender's nonce gets increased ([#1441](https://github.com/ethereum/execution-spec-tests/pull/1441)).
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Add a test that verifies that set code transactions are correctly rejected before Prague activation ([#1463](https://github.com/ethereum/execution-spec-tests/pull/1463)).
 - ✨ [EIP-7623](https://eips.ethereum.org/EIPS/eip-7623): Additionally parametrize transaction validity tests with the `to` set to an EOA account (previously only contracts) ([#1422](https://github.com/ethereum/execution-spec-tests/pull/1422)).
+- ✨ [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add EIP-7251 test cases for modified consolidations contract that allows more consolidations ([#1465](https://github.com/ethereum/execution-spec-tests/pull/1465)).
 - ✨ [EIP-6110](https://eips.ethereum.org/EIPS/eip-6110): Add extra deposit request edge cases, sending eth to the deposit contract while sending a deposit request ([#1467](https://github.com/ethereum/execution-spec-tests/pull/1467)).
 - ✨ [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Remove pytest skips for consolidation request cases ([#1449](https://github.com/ethereum/execution-spec-tests/pull/1449)).
 
