@@ -2,7 +2,7 @@
 
 import pytest
 
-from ethereum_test_exceptions.exceptions import BlockException
+from ethereum_test_exceptions.exceptions import TransactionException
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -156,6 +156,7 @@ def test_extra_logs(
     "log_argument,value",
     [(log_argument, value) for log_argument in EVENT_ARGUMENTS for value in EVENT_ARGUMENT_VALUES],
 )
+@pytest.mark.exception_test
 def test_invalid_layout(
     blockchain_test: BlockchainTestFiller, pre: Alloc, log_argument: str, value: str
 ):
@@ -184,15 +185,13 @@ def test_invalid_layout(
         to=Spec.DEPOSIT_CONTRACT_ADDRESS,
         sender=sender,
         gas_limit=100_000,
+        error=TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT,
     )
 
     blockchain_test(
         pre=pre,
         blocks=[
-            Block(
-                txs=[tx],
-                exception=BlockException.INVALID_REQUESTS,  # TODO: use correct exception
-            ),
+            Block(txs=[tx], exception=TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT),
         ],
         post={},
     )
