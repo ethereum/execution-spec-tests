@@ -42,7 +42,7 @@ def create_deposit_log_bytes(
         result[offset : offset + 32] = value.to_bytes(32, byteorder="big")
         offset += 32
 
-    def write_bytes(data, size):
+    def write_bytes(data: bytes, size: int):
         nonlocal offset
         padded = data.ljust(size, b"\x00")
         result[offset : offset + size] = padded
