@@ -347,6 +347,9 @@ class NethermindExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
             "NotAllowedCreateTransaction: To must be set"
         ),
+        TransactionException.TYPE_4_TX_PRE_FORK: (
+            "InvalidTxType: Transaction type in Custom is not supported"
+        ),
         BlockException.INCORRECT_BLOB_GAS_USED: (
             "HeaderBlobGasMismatch: Blob gas in header does not match calculated"
         ),

@@ -27,6 +27,9 @@ class RethExceptionMapper(ExceptionMapper):
         ),
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "empty authorization list",
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: "unexpected length",
+        TransactionException.TYPE_4_TX_PRE_FORK: (
+            "eip 7702 transactions present in pre-prague payload"
+        ),
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",
         BlockException.INVALID_RECEIPTS_ROOT: "receipt root mismatch",
         BlockException.INVALID_STATE_ROOT: "mismatched block state root",
