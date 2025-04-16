@@ -23,6 +23,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 #### Tools
 
 - 🔀 `generate_system_contract_deploy_test` test generator has been updated to handle system contracts that are not allowed to be absent when the fork happens ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- ✨ Add `generate_system_contract_error_test` to generate tests on system contracts that invalidate a block in case of error ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
 
 #### Exceptions
 
