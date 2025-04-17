@@ -17,6 +17,15 @@ from ..timing import TimingData
 logger = get_logger(__name__)
 
 
+class LoggedError(Exception):
+    """Exception that uses the logger to log the failure."""
+
+    def __init__(self, *args: object) -> None:
+        """Initialize the exception and log the failure."""
+        super().__init__(*args)
+        logger.fail(str(self))
+
+
 def test_blockchain_via_engine(
     timing_data: TimingData,
     eth_rpc: EthRPC,
@@ -42,9 +51,10 @@ def test_blockchain_via_engine(
         )
         status = forkchoice_response.payload_status.status
         logger.info(f"Initial forkchoice update response: {status}")
-        assert forkchoice_response.payload_status.status == PayloadStatusEnum.VALID, (
-            f"unexpected status on forkchoice updated to genesis: {forkchoice_response}"
-        )
+        if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
+            raise LoggedError(
+                f"unexpected status on forkchoice updated to genesis: {forkchoice_response}"
+            )
 
     with timing_data.time("Get genesis block"):
         logger.info("Calling getBlockByNumber to get genesis block...")
@@ -65,32 +75,30 @@ def test_blockchain_via_engine(
             with total_payload_timing.time(f"Payload {i + 1}") as payload_timing:
                 with payload_timing.time(f"engine_newPayloadV{payload.new_payload_version}"):
                     logger.info(f"Sending engine_newPayloadV{payload.new_payload_version}...")
-                    expected_validity = "VALID" if payload.valid() else "INVALID"
-                    logger.info(f"Expected payload validity: {expected_validity}")
                     try:
                         payload_response = engine_rpc.new_payload(
                             *payload.params,
                             version=payload.new_payload_version,
                         )
                         logger.info(f"Payload response status: {payload_response.status}")
-                        assert payload_response.status == (
+                        expected_validity = (
                             PayloadStatusEnum.VALID
                             if payload.valid()
                             else PayloadStatusEnum.INVALID
-                        ), f"unexpected status: {payload_response}"
-                        if payload.error_code is not None:
-                            error_code = payload.error_code
-                            logger.fail(
-                                f"Client failed to raise expected Engine API error code: "
-                                f"{error_code}"
+                        )
+                        if payload_response.status != expected_validity:
+                            raise LoggedError(
+                                f"unexpected status: want {expected_validity},"
+                                f" got {payload_response.status}"
                             )
-                            raise Exception(
-                                "Client failed to raise expected Engine API error code: "
+                        if payload.error_code is not None:
+                            raise LoggedError(
+                                f"Client failed to raise expected Engine API error code: "
                                 f"{payload.error_code}"
                             )
                         elif payload_response.status == PayloadStatusEnum.INVALID:
                             if payload_response.validation_error is None:
-                                raise Exception(
+                                raise LoggedError(
                                     "Client returned INVALID but no validation error was provided."
                                 )
                             if isinstance(payload_response.validation_error, UndefinedException):
@@ -101,8 +109,7 @@ def test_blockchain_via_engine(
                                     f'(mapper: "{payload_response.validation_error.mapper_name}")'
                                 )
                                 if strict_exception_matching:
-                                    logger.fail(message)
-                                    raise Exception(message)
+                                    raise LoggedError(message)
                                 else:
                                     logger.warning(message)
                             else:
@@ -116,23 +123,17 @@ def test_blockchain_via_engine(
                                         f'expected: "{payload.validation_error}"'
                                     )
                                     if strict_exception_matching:
-                                        logger.fail(message)
-                                        raise Exception(message)
+                                        raise LoggedError(message)
                                     else:
                                         logger.warning(message)
 
                     except JSONRPCError as e:
                         logger.info(f"JSONRPC error encountered: {e.code} - {e.message}")
                         if payload.error_code is None:
-                            logger.fail(f"Unexpected error: {e.code} - {e.message}")
-                            raise Exception(f"unexpected error: {e.code} - {e.message}") from e
+                            raise LoggedError(f"Unexpected error: {e.code} - {e.message}") from e
                         if e.code != payload.error_code:
-                            expected_code = payload.error_code
-                            logger.fail(
-                                f"Unexpected error code: {e.code}, expected: {expected_code}"
-                            )
-                            raise Exception(
-                                f"unexpected error code: {e.code}, expected: {payload.error_code}"
+                            raise LoggedError(
+                                f"Unexpected error code: {e.code}, expected: {payload.error_code}"
                             ) from e
 
                 if payload.valid():
@@ -151,7 +152,9 @@ def test_blockchain_via_engine(
                         )
                         status = forkchoice_response.payload_status.status
                         logger.info(f"Forkchoice update response: {status}")
-                        assert (
-                            forkchoice_response.payload_status.status == PayloadStatusEnum.VALID
-                        ), f"unexpected status: {forkchoice_response}"
+                        if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
+                            raise LoggedError(
+                                f"unexpected status: want {PayloadStatusEnum.VALID},"
+                                f" got {forkchoice_response.payload_status.status}"
+                            )
         logger.info("All payloads processed successfully.")
