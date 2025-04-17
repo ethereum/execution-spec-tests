@@ -53,6 +53,7 @@ This feature can be disabled by using `--disable-strict-exception-matching` for 
 - ✨ [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Remove pytest skips for consolidation request cases ([#1449](https://github.com/ethereum/execution-spec-tests/pull/1449)).
 - ✨ [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add cases to verify behavior of contracts missing at fork ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
 - ✨ [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add cases to verify behavior of system contract errors invalidating a block ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- 🔀 Remove [EIP-7698](https://eips.ethereum.org/EIPS/eip-7698): EIP has been removed and the tests related to it have also been removed, while preserving a subset of the tests to verify that functionality is removed in clients ([#1451](https://github.com/ethereum/execution-spec-tests/pull/1451)).
 
 ### 📋 Misc
 
