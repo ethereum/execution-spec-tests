@@ -350,6 +350,7 @@ predeploy
 prepend
 prestateTracer
 PrevRandao
+PRs
 programmatically
 pubkey
 px
