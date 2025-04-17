@@ -73,7 +73,7 @@ REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
         Container(
             name="validInvalid_23",
             raw_bytes="ef000101000c0200030029000b001f0400040000800400000a000a00640064e30002e30002e30002e30002e30002e30002e30002e30002e30002e30002e30001e30001303030300030303030303030303030e4e30001e30001e30001e30001e30001e30001e30001e30001e30001e30001e40bad60a7",
-            validity_error=EOFException.MAX_STACK_HEIGHT_ABOVE_LIMIT,
+            validity_error=EOFException.MAX_STACK_INCREASE_ABOVE_LIMIT,
         ),
         Container(
             name="validInvalid_24",
@@ -124,7 +124,7 @@ REFERENCE_SPEC_VERSION = "b658bb87fe039d29e9475d5cfaebca9b92e0fca2"
         Container(
             name="validInvalid_34",
             raw_bytes="ef0001010004020001000304000400008000033050000bad60a7",
-            validity_error=EOFException.INVALID_MAX_STACK_HEIGHT,
+            validity_error=EOFException.INVALID_MAX_STACK_INCREASE,
         ),
         Container(
             name="validInvalid_35",
