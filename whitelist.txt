@@ -875,3 +875,7 @@ Formatters
 UI
 asctime
 petertdavies
+cofactor
+cofactors
+coeffs
+uncomp
