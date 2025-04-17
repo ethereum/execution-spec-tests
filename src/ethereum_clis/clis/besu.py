@@ -247,6 +247,7 @@ class BesuExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_PRE_FORK: (
             "transaction invalid Transaction type DELEGATE_CODE is invalid"
         ),
+        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: "Invalid deposit log",
         BlockException.RLP_STRUCTURES_ENCODING: (
             "Failed to decode transactions from block parameter"
         ),
@@ -307,6 +308,9 @@ class BesuExceptionMapper(ExceptionMapper):
         ),
         BlockException.INVALID_BLOCK_HASH: (
             r"Computed block hash 0x[0-9a-f]+ does not match block hash parameter 0x[0-9a-f]+"
+        ),
+        BlockException.SYSTEM_CONTRACT_CALL_FAILED: (
+            r"System call halted|System call did not execute to completion"
         ),
         TransactionException.INITCODE_SIZE_EXCEEDED: (
             r"transaction invalid Initcode size of \d+ exceeds maximum size of \d+"
