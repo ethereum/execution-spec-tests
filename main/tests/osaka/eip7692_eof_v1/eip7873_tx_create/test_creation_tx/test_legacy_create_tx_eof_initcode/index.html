@@ -30323,7 +30323,7 @@
 
 
 <h1 id="test_legacy_create_tx_eof_initcode"><code>test_legacy_create_tx_eof_initcode()</code><a class="headerlink" href="#test_legacy_create_tx_eof_initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a4d313ad07e1a181ca6f7dbfcd78ffca9d3b3f5e/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py#L61"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode@a4d313ad</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/13fecee8c413dd591d44769a3c3f238cfac5e392/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py#L60"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode@13fecee8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode --fork Osaka</span>
@@ -30342,7 +30342,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">61</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
 <span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
@@ -30371,12 +30372,8 @@
 <span class="normal">87</span>
 <span class="normal">88</span>
 <span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_contract_creating_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">)</span>
+<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_contract_creating_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;evmone incorrectly deploys the contract&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
 <span class="k">def</span> <span class="nf">test_legacy_create_tx_eof_initcode</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -30392,7 +30389,6 @@
         <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">smallest_initcode_subcontainer</span><span class="p">,</span>
-        <span class="n">error</span><span class="o">=</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">EOF_CREATION_TRANSACTION</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span>
