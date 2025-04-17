@@ -2597,6 +2597,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.INVALID_VERSIONED_HASHES" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_VERSIONED_HASHES
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.BlockException.RLP_STRUCTURES_ENCODING" class="md-nav__link">
     <span class="md-ellipsis">
       RLP_STRUCTURES_ENCODING
@@ -2744,6 +2753,15 @@
   <a href="#ethereum_test_tools.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="md-nav__link">
     <span class="md-ellipsis">
       SYSTEM_CONTRACT_CALL_FAILED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.INVALID_BLOCK_HASH" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BLOCK_HASH
     </span>
   </a>
   
@@ -22010,11 +22028,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_requests/" class="md-nav__link">
+      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_requests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_valid_deposit_withdrawal_consolidation_requests</code>
+    <code>test_valid_multi_type_requests</code>
   </span>
   
 
@@ -22031,11 +22049,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_request_from_same_tx/" class="md-nav__link">
+      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_request_from_same_tx/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_valid_deposit_withdrawal_consolidation_request_from_same_tx</code>
+    <code>test_valid_multi_type_request_from_same_tx</code>
   </span>
   
 
@@ -22052,11 +22070,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_deposit_withdrawal_consolidation_requests/" class="md-nav__link">
+      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_multi_type_requests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_deposit_withdrawal_consolidation_requests</code>
+    <code>test_invalid_multi_type_requests</code>
   </span>
   
 
@@ -34151,6 +34169,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.INVALID_VERSIONED_HASHES" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_VERSIONED_HASHES
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.BlockException.RLP_STRUCTURES_ENCODING" class="md-nav__link">
     <span class="md-ellipsis">
       RLP_STRUCTURES_ENCODING
@@ -34298,6 +34325,15 @@
   <a href="#ethereum_test_tools.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="md-nav__link">
     <span class="md-ellipsis">
       SYSTEM_CONTRACT_CALL_FAILED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.INVALID_BLOCK_HASH" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BLOCK_HASH
     </span>
   </a>
   
@@ -39105,9 +39141,7 @@ block header contains an invalid field.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">397</span>
 <span class="normal">398</span>
 <span class="normal">399</span>
 <span class="normal">400</span>
@@ -39294,7 +39328,17 @@ block header contains an invalid field.</p>
 <span class="normal">581</span>
 <span class="normal">582</span>
 <span class="normal">583</span>
-<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -39416,6 +39460,10 @@ block header contains an invalid field.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block&#39;s excess blob gas in header is incorrect.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_VERSIONED_HASHES</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Incorrect number of versioned hashes in a payload.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">RLP_STRUCTURES_ENCODING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block&#39;s rlp encoding is valid but ethereum structures in it are invalid.</span>
@@ -39483,6 +39531,10 @@ block header contains an invalid field.</p>
     <span class="n">SYSTEM_CONTRACT_CALL_FAILED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A system contract call at the end of block execution (from the system address) fails.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_BLOCK_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block header&#39;s hash does not match the actually computed hash of the block.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -40258,6 +40310,33 @@ a fork that is not active yet.</p>
 
 
 
+<h3 id="ethereum_test_tools.BlockException.INVALID_VERSIONED_HASHES" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_VERSIONED_HASHES</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.BlockException.INVALID_VERSIONED_HASHES" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Incorrect number of versioned hashes in a payload.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
 <h3 id="ethereum_test_tools.BlockException.RLP_STRUCTURES_ENCODING" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">RLP_STRUCTURES_ENCODING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
 
@@ -40711,6 +40790,33 @@ a fork that is not active yet.</p>
 
 
 
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.BlockException.INVALID_BLOCK_HASH" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_BLOCK_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.BlockException.INVALID_BLOCK_HASH" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Block header's hash does not match the actually computed hash of the block.</p>
+    </div>
+
+</div>
+
+
+
+
   </div>
 
     </div>
@@ -40811,17 +40917,7 @@ a fork that is not active yet.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">597</span>
 <span class="normal">598</span>
 <span class="normal">599</span>
 <span class="normal">600</span>
@@ -41022,7 +41118,17 @@ a fork that is not active yet.</p>
 <span class="normal">795</span>
 <span class="normal">796</span>
 <span class="normal">797</span>
-<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
@@ -42656,9 +42762,7 @@ when returning</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
@@ -42936,7 +43040,9 @@ when returning</p>
 <span class="normal">389</span>
 <span class="normal">390</span>
 <span class="normal">391</span>
-<span class="normal">392</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
@@ -51654,13 +51760,22 @@ unset.</p>
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
-<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests transactions over the period of a single block.&quot;&quot;&quot;</span>
 
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">Environment</span><span class="p">)</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Alloc</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span>
+    <span class="n">block_exception</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">List</span><span class="p">[</span><span class="n">TransactionException</span> <span class="o">|</span> <span class="n">BlockException</span><span class="p">]</span> <span class="o">|</span> <span class="n">TransactionException</span> <span class="o">|</span> <span class="n">BlockException</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">engine_api_error_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EngineAPIError</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">blockchain_test_header_verify</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">blockchain_test_rlp_modifier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Header</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -51749,12 +51864,15 @@ unset.</p>
             <span class="s2">&quot;parent_beacon_block_root&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">parent_beacon_block_root</span><span class="p">,</span>
             <span class="s2">&quot;txs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="p">],</span>
             <span class="s2">&quot;ommers&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;exception&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
             <span class="s2">&quot;header_verify&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">blockchain_test_header_verify</span><span class="p">,</span>
             <span class="s2">&quot;rlp_modifier&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">blockchain_test_rlp_modifier</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_prev_randao_required</span><span class="p">():</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;difficulty&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">difficulty</span>
+        <span class="k">if</span> <span class="s2">&quot;block_exception&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;exception&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_exception</span>  <span class="c1"># type: ignore</span>
+        <span class="k">elif</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;exception&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span>  <span class="c1"># type: ignore</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span>
 
     <span class="k">def</span> <span class="nf">generate_blockchain_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainTest</span><span class="p">:</span>
@@ -51904,17 +52022,17 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
@@ -51951,15 +52069,15 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
 <span class="normal">150</span>
-<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_blockchain_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainTest</span><span class="p">:</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_blockchain_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a BlockchainTest fixture from this StateTest fixture.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">from_test</span><span class="p">(</span>
         <span class="n">base_test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -51994,13 +52112,7 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
@@ -52065,7 +52177,13 @@ unset.</p>
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
-<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_state_test_fixture</span><span class="p">(</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_state_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -52163,13 +52281,7 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">232</span>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
@@ -52179,7 +52291,13 @@ unset.</p>
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
-<span class="normal">242</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -52222,20 +52340,20 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
 <span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
-<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>

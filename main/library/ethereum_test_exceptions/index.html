@@ -1915,6 +1915,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="ExceptionWithMessage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionWithMessage.__contains__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __contains__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionWithMessage.__str__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __str__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2180,6 +2204,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_VERSIONED_HASHES" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_VERSIONED_HASHES
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_exceptions.BlockException.RLP_STRUCTURES_ENCODING" class="md-nav__link">
     <span class="md-ellipsis">
       RLP_STRUCTURES_ENCODING
@@ -2327,6 +2360,15 @@
   <a href="#ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="md-nav__link">
     <span class="md-ellipsis">
       SYSTEM_CONTRACT_CALL_FAILED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BLOCK_HASH" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BLOCK_HASH
     </span>
   </a>
   
@@ -20588,11 +20630,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_requests/" class="md-nav__link">
+      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_requests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_valid_deposit_withdrawal_consolidation_requests</code>
+    <code>test_valid_multi_type_requests</code>
   </span>
   
 
@@ -20609,11 +20651,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_request_from_same_tx/" class="md-nav__link">
+      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_request_from_same_tx/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_valid_deposit_withdrawal_consolidation_request_from_same_tx</code>
+    <code>test_valid_multi_type_request_from_same_tx</code>
   </span>
   
 
@@ -20630,11 +20672,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_deposit_withdrawal_consolidation_requests/" class="md-nav__link">
+      <a href="../../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_multi_type_requests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_deposit_withdrawal_consolidation_requests</code>
+    <code>test_invalid_multi_type_requests</code>
   </span>
   
 
@@ -32131,6 +32173,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="ExceptionWithMessage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionWithMessage.__contains__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __contains__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.ExceptionWithMessage.__str__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __str__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -32396,6 +32462,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_VERSIONED_HASHES" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_VERSIONED_HASHES
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_exceptions.BlockException.RLP_STRUCTURES_ENCODING" class="md-nav__link">
     <span class="md-ellipsis">
       RLP_STRUCTURES_ENCODING
@@ -32543,6 +32618,15 @@
   <a href="#ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="md-nav__link">
     <span class="md-ellipsis">
       SYSTEM_CONTRACT_CALL_FAILED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_BLOCK_HASH" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_BLOCK_HASH
     </span>
   </a>
   
@@ -33940,7 +34024,12 @@ t8n or other tools.</p>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExceptionMapper</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExceptionMapper</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Translate between EEST exceptions and error strings returned by client&#39;s</span>
 <span class="sd">    t8n or other tools.</span>
@@ -33979,14 +34068,19 @@ t8n or other tools.</p>
             <span class="n">exception</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">message</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_regex</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExceptionBase</span> <span class="o">|</span> <span class="n">UndefinedException</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">]</span> <span class="o">|</span> <span class="n">UndefinedException</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Match a formatted string to an exception.&quot;&quot;&quot;</span>
+        <span class="n">exceptions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">substring</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_substring</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">substring</span> <span class="ow">in</span> <span class="n">exception_string</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">exception</span>
+                <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_compiled_regex</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">exception_string</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">exception</span>
+                <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exceptions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">exceptions</span>
         <span class="k">return</span> <span class="n">UndefinedException</span><span class="p">(</span><span class="n">exception_string</span><span class="p">,</span> <span class="n">mapper_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper_name</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -34149,14 +34243,24 @@ mapped to the exceptions in this class.</p>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
-<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExceptionBase</span> <span class="o">|</span> <span class="n">UndefinedException</span><span class="p">:</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">message_to_exception</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">exception_string</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">]</span> <span class="o">|</span> <span class="n">UndefinedException</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Match a formatted string to an exception.&quot;&quot;&quot;</span>
+    <span class="n">exceptions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExceptionBase</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">substring</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_substring</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">substring</span> <span class="ow">in</span> <span class="n">exception_string</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">exception</span>
+            <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">exception</span><span class="p">,</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_compiled_regex</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">exception_string</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">exception</span>
+            <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">exceptions</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">exceptions</span>
     <span class="k">return</span> <span class="n">UndefinedException</span><span class="p">(</span><span class="n">exception_string</span><span class="p">,</span> <span class="n">mapper_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper_name</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -34234,21 +34338,41 @@ tool/client.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExceptionWithMessage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">ExceptionBoundTypeVar</span><span class="p">]):</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExceptionWithMessage</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">ExceptionBoundTypeVar</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class that contains the exception along with the verbatim message from the external</span>
 <span class="sd">    tool/client.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">exception</span><span class="p">:</span> <span class="n">ExceptionBoundTypeVar</span>
+    <span class="n">exceptions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExceptionBoundTypeVar</span><span class="p">]</span>
     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the item is in the exceptions list.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">exception</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span> <span class="k">for</span> <span class="n">exception</span> <span class="ow">in</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the string representation of the exception message.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span><span class="p">)</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -34256,6 +34380,72 @@ tool/client.</p>
 
   <div class="doc doc-children">
 
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_exceptions.ExceptionWithMessage.__contains__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__contains__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_exceptions.ExceptionWithMessage.__contains__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Check if the item is in the exceptions list.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the item is in the exceptions list.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">exception</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span> <span class="k">for</span> <span class="n">exception</span> <span class="ow">in</span> <span class="n">item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_exceptions.ExceptionWithMessage.__str__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__str__</span><span class="p">()</span></code>
+
+<a href="#ethereum_test_exceptions.ExceptionWithMessage.__str__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Return the string representation of the exception message.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_exceptions/exception_mapper.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the string representation of the exception message.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span><span class="p">)</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
@@ -34293,9 +34483,7 @@ block header contains an invalid field.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">397</span>
 <span class="normal">398</span>
 <span class="normal">399</span>
 <span class="normal">400</span>
@@ -34482,7 +34670,17 @@ block header contains an invalid field.</p>
 <span class="normal">581</span>
 <span class="normal">582</span>
 <span class="normal">583</span>
-<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -34604,6 +34802,10 @@ block header contains an invalid field.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block&#39;s excess blob gas in header is incorrect.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_VERSIONED_HASHES</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Incorrect number of versioned hashes in a payload.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">RLP_STRUCTURES_ENCODING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block&#39;s rlp encoding is valid but ethereum structures in it are invalid.</span>
@@ -34671,6 +34873,10 @@ block header contains an invalid field.</p>
     <span class="n">SYSTEM_CONTRACT_CALL_FAILED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A system contract call at the end of block execution (from the system address) fails.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_BLOCK_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block header&#39;s hash does not match the actually computed hash of the block.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -35446,6 +35652,33 @@ a fork that is not active yet.</p>
 
 
 
+<h3 id="ethereum_test_exceptions.BlockException.INVALID_VERSIONED_HASHES" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_VERSIONED_HASHES</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.INVALID_VERSIONED_HASHES" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Incorrect number of versioned hashes in a payload.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
 <h3 id="ethereum_test_exceptions.BlockException.RLP_STRUCTURES_ENCODING" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">RLP_STRUCTURES_ENCODING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
 
@@ -35899,6 +36132,33 @@ a fork that is not active yet.</p>
 
 
 
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.BlockException.INVALID_BLOCK_HASH" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_BLOCK_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.INVALID_BLOCK_HASH" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Block header's hash does not match the actually computed hash of the block.</p>
+    </div>
+
+</div>
+
+
+
+
   </div>
 
     </div>
@@ -35930,17 +36190,7 @@ a fork that is not active yet.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">597</span>
 <span class="normal">598</span>
 <span class="normal">599</span>
 <span class="normal">600</span>
@@ -36141,7 +36391,17 @@ a fork that is not active yet.</p>
 <span class="normal">795</span>
 <span class="normal">796</span>
 <span class="normal">797</span>
-<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
@@ -38131,9 +38391,7 @@ when returning</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
@@ -38411,7 +38669,9 @@ when returning</p>
 <span class="normal">389</span>
 <span class="normal">390</span>
 <span class="normal">391</span>
-<span class="normal">392</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
@@ -40591,13 +40851,17 @@ of the event does not match the required layout.</p>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UndefinedException</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UndefinedException</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Undefined Exception.&quot;&quot;&quot;</span>
 
     <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UndefinedException&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new UndefinedException instance.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">UndefinedException</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">value</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">mapper_name</span> <span class="o">=</span> <span class="n">mapper_name</span>
@@ -40640,13 +40904,17 @@ of the event does not match the required layout.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span>
-<span class="normal">97</span>
-<span class="normal">98</span>
-<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UndefinedException&quot;</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapper_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UndefinedException&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new UndefinedException instance.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">UndefinedException</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
     <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
     <span class="n">instance</span><span class="o">.</span><span class="n">mapper_name</span> <span class="o">=</span> <span class="n">mapper_name</span>
@@ -40681,15 +40949,15 @@ of the event does not match the required layout.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlainValidatorFunctionSchema</span><span class="p">:</span>

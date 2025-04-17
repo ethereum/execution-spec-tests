@@ -18838,11 +18838,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_requests/" class="md-nav__link">
+      <a href="../../../../prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_requests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_valid_deposit_withdrawal_consolidation_requests</code>
+    <code>test_valid_multi_type_requests</code>
   </span>
   
 
@@ -18859,11 +18859,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_request_from_same_tx/" class="md-nav__link">
+      <a href="../../../../prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_request_from_same_tx/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_valid_deposit_withdrawal_consolidation_request_from_same_tx</code>
+    <code>test_valid_multi_type_request_from_same_tx</code>
   </span>
   
 
@@ -18880,11 +18880,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_deposit_withdrawal_consolidation_requests/" class="md-nav__link">
+      <a href="../../../../prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_multi_type_requests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_deposit_withdrawal_consolidation_requests</code>
+    <code>test_invalid_multi_type_requests</code>
   </span>
   
 
@@ -30385,7 +30385,7 @@
 
 
 <h1 id="test_blob_type_tx_pre_fork"><code>test_blob_type_tx_pre_fork()</code><a class="headerlink" href="#test_blob_type_tx_pre_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c8ec6e6480e772ec6818d068482a0a8717a0e126/tests/cancun/eip4844_blobs/test_blob_txs.py#L1344"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@c8ec6e64</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb4ccde43a26698a3e7c58be1bc11839999f8249/tests/cancun/eip4844_blobs/test_blob_txs.py#L1344"><code>tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork@cb4ccde4</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blob_txs.py::test_blob_type_tx_pre_fork --fork Prague</span>
@@ -30443,12 +30443,23 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
 <span class="normal">1378</span>
 <span class="normal">1379</span>
 <span class="normal">1380</span>
-<span class="normal">1381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1381</span>
+<span class="normal">1382</span>
+<span class="normal">1383</span>
+<span class="normal">1384</span>
+<span class="normal">1385</span>
+<span class="normal">1386</span>
+<span class="normal">1387</span>
+<span class="normal">1388</span>
+<span class="normal">1389</span>
+<span class="normal">1390</span>
+<span class="normal">1391</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;blobs_per_tx&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blobs&quot;</span><span class="p">,</span>
         <span class="s2">&quot;tx_max_fee_per_blob_gas&quot;</span><span class="p">,</span>
         <span class="s2">&quot;tx_error&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;block_error&quot;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="p">[</span>
         <span class="p">(</span>
@@ -30456,8 +30467,15 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
             <span class="kc">None</span><span class="p">,</span>
             <span class="mi">1</span><span class="p">,</span>
             <span class="p">[</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_PRE_FORK</span><span class="p">,</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_ZERO_BLOBS</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_PRE_FORK</span><span class="p">,</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_ZERO_BLOBS</span><span class="p">],</span>
         <span class="p">),</span>
-        <span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_PRE_FORK</span><span class="p">),</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_PRE_FORK</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_PRE_FORK</span><span class="p">,</span> <span class="n">BlockException</span><span class="o">.</span><span class="n">INVALID_VERSIONED_HASHES</span><span class="p">],</span>
+        <span class="p">),</span>
     <span class="p">],</span>
     <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;no_blob_tx&quot;</span><span class="p">,</span> <span class="s2">&quot;one_blob_tx&quot;</span><span class="p">],</span>
 <span class="p">)</span>
@@ -30467,6 +30485,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span>
+    <span class="n">block_error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TransactionException</span> <span class="o">|</span> <span class="n">BlockException</span><span class="p">],</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reject blocks with blob type transactions before Cancun fork.</span>
@@ -30480,6 +30499,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">tx</span><span class="o">=</span><span class="n">txs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>  <span class="c1"># `env` fixture has blob fields</span>
+        <span class="n">block_exception</span><span class="o">=</span><span class="n">block_error</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -30533,6 +30553,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
                         <th>parent_excess_blobs</th>
                         <th>tx_max_fee_per_blob_gas</th>
                         <th>tx_error</th>
+                        <th>block_error</th>
                     </tr>
     </thead>
     <tbody>
@@ -30547,6 +30568,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
                         <td>None</td>
                         <td>1</td>
                         <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
                     </tr>
                 <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="state_test">
             <td> 
@@ -30559,6 +30581,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
                         <td>None</td>
                         <td>1</td>
                         <td>TransactionException.TYPE_3_TX_PRE_FORK</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <BlockException.INVALID_VERSIONED_HASHES: 29>]</td>
                     </tr>
                 <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
             <td> 
@@ -30570,6 +30593,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
                         <td>[0]</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
                         <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
                     </tr>
                 <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
@@ -30583,6 +30607,7 @@ field within NewPayloadV2 method must be computed as INVALID, due to an invalid 
                         <td>None</td>
                         <td>1</td>
                         <td>TransactionException.TYPE_3_TX_PRE_FORK</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <BlockException.INVALID_VERSIONED_HASHES: 29>]</td>
                     </tr>
             </tbody>
 </table>

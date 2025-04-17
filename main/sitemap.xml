@@ -4101,17 +4101,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_deposit_withdrawal_consolidation_requests/</loc>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_multi_type_requests/</loc>
          <lastmod>2025-04-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_request_from_same_tx/</loc>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_request_from_same_tx/</loc>
          <lastmod>2025-04-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_requests/</loc>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_requests/</loc>
          <lastmod>2025-04-17</lastmod>
          <changefreq>daily</changefreq>
     </url>

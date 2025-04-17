@@ -1691,6 +1691,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="💥 Breaking Change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consume-engine-strict-exception-checking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consume engine strict exception checking
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -19548,11 +19563,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_requests/" class="md-nav__link">
+      <a href="../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_requests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_valid_deposit_withdrawal_consolidation_requests</code>
+    <code>test_valid_multi_type_requests</code>
   </span>
   
 
@@ -19569,11 +19584,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_deposit_withdrawal_consolidation_request_from_same_tx/" class="md-nav__link">
+      <a href="../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_valid_multi_type_request_from_same_tx/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_valid_deposit_withdrawal_consolidation_request_from_same_tx</code>
+    <code>test_valid_multi_type_request_from_same_tx</code>
   </span>
   
 
@@ -19590,11 +19605,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_deposit_withdrawal_consolidation_requests/" class="md-nav__link">
+      <a href="../tests/prague/eip7685_general_purpose_el_requests/test_multi_type_requests/test_invalid_multi_type_requests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid_deposit_withdrawal_consolidation_requests</code>
+    <code>test_invalid_multi_type_requests</code>
   </span>
   
 
@@ -31014,6 +31029,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="💥 Breaking Change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consume-engine-strict-exception-checking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consume engine strict exception checking
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -31695,6 +31725,10 @@
 <p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed. 💥 = Breaking</p>
 <h2 id="unreleased">🔜 [Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
+<h4 id="consume-engine-strict-exception-checking">Consume engine strict exception checking<a class="headerlink" href="#consume-engine-strict-exception-checking" title="Permanent link">&para;</a></h4>
+<p><code>consume engine</code> now checks exceptions returned by the execution clients in their Engine API responses, specifically in the <code>validationError</code>field of the <code>engine_newPayloadVX</code> method.</p>
+<p>While not strictly a breaking change since tests will continue to run normally, failures are expected if a client modifies their exception messages.</p>
+<p>This feature can be disabled by using <code>--disable-strict-exception-matching</code> for specific clients or forks.</p>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
@@ -31705,6 +31739,7 @@
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
 <ul>
 <li>🐞 Fix fixture tarball downloading with regular, non-Github release URLS and with numerical versions in regular release specs, e.g., <code>stable@v4.2.0</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1437">#1437</a>).</li>
+<li>✨ <code>consume engine</code> now has strict exception mapping enabled by default (<a href="https://github.com/ethereum/execution-spec-tests/pull/1416">#1416</a>).</li>
 </ul>
 <h4 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link">&para;</a></h4>
 <ul>
@@ -31713,7 +31748,10 @@
 </ul>
 <h4 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h4>
 <ul>
-<li>✨ New exceptions <code>BlockException.SYSTEM_CONTRACT_EMPTY</code> and <code>BlockException.SYSTEM_CONTRACT_CALL_FAILED</code> to handle EIP updates <a href="https://github.com/ethereum/EIPs/pull/9508">#9508</a> and <a href="https://github.com/ethereum/EIPs/pull/9582">#9582</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
+<li>✨ <code>BlockException.SYSTEM_CONTRACT_EMPTY</code>: Raised when a required system contract was not found in the state by the time it was due to execution with a system transaction call (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
+<li>✨ <code>BlockException.SYSTEM_CONTRACT_CALL_FAILED</code>: Raised when a system contract call made by a system transaction fails (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
+<li>✨ <code>BlockException.INVALID_BLOCK_HASH</code>: Raised when the calculated block hash does not match the expectation (Currently only during Engine API calls) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1416">#1416</a>).</li>
+<li>✨ <code>BlockException.INVALID_VERSIONED_HASHES</code>: Raised when a discrepancy is found between versioned hashes in the payload and the ones found in the transactions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1416">#1416</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
@@ -31723,6 +31761,7 @@
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7623">EIP-7623</a>: Additionally parametrize transaction validity tests with the <code>to</code> set to an EOA account (previously only contracts) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1422">#1422</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a>: Add EIP-7251 test cases for modified consolidations contract that allows more consolidations (<a href="https://github.com/ethereum/execution-spec-tests/pull/1465">#1465</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-6110">EIP-6110</a>: Add extra deposit request edge cases, sending eth to the deposit contract while sending a deposit request (<a href="https://github.com/ethereum/execution-spec-tests/pull/1467">#1467</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-6110">EIP-6110</a>: Add cases for deposit log layout and other topics (ERC-20) transfer (<a href="https://github.com/ethereum/execution-spec-tests/pull/1371">#1371</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a>: Remove pytest skips for consolidation request cases (<a href="https://github.com/ethereum/execution-spec-tests/pull/1449">#1449</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7002">EIP-7002</a>, <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a>: Add cases to verify behavior of contracts missing at fork (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7002">EIP-7002</a>, <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a>: Add cases to verify behavior of system contract errors invalidating a block (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>

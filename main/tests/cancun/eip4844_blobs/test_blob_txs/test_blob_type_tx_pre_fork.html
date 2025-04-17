@@ -60,6 +60,7 @@
                         <th>parent_excess_blobs</th>
                         <th>tx_max_fee_per_blob_gas</th>
                         <th>tx_error</th>
+                        <th>block_error</th>
                     </tr>
     </thead>
     <tbody>
@@ -74,6 +75,7 @@
                         <td>None</td>
                         <td>1</td>
                         <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
                     </tr>
                 <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="state_test">
             <td> 
@@ -86,6 +88,7 @@
                         <td>None</td>
                         <td>1</td>
                         <td>TransactionException.TYPE_3_TX_PRE_FORK</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <BlockException.INVALID_VERSIONED_HASHES: 29>]</td>
                     </tr>
                 <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
             <td> 
@@ -97,6 +100,7 @@
                         <td>[0]</td>
                         <td>None</td>
                         <td>1</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
                         <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <TransactionException.TYPE_3_TX_ZERO_BLOBS: 61>]</td>
                     </tr>
                 <tr data-fork="ShanghaiToCancunAtTime15k" data-fixture="blockchain_test">
@@ -110,6 +114,7 @@
                         <td>None</td>
                         <td>1</td>
                         <td>TransactionException.TYPE_3_TX_PRE_FORK</td>
+                        <td>[<TransactionException.TYPE_3_TX_PRE_FORK: 53>, <BlockException.INVALID_VERSIONED_HASHES: 29>]</td>
                     </tr>
             </tbody>
 </table>    </div>
