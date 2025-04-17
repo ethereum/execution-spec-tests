@@ -8,6 +8,14 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+#### Consume engine strict exception checking
+
+`consume engine` now checks exceptions returned by the execution clients in their Engine API responses, specifically in the `validationError`field of the `engine_newPayloadVX` method.
+
+While not strictly a breaking change since tests will continue to run normally, failures are expected if a client modifies their exception messages.
+
+This feature can be disabled by using `--disable-strict-exception-matching` for specific clients or forks.
+
 ### 🛠️ Framework
 
 #### `fill`
@@ -19,6 +27,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 #### `consume`
 
 - 🐞 Fix fixture tarball downloading with regular, non-Github release URLS and with numerical versions in regular release specs, e.g., `stable@v4.2.0` ([#1437](https://github.com/ethereum/execution-spec-tests/pull/1437)).
+- ✨ `consume engine` now has strict exception mapping enabled by default ([#1416](https://github.com/ethereum/execution-spec-tests/pull/1416)).
 
 #### Tools
 
@@ -27,7 +36,10 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 #### Exceptions
 
-- ✨ New exceptions `BlockException.SYSTEM_CONTRACT_EMPTY` and `BlockException.SYSTEM_CONTRACT_CALL_FAILED` to handle EIP updates [#9508](https://github.com/ethereum/EIPs/pull/9508) and [#9582](https://github.com/ethereum/EIPs/pull/9582) ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- ✨ `BlockException.SYSTEM_CONTRACT_EMPTY`: Raised when a required system contract was not found in the state by the time it was due to execution with a system transaction call ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- ✨ `BlockException.SYSTEM_CONTRACT_CALL_FAILED`: Raised when a system contract call made by a system transaction fails ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- ✨ `BlockException.INVALID_BLOCK_HASH`: Raised when the calculated block hash does not match the expectation (Currently only during Engine API calls) ([#1416](https://github.com/ethereum/execution-spec-tests/pull/1416)).
+- ✨ `BlockException.INVALID_VERSIONED_HASHES`: Raised when a discrepancy is found between versioned hashes in the payload and the ones found in the transactions ([#1416](https://github.com/ethereum/execution-spec-tests/pull/1416)).
 
 ### 🧪 Test Cases
 
@@ -37,6 +49,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ [EIP-7623](https://eips.ethereum.org/EIPS/eip-7623): Additionally parametrize transaction validity tests with the `to` set to an EOA account (previously only contracts) ([#1422](https://github.com/ethereum/execution-spec-tests/pull/1422)).
 - ✨ [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add EIP-7251 test cases for modified consolidations contract that allows more consolidations ([#1465](https://github.com/ethereum/execution-spec-tests/pull/1465)).
 - ✨ [EIP-6110](https://eips.ethereum.org/EIPS/eip-6110): Add extra deposit request edge cases, sending eth to the deposit contract while sending a deposit request ([#1467](https://github.com/ethereum/execution-spec-tests/pull/1467)).
+- ✨ [EIP-6110](https://eips.ethereum.org/EIPS/eip-6110): Add cases for deposit log layout and other topics (ERC-20) transfer ([#1371](https://github.com/ethereum/execution-spec-tests/pull/1371)).
 - ✨ [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Remove pytest skips for consolidation request cases ([#1449](https://github.com/ethereum/execution-spec-tests/pull/1449)).
 - ✨ [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add cases to verify behavior of contracts missing at fork ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
 - ✨ [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002), [EIP-7251](https://eips.ethereum.org/EIPS/eip-7251): Add cases to verify behavior of system contract errors invalidating a block ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).

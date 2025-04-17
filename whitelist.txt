@@ -155,6 +155,7 @@ esbenp
 eest
 EEST
 EEST's
+ERC
 eth
 ethash
 ethereum
