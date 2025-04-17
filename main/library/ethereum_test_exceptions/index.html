@@ -2314,6 +2314,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_EMPTY" class="md-nav__link">
+    <span class="md-ellipsis">
+      SYSTEM_CONTRACT_EMPTY
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="md-nav__link">
+    <span class="md-ellipsis">
+      SYSTEM_CONTRACT_CALL_FAILED
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -19207,6 +19225,8 @@
       
         
       
+        
+      
     
     
       
@@ -19260,6 +19280,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_withdrawals</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7002_el_triggerable_withdrawals/test_modified_withdrawal_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -19858,6 +19899,8 @@
       
         
       
+        
+      
     
     
       
@@ -19911,6 +19954,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_consolidations</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7251_consolidations/test_modified_consolidation_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -32466,6 +32530,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_EMPTY" class="md-nav__link">
+    <span class="md-ellipsis">
+      SYSTEM_CONTRACT_EMPTY
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="md-nav__link">
+    <span class="md-ellipsis">
+      SYSTEM_CONTRACT_CALL_FAILED
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -34392,7 +34474,15 @@ block header contains an invalid field.</p>
 <span class="normal">573</span>
 <span class="normal">574</span>
 <span class="normal">575</span>
-<span class="normal">576</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -34573,6 +34663,14 @@ block header contains an invalid field.</p>
     <span class="n">IMPORT_IMPOSSIBLE_DIFFICULTY_OVER_PARIS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trying to import a block after paris fork that has difficulty != 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SYSTEM_CONTRACT_EMPTY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A system contract address contains no code at the end of fork activation block.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SYSTEM_CONTRACT_CALL_FAILED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A system contract call at the end of block execution (from the system address) fails.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -35747,6 +35845,60 @@ a fork that is not active yet.</p>
 
 
 
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_EMPTY" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SYSTEM_CONTRACT_EMPTY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_EMPTY" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>A system contract address contains no code at the end of fork activation block.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SYSTEM_CONTRACT_CALL_FAILED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>A system contract call at the end of block execution (from the system address) fails.</p>
+    </div>
+
+</div>
+
+
+
+
   </div>
 
     </div>
@@ -35778,15 +35930,7 @@ a fork that is not active yet.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span>
-<span class="normal">587</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">587</span>
 <span class="normal">588</span>
 <span class="normal">589</span>
 <span class="normal">590</span>
@@ -35989,7 +36133,15 @@ a fork that is not active yet.</p>
 <span class="normal">787</span>
 <span class="normal">788</span>
 <span class="normal">789</span>
-<span class="normal">790</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 

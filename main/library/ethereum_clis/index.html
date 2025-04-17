@@ -18178,6 +18178,8 @@
       
         
       
+        
+      
     
     
       
@@ -18231,6 +18233,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_withdrawals</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7002_el_triggerable_withdrawals/test_modified_withdrawal_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -18829,6 +18852,8 @@
       
         
       
+        
+      
     
     
       
@@ -18882,6 +18907,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_consolidations</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7251_consolidations/test_modified_consolidation_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -33111,8 +33157,7 @@ versions of EELS hosted in different places.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 28</span>
-<span class="normal"> 29</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
 <span class="normal"> 30</span>
 <span class="normal"> 31</span>
 <span class="normal"> 32</span>
@@ -33209,7 +33254,8 @@ versions of EELS hosted in different places.</p>
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
-<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExecutionSpecsTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ExecutionSpecsTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ethereum Specs EVM Resolver `ethereum-spec-evm-resolver` Transition Tool wrapper class.</span>
 
@@ -33336,8 +33382,7 @@ versions of EELS hosted in different places.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">50</span>
-<span class="normal">51</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
@@ -33359,7 +33404,8 @@ versions of EELS hosted in different places.</p>
 <span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
-<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">73</span>
+<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">binary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -33410,8 +33456,7 @@ for future re-use.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
-<span class="normal">76</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
 <span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
@@ -33433,7 +33478,8 @@ for future re-use.</p>
 <span class="normal">95</span>
 <span class="normal">96</span>
 <span class="normal">97</span>
-<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">98</span>
+<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Start the t8n-server process, extract the port, and leave it running</span>
 <span class="sd">    for future re-use.</span>
@@ -33483,13 +33529,13 @@ for future re-use.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">100</span>
-<span class="normal">101</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">106</span>
+<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Stop the t8n-server process if it was started.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
@@ -33524,15 +33570,15 @@ for future re-use.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/execution_specs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
-<span class="normal">109</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">116</span>
+<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return True if the fork is supported by the tool.</span>
 

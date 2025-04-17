@@ -2731,6 +2731,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.SYSTEM_CONTRACT_EMPTY" class="md-nav__link">
+    <span class="md-ellipsis">
+      SYSTEM_CONTRACT_EMPTY
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="md-nav__link">
+    <span class="md-ellipsis">
+      SYSTEM_CONTRACT_CALL_FAILED
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4996,6 +5014,15 @@
   <a href="#ethereum_test_tools.generate_system_contract_deploy_test" class="md-nav__link">
     <span class="md-ellipsis">
       generate_system_contract_deploy_test
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.generate_system_contract_error_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      generate_system_contract_error_test
     </span>
   </a>
   
@@ -20620,6 +20647,8 @@
       
         
       
+        
+      
     
     
       
@@ -20673,6 +20702,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_withdrawals</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7002_el_triggerable_withdrawals/test_modified_withdrawal_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -21271,6 +21321,8 @@
       
         
       
+        
+      
     
     
       
@@ -21324,6 +21376,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_consolidations</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/prague/eip7251_consolidations/test_modified_consolidation_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -34212,6 +34285,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.SYSTEM_CONTRACT_EMPTY" class="md-nav__link">
+    <span class="md-ellipsis">
+      SYSTEM_CONTRACT_EMPTY
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="md-nav__link">
+    <span class="md-ellipsis">
+      SYSTEM_CONTRACT_CALL_FAILED
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -36477,6 +36568,15 @@
   <a href="#ethereum_test_tools.generate_system_contract_deploy_test" class="md-nav__link">
     <span class="md-ellipsis">
       generate_system_contract_deploy_test
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethereum_test_tools.generate_system_contract_error_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      generate_system_contract_error_test
     </span>
   </a>
   
@@ -39186,7 +39286,15 @@ block header contains an invalid field.</p>
 <span class="normal">573</span>
 <span class="normal">574</span>
 <span class="normal">575</span>
-<span class="normal">576</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -39367,6 +39475,14 @@ block header contains an invalid field.</p>
     <span class="n">IMPORT_IMPOSSIBLE_DIFFICULTY_OVER_PARIS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trying to import a block after paris fork that has difficulty != 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SYSTEM_CONTRACT_EMPTY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A system contract address contains no code at the end of fork activation block.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SYSTEM_CONTRACT_CALL_FAILED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A system contract call at the end of block execution (from the system address) fails.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -40541,6 +40657,60 @@ a fork that is not active yet.</p>
 
 
 
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.BlockException.SYSTEM_CONTRACT_EMPTY" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SYSTEM_CONTRACT_EMPTY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.BlockException.SYSTEM_CONTRACT_EMPTY" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>A system contract address contains no code at the end of fork activation block.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SYSTEM_CONTRACT_CALL_FAILED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.BlockException.SYSTEM_CONTRACT_CALL_FAILED" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>A system contract call at the end of block execution (from the system address) fails.</p>
+    </div>
+
+</div>
+
+
+
+
   </div>
 
     </div>
@@ -40641,15 +40811,7 @@ a fork that is not active yet.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span>
-<span class="normal">587</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">587</span>
 <span class="normal">588</span>
 <span class="normal">589</span>
 <span class="normal">590</span>
@@ -40852,7 +41014,15 @@ a fork that is not active yet.</p>
 <span class="normal">787</span>
 <span class="normal">788</span>
 <span class="normal">789</span>
-<span class="normal">790</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
@@ -55738,14 +55908,16 @@ Compiles Yul source code into bytecode.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_tools/utility/generators.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DeploymentTestType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DeploymentTestType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the type of deployment test.&quot;&quot;&quot;</span>
 
     <span class="n">DEPLOY_BEFORE_FORK</span> <span class="o">=</span> <span class="s2">&quot;deploy_before_fork&quot;</span>
+    <span class="n">DEPLOY_ON_FORK_BLOCK</span> <span class="o">=</span> <span class="s2">&quot;deploy_on_fork_block&quot;</span>
     <span class="n">DEPLOY_AFTER_FORK</span> <span class="o">=</span> <span class="s2">&quot;deploy_after_fork&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -55773,7 +55945,7 @@ Compiles Yul source code into bytecode.</p>
 
 
 <h2 id="ethereum_test_tools.generate_system_contract_deploy_test" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate_system_contract_deploy_test</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">tx_json_path</span><span class="p">,</span> <span class="n">expected_deploy_address</span><span class="p">,</span> <span class="n">expected_system_contract_storage</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate_system_contract_deploy_test</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">tx_json_path</span><span class="p">,</span> <span class="n">expected_deploy_address</span><span class="p">,</span> <span class="n">fail_on_empty_code</span><span class="p">,</span> <span class="n">expected_system_contract_storage</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_tools.generate_system_contract_deploy_test" class="headerlink" title="Permanent link">&para;</a></h2>
 
@@ -55781,16 +55953,18 @@ Compiles Yul source code into bytecode.</p>
     <div class="doc doc-contents ">
 
       <p>Generate a test that verifies the correct deployment of a system contract.</p>
-<p>Generates four test cases:</p>
-<div class="highlight"><pre><span></span><code>                                | before/after fork | has balance |
+<p>Generates following test cases:</p>
+<div class="highlight"><pre><span></span><code>                                  | before/after fork | fail on     | invalid block |
+                                  |                   | empty block |               |
 </code></pre></div>
-<p>------------------------------------|-------------------|-------------|
-<code>deploy_before_fork-nonzero_balance</code>| before            | True        |
-<code>deploy_before_fork-zero_balance</code>   | before            | False       |
-<code>deploy_after_fork-nonzero_balance</code> | after             | True        |
-<code>deploy_after_fork-zero_balance</code>    | after             | False       |</p>
-<p>where <code>has balance</code> refers to whether the contract address has a non-zero balance before
-deployment, or not.</p>
+<p>--------------------------------------|-------------------|-------------|---------------|
+<code>deploy_before_fork-nonzero_balance</code>  | before            | False       | False         |
+<code>deploy_before_fork-zero_balance</code>     | before            | True        | False         |
+<code>deploy_on_fork_block-nonzero_balance</code>| on fork block     | False       | False         |
+<code>deploy_on_fork_block-zero_balance</code>   | on fork block     | True        | False         |
+<code>deploy_after_fork-nonzero_balance</code>   | after             | False       | False         |
+<code>deploy_after_fork-zero_balance</code>      | after             | True        | True          |</p>
+<p>The <code>has balance</code> parametrization does not have an effect on the expectation of the test.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -55849,6 +56023,20 @@ Providing a JSON file is useful to copy-paste the transaction from the EIP.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
+            <td><code>fail_on_empty_code</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, the test is expected to fail on empty code.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
             <td><code>expected_system_contract_storage</code></td>
             <td>
                   <code><span title="typing.Dict">Dict</span> | None</code>
@@ -55868,28 +56056,7 @@ contract.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_tools/utility/generators.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 82</span>
 <span class="normal"> 83</span>
 <span class="normal"> 84</span>
 <span class="normal"> 85</span>
@@ -56016,27 +56183,81 @@ contract.</p>
 <span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
-<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_system_contract_deploy_test</span><span class="p">(</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_system_contract_deploy_test</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">tx_json_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">expected_deploy_address</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+    <span class="n">fail_on_empty_code</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">expected_system_contract_storage</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a test that verifies the correct deployment of a system contract.</span>
 
-<span class="sd">    Generates four test cases:</span>
+<span class="sd">    Generates following test cases:</span>
 
-<span class="sd">                                        | before/after fork | has balance |</span>
-<span class="sd">    ------------------------------------|-------------------|-------------|</span>
-<span class="sd">    `deploy_before_fork-nonzero_balance`| before            | True        |</span>
-<span class="sd">    `deploy_before_fork-zero_balance`   | before            | False       |</span>
-<span class="sd">    `deploy_after_fork-nonzero_balance` | after             | True        |</span>
-<span class="sd">    `deploy_after_fork-zero_balance`    | after             | False       |</span>
+<span class="sd">                                          | before/after fork | fail on     | invalid block |</span>
+<span class="sd">                                          |                   | empty block |               |</span>
+<span class="sd">    --------------------------------------|-------------------|-------------|---------------|</span>
+<span class="sd">    `deploy_before_fork-nonzero_balance`  | before            | False       | False         |</span>
+<span class="sd">    `deploy_before_fork-zero_balance`     | before            | True        | False         |</span>
+<span class="sd">    `deploy_on_fork_block-nonzero_balance`| on fork block     | False       | False         |</span>
+<span class="sd">    `deploy_on_fork_block-zero_balance`   | on fork block     | True        | False         |</span>
+<span class="sd">    `deploy_after_fork-nonzero_balance`   | after             | False       | False         |</span>
+<span class="sd">    `deploy_after_fork-zero_balance`      | after             | True        | True          |</span>
 
-<span class="sd">    where `has balance` refers to whether the contract address has a non-zero balance before</span>
-<span class="sd">    deployment, or not.</span>
+<span class="sd">    The `has balance` parametrization does not have an effect on the expectation of the test.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        fork (Fork): The fork to test.</span>
@@ -56044,6 +56265,7 @@ contract.</p>
 <span class="sd">            contract.</span>
 <span class="sd">            Providing a JSON file is useful to copy-paste the transaction from the EIP.</span>
 <span class="sd">        expected_deploy_address (Address): The expected address of the deployed contract.</span>
+<span class="sd">        fail_on_empty_code (bool): If True, the test is expected to fail on empty code.</span>
 <span class="sd">        expected_system_contract_storage (Dict | None): The expected storage of the system</span>
 <span class="sd">            contract.</span>
 
@@ -56078,7 +56300,11 @@ contract.</p>
             <span class="s2">&quot;test_type&quot;</span><span class="p">,</span>
             <span class="p">[</span>
                 <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_BEFORE_FORK</span><span class="p">),</span>
-                <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_AFTER_FORK</span><span class="p">),</span>
+                <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_ON_FORK_BLOCK</span><span class="p">),</span>
+                <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+                    <span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_AFTER_FORK</span><span class="p">,</span>
+                    <span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span><span class="p">]</span> <span class="k">if</span> <span class="n">fail_on_empty_code</span> <span class="k">else</span> <span class="p">[],</span>
+                <span class="p">),</span>
             <span class="p">],</span>
             <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
         <span class="p">)</span>
@@ -56106,17 +56332,40 @@ contract.</p>
                         <span class="n">timestamp</span><span class="o">=</span><span class="mi">15_000</span><span class="p">,</span>
                     <span class="p">),</span>
                 <span class="p">]</span>
+            <span class="k">elif</span> <span class="n">test_type</span> <span class="o">==</span> <span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_ON_FORK_BLOCK</span><span class="p">:</span>
+                <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Deployment on fork block</span>
+                        <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">deploy_tx</span><span class="p">],</span>
+                        <span class="n">timestamp</span><span class="o">=</span><span class="mi">15_000</span><span class="p">,</span>
+                    <span class="p">),</span>
+                    <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Empty block after fork</span>
+                        <span class="n">txs</span><span class="o">=</span><span class="p">[],</span>
+                        <span class="n">timestamp</span><span class="o">=</span><span class="mi">15_001</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
             <span class="k">elif</span> <span class="n">test_type</span> <span class="o">==</span> <span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_AFTER_FORK</span><span class="p">:</span>
                 <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Empty block on fork</span>
                         <span class="n">txs</span><span class="o">=</span><span class="p">[],</span>
                         <span class="n">timestamp</span><span class="o">=</span><span class="mi">15_000</span><span class="p">,</span>
-                    <span class="p">),</span>
-                    <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Deployment block</span>
-                        <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">deploy_tx</span><span class="p">],</span>
-                        <span class="n">timestamp</span><span class="o">=</span><span class="mi">15_001</span><span class="p">,</span>
-                    <span class="p">),</span>
+                        <span class="n">exception</span><span class="o">=</span><span class="n">BlockException</span><span class="o">.</span><span class="n">SYSTEM_CONTRACT_EMPTY</span>
+                        <span class="k">if</span> <span class="n">fail_on_empty_code</span>
+                        <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">fail_on_empty_code</span><span class="p">:</span>
+                    <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Deployment after fork block</span>
+                            <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">deploy_tx</span><span class="p">],</span>
+                            <span class="n">timestamp</span><span class="o">=</span><span class="mi">15_001</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Empty block after deployment</span>
+                            <span class="n">txs</span><span class="o">=</span><span class="p">[],</span>
+                            <span class="n">timestamp</span><span class="o">=</span><span class="mi">15_002</span><span class="p">,</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
             <span class="n">balance</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">has_balance</span> <span class="o">==</span> <span class="n">ContractAddressHasBalance</span><span class="o">.</span><span class="n">NONZERO_BALANCE</span> <span class="k">else</span> <span class="mi">0</span>
             <span class="n">pre</span><span class="p">[</span><span class="n">expected_deploy_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># Remove the code that is automatically allocated on the fork</span>
@@ -56134,28 +56383,311 @@ contract.</p>
             <span class="k">assert</span> <span class="n">expected_deploy_address_int</span> <span class="ow">in</span> <span class="n">fork_pre_allocation</span>
             <span class="n">expected_code</span> <span class="o">=</span> <span class="n">fork_pre_allocation</span><span class="p">[</span><span class="n">expected_deploy_address_int</span><span class="p">][</span><span class="s2">&quot;code&quot;</span><span class="p">]</span>
             <span class="c1"># Note: balance check is omitted; it may be modified by the underlying, decorated test</span>
-            <span class="k">if</span> <span class="n">expected_system_contract_storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">post</span><span class="p">[</span><span class="n">expected_deploy_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">expected_code</span><span class="p">,</span>
+            <span class="n">account_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="n">expected_code</span><span class="p">,</span>
+                <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="n">expected_system_contract_storage</span><span class="p">:</span>
+                <span class="n">account_kwargs</span><span class="p">[</span><span class="s2">&quot;storage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">expected_system_contract_storage</span>
+            <span class="k">if</span> <span class="n">test_type</span> <span class="o">!=</span> <span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_AFTER_FORK</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">fail_on_empty_code</span><span class="p">:</span>
+                <span class="n">post</span><span class="p">[</span><span class="n">expected_deploy_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="o">**</span><span class="n">account_kwargs</span><span class="p">)</span>
+                <span class="n">post</span><span class="p">[</span><span class="n">deployer_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
                     <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">post</span><span class="p">[</span><span class="n">expected_deploy_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
-                    <span class="n">storage</span><span class="o">=</span><span class="n">expected_system_contract_storage</span><span class="p">,</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">expected_code</span><span class="p">,</span>
-                    <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="n">post</span><span class="p">[</span><span class="n">deployer_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
-                <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="p">)</span>
 
             <span class="c1"># Extra blocks (if any) returned by the decorated function to add after the</span>
             <span class="c1"># contract is deployed.</span>
-            <span class="n">blocks</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">test_type</span><span class="o">=</span><span class="n">test_type</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">test_type</span> <span class="o">!=</span> <span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_AFTER_FORK</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">fail_on_empty_code</span><span class="p">:</span>
+                <span class="c1"># Only fill more blocks if the deploy block does not fail.</span>
+                <span class="n">blocks</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">test_type</span><span class="o">=</span><span class="n">test_type</span><span class="p">))</span>
 
             <span class="n">blockchain_test</span><span class="p">(</span>
                 <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
                 <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
+                <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>  <span class="c1"># type: ignore</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>  <span class="c1"># type: ignore</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="ethereum_test_tools.generate_system_contract_error_test" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">generate_system_contract_error_test</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">max_gas_limit</span><span class="p">)</span></code>
+
+<a href="#ethereum_test_tools.generate_system_contract_error_test" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Generate a test that verifies the correct behavior when a system contract fails execution.</p>
+
+
+<details class="parametrizations-required" open>
+  <summary>Parametrizations required</summary>
+  <ul>
+<li>system_contract (Address): The address of the system contract to deploy.</li>
+<li>valid_from (Fork): The fork from which the test is valid.</li>
+</ul>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code>max_gas_limit</code></td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The maximum gas limit for the system transaction.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_tools/utility/generators.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_system_contract_error_test</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">max_gas_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a test that verifies the correct behavior when a system contract fails execution.</span>
+
+<span class="sd">    Parametrizations required:</span>
+<span class="sd">        - system_contract (Address): The address of the system contract to deploy.</span>
+<span class="sd">        - valid_from (Fork): The fork from which the test is valid.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        max_gas_limit (int): The maximum gas limit for the system transaction.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">SystemContractDeployTestFunction</span><span class="p">):</span>
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;test_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">param</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">SystemContractTestType</span><span class="p">])</span>
+        <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;modifies pre-alloc&quot;</span><span class="p">))</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span>
+            <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+            <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+            <span class="n">test_type</span><span class="p">:</span> <span class="n">SystemContractTestType</span><span class="p">,</span>
+            <span class="n">system_contract</span><span class="p">:</span> <span class="n">Address</span><span class="p">,</span>
+            <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">modified_system_contract_code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
+
+            <span class="c1"># Depending on the test case, we need to modify the system contract code accordingly.</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">test_type</span> <span class="o">==</span> <span class="n">SystemContractTestType</span><span class="o">.</span><span class="n">GAS_LIMIT</span>
+                <span class="ow">or</span> <span class="n">test_type</span> <span class="o">==</span> <span class="n">SystemContractTestType</span><span class="o">.</span><span class="n">OUT_OF_GAS_ERROR</span>
+            <span class="p">):</span>
+                <span class="c1"># Run code so that it reaches the gas limit.</span>
+                <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+                <span class="c1"># The code works by storing N values to storage, and N is calculated based on the</span>
+                <span class="c1"># gas costs for the given fork.</span>
+                <span class="c1"># This code will only work once, so if the system contract is re-executed</span>
+                <span class="c1"># in a subsequent block, it will consume less gas.</span>
+                <span class="n">gas_used_per_storage</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_SET</span> <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span> <span class="o">+</span> <span class="p">(</span><span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">modified_system_contract_code</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_gas_limit</span> <span class="o">//</span> <span class="n">gas_used_per_storage</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="c1"># If the gas limit is not divisible by the gas used per storage, we need to add</span>
+                <span class="c1"># some NO-OP (JUMPDEST) to the code that each consume 1 gas.</span>
+                <span class="k">assert</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_JUMPDEST</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;JUMPDEST gas cost should be 1, but got </span><span class="si">{</span><span class="n">gas_costs</span><span class="o">.</span><span class="n">G_JUMPDEST</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="s2">&quot;Generator `generate_system_contract_error_test` needs to be updated.&quot;</span>
+                <span class="p">)</span>
+                <span class="n">modified_system_contract_code</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_gas_limit</span> <span class="o">%</span> <span class="n">gas_used_per_storage</span><span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">test_type</span> <span class="o">==</span> <span class="n">SystemContractTestType</span><span class="o">.</span><span class="n">OUT_OF_GAS_ERROR</span><span class="p">:</span>
+                    <span class="c1"># If the test type is OUT_OF_GAS_ERROR, we need to add a JUMPDEST to the code</span>
+                    <span class="c1"># to ensure that we go over the limit by one gas.</span>
+                    <span class="n">modified_system_contract_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+                <span class="n">modified_system_contract_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+            <span class="k">elif</span> <span class="n">test_type</span> <span class="o">==</span> <span class="n">SystemContractTestType</span><span class="o">.</span><span class="n">REVERT_ERROR</span><span class="p">:</span>
+                <span class="c1"># Run a simple revert.</span>
+                <span class="n">modified_system_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">test_type</span> <span class="o">==</span> <span class="n">SystemContractTestType</span><span class="o">.</span><span class="n">EXCEPTION_ERROR</span><span class="p">:</span>
+                <span class="c1"># Run a simple exception.</span>
+                <span class="n">modified_system_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">INVALID</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid test type: </span><span class="si">{</span><span class="n">test_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">pre</span><span class="p">[</span><span class="n">system_contract</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+                <span class="n">code</span><span class="o">=</span><span class="n">modified_system_contract_code</span><span class="p">,</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">balance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Simple test transaction to verify the block failed to modify the state.</span>
+            <span class="n">value_receiver</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">test_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+                <span class="n">to</span><span class="o">=</span><span class="n">value_receiver</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
+                <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+            <span class="p">)</span>
+            <span class="n">post</span> <span class="o">=</span> <span class="n">Alloc</span><span class="p">()</span>
+            <span class="n">post</span><span class="p">[</span><span class="n">value_receiver</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span>
+                <span class="k">if</span> <span class="n">test_type</span> <span class="o">!=</span> <span class="n">SystemContractTestType</span><span class="o">.</span><span class="n">GAS_LIMIT</span>
+                <span class="k">else</span> <span class="n">Account</span><span class="p">(</span>
+                    <span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">blockchain_test</span><span class="p">(</span>
+                <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+                <span class="n">blocks</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">Block</span><span class="p">(</span>  <span class="c1"># Deployment block</span>
+                        <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">test_tx</span><span class="p">],</span>
+                        <span class="n">exception</span><span class="o">=</span><span class="n">BlockException</span><span class="o">.</span><span class="n">SYSTEM_CONTRACT_CALL_FAILED</span>
+                        <span class="k">if</span> <span class="n">test_type</span> <span class="o">!=</span> <span class="n">SystemContractTestType</span><span class="o">.</span><span class="n">GAS_LIMIT</span>
+                        <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">],</span>
                 <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
             <span class="p">)</span>
 

@@ -17537,6 +17537,8 @@
       
         
       
+        
+      
     
     
       
@@ -17590,6 +17592,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_withdrawals</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_modified_withdrawal_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -18188,6 +18211,8 @@
       
         
       
+        
+      
     
     
       
@@ -18241,6 +18266,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_consolidations</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eip7251_consolidations/test_modified_consolidation_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -30337,7 +30383,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/074dbc0bce18e197d2a5a5a28c8390ea258f7d15/tests/prague/eip7002_el_triggerable_withdrawals/spec.py"><code>tests/prague/eip7002_el_triggerable_withdrawals/spec.py@074dbc0b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c8ec6e6480e772ec6818d068482a0a8717a0e126/tests/prague/eip7002_el_triggerable_withdrawals/spec.py"><code>tests/prague/eip7002_el_triggerable_withdrawals/spec.py@c8ec6e64</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -30446,7 +30492,9 @@ out.</p>
 <span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-7002 specifications as defined at</span>
@@ -30459,6 +30507,8 @@ out.</p>
     <span class="n">WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS</span> <span class="o">=</span> <span class="mh">0x00000961EF480EB55E80D19AD83579A64C007002</span>
     <span class="n">WITHDRAWAL_REQUEST_PREDEPLOY_SENDER</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x8646861A7CF453DDD086874D622B0696DE5B9674</span><span class="p">)</span>
     <span class="n">SYSTEM_ADDRESS</span> <span class="o">=</span> <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE</span>
+
+    <span class="n">SYSTEM_CALL_GAS_LIMIT</span> <span class="o">=</span> <span class="mi">30_000_000</span>
 
     <span class="n">EXCESS_WITHDRAWAL_REQUESTS_STORAGE_SLOT</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">WITHDRAWAL_REQUEST_COUNT_STORAGE_SLOT</span> <span class="o">=</span> <span class="mi">1</span>

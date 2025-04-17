@@ -17539,6 +17539,8 @@
       
         
       
+        
+      
     
     
       
@@ -17592,6 +17594,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_withdrawals</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7002_el_triggerable_withdrawals/test_modified_withdrawal_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -18190,6 +18213,8 @@
       
         
       
+        
+      
     
     
       
@@ -18243,6 +18268,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_consolidations</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7251_consolidations/test_modified_consolidation_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -30339,7 +30385,7 @@
 
 
 <h1 id="test_system_contract_deployment"><code>test_system_contract_deployment()</code><a class="headerlink" href="#test_system_contract_deployment" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/074dbc0bce18e197d2a5a5a28c8390ea258f7d15/tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py#L111"><code>tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py::test_system_contract_deployment@074dbc0b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c8ec6e6480e772ec6818d068482a0a8717a0e126/tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py#L136"><code>tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py::test_system_contract_deployment@c8ec6e64</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py::test_system_contract_deployment --fork Prague</span>
@@ -30358,75 +30404,84 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@generate_system_contract_deploy_test</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@generate_system_contract_deploy_test</span><span class="p">(</span>
     <span class="n">fork</span><span class="o">=</span><span class="n">Prague</span><span class="p">,</span>
     <span class="n">tx_json_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;contract_deploy_tx.json&quot;</span><span class="p">,</span>
     <span class="n">expected_deploy_address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_STORAGE_ADDRESS</span><span class="p">),</span>
+    <span class="n">fail_on_empty_code</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_system_contract_deployment</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
@@ -30448,11 +30503,11 @@
                     <span class="n">address</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_STORAGE_ADDRESS</span><span class="p">,</span>
                     <span class="n">args_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">args_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-                    <span class="n">ret_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">ret_offset</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
                     <span class="n">ret_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))))</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">))))</span>
             <span class="k">for</span> <span class="n">block_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
@@ -30474,6 +30529,13 @@
         <span class="n">storage</span> <span class="o">=</span> <span class="p">{</span>
             <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Block prior to the fork, it&#39;s the first hash saved.</span>
             <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Fork block, hash should be there.</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Empty block added at the start of this function, hash should be there.</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">test_type</span> <span class="o">==</span> <span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_ON_FORK_BLOCK</span><span class="p">:</span>
+        <span class="c1"># The contract should have the block hashes after contract deployment.</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Fork and deployment block, the first hash that gets added.</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Deployment block, hash should be there.</span>
             <span class="mi">3</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Empty block added at the start of this function, hash should be there.</span>
         <span class="p">}</span>
     <span class="k">elif</span> <span class="n">test_type</span> <span class="o">==</span> <span class="n">DeploymentTestType</span><span class="o">.</span><span class="n">DEPLOY_AFTER_FORK</span><span class="p">:</span>
@@ -30559,6 +30621,26 @@
                 </abbr>
             </td>
                         <td>DeploymentTestType.DEPLOY_BEFORE_FORK</td>
+                        <td>ContractAddressHasBalance.ZERO_BALANCE</td>
+                    </tr>
+                <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_on_fork_block-nonzero_balance]" title="tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_on_fork_block-nonzero_balance]">
+                    ...fork_CancunToPragueAtTime15k-blockchain_test-deploy_on_fork_block-nonzero_balance
+                </abbr>
+            </td>
+                        <td>DeploymentTestType.DEPLOY_ON_FORK_BLOCK</td>
+                        <td>ContractAddressHasBalance.NONZERO_BALANCE</td>
+                    </tr>
+                <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_on_fork_block-zero_balance]" title="tests/prague/eip2935_historical_block_hashes_from_state/test_contract_deployment.py::test_system_contract_deployment[fork_CancunToPragueAtTime15k-blockchain_test-deploy_on_fork_block-zero_balance]">
+                    ...fork_CancunToPragueAtTime15k-blockchain_test-deploy_on_fork_block-zero_balance
+                </abbr>
+            </td>
+                        <td>DeploymentTestType.DEPLOY_ON_FORK_BLOCK</td>
                         <td>ContractAddressHasBalance.ZERO_BALANCE</td>
                     </tr>
                 <tr data-fork="CancunToPragueAtTime15k" data-fixture="blockchain_test">

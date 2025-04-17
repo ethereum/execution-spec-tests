@@ -1721,6 +1721,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptions
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -18167,6 +18185,8 @@
       
         
       
+        
+      
     
     
       
@@ -18220,6 +18240,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_withdrawals</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/prague/eip7002_el_triggerable_withdrawals/test_modified_withdrawal_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -18818,6 +18859,8 @@
       
         
       
+        
+      
     
     
       
@@ -18871,6 +18914,27 @@
   
   <span class="md-ellipsis">
     <code>test_extra_consolidations</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/prague/eip7251_consolidations/test_modified_consolidation_contract/test_system_contract_errors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_system_contract_errors</code>
   </span>
   
 
@@ -30980,6 +31044,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptions
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -31624,6 +31706,15 @@
 <ul>
 <li>🐞 Fix fixture tarball downloading with regular, non-Github release URLS and with numerical versions in regular release specs, e.g., <code>stable@v4.2.0</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1437">#1437</a>).</li>
 </ul>
+<h4 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link">&para;</a></h4>
+<ul>
+<li>🔀 <code>generate_system_contract_deploy_test</code> test generator has been updated to handle system contracts that are not allowed to be absent when the fork happens (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
+<li>✨ Add <code>generate_system_contract_error_test</code> to generate tests on system contracts that invalidate a block in case of error (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
+</ul>
+<h4 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h4>
+<ul>
+<li>✨ New exceptions <code>BlockException.SYSTEM_CONTRACT_EMPTY</code> and <code>BlockException.SYSTEM_CONTRACT_CALL_FAILED</code> to handle EIP updates <a href="https://github.com/ethereum/EIPs/pull/9508">#9508</a> and <a href="https://github.com/ethereum/EIPs/pull/9582">#9582</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
+</ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702</a>: Test precompile case in same transaction as delegation without extra gas in case of precompile code execution; parametrize all call opcodes in existing precompile test (<a href="https://github.com/ethereum/execution-spec-tests/pull/1431">#1431</a>).</li>
@@ -31633,10 +31724,13 @@
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a>: Add EIP-7251 test cases for modified consolidations contract that allows more consolidations (<a href="https://github.com/ethereum/execution-spec-tests/pull/1465">#1465</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-6110">EIP-6110</a>: Add extra deposit request edge cases, sending eth to the deposit contract while sending a deposit request (<a href="https://github.com/ethereum/execution-spec-tests/pull/1467">#1467</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a>: Remove pytest skips for consolidation request cases (<a href="https://github.com/ethereum/execution-spec-tests/pull/1449">#1449</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7002">EIP-7002</a>, <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a>: Add cases to verify behavior of contracts missing at fork (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7002">EIP-7002</a>, <a href="https://eips.ethereum.org/EIPS/eip-7251">EIP-7251</a>: Add cases to verify behavior of system contract errors invalidating a block (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
 </ul>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <ul>
 <li>🐞 Configure <code>markdownlint</code> to expect an indent of 4 with unordered lists (otherwise HTML documentation is rendered incorrectly, <a href="https://github.com/ethereum/execution-spec-tests/pull/1460">#1460</a>).</li>
+<li>🔀 Update <code>eels_resolutions.json</code> to point to temporary commit <code>bb0eb750d643ced0ebf5dec732cdd23558d0b7f2</code>, which is based on <code>forks/prague</code> branch, commit <code>d9a7ee24db359aacecd636349b4f3ac95a4a6e71</code>, with PRs <a class="magiclink magiclink-github magiclink-pull" href="https://github.com/ethereum/execution-specs/pull/1182" title="GitHub Pull Request: ethereum/execution-specs #1182">execution-specs#1182</a>, <a class="magiclink magiclink-github magiclink-pull" href="https://github.com/ethereum/execution-specs/pull/1183" title="GitHub Pull Request: ethereum/execution-specs #1183">execution-specs#1183</a> and <a class="magiclink magiclink-github magiclink-pull" href="https://github.com/ethereum/execution-specs/pull/1191" title="GitHub Pull Request: ethereum/execution-specs #1191">execution-specs#1191</a> merged (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394">#1394</a>).</li>
 </ul>
 <h2 id="v420-2025-04-08"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0">v4.2.0</a> - 2025-04-08<a class="headerlink" href="#v420-2025-04-08" title="Permanent link">&para;</a></h2>
 <p><strong>Note</strong>: Although not a breaking change, <code>consume</code> users should delete the cache directory (typically located at <code>~/.cache/ethereum-execution-spec-tests</code>) used to store downloaded fixture release tarballs. This release adds support for <a href="https://github.com/ethereum/tests">ethereum/tests</a> and <a href="https://github.com/ethereum/legacytests">ethereum/legacytests</a> fixture release downloads and the structure of the cache directory has been updated to accommodate this change.</p>
