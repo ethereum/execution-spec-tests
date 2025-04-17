@@ -24,9 +24,11 @@ REFERENCE_SPEC_VERSION = "1115fe6110fcc0efc823fb7f8f5cd86c42173efe"
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 
-def test_legacy_creation_tx_legacy_initcode(
+@pytest.mark.with_all_contract_creating_tx_types(selector=lambda tx_type: tx_type != 6)
+def test_legacy_create_tx_legacy_initcode_eof_bytecode(
     state_test: StateTestFiller,
     pre: Alloc,
+    tx_type: int,
 ):
     """Test that a legacy contract creation tx cannot create EOF code."""
     env = Environment()
@@ -35,6 +37,7 @@ def test_legacy_creation_tx_legacy_initcode(
     initcode = LegacyInitcode(deploy_code=smallest_runtime_subcontainer)
 
     tx = Transaction(
+        ty=tx_type,
         sender=sender,
         to=None,
         gas_limit=100000,
@@ -55,19 +58,22 @@ def test_legacy_creation_tx_legacy_initcode(
     )
 
 
+@pytest.mark.with_all_contract_creating_tx_types(selector=lambda tx_type: tx_type != 6)
 @pytest.mark.exception_test
-def test_legacy_creation_tx_eof_initcode(
+def test_legacy_create_tx_eof_initcode(
     state_test: StateTestFiller,
     pre: Alloc,
+    tx_type: int,
 ):
     """Test that a legacy contract creation tx cannot use EOF initcode."""
     env = Environment()
     sender = pre.fund_eoa()
 
     tx = Transaction(
+        ty=tx_type,
         sender=sender,
         to=None,
-        gas_limit=100000,
+        gas_limit=100_000,
         data=smallest_initcode_subcontainer,
         error=TransactionException.EOF_CREATION_TRANSACTION,
     )

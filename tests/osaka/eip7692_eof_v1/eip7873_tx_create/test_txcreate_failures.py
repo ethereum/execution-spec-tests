@@ -828,7 +828,7 @@ def test_invalid_container_deployment(
             Section.Container(deployed_container),
         ],
     )
-    tx_gas_limit = 10_000_000
+    tx_gas_limit = 100_000
     fork_intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
     fork_gas_costs = fork.gas_costs()
 
@@ -860,14 +860,16 @@ def test_invalid_container_deployment(
         or reason == "out_of_gas_during_initcode"
     ):
         invalid_code_path: Bytecode
-        if reason == "invalid_opcode_during_initcode":
+        if reason == "invalid_opcode_with_sstore_during_initcode":
             invalid_code_path = Op.SSTORE(0, 1) + Op.INVALID
         elif reason == "revert_opcode_during_initcode":
             invalid_code_path = Op.REVERT(0, 0)
         elif reason == "out_of_gas_during_initcode":
             invalid_code_path = Op.MSTORE(0xFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1)
-        else:
+        elif reason == "invalid_opcode_during_initcode":
             invalid_code_path = Op.INVALID
+        else:
+            raise Exception(f"invalid case: {reason}")
         initcontainer = Container(
             sections=[
                 Section.Code(
@@ -931,8 +933,6 @@ def test_invalid_container_deployment(
         to=contract_address,
         sender=sender,
         gas_limit=tx_gas_limit,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         initcodes=[initcontainer],
     )
 

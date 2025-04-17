@@ -1177,8 +1177,6 @@ def test_extdelegate_call_targets(
             to=factory_address,
             data=caller_contract,
             gas_limit=4_000_000,
-            max_priority_fee_per_gas=10,
-            max_fee_per_gas=10,
             initcodes=[caller_contract],
         )
         calling_contract_address = compute_eofcreate_address(factory_address, 0)

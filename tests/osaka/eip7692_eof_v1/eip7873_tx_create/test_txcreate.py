@@ -731,9 +731,7 @@ def test_short_data_subcontainer(
     }
     tx = Transaction(
         to=contract_address,
-        gas_limit=10_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
+        gas_limit=100_000,
         sender=sender,
         initcodes=[initcontainer],
     )
