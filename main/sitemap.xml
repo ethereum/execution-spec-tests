@@ -3331,42 +3331,27 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/</loc>
-         <lastmod>2025-04-17</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx/</loc>
-         <lastmod>2025-04-17</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx/test_eof_creation_tx_context/</loc>
-         <lastmod>2025-04-17</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx/test_invalid_container_deployment/</loc>
-         <lastmod>2025-04-17</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx/test_lecacy_cannot_create_eof/</loc>
-         <lastmod>2025-04-17</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7698_eof_creation_tx/test_eof_creation_tx/test_short_data_subcontainer/</loc>
-         <lastmod>2025-04-17</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/</loc>
          <lastmod>2025-04-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/spec/</loc>
+         <lastmod>2025-04-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx/</loc>
+         <lastmod>2025-04-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx/test_legacy_create_tx_eof_initcode/</loc>
+         <lastmod>2025-04-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx/test_legacy_create_tx_legacy_initcode_eof_bytecode/</loc>
          <lastmod>2025-04-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3392,6 +3377,11 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate/test_return_data_cleared/</loc>
+         <lastmod>2025-04-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate/test_short_data_subcontainer/</loc>
          <lastmod>2025-04-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -3467,6 +3457,11 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures/test_insufficient_returncode_auxdata_gas/</loc>
+         <lastmod>2025-04-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures/test_invalid_container_deployment/</loc>
          <lastmod>2025-04-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
