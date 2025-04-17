@@ -36,7 +36,9 @@ This feature can be disabled by using `--disable-strict-exception-matching` for 
 
 #### Exceptions
 
-- ✨ New exceptions `BlockException.SYSTEM_CONTRACT_EMPTY` and `BlockException.SYSTEM_CONTRACT_CALL_FAILED` to handle EIP updates [#9508](https://github.com/ethereum/EIPs/pull/9508) and [#9582](https://github.com/ethereum/EIPs/pull/9582) ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- ✨ `BlockException.SYSTEM_CONTRACT_EMPTY`: Raised when a required system contract was not found in the state by the time it was due to execution with a system transaction call ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- ✨ `BlockException.SYSTEM_CONTRACT_CALL_FAILED`: Raised when a system contract call made by a system transaction fails ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- ✨ `BlockException.INVALID_BLOCK_HASH`: Raised when the calculated block hash does not match the expectation (Currently only during Engine API calls) ([#1416](https://github.com/ethereum/execution-spec-tests/pull/1416)).
 
 ### 🧪 Test Cases
 
