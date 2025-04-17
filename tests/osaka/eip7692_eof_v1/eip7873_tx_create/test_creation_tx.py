@@ -2,7 +2,6 @@
 
 import pytest
 
-from ethereum_test_exceptions.exceptions import TransactionException
 from ethereum_test_tools import (
     Account,
     Alloc,
