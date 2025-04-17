@@ -13,9 +13,11 @@ from ethereum_test_tools import Initcode as LegacyInitcode
 from ethereum_test_tools.vm.opcode import Opcodes
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container
+from ethereum_test_types.helpers import compute_create_address
 
 from .. import EOF_FORK_NAME
 from .helpers import (
+    slot_all_subcall_gas_gone,
     slot_code_worked,
     slot_create_address,
     smallest_initcode_subcontainer,
@@ -52,28 +54,38 @@ def test_cross_version_creates_fail(
 ):
     """Verifies that CREATE and CREATE2 cannot create EOF contracts."""
     env = Environment()
-    salt_param = [0] if legacy_create_opcode == Op.CREATE2 else []
+
     sender = pre.fund_eoa()
+
+    tx_gas_limit = 10_000_000
+
     contract_address = pre.deploy_contract(
         code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-        + Op.SSTORE(slot_create_address, legacy_create_opcode(0, 0, Op.CALLDATASIZE, *salt_param))
+        + Op.SSTORE(slot_create_address, legacy_create_opcode(size=Op.CALLDATASIZE))
+        # Aproximates whether code until here consumed the 63/64th gas given to subcall
+        + Op.SSTORE(slot_all_subcall_gas_gone, Op.LT(Op.GAS, tx_gas_limit // 64))
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.STOP
     )
 
-    # Storage in 0 should be empty as the create/create2 should fail,
-    # and 1 in 1 to show execution continued and did not halt
     post = {
         contract_address: Account(
             storage={
                 slot_create_address: EOFCREATE_FAILURE,
                 slot_code_worked: value_code_worked,
-            }
-        )
+                slot_all_subcall_gas_gone: 0,
+            },
+            nonce=1,
+        ),
+        # Double check no accounts were created
+        compute_create_address(address=contract_address, nonce=1): Account.NONEXISTENT,
+        compute_create_address(
+            address=contract_address, initcode=deploy_code, salt=0, opcode=Op.CREATE2
+        ): Account.NONEXISTENT,
     }
     tx = Transaction(
         to=contract_address,
-        gas_limit=10_000_000,
+        gas_limit=tx_gas_limit,
         gas_price=10,
         protected=False,
         sender=sender,
