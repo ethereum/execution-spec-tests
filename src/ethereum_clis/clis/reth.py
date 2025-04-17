@@ -22,13 +22,13 @@ class RethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_CONTRACT_CREATION: "unexpected length",
         TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: "unexpected list",
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "blob version not supported",
-        TransactionException.TYPE_3_TX_ZERO_BLOBS: (
-            "blob transactions present in pre-cancun payload"
-        ),
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "empty authorization list",
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: "unexpected length",
         TransactionException.TYPE_4_TX_PRE_FORK: (
             "eip 7702 transactions present in pre-prague payload"
+        ),
+        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+            "failed to decode deposit requests from receipts"
         ),
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",
         BlockException.INVALID_RECEIPTS_ROOT: "receipt root mismatch",
@@ -44,6 +44,10 @@ class RethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
             r"blob gas used \d+ exceeds maximum allowance \d+"
         ),
+        TransactionException.TYPE_3_TX_ZERO_BLOBS: (
+            r"blob transactions present in pre-cancun payload|empty blobs"
+        ),
+        BlockException.SYSTEM_CONTRACT_CALL_FAILED: (r"failed to apply .* requests contract call"),
         BlockException.INCORRECT_BLOB_GAS_USED: (
             r"blob gas used mismatch|blob gas used \d+ is not a multiple of blob gas per blob"
         ),
