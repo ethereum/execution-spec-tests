@@ -9,8 +9,10 @@ writes the generated fixtures to file.
 import configparser
 import datetime
 import os
+import shutil
 import tarfile
 import warnings
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Generator, List, Type
 
@@ -51,16 +53,141 @@ def default_html_report_file_path() -> str:
     return ".meta/report_fill.html"
 
 
-def strip_output_tarball_suffix(output: Path) -> Path:
-    """Strip the '.tar.gz' suffix from the output path."""
-    if str(output).endswith(".tar.gz"):
-        return output.with_suffix("").with_suffix("")
-    return output
+@dataclass
+class FixtureOutput:
+    """Represents the output destination for generated test fixtures."""
 
+    path: Path
+    flat_output: bool = False
+    single_fixture_per_file: bool = False
+    clean: bool = False
 
-def is_output_stdout(output: Path) -> bool:
-    """Return True if the fixture output is configured to be stdout."""
-    return strip_output_tarball_suffix(output).name == "stdout"
+    @property
+    def directory(self) -> Path:
+        """Return the actual directory path where fixtures will be written."""
+        return self.strip_tarball_suffix(self.path)
+
+    @property
+    def metadata_dir(self) -> Path:
+        """Return metadata directory to store fixture meta files."""
+        if self.is_stdout:
+            return self.directory
+        return self.directory / ".meta"
+
+    @property
+    def is_tarball(self) -> bool:
+        """Return True if the output should be packaged as a tarball."""
+        return self.path.suffix == ".gz" and self.path.with_suffix("").suffix == ".tar"
+
+    @property
+    def is_stdout(self) -> bool:
+        """Return True if the fixture output is configured to be stdout."""
+        return self.directory.name == "stdout"
+
+    @staticmethod
+    def strip_tarball_suffix(path: Path) -> Path:
+        """Strip the '.tar.gz' suffix from the output path."""
+        if str(path).endswith(".tar.gz"):
+            return path.with_suffix("").with_suffix("")
+        return path
+
+    def is_directory_empty(self) -> bool:
+        """Check if the output directory is empty."""
+        if not self.directory.exists():
+            return True
+
+        return not any(self.directory.iterdir())
+
+    def get_directory_summary(self) -> str:
+        """Return a summary of directory contents for error reporting."""
+        if not self.directory.exists():
+            return "directory does not exist"
+
+        items = list(self.directory.iterdir())
+        if not items:
+            return "empty directory"
+
+        dirs = [d.name for d in items if d.is_dir()]
+        files = [f.name for f in items if f.is_file()]
+
+        summary_parts = []
+        if dirs:
+            summary_parts.append(
+                f"{len(dirs)} directories"
+                + (
+                    f" ({', '.join(dirs[:3])}"
+                    + (f"... and {len(dirs) - 3} more" if len(dirs) > 3 else "")
+                    + ")"
+                    if dirs
+                    else ""
+                )
+            )
+        if files:
+            summary_parts.append(
+                f"{len(files)} files"
+                + (
+                    f" ({', '.join(files[:3])}"
+                    + (f"... and {len(files) - 3} more" if len(files) > 3 else "")
+                    + ")"
+                    if files
+                    else ""
+                )
+            )
+
+        return " and ".join(summary_parts)
+
+    def create_directories(self) -> None:
+        """
+        Create output and metadata directories if needed.
+
+        If clean flag is set, remove and recreate the directory.
+        Otherwise, verify the directory is empty before proceeding.
+        """
+        if self.is_stdout:
+            return
+
+        # Remove directory if it exists if running with --clean
+        if self.clean and self.directory.exists():
+            shutil.rmtree(self.directory)
+
+        if self.directory.exists() and not self.is_directory_empty():
+            summary = self.get_directory_summary()
+            raise ValueError(
+                f"Output directory '{self.directory}' is not empty. "
+                f"Contains: {summary}. Use --clean to remove existing files "
+                "or specify a different output directory."
+            )
+
+        # Create directories
+        self.directory.mkdir(parents=True, exist_ok=True)
+        self.metadata_dir.mkdir(parents=True, exist_ok=True)
+
+    def create_tarball(self) -> None:
+        """Create tarball of the output directory if configured to do so."""
+        if not self.is_tarball:
+            return
+
+        with tarfile.open(self.path, "w:gz") as tar:
+            for file in self.directory.rglob("*"):
+                if file.suffix in {".json", ".ini"}:
+                    arcname = Path("fixtures") / file.relative_to(self.directory)
+                    tar.add(file, arcname=arcname)
+
+    @classmethod
+    def from_options(
+        cls,
+        output_path: Path,
+        flat_output: bool,
+        single_fixture_per_file: bool,
+        clean: bool = False,
+    ) -> "FixtureOutput":
+        """Create a FixtureOutput instance from pytest options."""
+        return cls(
+            path=output_path,
+            flat_output=flat_output,
+            single_fixture_per_file=single_fixture_per_file,
+            clean=clean,
+        )
 
 
 def pytest_addoption(parser: pytest.Parser):
@@ -124,11 +251,18 @@ def pytest_addoption(parser: pytest.Parser):
         type=Path,
         default=Path(default_output_directory()),
         help=(
-            "Directory path to store the generated test fixtures. "
+            "Directory path to store the generated test fixtures. Must be empty if it exists. "
             "If the specified path ends in '.tar.gz', then the specified tarball is additionally "
             "created (the fixtures are still written to the specified path without the '.tar.gz' "
             f"suffix). Can be deleted. Default: '{default_output_directory()}'."
         ),
+    )
+    test_group.addoption(
+        "--clean",
+        action="store_true",
+        dest="clean",
+        default=False,
+        help="Clean (remove) the output directory before filling fixtures.",
     )
     test_group.addoption(
         "--flat-output",
@@ -211,14 +345,28 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
-    if config.option.collectonly:
+    if config.option.collectonly or config.getoption("help"):
         return
+
+    config.fixture_output = FixtureOutput.from_options(
+        output_path=config.getoption("output"),
+        flat_output=config.getoption("flat_output"),
+        single_fixture_per_file=config.getoption("single_fixture_per_file"),
+        clean=config.getoption("clean"),
+    )
+
+    try:
+        # This will check if the directory exists and is not empty
+        # If --clean is set, it will remove the directory contents
+        if not config.fixture_output.is_stdout:
+            config.fixture_output.create_directories()
+    except ValueError as e:
+        pytest.exit(str(e), returncode=pytest.ExitCode.USAGE_ERROR)
+
     if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
         # generate an html report by default, unless explicitly disabled
-        config.option.htmlpath = (
-            strip_output_tarball_suffix(config.getoption("output"))
-            / default_html_report_file_path()
-        )
+        config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
+
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
     t8n = TransitionTool.from_binary_path(
@@ -272,7 +420,7 @@ def pytest_report_teststatus(report, config: pytest.Config):
     ...x...
     ```
     """
-    if is_output_stdout(config.getoption("output")):
+    if config.fixture_output.is_stdout:  # type: ignore[attr-defined]
         return report.outcome, "", report.outcome.upper()
 
 
@@ -287,12 +435,12 @@ def pytest_terminal_summary(
     actually run the tests.
     """
     yield
-    if is_output_stdout(config.getoption("output")):
+    if config.fixture_output.is_stdout:  # type: ignore[attr-defined]
         return
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # append / to indicate this is a directory
-        output_dir = str(strip_output_tarball_suffix(config.getoption("output"))) + "/"
+        output_dir = str(config.fixture_output.directory) + "/"  # type: ignore[attr-defined]
         terminalreporter.write_sep(
             "=",
             (
@@ -489,45 +637,31 @@ def base_dump_dir(request: pytest.FixtureRequest) -> Path | None:
 
 
 @pytest.fixture(scope="session")
-def is_output_tarball(request: pytest.FixtureRequest) -> bool:
+def fixture_output(request: pytest.FixtureRequest) -> FixtureOutput:
+    """Return the fixture output configuration."""
+    return request.config.fixture_output  # type: ignore[attr-defined]
+
+
+@pytest.fixture(scope="session")
+def is_output_tarball(fixture_output: FixtureOutput) -> bool:
     """Return True if the output directory is a tarball."""
-    output: Path = request.config.getoption("output")
-    if output.suffix == ".gz" and output.with_suffix("").suffix == ".tar":
-        return True
-    return False
+    return fixture_output.is_tarball
 
 
 @pytest.fixture(scope="session")
-def output_dir(request: pytest.FixtureRequest, is_output_tarball: bool) -> Path:
+def output_dir(fixture_output: FixtureOutput) -> Path:
     """Return directory to store the generated test fixtures."""
-    output = request.config.getoption("output")
-    if is_output_tarball:
-        return strip_output_tarball_suffix(output)
-    return output
-
-
-@pytest.fixture(scope="session")
-def output_metadata_dir(output_dir: Path) -> Path:
-    """Return metadata directory to store fixture meta files."""
-    if is_output_stdout(output_dir):
-        return output_dir
-    return output_dir / ".meta"
+    return fixture_output.directory
 
 
 @pytest.fixture(scope="session", autouse=True)
-def create_properties_file(
-    request: pytest.FixtureRequest, output_dir: Path, output_metadata_dir: Path
-) -> None:
+def create_properties_file(request: pytest.FixtureRequest, fixture_output: FixtureOutput) -> None:
     """
     Create ini file with fixture build properties in the fixture output
     directory.
     """
-    if is_output_stdout(request.config.getoption("output")):
+    if fixture_output.is_stdout:
         return
-    if not output_dir.exists():
-        output_dir.mkdir(parents=True)
-    if not output_metadata_dir.exists():
-        output_metadata_dir.mkdir(parents=True)
 
     fixture_properties = {
         "timestamp": datetime.datetime.now().isoformat(),
@@ -558,7 +692,7 @@ def create_properties_file(
             )
     config["environment"] = environment_properties
 
-    ini_filename = output_metadata_dir / "fixtures.ini"
+    ini_filename = fixture_output.metadata_dir / "fixtures.ini"
     with open(ini_filename, "w") as f:
         f.write("; This file describes fixture build properties\n\n")
         config.write(f)
@@ -594,9 +728,9 @@ def get_fixture_collection_scope(fixture_name, config):
 
     See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
     """
-    if is_output_stdout(config.getoption("output")):
+    if config.fixture_output.is_stdout:
         return "session"
-    if config.getoption("single_fixture_per_file"):
+    if config.fixture_output.single_fixture_per_file:
         return "function"
     return "module"
 
@@ -608,16 +742,16 @@ def fixture_collector(
     evm_fixture_verification: FixtureConsumer,
     filler_path: Path,
     base_dump_dir: Path | None,
-    output_dir: Path,
+    fixture_output: FixtureOutput,
 ) -> Generator[FixtureCollector, None, None]:
     """
     Return configured fixture collector instance used for all tests
     in one test module.
     """
     fixture_collector = FixtureCollector(
-        output_dir=output_dir,
-        flat_output=request.config.getoption("flat_output"),
-        single_fixture_per_file=request.config.getoption("single_fixture_per_file"),
+        output_dir=fixture_output.directory,
+        flat_output=fixture_output.flat_output,
+        single_fixture_per_file=fixture_output.single_fixture_per_file,
         filler_path=filler_path,
         base_dump_dir=base_dump_dir,
     )
@@ -836,29 +970,20 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     if xdist.is_xdist_worker(session):
         return
 
-    output: Path = session.config.getoption("output")
+    fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
     # When using --collect-only it should not matter whether fixtures folder exists or not
-    if is_output_stdout(output) or session.config.option.collectonly:
+    if fixture_output.is_stdout or session.config.option.collectonly:
         return
 
-    output_dir = strip_output_tarball_suffix(output)
     # Remove any lock files that may have been created.
-    for file in output_dir.rglob("*.lock"):
+    for file in fixture_output.directory.rglob("*.lock"):
         file.unlink()
 
     # Generate index file for all produced fixtures.
     if session.config.getoption("generate_index"):
         generate_fixtures_index(
-            output_dir, quiet_mode=True, force_flag=False, disable_infer_format=False
+            fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False
         )
 
     # Create tarball of the output directory if the output is a tarball.
-    is_output_tarball = output.suffix == ".gz" and output.with_suffix("").suffix == ".tar"
-    if is_output_tarball:
-        source_dir = output_dir
-        tarball_filename = output
-        with tarfile.open(tarball_filename, "w:gz") as tar:
-            for file in source_dir.rglob("*"):
-                if file.suffix in {".json", ".ini"}:
-                    arcname = Path("fixtures") / file.relative_to(source_dir)
-                    tar.add(file, arcname=arcname)
+    fixture_output.create_tarball()
