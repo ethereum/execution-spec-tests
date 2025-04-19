@@ -57,7 +57,7 @@ def test_jumpf_target_rules(
         + Op.JUMPF[target_section_index],
         code_inputs=0,
         code_outputs=source_outputs,
-        max_stack_height=source_height + max(1, source_extra_push),
+        max_stack_increase=source_height + max(1, source_extra_push),
     )
 
     # `delta` is how many stack items the target output is from the input height, and tracks the
@@ -69,7 +69,7 @@ def test_jumpf_target_rules(
         + (Op.STOP if target_non_returning else Op.RETF),
         code_inputs=source_height,
         code_outputs=target_outputs,
-        max_stack_height=max(source_height, source_height + delta),
+        max_stack_increase=max(0, delta),
     )
 
     base_code = (
@@ -87,7 +87,7 @@ def test_jumpf_target_rules(
         sections=[
             Section.Code(
                 code=base_code,
-                max_stack_height=base_height,
+                max_stack_increase=base_height,
             ),
             source_section,
             target_section,

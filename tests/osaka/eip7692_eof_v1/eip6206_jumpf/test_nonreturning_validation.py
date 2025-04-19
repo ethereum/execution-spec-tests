@@ -70,7 +70,7 @@ def test_first_section_with_inputs(
                     code,
                     code_inputs=inputs,
                     code_outputs=outputs,
-                    max_stack_height=max(inputs, outputs),
+                    max_stack_increase=max(0, outputs - inputs),
                 )
             ],
             validity_error=EOFException.INVALID_FIRST_SECTION_TYPE,
@@ -98,7 +98,7 @@ def test_returning_section_not_returning(eof_test: EOFTestFiller, code_section: 
     eof_test(
         container=Container(
             sections=[
-                Section.Code(Op.CALLF[1] + Op.STOP, max_stack_height=code_section.code_outputs),
+                Section.Code(Op.CALLF[1] + Op.STOP, max_stack_increase=code_section.code_outputs),
                 code_section,
             ],
             validity_error=EOFException.INVALID_NON_RETURNING_FLAG,
@@ -124,7 +124,9 @@ def test_returning_section_returncode(eof_test: EOFTestFiller, code_section: Sec
     eof_test(
         container=Container(
             sections=[
-                Section.Code(Op.CALLF[1] + Op.INVALID, max_stack_height=code_section.code_outputs),
+                Section.Code(
+                    Op.CALLF[1] + Op.INVALID, max_stack_increase=code_section.code_outputs
+                ),
                 code_section,
             ]
             + [Section.Container(Container.Code(Op.INVALID))],
