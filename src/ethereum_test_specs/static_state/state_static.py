@@ -110,11 +110,10 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
             for key, value in account.storage.items():
                 storage[key] = value
 
-            acc_code, acc_code_opt = account.code
             pre[account_address] = Account(
                 balance=account.balance,
                 nonce=account.nonce,
-                code=acc_code,
+                code=account.code.compiled,
                 storage=storage,
             )
         return pre
@@ -129,13 +128,11 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
     ) -> Tuple[Alloc, Transaction]:
         """Compose test vector from test data."""
         general_tr = self.transaction
-        data = general_tr.data[d]
-
-        data_code, options = data.data
+        data_box = general_tr.data[d]
 
         tr: Transaction = Transaction(
-            data=data_code,
-            access_list=data.access_list,
+            data=data_box.data.compiled,
+            access_list=data_box.access_list,
             gas_limit=HexNumber(general_tr.gas_limit[g]),
             value=HexNumber(general_tr.value[v]),
             gas_price=general_tr.gas_price,
@@ -165,8 +162,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                         storage.set_expect_any(key)
                 account_kwargs["storage"] = storage
             if account.code is not None:
-                code_bytes, code_options = account.code
-                account_kwargs["code"] = code_bytes
+                account_kwargs["code"] = account.code.compiled
             if account.balance is not None:
                 account_kwargs["balance"] = account.balance
             if account.nonce is not None:
