@@ -60,6 +60,13 @@ def get_proofs(pre: Alloc, proof_count: int) -> List[Address]:
     return proofs
 
 
+def get_proof_eater(pre: Alloc, proof_count: int) -> Address:
+    """Generate a proof eater contract that ingests a given proofs."""
+    proofs = get_proofs(pre, proof_count)
+    code = sum([Op.EXTCODESIZE(proofs[i]) for i in range(proof_count)])
+    return pre.deploy_contract(code=code)
+
+
 ##############################
 #                            #
 #       Test Cases           #
@@ -88,13 +95,8 @@ def test_via_opcode(
 
     # MAX_NUM_CONTRACT_CALLS = (gas_limit - 21_000) // (3 + 2600)
 
-    proof_addresses = get_proofs(pre, num_called_contracts)
-
-    attack_code = sum([Op.EXTCODESIZE(proof_addresses[i]) for i in range(num_called_contracts)])
-    attack_contract = pre.deploy_contract(code=attack_code)
-
     tx = Transaction(
-        to=attack_contract,
+        to=get_proof_eater(pre, num_called_contracts),
         gas_limit=gas_limit,
         gas_price=10,
         sender=pre.fund_eoa(),
